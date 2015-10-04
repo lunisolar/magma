@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LCharToByteFunctionBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LCharToByteFunction function = LCharToByteFunctionBuilder.charToByteFunction()
-                .eventually(c -> {
+                .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LCharToByteFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LCharToByteFunction function = charToByteFunction((LCharToByteFunction f)-> doNothing())
-            .aCase(ce -> ce.of(c -> c == (char)0)
-                             .evaluate(c -> (byte)0))
-            .inCase(c -> c > 0 && c < 10).evaluate(c -> (byte)1)
-            .inCase(c -> c > 10 && c < 20).evaluate(c -> (byte)2)
-            .eventually(c -> (byte)99)
+            .aCase(ce -> ce.of(a1 -> a1 == (char)0)
+                             .evaluate(a1 -> (byte)0))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (byte)1)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (byte)2)
+            .eventually(a1 -> (byte)99)
             .build();
 
 

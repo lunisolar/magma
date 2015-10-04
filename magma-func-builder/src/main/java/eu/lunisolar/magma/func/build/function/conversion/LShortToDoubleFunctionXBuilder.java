@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortToDoubleFunctionX. */
 public final class LShortToDoubleFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithDoubleProduct.Base<LShortToDoubleFunctionXBuilder<X>, LShortPredicateX<X>, LShortToDoubleFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LShortToDoubleFunctionXBuilder<X extends Throwable> extends P
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToDoubleFunctionX EVENTUALLY_THROW = LShortToDoubleFunctionX.lX((short s) -> {
+	public static final LShortToDoubleFunctionX EVENTUALLY_THROW = LShortToDoubleFunctionX.lX((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortToDoubleFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortToDoubleFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortToDoubleFunctionXBuilder<X extends Throwable> extends P
 		LShortToDoubleFunctionX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToDoubleFunctionX.<X> lX(s -> {
+		retval = LShortToDoubleFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsDouble(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(s);
+				return eventuallyFinal.doApplyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

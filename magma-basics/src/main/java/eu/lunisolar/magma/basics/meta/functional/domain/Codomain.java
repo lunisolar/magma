@@ -18,5 +18,5 @@
 
 package eu.lunisolar.magma.basics.meta.functional.domain;
 
-public interface Codomain {
+public interface Codomain<R> {
 }

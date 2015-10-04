@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LObjDoublePredicateX for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): T t, double d
+ * Domain (lvl: 2): T a1,double a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LObjDoublePredicate
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LObjDoublePredicateX: boolean doTest(T t, double d) throws X";
+	String DESCRIPTION = "LObjDoublePredicateX: boolean doTest(T a1,double a2) throws X";
 
-	boolean doTest(T t, double d) throws X;
+	boolean doTest(T a1, double a2) throws X;
+
+	default Boolean tupleTest(LObjDoublePair<T> args) throws X {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(T t, double d) {
+	default boolean nestingDoTest(T a1, double a2) {
 		try {
-			return this.doTest(t, d);
+			return this.doTest(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,29 +84,29 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(T t, double d) {
-		return ((LObjDoublePredicateX<T, RuntimeException>) this).doTest(t, d);
+	default boolean shovingDoTest(T a1, double a2) {
+		return ((LObjDoublePredicateX<T, RuntimeException>) this).doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(T t, double d, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(T a1, double a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(t, d);
+			return this.doTest(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(T t, double d) throws X {
-		return doTest(t, d);
+	default boolean nonNullDoTest(T a1, double a2) throws X {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(T t, double d) throws X {
-		return doTest(t, d);
+	default boolean doApplyAsBoolean(T a1, double a2) throws X {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -108,25 +116,25 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureObjDoublePred(T t, double d) {
-		return () -> this.doTest(t, d);
+	default LBoolSupplierX<X> captureObjDoublePred(T a1, double a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LObjDoublePredicateX<T, X> constant(boolean r) {
-		return (t, d) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LObjDoublePredicateX<T, X> test1st(@Nonnull LPredicateX<T, X> func) {
-		return (t, d) -> func.doTest(t);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LObjDoublePredicateX<T, X> test2nd(@Nonnull LDoublePredicateX<X> func) {
-		return (t, d) -> func.doTest(d);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -161,7 +169,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	 */
 	@Nonnull
 	default LObjDoublePredicateX<T, X> negate() {
-		return (T t, double d) -> !doTest(t, d);
+		return (T a1, double a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -171,7 +179,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	@Nonnull
 	default LObjDoublePredicateX<T, X> and(@Nonnull LObjDoublePredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T t, double d) -> doTest(t, d) && other.doTest(t, d);
+		return (T a1, double a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -181,7 +189,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	@Nonnull
 	default LObjDoublePredicateX<T, X> or(@Nonnull LObjDoublePredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T t, double d) -> doTest(t, d) || other.doTest(t, d);
+		return (T a1, double a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -191,7 +199,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	@Nonnull
 	default LObjDoublePredicateX<T, X> xor(@Nonnull LObjDoublePredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T t, double d) -> doTest(t, d) ^ other.doTest(t, d);
+		return (T a1, double a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -200,7 +208,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	 */
 	@Nonnull
 	static <T1, X extends Throwable> LObjDoublePredicateX<T1, X> isEqual(final T1 v1, final double v2) {
-		return (t, d) -> (t == null ? v1 == null : t.equals(v1)) && (d == v2);
+		return (a1, a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -231,7 +239,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	@Nonnull
 	default <V> LObjDoubleFunctionX<T, V, X> boolToObjDoubleFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, double d) -> after.doApply(this.doTest(t, d));
+		return (T a1, double a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -266,13 +274,13 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjDoublePredicate<T> handleObjDoublePred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t, double d) -> this.handlingDoTest(t, d, handling);
+		return (T a1, double a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjDoublePredicateX<T, Y> handleObjDoublePredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t, double d) -> this.handlingDoTest(t, d, handling);
+		return (T a1, double a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

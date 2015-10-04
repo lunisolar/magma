@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LCharUnaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 1): char c
+ * Domain (lvl: 1): char a1
  *
- * Co-domain: none
+ * Co-domain: char
  *
  * @see LCharUnaryOperator
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LCharUnaryOperatorX: char doApplyAsChar(char c) throws X";
+	String DESCRIPTION = "LCharUnaryOperatorX: char doApplyAsChar(char a1) throws X";
 
-	char doApplyAsChar(char c) throws X;
+	char doApplyAsChar(char a1) throws X;
+
+	default Character tupleApplyAsChar(LCharSingle args) throws X {
+		return doApplyAsChar(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default char nestingDoApplyAsChar(char c) {
+	default char nestingDoApplyAsChar(char a1) {
 		try {
-			return this.doApplyAsChar(c);
+			return this.doApplyAsChar(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(char c) {
-		return ((LCharUnaryOperatorX<RuntimeException>) this).doApplyAsChar(c);
+	default char shovingDoApplyAsChar(char a1) {
+		return ((LCharUnaryOperatorX<RuntimeException>) this).doApplyAsChar(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> char handlingDoApplyAsChar(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> char handlingDoApplyAsChar(char a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsChar(c);
+			return this.doApplyAsChar(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(char c) throws X {
-		return doApplyAsChar(c);
+	default char nonNullDoApplyAsChar(char a1) throws X {
+		return doApplyAsChar(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> captureCharUnaryOp(char c) {
-		return () -> this.doApplyAsChar(c);
+	default LCharSupplierX<X> captureCharUnaryOp(char a1) {
+		return () -> this.doApplyAsChar(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharUnaryOperatorX<X> constant(char r) {
-		return c -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApply(this.doApplyAsChar(c));
+		return a1 -> after.doApply(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsByte(this.doApplyAsChar(c));
+		return a1 -> after.doApplyAsByte(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsShort(this.doApplyAsChar(c));
+		return a1 -> after.doApplyAsShort(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsInt(this.doApplyAsChar(c));
+		return a1 -> after.doApplyAsInt(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsLong(this.doApplyAsChar(c));
+		return a1 -> after.doApplyAsLong(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsFloat(this.doApplyAsChar(c));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsDouble(this.doApplyAsChar(c));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsChar(this.doApplyAsChar(c));
+		return a1 -> after.doApplyAsChar(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LCharPredicateX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
+	default LCharPredicateX<X> thenToBool(@Nonnull LCharPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doTest(this.doApplyAsChar(c));
+		return a1 -> after.doTest(this.doApplyAsChar(a1));
 	}
 
 	// </editor-fold>
@@ -256,13 +264,13 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LCharUnaryOperator handleCharUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return c -> this.handlingDoApplyAsChar(c, handling);
+		return a1 -> this.handlingDoApplyAsChar(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LCharUnaryOperatorX<Y> handleCharUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return c -> this.handlingDoApplyAsChar(c, handling);
+		return a1 -> this.handlingDoApplyAsChar(a1, handling);
 	}
 
 	// </editor-fold>

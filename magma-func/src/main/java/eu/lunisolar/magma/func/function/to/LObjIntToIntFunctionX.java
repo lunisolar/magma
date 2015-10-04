@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LObjIntToIntFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): T t, int i
+ * Domain (lvl: 2): T a1,int a2
  *
- * Co-domain: none
+ * Co-domain: int
  *
  * @see LObjIntToIntFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LObjIntToIntFunctionX: int doApplyAsInt(T t, int i) throws X";
+	String DESCRIPTION = "LObjIntToIntFunctionX: int doApplyAsInt(T a1,int a2) throws X";
 
-	int doApplyAsInt(T t, int i) throws X;
+	int doApplyAsInt(T a1, int a2) throws X;
+
+	default Integer tupleApplyAsInt(LObjIntPair<T> args) throws X {
+		return doApplyAsInt(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default int nestingDoApplyAsInt(T t, int i) {
+	default int nestingDoApplyAsInt(T a1, int a2) {
 		try {
-			return this.doApplyAsInt(t, i);
+			return this.doApplyAsInt(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(T t, int i) {
-		return ((LObjIntToIntFunctionX<T, RuntimeException>) this).doApplyAsInt(t, i);
+	default int shovingDoApplyAsInt(T a1, int a2) {
+		return ((LObjIntToIntFunctionX<T, RuntimeException>) this).doApplyAsInt(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> int handlingDoApplyAsInt(T t, int i, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> int handlingDoApplyAsInt(T a1, int a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsInt(t, i);
+			return this.doApplyAsInt(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(T t, int i) throws X {
-		return doApplyAsInt(t, i);
+	default int nonNullDoApplyAsInt(T a1, int a2) throws X {
+		return doApplyAsInt(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,25 +110,25 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureObjIntToIntFunc(T t, int i) {
-		return () -> this.doApplyAsInt(t, i);
+	default LIntSupplierX<X> captureObjIntToIntFunc(T a1, int a2) {
+		return () -> this.doApplyAsInt(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> constant(int r) {
-		return (t, i) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> apply1stAsInt(@Nonnull LToIntFunctionX<T, X> func) {
-		return (t, i) -> func.doApplyAsInt(t);
+		return (a1, a2) -> func.doApplyAsInt(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> apply2ndAsInt(@Nonnull LIntUnaryOperatorX<X> func) {
-		return (t, i) -> func.doApplyAsInt(i);
+		return (a1, a2) -> func.doApplyAsInt(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -173,7 +181,7 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 	@Nonnull
 	default <V> LObjIntFunctionX<T, V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, int i) -> after.doApply(this.doApplyAsInt(t, i));
+		return (T a1, int a2) -> after.doApply(this.doApplyAsInt(a1, a2));
 	}
 
 	// </editor-fold>
@@ -208,13 +216,13 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjIntToIntFunction<T> handleObjIntToIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t, int i) -> this.handlingDoApplyAsInt(t, i, handling);
+		return (T a1, int a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjIntToIntFunctionX<T, Y> handleObjIntToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t, int i) -> this.handlingDoApplyAsInt(t, i, handling);
+		return (T a1, int a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
 	}
 
 	// </editor-fold>

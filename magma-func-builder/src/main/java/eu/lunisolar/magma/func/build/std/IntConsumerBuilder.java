@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.IntConsumer. */
 public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBuilder, LIntPredicate, java.util.function.IntConsumer> {
@@ -53,10 +55,10 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntConsumer EVENTUALLY_THROW = Function4U.intConsumer((int i) -> {
+	public static final java.util.function.IntConsumer EVENTUALLY_THROW = Function4U.intConsumer((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, "java.util.function.IntConsumer: void accept(int i)");
+			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.IntConsumer: void accept(int a1)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,16 +109,16 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 		java.util.function.IntConsumer retval;
 
 		final Case<LIntPredicate, java.util.function.IntConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intConsumer(i -> {
+		retval = Function4U.intConsumer(a1 -> {
 			try {
 				for (Case<LIntPredicate, java.util.function.IntConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						aCase.caseFunction().accept(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						aCase.caseFunction().accept(a1);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(i);
+				eventuallyFinal.accept(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

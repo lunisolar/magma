@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LObjDoubleConsumer for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 2): T t, double d
+ * Domain (lvl: 2): T a1,double a2
  *
  * Co-domain: none
  *
@@ -61,7 +65,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	static final String DESCRIPTION = "LObjDoubleConsumer: void doAccept(T t, double d)";
+	String DESCRIPTION = "LObjDoubleConsumer: void doAccept(T a1,double a2)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -69,20 +73,25 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 	 */
 	@Override
 	@Deprecated
-	default void accept(T t, double d) {
-		this.nestingDoAccept(t, d);
+	default void accept(T a1, double a2) {
+		this.nestingDoAccept(a1, a2);
 	}
 
-	void doAccept(T t, double d);
+	void doAccept(T a1, double a2);
+
+	default LTuple.Void tupleAccept(LObjDoublePair<T> args) {
+		doAccept(args.first(), args.second());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(T t, double d) {
-		this.doAccept(t, d);
+	default void nestingDoAccept(T a1, double a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T t, double d) {
-		this.doAccept(t, d);
+	default void shovingDoAccept(T a1, double a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,20 +101,20 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureObjDoubleCons(T t, double d) {
-		return () -> this.doAccept(t, d);
+	default LAction captureObjDoubleCons(T a1, double a2) {
+		return () -> this.doAccept(a1, a2);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T> LObjDoubleConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
-		return (t, d) -> func.doAccept(t);
+		return (a1, a2) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T> LObjDoubleConsumer<T> accept2nd(@Nonnull LDoubleConsumer func) {
-		return (t, d) -> func.doAccept(d);
+		return (a1, a2) -> func.doAccept(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -119,7 +128,7 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T> LObjDoubleConsumer<T> wrap(final java.util.function.ObjDoubleConsumer<T> other) {
+	static <T> LObjDoubleConsumer<T> wrap(final ObjDoubleConsumer<T> other) {
 		return other::accept;
 	}
 
@@ -157,9 +166,9 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 	@Nonnull
 	default LObjDoubleConsumer<T> andThen(@Nonnull LObjDoubleConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, double d) -> {
-			this.doAccept(t, d);
-			after.doAccept(t, d);
+		return (T a1, double a2) -> {
+			this.doAccept(a1, a2);
+			after.doAccept(a1, a2);
 		};
 	}
 

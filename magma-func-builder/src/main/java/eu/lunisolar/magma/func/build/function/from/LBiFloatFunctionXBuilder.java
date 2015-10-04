@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiFloatFunctionX. */
 public final class LBiFloatFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBiFloatFunctionXBuilder<R, X>, LBiFloatPredicateX<X>, LBiFloatFunctionX<R, X>, R> {
@@ -54,10 +56,10 @@ public final class LBiFloatFunctionXBuilder<R, X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiFloatFunctionX EVENTUALLY_THROW = LBiFloatFunctionX.lX((float f1, float f2) -> {
+	public static final LBiFloatFunctionX EVENTUALLY_THROW = LBiFloatFunctionX.lX((float a1, float a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", f1, f2, LBiFloatFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiFloatFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiFloatFunctionXBuilder<R, X extends Throwable> extends PerC
 		LBiFloatFunctionX<R, X> retval;
 
 		final Case<LBiFloatPredicateX<X>, LBiFloatFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiFloatFunctionX.<R, X> lX((float f1, float f2) -> {
+		retval = LBiFloatFunctionX.<R, X> lX((float a1, float a2) -> {
 			try {
 				for (Case<LBiFloatPredicateX<X>, LBiFloatFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f1, f2)) {
-						return aCase.caseFunction().doApply(f1, f2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(f1, f2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

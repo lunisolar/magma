@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LShortBinaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): short s1,short s2
+ * Domain (lvl: 2): short a1,short a2
  *
- * Co-domain: none
+ * Co-domain: short
  *
  * @see LShortBinaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LShortBinaryOperator: short doApplyAsShort(short s1,short s2)";
+	String DESCRIPTION = "LShortBinaryOperator: short doApplyAsShort(short a1,short a2)";
 
-	short doApplyAsShort(short s1, short s2);
+	short doApplyAsShort(short a1, short a2);
+
+	default Short tupleApplyAsShort(LShortPair args) {
+		return doApplyAsShort(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default short nestingDoApplyAsShort(short s1, short s2) {
-		return this.doApplyAsShort(s1, s2);
+	default short nestingDoApplyAsShort(short a1, short a2) {
+		return this.doApplyAsShort(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default short shovingDoApplyAsShort(short s1, short s2) {
-		return this.doApplyAsShort(s1, s2);
+	default short shovingDoApplyAsShort(short a1, short a2) {
+		return this.doApplyAsShort(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsShort(short s1, short s2) {
-		return doApplyAsShort(s1, s2);
+	default short nonNullDoApplyAsShort(short a1, short a2) {
+		return doApplyAsShort(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,25 +94,25 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier captureShortBinaryOp(short s1, short s2) {
-		return () -> this.doApplyAsShort(s1, s2);
+	default LShortSupplier captureShortBinaryOp(short a1, short a2) {
+		return () -> this.doApplyAsShort(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LShortBinaryOperator constant(short r) {
-		return (s1, s2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LShortBinaryOperator apply1stAsShort(@Nonnull LShortUnaryOperator func) {
-		return (s1, s2) -> func.doApplyAsShort(s1);
+		return (a1, a2) -> func.doApplyAsShort(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LShortBinaryOperator apply2ndAsShort(@Nonnull LShortUnaryOperator func) {
-		return (s1, s2) -> func.doApplyAsShort(s2);
+		return (a1, a2) -> func.doApplyAsShort(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -188,7 +196,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V> LBiShortFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (short s1, short s2) -> after.doApply(this.doApplyAsShort(s1, s2));
+		return (short a1, short a2) -> after.doApply(this.doApplyAsShort(a1, a2));
 	}
 
 	// </editor-fold>

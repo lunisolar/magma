@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,19 +64,19 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
     private LTriFunction<T1,T2,T3,R> sut = new LTriFunction(){
-        public @Nullable Object  doApply(Object t1,Object t2,Object t3)  {
+        public @Nullable Object  doApply(Object a1,Object a2,Object a3)  {
             return testValue;
         }
     };
 
     private LTriFunctionX<T1,T2,T3,R,X> opposite = new LTriFunctionX(){
-        public @Nullable Object  doApply(Object t1,Object t2,Object t3) throws ParseException {
+        public @Nullable Object  doApply(Object a1,Object a2,Object a3) throws ParseException {
             return testValue;
         }
     };
 
     private LTriFunction<T1,T2,T3,R> sutNull = new LTriFunction(){
-        public @Nullable Object  doApply(Object t1,Object t2,Object t3)  {
+        public @Nullable Object  doApply(Object a1,Object a2,Object a3)  {
             return null;
         }
     };
@@ -81,7 +84,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
 
-    private LTriFunction<T1,T2,T3,R> sutAlwaysThrowingUnckeck = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
+    private LTriFunction<T1,T2,T3,R> sutAlwaysThrowingUnckeck = LTriFunction.l((T1 a1,T2 a2,T3 a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -89,6 +92,19 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100)))
+            .isSameAs(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LTriple<T1,T2,T3>,R,RuntimeException> theCall = sut;
+
+        LTriple<T1,T2,T3> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+
+        Object result = sut.tupleApply(domainObject);
+
+        assertThat(result)
             .isSameAs(testValue);
     }
 
@@ -128,7 +144,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
     }
@@ -137,12 +153,12 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)");
+            .isEqualTo("LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LTriFunction.l((Object t1,Object t2,Object t3) -> testValue ))
+        assertThat(LTriFunction.l((Object a1,Object a2,Object a3) -> testValue ))
             .isInstanceOf(LTriFunction.class);
     }
 
@@ -155,7 +171,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LTriFunctionX<T1,T2,T3,R,X> sutThrowing = LTriFunctionX.lX((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunctionX<T1,T2,T3,R,X> sutThrowing = LTriFunctionX.lX((T1 a1,T2 a2,T3 a3) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -177,7 +193,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LTriFunctionX<T1,T2,T3,R,ParseException> sutThrowing = LTriFunctionX.lX((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunctionX<T1,T2,T3,R,ParseException> sutThrowing = LTriFunctionX.lX((T1 a1,T2 a2,T3 a3) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -201,7 +217,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 a1,T2 a2,T3 a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -225,7 +241,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 a1,T2 a2,T3 a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -249,7 +265,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 a1,T2 a2,T3 a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -274,7 +290,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 a1,T2 a2,T3 a3) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -304,11 +320,11 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriFunction<Integer ,Integer ,Integer ,Integer > sutO = (Integer t1,Integer t2,Integer t3) -> {
+        LTriFunction<Integer ,Integer ,Integer ,Integer > sutO = (Integer a1,Integer a2,Integer a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(91));
-                assertThat(t3).isEqualTo((T3)Integer.valueOf(92));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
+                assertThat(a3).isEqualTo((T3)Integer.valueOf(92));
                 return 9;
         };
 
@@ -350,11 +366,11 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LTriFunction<Integer ,Integer ,Integer ,Integer > sutO = (Integer t1,Integer t2,Integer t3) -> {
+        LTriFunction<Integer ,Integer ,Integer ,Integer > sutO = (Integer a1,Integer a2,Integer a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat(t3).isEqualTo((T3)Integer.valueOf(82));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a3).isEqualTo((T3)Integer.valueOf(82));
                 return Integer.valueOf(90);
         };
 
@@ -387,11 +403,11 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LTriFunction<Integer ,Integer ,Integer ,Integer > sutO = (Integer t1,Integer t2,Integer t3) -> {
+        LTriFunction<Integer ,Integer ,Integer ,Integer > sutO = (Integer a1,Integer a2,Integer a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat(t3).isEqualTo((T3)Integer.valueOf(82));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a3).isEqualTo((T3)Integer.valueOf(82));
                 return Integer.valueOf(90);
         };
 
@@ -447,7 +463,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 a1,T2 a2,T3 a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -459,7 +475,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     public void testHandleTriFunc() throws X {
 
         // given
-        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
+        LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 a1,T2 a2,T3 a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -489,7 +505,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)");
+                .contains("LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)");
     }
 
 

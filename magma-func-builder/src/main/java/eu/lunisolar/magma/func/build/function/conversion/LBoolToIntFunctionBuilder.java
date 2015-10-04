@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolToIntFunction. */
 public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<LBoolToIntFunctionBuilder, LLogicalOperator, LBoolToIntFunction> {
@@ -54,10 +56,10 @@ public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToIntFunction EVENTUALLY_THROW = LBoolToIntFunction.l((boolean b) -> {
+	public static final LBoolToIntFunction EVENTUALLY_THROW = LBoolToIntFunction.l((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolToIntFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolToIntFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LBoolToIntFunction retval;
 
 		final Case<LLogicalOperator, LBoolToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToIntFunction.l(b -> {
+		retval = LBoolToIntFunction.l(a1 -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApplyAsInt(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(b);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

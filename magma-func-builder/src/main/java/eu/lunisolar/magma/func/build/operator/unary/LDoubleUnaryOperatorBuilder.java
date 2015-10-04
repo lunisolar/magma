@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LDoubleUnaryOperator. */
 public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<LDoubleUnaryOperatorBuilder, LDoublePredicate, LDoubleUnaryOperator> {
@@ -54,10 +56,10 @@ public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleUnaryOperator EVENTUALLY_THROW = LDoubleUnaryOperator.l((double d) -> {
+	public static final LDoubleUnaryOperator EVENTUALLY_THROW = LDoubleUnaryOperator.l((double a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", d, LDoubleUnaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LDoubleUnaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 		LDoubleUnaryOperator retval;
 
 		final Case<LDoublePredicate, LDoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleUnaryOperator.l(d -> {
+		retval = LDoubleUnaryOperator.l(a1 -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d)) {
-						return aCase.caseFunction().doApplyAsDouble(d);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(d);
+				return eventuallyFinal.doApplyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

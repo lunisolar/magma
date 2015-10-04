@@ -18,5 +18,6 @@
 
 package eu.lunisolar.magma.basics.meta.functional.domain;
 
-public interface PrimitiveCodomain<R> {
+@Deprecated
+public interface PrimitiveCodomain<R> extends Codomain<R> {
 }

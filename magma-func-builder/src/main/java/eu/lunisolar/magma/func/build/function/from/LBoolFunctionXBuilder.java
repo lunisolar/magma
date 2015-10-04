@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolFunctionX. */
 public final class LBoolFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBoolFunctionXBuilder<R, X>, LLogicalOperatorX<X>, LBoolFunctionX<R, X>, R> {
@@ -54,10 +56,10 @@ public final class LBoolFunctionXBuilder<R, X extends Throwable> extends PerCase
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolFunctionX EVENTUALLY_THROW = LBoolFunctionX.lX((boolean b) -> {
+	public static final LBoolFunctionX EVENTUALLY_THROW = LBoolFunctionX.lX((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolFunctionXBuilder<R, X extends Throwable> extends PerCase
 		LBoolFunctionX<R, X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolFunctionX.<R, X> lX(b -> {
+		retval = LBoolFunctionX.<R, X> lX(a1 -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApply(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(b);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

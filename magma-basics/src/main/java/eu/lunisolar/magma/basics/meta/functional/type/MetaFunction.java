@@ -23,7 +23,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.Codomain;
 import eu.lunisolar.magma.basics.meta.functional.domain.Domain;
 
 /** Meta interface for Function interfaces. */
-public interface MetaFunction extends MetaFunctionalInterface, Domain, Codomain {
+public interface MetaFunction extends MetaFunctionalInterface {
 
     @Override default boolean isFunction() {
         return true;

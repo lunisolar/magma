@@ -28,6 +28,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -45,11 +47,11 @@ public class LIntToFloatFunctionXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntToFloatFunctionX<X> function = LIntToFloatFunctionX.lX(i ->
+    private LIntToFloatFunctionX<X> function = LIntToFloatFunctionX.lX(a1 ->
             testValue
     );
 
-    private LIntToFloatFunctionX<X> functionThrowing = LIntToFloatFunctionX.lX(i -> {
+    private LIntToFloatFunctionX<X> functionThrowing = LIntToFloatFunctionX.lX(a1 -> {
         throw new UnsupportedOperationException();
     });
 

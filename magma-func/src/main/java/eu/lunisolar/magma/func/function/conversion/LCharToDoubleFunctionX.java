@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LCharToDoubleFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): char c
+ * Domain (lvl: 1): char a1
  *
- * Co-domain: none
+ * Co-domain: double
  *
  * @see LCharToDoubleFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LCharToDoubleFunctionX: double doApplyAsDouble(char c) throws X";
+	String DESCRIPTION = "LCharToDoubleFunctionX: double doApplyAsDouble(char a1) throws X";
 
-	double doApplyAsDouble(char c) throws X;
+	double doApplyAsDouble(char a1) throws X;
+
+	default Double tupleApplyAsDouble(LCharSingle args) throws X {
+		return doApplyAsDouble(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default double nestingDoApplyAsDouble(char c) {
+	default double nestingDoApplyAsDouble(char a1) {
 		try {
-			return this.doApplyAsDouble(c);
+			return this.doApplyAsDouble(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(char c) {
-		return ((LCharToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(c);
+	default double shovingDoApplyAsDouble(char a1) {
+		return ((LCharToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> double handlingDoApplyAsDouble(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> double handlingDoApplyAsDouble(char a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsDouble(c);
+			return this.doApplyAsDouble(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(char c) throws X {
-		return doApplyAsDouble(c);
+	default double nonNullDoApplyAsDouble(char a1) throws X {
+		return doApplyAsDouble(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> captureCharToDoubleFunc(char c) {
-		return () -> this.doApplyAsDouble(c);
+	default LDoubleSupplierX<X> captureCharToDoubleFunc(char a1) {
+		return () -> this.doApplyAsDouble(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharToDoubleFunctionX<X> constant(double r) {
-		return c -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApply(this.doApplyAsDouble(c));
+		return a1 -> after.doApply(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LDoubleToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsByte(this.doApplyAsDouble(c));
+		return a1 -> after.doApplyAsByte(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LDoubleToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsShort(this.doApplyAsDouble(c));
+		return a1 -> after.doApplyAsShort(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LDoubleToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsInt(this.doApplyAsDouble(c));
+		return a1 -> after.doApplyAsInt(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LDoubleToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsLong(this.doApplyAsDouble(c));
+		return a1 -> after.doApplyAsLong(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LDoubleToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsFloat(this.doApplyAsDouble(c));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LDoubleUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsDouble(this.doApplyAsDouble(c));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LDoubleToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsChar(this.doApplyAsDouble(c));
+		return a1 -> after.doApplyAsChar(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharPredicateX<X> thenToBoolean(@Nonnull LDoublePredicateX<X> after) {
+	default LCharPredicateX<X> thenToBool(@Nonnull LDoublePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doTest(this.doApplyAsDouble(c));
+		return a1 -> after.doTest(this.doApplyAsDouble(a1));
 	}
 
 	// </editor-fold>
@@ -250,13 +258,13 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LCharToDoubleFunction handleCharToDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return c -> this.handlingDoApplyAsDouble(c, handling);
+		return a1 -> this.handlingDoApplyAsDouble(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LCharToDoubleFunctionX<Y> handleCharToDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return c -> this.handlingDoApplyAsDouble(c, handling);
+		return a1 -> this.handlingDoApplyAsDouble(a1, handling);
 	}
 
 	// </editor-fold>

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LByteBinaryOperator. */
 public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProduct.Base<LByteBinaryOperatorBuilder, LBiBytePredicate, LByteBinaryOperator> {
@@ -54,10 +56,10 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteBinaryOperator EVENTUALLY_THROW = LByteBinaryOperator.l((byte b1, byte b2) -> {
+	public static final LByteBinaryOperator EVENTUALLY_THROW = LByteBinaryOperator.l((byte a1, byte a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", b1, b2, LByteBinaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LByteBinaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 		LByteBinaryOperator retval;
 
 		final Case<LBiBytePredicate, LByteBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteBinaryOperator.l((byte b1, byte b2) -> {
+		retval = LByteBinaryOperator.l((byte a1, byte a2) -> {
 			try {
 				for (Case<LBiBytePredicate, LByteBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(b1, b2)) {
-						return aCase.caseFunction().doApplyAsByte(b1, b2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApplyAsByte(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(b1, b2);
+				return eventuallyFinal.doApplyAsByte(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

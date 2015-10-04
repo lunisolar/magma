@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LLogicalBinaryOperator. */
 public final class LLogicalBinaryOperatorBuilder extends PerCaseBuilderWithBooleanProduct.Base<LLogicalBinaryOperatorBuilder, LLogicalBinaryOperator, LLogicalBinaryOperator> {
@@ -54,10 +56,10 @@ public final class LLogicalBinaryOperatorBuilder extends PerCaseBuilderWithBoole
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLogicalBinaryOperator EVENTUALLY_THROW = LLogicalBinaryOperator.l((boolean b1, boolean b2) -> {
+	public static final LLogicalBinaryOperator EVENTUALLY_THROW = LLogicalBinaryOperator.l((boolean a1, boolean a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", b1, b2, LLogicalBinaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LLogicalBinaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LLogicalBinaryOperatorBuilder extends PerCaseBuilderWithBoole
 		LLogicalBinaryOperator retval;
 
 		final Case<LLogicalBinaryOperator, LLogicalBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLogicalBinaryOperator.l((boolean b1, boolean b2) -> {
+		retval = LLogicalBinaryOperator.l((boolean a1, boolean a2) -> {
 			try {
 				for (Case<LLogicalBinaryOperator, LLogicalBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b1, b2)) {
-						return aCase.caseFunction().doApply(b1, b2);
+					if (aCase.casePredicate().doApply(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(b1, b2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.DoubleBinaryOperator. */
 public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleBinaryOperatorBuilder, LBiDoublePredicate, java.util.function.DoubleBinaryOperator> {
@@ -53,10 +55,10 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.DoubleBinaryOperator EVENTUALLY_THROW = Function4U.doubleBinaryOperator((double d1, double d2) -> {
+	public static final java.util.function.DoubleBinaryOperator EVENTUALLY_THROW = Function4U.doubleBinaryOperator((double a1, double a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", d1, d2, "java.util.function.DoubleBinaryOperator: double applyAsDouble(double d1,double d2)");
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.DoubleBinaryOperator: double applyAsDouble(double a1,double a2)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 		java.util.function.DoubleBinaryOperator retval;
 
 		final Case<LBiDoublePredicate, java.util.function.DoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleBinaryOperator((double d1, double d2) -> {
+		retval = Function4U.doubleBinaryOperator((double a1, double a2) -> {
 			try {
 				for (Case<LBiDoublePredicate, java.util.function.DoubleBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d1, d2)) {
-						return aCase.caseFunction().applyAsDouble(d1, d2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().applyAsDouble(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(d1, d2);
+				return eventuallyFinal.applyAsDouble(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

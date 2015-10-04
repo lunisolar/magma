@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LDoublePredicateXBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LDoublePredicateX function = LDoublePredicateXBuilder.doublePredicateX()
-                .eventually(d -> {
+                .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LDoublePredicateXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LDoublePredicateX<ParseException> function = doublePredicateX((LDoublePredicateX<ParseException> f)-> doNothing())
-            .aCase(ce -> ce.of(d -> d == (double)0)
-                             .evaluate(d -> false))
-            .inCase(d -> d > 0 && d < 10).evaluate(d -> true)
-            .inCase(d -> d > 10 && d < 20).evaluate(d -> true)
-            .eventually(d -> true)
+            .aCase(ce -> ce.of(a1 -> a1 == (double)0)
+                             .evaluate(a1 -> false))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> true)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> true)
+            .eventually(a1 -> true)
             .build();
 
 

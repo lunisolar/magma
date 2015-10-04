@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LLongToDoubleFunction. */
 public final class LLongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<LLongToDoubleFunctionBuilder, LLongPredicate, LLongToDoubleFunction> {
@@ -54,10 +56,10 @@ public final class LLongToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToDoubleFunction EVENTUALLY_THROW = LLongToDoubleFunction.l((long l) -> {
+	public static final LLongToDoubleFunction EVENTUALLY_THROW = LLongToDoubleFunction.l((long a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", l, LLongToDoubleFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LLongToDoubleFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LLongToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 		LLongToDoubleFunction retval;
 
 		final Case<LLongPredicate, LLongToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToDoubleFunction.l(l -> {
+		retval = LLongToDoubleFunction.l(a1 -> {
 			try {
 				for (Case<LLongPredicate, LLongToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l)) {
-						return aCase.caseFunction().doApplyAsDouble(l);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(l);
+				return eventuallyFinal.doApplyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

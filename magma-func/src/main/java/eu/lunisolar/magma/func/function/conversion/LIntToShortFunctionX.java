@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LIntToShortFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): int i
+ * Domain (lvl: 1): int a1
  *
- * Co-domain: none
+ * Co-domain: short
  *
  * @see LIntToShortFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LIntToShortFunctionX: short doApplyAsShort(int i) throws X";
+	String DESCRIPTION = "LIntToShortFunctionX: short doApplyAsShort(int a1) throws X";
 
-	short doApplyAsShort(int i) throws X;
+	short doApplyAsShort(int a1) throws X;
+
+	default Short tupleApplyAsShort(LIntSingle args) throws X {
+		return doApplyAsShort(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default short nestingDoApplyAsShort(int i) {
+	default short nestingDoApplyAsShort(int a1) {
 		try {
-			return this.doApplyAsShort(i);
+			return this.doApplyAsShort(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default short shovingDoApplyAsShort(int i) {
-		return ((LIntToShortFunctionX<RuntimeException>) this).doApplyAsShort(i);
+	default short shovingDoApplyAsShort(int a1) {
+		return ((LIntToShortFunctionX<RuntimeException>) this).doApplyAsShort(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> short handlingDoApplyAsShort(int i, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> short handlingDoApplyAsShort(int a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsShort(i);
+			return this.doApplyAsShort(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsShort(int i) throws X {
-		return doApplyAsShort(i);
+	default short nonNullDoApplyAsShort(int a1) throws X {
+		return doApplyAsShort(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> captureIntToShortFunc(int i) {
-		return () -> this.doApplyAsShort(i);
+	default LShortSupplierX<X> captureIntToShortFunc(int a1) {
+		return () -> this.doApplyAsShort(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntToShortFunctionX<X> constant(short r) {
-		return i -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LIntFunctionX<V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApply(this.doApplyAsShort(i));
+		return a1 -> after.doApply(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> thenToByte(@Nonnull LShortToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsByte(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsByte(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> thenToShort(@Nonnull LShortUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsShort(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsShort(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LShortToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsInt(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsInt(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> thenToLong(@Nonnull LShortToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsLong(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsLong(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LShortToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsFloat(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LShortToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsDouble(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> thenToChar(@Nonnull LShortToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsChar(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsChar(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntPredicateX<X> thenToBoolean(@Nonnull LShortPredicateX<X> after) {
+	default LIntPredicateX<X> thenToBool(@Nonnull LShortPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doTest(this.doApplyAsShort(i));
+		return a1 -> after.doTest(this.doApplyAsShort(a1));
 	}
 
 	// </editor-fold>
@@ -250,13 +258,13 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LIntToShortFunction handleIntToShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return i -> this.handlingDoApplyAsShort(i, handling);
+		return a1 -> this.handlingDoApplyAsShort(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LIntToShortFunctionX<Y> handleIntToShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return i -> this.handlingDoApplyAsShort(i, handling);
+		return a1 -> this.handlingDoApplyAsShort(a1, handling);
 	}
 
 	// </editor-fold>

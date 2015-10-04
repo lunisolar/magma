@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LByteToDoubleFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): byte b
+ * Domain (lvl: 1): byte a1
  *
- * Co-domain: none
+ * Co-domain: double
  *
  * @see LByteToDoubleFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LByteToDoubleFunctionX: double doApplyAsDouble(byte b) throws X";
+	String DESCRIPTION = "LByteToDoubleFunctionX: double doApplyAsDouble(byte a1) throws X";
 
-	double doApplyAsDouble(byte b) throws X;
+	double doApplyAsDouble(byte a1) throws X;
+
+	default Double tupleApplyAsDouble(LByteSingle args) throws X {
+		return doApplyAsDouble(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default double nestingDoApplyAsDouble(byte b) {
+	default double nestingDoApplyAsDouble(byte a1) {
 		try {
-			return this.doApplyAsDouble(b);
+			return this.doApplyAsDouble(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(byte b) {
-		return ((LByteToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(b);
+	default double shovingDoApplyAsDouble(byte a1) {
+		return ((LByteToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> double handlingDoApplyAsDouble(byte b, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> double handlingDoApplyAsDouble(byte a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsDouble(b);
+			return this.doApplyAsDouble(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(byte b) throws X {
-		return doApplyAsDouble(b);
+	default double nonNullDoApplyAsDouble(byte a1) throws X {
+		return doApplyAsDouble(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> captureByteToDoubleFunc(byte b) {
-		return () -> this.doApplyAsDouble(b);
+	default LDoubleSupplierX<X> captureByteToDoubleFunc(byte a1) {
+		return () -> this.doApplyAsDouble(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LByteToDoubleFunctionX<X> constant(double r) {
-		return b -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	@Nonnull
 	default <V> LByteFunctionX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApply(this.doApplyAsDouble(b));
+		return a1 -> after.doApply(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperatorX<X> thenToByte(@Nonnull LDoubleToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsByte(this.doApplyAsDouble(b));
+		return a1 -> after.doApplyAsByte(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunctionX<X> thenToShort(@Nonnull LDoubleToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsShort(this.doApplyAsDouble(b));
+		return a1 -> after.doApplyAsShort(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunctionX<X> thenToInt(@Nonnull LDoubleToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsInt(this.doApplyAsDouble(b));
+		return a1 -> after.doApplyAsInt(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunctionX<X> thenToLong(@Nonnull LDoubleToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsLong(this.doApplyAsDouble(b));
+		return a1 -> after.doApplyAsLong(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunctionX<X> thenToFloat(@Nonnull LDoubleToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsFloat(this.doApplyAsDouble(b));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunctionX<X> thenToDouble(@Nonnull LDoubleUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsDouble(this.doApplyAsDouble(b));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunctionX<X> thenToChar(@Nonnull LDoubleToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsChar(this.doApplyAsDouble(b));
+		return a1 -> after.doApplyAsChar(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBytePredicateX<X> thenToBoolean(@Nonnull LDoublePredicateX<X> after) {
+	default LBytePredicateX<X> thenToBool(@Nonnull LDoublePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doTest(this.doApplyAsDouble(b));
+		return a1 -> after.doTest(this.doApplyAsDouble(a1));
 	}
 
 	// </editor-fold>
@@ -250,13 +258,13 @@ public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LByteToDoubleFunction handleByteToDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return b -> this.handlingDoApplyAsDouble(b, handling);
+		return a1 -> this.handlingDoApplyAsDouble(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LByteToDoubleFunctionX<Y> handleByteToDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return b -> this.handlingDoApplyAsDouble(b, handling);
+		return a1 -> this.handlingDoApplyAsDouble(a1, handling);
 	}
 
 	// </editor-fold>

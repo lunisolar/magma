@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LLongToIntFunction. */
 public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<LLongToIntFunctionBuilder, LLongPredicate, LLongToIntFunction> {
@@ -54,10 +56,10 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToIntFunction EVENTUALLY_THROW = LLongToIntFunction.l((long l) -> {
+	public static final LLongToIntFunction EVENTUALLY_THROW = LLongToIntFunction.l((long a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", l, LLongToIntFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LLongToIntFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LLongToIntFunction retval;
 
 		final Case<LLongPredicate, LLongToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToIntFunction.l(l -> {
+		retval = LLongToIntFunction.l(a1 -> {
 			try {
 				for (Case<LLongPredicate, LLongToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l)) {
-						return aCase.caseFunction().doApplyAsInt(l);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(l);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

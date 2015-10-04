@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LBiFloatConsumerXBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LBiFloatConsumerX function = LBiFloatConsumerXBuilder.biFloatConsumerX()
-                .eventually((f1,f2) -> {
+                .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -116,11 +118,11 @@ public class LBiFloatConsumerXBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LBiFloatConsumerX<ParseException> function = biFloatConsumerX((LBiFloatConsumerX<ParseException> f)-> doNothing())
-            .aCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
-                             .evaluate((f1,f2) -> externalEffect.set(0)))
-            .inCase((f1,f2) -> f1 > 0 && f1 < 10).evaluate((f1,f2) -> externalEffect.set(1))
-            .inCase((f1,f2) -> f1 > 10 && f1 < 20).evaluate((f1,f2) -> externalEffect.set(2))
-            .eventually((f1,f2) -> externalEffect.set(99))
+            .aCase(ce -> ce.of((a1,a2) -> a1 == (float)0)
+                             .evaluate((a1,a2) -> externalEffect.set(0)))
+            .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> externalEffect.set(1))
+            .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> externalEffect.set(2))
+            .eventually((a1,a2) -> externalEffect.set(99))
             .build();
 
 

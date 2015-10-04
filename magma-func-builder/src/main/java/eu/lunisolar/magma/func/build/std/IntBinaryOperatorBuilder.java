@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.IntBinaryOperator. */
 public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<IntBinaryOperatorBuilder, LBiIntPredicate, java.util.function.IntBinaryOperator> {
@@ -53,10 +55,10 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntBinaryOperator EVENTUALLY_THROW = Function4U.intBinaryOperator((int i1, int i2) -> {
+	public static final java.util.function.IntBinaryOperator EVENTUALLY_THROW = Function4U.intBinaryOperator((int a1, int a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", i1, i2, "java.util.function.IntBinaryOperator: int applyAsInt(int i1,int i2)");
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.IntBinaryOperator: int applyAsInt(int a1,int a2)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		java.util.function.IntBinaryOperator retval;
 
 		final Case<LBiIntPredicate, java.util.function.IntBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intBinaryOperator((int i1, int i2) -> {
+		retval = Function4U.intBinaryOperator((int a1, int a2) -> {
 			try {
 				for (Case<LBiIntPredicate, java.util.function.IntBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i1, i2)) {
-						return aCase.caseFunction().applyAsInt(i1, i2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().applyAsInt(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(i1, i2);
+				return eventuallyFinal.applyAsInt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 /**
  * LActionX is a replacement for Runnable.
@@ -54,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LActionX<X extends Throwable> extends Runnable, MetaAction, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LActionX: void doExecute() throws X";
+	String DESCRIPTION = "LActionX: void doExecute() throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -67,6 +68,11 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 	}
 
 	void doExecute() throws X;
+
+	default LTuple.Void tupleExecute(LTuple.Void args) throws X {
+		doExecute();
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoExecute() {

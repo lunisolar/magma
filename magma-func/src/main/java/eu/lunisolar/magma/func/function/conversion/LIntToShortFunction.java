@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LIntToShortFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): int i
+ * Domain (lvl: 1): int a1
  *
- * Co-domain: none
+ * Co-domain: short
  *
  * @see LIntToShortFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LIntToShortFunction: short doApplyAsShort(int i)";
+	String DESCRIPTION = "LIntToShortFunction: short doApplyAsShort(int a1)";
 
-	short doApplyAsShort(int i);
+	short doApplyAsShort(int a1);
+
+	default Short tupleApplyAsShort(LIntSingle args) {
+		return doApplyAsShort(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default short nestingDoApplyAsShort(int i) {
-		return this.doApplyAsShort(i);
+	default short nestingDoApplyAsShort(int a1) {
+		return this.doApplyAsShort(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default short shovingDoApplyAsShort(int i) {
-		return this.doApplyAsShort(i);
+	default short shovingDoApplyAsShort(int a1) {
+		return this.doApplyAsShort(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsShort(int i) {
-		return doApplyAsShort(i);
+	default short nonNullDoApplyAsShort(int a1) {
+		return doApplyAsShort(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,13 +94,13 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier captureIntToShortFunc(int i) {
-		return () -> this.doApplyAsShort(i);
+	default LShortSupplier captureIntToShortFunc(int a1) {
+		return () -> this.doApplyAsShort(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LIntToShortFunction constant(short r) {
-		return i -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -136,63 +144,63 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApply(this.doApplyAsShort(i));
+		return a1 -> after.doApply(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LShortToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsByte(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsByte(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LShortUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsShort(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsShort(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LShortToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsInt(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsInt(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LShortToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsLong(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsLong(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LShortToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsFloat(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LShortToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsDouble(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LShortToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsChar(this.doApplyAsShort(i));
+		return a1 -> after.doApplyAsChar(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntPredicate thenToBoolean(@Nonnull LShortPredicate after) {
+	default LIntPredicate thenToBool(@Nonnull LShortPredicate after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doTest(this.doApplyAsShort(i));
+		return a1 -> after.doTest(this.doApplyAsShort(a1));
 	}
 
 	// </editor-fold>

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LTriBoolFunction. */
 public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LTriBoolFunctionBuilder<R>, LLogicalTernaryOperator, LTriBoolFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriBoolFunction EVENTUALLY_THROW = LTriBoolFunction.l((boolean b1, boolean b2, boolean b3) -> {
+	public static final LTriBoolFunction EVENTUALLY_THROW = LTriBoolFunction.l((boolean a1, boolean a2, boolean a3) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", b1, b2, b3, LTriBoolFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", a1, a2, a3, LTriBoolFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 		LTriBoolFunction<R> retval;
 
 		final Case<LLogicalTernaryOperator, LTriBoolFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriBoolFunction.<R> l((boolean b1, boolean b2, boolean b3) -> {
+		retval = LTriBoolFunction.<R> l((boolean a1, boolean a2, boolean a3) -> {
 			try {
 				for (Case<LLogicalTernaryOperator, LTriBoolFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b1, b2, b3)) {
-						return aCase.caseFunction().doApply(b1, b2, b3);
+					if (aCase.casePredicate().doApply(a1, a2, a3)) {
+						return aCase.caseFunction().doApply(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doApply(b1, b2, b3);
+				return eventuallyFinal.doApply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

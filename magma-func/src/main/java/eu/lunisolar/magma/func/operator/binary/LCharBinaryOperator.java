@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LCharBinaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): char c1,char c2
+ * Domain (lvl: 2): char a1,char a2
  *
- * Co-domain: none
+ * Co-domain: char
  *
  * @see LCharBinaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LCharBinaryOperator: char doApplyAsChar(char c1,char c2)";
+	String DESCRIPTION = "LCharBinaryOperator: char doApplyAsChar(char a1,char a2)";
 
-	char doApplyAsChar(char c1, char c2);
+	char doApplyAsChar(char a1, char a2);
+
+	default Character tupleApplyAsChar(LCharPair args) {
+		return doApplyAsChar(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default char nestingDoApplyAsChar(char c1, char c2) {
-		return this.doApplyAsChar(c1, c2);
+	default char nestingDoApplyAsChar(char a1, char a2) {
+		return this.doApplyAsChar(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(char c1, char c2) {
-		return this.doApplyAsChar(c1, c2);
+	default char shovingDoApplyAsChar(char a1, char a2) {
+		return this.doApplyAsChar(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(char c1, char c2) {
-		return doApplyAsChar(c1, c2);
+	default char nonNullDoApplyAsChar(char a1, char a2) {
+		return doApplyAsChar(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,25 +94,25 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureCharBinaryOp(char c1, char c2) {
-		return () -> this.doApplyAsChar(c1, c2);
+	default LCharSupplier captureCharBinaryOp(char a1, char a2) {
+		return () -> this.doApplyAsChar(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LCharBinaryOperator constant(char r) {
-		return (c1, c2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LCharBinaryOperator apply1stAsChar(@Nonnull LCharUnaryOperator func) {
-		return (c1, c2) -> func.doApplyAsChar(c1);
+		return (a1, a2) -> func.doApplyAsChar(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LCharBinaryOperator apply2ndAsChar(@Nonnull LCharUnaryOperator func) {
-		return (c1, c2) -> func.doApplyAsChar(c2);
+		return (a1, a2) -> func.doApplyAsChar(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -188,7 +196,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	@Nonnull
 	default <V> LBiCharFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (char c1, char c2) -> after.doApply(this.doApplyAsChar(c1, c2));
+		return (char a1, char a2) -> after.doApply(this.doApplyAsChar(a1, a2));
 	}
 
 	// </editor-fold>

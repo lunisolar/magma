@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LCharFunction. */
 public final class LCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LCharFunctionBuilder<R>, LCharPredicate, LCharFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharFunction EVENTUALLY_THROW = LCharFunction.l((char c) -> {
+	public static final LCharFunction EVENTUALLY_THROW = LCharFunction.l((char a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", c, LCharFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LCharFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 		LCharFunction<R> retval;
 
 		final Case<LCharPredicate, LCharFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharFunction.<R> l(c -> {
+		retval = LCharFunction.<R> l(a1 -> {
 			try {
 				for (Case<LCharPredicate, LCharFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(c)) {
-						return aCase.caseFunction().doApply(c);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(c);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

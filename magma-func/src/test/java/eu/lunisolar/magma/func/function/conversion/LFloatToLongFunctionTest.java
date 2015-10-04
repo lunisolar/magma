@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,13 +64,13 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
     private LFloatToLongFunction sut = new LFloatToLongFunction(){
-        public  long doApplyAsLong(float f)  {
+        public  long doApplyAsLong(float a1)  {
             return testValue;
         }
     };
 
     private LFloatToLongFunctionX<X> opposite = new LFloatToLongFunctionX(){
-        public  long doApplyAsLong(float f) throws ParseException {
+        public  long doApplyAsLong(float a1) throws ParseException {
             return testValue;
         }
     };
@@ -75,7 +78,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
 
-    private LFloatToLongFunction sutAlwaysThrowingUnckeck = LFloatToLongFunction.l(f -> {
+    private LFloatToLongFunction sutAlwaysThrowingUnckeck = LFloatToLongFunction.l(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -83,6 +86,19 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApplyAsLong((float)100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LFloatSingle,Long,RuntimeException> theCall = sut;
+
+        LFloatSingle domainObject = Tuple4U.tuple((float)100);
+
+        Object result = sut.tupleApplyAsLong(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -126,12 +142,12 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatToLongFunction: long doApplyAsLong(float f)");
+            .isEqualTo("LFloatToLongFunction: long doApplyAsLong(float a1)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LFloatToLongFunction.l(f -> testValue ))
+        assertThat(LFloatToLongFunction.l(a1 -> testValue ))
             .isInstanceOf(LFloatToLongFunction.class);
     }
 
@@ -144,7 +160,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LFloatToLongFunctionX<X> sutThrowing = LFloatToLongFunctionX.lX(f -> {
+        LFloatToLongFunctionX<X> sutThrowing = LFloatToLongFunctionX.lX(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -166,7 +182,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LFloatToLongFunctionX<ParseException> sutThrowing = LFloatToLongFunctionX.lX(f -> {
+        LFloatToLongFunctionX<ParseException> sutThrowing = LFloatToLongFunctionX.lX(a1 -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -190,7 +206,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(f -> {
+        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -214,7 +230,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(f -> {
+        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -238,7 +254,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(f -> {
+        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -263,7 +279,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(f -> {
+        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -293,9 +309,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)90);
+                assertThat(a1).isEqualTo((float)90);
                 return (long)100;
         };
 
@@ -322,9 +338,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)90);
+                assertThat(a1).isEqualTo((float)90);
                 return (long)100;
         };
 
@@ -356,9 +372,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -391,9 +407,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -426,9 +442,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -461,9 +477,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -496,9 +512,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -531,9 +547,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -566,9 +582,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -601,9 +617,9 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -629,16 +645,16 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBoolean() throws X  {
+    public void testThen8ToBool() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
 
         //given (+ some assertions)
-        LFloatToLongFunction sutO = f -> {
+        LFloatToLongFunction sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(f).isEqualTo((float)80);
+                assertThat(a1).isEqualTo((float)80);
                 return (long)90;
         };
 
@@ -651,7 +667,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
         };
 
         //when
-        LFloatPredicate function = sutO.thenToBoolean(thenFunction);
+        LFloatPredicate function = sutO.thenToBool(thenFunction);
         boolean finalValue = function.doTest((float)80);
 
         //then - finals
@@ -697,7 +713,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(f -> {
+        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -709,7 +725,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     public void testHandleFloatToLongFunc() throws X {
 
         // given
-        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(f -> {
+        LFloatToLongFunction sutThrowing = LFloatToLongFunction.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -739,7 +755,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatToLongFunction: long doApplyAsLong(float f)");
+                .contains("LFloatToLongFunction: long doApplyAsLong(float a1)");
     }
 
 

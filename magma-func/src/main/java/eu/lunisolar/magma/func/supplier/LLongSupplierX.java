@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LLongSupplierX for Java 8.
@@ -52,15 +56,15 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  *
  * Domain (lvl: 0): none
  *
- * Co-domain: none
+ * Co-domain: long
  *
  * @see LLongSupplier
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongSupplierX<X extends Throwable> extends java.util.function.LongSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
+public interface LLongSupplierX<X extends Throwable> extends LongSupplier, MetaSupplier, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LLongSupplierX: long doGetAsLong() throws X";
+	String DESCRIPTION = "LLongSupplierX: long doGetAsLong() throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -73,6 +77,10 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 	}
 
 	long doGetAsLong() throws X;
+
+	default Long tupleGetAsLong(LTuple.Void args) throws X {
+		return doGetAsLong();
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoGetAsLong() {
@@ -134,7 +142,7 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <X extends Throwable> LLongSupplierX<X> wrap(final java.util.function.LongSupplier other) {
+	static <X extends Throwable> LLongSupplierX<X> wrap(final LongSupplier other) {
 		return other::getAsLong;
 	}
 

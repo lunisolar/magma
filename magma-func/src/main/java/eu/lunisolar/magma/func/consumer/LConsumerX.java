@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LConsumerX for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 1): T t
+ * Domain (lvl: 1): T a1
  *
  * Co-domain: none
  *
@@ -59,9 +63,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LConsumerX<T, X extends Throwable> extends java.util.function.Consumer<T>, MetaConsumer, MetaInterface.Throwing<X> {
+public interface LConsumerX<T, X extends Throwable> extends Consumer<T>, MetaConsumer, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LConsumerX: void doAccept(T t) throws X";
+	String DESCRIPTION = "LConsumerX: void doAccept(T a1) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -69,16 +73,21 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	 */
 	@Override
 	@Deprecated
-	default void accept(T t) {
-		this.nestingDoAccept(t);
+	default void accept(T a1) {
+		this.nestingDoAccept(a1);
 	}
 
-	void doAccept(T t) throws X;
+	void doAccept(T a1) throws X;
+
+	default LTuple.Void tupleAccept(LSingle<T> args) throws X {
+		doAccept(args.first());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(T t) {
+	default void nestingDoAccept(T a1) {
 		try {
-			this.doAccept(t);
+			this.doAccept(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -87,15 +96,15 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T t) {
-		((LConsumerX<T, RuntimeException>) this).doAccept(t);
+	default void shovingDoAccept(T a1) {
+		((LConsumerX<T, RuntimeException>) this).doAccept(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(T a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(t);
+			this.doAccept(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -108,8 +117,8 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureCons(T t) {
-		return () -> this.doAccept(t);
+	default LActionX<X> captureCons(T a1) {
+		return () -> this.doAccept(a1);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -130,7 +139,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T, X extends Throwable> LConsumerX<T, X> wrap(final java.util.function.Consumer<T> other) {
+	static <T, X extends Throwable> LConsumerX<T, X> wrap(final Consumer<T> other) {
 		return other::accept;
 	}
 
@@ -159,9 +168,9 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	@Nonnull
 	default LConsumerX<T, X> andThen(@Nonnull LConsumerX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> {
-			this.doAccept(t);
-			after.doAccept(t);
+		return a1 -> {
+			this.doAccept(a1);
+			after.doAccept(a1);
 		};
 	}
 
@@ -196,13 +205,13 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LConsumer<T> handleCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return t -> this.handlingDoAccept(t, handling);
+		return a1 -> this.handlingDoAccept(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LConsumerX<T, Y> handleConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return t -> this.handlingDoAccept(t, handling);
+		return a1 -> this.handlingDoAccept(a1, handling);
 	}
 
 	// </editor-fold>

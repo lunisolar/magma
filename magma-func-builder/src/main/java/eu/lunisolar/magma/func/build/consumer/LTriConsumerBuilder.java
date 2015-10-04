@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LTriConsumer. */
 public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<LTriConsumerBuilder<T1, T2, T3>, LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>> {
@@ -54,10 +56,10 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriConsumer EVENTUALLY_THROW = LTriConsumer.l((Object t1, Object t2, Object t3) -> {
+	public static final LTriConsumer EVENTUALLY_THROW = LTriConsumer.l((Object a1, Object a2, Object a3) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", t1, t2, t3, LTriConsumer.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", a1, a2, a3, LTriConsumer.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2, E3 extends T3> LTriConsumerBuilder<T1, T2, T3> casesOf(Class<E1> argC1, Class<E2> argC2, Class<E3> argC3, Consumer<LTriConsumerBuilder<E1, E2, E3>> pcpConsumer) {
-		PartialCase.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, T3 t3) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)) && (argC3 == null || argC3.isInstance(t3)));
+		PartialCase.The pc = partialCaseFactoryMethod((T1 a1, T2 a2, T3 a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2, E3 extends T3> LTriConsumerBuilder<T1, T2, T3> aCase(Class<E1> argC1, Class<E2> argC2, Class<E3> argC3, LTriConsumer<E1, E2, E3> function) {
-		PartialCase.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, T3 t3) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)) && (argC3 == null || argC3.isInstance(t3)));
+		PartialCase.The pc = partialCaseFactoryMethod((T1 a1, T2 a2, T3 a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,16 +128,16 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 		LTriConsumer<T1, T2, T3> retval;
 
 		final Case<LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriConsumer.<T1, T2, T3> l((T1 t1, T2 t2, T3 t3) -> {
+		retval = LTriConsumer.<T1, T2, T3> l((T1 a1, T2 a2, T3 a3) -> {
 			try {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2, t3)) {
-						aCase.caseFunction().doAccept(t1, t2, t3);
+					if (aCase.casePredicate().doTest(a1, a2, a3)) {
+						aCase.caseFunction().doAccept(a1, a2, a3);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(t1, t2, t3);
+				eventuallyFinal.doAccept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

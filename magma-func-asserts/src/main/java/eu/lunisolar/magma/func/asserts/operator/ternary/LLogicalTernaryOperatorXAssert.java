@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.ternary.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LLogicalTernaryOperatorX. */
+/** Assert class for LLogicalTernaryOperatorX. */
 public interface LLogicalTernaryOperatorXAssert<S extends LLogicalTernaryOperatorXAssert<S, A, RS, X>, A extends LLogicalTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3);
+	Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean a1, boolean a2, boolean a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LLogicalTernaryOperatorXAssert<S extends LLogicalTernaryOperato
 		}
 
 		@Nonnull
-		public Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
+		public Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean a1, boolean a2, boolean a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b1, b2, b3);
+					pc.doAccept(a1, a2, a3);
 				}
-				return assertFactory.apply((Boolean) actual.doApply(b1, b2, b3));
+				return assertFactory.apply((Boolean) actual.doApply(a1, a2, a3));
 			});
 
 		}

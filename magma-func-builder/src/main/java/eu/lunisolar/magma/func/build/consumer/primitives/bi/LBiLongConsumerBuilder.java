@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiLongConsumer. */
 public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongConsumerBuilder, LBiLongPredicate, LBiLongConsumer> {
@@ -54,10 +56,10 @@ public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongCon
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiLongConsumer EVENTUALLY_THROW = LBiLongConsumer.l((long l1, long l2) -> {
+	public static final LBiLongConsumer EVENTUALLY_THROW = LBiLongConsumer.l((long a1, long a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", l1, l2, LBiLongConsumer.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiLongConsumer.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongCon
 		LBiLongConsumer retval;
 
 		final Case<LBiLongPredicate, LBiLongConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiLongConsumer.l((long l1, long l2) -> {
+		retval = LBiLongConsumer.l((long a1, long a2) -> {
 			try {
 				for (Case<LBiLongPredicate, LBiLongConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l1, l2)) {
-						aCase.caseFunction().doAccept(l1, l2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						aCase.caseFunction().doAccept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(l1, l2);
+				eventuallyFinal.doAccept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

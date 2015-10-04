@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LByteUnaryOperatorX. */
 public final class LByteUnaryOperatorXBuilder<X extends Throwable> extends PerCaseBuilderWithByteProduct.Base<LByteUnaryOperatorXBuilder<X>, LBytePredicateX<X>, LByteUnaryOperatorX<X>> {
@@ -54,10 +56,10 @@ public final class LByteUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteUnaryOperatorX EVENTUALLY_THROW = LByteUnaryOperatorX.lX((byte b) -> {
+	public static final LByteUnaryOperatorX EVENTUALLY_THROW = LByteUnaryOperatorX.lX((byte a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LByteUnaryOperatorX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LByteUnaryOperatorX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LByteUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 		LByteUnaryOperatorX<X> retval;
 
 		final Case<LBytePredicateX<X>, LByteUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteUnaryOperatorX.<X> lX(b -> {
+		retval = LByteUnaryOperatorX.<X> lX(a1 -> {
 			try {
 				for (Case<LBytePredicateX<X>, LByteUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(b)) {
-						return aCase.caseFunction().doApplyAsByte(b);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(b);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

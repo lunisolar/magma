@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LByteUnaryOperatorX. */
+/** Assert class for LByteUnaryOperatorX. */
 public interface LByteUnaryOperatorXAssert<S extends LByteUnaryOperatorXAssert<S, A, RS, X>, A extends LByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LByteConsumerX<Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, LByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b);
+	Evaluation<S, LByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LByteUnaryOperatorXAssert<S extends LByteUnaryOperatorXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b) {
+		public Evaluation<S, LByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Byte) actual.doApplyAsByte(b));
+				return assertFactory.apply((Byte) actual.doApplyAsByte(a1));
 			});
 
 		}

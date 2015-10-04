@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatToByteFunctionX. */
 public final class LFloatToByteFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithByteProduct.Base<LFloatToByteFunctionXBuilder<X>, LFloatPredicateX<X>, LFloatToByteFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LFloatToByteFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToByteFunctionX EVENTUALLY_THROW = LFloatToByteFunctionX.lX((float f) -> {
+	public static final LFloatToByteFunctionX EVENTUALLY_THROW = LFloatToByteFunctionX.lX((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatToByteFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatToByteFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatToByteFunctionXBuilder<X extends Throwable> extends Per
 		LFloatToByteFunctionX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToByteFunctionX.<X> lX(f -> {
+		retval = LFloatToByteFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApplyAsByte(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(f);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

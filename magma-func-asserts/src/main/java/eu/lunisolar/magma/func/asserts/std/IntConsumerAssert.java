@@ -28,20 +28,20 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for java.util.function.IntConsumer. */
+/** Assert class for java.util.function.IntConsumer. */
 public interface IntConsumerAssert<S extends IntConsumerAssert<S, A>, A extends java.util.function.IntConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LIntConsumerX<Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LIntConsumerX<Exception>, A, Exception> doesAccept(int i);
+	SemiEvaluation<S, LIntConsumerX<Exception>, A, Exception> doesAccept(int a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends java.util.function.IntConsumer> extends Base<The<A>, A> {
@@ -59,13 +59,13 @@ public interface IntConsumerAssert<S extends IntConsumerAssert<S, A>, A extends 
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LIntConsumerX<Exception>, A, Exception> doesAccept(int i) {
+		public SemiEvaluation<S, LIntConsumerX<Exception>, A, Exception> doesAccept(int a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(i);
+					pc.doAccept(a1);
 				}
-				actual.accept(i);
+				actual.accept(a1);
 				return null;
 			});
 

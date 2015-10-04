@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolToShortFunctionX. */
 public final class LBoolToShortFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithShortProduct.Base<LBoolToShortFunctionXBuilder<X>, LLogicalOperatorX<X>, LBoolToShortFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LBoolToShortFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToShortFunctionX EVENTUALLY_THROW = LBoolToShortFunctionX.lX((boolean b) -> {
+	public static final LBoolToShortFunctionX EVENTUALLY_THROW = LBoolToShortFunctionX.lX((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolToShortFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolToShortFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolToShortFunctionXBuilder<X extends Throwable> extends Per
 		LBoolToShortFunctionX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToShortFunctionX.<X> lX(b -> {
+		retval = LBoolToShortFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApplyAsShort(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApplyAsShort(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(b);
+				return eventuallyFinal.doApplyAsShort(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

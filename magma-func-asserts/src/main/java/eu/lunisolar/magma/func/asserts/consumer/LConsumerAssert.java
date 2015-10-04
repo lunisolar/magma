@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LConsumer. */
+/** Assert class for LConsumer. */
 public interface LConsumerAssert<S extends LConsumerAssert<S, A, T>, A extends LConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LConsumerX<T, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LConsumerX<T, Exception>, A, Exception> doesAccept(T t);
+	SemiEvaluation<S, LConsumerX<T, Exception>, A, Exception> doesAccept(T a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LConsumer<T>, T> extends Base<The<A, T>, A, T> {
@@ -60,13 +60,13 @@ public interface LConsumerAssert<S extends LConsumerAssert<S, A, T>, A extends L
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LConsumerX<T, Exception>, A, Exception> doesAccept(T t) {
+		public SemiEvaluation<S, LConsumerX<T, Exception>, A, Exception> doesAccept(T a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t);
+					pc.doAccept(a1);
 				}
-				actual.doAccept(t);
+				actual.doAccept(a1);
 				return null;
 			});
 

@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LDoubleSupplierX for Java 8.
@@ -52,15 +56,15 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  *
  * Domain (lvl: 0): none
  *
- * Co-domain: none
+ * Co-domain: double
  *
  * @see LDoubleSupplier
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleSupplierX<X extends Throwable> extends java.util.function.DoubleSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
+public interface LDoubleSupplierX<X extends Throwable> extends DoubleSupplier, MetaSupplier, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LDoubleSupplierX: double doGetAsDouble() throws X";
+	String DESCRIPTION = "LDoubleSupplierX: double doGetAsDouble() throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -73,6 +77,10 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 	}
 
 	double doGetAsDouble() throws X;
+
+	default Double tupleGetAsDouble(LTuple.Void args) throws X {
+		return doGetAsDouble();
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoGetAsDouble() {
@@ -134,7 +142,7 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <X extends Throwable> LDoubleSupplierX<X> wrap(final java.util.function.DoubleSupplier other) {
+	static <X extends Throwable> LDoubleSupplierX<X> wrap(final DoubleSupplier other) {
 		return other::getAsDouble;
 	}
 

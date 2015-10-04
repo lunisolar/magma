@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.Predicate. */
 public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.Base<PredicateBuilder<T>, LPredicate<T>, java.util.function.Predicate<T>> {
@@ -53,10 +55,10 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.Predicate EVENTUALLY_THROW = Function4U.predicate((Object t) -> {
+	public static final java.util.function.Predicate EVENTUALLY_THROW = Function4U.predicate((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, "java.util.function.Predicate: boolean test(T t)");
+			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.Predicate: boolean test(T a1)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -101,7 +103,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> PredicateBuilder<T> casesOf(Class<E1> argC1, Consumer<PredicateBuilder<E1>> pcpConsumer) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,7 +112,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> PredicateBuilder<T> aCase(Class<E1> argC1, java.util.function.Predicate<E1> function) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -125,15 +127,15 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.
 		java.util.function.Predicate<T> retval;
 
 		final Case<LPredicate<T>, java.util.function.Predicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> predicate(t -> {
+		retval = Function4U.<T> predicate(a1 -> {
 			try {
 				for (Case<LPredicate<T>, java.util.function.Predicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().test(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().test(a1);
 					}
 				}
 
-				return eventuallyFinal.test(t);
+				return eventuallyFinal.test(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

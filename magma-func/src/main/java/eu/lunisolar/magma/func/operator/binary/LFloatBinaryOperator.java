@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LFloatBinaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): float f1,float f2
+ * Domain (lvl: 2): float a1,float a2
  *
- * Co-domain: none
+ * Co-domain: float
  *
  * @see LFloatBinaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LFloatBinaryOperator: float doApplyAsFloat(float f1,float f2)";
+	String DESCRIPTION = "LFloatBinaryOperator: float doApplyAsFloat(float a1,float a2)";
 
-	float doApplyAsFloat(float f1, float f2);
+	float doApplyAsFloat(float a1, float a2);
+
+	default Float tupleApplyAsFloat(LFloatPair args) {
+		return doApplyAsFloat(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default float nestingDoApplyAsFloat(float f1, float f2) {
-		return this.doApplyAsFloat(f1, f2);
+	default float nestingDoApplyAsFloat(float a1, float a2) {
+		return this.doApplyAsFloat(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFloat(float f1, float f2) {
-		return this.doApplyAsFloat(f1, f2);
+	default float shovingDoApplyAsFloat(float a1, float a2) {
+		return this.doApplyAsFloat(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFloat(float f1, float f2) {
-		return doApplyAsFloat(f1, f2);
+	default float nonNullDoApplyAsFloat(float a1, float a2) {
+		return doApplyAsFloat(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,25 +94,25 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier captureFloatBinaryOp(float f1, float f2) {
-		return () -> this.doApplyAsFloat(f1, f2);
+	default LFloatSupplier captureFloatBinaryOp(float a1, float a2) {
+		return () -> this.doApplyAsFloat(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LFloatBinaryOperator constant(float r) {
-		return (f1, f2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LFloatBinaryOperator apply1stAsFloat(@Nonnull LFloatUnaryOperator func) {
-		return (f1, f2) -> func.doApplyAsFloat(f1);
+		return (a1, a2) -> func.doApplyAsFloat(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LFloatBinaryOperator apply2ndAsFloat(@Nonnull LFloatUnaryOperator func) {
-		return (f1, f2) -> func.doApplyAsFloat(f2);
+		return (a1, a2) -> func.doApplyAsFloat(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -188,7 +196,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V> LBiFloatFunction<V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (float f1, float f2) -> after.doApply(this.doApplyAsFloat(f1, f2));
+		return (float a1, float a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
 	}
 
 	// </editor-fold>

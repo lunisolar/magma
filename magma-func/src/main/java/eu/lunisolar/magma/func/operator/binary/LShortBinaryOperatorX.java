@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LShortBinaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): short s1,short s2
+ * Domain (lvl: 2): short a1,short a2
  *
- * Co-domain: none
+ * Co-domain: short
  *
  * @see LShortBinaryOperator
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LShortBinaryOperatorX: short doApplyAsShort(short s1,short s2) throws X";
+	String DESCRIPTION = "LShortBinaryOperatorX: short doApplyAsShort(short a1,short a2) throws X";
 
-	short doApplyAsShort(short s1, short s2) throws X;
+	short doApplyAsShort(short a1, short a2) throws X;
+
+	default Short tupleApplyAsShort(LShortPair args) throws X {
+		return doApplyAsShort(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default short nestingDoApplyAsShort(short s1, short s2) {
+	default short nestingDoApplyAsShort(short a1, short a2) {
 		try {
-			return this.doApplyAsShort(s1, s2);
+			return this.doApplyAsShort(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default short shovingDoApplyAsShort(short s1, short s2) {
-		return ((LShortBinaryOperatorX<RuntimeException>) this).doApplyAsShort(s1, s2);
+	default short shovingDoApplyAsShort(short a1, short a2) {
+		return ((LShortBinaryOperatorX<RuntimeException>) this).doApplyAsShort(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> short handlingDoApplyAsShort(short s1, short s2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> short handlingDoApplyAsShort(short a1, short a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsShort(s1, s2);
+			return this.doApplyAsShort(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsShort(short s1, short s2) throws X {
-		return doApplyAsShort(s1, s2);
+	default short nonNullDoApplyAsShort(short a1, short a2) throws X {
+		return doApplyAsShort(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,25 +110,25 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> captureShortBinaryOp(short s1, short s2) {
-		return () -> this.doApplyAsShort(s1, s2);
+	default LShortSupplierX<X> captureShortBinaryOp(short a1, short a2) {
+		return () -> this.doApplyAsShort(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LShortBinaryOperatorX<X> constant(short r) {
-		return (s1, s2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LShortBinaryOperatorX<X> apply1stAsShort(@Nonnull LShortUnaryOperatorX<X> func) {
-		return (s1, s2) -> func.doApplyAsShort(s1);
+		return (a1, a2) -> func.doApplyAsShort(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LShortBinaryOperatorX<X> apply2ndAsShort(@Nonnull LShortUnaryOperatorX<X> func) {
-		return (s1, s2) -> func.doApplyAsShort(s2);
+		return (a1, a2) -> func.doApplyAsShort(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -211,7 +219,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	@Nonnull
 	default <V> LBiShortFunctionX<V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s1, short s2) -> after.doApply(this.doApplyAsShort(s1, s2));
+		return (short a1, short a2) -> after.doApply(this.doApplyAsShort(a1, a2));
 	}
 
 	// </editor-fold>
@@ -246,13 +254,13 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LShortBinaryOperator handleShortBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short s1, short s2) -> this.handlingDoApplyAsShort(s1, s2, handling);
+		return (short a1, short a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LShortBinaryOperatorX<Y> handleShortBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short s1, short s2) -> this.handlingDoApplyAsShort(s1, s2, handling);
+		return (short a1, short a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
 	}
 
 	// </editor-fold>

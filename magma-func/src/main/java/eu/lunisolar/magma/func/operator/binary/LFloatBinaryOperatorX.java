@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LFloatBinaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): float f1,float f2
+ * Domain (lvl: 2): float a1,float a2
  *
- * Co-domain: none
+ * Co-domain: float
  *
  * @see LFloatBinaryOperator
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LFloatBinaryOperatorX: float doApplyAsFloat(float f1,float f2) throws X";
+	String DESCRIPTION = "LFloatBinaryOperatorX: float doApplyAsFloat(float a1,float a2) throws X";
 
-	float doApplyAsFloat(float f1, float f2) throws X;
+	float doApplyAsFloat(float a1, float a2) throws X;
+
+	default Float tupleApplyAsFloat(LFloatPair args) throws X {
+		return doApplyAsFloat(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default float nestingDoApplyAsFloat(float f1, float f2) {
+	default float nestingDoApplyAsFloat(float a1, float a2) {
 		try {
-			return this.doApplyAsFloat(f1, f2);
+			return this.doApplyAsFloat(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFloat(float f1, float f2) {
-		return ((LFloatBinaryOperatorX<RuntimeException>) this).doApplyAsFloat(f1, f2);
+	default float shovingDoApplyAsFloat(float a1, float a2) {
+		return ((LFloatBinaryOperatorX<RuntimeException>) this).doApplyAsFloat(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> float handlingDoApplyAsFloat(float f1, float f2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> float handlingDoApplyAsFloat(float a1, float a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsFloat(f1, f2);
+			return this.doApplyAsFloat(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFloat(float f1, float f2) throws X {
-		return doApplyAsFloat(f1, f2);
+	default float nonNullDoApplyAsFloat(float a1, float a2) throws X {
+		return doApplyAsFloat(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,25 +110,25 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureFloatBinaryOp(float f1, float f2) {
-		return () -> this.doApplyAsFloat(f1, f2);
+	default LFloatSupplierX<X> captureFloatBinaryOp(float a1, float a2) {
+		return () -> this.doApplyAsFloat(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatBinaryOperatorX<X> constant(float r) {
-		return (f1, f2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LFloatBinaryOperatorX<X> apply1stAsFloat(@Nonnull LFloatUnaryOperatorX<X> func) {
-		return (f1, f2) -> func.doApplyAsFloat(f1);
+		return (a1, a2) -> func.doApplyAsFloat(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LFloatBinaryOperatorX<X> apply2ndAsFloat(@Nonnull LFloatUnaryOperatorX<X> func) {
-		return (f1, f2) -> func.doApplyAsFloat(f2);
+		return (a1, a2) -> func.doApplyAsFloat(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -211,7 +219,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	@Nonnull
 	default <V> LBiFloatFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f1, float f2) -> after.doApply(this.doApplyAsFloat(f1, f2));
+		return (float a1, float a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
 	}
 
 	// </editor-fold>
@@ -246,13 +254,13 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LFloatBinaryOperator handleFloatBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (float f1, float f2) -> this.handlingDoApplyAsFloat(f1, f2, handling);
+		return (float a1, float a2) -> this.handlingDoApplyAsFloat(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LFloatBinaryOperatorX<Y> handleFloatBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (float f1, float f2) -> this.handlingDoApplyAsFloat(f1, f2, handling);
+		return (float a1, float a2) -> this.handlingDoApplyAsFloat(a1, a2, handling);
 	}
 
 	// </editor-fold>

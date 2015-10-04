@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -59,13 +62,13 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
 
 
     private LBiObjByteConsumer<T1,T2> sut = new LBiObjByteConsumer(){
-        public  void doAccept(Object t1,Object t2, byte b)  {
+        public  void doAccept(Object a1,Object a2,byte a3)  {
             Function4U.doNothing();
         }
     };
 
     private LBiObjByteConsumerX<T1,T2,X> opposite = new LBiObjByteConsumerX(){
-        public  void doAccept(Object t1,Object t2, byte b) throws ParseException {
+        public  void doAccept(Object a1,Object a2,byte a3) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -73,11 +76,24 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
 
 
 
-    private LBiObjByteConsumer<T1,T2> sutAlwaysThrowingUnckeck = LBiObjByteConsumer.l((T1 t1,T2 t2, byte b) -> {
+    private LBiObjByteConsumer<T1,T2> sutAlwaysThrowingUnckeck = LBiObjByteConsumer.l((T1 a1,T2 a2,byte a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LBiObjByteTriple<T1,T2>,LTuple.Void,RuntimeException> theCall = sut;
+
+        LBiObjByteTriple<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(byte)100);
+
+        Object result = sut.tupleAccept(domainObject);
+
+        assertThat(result)
+            .isSameAs(LTuple.Void.INSTANCE);
+    }
 
     @Test
     public void testNestingDoAcceptUnckeck() throws X {
@@ -113,12 +129,12 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjByteConsumer: void doAccept(T1 t1,T2 t2, byte b)");
+            .isEqualTo("LBiObjByteConsumer: void doAccept(T1 a1,T2 a2,byte a3)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBiObjByteConsumer.l((Object t1,Object t2, byte b) -> Function4U.doNothing() ))
+        assertThat(LBiObjByteConsumer.l((Object a1,Object a2,byte a3) -> Function4U.doNothing() ))
             .isInstanceOf(LBiObjByteConsumer.class);
     }
 
@@ -131,7 +147,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBiObjByteConsumerX<T1,T2,X> sutThrowing = LBiObjByteConsumerX.lX((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumerX<T1,T2,X> sutThrowing = LBiObjByteConsumerX.lX((T1 a1,T2 a2,byte a3) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -153,7 +169,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBiObjByteConsumerX<T1,T2,ParseException> sutThrowing = LBiObjByteConsumerX.lX((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumerX<T1,T2,ParseException> sutThrowing = LBiObjByteConsumerX.lX((T1 a1,T2 a2,byte a3) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -177,7 +193,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 a1,T2 a2,byte a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -201,7 +217,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 a1,T2 a2,byte a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -225,7 +241,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 a1,T2 a2,byte a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -250,7 +266,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 a1,T2 a2,byte a3) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -280,11 +296,11 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjByteConsumer<Integer ,Integer > sutO = (Integer t1,Integer t2, byte b) -> {
+        LBiObjByteConsumer<Integer ,Integer > sutO = (Integer a1,Integer a2,byte a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(91));
-                assertThat( b).isEqualTo((byte)92);
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
+                assertThat(a3).isEqualTo((byte)92);
         };
 
         LFunction<Integer ,Integer > before1 = p0 -> {
@@ -320,11 +336,11 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjByteConsumer<Integer ,Integer > sutO = (Integer t1,Integer t2, byte b) -> {
+        LBiObjByteConsumer<Integer ,Integer > sutO = (Integer a1,Integer a2,byte a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(91));
-                assertThat( b).isEqualTo((byte)92);
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
+                assertThat(a3).isEqualTo((byte)92);
         };
 
         LFunction<Integer ,Integer > before1 = p0 -> {
@@ -361,18 +377,18 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBiObjByteConsumer<Integer ,Integer > sutO = (Integer t1,Integer t2, byte b) -> {
+        LBiObjByteConsumer<Integer ,Integer > sutO = (Integer a1,Integer a2,byte a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat( b).isEqualTo((byte)82);
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a3).isEqualTo((byte)82);
         };
 
-        LBiObjByteConsumer<Integer ,Integer > thenFunction = (Integer t1,Integer t2, byte b) -> {
+        LBiObjByteConsumer<Integer ,Integer > thenFunction = (Integer a1,Integer a2,byte a3) -> {
                 thenFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat( b).isEqualTo((byte)82);
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a3).isEqualTo((byte)82);
         };
 
         //when
@@ -417,7 +433,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 a1,T2 a2,byte a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -429,7 +445,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
     public void testHandleBiObjByteCons() throws X {
 
         // given
-        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 t1,T2 t2, byte b) -> {
+        LBiObjByteConsumer<T1,T2> sutThrowing = LBiObjByteConsumer.l((T1 a1,T2 a2,byte a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -459,7 +475,7 @@ public class LBiObjByteConsumerTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiObjByteConsumer: void doAccept(T1 t1,T2 t2, byte b)");
+                .contains("LBiObjByteConsumer: void doAccept(T1 a1,T2 a2,byte a3)");
     }
 
 

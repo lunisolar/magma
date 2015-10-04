@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LLongToByteFunction. */
 public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<LLongToByteFunctionBuilder, LLongPredicate, LLongToByteFunction> {
@@ -54,10 +56,10 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToByteFunction EVENTUALLY_THROW = LLongToByteFunction.l((long l) -> {
+	public static final LLongToByteFunction EVENTUALLY_THROW = LLongToByteFunction.l((long a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", l, LLongToByteFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LLongToByteFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		LLongToByteFunction retval;
 
 		final Case<LLongPredicate, LLongToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToByteFunction.l(l -> {
+		retval = LLongToByteFunction.l(a1 -> {
 			try {
 				for (Case<LLongPredicate, LLongToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l)) {
-						return aCase.caseFunction().doApplyAsByte(l);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(l);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LCharToByteFunction. */
 public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<LCharToByteFunctionBuilder, LCharPredicate, LCharToByteFunction> {
@@ -54,10 +56,10 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToByteFunction EVENTUALLY_THROW = LCharToByteFunction.l((char c) -> {
+	public static final LCharToByteFunction EVENTUALLY_THROW = LCharToByteFunction.l((char a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", c, LCharToByteFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LCharToByteFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		LCharToByteFunction retval;
 
 		final Case<LCharPredicate, LCharToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToByteFunction.l(c -> {
+		retval = LCharToByteFunction.l(a1 -> {
 			try {
 				for (Case<LCharPredicate, LCharToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(c)) {
-						return aCase.caseFunction().doApplyAsByte(c);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(c);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

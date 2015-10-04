@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LObjDoubleFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): T t, double d
+ * Domain (lvl: 2): T a1,double a2
  *
  * Co-domain: R
  *
@@ -60,15 +64,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LObjDoubleFunctionX: R doApply(T t, double d) throws X";
+	String DESCRIPTION = "LObjDoubleFunctionX: R doApply(T a1,double a2) throws X";
 
 	@Nullable
-	R doApply(T t, double d) throws X;
+	R doApply(T a1, double a2) throws X;
+
+	default R tupleApply(LObjDoublePair<T> args) throws X {
+		return doApply(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(T t, double d) {
+	default R nestingDoApply(T a1, double a2) {
 		try {
-			return this.doApply(t, d);
+			return this.doApply(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,26 +85,26 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(T t, double d) {
-		return ((LObjDoubleFunctionX<T, R, RuntimeException>) this).doApply(t, d);
+	default R shovingDoApply(T a1, double a2) {
+		return ((LObjDoubleFunctionX<T, R, RuntimeException>) this).doApply(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> R handlingDoApply(T t, double d, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> R handlingDoApply(T a1, double a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(t, d);
+			return this.doApply(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(T t, double d) throws X {
-		return Null.requireNonNull(doApply(t, d), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(T a1, double a2) throws X {
+		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -106,25 +114,25 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureObjDoubleFunc(T t, double d) {
-		return () -> this.doApply(t, d);
+	default LSupplierX<R, X> captureObjDoubleFunc(T a1, double a2) {
+		return () -> this.doApply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, R, X extends Throwable> LObjDoubleFunctionX<T, R, X> constant(R r) {
-		return (t, d) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjDoubleFunctionX<T, R, X> apply1st(@Nonnull LFunctionX<T, R, X> func) {
-		return (t, d) -> func.doApply(t);
+		return (a1, a2) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjDoubleFunctionX<T, R, X> apply2nd(@Nonnull LDoubleFunctionX<R, X> func) {
-		return (t, d) -> func.doApply(d);
+		return (a1, a2) -> func.doApply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -177,14 +185,14 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	@Nonnull
 	default <V> LObjDoubleFunctionX<T, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, double d) -> after.doApply(this.doApply(t, d));
+		return (T a1, double a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjDoubleConsumerX<T, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, double d) -> after.doAccept(this.doApply(t, d));
+		return (T a1, double a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -225,13 +233,13 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjDoubleFunction<T, R> handleObjDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t, double d) -> this.handlingDoApply(t, d, handling);
+		return (T a1, double a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjDoubleFunctionX<T, R, Y> handleObjDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t, double d) -> this.handlingDoApply(t, d, handling);
+		return (T a1, double a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

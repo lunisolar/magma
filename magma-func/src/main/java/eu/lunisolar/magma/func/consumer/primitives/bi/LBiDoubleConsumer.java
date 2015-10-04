@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiDoubleConsumer for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 2): double d1,double d2
+ * Domain (lvl: 2): double a1,double a2
  *
  * Co-domain: none
  *
@@ -61,18 +65,23 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiDoubleConsumer extends LBiDoubleConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	static final String DESCRIPTION = "LBiDoubleConsumer: void doAccept(double d1,double d2)";
+	String DESCRIPTION = "LBiDoubleConsumer: void doAccept(double a1,double a2)";
 
-	void doAccept(double d1, double d2);
+	void doAccept(double a1, double a2);
+
+	default LTuple.Void tupleAccept(LDoublePair args) {
+		doAccept(args.first(), args.second());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(double d1, double d2) {
-		this.doAccept(d1, d2);
+	default void nestingDoAccept(double a1, double a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(double d1, double d2) {
-		this.doAccept(d1, d2);
+	default void shovingDoAccept(double a1, double a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -82,20 +91,20 @@ public interface LBiDoubleConsumer extends LBiDoubleConsumerX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBiDoubleCons(double d1, double d2) {
-		return () -> this.doAccept(d1, d2);
+	default LAction captureBiDoubleCons(double a1, double a2) {
+		return () -> this.doAccept(a1, a2);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiDoubleConsumer accept1st(@Nonnull LDoubleConsumer func) {
-		return (d1, d2) -> func.doAccept(d1);
+		return (a1, a2) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiDoubleConsumer accept2nd(@Nonnull LDoubleConsumer func) {
-		return (d1, d2) -> func.doAccept(d2);
+		return (a1, a2) -> func.doAccept(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -141,9 +150,9 @@ public interface LBiDoubleConsumer extends LBiDoubleConsumerX<RuntimeException>,
 	@Nonnull
 	default LBiDoubleConsumer andThen(@Nonnull LBiDoubleConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (double d1, double d2) -> {
-			this.doAccept(d1, d2);
-			after.doAccept(d1, d2);
+		return (double a1, double a2) -> {
+			this.doAccept(a1, a2);
+			after.doAccept(a1, a2);
 		};
 	}
 

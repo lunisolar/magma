@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatFunctionX. */
 public final class LFloatFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LFloatFunctionXBuilder<R, X>, LFloatPredicateX<X>, LFloatFunctionX<R, X>, R> {
@@ -54,10 +56,10 @@ public final class LFloatFunctionXBuilder<R, X extends Throwable> extends PerCas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatFunctionX EVENTUALLY_THROW = LFloatFunctionX.lX((float f) -> {
+	public static final LFloatFunctionX EVENTUALLY_THROW = LFloatFunctionX.lX((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatFunctionXBuilder<R, X extends Throwable> extends PerCas
 		LFloatFunctionX<R, X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatFunctionX.<R, X> lX(f -> {
+		retval = LFloatFunctionX.<R, X> lX(a1 -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApply(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(f);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

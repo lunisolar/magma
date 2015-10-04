@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LTriPredicateX for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 3): T1 t1,T2 t2,T3 t3
+ * Domain (lvl: 3): T1 a1,T2 a2,T3 a3
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LTriPredicate
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LTriPredicateX: boolean doTest(T1 t1,T2 t2,T3 t3) throws X";
+	String DESCRIPTION = "LTriPredicateX: boolean doTest(T1 a1,T2 a2,T3 a3) throws X";
 
-	boolean doTest(T1 t1, T2 t2, T3 t3) throws X;
+	boolean doTest(T1 a1, T2 a2, T3 a3) throws X;
+
+	default Boolean tupleTest(LTriple<T1, T2, T3> args) throws X {
+		return doTest(args.first(), args.second(), args.third());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(T1 t1, T2 t2, T3 t3) {
+	default boolean nestingDoTest(T1 a1, T2 a2, T3 a3) {
 		try {
-			return this.doTest(t1, t2, t3);
+			return this.doTest(a1, a2, a3);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,29 +84,29 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(T1 t1, T2 t2, T3 t3) {
-		return ((LTriPredicateX<T1, T2, T3, RuntimeException>) this).doTest(t1, t2, t3);
+	default boolean shovingDoTest(T1 a1, T2 a2, T3 a3) {
+		return ((LTriPredicateX<T1, T2, T3, RuntimeException>) this).doTest(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(T1 t1, T2 t2, T3 t3, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(T1 a1, T2 a2, T3 a3, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(t1, t2, t3);
+			return this.doTest(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(T1 t1, T2 t2, T3 t3) throws X {
-		return doTest(t1, t2, t3);
+	default boolean nonNullDoTest(T1 a1, T2 a2, T3 a3) throws X {
+		return doTest(a1, a2, a3);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(T1 t1, T2 t2, T3 t3) throws X {
-		return doTest(t1, t2, t3);
+	default boolean doApplyAsBoolean(T1 a1, T2 a2, T3 a3) throws X {
+		return doTest(a1, a2, a3);
 	}
 
 	/** Returns description of the functional interface. */
@@ -108,31 +116,31 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureTriPred(T1 t1, T2 t2, T3 t3) {
-		return () -> this.doTest(t1, t2, t3);
+	default LBoolSupplierX<X> captureTriPred(T1 a1, T2 a2, T3 a3) {
+		return () -> this.doTest(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> constant(boolean r) {
-		return (t1, t2, t3) -> r;
+		return (a1, a2, a3) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> test1st(@Nonnull LPredicateX<T1, X> func) {
-		return (t1, t2, t3) -> func.doTest(t1);
+		return (a1, a2, a3) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> test2nd(@Nonnull LPredicateX<T2, X> func) {
-		return (t1, t2, t3) -> func.doTest(t2);
+		return (a1, a2, a3) -> func.doTest(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> test3rd(@Nonnull LPredicateX<T3, X> func) {
-		return (t1, t2, t3) -> func.doTest(t3);
+		return (a1, a2, a3) -> func.doTest(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -167,7 +175,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	 */
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> negate() {
-		return (T1 t1, T2 t2, T3 t3) -> !doTest(t1, t2, t3);
+		return (T1 a1, T2 a2, T3 a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -177,7 +185,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> and(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, T3 t3) -> doTest(t1, t2, t3) && other.doTest(t1, t2, t3);
+		return (T1 a1, T2 a2, T3 a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -187,7 +195,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> or(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, T3 t3) -> doTest(t1, t2, t3) || other.doTest(t1, t2, t3);
+		return (T1 a1, T2 a2, T3 a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -197,7 +205,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> xor(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, T3 t3) -> doTest(t1, t2, t3) ^ other.doTest(t1, t2, t3);
+		return (T1 a1, T2 a2, T3 a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -206,7 +214,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	 */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> isEqual(final T1 v1, final T2 v2, final T3 v3) {
-		return (t1, t2, t3) -> (t1 == null ? v1 == null : t1.equals(v1)) && (t2 == null ? v2 == null : t2.equals(v2)) && (t3 == null ? v3 == null : t3.equals(v3));
+		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == null ? v3 == null : a3.equals(v3));
 	}
 
 	// </editor-fold>
@@ -231,7 +239,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default <V> LTriFunctionX<T1, T2, T3, V, X> boolToTriFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, T3 t3) -> after.doApply(this.doTest(t1, t2, t3));
+		return (T1 a1, T2 a2, T3 a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>
@@ -266,13 +274,13 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> handleTriPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoTest(t1, t2, t3, handling);
+		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoTest(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriPredicateX<T1, T2, T3, Y> handleTriPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoTest(t1, t2, t3, handling);
+		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoTest(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

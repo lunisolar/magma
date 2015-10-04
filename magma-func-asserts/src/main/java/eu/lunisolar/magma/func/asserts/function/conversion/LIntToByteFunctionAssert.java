@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LIntToByteFunction. */
+/** Assert class for LIntToByteFunction. */
 public interface LIntToByteFunctionAssert<S extends LIntToByteFunctionAssert<S, A, RS>, A extends LIntToByteFunction, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumerX<Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, LIntConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(int i);
+	Evaluation<S, LIntConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(int a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LIntToByteFunction, RS extends AbstractByteAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -63,13 +63,13 @@ public interface LIntToByteFunctionAssert<S extends LIntToByteFunctionAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(int i) {
+		public Evaluation<S, LIntConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(int a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(i);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Byte) actual.doApplyAsByte(i));
+				return assertFactory.apply((Byte) actual.doApplyAsByte(a1));
 			});
 
 		}

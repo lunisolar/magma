@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.LongFunction. */
 public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LongFunctionBuilder<R>, LLongPredicate, java.util.function.LongFunction<R>, R> {
@@ -53,10 +55,10 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.LongFunction EVENTUALLY_THROW = Function4U.longFunction((long l) -> {
+	public static final java.util.function.LongFunction EVENTUALLY_THROW = Function4U.longFunction((long a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", l, "java.util.function.LongFunction: R apply(long l)");
+			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.LongFunction: R apply(long a1)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		java.util.function.LongFunction<R> retval;
 
 		final Case<LLongPredicate, java.util.function.LongFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<R> longFunction(l -> {
+		retval = Function4U.<R> longFunction(a1 -> {
 			try {
 				for (Case<LLongPredicate, java.util.function.LongFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l)) {
-						return aCase.caseFunction().apply(l);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().apply(a1);
 					}
 				}
 
-				return eventuallyFinal.apply(l);
+				return eventuallyFinal.apply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

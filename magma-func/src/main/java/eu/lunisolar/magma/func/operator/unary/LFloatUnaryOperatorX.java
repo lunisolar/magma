@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LFloatUnaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 1): float f
+ * Domain (lvl: 1): float a1
  *
- * Co-domain: none
+ * Co-domain: float
  *
  * @see LFloatUnaryOperator
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LFloatUnaryOperatorX: float doApplyAsFloat(float f) throws X";
+	String DESCRIPTION = "LFloatUnaryOperatorX: float doApplyAsFloat(float a1) throws X";
 
-	float doApplyAsFloat(float f) throws X;
+	float doApplyAsFloat(float a1) throws X;
+
+	default Float tupleApplyAsFloat(LFloatSingle args) throws X {
+		return doApplyAsFloat(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default float nestingDoApplyAsFloat(float f) {
+	default float nestingDoApplyAsFloat(float a1) {
 		try {
-			return this.doApplyAsFloat(f);
+			return this.doApplyAsFloat(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFloat(float f) {
-		return ((LFloatUnaryOperatorX<RuntimeException>) this).doApplyAsFloat(f);
+	default float shovingDoApplyAsFloat(float a1) {
+		return ((LFloatUnaryOperatorX<RuntimeException>) this).doApplyAsFloat(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> float handlingDoApplyAsFloat(float f, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> float handlingDoApplyAsFloat(float a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsFloat(f);
+			return this.doApplyAsFloat(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFloat(float f) throws X {
-		return doApplyAsFloat(f);
+	default float nonNullDoApplyAsFloat(float a1) throws X {
+		return doApplyAsFloat(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureFloatUnaryOp(float f) {
-		return () -> this.doApplyAsFloat(f);
+	default LFloatSupplierX<X> captureFloatUnaryOp(float a1) {
+		return () -> this.doApplyAsFloat(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatUnaryOperatorX<X> constant(float r) {
-		return f -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 	@Nonnull
 	default <V> LFloatFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApply(this.doApplyAsFloat(f));
+		return a1 -> after.doApply(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsByte(this.doApplyAsFloat(f));
+		return a1 -> after.doApplyAsByte(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsShort(this.doApplyAsFloat(f));
+		return a1 -> after.doApplyAsShort(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsInt(this.doApplyAsFloat(f));
+		return a1 -> after.doApplyAsInt(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsLong(this.doApplyAsFloat(f));
+		return a1 -> after.doApplyAsLong(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatUnaryOperatorX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsFloat(this.doApplyAsFloat(f));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsDouble(this.doApplyAsFloat(f));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToCharFunctionX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsChar(this.doApplyAsFloat(f));
+		return a1 -> after.doApplyAsChar(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LFloatPredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
+	default LFloatPredicateX<X> thenToBool(@Nonnull LFloatPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doTest(this.doApplyAsFloat(f));
+		return a1 -> after.doTest(this.doApplyAsFloat(a1));
 	}
 
 	// </editor-fold>
@@ -256,13 +264,13 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LFloatUnaryOperator handleFloatUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return f -> this.handlingDoApplyAsFloat(f, handling);
+		return a1 -> this.handlingDoApplyAsFloat(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LFloatUnaryOperatorX<Y> handleFloatUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return f -> this.handlingDoApplyAsFloat(f, handling);
+		return a1 -> this.handlingDoApplyAsFloat(a1, handling);
 	}
 
 	// </editor-fold>

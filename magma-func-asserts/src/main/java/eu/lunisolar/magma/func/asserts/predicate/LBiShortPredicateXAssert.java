@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.predicate.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBiShortPredicateX. */
+/** Assert class for LBiShortPredicateX. */
 public interface LBiShortPredicateXAssert<S extends LBiShortPredicateXAssert<S, A, RS, X>, A extends LBiShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiShortConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s1, short s2);
+	Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short a1, short a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBiShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LBiShortPredicateXAssert<S extends LBiShortPredicateXAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s1, short s2) {
+		public Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short a1, short a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(s1, s2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Boolean) actual.doTest(s1, s2));
+				return assertFactory.apply((Boolean) actual.doTest(a1, a2));
 			});
 
 		}

@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -59,13 +62,13 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
 
     private LObjFloatConsumer<T> sut = new LObjFloatConsumer(){
-        public  void doAccept(Object t, float f)  {
+        public  void doAccept(Object a1,float a2)  {
             Function4U.doNothing();
         }
     };
 
     private LObjFloatConsumerX<T,X> opposite = new LObjFloatConsumerX(){
-        public  void doAccept(Object t, float f) throws ParseException {
+        public  void doAccept(Object a1,float a2) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -73,11 +76,24 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
 
 
-    private LObjFloatConsumer<T> sutAlwaysThrowingUnckeck = LObjFloatConsumer.l((T t, float f) -> {
+    private LObjFloatConsumer<T> sutAlwaysThrowingUnckeck = LObjFloatConsumer.l((T a1,float a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LObjFloatPair<T>,LTuple.Void,RuntimeException> theCall = sut;
+
+        LObjFloatPair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(float)100);
+
+        Object result = sut.tupleAccept(domainObject);
+
+        assertThat(result)
+            .isSameAs(LTuple.Void.INSTANCE);
+    }
 
     @Test
     public void testNestingDoAcceptUnckeck() throws X {
@@ -113,12 +129,12 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjFloatConsumer: void doAccept(T t, float f)");
+            .isEqualTo("LObjFloatConsumer: void doAccept(T a1,float a2)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LObjFloatConsumer.l((Object t, float f) -> Function4U.doNothing() ))
+        assertThat(LObjFloatConsumer.l((Object a1,float a2) -> Function4U.doNothing() ))
             .isInstanceOf(LObjFloatConsumer.class);
     }
 
@@ -131,7 +147,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LObjFloatConsumerX<T,X> sutThrowing = LObjFloatConsumerX.lX((T t, float f) -> {
+        LObjFloatConsumerX<T,X> sutThrowing = LObjFloatConsumerX.lX((T a1,float a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -153,7 +169,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LObjFloatConsumerX<T,ParseException> sutThrowing = LObjFloatConsumerX.lX((T t, float f) -> {
+        LObjFloatConsumerX<T,ParseException> sutThrowing = LObjFloatConsumerX.lX((T a1,float a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -177,7 +193,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T t, float f) -> {
+        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T a1,float a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -201,7 +217,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T t, float f) -> {
+        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T a1,float a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -225,7 +241,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T t, float f) -> {
+        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T a1,float a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -250,7 +266,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T t, float f) -> {
+        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T a1,float a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -280,10 +296,10 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjFloatConsumer<Integer > sutO = (Integer t, float f) -> {
+        LObjFloatConsumer<Integer > sutO = (Integer a1,float a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(90));
-                assertThat( f).isEqualTo((float)91);
+                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((float)91);
         };
 
         LFunction<Integer ,Integer > before1 = p0 -> {
@@ -314,10 +330,10 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjFloatConsumer<Integer > sutO = (Integer t, float f) -> {
+        LObjFloatConsumer<Integer > sutO = (Integer a1,float a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(90));
-                assertThat( f).isEqualTo((float)91);
+                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((float)91);
         };
 
         LFunction<Integer ,Integer > before1 = p0 -> {
@@ -349,16 +365,16 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LObjFloatConsumer<Integer > sutO = (Integer t, float f) -> {
+        LObjFloatConsumer<Integer > sutO = (Integer a1,float a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
-                assertThat( f).isEqualTo((float)81);
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((float)81);
         };
 
-        LObjFloatConsumer<Integer > thenFunction = (Integer t, float f) -> {
+        LObjFloatConsumer<Integer > thenFunction = (Integer a1,float a2) -> {
                 thenFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
-                assertThat( f).isEqualTo((float)81);
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((float)81);
         };
 
         //when
@@ -403,7 +419,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T t, float f) -> {
+        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T a1,float a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -415,7 +431,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     public void testHandleObjFloatCons() throws X {
 
         // given
-        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T t, float f) -> {
+        LObjFloatConsumer<T> sutThrowing = LObjFloatConsumer.l((T a1,float a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -445,7 +461,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjFloatConsumer: void doAccept(T t, float f)");
+                .contains("LObjFloatConsumer: void doAccept(T a1,float a2)");
     }
 
 

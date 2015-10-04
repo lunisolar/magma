@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -59,13 +62,13 @@ public class LBiCharConsumerTest<X extends ParseException> {
 
 
     private LBiCharConsumer sut = new LBiCharConsumer(){
-        public  void doAccept(char c1,char c2)  {
+        public  void doAccept(char a1,char a2)  {
             Function4U.doNothing();
         }
     };
 
     private LBiCharConsumerX<X> opposite = new LBiCharConsumerX(){
-        public  void doAccept(char c1,char c2) throws ParseException {
+        public  void doAccept(char a1,char a2) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -73,11 +76,24 @@ public class LBiCharConsumerTest<X extends ParseException> {
 
 
 
-    private LBiCharConsumer sutAlwaysThrowingUnckeck = LBiCharConsumer.l((char c1,char c2) -> {
+    private LBiCharConsumer sutAlwaysThrowingUnckeck = LBiCharConsumer.l((char a1,char a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LCharPair,LTuple.Void,RuntimeException> theCall = sut;
+
+        LCharPair domainObject = Tuple4U.tuple((char)100,(char)100);
+
+        Object result = sut.tupleAccept(domainObject);
+
+        assertThat(result)
+            .isSameAs(LTuple.Void.INSTANCE);
+    }
 
     @Test
     public void testNestingDoAcceptUnckeck() throws X {
@@ -113,12 +129,12 @@ public class LBiCharConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiCharConsumer: void doAccept(char c1,char c2)");
+            .isEqualTo("LBiCharConsumer: void doAccept(char a1,char a2)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBiCharConsumer.l((char c1,char c2) -> Function4U.doNothing() ))
+        assertThat(LBiCharConsumer.l((char a1,char a2) -> Function4U.doNothing() ))
             .isInstanceOf(LBiCharConsumer.class);
     }
 
@@ -131,7 +147,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBiCharConsumerX<X> sutThrowing = LBiCharConsumerX.lX((char c1,char c2) -> {
+        LBiCharConsumerX<X> sutThrowing = LBiCharConsumerX.lX((char a1,char a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -153,7 +169,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBiCharConsumerX<ParseException> sutThrowing = LBiCharConsumerX.lX((char c1,char c2) -> {
+        LBiCharConsumerX<ParseException> sutThrowing = LBiCharConsumerX.lX((char a1,char a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -177,7 +193,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char c1,char c2) -> {
+        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char a1,char a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -201,7 +217,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char c1,char c2) -> {
+        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char a1,char a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -225,7 +241,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char c1,char c2) -> {
+        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char a1,char a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -250,7 +266,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char c1,char c2) -> {
+        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char a1,char a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -280,10 +296,10 @@ public class LBiCharConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiCharConsumer sutO = (char c1,char c2) -> {
+        LBiCharConsumer sutO = (char a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(c1).isEqualTo((char)90);
-                assertThat(c2).isEqualTo((char)91);
+                assertThat(a1).isEqualTo((char)90);
+                assertThat(a2).isEqualTo((char)91);
         };
 
         LCharUnaryOperator before1 = p0 -> {
@@ -314,10 +330,10 @@ public class LBiCharConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiCharConsumer sutO = (char c1,char c2) -> {
+        LBiCharConsumer sutO = (char a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(c1).isEqualTo((char)90);
-                assertThat(c2).isEqualTo((char)91);
+                assertThat(a1).isEqualTo((char)90);
+                assertThat(a2).isEqualTo((char)91);
         };
 
         LToCharFunction<Integer > before1 = p0 -> {
@@ -349,16 +365,16 @@ public class LBiCharConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBiCharConsumer sutO = (char c1,char c2) -> {
+        LBiCharConsumer sutO = (char a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(c1).isEqualTo((char)80);
-                assertThat(c2).isEqualTo((char)81);
+                assertThat(a1).isEqualTo((char)80);
+                assertThat(a2).isEqualTo((char)81);
         };
 
-        LBiCharConsumer thenFunction = (char c1,char c2) -> {
+        LBiCharConsumer thenFunction = (char a1,char a2) -> {
                 thenFunctionCalled.set(true);
-                assertThat(c1).isEqualTo((char)80);
-                assertThat(c2).isEqualTo((char)81);
+                assertThat(a1).isEqualTo((char)80);
+                assertThat(a2).isEqualTo((char)81);
         };
 
         //when
@@ -403,7 +419,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char c1,char c2) -> {
+        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char a1,char a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -415,7 +431,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
     public void testHandleBiCharCons() throws X {
 
         // given
-        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char c1,char c2) -> {
+        LBiCharConsumer sutThrowing = LBiCharConsumer.l((char a1,char a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -445,7 +461,7 @@ public class LBiCharConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiCharConsumer: void doAccept(char c1,char c2)");
+                .contains("LBiCharConsumer: void doAccept(char a1,char a2)");
     }
 
 

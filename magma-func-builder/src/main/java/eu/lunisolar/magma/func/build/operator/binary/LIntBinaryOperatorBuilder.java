@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntBinaryOperator. */
 public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<LIntBinaryOperatorBuilder, LBiIntPredicate, LIntBinaryOperator> {
@@ -54,10 +56,10 @@ public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntBinaryOperator EVENTUALLY_THROW = LIntBinaryOperator.l((int i1, int i2) -> {
+	public static final LIntBinaryOperator EVENTUALLY_THROW = LIntBinaryOperator.l((int a1, int a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", i1, i2, LIntBinaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LIntBinaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduc
 		LIntBinaryOperator retval;
 
 		final Case<LBiIntPredicate, LIntBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntBinaryOperator.l((int i1, int i2) -> {
+		retval = LIntBinaryOperator.l((int a1, int a2) -> {
 			try {
 				for (Case<LBiIntPredicate, LIntBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i1, i2)) {
-						return aCase.caseFunction().doApplyAsInt(i1, i2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApplyAsInt(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(i1, i2);
+				return eventuallyFinal.doApplyAsInt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

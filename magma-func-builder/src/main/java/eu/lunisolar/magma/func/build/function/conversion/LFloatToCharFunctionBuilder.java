@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatToCharFunction. */
 public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharProduct.Base<LFloatToCharFunctionBuilder, LFloatPredicate, LFloatToCharFunction> {
@@ -54,10 +56,10 @@ public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToCharFunction EVENTUALLY_THROW = LFloatToCharFunction.l((float f) -> {
+	public static final LFloatToCharFunction EVENTUALLY_THROW = LFloatToCharFunction.l((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatToCharFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatToCharFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 		LFloatToCharFunction retval;
 
 		final Case<LFloatPredicate, LFloatToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToCharFunction.l(f -> {
+		retval = LFloatToCharFunction.l(a1 -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApplyAsChar(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsChar(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(f);
+				return eventuallyFinal.doApplyAsChar(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

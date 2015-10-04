@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LTernaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 3): T t1,T t2,T t3
+ * Domain (lvl: 3): T a1,T a2,T a3
  *
  * Co-domain: T
  *
@@ -60,24 +64,28 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing, LTriFunction<T, T, T, T> { // NOSONAR
 
-	static final String DESCRIPTION = "LTernaryOperator: T doApply(T t1,T t2,T t3)";
+	String DESCRIPTION = "LTernaryOperator: T doApply(T a1,T a2,T a3)";
+
+	default T tupleApply(LTriple<T, T, T> args) {
+		return doApply(args.first(), args.second(), args.third());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default T nestingDoApply(T t1, T t2, T t3) {
-		return this.doApply(t1, t2, t3);
+	default T nestingDoApply(T a1, T a2, T a3) {
+		return this.doApply(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default T shovingDoApply(T t1, T t2, T t3) {
-		return this.doApply(t1, t2, t3);
+	default T shovingDoApply(T a1, T a2, T a3) {
+		return this.doApply(a1, a2, a3);
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default T nonNullDoApply(T t1, T t2, T t3) {
-		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+	default T nonNullDoApply(T a1, T a2, T a3) {
+		return Null.requireNonNull(doApply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -87,31 +95,31 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<T> captureTernaryOp(T t1, T t2, T t3) {
-		return () -> this.doApply(t1, t2, t3);
+	default LSupplier<T> captureTernaryOp(T a1, T a2, T a3) {
+		return () -> this.doApply(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T> LTernaryOperator<T> constant(T r) {
-		return (t1, t2, t3) -> r;
+		return (a1, a2, a3) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T> LTernaryOperator<T> apply1st(@Nonnull LUnaryOperator<T> func) {
-		return (t1, t2, t3) -> func.doApply(t1);
+		return (a1, a2, a3) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T> LTernaryOperator<T> apply2nd(@Nonnull LUnaryOperator<T> func) {
-		return (t1, t2, t3) -> func.doApply(t2);
+		return (a1, a2, a3) -> func.doApply(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T> LTernaryOperator<T> apply3rd(@Nonnull LUnaryOperator<T> func) {
-		return (t1, t2, t3) -> func.doApply(t3);
+		return (a1, a2, a3) -> func.doApply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -137,7 +145,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	@Nonnull
 	default <V> LTriFunction<T, T, T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T t1, T t2, T t3) -> after.doApply(this.doApply(t1, t2, t3));
+		return (T a1, T a2, T a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>

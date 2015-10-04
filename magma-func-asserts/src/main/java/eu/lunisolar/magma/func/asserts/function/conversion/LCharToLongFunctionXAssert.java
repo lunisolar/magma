@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LCharToLongFunctionX. */
+/** Assert class for LCharToLongFunctionX. */
 public interface LCharToLongFunctionXAssert<S extends LCharToLongFunctionXAssert<S, A, RS, X>, A extends LCharToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LCharConsumerX<Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(char c);
+	Evaluation<S, LCharConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(char a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LCharToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LCharToLongFunctionXAssert<S extends LCharToLongFunctionXAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(char c) {
+		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(char a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(c);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Long) actual.doApplyAsLong(c));
+				return assertFactory.apply((Long) actual.doApplyAsLong(a1));
 			});
 
 		}

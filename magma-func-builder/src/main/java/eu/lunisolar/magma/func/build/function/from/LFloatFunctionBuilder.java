@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatFunction. */
 public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LFloatFunctionBuilder<R>, LFloatPredicate, LFloatFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatFunction EVENTUALLY_THROW = LFloatFunction.l((float f) -> {
+	public static final LFloatFunction EVENTUALLY_THROW = LFloatFunction.l((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		LFloatFunction<R> retval;
 
 		final Case<LFloatPredicate, LFloatFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatFunction.<R> l(f -> {
+		retval = LFloatFunction.<R> l(a1 -> {
 			try {
 				for (Case<LFloatPredicate, LFloatFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApply(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(f);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

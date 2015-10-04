@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LDoubleBinaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): double d1,double d2
+ * Domain (lvl: 2): double a1,double a2
  *
- * Co-domain: none
+ * Co-domain: double
  *
  * @see LDoubleBinaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)";
+	String DESCRIPTION = "LDoubleBinaryOperator: double doApplyAsDouble(double a1,double a2)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,25 +72,29 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	 */
 	@Override
 	@Deprecated
-	default double applyAsDouble(double d1, double d2) {
-		return this.nestingDoApplyAsDouble(d1, d2);
+	default double applyAsDouble(double a1, double a2) {
+		return this.nestingDoApplyAsDouble(a1, a2);
 	}
 
-	double doApplyAsDouble(double d1, double d2);
+	double doApplyAsDouble(double a1, double a2);
+
+	default Double tupleApplyAsDouble(LDoublePair args) {
+		return doApplyAsDouble(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default double nestingDoApplyAsDouble(double d1, double d2) {
-		return this.doApplyAsDouble(d1, d2);
+	default double nestingDoApplyAsDouble(double a1, double a2) {
+		return this.doApplyAsDouble(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(double d1, double d2) {
-		return this.doApplyAsDouble(d1, d2);
+	default double shovingDoApplyAsDouble(double a1, double a2) {
+		return this.doApplyAsDouble(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(double d1, double d2) {
-		return doApplyAsDouble(d1, d2);
+	default double nonNullDoApplyAsDouble(double a1, double a2) {
+		return doApplyAsDouble(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -96,25 +104,25 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureDoubleBinaryOp(double d1, double d2) {
-		return () -> this.doApplyAsDouble(d1, d2);
+	default LDoubleSupplier captureDoubleBinaryOp(double a1, double a2) {
+		return () -> this.doApplyAsDouble(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LDoubleBinaryOperator constant(double r) {
-		return (d1, d2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LDoubleBinaryOperator apply1stAsDouble(@Nonnull LDoubleUnaryOperator func) {
-		return (d1, d2) -> func.doApplyAsDouble(d1);
+		return (a1, a2) -> func.doApplyAsDouble(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LDoubleBinaryOperator apply2ndAsDouble(@Nonnull LDoubleUnaryOperator func) {
-		return (d1, d2) -> func.doApplyAsDouble(d2);
+		return (a1, a2) -> func.doApplyAsDouble(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -128,7 +136,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static LDoubleBinaryOperator wrap(final java.util.function.DoubleBinaryOperator other) {
+	static LDoubleBinaryOperator wrap(final DoubleBinaryOperator other) {
 		return other::applyAsDouble;
 	}
 
@@ -204,7 +212,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	@Nonnull
 	default <V> LBiDoubleFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (double d1, double d2) -> after.doApply(this.doApplyAsDouble(d1, d2));
+		return (double a1, double a2) -> after.doApply(this.doApplyAsDouble(a1, a2));
 	}
 
 	// </editor-fold>

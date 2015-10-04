@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LCharToFloatFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): char c
+ * Domain (lvl: 1): char a1
  *
- * Co-domain: none
+ * Co-domain: float
  *
  * @see LCharToFloatFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LCharToFloatFunctionX: float doApplyAsFloat(char c) throws X";
+	String DESCRIPTION = "LCharToFloatFunctionX: float doApplyAsFloat(char a1) throws X";
 
-	float doApplyAsFloat(char c) throws X;
+	float doApplyAsFloat(char a1) throws X;
+
+	default Float tupleApplyAsFloat(LCharSingle args) throws X {
+		return doApplyAsFloat(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default float nestingDoApplyAsFloat(char c) {
+	default float nestingDoApplyAsFloat(char a1) {
 		try {
-			return this.doApplyAsFloat(c);
+			return this.doApplyAsFloat(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFloat(char c) {
-		return ((LCharToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(c);
+	default float shovingDoApplyAsFloat(char a1) {
+		return ((LCharToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> float handlingDoApplyAsFloat(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> float handlingDoApplyAsFloat(char a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsFloat(c);
+			return this.doApplyAsFloat(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFloat(char c) throws X {
-		return doApplyAsFloat(c);
+	default float nonNullDoApplyAsFloat(char a1) throws X {
+		return doApplyAsFloat(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureCharToFloatFunc(char c) {
-		return () -> this.doApplyAsFloat(c);
+	default LFloatSupplierX<X> captureCharToFloatFunc(char a1) {
+		return () -> this.doApplyAsFloat(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharToFloatFunctionX<X> constant(float r) {
-		return c -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApply(this.doApplyAsFloat(c));
+		return a1 -> after.doApply(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsByte(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsByte(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsShort(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsShort(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsInt(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsInt(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsLong(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsLong(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsFloat(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsDouble(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsChar(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsChar(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharPredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
+	default LCharPredicateX<X> thenToBool(@Nonnull LFloatPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doTest(this.doApplyAsFloat(c));
+		return a1 -> after.doTest(this.doApplyAsFloat(a1));
 	}
 
 	// </editor-fold>
@@ -250,13 +258,13 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LCharToFloatFunction handleCharToFloatFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return c -> this.handlingDoApplyAsFloat(c, handling);
+		return a1 -> this.handlingDoApplyAsFloat(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LCharToFloatFunctionX<Y> handleCharToFloatFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return c -> this.handlingDoApplyAsFloat(c, handling);
+		return a1 -> this.handlingDoApplyAsFloat(a1, handling);
 	}
 
 	// </editor-fold>

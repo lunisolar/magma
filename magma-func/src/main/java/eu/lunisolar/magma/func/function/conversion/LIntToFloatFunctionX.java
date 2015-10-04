@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LIntToFloatFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): int i
+ * Domain (lvl: 1): int a1
  *
- * Co-domain: none
+ * Co-domain: float
  *
  * @see LIntToFloatFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LIntToFloatFunctionX: float doApplyAsFloat(int i) throws X";
+	String DESCRIPTION = "LIntToFloatFunctionX: float doApplyAsFloat(int a1) throws X";
 
-	float doApplyAsFloat(int i) throws X;
+	float doApplyAsFloat(int a1) throws X;
+
+	default Float tupleApplyAsFloat(LIntSingle args) throws X {
+		return doApplyAsFloat(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default float nestingDoApplyAsFloat(int i) {
+	default float nestingDoApplyAsFloat(int a1) {
 		try {
-			return this.doApplyAsFloat(i);
+			return this.doApplyAsFloat(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFloat(int i) {
-		return ((LIntToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(i);
+	default float shovingDoApplyAsFloat(int a1) {
+		return ((LIntToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> float handlingDoApplyAsFloat(int i, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> float handlingDoApplyAsFloat(int a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsFloat(i);
+			return this.doApplyAsFloat(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFloat(int i) throws X {
-		return doApplyAsFloat(i);
+	default float nonNullDoApplyAsFloat(int a1) throws X {
+		return doApplyAsFloat(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureIntToFloatFunc(int i) {
-		return () -> this.doApplyAsFloat(i);
+	default LFloatSupplierX<X> captureIntToFloatFunc(int a1) {
+		return () -> this.doApplyAsFloat(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntToFloatFunctionX<X> constant(float r) {
-		return i -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LIntFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApply(this.doApplyAsFloat(i));
+		return a1 -> after.doApply(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsByte(this.doApplyAsFloat(i));
+		return a1 -> after.doApplyAsByte(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsShort(this.doApplyAsFloat(i));
+		return a1 -> after.doApplyAsShort(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsInt(this.doApplyAsFloat(i));
+		return a1 -> after.doApplyAsInt(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsLong(this.doApplyAsFloat(i));
+		return a1 -> after.doApplyAsLong(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsFloat(this.doApplyAsFloat(i));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsDouble(this.doApplyAsFloat(i));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsChar(this.doApplyAsFloat(i));
+		return a1 -> after.doApplyAsChar(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntPredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
+	default LIntPredicateX<X> thenToBool(@Nonnull LFloatPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doTest(this.doApplyAsFloat(i));
+		return a1 -> after.doTest(this.doApplyAsFloat(a1));
 	}
 
 	// </editor-fold>
@@ -250,13 +258,13 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LIntToFloatFunction handleIntToFloatFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return i -> this.handlingDoApplyAsFloat(i, handling);
+		return a1 -> this.handlingDoApplyAsFloat(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LIntToFloatFunctionX<Y> handleIntToFloatFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return i -> this.handlingDoApplyAsFloat(i, handling);
+		return a1 -> this.handlingDoApplyAsFloat(a1, handling);
 	}
 
 	// </editor-fold>

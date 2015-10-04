@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LUnaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 1): T t
+ * Domain (lvl: 1): T a1
  *
  * Co-domain: T
  *
@@ -58,14 +62,18 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.function.UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LFunctionX<T, T, X> { // NOSONAR
+public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LFunctionX<T, T, X> { // NOSONAR
 
-	static final String DESCRIPTION = "LUnaryOperatorX: T doApply(T t) throws X";
+	String DESCRIPTION = "LUnaryOperatorX: T doApply(T a1) throws X";
+
+	default T tupleApply(LSingle<T> args) throws X {
+		return doApply(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default T nestingDoApply(T t) {
+	default T nestingDoApply(T a1) {
 		try {
-			return this.doApply(t);
+			return this.doApply(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -74,26 +82,26 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default T shovingDoApply(T t) {
-		return ((LUnaryOperatorX<T, RuntimeException>) this).doApply(t);
+	default T shovingDoApply(T a1) {
+		return ((LUnaryOperatorX<T, RuntimeException>) this).doApply(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> T handlingDoApply(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> T handlingDoApply(T a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(t);
+			return this.doApply(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default T nonNullDoApply(T t) throws X {
-		return Null.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
+	default T nonNullDoApply(T a1) throws X {
+		return Null.requireNonNull(doApply(a1), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -103,13 +111,13 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<T, X> captureUnaryOp(T t) {
-		return () -> this.doApply(t);
+	default LSupplierX<T, X> captureUnaryOp(T a1) {
+		return () -> this.doApply(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LUnaryOperatorX<T, X> constant(T r) {
-		return t -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -130,7 +138,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T, X extends Throwable> LUnaryOperatorX<T, X> wrap(final java.util.function.UnaryOperator<T> other) {
+	static <T, X extends Throwable> LUnaryOperatorX<T, X> wrap(final UnaryOperator<T> other) {
 		return other::apply;
 	}
 
@@ -148,63 +156,63 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApply(this.doApply(t));
+		return a1 -> after.doApply(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LToByteFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsByte(this.doApply(t));
+		return a1 -> after.doApplyAsByte(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LToShortFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsShort(this.doApply(t));
+		return a1 -> after.doApplyAsShort(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LToIntFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsInt(this.doApply(t));
+		return a1 -> after.doApplyAsInt(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LToLongFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsLong(this.doApply(t));
+		return a1 -> after.doApplyAsLong(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LToFloatFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsFloat(this.doApply(t));
+		return a1 -> after.doApplyAsFloat(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LToDoubleFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsDouble(this.doApply(t));
+		return a1 -> after.doApplyAsDouble(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LToCharFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsChar(this.doApply(t));
+		return a1 -> after.doApplyAsChar(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LPredicateX<T, X> thenToBoolean(@Nonnull LPredicateX<? super T, X> after) {
+	default LPredicateX<T, X> thenToBool(@Nonnull LPredicateX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doTest(this.doApply(t));
+		return a1 -> after.doTest(this.doApply(a1));
 	}
 
 	// </editor-fold>
@@ -251,13 +259,13 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LUnaryOperator<T> handleUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return t -> this.handlingDoApply(t, handling);
+		return a1 -> this.handlingDoApply(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LUnaryOperatorX<T, Y> handleUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return t -> this.handlingDoApply(t, handling);
+		return a1 -> this.handlingDoApply(a1, handling);
 	}
 
 	// </editor-fold>

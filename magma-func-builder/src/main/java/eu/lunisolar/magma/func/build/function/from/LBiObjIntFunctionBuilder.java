@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiObjIntFunction. */
 public final class LBiObjIntFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProduct.Base<LBiObjIntFunctionBuilder<T1, T2, R>, LBiObjIntPredicate<T1, T2>, LBiObjIntFunction<T1, T2, R>, R> {
@@ -54,10 +56,10 @@ public final class LBiObjIntFunctionBuilder<T1, T2, R> extends PerCaseBuilderWit
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiObjIntFunction EVENTUALLY_THROW = LBiObjIntFunction.l((Object t1, Object t2, int i) -> {
+	public static final LBiObjIntFunction EVENTUALLY_THROW = LBiObjIntFunction.l((Object a1, Object a2, int a3) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", t1, t2, i, LBiObjIntFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", a1, a2, a3, LBiObjIntFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LBiObjIntFunctionBuilder<T1, T2, R> extends PerCaseBuilderWit
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2> LBiObjIntFunctionBuilder<T1, T2, R> casesOf(Class<E1> argC1, Class<E2> argC2, Consumer<LBiObjIntFunctionBuilder<E1, E2, R>> pcpConsumer) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, int i) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2, int a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LBiObjIntFunctionBuilder<T1, T2, R> extends PerCaseBuilderWit
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2> LBiObjIntFunctionBuilder<T1, T2, R> aCase(Class<E1> argC1, Class<E2> argC2, LBiObjIntFunction<E1, E2, R> function) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, int i) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2, int a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LBiObjIntFunctionBuilder<T1, T2, R> extends PerCaseBuilderWit
 		LBiObjIntFunction<T1, T2, R> retval;
 
 		final Case<LBiObjIntPredicate<T1, T2>, LBiObjIntFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjIntFunction.<T1, T2, R> l((T1 t1, T2 t2, int i) -> {
+		retval = LBiObjIntFunction.<T1, T2, R> l((T1 a1, T2 a2, int a3) -> {
 			try {
 				for (Case<LBiObjIntPredicate<T1, T2>, LBiObjIntFunction<T1, T2, R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2, i)) {
-						return aCase.caseFunction().doApply(t1, t2, i);
+					if (aCase.casePredicate().doTest(a1, a2, a3)) {
+						return aCase.caseFunction().doApply(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doApply(t1, t2, i);
+				return eventuallyFinal.doApply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

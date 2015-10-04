@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LByteConsumerX. */
 public final class LByteConsumerXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LByteConsumerXBuilder<X>, LBytePredicateX<X>, LByteConsumerX<X>> {
@@ -54,10 +56,10 @@ public final class LByteConsumerXBuilder<X extends Throwable> extends PerCaseBui
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteConsumerX EVENTUALLY_THROW = LByteConsumerX.lX((byte b) -> {
+	public static final LByteConsumerX EVENTUALLY_THROW = LByteConsumerX.lX((byte a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LByteConsumerX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LByteConsumerX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LByteConsumerXBuilder<X extends Throwable> extends PerCaseBui
 		LByteConsumerX<X> retval;
 
 		final Case<LBytePredicateX<X>, LByteConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteConsumerX.<X> lX(b -> {
+		retval = LByteConsumerX.<X> lX(a1 -> {
 			try {
 				for (Case<LBytePredicateX<X>, LByteConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(b)) {
-						aCase.caseFunction().doAccept(b);
+					if (aCase.casePredicate().doTest(a1)) {
+						aCase.caseFunction().doAccept(a1);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(b);
+				eventuallyFinal.doAccept(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

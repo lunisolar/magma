@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LLongConsumer for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 1): long l
+ * Domain (lvl: 1): long a1
  *
  * Co-domain: none
  *
@@ -61,7 +65,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	static final String DESCRIPTION = "LLongConsumer: void doAccept(long l)";
+	String DESCRIPTION = "LLongConsumer: void doAccept(long a1)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -69,20 +73,25 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	 */
 	@Override
 	@Deprecated
-	default void accept(long l) {
-		this.nestingDoAccept(l);
+	default void accept(long a1) {
+		this.nestingDoAccept(a1);
 	}
 
-	void doAccept(long l);
+	void doAccept(long a1);
+
+	default LTuple.Void tupleAccept(LLongSingle args) {
+		doAccept(args.first());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(long l) {
-		this.doAccept(l);
+	default void nestingDoAccept(long a1) {
+		this.doAccept(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(long l) {
-		this.doAccept(l);
+	default void shovingDoAccept(long a1) {
+		this.doAccept(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,8 +101,8 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureLongCons(long l) {
-		return () -> this.doAccept(l);
+	default LAction captureLongCons(long a1) {
+		return () -> this.doAccept(a1);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +116,7 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static LLongConsumer wrap(final java.util.function.LongConsumer other) {
+	static LLongConsumer wrap(final LongConsumer other) {
 		return other::accept;
 	}
 
@@ -143,9 +152,9 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LLongConsumer andThen(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
-		return l -> {
-			this.doAccept(l);
-			after.doAccept(l);
+		return a1 -> {
+			this.doAccept(a1);
+			after.doAccept(a1);
 		};
 	}
 

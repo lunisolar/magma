@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LDoubleToShortFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): double d
+ * Domain (lvl: 1): double a1
  *
- * Co-domain: none
+ * Co-domain: short
  *
  * @see LDoubleToShortFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LDoubleToShortFunctionX: short doApplyAsShort(double d) throws X";
+	String DESCRIPTION = "LDoubleToShortFunctionX: short doApplyAsShort(double a1) throws X";
 
-	short doApplyAsShort(double d) throws X;
+	short doApplyAsShort(double a1) throws X;
+
+	default Short tupleApplyAsShort(LDoubleSingle args) throws X {
+		return doApplyAsShort(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default short nestingDoApplyAsShort(double d) {
+	default short nestingDoApplyAsShort(double a1) {
 		try {
-			return this.doApplyAsShort(d);
+			return this.doApplyAsShort(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default short shovingDoApplyAsShort(double d) {
-		return ((LDoubleToShortFunctionX<RuntimeException>) this).doApplyAsShort(d);
+	default short shovingDoApplyAsShort(double a1) {
+		return ((LDoubleToShortFunctionX<RuntimeException>) this).doApplyAsShort(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> short handlingDoApplyAsShort(double d, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> short handlingDoApplyAsShort(double a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsShort(d);
+			return this.doApplyAsShort(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsShort(double d) throws X {
-		return doApplyAsShort(d);
+	default short nonNullDoApplyAsShort(double a1) throws X {
+		return doApplyAsShort(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> captureDoubleToShortFunc(double d) {
-		return () -> this.doApplyAsShort(d);
+	default LShortSupplierX<X> captureDoubleToShortFunc(double a1) {
+		return () -> this.doApplyAsShort(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LDoubleToShortFunctionX<X> constant(short r) {
-		return d -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 	@Nonnull
 	default <V> LDoubleFunctionX<V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApply(this.doApplyAsShort(d));
+		return a1 -> after.doApply(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunctionX<X> thenToByte(@Nonnull LShortToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsByte(this.doApplyAsShort(d));
+		return a1 -> after.doApplyAsByte(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunctionX<X> thenToShort(@Nonnull LShortUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsShort(this.doApplyAsShort(d));
+		return a1 -> after.doApplyAsShort(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunctionX<X> thenToInt(@Nonnull LShortToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsInt(this.doApplyAsShort(d));
+		return a1 -> after.doApplyAsInt(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunctionX<X> thenToLong(@Nonnull LShortToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsLong(this.doApplyAsShort(d));
+		return a1 -> after.doApplyAsLong(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunctionX<X> thenToFloat(@Nonnull LShortToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsFloat(this.doApplyAsShort(d));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperatorX<X> thenToDouble(@Nonnull LShortToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsDouble(this.doApplyAsShort(d));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunctionX<X> thenToChar(@Nonnull LShortToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsChar(this.doApplyAsShort(d));
+		return a1 -> after.doApplyAsChar(this.doApplyAsShort(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoublePredicateX<X> thenToBoolean(@Nonnull LShortPredicateX<X> after) {
+	default LDoublePredicateX<X> thenToBool(@Nonnull LShortPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doTest(this.doApplyAsShort(d));
+		return a1 -> after.doTest(this.doApplyAsShort(a1));
 	}
 
 	// </editor-fold>
@@ -250,13 +258,13 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LDoubleToShortFunction handleDoubleToShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return d -> this.handlingDoApplyAsShort(d, handling);
+		return a1 -> this.handlingDoApplyAsShort(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LDoubleToShortFunctionX<Y> handleDoubleToShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return d -> this.handlingDoApplyAsShort(d, handling);
+		return a1 -> this.handlingDoApplyAsShort(a1, handling);
 	}
 
 	// </editor-fold>

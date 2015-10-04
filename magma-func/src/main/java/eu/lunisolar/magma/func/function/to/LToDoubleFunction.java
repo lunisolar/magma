@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LToDoubleFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): T t
+ * Domain (lvl: 1): T a1
  *
- * Co-domain: none
+ * Co-domain: double
  *
  * @see LToDoubleFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LToDoubleFunction: double doApplyAsDouble(T t)";
+	String DESCRIPTION = "LToDoubleFunction: double doApplyAsDouble(T a1)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,25 +72,29 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 	 */
 	@Override
 	@Deprecated
-	default double applyAsDouble(T t) {
-		return this.nestingDoApplyAsDouble(t);
+	default double applyAsDouble(T a1) {
+		return this.nestingDoApplyAsDouble(a1);
 	}
 
-	double doApplyAsDouble(T t);
+	double doApplyAsDouble(T a1);
+
+	default Double tupleApplyAsDouble(LSingle<T> args) {
+		return doApplyAsDouble(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default double nestingDoApplyAsDouble(T t) {
-		return this.doApplyAsDouble(t);
+	default double nestingDoApplyAsDouble(T a1) {
+		return this.doApplyAsDouble(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(T t) {
-		return this.doApplyAsDouble(t);
+	default double shovingDoApplyAsDouble(T a1) {
+		return this.doApplyAsDouble(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(T t) {
-		return doApplyAsDouble(t);
+	default double nonNullDoApplyAsDouble(T a1) {
+		return doApplyAsDouble(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -96,13 +104,13 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureToDoubleFunc(T t) {
-		return () -> this.doApplyAsDouble(t);
+	default LDoubleSupplier captureToDoubleFunc(T a1) {
+		return () -> this.doApplyAsDouble(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T> LToDoubleFunction<T> constant(double r) {
-		return t -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -116,7 +124,7 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T> LToDoubleFunction<T> wrap(final java.util.function.ToDoubleFunction<T> other) {
+	static <T> LToDoubleFunction<T> wrap(final ToDoubleFunction<T> other) {
 		return other::applyAsDouble;
 	}
 
@@ -145,63 +153,63 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApply(this.doApplyAsDouble(t));
+		return a1 -> after.doApply(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LDoubleToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsByte(this.doApplyAsDouble(t));
+		return a1 -> after.doApplyAsByte(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LDoubleToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsShort(this.doApplyAsDouble(t));
+		return a1 -> after.doApplyAsShort(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LDoubleToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsInt(this.doApplyAsDouble(t));
+		return a1 -> after.doApplyAsInt(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LDoubleToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsLong(this.doApplyAsDouble(t));
+		return a1 -> after.doApplyAsLong(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LDoubleToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsFloat(this.doApplyAsDouble(t));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LDoubleUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsDouble(this.doApplyAsDouble(t));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LDoubleToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsChar(this.doApplyAsDouble(t));
+		return a1 -> after.doApplyAsChar(this.doApplyAsDouble(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LPredicate<T> thenToBoolean(@Nonnull LDoublePredicate after) {
+	default LPredicate<T> thenToBool(@Nonnull LDoublePredicate after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doTest(this.doApplyAsDouble(t));
+		return a1 -> after.doTest(this.doApplyAsDouble(a1));
 	}
 
 	// </editor-fold>

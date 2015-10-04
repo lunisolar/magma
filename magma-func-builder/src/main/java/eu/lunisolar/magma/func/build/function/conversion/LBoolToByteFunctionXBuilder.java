@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolToByteFunctionX. */
 public final class LBoolToByteFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithByteProduct.Base<LBoolToByteFunctionXBuilder<X>, LLogicalOperatorX<X>, LBoolToByteFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LBoolToByteFunctionXBuilder<X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToByteFunctionX EVENTUALLY_THROW = LBoolToByteFunctionX.lX((boolean b) -> {
+	public static final LBoolToByteFunctionX EVENTUALLY_THROW = LBoolToByteFunctionX.lX((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolToByteFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolToByteFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolToByteFunctionXBuilder<X extends Throwable> extends PerC
 		LBoolToByteFunctionX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToByteFunctionX.<X> lX(b -> {
+		retval = LBoolToByteFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApplyAsByte(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(b);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

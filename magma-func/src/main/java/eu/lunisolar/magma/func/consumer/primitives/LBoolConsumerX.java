@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBoolConsumerX for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 1): boolean b
+ * Domain (lvl: 1): boolean a1
  *
  * Co-domain: none
  *
@@ -61,14 +65,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LBoolConsumerX: void doAccept(boolean b) throws X";
+	String DESCRIPTION = "LBoolConsumerX: void doAccept(boolean a1) throws X";
 
-	void doAccept(boolean b) throws X;
+	void doAccept(boolean a1) throws X;
+
+	default LTuple.Void tupleAccept(LBoolSingle args) throws X {
+		doAccept(args.first());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(boolean b) {
+	default void nestingDoAccept(boolean a1) {
 		try {
-			this.doAccept(b);
+			this.doAccept(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,15 +86,15 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(boolean b) {
-		((LBoolConsumerX<RuntimeException>) this).doAccept(b);
+	default void shovingDoAccept(boolean a1) {
+		((LBoolConsumerX<RuntimeException>) this).doAccept(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(boolean a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(b);
+			this.doAccept(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -98,8 +107,8 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureBoolCons(boolean b) {
-		return () -> this.doAccept(b);
+	default LActionX<X> captureBoolCons(boolean a1) {
+		return () -> this.doAccept(a1);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -150,9 +159,9 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default LBoolConsumerX<X> andThen(@Nonnull LBoolConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return b -> {
-			this.doAccept(b);
-			after.doAccept(b);
+		return a1 -> {
+			this.doAccept(a1);
+			after.doAccept(a1);
 		};
 	}
 
@@ -187,13 +196,13 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBoolConsumer handleBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return b -> this.handlingDoAccept(b, handling);
+		return a1 -> this.handlingDoAccept(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBoolConsumerX<Y> handleBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return b -> this.handlingDoAccept(b, handling);
+		return a1 -> this.handlingDoAccept(a1, handling);
 	}
 
 	// </editor-fold>

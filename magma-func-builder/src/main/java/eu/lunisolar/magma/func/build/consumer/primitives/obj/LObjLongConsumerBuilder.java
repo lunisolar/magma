@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LObjLongConsumer. */
 public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLongConsumerBuilder<T>, LObjLongPredicate<T>, LObjLongConsumer<T>> {
@@ -54,10 +56,10 @@ public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLo
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjLongConsumer EVENTUALLY_THROW = LObjLongConsumer.l((Object t, long l) -> {
+	public static final LObjLongConsumer EVENTUALLY_THROW = LObjLongConsumer.l((Object a1, long a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t, l, LObjLongConsumer.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LObjLongConsumer.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLo
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LObjLongConsumerBuilder<T> casesOf(Class<E1> argC1, Consumer<LObjLongConsumerBuilder<E1>> pcpConsumer) {
-		PartialCase.The pc = partialCaseFactoryMethod((T t, long l) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCase.The pc = partialCaseFactoryMethod((T a1, long a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLo
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LObjLongConsumerBuilder<T> aCase(Class<E1> argC1, LObjLongConsumer<E1> function) {
-		PartialCase.The pc = partialCaseFactoryMethod((T t, long l) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCase.The pc = partialCaseFactoryMethod((T a1, long a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,16 +128,16 @@ public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLo
 		LObjLongConsumer<T> retval;
 
 		final Case<LObjLongPredicate<T>, LObjLongConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjLongConsumer.<T> l((T t, long l) -> {
+		retval = LObjLongConsumer.<T> l((T a1, long a2) -> {
 			try {
 				for (Case<LObjLongPredicate<T>, LObjLongConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t, l)) {
-						aCase.caseFunction().doAccept(t, l);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						aCase.caseFunction().doAccept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(t, l);
+				eventuallyFinal.doAccept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

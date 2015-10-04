@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,26 +64,26 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     private LIntPredicateX<X> sut = new LIntPredicateX(){
-        public  boolean doTest(int i) throws ParseException {
+        public  boolean doTest(int a1) throws ParseException {
             return testValue;
         }
     };
 
     private LIntPredicate opposite = new LIntPredicate(){
-        public  boolean doTest(int i)  {
+        public  boolean doTest(int a1)  {
             return testValue;
         }
     };
 
 
-    private java.util.function.IntPredicate jre = i -> testValue;
+    private IntPredicate jre = a1 -> testValue;
 
 
-    private LIntPredicateX<ParseException> sutAlwaysThrowing = LIntPredicateX.lX(i -> {
+    private LIntPredicateX<ParseException> sutAlwaysThrowing = LIntPredicateX.lX(a1 -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LIntPredicateX<RuntimeException> sutAlwaysThrowingUnckeck = LIntPredicateX.lX(i -> {
+    private LIntPredicateX<RuntimeException> sutAlwaysThrowingUnckeck = LIntPredicateX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -88,6 +91,19 @@ public class LIntPredicateXTest<X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doTest((int)100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LIntSingle,Boolean,X> theCall = sut;
+
+        LIntSingle domainObject = Tuple4U.tuple((int)100);
+
+        Object result = sut.tupleTest(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -168,12 +184,12 @@ public class LIntPredicateXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntPredicateX: boolean doTest(int i) throws X");
+            .isEqualTo("LIntPredicateX: boolean doTest(int a1) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LIntPredicateX.lX(i -> testValue ))
+        assertThat(LIntPredicateX.lX(a1 -> testValue ))
             .isInstanceOf(LIntPredicateX.class);
     }
 
@@ -194,7 +210,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(i -> {
+        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -218,7 +234,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(i -> {
+        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -242,7 +258,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(i -> {
+        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -267,7 +283,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(i -> {
+        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(a1 -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -307,8 +323,8 @@ public class LIntPredicateXTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LIntPredicateX<X> fun1 = LIntPredicateX.lX(i -> f1Result);
-        LIntPredicateX<X> fun2 = LIntPredicateX.lX(i -> f2Result);
+        LIntPredicateX<X> fun1 = LIntPredicateX.lX(a1 -> f1Result);
+        LIntPredicateX<X> fun2 = LIntPredicateX.lX(a1 -> f2Result);
 
         //when
         LIntPredicateX<X> andFunction = fun1.and(fun2);
@@ -350,9 +366,9 @@ public class LIntPredicateXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)90);
+                assertThat(a1).isEqualTo((int)90);
                 return true;
         };
 
@@ -379,9 +395,9 @@ public class LIntPredicateXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)90);
+                assertThat(a1).isEqualTo((int)90);
                 return true;
         };
 
@@ -413,9 +429,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -448,9 +464,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -483,9 +499,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -518,9 +534,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -553,9 +569,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -588,9 +604,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -623,9 +639,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -658,9 +674,9 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -686,16 +702,16 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBoolean() throws X  {
+    public void testThen8ToBool() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
 
         //given (+ some assertions)
-        LIntPredicateX<X> sutO = i -> {
+        LIntPredicateX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(i).isEqualTo((int)80);
+                assertThat(a1).isEqualTo((int)80);
                 return true;
         };
 
@@ -750,7 +766,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(i -> {
+        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -762,7 +778,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     public void testHandleIntPred() throws X {
 
         // given
-        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(i -> {
+        LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -792,7 +808,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntPredicateX: boolean doTest(int i) throws X");
+                .contains("LIntPredicateX: boolean doTest(int a1) throws X");
     }
 
 

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntToShortFunctionX. */
 public final class LIntToShortFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithShortProduct.Base<LIntToShortFunctionXBuilder<X>, LIntPredicateX<X>, LIntToShortFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LIntToShortFunctionXBuilder<X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToShortFunctionX EVENTUALLY_THROW = LIntToShortFunctionX.lX((int i) -> {
+	public static final LIntToShortFunctionX EVENTUALLY_THROW = LIntToShortFunctionX.lX((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntToShortFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntToShortFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntToShortFunctionXBuilder<X extends Throwable> extends PerC
 		LIntToShortFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToShortFunctionX.<X> lX(i -> {
+		retval = LIntToShortFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().doApplyAsShort(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsShort(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(i);
+				return eventuallyFinal.doApplyAsShort(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

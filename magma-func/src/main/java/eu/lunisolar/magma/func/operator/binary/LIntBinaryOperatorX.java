@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LIntBinaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): int i1,int i2
+ * Domain (lvl: 2): int a1,int a2
  *
- * Co-domain: none
+ * Co-domain: int
  *
  * @see LIntBinaryOperator
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.function.IntBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LIntBinaryOperatorX<X extends Throwable> extends IntBinaryOperator, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LIntBinaryOperatorX: int doApplyAsInt(int i1,int i2) throws X";
+	String DESCRIPTION = "LIntBinaryOperatorX: int doApplyAsInt(int a1,int a2) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,16 +72,20 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 	 */
 	@Override
 	@Deprecated
-	default int applyAsInt(int i1, int i2) {
-		return this.nestingDoApplyAsInt(i1, i2);
+	default int applyAsInt(int a1, int a2) {
+		return this.nestingDoApplyAsInt(a1, a2);
 	}
 
-	int doApplyAsInt(int i1, int i2) throws X;
+	int doApplyAsInt(int a1, int a2) throws X;
+
+	default Integer tupleApplyAsInt(LIntPair args) throws X {
+		return doApplyAsInt(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default int nestingDoApplyAsInt(int i1, int i2) {
+	default int nestingDoApplyAsInt(int a1, int a2) {
 		try {
-			return this.doApplyAsInt(i1, i2);
+			return this.doApplyAsInt(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -86,23 +94,23 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(int i1, int i2) {
-		return ((LIntBinaryOperatorX<RuntimeException>) this).doApplyAsInt(i1, i2);
+	default int shovingDoApplyAsInt(int a1, int a2) {
+		return ((LIntBinaryOperatorX<RuntimeException>) this).doApplyAsInt(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> int handlingDoApplyAsInt(int i1, int i2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> int handlingDoApplyAsInt(int a1, int a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsInt(i1, i2);
+			return this.doApplyAsInt(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(int i1, int i2) throws X {
-		return doApplyAsInt(i1, i2);
+	default int nonNullDoApplyAsInt(int a1, int a2) throws X {
+		return doApplyAsInt(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -112,25 +120,25 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureIntBinaryOp(int i1, int i2) {
-		return () -> this.doApplyAsInt(i1, i2);
+	default LIntSupplierX<X> captureIntBinaryOp(int a1, int a2) {
+		return () -> this.doApplyAsInt(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntBinaryOperatorX<X> constant(int r) {
-		return (i1, i2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LIntBinaryOperatorX<X> apply1stAsInt(@Nonnull LIntUnaryOperatorX<X> func) {
-		return (i1, i2) -> func.doApplyAsInt(i1);
+		return (a1, a2) -> func.doApplyAsInt(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LIntBinaryOperatorX<X> apply2ndAsInt(@Nonnull LIntUnaryOperatorX<X> func) {
-		return (i1, i2) -> func.doApplyAsInt(i2);
+		return (a1, a2) -> func.doApplyAsInt(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -151,7 +159,7 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <X extends Throwable> LIntBinaryOperatorX<X> wrap(final java.util.function.IntBinaryOperator other) {
+	static <X extends Throwable> LIntBinaryOperatorX<X> wrap(final IntBinaryOperator other) {
 		return other::applyAsInt;
 	}
 
@@ -227,7 +235,7 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 	@Nonnull
 	default <V> LBiIntFunctionX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (int i1, int i2) -> after.doApply(this.doApplyAsInt(i1, i2));
+		return (int a1, int a2) -> after.doApply(this.doApplyAsInt(a1, a2));
 	}
 
 	// </editor-fold>
@@ -262,13 +270,13 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LIntBinaryOperator handleIntBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (int i1, int i2) -> this.handlingDoApplyAsInt(i1, i2, handling);
+		return (int a1, int a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LIntBinaryOperatorX<Y> handleIntBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (int i1, int i2) -> this.handlingDoApplyAsInt(i1, i2, handling);
+		return (int a1, int a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBytePredicate. */
 public final class LBytePredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<LBytePredicateBuilder, LBytePredicate, LBytePredicate> {
@@ -54,10 +56,10 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBooleanProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBytePredicate EVENTUALLY_THROW = LBytePredicate.l((byte b) -> {
+	public static final LBytePredicate EVENTUALLY_THROW = LBytePredicate.l((byte a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBytePredicate.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBytePredicate.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBooleanProduc
 		LBytePredicate retval;
 
 		final Case<LBytePredicate, LBytePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBytePredicate.l(b -> {
+		retval = LBytePredicate.l(a1 -> {
 			try {
 				for (Case<LBytePredicate, LBytePredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(b)) {
-						return aCase.caseFunction().doTest(b);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doTest(a1);
 					}
 				}
 
-				return eventuallyFinal.doTest(b);
+				return eventuallyFinal.doTest(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

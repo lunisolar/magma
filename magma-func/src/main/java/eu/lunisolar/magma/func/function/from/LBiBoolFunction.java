@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiBoolFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): boolean b1,boolean b2
+ * Domain (lvl: 2): boolean a1,boolean a2
  *
  * Co-domain: R
  *
@@ -60,27 +64,31 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiBoolFunction<R> extends LBiBoolFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiBoolFunction: R doApply(boolean b1,boolean b2)";
+	String DESCRIPTION = "LBiBoolFunction: R doApply(boolean a1,boolean a2)";
 
 	@Nullable
-	R doApply(boolean b1, boolean b2);
+	R doApply(boolean a1, boolean a2);
+
+	default R tupleApply(LBoolPair args) {
+		return doApply(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(boolean b1, boolean b2) {
-		return this.doApply(b1, b2);
+	default R nestingDoApply(boolean a1, boolean a2) {
+		return this.doApply(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(boolean b1, boolean b2) {
-		return this.doApply(b1, b2);
+	default R shovingDoApply(boolean a1, boolean a2) {
+		return this.doApply(a1, a2);
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(boolean b1, boolean b2) {
-		return Null.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(boolean a1, boolean a2) {
+		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,25 +98,25 @@ public interface LBiBoolFunction<R> extends LBiBoolFunctionX<R, RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureBiBoolFunc(boolean b1, boolean b2) {
-		return () -> this.doApply(b1, b2);
+	default LSupplier<R> captureBiBoolFunc(boolean a1, boolean a2) {
+		return () -> this.doApply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <R> LBiBoolFunction<R> constant(R r) {
-		return (b1, b2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <R> LBiBoolFunction<R> apply1st(@Nonnull LBoolFunction<R> func) {
-		return (b1, b2) -> func.doApply(b1);
+		return (a1, a2) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <R> LBiBoolFunction<R> apply2nd(@Nonnull LBoolFunction<R> func) {
-		return (b1, b2) -> func.doApply(b2);
+		return (a1, a2) -> func.doApply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -154,14 +162,14 @@ public interface LBiBoolFunction<R> extends LBiBoolFunctionX<R, RuntimeException
 	@Nonnull
 	default <V> LBiBoolFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b1, boolean b2) -> after.doApply(this.doApply(b1, b2));
+		return (boolean a1, boolean a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiBoolConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b1, boolean b2) -> after.doAccept(this.doApply(b1, b2));
+		return (boolean a1, boolean a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

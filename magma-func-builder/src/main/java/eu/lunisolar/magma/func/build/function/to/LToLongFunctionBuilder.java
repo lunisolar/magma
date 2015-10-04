@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LToLongFunction. */
 public final class LToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduct.Base<LToLongFunctionBuilder<T>, LPredicate<T>, LToLongFunction<T>> {
@@ -54,10 +56,10 @@ public final class LToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToLongFunction EVENTUALLY_THROW = LToLongFunction.l((Object t) -> {
+	public static final LToLongFunction EVENTUALLY_THROW = LToLongFunction.l((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, LToLongFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LToLongFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProdu
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LToLongFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<LToLongFunctionBuilder<E1>> pcpConsumer) {
-		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProdu
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LToLongFunctionBuilder<T> aCase(Class<E1> argC1, LToLongFunction<E1> function) {
-		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProdu
 		LToLongFunction<T> retval;
 
 		final Case<LPredicate<T>, LToLongFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToLongFunction.<T> l(t -> {
+		retval = LToLongFunction.<T> l(a1 -> {
 			try {
 				for (Case<LPredicate<T>, LToLongFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().doApplyAsLong(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsLong(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(t);
+				return eventuallyFinal.doApplyAsLong(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

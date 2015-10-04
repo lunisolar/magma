@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LToLongBiFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): T1 t1,T2 t2
+ * Domain (lvl: 2): T1 a1,T2 a2
  *
- * Co-domain: none
+ * Co-domain: long
  *
  * @see LToLongBiFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.util.function.ToLongBiFunction<T1, T2>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends ToLongBiFunction<T1, T2>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LToLongBiFunctionX: long doApplyAsLong(T1 t1,T2 t2) throws X";
+	String DESCRIPTION = "LToLongBiFunctionX: long doApplyAsLong(T1 a1,T2 a2) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,16 +72,20 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 	 */
 	@Override
 	@Deprecated
-	default long applyAsLong(T1 t1, T2 t2) {
-		return this.nestingDoApplyAsLong(t1, t2);
+	default long applyAsLong(T1 a1, T2 a2) {
+		return this.nestingDoApplyAsLong(a1, a2);
 	}
 
-	long doApplyAsLong(T1 t1, T2 t2) throws X;
+	long doApplyAsLong(T1 a1, T2 a2) throws X;
+
+	default Long tupleApplyAsLong(LPair<T1, T2> args) throws X {
+		return doApplyAsLong(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default long nestingDoApplyAsLong(T1 t1, T2 t2) {
+	default long nestingDoApplyAsLong(T1 a1, T2 a2) {
 		try {
-			return this.doApplyAsLong(t1, t2);
+			return this.doApplyAsLong(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -86,23 +94,23 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(T1 t1, T2 t2) {
-		return ((LToLongBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsLong(t1, t2);
+	default long shovingDoApplyAsLong(T1 a1, T2 a2) {
+		return ((LToLongBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsLong(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> long handlingDoApplyAsLong(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> long handlingDoApplyAsLong(T1 a1, T2 a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsLong(t1, t2);
+			return this.doApplyAsLong(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(T1 t1, T2 t2) throws X {
-		return doApplyAsLong(t1, t2);
+	default long nonNullDoApplyAsLong(T1 a1, T2 a2) throws X {
+		return doApplyAsLong(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -112,25 +120,25 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> captureToLongBiFunc(T1 t1, T2 t2) {
-		return () -> this.doApplyAsLong(t1, t2);
+	default LLongSupplierX<X> captureToLongBiFunc(T1 a1, T2 a2) {
+		return () -> this.doApplyAsLong(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> constant(long r) {
-		return (t1, t2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> apply1stAsLong(@Nonnull LToLongFunctionX<T1, X> func) {
-		return (t1, t2) -> func.doApplyAsLong(t1);
+		return (a1, a2) -> func.doApplyAsLong(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> apply2ndAsLong(@Nonnull LToLongFunctionX<T2, X> func) {
-		return (t1, t2) -> func.doApplyAsLong(t2);
+		return (a1, a2) -> func.doApplyAsLong(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -151,7 +159,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> wrap(final java.util.function.ToLongBiFunction<T1, T2> other) {
+	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> wrap(final ToLongBiFunction<T1, T2> other) {
 		return other::applyAsLong;
 	}
 
@@ -181,7 +189,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsLong(t1, t2));
+		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsLong(a1, a2));
 	}
 
 	// </editor-fold>
@@ -216,13 +224,13 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToLongBiFunction<T1, T2> handleToLongBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 t1, T2 t2) -> this.handlingDoApplyAsLong(t1, t2, handling);
+		return (T1 a1, T2 a2) -> this.handlingDoApplyAsLong(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToLongBiFunctionX<T1, T2, Y> handleToLongBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 t1, T2 t2) -> this.handlingDoApplyAsLong(t1, t2, handling);
+		return (T1 a1, T2 a2) -> this.handlingDoApplyAsLong(a1, a2, handling);
 	}
 
 	// </editor-fold>

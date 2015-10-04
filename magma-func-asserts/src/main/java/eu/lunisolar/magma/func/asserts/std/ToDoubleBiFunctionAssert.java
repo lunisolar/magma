@@ -28,23 +28,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for java.util.function.ToDoubleBiFunction. */
+/** Assert class for java.util.function.ToDoubleBiFunction. */
 public interface ToDoubleBiFunctionAssert<S extends ToDoubleBiFunctionAssert<S, A, RS, T1, T2>, A extends java.util.function.ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T1 t1, T2 t2);
+	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends java.util.function.ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
@@ -67,13 +67,13 @@ public interface ToDoubleBiFunctionAssert<S extends ToDoubleBiFunctionAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T1 t1, T2 t2) {
+		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T1 a1, T2 a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Double) actual.applyAsDouble(t1, t2));
+				return assertFactory.apply((Double) actual.applyAsDouble(a1, a2));
 			});
 
 		}

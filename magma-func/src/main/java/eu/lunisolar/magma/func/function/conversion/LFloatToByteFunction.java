@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LFloatToByteFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): float f
+ * Domain (lvl: 1): float a1
  *
- * Co-domain: none
+ * Co-domain: byte
  *
  * @see LFloatToByteFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LFloatToByteFunction: byte doApplyAsByte(float f)";
+	String DESCRIPTION = "LFloatToByteFunction: byte doApplyAsByte(float a1)";
 
-	byte doApplyAsByte(float f);
+	byte doApplyAsByte(float a1);
+
+	default Byte tupleApplyAsByte(LFloatSingle args) {
+		return doApplyAsByte(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default byte nestingDoApplyAsByte(float f) {
-		return this.doApplyAsByte(f);
+	default byte nestingDoApplyAsByte(float a1) {
+		return this.doApplyAsByte(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default byte shovingDoApplyAsByte(float f) {
-		return this.doApplyAsByte(f);
+	default byte shovingDoApplyAsByte(float a1) {
+		return this.doApplyAsByte(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNullDoApplyAsByte(float f) {
-		return doApplyAsByte(f);
+	default byte nonNullDoApplyAsByte(float a1) {
+		return doApplyAsByte(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,13 +94,13 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureFloatToByteFunc(float f) {
-		return () -> this.doApplyAsByte(f);
+	default LByteSupplier captureFloatToByteFunc(float a1) {
+		return () -> this.doApplyAsByte(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LFloatToByteFunction constant(byte r) {
-		return f -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -136,63 +144,63 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApply(this.doApplyAsByte(f));
+		return a1 -> after.doApply(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsByte(this.doApplyAsByte(f));
+		return a1 -> after.doApplyAsByte(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsShort(this.doApplyAsByte(f));
+		return a1 -> after.doApplyAsShort(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsInt(this.doApplyAsByte(f));
+		return a1 -> after.doApplyAsInt(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsLong(this.doApplyAsByte(f));
+		return a1 -> after.doApplyAsLong(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsFloat(this.doApplyAsByte(f));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsDouble(this.doApplyAsByte(f));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsChar(this.doApplyAsByte(f));
+		return a1 -> after.doApplyAsChar(this.doApplyAsByte(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatPredicate thenToBoolean(@Nonnull LBytePredicate after) {
+	default LFloatPredicate thenToBool(@Nonnull LBytePredicate after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doTest(this.doApplyAsByte(f));
+		return a1 -> after.doTest(this.doApplyAsByte(a1));
 	}
 
 	// </editor-fold>

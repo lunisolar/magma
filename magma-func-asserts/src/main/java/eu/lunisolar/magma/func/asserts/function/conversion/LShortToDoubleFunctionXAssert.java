@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LShortToDoubleFunctionX. */
+/** Assert class for LShortToDoubleFunctionX. */
 public interface LShortToDoubleFunctionXAssert<S extends LShortToDoubleFunctionXAssert<S, A, RS, X>, A extends LShortToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LShortConsumerX<Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, LShortConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(short s);
+	Evaluation<S, LShortConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(short a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LShortToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LShortToDoubleFunctionXAssert<S extends LShortToDoubleFunctionX
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(short s) {
+		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(short a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(s);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Double) actual.doApplyAsDouble(s));
+				return assertFactory.apply((Double) actual.doApplyAsDouble(a1));
 			});
 
 		}

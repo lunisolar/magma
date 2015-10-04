@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.DoubleUnaryOperator. */
 public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleUnaryOperatorBuilder, LDoublePredicate, java.util.function.DoubleUnaryOperator> {
@@ -53,10 +55,10 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.DoubleUnaryOperator EVENTUALLY_THROW = Function4U.doubleUnaryOperator((double d) -> {
+	public static final java.util.function.DoubleUnaryOperator EVENTUALLY_THROW = Function4U.doubleUnaryOperator((double a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", d, "java.util.function.DoubleUnaryOperator: double applyAsDouble(double d)");
+			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.DoubleUnaryOperator: double applyAsDouble(double a1)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 		java.util.function.DoubleUnaryOperator retval;
 
 		final Case<LDoublePredicate, java.util.function.DoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleUnaryOperator(d -> {
+		retval = Function4U.doubleUnaryOperator(a1 -> {
 			try {
 				for (Case<LDoublePredicate, java.util.function.DoubleUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d)) {
-						return aCase.caseFunction().applyAsDouble(d);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().applyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(d);
+				return eventuallyFinal.applyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

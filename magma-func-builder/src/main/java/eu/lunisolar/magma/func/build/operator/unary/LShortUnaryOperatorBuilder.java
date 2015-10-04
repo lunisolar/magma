@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortUnaryOperator. */
 public final class LShortUnaryOperatorBuilder extends PerCaseBuilderWithShortProduct.Base<LShortUnaryOperatorBuilder, LShortPredicate, LShortUnaryOperator> {
@@ -54,10 +56,10 @@ public final class LShortUnaryOperatorBuilder extends PerCaseBuilderWithShortPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortUnaryOperator EVENTUALLY_THROW = LShortUnaryOperator.l((short s) -> {
+	public static final LShortUnaryOperator EVENTUALLY_THROW = LShortUnaryOperator.l((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortUnaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortUnaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortUnaryOperatorBuilder extends PerCaseBuilderWithShortPro
 		LShortUnaryOperator retval;
 
 		final Case<LShortPredicate, LShortUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortUnaryOperator.l(s -> {
+		retval = LShortUnaryOperator.l(a1 -> {
 			try {
 				for (Case<LShortPredicate, LShortUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsShort(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsShort(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(s);
+				return eventuallyFinal.doApplyAsShort(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

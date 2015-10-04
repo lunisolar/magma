@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortBinaryOperatorX. */
 public final class LShortBinaryOperatorXBuilder<X extends Throwable> extends PerCaseBuilderWithShortProduct.Base<LShortBinaryOperatorXBuilder<X>, LBiShortPredicateX<X>, LShortBinaryOperatorX<X>> {
@@ -54,10 +56,10 @@ public final class LShortBinaryOperatorXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortBinaryOperatorX EVENTUALLY_THROW = LShortBinaryOperatorX.lX((short s1, short s2) -> {
+	public static final LShortBinaryOperatorX EVENTUALLY_THROW = LShortBinaryOperatorX.lX((short a1, short a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", s1, s2, LShortBinaryOperatorX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LShortBinaryOperatorX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortBinaryOperatorXBuilder<X extends Throwable> extends Per
 		LShortBinaryOperatorX<X> retval;
 
 		final Case<LBiShortPredicateX<X>, LShortBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortBinaryOperatorX.<X> lX((short s1, short s2) -> {
+		retval = LShortBinaryOperatorX.<X> lX((short a1, short a2) -> {
 			try {
 				for (Case<LBiShortPredicateX<X>, LShortBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s1, s2)) {
-						return aCase.caseFunction().doApplyAsShort(s1, s2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApplyAsShort(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(s1, s2);
+				return eventuallyFinal.doApplyAsShort(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.primitives.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBoolConsumerX. */
+/** Assert class for LBoolConsumerX. */
 public interface LBoolConsumerXAssert<S extends LBoolConsumerXAssert<S, A, X>, A extends LBoolConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LBoolConsumerX<Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LBoolConsumerX<Exception>, A, Exception> doesAccept(boolean b);
+	SemiEvaluation<S, LBoolConsumerX<Exception>, A, Exception> doesAccept(boolean a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBoolConsumerX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
@@ -60,13 +60,13 @@ public interface LBoolConsumerXAssert<S extends LBoolConsumerXAssert<S, A, X>, A
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LBoolConsumerX<Exception>, A, Exception> doesAccept(boolean b) {
+		public SemiEvaluation<S, LBoolConsumerX<Exception>, A, Exception> doesAccept(boolean a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b);
+					pc.doAccept(a1);
 				}
-				actual.doAccept(b);
+				actual.doAccept(a1);
 				return null;
 			});
 

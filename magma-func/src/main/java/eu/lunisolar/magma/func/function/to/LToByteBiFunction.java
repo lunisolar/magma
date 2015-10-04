@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LToByteBiFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): T1 t1,T2 t2
+ * Domain (lvl: 2): T1 a1,T2 a2
  *
- * Co-domain: none
+ * Co-domain: byte
  *
  * @see LToByteBiFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LToByteBiFunction: byte doApplyAsByte(T1 t1,T2 t2)";
+	String DESCRIPTION = "LToByteBiFunction: byte doApplyAsByte(T1 a1,T2 a2)";
 
-	byte doApplyAsByte(T1 t1, T2 t2);
+	byte doApplyAsByte(T1 a1, T2 a2);
+
+	default Byte tupleApplyAsByte(LPair<T1, T2> args) {
+		return doApplyAsByte(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default byte nestingDoApplyAsByte(T1 t1, T2 t2) {
-		return this.doApplyAsByte(t1, t2);
+	default byte nestingDoApplyAsByte(T1 a1, T2 a2) {
+		return this.doApplyAsByte(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default byte shovingDoApplyAsByte(T1 t1, T2 t2) {
-		return this.doApplyAsByte(t1, t2);
+	default byte shovingDoApplyAsByte(T1 a1, T2 a2) {
+		return this.doApplyAsByte(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNullDoApplyAsByte(T1 t1, T2 t2) {
-		return doApplyAsByte(t1, t2);
+	default byte nonNullDoApplyAsByte(T1 a1, T2 a2) {
+		return doApplyAsByte(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,25 +94,25 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureToByteBiFunc(T1 t1, T2 t2) {
-		return () -> this.doApplyAsByte(t1, t2);
+	default LByteSupplier captureToByteBiFunc(T1 a1, T2 a2) {
+		return () -> this.doApplyAsByte(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToByteBiFunction<T1, T2> constant(byte r) {
-		return (t1, t2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToByteBiFunction<T1, T2> apply1stAsByte(@Nonnull LToByteFunction<T1> func) {
-		return (t1, t2) -> func.doApplyAsByte(t1);
+		return (a1, a2) -> func.doApplyAsByte(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToByteBiFunction<T1, T2> apply2ndAsByte(@Nonnull LToByteFunction<T2> func) {
-		return (t1, t2) -> func.doApplyAsByte(t2);
+		return (a1, a2) -> func.doApplyAsByte(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -142,7 +150,7 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LByteFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsByte(t1, t2));
+		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsByte(a1, a2));
 	}
 
 	// </editor-fold>

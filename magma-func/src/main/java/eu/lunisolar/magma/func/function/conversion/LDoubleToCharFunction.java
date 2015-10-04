@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LDoubleToCharFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): double d
+ * Domain (lvl: 1): double a1
  *
- * Co-domain: none
+ * Co-domain: char
  *
  * @see LDoubleToCharFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LDoubleToCharFunction: char doApplyAsChar(double d)";
+	String DESCRIPTION = "LDoubleToCharFunction: char doApplyAsChar(double a1)";
 
-	char doApplyAsChar(double d);
+	char doApplyAsChar(double a1);
+
+	default Character tupleApplyAsChar(LDoubleSingle args) {
+		return doApplyAsChar(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default char nestingDoApplyAsChar(double d) {
-		return this.doApplyAsChar(d);
+	default char nestingDoApplyAsChar(double a1) {
+		return this.doApplyAsChar(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(double d) {
-		return this.doApplyAsChar(d);
+	default char shovingDoApplyAsChar(double a1) {
+		return this.doApplyAsChar(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(double d) {
-		return doApplyAsChar(d);
+	default char nonNullDoApplyAsChar(double a1) {
+		return doApplyAsChar(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,13 +94,13 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureDoubleToCharFunc(double d) {
-		return () -> this.doApplyAsChar(d);
+	default LCharSupplier captureDoubleToCharFunc(double a1) {
+		return () -> this.doApplyAsChar(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LDoubleToCharFunction constant(char r) {
-		return d -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -136,63 +144,63 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApply(this.doApplyAsChar(d));
+		return a1 -> after.doApply(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LCharToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsByte(this.doApplyAsChar(d));
+		return a1 -> after.doApplyAsByte(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LCharToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsShort(this.doApplyAsChar(d));
+		return a1 -> after.doApplyAsShort(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LCharToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsInt(this.doApplyAsChar(d));
+		return a1 -> after.doApplyAsInt(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LCharToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsLong(this.doApplyAsChar(d));
+		return a1 -> after.doApplyAsLong(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LCharToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsFloat(this.doApplyAsChar(d));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LCharToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsDouble(this.doApplyAsChar(d));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LCharUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsChar(this.doApplyAsChar(d));
+		return a1 -> after.doApplyAsChar(this.doApplyAsChar(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoublePredicate thenToBoolean(@Nonnull LCharPredicate after) {
+	default LDoublePredicate thenToBool(@Nonnull LCharPredicate after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doTest(this.doApplyAsChar(d));
+		return a1 -> after.doTest(this.doApplyAsChar(a1));
 	}
 
 	// </editor-fold>

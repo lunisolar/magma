@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LObjByteConsumerX for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 2): T t, byte b
+ * Domain (lvl: 2): T a1,byte a2
  *
  * Co-domain: none
  *
@@ -61,14 +65,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LObjByteConsumerX: void doAccept(T t, byte b) throws X";
+	String DESCRIPTION = "LObjByteConsumerX: void doAccept(T a1,byte a2) throws X";
 
-	void doAccept(T t, byte b) throws X;
+	void doAccept(T a1, byte a2) throws X;
+
+	default LTuple.Void tupleAccept(LObjBytePair<T> args) throws X {
+		doAccept(args.first(), args.second());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(T t, byte b) {
+	default void nestingDoAccept(T a1, byte a2) {
 		try {
-			this.doAccept(t, b);
+			this.doAccept(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,15 +86,15 @@ public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T t, byte b) {
-		((LObjByteConsumerX<T, RuntimeException>) this).doAccept(t, b);
+	default void shovingDoAccept(T a1, byte a2) {
+		((LObjByteConsumerX<T, RuntimeException>) this).doAccept(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(T t, byte b, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(T a1, byte a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(t, b);
+			this.doAccept(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -98,20 +107,20 @@ public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureObjByteCons(T t, byte b) {
-		return () -> this.doAccept(t, b);
+	default LActionX<X> captureObjByteCons(T a1, byte a2) {
+		return () -> this.doAccept(a1, a2);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LObjByteConsumerX<T, X> accept1st(@Nonnull LConsumerX<T, X> func) {
-		return (t, b) -> func.doAccept(t);
+		return (a1, a2) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LObjByteConsumerX<T, X> accept2nd(@Nonnull LByteConsumerX<X> func) {
-		return (t, b) -> func.doAccept(b);
+		return (a1, a2) -> func.doAccept(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -164,9 +173,9 @@ public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer,
 	@Nonnull
 	default LObjByteConsumerX<T, X> andThen(@Nonnull LObjByteConsumerX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, byte b) -> {
-			this.doAccept(t, b);
-			after.doAccept(t, b);
+		return (T a1, byte a2) -> {
+			this.doAccept(a1, a2);
+			after.doAccept(a1, a2);
 		};
 	}
 
@@ -201,13 +210,13 @@ public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjByteConsumer<T> handleObjByteCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t, byte b) -> this.handlingDoAccept(t, b, handling);
+		return (T a1, byte a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjByteConsumerX<T, Y> handleObjByteConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t, byte b) -> this.handlingDoAccept(t, b, handling);
+		return (T a1, byte a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

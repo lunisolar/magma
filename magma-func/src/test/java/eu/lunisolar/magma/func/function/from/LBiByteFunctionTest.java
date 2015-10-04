@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,19 +64,19 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
 
     private LBiByteFunction<R> sut = new LBiByteFunction(){
-        public @Nullable Object  doApply(byte b1,byte b2)  {
+        public @Nullable Object  doApply(byte a1,byte a2)  {
             return testValue;
         }
     };
 
     private LBiByteFunctionX<R,X> opposite = new LBiByteFunctionX(){
-        public @Nullable Object  doApply(byte b1,byte b2) throws ParseException {
+        public @Nullable Object  doApply(byte a1,byte a2) throws ParseException {
             return testValue;
         }
     };
 
     private LBiByteFunction<R> sutNull = new LBiByteFunction(){
-        public @Nullable Object  doApply(byte b1,byte b2)  {
+        public @Nullable Object  doApply(byte a1,byte a2)  {
             return null;
         }
     };
@@ -81,7 +84,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
 
 
-    private LBiByteFunction<R> sutAlwaysThrowingUnckeck = LBiByteFunction.l((byte b1,byte b2) -> {
+    private LBiByteFunction<R> sutAlwaysThrowingUnckeck = LBiByteFunction.l((byte a1,byte a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -89,6 +92,19 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApply((byte)100,(byte)100))
+            .isSameAs(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LBytePair,R,RuntimeException> theCall = sut;
+
+        LBytePair domainObject = Tuple4U.tuple((byte)100,(byte)100);
+
+        Object result = sut.tupleApply(domainObject);
+
+        assertThat(result)
             .isSameAs(testValue);
     }
 
@@ -128,7 +144,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiByteFunction: R doApply(byte b1,byte b2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiByteFunction: R doApply(byte a1,byte a2)).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply((byte)100,(byte)100);
     }
@@ -137,12 +153,12 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiByteFunction: R doApply(byte b1,byte b2)");
+            .isEqualTo("LBiByteFunction: R doApply(byte a1,byte a2)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBiByteFunction.l((byte b1,byte b2) -> testValue ))
+        assertThat(LBiByteFunction.l((byte a1,byte a2) -> testValue ))
             .isInstanceOf(LBiByteFunction.class);
     }
 
@@ -155,7 +171,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBiByteFunctionX<R,X> sutThrowing = LBiByteFunctionX.lX((byte b1,byte b2) -> {
+        LBiByteFunctionX<R,X> sutThrowing = LBiByteFunctionX.lX((byte a1,byte a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -177,7 +193,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBiByteFunctionX<R,ParseException> sutThrowing = LBiByteFunctionX.lX((byte b1,byte b2) -> {
+        LBiByteFunctionX<R,ParseException> sutThrowing = LBiByteFunctionX.lX((byte a1,byte a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -201,7 +217,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte b1,byte b2) -> {
+        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte a1,byte a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -225,7 +241,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte b1,byte b2) -> {
+        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte a1,byte a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -249,7 +265,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte b1,byte b2) -> {
+        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte a1,byte a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -274,7 +290,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte b1,byte b2) -> {
+        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte a1,byte a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -304,10 +320,10 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiByteFunction<Integer > sutO = (byte b1,byte b2) -> {
+        LBiByteFunction<Integer > sutO = (byte a1,byte a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo((byte)90);
-                assertThat(b2).isEqualTo((byte)91);
+                assertThat(a1).isEqualTo((byte)90);
+                assertThat(a2).isEqualTo((byte)91);
                 return 9;
         };
 
@@ -339,10 +355,10 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiByteFunction<Integer > sutO = (byte b1,byte b2) -> {
+        LBiByteFunction<Integer > sutO = (byte a1,byte a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo((byte)90);
-                assertThat(b2).isEqualTo((byte)91);
+                assertThat(a1).isEqualTo((byte)90);
+                assertThat(a2).isEqualTo((byte)91);
                 return 9;
         };
 
@@ -379,10 +395,10 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBiByteFunction<Integer > sutO = (byte b1,byte b2) -> {
+        LBiByteFunction<Integer > sutO = (byte a1,byte a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo((byte)80);
-                assertThat(b2).isEqualTo((byte)81);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
                 return Integer.valueOf(90);
         };
 
@@ -415,10 +431,10 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBiByteFunction<Integer > sutO = (byte b1,byte b2) -> {
+        LBiByteFunction<Integer > sutO = (byte a1,byte a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo((byte)80);
-                assertThat(b2).isEqualTo((byte)81);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
                 return Integer.valueOf(90);
         };
 
@@ -474,7 +490,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte b1,byte b2) -> {
+        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte a1,byte a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -486,7 +502,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     public void testHandleBiByteFunc() throws X {
 
         // given
-        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte b1,byte b2) -> {
+        LBiByteFunction<R> sutThrowing = LBiByteFunction.l((byte a1,byte a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -516,7 +532,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiByteFunction: R doApply(byte b1,byte b2)");
+                .contains("LBiByteFunction: R doApply(byte a1,byte a2)");
     }
 
 

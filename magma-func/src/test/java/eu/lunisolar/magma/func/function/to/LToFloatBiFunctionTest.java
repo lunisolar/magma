@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,13 +64,13 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
 
 
     private LToFloatBiFunction<T1,T2> sut = new LToFloatBiFunction(){
-        public  float doApplyAsFloat(Object t1,Object t2)  {
+        public  float doApplyAsFloat(Object a1,Object a2)  {
             return testValue;
         }
     };
 
     private LToFloatBiFunctionX<T1,T2,X> opposite = new LToFloatBiFunctionX(){
-        public  float doApplyAsFloat(Object t1,Object t2) throws ParseException {
+        public  float doApplyAsFloat(Object a1,Object a2) throws ParseException {
             return testValue;
         }
     };
@@ -75,7 +78,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
 
 
 
-    private LToFloatBiFunction<T1,T2> sutAlwaysThrowingUnckeck = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
+    private LToFloatBiFunction<T1,T2> sutAlwaysThrowingUnckeck = LToFloatBiFunction.l((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -83,6 +86,19 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LPair<T1,T2>,Float,RuntimeException> theCall = sut;
+
+        LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+
+        Object result = sut.tupleApplyAsFloat(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -126,12 +142,12 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToFloatBiFunction: float doApplyAsFloat(T1 t1,T2 t2)");
+            .isEqualTo("LToFloatBiFunction: float doApplyAsFloat(T1 a1,T2 a2)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LToFloatBiFunction.l((Object t1,Object t2) -> testValue ))
+        assertThat(LToFloatBiFunction.l((Object a1,Object a2) -> testValue ))
             .isInstanceOf(LToFloatBiFunction.class);
     }
 
@@ -144,7 +160,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LToFloatBiFunctionX<T1,T2,X> sutThrowing = LToFloatBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToFloatBiFunctionX<T1,T2,X> sutThrowing = LToFloatBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -166,7 +182,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LToFloatBiFunctionX<T1,T2,ParseException> sutThrowing = LToFloatBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToFloatBiFunctionX<T1,T2,ParseException> sutThrowing = LToFloatBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -190,7 +206,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
+        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -214,7 +230,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
+        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -238,7 +254,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
+        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -263,7 +279,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
+        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -293,10 +309,10 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LToFloatBiFunction<Integer ,Integer > sutO = (Integer t1,Integer t2) -> {
+        LToFloatBiFunction<Integer ,Integer > sutO = (Integer a1,Integer a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(91));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
                 return (float)100;
         };
 
@@ -333,10 +349,10 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToFloatBiFunction<Integer ,Integer > sutO = (Integer t1,Integer t2) -> {
+        LToFloatBiFunction<Integer ,Integer > sutO = (Integer a1,Integer a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
                 return (float)90;
         };
 
@@ -395,7 +411,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     public void testShove() {
 
         // given
-        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
+        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -407,7 +423,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     public void testHandleToFloatBiFunc() throws X {
 
         // given
-        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
+        LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -437,7 +453,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToFloatBiFunction: float doApplyAsFloat(T1 t1,T2 t2)");
+                .contains("LToFloatBiFunction: float doApplyAsFloat(T1 a1,T2 a2)");
     }
 
 

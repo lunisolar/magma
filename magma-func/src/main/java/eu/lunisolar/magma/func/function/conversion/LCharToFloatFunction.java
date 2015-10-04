@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LCharToFloatFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): char c
+ * Domain (lvl: 1): char a1
  *
- * Co-domain: none
+ * Co-domain: float
  *
  * @see LCharToFloatFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LCharToFloatFunction: float doApplyAsFloat(char c)";
+	String DESCRIPTION = "LCharToFloatFunction: float doApplyAsFloat(char a1)";
 
-	float doApplyAsFloat(char c);
+	float doApplyAsFloat(char a1);
+
+	default Float tupleApplyAsFloat(LCharSingle args) {
+		return doApplyAsFloat(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default float nestingDoApplyAsFloat(char c) {
-		return this.doApplyAsFloat(c);
+	default float nestingDoApplyAsFloat(char a1) {
+		return this.doApplyAsFloat(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFloat(char c) {
-		return this.doApplyAsFloat(c);
+	default float shovingDoApplyAsFloat(char a1) {
+		return this.doApplyAsFloat(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFloat(char c) {
-		return doApplyAsFloat(c);
+	default float nonNullDoApplyAsFloat(char a1) {
+		return doApplyAsFloat(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,13 +94,13 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier captureCharToFloatFunc(char c) {
-		return () -> this.doApplyAsFloat(c);
+	default LFloatSupplier captureCharToFloatFunc(char a1) {
+		return () -> this.doApplyAsFloat(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LCharToFloatFunction constant(float r) {
-		return c -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -136,63 +144,63 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApply(this.doApplyAsFloat(c));
+		return a1 -> after.doApply(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LFloatToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsByte(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsByte(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LFloatToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsShort(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsShort(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LFloatToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsInt(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsInt(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LFloatToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsLong(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsLong(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LFloatUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsFloat(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LFloatToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsDouble(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LFloatToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsChar(this.doApplyAsFloat(c));
+		return a1 -> after.doApplyAsChar(this.doApplyAsFloat(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharPredicate thenToBoolean(@Nonnull LFloatPredicate after) {
+	default LCharPredicate thenToBool(@Nonnull LFloatPredicate after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doTest(this.doApplyAsFloat(c));
+		return a1 -> after.doTest(this.doApplyAsFloat(a1));
 	}
 
 	// </editor-fold>

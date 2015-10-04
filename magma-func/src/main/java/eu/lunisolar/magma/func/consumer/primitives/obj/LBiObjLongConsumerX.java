@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiObjLongConsumerX for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 3): T1 t1,T2 t2, long l
+ * Domain (lvl: 3): T1 a1,T2 a2,long a3
  *
  * Co-domain: none
  *
@@ -61,14 +65,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LBiObjLongConsumerX: void doAccept(T1 t1,T2 t2, long l) throws X";
+	String DESCRIPTION = "LBiObjLongConsumerX: void doAccept(T1 a1,T2 a2,long a3) throws X";
 
-	void doAccept(T1 t1, T2 t2, long l) throws X;
+	void doAccept(T1 a1, T2 a2, long a3) throws X;
+
+	default LTuple.Void tupleAccept(LBiObjLongTriple<T1, T2> args) throws X {
+		doAccept(args.first(), args.second(), args.third());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(T1 t1, T2 t2, long l) {
+	default void nestingDoAccept(T1 a1, T2 a2, long a3) {
 		try {
-			this.doAccept(t1, t2, l);
+			this.doAccept(a1, a2, a3);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,15 +86,15 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T1 t1, T2 t2, long l) {
-		((LBiObjLongConsumerX<T1, T2, RuntimeException>) this).doAccept(t1, t2, l);
+	default void shovingDoAccept(T1 a1, T2 a2, long a3) {
+		((LBiObjLongConsumerX<T1, T2, RuntimeException>) this).doAccept(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(T1 t1, T2 t2, long l, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(T1 a1, T2 a2, long a3, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(t1, t2, l);
+			this.doAccept(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -98,26 +107,26 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureBiObjLongCons(T1 t1, T2 t2, long l) {
-		return () -> this.doAccept(t1, t2, l);
+	default LActionX<X> captureBiObjLongCons(T1 a1, T2 a2, long a3) {
+		return () -> this.doAccept(a1, a2, a3);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjLongConsumerX<T1, T2, X> accept1st(@Nonnull LConsumerX<T1, X> func) {
-		return (t1, t2, l) -> func.doAccept(t1);
+		return (a1, a2, a3) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjLongConsumerX<T1, T2, X> accept2nd(@Nonnull LConsumerX<T2, X> func) {
-		return (t1, t2, l) -> func.doAccept(t2);
+		return (a1, a2, a3) -> func.doAccept(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjLongConsumerX<T1, T2, X> accept3rd(@Nonnull LLongConsumerX<X> func) {
-		return (t1, t2, l) -> func.doAccept(l);
+		return (a1, a2, a3) -> func.doAccept(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -173,9 +182,9 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	@Nonnull
 	default LBiObjLongConsumerX<T1, T2, X> andThen(@Nonnull LBiObjLongConsumerX<? super T1, ? super T2, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, long l) -> {
-			this.doAccept(t1, t2, l);
-			after.doAccept(t1, t2, l);
+		return (T1 a1, T2 a2, long a3) -> {
+			this.doAccept(a1, a2, a3);
+			after.doAccept(a1, a2, a3);
 		};
 	}
 
@@ -210,13 +219,13 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiObjLongConsumer<T1, T2> handleBiObjLongCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 t1, T2 t2, long l) -> this.handlingDoAccept(t1, t2, l, handling);
+		return (T1 a1, T2 a2, long a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiObjLongConsumerX<T1, T2, Y> handleBiObjLongConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 t1, T2 t2, long l) -> this.handlingDoAccept(t1, t2, l, handling);
+		return (T1 a1, T2 a2, long a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

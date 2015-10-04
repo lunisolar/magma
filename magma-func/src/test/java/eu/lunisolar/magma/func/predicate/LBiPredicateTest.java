@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,23 +64,23 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
 
 
     private LBiPredicate<T1,T2> sut = new LBiPredicate(){
-        public  boolean doTest(Object t1,Object t2)  {
+        public  boolean doTest(Object a1,Object a2)  {
             return testValue;
         }
     };
 
     private LBiPredicateX<T1,T2,X> opposite = new LBiPredicateX(){
-        public  boolean doTest(Object t1,Object t2) throws ParseException {
+        public  boolean doTest(Object a1,Object a2) throws ParseException {
             return testValue;
         }
     };
 
 
-    private java.util.function.BiPredicate jre = (Object t1,Object t2) -> testValue;
+    private BiPredicate jre = (Object a1,Object a2) -> testValue;
 
 
 
-    private LBiPredicate<T1,T2> sutAlwaysThrowingUnckeck = LBiPredicate.l((T1 t1,T2 t2) -> {
+    private LBiPredicate<T1,T2> sutAlwaysThrowingUnckeck = LBiPredicate.l((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -85,6 +88,19 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LPair<T1,T2>,Boolean,RuntimeException> theCall = sut;
+
+        LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+
+        Object result = sut.tupleTest(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -135,12 +151,12 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiPredicate: boolean doTest(T1 t1,T2 t2)");
+            .isEqualTo("LBiPredicate: boolean doTest(T1 a1,T2 a2)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBiPredicate.l((Object t1,Object t2) -> testValue ))
+        assertThat(LBiPredicate.l((Object a1,Object a2) -> testValue ))
             .isInstanceOf(LBiPredicate.class);
     }
 
@@ -159,7 +175,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 t1,T2 t2) -> {
+        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +197,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBiPredicateX<T1,T2,ParseException> sutThrowing = LBiPredicateX.lX((T1 t1,T2 t2) -> {
+        LBiPredicateX<T1,T2,ParseException> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +221,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 t1,T2 t2) -> {
+        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +245,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 t1,T2 t2) -> {
+        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +269,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 t1,T2 t2) -> {
+        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +294,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 t1,T2 t2) -> {
+        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -318,8 +334,8 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LBiPredicate<T1,T2> fun1 = LBiPredicate.l((T1 t1,T2 t2) -> f1Result);
-        LBiPredicate<T1,T2> fun2 = LBiPredicate.l((T1 t1,T2 t2) -> f2Result);
+        LBiPredicate<T1,T2> fun1 = LBiPredicate.l((T1 a1,T2 a2) -> f1Result);
+        LBiPredicate<T1,T2> fun2 = LBiPredicate.l((T1 a1,T2 a2) -> f2Result);
 
         //when
         LBiPredicate<T1,T2> andFunction = fun1.and(fun2);
@@ -361,10 +377,10 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiPredicate<Integer ,Integer > sutO = (Integer t1,Integer t2) -> {
+        LBiPredicate<Integer ,Integer > sutO = (Integer a1,Integer a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(91));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
                 return true;
         };
 
@@ -401,10 +417,10 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBiPredicate<Integer ,Integer > sutO = (Integer t1,Integer t2) -> {
+        LBiPredicate<Integer ,Integer > sutO = (Integer a1,Integer a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
                 return true;
         };
 
@@ -463,7 +479,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 t1,T2 t2) -> {
+        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -475,7 +491,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
     public void testHandleBiPred() throws X {
 
         // given
-        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 t1,T2 t2) -> {
+        LBiPredicate<T1,T2> sutThrowing = LBiPredicate.l((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -505,7 +521,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiPredicate: boolean doTest(T1 t1,T2 t2)");
+                .contains("LBiPredicate: boolean doTest(T1 a1,T2 a2)");
     }
 
 

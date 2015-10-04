@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LToFloatFunction. */
 public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatProduct.Base<LToFloatFunctionBuilder<T>, LPredicate<T>, LToFloatFunction<T>> {
@@ -54,10 +56,10 @@ public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToFloatFunction EVENTUALLY_THROW = LToFloatFunction.l((Object t) -> {
+	public static final LToFloatFunction EVENTUALLY_THROW = LToFloatFunction.l((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, LToFloatFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LToFloatFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatPro
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LToFloatFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<LToFloatFunctionBuilder<E1>> pcpConsumer) {
-		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatPro
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LToFloatFunctionBuilder<T> aCase(Class<E1> argC1, LToFloatFunction<E1> function) {
-		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatPro
 		LToFloatFunction<T> retval;
 
 		final Case<LPredicate<T>, LToFloatFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToFloatFunction.<T> l(t -> {
+		retval = LToFloatFunction.<T> l(a1 -> {
 			try {
 				for (Case<LPredicate<T>, LToFloatFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().doApplyAsFloat(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsFloat(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(t);
+				return eventuallyFinal.doApplyAsFloat(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

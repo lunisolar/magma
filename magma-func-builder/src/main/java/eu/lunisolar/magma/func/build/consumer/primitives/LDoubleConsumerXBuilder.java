@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LDoubleConsumerX. */
 public final class LDoubleConsumerXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LDoubleConsumerXBuilder<X>, LDoublePredicateX<X>, LDoubleConsumerX<X>> {
@@ -54,10 +56,10 @@ public final class LDoubleConsumerXBuilder<X extends Throwable> extends PerCaseB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleConsumerX EVENTUALLY_THROW = LDoubleConsumerX.lX((double d) -> {
+	public static final LDoubleConsumerX EVENTUALLY_THROW = LDoubleConsumerX.lX((double a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", d, LDoubleConsumerX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LDoubleConsumerX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LDoubleConsumerXBuilder<X extends Throwable> extends PerCaseB
 		LDoubleConsumerX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleConsumerX.<X> lX(d -> {
+		retval = LDoubleConsumerX.<X> lX(a1 -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d)) {
-						aCase.caseFunction().doAccept(d);
+					if (aCase.casePredicate().doTest(a1)) {
+						aCase.caseFunction().doAccept(a1);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(d);
+				eventuallyFinal.doAccept(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

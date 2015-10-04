@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LDoubleToCharFunctionX. */
+/** Assert class for LDoubleToCharFunctionX. */
 public interface LDoubleToCharFunctionXAssert<S extends LDoubleToCharFunctionXAssert<S, A, RS, X>, A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LDoubleConsumerX<Exception>, A, RS, Character, Exception> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(double d);
+	Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(double a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LDoubleToCharFunctionXAssert<S extends LDoubleToCharFunctionXAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(double d) {
+		public Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(double a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(d);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Character) actual.doApplyAsChar(d));
+				return assertFactory.apply((Character) actual.doApplyAsChar(a1));
 			});
 
 		}

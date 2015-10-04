@@ -28,6 +28,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -46,11 +48,11 @@ public class LBoolConsumerXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBoolConsumerX<X> function = LBoolConsumerX.lX(b ->
+    private LBoolConsumerX<X> function = LBoolConsumerX.lX(a1 ->
             externalEffect.set(testValue)
     );
 
-    private LBoolConsumerX<X> functionThrowing = LBoolConsumerX.lX(b -> {
+    private LBoolConsumerX<X> functionThrowing = LBoolConsumerX.lX(a1 -> {
         throw new UnsupportedOperationException();
     });
 

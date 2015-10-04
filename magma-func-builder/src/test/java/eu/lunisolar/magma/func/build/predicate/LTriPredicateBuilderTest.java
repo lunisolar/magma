@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LTriPredicateBuilderTest<T1,T2,T3,X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LTriPredicate function = LTriPredicateBuilder.triPredicate()
-                .eventually((t1,t2,t3) -> {
+                .eventually((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LTriPredicateBuilderTest<T1,T2,T3,X extends Throwable>{
     public void testBuild() throws X {
 
         LTriPredicate<Integer ,Integer ,Integer > function = triPredicate((LTriPredicate<Integer ,Integer ,Integer > f)-> doNothing())
-            .aCase(ce -> ce.of((t1,t2,t3) -> t1 == Integer.valueOf(0))
-                             .evaluate((t1,t2,t3) -> false))
-            .inCase((t1,t2,t3) -> t1 > 0 && t1 < 10).evaluate((t1,t2,t3) -> true)
-            .inCase((t1,t2,t3) -> t1 > 10 && t1 < 20).evaluate((t1,t2,t3) -> true)
-            .eventually((t1,t2,t3) -> true)
+            .aCase(ce -> ce.of((a1,a2,a3) -> a1 == Integer.valueOf(0))
+                             .evaluate((a1,a2,a3) -> false))
+            .inCase((a1,a2,a3) -> a1 > 0 && a1 < 10).evaluate((a1,a2,a3) -> true)
+            .inCase((a1,a2,a3) -> a1 > 10 && a1 < 20).evaluate((a1,a2,a3) -> true)
+            .eventually((a1,a2,a3) -> true)
             .build();
 
 

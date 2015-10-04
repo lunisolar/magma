@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LTriFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 3): T1 t1,T2 t2,T3 t3
+ * Domain (lvl: 3): T1 a1,T2 a2,T3 a3
  *
  * Co-domain: R
  *
@@ -60,27 +64,31 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)";
+	String DESCRIPTION = "LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)";
 
 	@Nullable
-	R doApply(T1 t1, T2 t2, T3 t3);
+	R doApply(T1 a1, T2 a2, T3 a3);
+
+	default R tupleApply(LTriple<T1, T2, T3> args) {
+		return doApply(args.first(), args.second(), args.third());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(T1 t1, T2 t2, T3 t3) {
-		return this.doApply(t1, t2, t3);
+	default R nestingDoApply(T1 a1, T2 a2, T3 a3) {
+		return this.doApply(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(T1 t1, T2 t2, T3 t3) {
-		return this.doApply(t1, t2, t3);
+	default R shovingDoApply(T1 a1, T2 a2, T3 a3) {
+		return this.doApply(a1, a2, a3);
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(T1 t1, T2 t2, T3 t3) {
-		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(T1 a1, T2 a2, T3 a3) {
+		return Null.requireNonNull(doApply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,31 +98,31 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureTriFunc(T1 t1, T2 t2, T3 t3) {
-		return () -> this.doApply(t1, t2, t3);
+	default LSupplier<R> captureTriFunc(T1 a1, T2 a2, T3 a3) {
+		return () -> this.doApply(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> constant(R r) {
-		return (t1, t2, t3) -> r;
+		return (a1, a2, a3) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> apply1st(@Nonnull LFunction<T1, R> func) {
-		return (t1, t2, t3) -> func.doApply(t1);
+		return (a1, a2, a3) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> apply2nd(@Nonnull LFunction<T2, R> func) {
-		return (t1, t2, t3) -> func.doApply(t2);
+		return (a1, a2, a3) -> func.doApply(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> apply3rd(@Nonnull LFunction<T3, R> func) {
-		return (t1, t2, t3) -> func.doApply(t3);
+		return (a1, a2, a3) -> func.doApply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -153,14 +161,14 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	@Nonnull
 	default <V> LTriFunction<T1, T2, T3, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, T3 t3) -> after.doApply(this.doApply(t1, t2, t3));
+		return (T1 a1, T2 a2, T3 a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTriConsumer<T1, T2, T3> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, T3 t3) -> after.doAccept(this.doApply(t1, t2, t3));
+		return (T1 a1, T2 a2, T3 a3) -> after.doAccept(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>

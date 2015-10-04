@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LPredicateX. */
 public final class LPredicateXBuilder<T, X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LPredicateXBuilder<T, X>, LPredicateX<T, X>, LPredicateX<T, X>> {
@@ -54,10 +56,10 @@ public final class LPredicateXBuilder<T, X extends Throwable> extends PerCaseBui
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LPredicateX EVENTUALLY_THROW = LPredicateX.lX((Object t) -> {
+	public static final LPredicateX EVENTUALLY_THROW = LPredicateX.lX((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, LPredicateX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LPredicateX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LPredicateXBuilder<T, X extends Throwable> extends PerCaseBui
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LPredicateXBuilder<T, X> casesOf(Class<E1> argC1, Consumer<LPredicateXBuilder<E1, X>> pcpConsumer) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LPredicateXBuilder<T, X extends Throwable> extends PerCaseBui
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LPredicateXBuilder<T, X> aCase(Class<E1> argC1, LPredicateX<E1, X> function) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LPredicateXBuilder<T, X extends Throwable> extends PerCaseBui
 		LPredicateX<T, X> retval;
 
 		final Case<LPredicateX<T, X>, LPredicateX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LPredicateX.<T, X> lX(t -> {
+		retval = LPredicateX.<T, X> lX(a1 -> {
 			try {
 				for (Case<LPredicateX<T, X>, LPredicateX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().doTest(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doTest(a1);
 					}
 				}
 
-				return eventuallyFinal.doTest(t);
+				return eventuallyFinal.doTest(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.primitives.tri.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LTriBoolConsumerX. */
+/** Assert class for LTriBoolConsumerX. */
 public interface LTriBoolConsumerXAssert<S extends LTriBoolConsumerXAssert<S, A, X>, A extends LTriBoolConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LTriBoolConsumerX<Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LTriBoolConsumerX<Exception>, A, Exception> doesAccept(boolean b1, boolean b2, boolean b3);
+	SemiEvaluation<S, LTriBoolConsumerX<Exception>, A, Exception> doesAccept(boolean a1, boolean a2, boolean a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LTriBoolConsumerX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
@@ -60,13 +60,13 @@ public interface LTriBoolConsumerXAssert<S extends LTriBoolConsumerXAssert<S, A,
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LTriBoolConsumerX<Exception>, A, Exception> doesAccept(boolean b1, boolean b2, boolean b3) {
+		public SemiEvaluation<S, LTriBoolConsumerX<Exception>, A, Exception> doesAccept(boolean a1, boolean a2, boolean a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b1, b2, b3);
+					pc.doAccept(a1, a2, a3);
 				}
-				actual.doAccept(b1, b2, b3);
+				actual.doAccept(a1, a2, a3);
 				return null;
 			});
 

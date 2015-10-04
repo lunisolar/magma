@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LObjDoublePredicateX. */
 public final class LObjDoublePredicateXBuilder<T, X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LObjDoublePredicateXBuilder<T, X>, LObjDoublePredicateX<T, X>, LObjDoublePredicateX<T, X>> {
@@ -54,10 +56,10 @@ public final class LObjDoublePredicateXBuilder<T, X extends Throwable> extends P
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjDoublePredicateX EVENTUALLY_THROW = LObjDoublePredicateX.lX((Object t, double d) -> {
+	public static final LObjDoublePredicateX EVENTUALLY_THROW = LObjDoublePredicateX.lX((Object a1, double a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t, d, LObjDoublePredicateX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LObjDoublePredicateX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LObjDoublePredicateXBuilder<T, X extends Throwable> extends P
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LObjDoublePredicateXBuilder<T, X> casesOf(Class<E1> argC1, Consumer<LObjDoublePredicateXBuilder<E1, X>> pcpConsumer) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, double d) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T a1, double a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LObjDoublePredicateXBuilder<T, X extends Throwable> extends P
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LObjDoublePredicateXBuilder<T, X> aCase(Class<E1> argC1, LObjDoublePredicateX<E1, X> function) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, double d) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T a1, double a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LObjDoublePredicateXBuilder<T, X extends Throwable> extends P
 		LObjDoublePredicateX<T, X> retval;
 
 		final Case<LObjDoublePredicateX<T, X>, LObjDoublePredicateX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjDoublePredicateX.<T, X> lX((T t, double d) -> {
+		retval = LObjDoublePredicateX.<T, X> lX((T a1, double a2) -> {
 			try {
 				for (Case<LObjDoublePredicateX<T, X>, LObjDoublePredicateX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t, d)) {
-						return aCase.caseFunction().doTest(t, d);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doTest(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doTest(t, d);
+				return eventuallyFinal.doTest(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

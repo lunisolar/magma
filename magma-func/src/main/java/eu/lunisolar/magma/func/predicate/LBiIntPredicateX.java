@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiIntPredicateX for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): int i1,int i2
+ * Domain (lvl: 2): int a1,int a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiIntPredicate
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LBiIntPredicateX: boolean doTest(int i1,int i2) throws X";
+	String DESCRIPTION = "LBiIntPredicateX: boolean doTest(int a1,int a2) throws X";
 
-	boolean doTest(int i1, int i2) throws X;
+	boolean doTest(int a1, int a2) throws X;
+
+	default Boolean tupleTest(LIntPair args) throws X {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(int i1, int i2) {
+	default boolean nestingDoTest(int a1, int a2) {
 		try {
-			return this.doTest(i1, i2);
+			return this.doTest(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,29 +84,29 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(int i1, int i2) {
-		return ((LBiIntPredicateX<RuntimeException>) this).doTest(i1, i2);
+	default boolean shovingDoTest(int a1, int a2) {
+		return ((LBiIntPredicateX<RuntimeException>) this).doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(int i1, int i2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(int a1, int a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(i1, i2);
+			return this.doTest(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(int i1, int i2) throws X {
-		return doTest(i1, i2);
+	default boolean nonNullDoTest(int a1, int a2) throws X {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(int i1, int i2) throws X {
-		return doTest(i1, i2);
+	default boolean doApplyAsBoolean(int a1, int a2) throws X {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -108,25 +116,25 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureBiIntPred(int i1, int i2) {
-		return () -> this.doTest(i1, i2);
+	default LBoolSupplierX<X> captureBiIntPred(int a1, int a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LBiIntPredicateX<X> constant(boolean r) {
-		return (i1, i2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LBiIntPredicateX<X> test1st(@Nonnull LIntPredicateX<X> func) {
-		return (i1, i2) -> func.doTest(i1);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LBiIntPredicateX<X> test2nd(@Nonnull LIntPredicateX<X> func) {
-		return (i1, i2) -> func.doTest(i2);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -161,7 +169,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	 */
 	@Nonnull
 	default LBiIntPredicateX<X> negate() {
-		return (int i1, int i2) -> !doTest(i1, i2);
+		return (int a1, int a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -171,7 +179,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LBiIntPredicateX<X> and(@Nonnull LBiIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (int i1, int i2) -> doTest(i1, i2) && other.doTest(i1, i2);
+		return (int a1, int a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -181,7 +189,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LBiIntPredicateX<X> or(@Nonnull LBiIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (int i1, int i2) -> doTest(i1, i2) || other.doTest(i1, i2);
+		return (int a1, int a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -191,7 +199,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LBiIntPredicateX<X> xor(@Nonnull LBiIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (int i1, int i2) -> doTest(i1, i2) ^ other.doTest(i1, i2);
+		return (int a1, int a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -200,7 +208,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	 */
 	@Nonnull
 	static <X extends Throwable> LBiIntPredicateX<X> isEqual(final int v1, final int v2) {
-		return (i1, i2) -> (i1 == v1) && (i2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -231,7 +239,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default <V> LBiIntFunctionX<V, X> boolToBiIntFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (int i1, int i2) -> after.doApply(this.doTest(i1, i2));
+		return (int a1, int a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -266,13 +274,13 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiIntPredicate handleBiIntPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (int i1, int i2) -> this.handlingDoTest(i1, i2, handling);
+		return (int a1, int a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiIntPredicateX<Y> handleBiIntPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (int i1, int i2) -> this.handlingDoTest(i1, i2, handling);
+		return (int a1, int a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

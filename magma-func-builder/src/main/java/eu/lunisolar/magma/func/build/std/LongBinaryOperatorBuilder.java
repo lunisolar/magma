@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.LongBinaryOperator. */
 public final class LongBinaryOperatorBuilder extends PerCaseBuilderWithLongProduct.Base<LongBinaryOperatorBuilder, LBiLongPredicate, java.util.function.LongBinaryOperator> {
@@ -53,10 +55,10 @@ public final class LongBinaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.LongBinaryOperator EVENTUALLY_THROW = Function4U.longBinaryOperator((long l1, long l2) -> {
+	public static final java.util.function.LongBinaryOperator EVENTUALLY_THROW = Function4U.longBinaryOperator((long a1, long a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", l1, l2, "java.util.function.LongBinaryOperator: long applyAsLong(long l1,long l2)");
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.LongBinaryOperator: long applyAsLong(long a1,long a2)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class LongBinaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 		java.util.function.LongBinaryOperator retval;
 
 		final Case<LBiLongPredicate, java.util.function.LongBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.longBinaryOperator((long l1, long l2) -> {
+		retval = Function4U.longBinaryOperator((long a1, long a2) -> {
 			try {
 				for (Case<LBiLongPredicate, java.util.function.LongBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l1, l2)) {
-						return aCase.caseFunction().applyAsLong(l1, l2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().applyAsLong(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(l1, l2);
+				return eventuallyFinal.applyAsLong(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

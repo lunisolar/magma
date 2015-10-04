@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -59,28 +62,41 @@ public class LBiLongConsumerXTest<X extends ParseException> {
 
 
     private LBiLongConsumerX<X> sut = new LBiLongConsumerX(){
-        public  void doAccept(long l1,long l2) throws ParseException {
+        public  void doAccept(long a1,long a2) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LBiLongConsumer opposite = new LBiLongConsumer(){
-        public  void doAccept(long l1,long l2)  {
+        public  void doAccept(long a1,long a2)  {
             Function4U.doNothing();
         }
     };
 
 
 
-    private LBiLongConsumerX<ParseException> sutAlwaysThrowing = LBiLongConsumerX.lX((long l1,long l2) -> {
+    private LBiLongConsumerX<ParseException> sutAlwaysThrowing = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBiLongConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LBiLongConsumerX.lX((long l1,long l2) -> {
+    private LBiLongConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LLongPair,LTuple.Void,X> theCall = sut;
+
+        LLongPair domainObject = Tuple4U.tuple((long)100,(long)100);
+
+        Object result = sut.tupleAccept(domainObject);
+
+        assertThat(result)
+            .isSameAs(LTuple.Void.INSTANCE);
+    }
 
     @Test
     public void testNestingDoAcceptChecked() throws X {
@@ -146,12 +162,12 @@ public class LBiLongConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiLongConsumerX: void doAccept(long l1,long l2) throws X");
+            .isEqualTo("LBiLongConsumerX: void doAccept(long a1,long a2) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBiLongConsumerX.lX((long l1,long l2) -> Function4U.doNothing() ))
+        assertThat(LBiLongConsumerX.lX((long a1,long a2) -> Function4U.doNothing() ))
             .isInstanceOf(LBiLongConsumerX.class);
     }
 
@@ -166,7 +182,7 @@ public class LBiLongConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long l1,long l2) -> {
+        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -190,7 +206,7 @@ public class LBiLongConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long l1,long l2) -> {
+        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -214,7 +230,7 @@ public class LBiLongConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long l1,long l2) -> {
+        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -239,7 +255,7 @@ public class LBiLongConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long l1,long l2) -> {
+        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -269,10 +285,10 @@ public class LBiLongConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiLongConsumerX<X> sutO = (long l1,long l2) -> {
+        LBiLongConsumerX<X> sutO = (long a1,long a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(l1).isEqualTo((long)90);
-                assertThat(l2).isEqualTo((long)91);
+                assertThat(a1).isEqualTo((long)90);
+                assertThat(a2).isEqualTo((long)91);
         };
 
         LLongUnaryOperatorX<X> before1 = p0 -> {
@@ -303,10 +319,10 @@ public class LBiLongConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiLongConsumerX<X> sutO = (long l1,long l2) -> {
+        LBiLongConsumerX<X> sutO = (long a1,long a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(l1).isEqualTo((long)90);
-                assertThat(l2).isEqualTo((long)91);
+                assertThat(a1).isEqualTo((long)90);
+                assertThat(a2).isEqualTo((long)91);
         };
 
         LToLongFunctionX<Integer ,X> before1 = p0 -> {
@@ -338,16 +354,16 @@ public class LBiLongConsumerXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBiLongConsumerX<X> sutO = (long l1,long l2) -> {
+        LBiLongConsumerX<X> sutO = (long a1,long a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(l1).isEqualTo((long)80);
-                assertThat(l2).isEqualTo((long)81);
+                assertThat(a1).isEqualTo((long)80);
+                assertThat(a2).isEqualTo((long)81);
         };
 
-        LBiLongConsumerX<X> thenFunction = (long l1,long l2) -> {
+        LBiLongConsumerX<X> thenFunction = (long a1,long a2) -> {
                 thenFunctionCalled.set(true);
-                assertThat(l1).isEqualTo((long)80);
-                assertThat(l2).isEqualTo((long)81);
+                assertThat(a1).isEqualTo((long)80);
+                assertThat(a2).isEqualTo((long)81);
         };
 
         //when
@@ -388,7 +404,7 @@ public class LBiLongConsumerXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long l1,long l2) -> {
+        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -400,7 +416,7 @@ public class LBiLongConsumerXTest<X extends ParseException> {
     public void testHandleBiLongCons() throws X {
 
         // given
-        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long l1,long l2) -> {
+        LBiLongConsumerX<X> sutThrowing = LBiLongConsumerX.lX((long a1,long a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -430,7 +446,7 @@ public class LBiLongConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiLongConsumerX: void doAccept(long l1,long l2) throws X");
+                .contains("LBiLongConsumerX: void doAccept(long a1,long a2) throws X");
     }
 
 

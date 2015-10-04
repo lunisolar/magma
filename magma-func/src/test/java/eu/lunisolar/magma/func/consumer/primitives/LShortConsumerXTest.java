@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -59,28 +62,41 @@ public class LShortConsumerXTest<X extends ParseException> {
 
 
     private LShortConsumerX<X> sut = new LShortConsumerX(){
-        public  void doAccept(short s) throws ParseException {
+        public  void doAccept(short a1) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LShortConsumer opposite = new LShortConsumer(){
-        public  void doAccept(short s)  {
+        public  void doAccept(short a1)  {
             Function4U.doNothing();
         }
     };
 
 
 
-    private LShortConsumerX<ParseException> sutAlwaysThrowing = LShortConsumerX.lX(s -> {
+    private LShortConsumerX<ParseException> sutAlwaysThrowing = LShortConsumerX.lX(a1 -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LShortConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LShortConsumerX.lX(s -> {
+    private LShortConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LShortConsumerX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LShortSingle,LTuple.Void,X> theCall = sut;
+
+        LShortSingle domainObject = Tuple4U.tuple((short)100);
+
+        Object result = sut.tupleAccept(domainObject);
+
+        assertThat(result)
+            .isSameAs(LTuple.Void.INSTANCE);
+    }
 
     @Test
     public void testNestingDoAcceptChecked() throws X {
@@ -146,12 +162,12 @@ public class LShortConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortConsumerX: void doAccept(short s) throws X");
+            .isEqualTo("LShortConsumerX: void doAccept(short a1) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LShortConsumerX.lX(s -> Function4U.doNothing() ))
+        assertThat(LShortConsumerX.lX(a1 -> Function4U.doNothing() ))
             .isInstanceOf(LShortConsumerX.class);
     }
 
@@ -166,7 +182,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(s -> {
+        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -190,7 +206,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(s -> {
+        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -214,7 +230,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(s -> {
+        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -239,7 +255,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(s -> {
+        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(a1 -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -269,9 +285,9 @@ public class LShortConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortConsumerX<X> sutO = s -> {
+        LShortConsumerX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(s).isEqualTo((short)90);
+                assertThat(a1).isEqualTo((short)90);
         };
 
         LShortUnaryOperatorX<X> before1 = p0 -> {
@@ -297,9 +313,9 @@ public class LShortConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortConsumerX<X> sutO = s -> {
+        LShortConsumerX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(s).isEqualTo((short)90);
+                assertThat(a1).isEqualTo((short)90);
         };
 
         LToShortFunctionX<Integer ,X> before1 = p0 -> {
@@ -326,14 +342,14 @@ public class LShortConsumerXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LShortConsumerX<X> sutO = s -> {
+        LShortConsumerX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(s).isEqualTo((short)80);
+                assertThat(a1).isEqualTo((short)80);
         };
 
-        LShortConsumerX<X> thenFunction = (short s) -> {
+        LShortConsumerX<X> thenFunction = (short a1) -> {
                 thenFunctionCalled.set(true);
-                assertThat(s).isEqualTo((short)80);
+                assertThat(a1).isEqualTo((short)80);
         };
 
         //when
@@ -374,7 +390,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(s -> {
+        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -386,7 +402,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     public void testHandleShortCons() throws X {
 
         // given
-        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(s -> {
+        LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -416,7 +432,7 @@ public class LShortConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortConsumerX: void doAccept(short s) throws X");
+                .contains("LShortConsumerX: void doAccept(short a1) throws X");
     }
 
 

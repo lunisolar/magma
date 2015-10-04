@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatBinaryOperator. */
 public final class LFloatBinaryOperatorBuilder extends PerCaseBuilderWithFloatProduct.Base<LFloatBinaryOperatorBuilder, LBiFloatPredicate, LFloatBinaryOperator> {
@@ -54,10 +56,10 @@ public final class LFloatBinaryOperatorBuilder extends PerCaseBuilderWithFloatPr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatBinaryOperator EVENTUALLY_THROW = LFloatBinaryOperator.l((float f1, float f2) -> {
+	public static final LFloatBinaryOperator EVENTUALLY_THROW = LFloatBinaryOperator.l((float a1, float a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", f1, f2, LFloatBinaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LFloatBinaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatBinaryOperatorBuilder extends PerCaseBuilderWithFloatPr
 		LFloatBinaryOperator retval;
 
 		final Case<LBiFloatPredicate, LFloatBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatBinaryOperator.l((float f1, float f2) -> {
+		retval = LFloatBinaryOperator.l((float a1, float a2) -> {
 			try {
 				for (Case<LBiFloatPredicate, LFloatBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f1, f2)) {
-						return aCase.caseFunction().doApplyAsFloat(f1, f2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApplyAsFloat(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(f1, f2);
+				return eventuallyFinal.doApplyAsFloat(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

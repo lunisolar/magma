@@ -28,23 +28,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for java.util.function.IntBinaryOperator. */
+/** Assert class for java.util.function.IntBinaryOperator. */
 public interface IntBinaryOperatorAssert<S extends IntBinaryOperatorAssert<S, A, RS>, A extends java.util.function.IntBinaryOperator, RS extends AbstractIntegerAssert<RS>>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i1, int i2);
+	Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int a1, int a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends java.util.function.IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -67,13 +67,13 @@ public interface IntBinaryOperatorAssert<S extends IntBinaryOperatorAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i1, int i2) {
+		public Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int a1, int a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(i1, i2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Integer) actual.applyAsInt(i1, i2));
+				return assertFactory.apply((Integer) actual.applyAsInt(a1, a2));
 			});
 
 		}

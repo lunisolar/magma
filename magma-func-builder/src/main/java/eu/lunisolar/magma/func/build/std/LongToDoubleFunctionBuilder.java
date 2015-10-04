@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.LongToDoubleFunction. */
 public final class LongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<LongToDoubleFunctionBuilder, LLongPredicate, java.util.function.LongToDoubleFunction> {
@@ -53,10 +55,10 @@ public final class LongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.LongToDoubleFunction EVENTUALLY_THROW = Function4U.longToDoubleFunction((long l) -> {
+	public static final java.util.function.LongToDoubleFunction EVENTUALLY_THROW = Function4U.longToDoubleFunction((long a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", l, "java.util.function.LongToDoubleFunction: double applyAsDouble(long l)");
+			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.LongToDoubleFunction: double applyAsDouble(long a1)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class LongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 		java.util.function.LongToDoubleFunction retval;
 
 		final Case<LLongPredicate, java.util.function.LongToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.longToDoubleFunction(l -> {
+		retval = Function4U.longToDoubleFunction(a1 -> {
 			try {
 				for (Case<LLongPredicate, java.util.function.LongToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l)) {
-						return aCase.caseFunction().applyAsDouble(l);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().applyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(l);
+				return eventuallyFinal.applyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

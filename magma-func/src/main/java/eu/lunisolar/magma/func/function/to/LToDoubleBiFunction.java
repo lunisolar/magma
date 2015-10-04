@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LToDoubleBiFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): T1 t1,T2 t2
+ * Domain (lvl: 2): T1 a1,T2 a2
  *
- * Co-domain: none
+ * Co-domain: double
  *
  * @see LToDoubleBiFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LToDoubleBiFunction: double doApplyAsDouble(T1 t1,T2 t2)";
+	String DESCRIPTION = "LToDoubleBiFunction: double doApplyAsDouble(T1 a1,T2 a2)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,25 +72,29 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 	 */
 	@Override
 	@Deprecated
-	default double applyAsDouble(T1 t1, T2 t2) {
-		return this.nestingDoApplyAsDouble(t1, t2);
+	default double applyAsDouble(T1 a1, T2 a2) {
+		return this.nestingDoApplyAsDouble(a1, a2);
 	}
 
-	double doApplyAsDouble(T1 t1, T2 t2);
+	double doApplyAsDouble(T1 a1, T2 a2);
+
+	default Double tupleApplyAsDouble(LPair<T1, T2> args) {
+		return doApplyAsDouble(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default double nestingDoApplyAsDouble(T1 t1, T2 t2) {
-		return this.doApplyAsDouble(t1, t2);
+	default double nestingDoApplyAsDouble(T1 a1, T2 a2) {
+		return this.doApplyAsDouble(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(T1 t1, T2 t2) {
-		return this.doApplyAsDouble(t1, t2);
+	default double shovingDoApplyAsDouble(T1 a1, T2 a2) {
+		return this.doApplyAsDouble(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(T1 t1, T2 t2) {
-		return doApplyAsDouble(t1, t2);
+	default double nonNullDoApplyAsDouble(T1 a1, T2 a2) {
+		return doApplyAsDouble(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -96,25 +104,25 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureToDoubleBiFunc(T1 t1, T2 t2) {
-		return () -> this.doApplyAsDouble(t1, t2);
+	default LDoubleSupplier captureToDoubleBiFunc(T1 a1, T2 a2) {
+		return () -> this.doApplyAsDouble(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToDoubleBiFunction<T1, T2> constant(double r) {
-		return (t1, t2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToDoubleBiFunction<T1, T2> apply1stAsDouble(@Nonnull LToDoubleFunction<T1> func) {
-		return (t1, t2) -> func.doApplyAsDouble(t1);
+		return (a1, a2) -> func.doApplyAsDouble(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToDoubleBiFunction<T1, T2> apply2ndAsDouble(@Nonnull LToDoubleFunction<T2> func) {
-		return (t1, t2) -> func.doApplyAsDouble(t2);
+		return (a1, a2) -> func.doApplyAsDouble(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -128,7 +136,7 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T1, T2> LToDoubleBiFunction<T1, T2> wrap(final java.util.function.ToDoubleBiFunction<T1, T2> other) {
+	static <T1, T2> LToDoubleBiFunction<T1, T2> wrap(final ToDoubleBiFunction<T1, T2> other) {
 		return other::applyAsDouble;
 	}
 
@@ -158,7 +166,7 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsDouble(t1, t2));
+		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsDouble(a1, a2));
 	}
 
 	// </editor-fold>

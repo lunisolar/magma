@@ -5,7 +5,7 @@
 
     <groupId>eu.lunisolar</groupId>
     <artifactId>magma</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Lunisolar Magma</name>
@@ -45,6 +45,8 @@
         <module>magma-pom</module>
         <module>magma-basics</module>
         <module>magma-basics-assert</module>
+
+        <module>magma-struct</module>
 
         <module>magma-func</module>
         <module>magma-func-asserts</module>

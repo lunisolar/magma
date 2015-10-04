@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiIntConsumer. */
 public final class LBiIntConsumerBuilder extends PerCaseBuilder.Base<LBiIntConsumerBuilder, LBiIntPredicate, LBiIntConsumer> {
@@ -54,10 +56,10 @@ public final class LBiIntConsumerBuilder extends PerCaseBuilder.Base<LBiIntConsu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiIntConsumer EVENTUALLY_THROW = LBiIntConsumer.l((int i1, int i2) -> {
+	public static final LBiIntConsumer EVENTUALLY_THROW = LBiIntConsumer.l((int a1, int a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", i1, i2, LBiIntConsumer.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiIntConsumer.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LBiIntConsumerBuilder extends PerCaseBuilder.Base<LBiIntConsu
 		LBiIntConsumer retval;
 
 		final Case<LBiIntPredicate, LBiIntConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiIntConsumer.l((int i1, int i2) -> {
+		retval = LBiIntConsumer.l((int a1, int a2) -> {
 			try {
 				for (Case<LBiIntPredicate, LBiIntConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i1, i2)) {
-						aCase.caseFunction().doAccept(i1, i2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						aCase.caseFunction().doAccept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(i1, i2);
+				eventuallyFinal.doAccept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

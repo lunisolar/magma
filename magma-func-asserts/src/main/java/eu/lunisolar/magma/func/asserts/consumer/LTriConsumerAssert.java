@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LTriConsumer. */
+/** Assert class for LTriConsumer. */
 public interface LTriConsumerAssert<S extends LTriConsumerAssert<S, A, T1, T2, T3>, A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> extends Assert<S, A>, FunctionalAssert.Simple<S, LTriConsumerX<T1, T2, T3, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, T3 t3);
+	SemiEvaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, Exception> doesAccept(T1 a1, T2 a2, T3 a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> extends Base<The<A, T1, T2, T3>, A, T1, T2, T3> {
@@ -60,13 +60,13 @@ public interface LTriConsumerAssert<S extends LTriConsumerAssert<S, A, T1, T2, T
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, T3 t3) {
+		public SemiEvaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, Exception> doesAccept(T1 a1, T2 a2, T3 a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2, t3);
+					pc.doAccept(a1, a2, a3);
 				}
-				actual.doAccept(t1, t2, t3);
+				actual.doAccept(a1, a2, a3);
 				return null;
 			});
 

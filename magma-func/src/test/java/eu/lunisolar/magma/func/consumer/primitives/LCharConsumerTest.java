@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -59,13 +62,13 @@ public class LCharConsumerTest<X extends ParseException> {
 
 
     private LCharConsumer sut = new LCharConsumer(){
-        public  void doAccept(char c)  {
+        public  void doAccept(char a1)  {
             Function4U.doNothing();
         }
     };
 
     private LCharConsumerX<X> opposite = new LCharConsumerX(){
-        public  void doAccept(char c) throws ParseException {
+        public  void doAccept(char a1) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -73,11 +76,24 @@ public class LCharConsumerTest<X extends ParseException> {
 
 
 
-    private LCharConsumer sutAlwaysThrowingUnckeck = LCharConsumer.l(c -> {
+    private LCharConsumer sutAlwaysThrowingUnckeck = LCharConsumer.l(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LCharSingle,LTuple.Void,RuntimeException> theCall = sut;
+
+        LCharSingle domainObject = Tuple4U.tuple((char)100);
+
+        Object result = sut.tupleAccept(domainObject);
+
+        assertThat(result)
+            .isSameAs(LTuple.Void.INSTANCE);
+    }
 
     @Test
     public void testNestingDoAcceptUnckeck() throws X {
@@ -113,12 +129,12 @@ public class LCharConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharConsumer: void doAccept(char c)");
+            .isEqualTo("LCharConsumer: void doAccept(char a1)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LCharConsumer.l(c -> Function4U.doNothing() ))
+        assertThat(LCharConsumer.l(a1 -> Function4U.doNothing() ))
             .isInstanceOf(LCharConsumer.class);
     }
 
@@ -131,7 +147,7 @@ public class LCharConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LCharConsumerX<X> sutThrowing = LCharConsumerX.lX(c -> {
+        LCharConsumerX<X> sutThrowing = LCharConsumerX.lX(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -153,7 +169,7 @@ public class LCharConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LCharConsumerX<ParseException> sutThrowing = LCharConsumerX.lX(c -> {
+        LCharConsumerX<ParseException> sutThrowing = LCharConsumerX.lX(a1 -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -177,7 +193,7 @@ public class LCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LCharConsumer sutThrowing = LCharConsumer.l(c -> {
+        LCharConsumer sutThrowing = LCharConsumer.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -201,7 +217,7 @@ public class LCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharConsumer sutThrowing = LCharConsumer.l(c -> {
+        LCharConsumer sutThrowing = LCharConsumer.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -225,7 +241,7 @@ public class LCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharConsumer sutThrowing = LCharConsumer.l(c -> {
+        LCharConsumer sutThrowing = LCharConsumer.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -250,7 +266,7 @@ public class LCharConsumerTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharConsumer sutThrowing = LCharConsumer.l(c -> {
+        LCharConsumer sutThrowing = LCharConsumer.l(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -280,9 +296,9 @@ public class LCharConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharConsumer sutO = c -> {
+        LCharConsumer sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(c).isEqualTo((char)90);
+                assertThat(a1).isEqualTo((char)90);
         };
 
         LCharUnaryOperator before1 = p0 -> {
@@ -308,9 +324,9 @@ public class LCharConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharConsumer sutO = c -> {
+        LCharConsumer sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(c).isEqualTo((char)90);
+                assertThat(a1).isEqualTo((char)90);
         };
 
         LToCharFunction<Integer > before1 = p0 -> {
@@ -337,14 +353,14 @@ public class LCharConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LCharConsumer sutO = c -> {
+        LCharConsumer sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(c).isEqualTo((char)80);
+                assertThat(a1).isEqualTo((char)80);
         };
 
-        LCharConsumer thenFunction = (char c) -> {
+        LCharConsumer thenFunction = (char a1) -> {
                 thenFunctionCalled.set(true);
-                assertThat(c).isEqualTo((char)80);
+                assertThat(a1).isEqualTo((char)80);
         };
 
         //when
@@ -389,7 +405,7 @@ public class LCharConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharConsumer sutThrowing = LCharConsumer.l(c -> {
+        LCharConsumer sutThrowing = LCharConsumer.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -401,7 +417,7 @@ public class LCharConsumerTest<X extends ParseException> {
     public void testHandleCharCons() throws X {
 
         // given
-        LCharConsumer sutThrowing = LCharConsumer.l(c -> {
+        LCharConsumer sutThrowing = LCharConsumer.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -431,7 +447,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharConsumer: void doAccept(char c)");
+                .contains("LCharConsumer: void doAccept(char a1)");
     }
 
 

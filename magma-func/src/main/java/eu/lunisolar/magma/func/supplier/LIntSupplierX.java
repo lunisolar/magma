@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LIntSupplierX for Java 8.
@@ -52,15 +56,15 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  *
  * Domain (lvl: 0): none
  *
- * Co-domain: none
+ * Co-domain: int
  *
  * @see LIntSupplier
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntSupplierX<X extends Throwable> extends java.util.function.IntSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
+public interface LIntSupplierX<X extends Throwable> extends IntSupplier, MetaSupplier, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LIntSupplierX: int doGetAsInt() throws X";
+	String DESCRIPTION = "LIntSupplierX: int doGetAsInt() throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -73,6 +77,10 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 	}
 
 	int doGetAsInt() throws X;
+
+	default Integer tupleGetAsInt(LTuple.Void args) throws X {
+		return doGetAsInt();
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoGetAsInt() {
@@ -134,7 +142,7 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <X extends Throwable> LIntSupplierX<X> wrap(final java.util.function.IntSupplier other) {
+	static <X extends Throwable> LIntSupplierX<X> wrap(final IntSupplier other) {
 		return other::getAsInt;
 	}
 

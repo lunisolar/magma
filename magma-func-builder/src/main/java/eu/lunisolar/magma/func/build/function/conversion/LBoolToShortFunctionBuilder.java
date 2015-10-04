@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolToShortFunction. */
 public final class LBoolToShortFunctionBuilder extends PerCaseBuilderWithShortProduct.Base<LBoolToShortFunctionBuilder, LLogicalOperator, LBoolToShortFunction> {
@@ -54,10 +56,10 @@ public final class LBoolToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToShortFunction EVENTUALLY_THROW = LBoolToShortFunction.l((boolean b) -> {
+	public static final LBoolToShortFunction EVENTUALLY_THROW = LBoolToShortFunction.l((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolToShortFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolToShortFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 		LBoolToShortFunction retval;
 
 		final Case<LLogicalOperator, LBoolToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToShortFunction.l(b -> {
+		retval = LBoolToShortFunction.l(a1 -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApplyAsShort(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApplyAsShort(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(b);
+				return eventuallyFinal.doApplyAsShort(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

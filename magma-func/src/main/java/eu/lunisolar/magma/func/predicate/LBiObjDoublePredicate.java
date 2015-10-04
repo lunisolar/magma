@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiObjDoublePredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 3): T1 t1,T2 t2, double d
+ * Domain (lvl: 3): T1 a1,T2 a2,double a3
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiObjDoublePredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1, T2, RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiObjDoublePredicate: boolean doTest(T1 t1,T2 t2, double d)";
+	String DESCRIPTION = "LBiObjDoublePredicate: boolean doTest(T1 a1,T2 a2,double a3)";
 
-	boolean doTest(T1 t1, T2 t2, double d);
+	boolean doTest(T1 a1, T2 a2, double a3);
+
+	default Boolean tupleTest(LBiObjDoubleTriple<T1, T2> args) {
+		return doTest(args.first(), args.second(), args.third());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(T1 t1, T2 t2, double d) {
-		return this.doTest(t1, t2, d);
+	default boolean nestingDoTest(T1 a1, T2 a2, double a3) {
+		return this.doTest(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(T1 t1, T2 t2, double d) {
-		return this.doTest(t1, t2, d);
+	default boolean shovingDoTest(T1 a1, T2 a2, double a3) {
+		return this.doTest(a1, a2, a3);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(T1 t1, T2 t2, double d) {
-		return doTest(t1, t2, d);
+	default boolean nonNullDoTest(T1 a1, T2 a2, double a3) {
+		return doTest(a1, a2, a3);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(T1 t1, T2 t2, double d) {
-		return doTest(t1, t2, d);
+	default boolean doApplyAsBoolean(T1 a1, T2 a2, double a3) {
+		return doTest(a1, a2, a3);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,31 +100,31 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiObjDoublePred(T1 t1, T2 t2, double d) {
-		return () -> this.doTest(t1, t2, d);
+	default LBoolSupplier captureBiObjDoublePred(T1 a1, T2 a2, double a3) {
+		return () -> this.doTest(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LBiObjDoublePredicate<T1, T2> constant(boolean r) {
-		return (t1, t2, d) -> r;
+		return (a1, a2, a3) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjDoublePredicate<T1, T2> test1st(@Nonnull LPredicate<T1> func) {
-		return (t1, t2, d) -> func.doTest(t1);
+		return (a1, a2, a3) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjDoublePredicate<T1, T2> test2nd(@Nonnull LPredicate<T2> func) {
-		return (t1, t2, d) -> func.doTest(t2);
+		return (a1, a2, a3) -> func.doTest(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjDoublePredicate<T1, T2> test3rd(@Nonnull LDoublePredicate func) {
-		return (t1, t2, d) -> func.doTest(d);
+		return (a1, a2, a3) -> func.doTest(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -144,7 +152,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	 */
 	@Nonnull
 	default LBiObjDoublePredicate<T1, T2> negate() {
-		return (T1 t1, T2 t2, double d) -> !doTest(t1, t2, d);
+		return (T1 a1, T2 a2, double a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -154,7 +162,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	@Nonnull
 	default LBiObjDoublePredicate<T1, T2> and(@Nonnull LBiObjDoublePredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, double d) -> doTest(t1, t2, d) && other.doTest(t1, t2, d);
+		return (T1 a1, T2 a2, double a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -164,7 +172,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	@Nonnull
 	default LBiObjDoublePredicate<T1, T2> or(@Nonnull LBiObjDoublePredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, double d) -> doTest(t1, t2, d) || other.doTest(t1, t2, d);
+		return (T1 a1, T2 a2, double a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -174,7 +182,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	@Nonnull
 	default LBiObjDoublePredicate<T1, T2> xor(@Nonnull LBiObjDoublePredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, double d) -> doTest(t1, t2, d) ^ other.doTest(t1, t2, d);
+		return (T1 a1, T2 a2, double a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -183,7 +191,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	 */
 	@Nonnull
 	static <T1, T2> LBiObjDoublePredicate<T1, T2> isEqual(final T1 v1, final T2 v2, final double v3) {
-		return (t1, t2, d) -> (t1 == null ? v1 == null : t1.equals(v1)) && (t2 == null ? v2 == null : t2.equals(v2)) && (d == v3);
+		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
 	}
 
 	// </editor-fold>
@@ -216,7 +224,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	@Nonnull
 	default <V> LBiObjDoubleFunction<T1, T2, V> boolToBiObjDoubleFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, double d) -> after.doApply(this.doTest(t1, t2, d));
+		return (T1 a1, T2 a2, double a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>

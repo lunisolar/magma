@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatToLongFunctionX. */
 public final class LFloatToLongFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithLongProduct.Base<LFloatToLongFunctionXBuilder<X>, LFloatPredicateX<X>, LFloatToLongFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LFloatToLongFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToLongFunctionX EVENTUALLY_THROW = LFloatToLongFunctionX.lX((float f) -> {
+	public static final LFloatToLongFunctionX EVENTUALLY_THROW = LFloatToLongFunctionX.lX((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatToLongFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatToLongFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatToLongFunctionXBuilder<X extends Throwable> extends Per
 		LFloatToLongFunctionX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToLongFunctionX.<X> lX(f -> {
+		retval = LFloatToLongFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatToLongFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApplyAsLong(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsLong(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(f);
+				return eventuallyFinal.doApplyAsLong(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

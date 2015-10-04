@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,30 +64,30 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
 
 
     private LTriBoolFunctionX<R,X> sut = new LTriBoolFunctionX(){
-        public @Nullable Object  doApply(boolean b1,boolean b2,boolean b3) throws ParseException {
+        public @Nullable Object  doApply(boolean a1,boolean a2,boolean a3) throws ParseException {
             return testValue;
         }
     };
 
     private LTriBoolFunction<R> opposite = new LTriBoolFunction(){
-        public @Nullable Object  doApply(boolean b1,boolean b2,boolean b3)  {
+        public @Nullable Object  doApply(boolean a1,boolean a2,boolean a3)  {
             return testValue;
         }
     };
 
     private LTriBoolFunctionX<R,X> sutNull = new LTriBoolFunctionX(){
-        public @Nullable Object  doApply(boolean b1,boolean b2,boolean b3) throws ParseException {
+        public @Nullable Object  doApply(boolean a1,boolean a2,boolean a3) throws ParseException {
             return null;
         }
     };
 
 
 
-    private LTriBoolFunctionX<R,ParseException> sutAlwaysThrowing = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+    private LTriBoolFunctionX<R,ParseException> sutAlwaysThrowing = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LTriBoolFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+    private LTriBoolFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -92,6 +95,19 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApply(true,true,true))
+            .isSameAs(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LBoolTriple,R,X> theCall = sut;
+
+        LBoolTriple domainObject = Tuple4U.tuple(true,true,true);
+
+        Object result = sut.tupleApply(domainObject);
+
+        assertThat(result)
             .isSameAs(testValue);
     }
 
@@ -161,7 +177,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriBoolFunctionX: R doApply(boolean b1,boolean b2,boolean b3) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriBoolFunctionX: R doApply(boolean a1,boolean a2,boolean a3) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply(true,true,true);
     }
@@ -170,12 +186,12 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriBoolFunctionX: R doApply(boolean b1,boolean b2,boolean b3) throws X");
+            .isEqualTo("LTriBoolFunctionX: R doApply(boolean a1,boolean a2,boolean a3) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> testValue ))
+        assertThat(LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> testValue ))
             .isInstanceOf(LTriBoolFunctionX.class);
     }
 
@@ -190,7 +206,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -214,7 +230,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -238,7 +254,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -263,7 +279,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -293,11 +309,11 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2,boolean a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
-                assertThat(b3).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
+                assertThat(a3).isEqualTo(true);
                 return 9;
         };
 
@@ -334,11 +350,11 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2,boolean a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
-                assertThat(b3).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
+                assertThat(a3).isEqualTo(true);
                 return 9;
         };
 
@@ -380,11 +396,11 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LTriBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2,boolean a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
-                assertThat(b3).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
+                assertThat(a3).isEqualTo(true);
                 return Integer.valueOf(90);
         };
 
@@ -417,11 +433,11 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LTriBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2,boolean a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
-                assertThat(b3).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
+                assertThat(a3).isEqualTo(true);
                 return Integer.valueOf(90);
         };
 
@@ -473,7 +489,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -485,7 +501,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
     public void testHandleTriBoolFunc() throws X {
 
         // given
-        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+        LTriBoolFunctionX<R,X> sutThrowing = LTriBoolFunctionX.lX((boolean a1,boolean a2,boolean a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -515,7 +531,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriBoolFunctionX: R doApply(boolean b1,boolean b2,boolean b3) throws X");
+                .contains("LTriBoolFunctionX: R doApply(boolean a1,boolean a2,boolean a3) throws X");
     }
 
 

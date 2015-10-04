@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.to.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LToLongBiFunctionX. */
+/** Assert class for LToLongBiFunctionX. */
 public interface LToLongBiFunctionXAssert<S extends LToLongBiFunctionXAssert<S, A, RS, T1, T2, X>, A extends LToLongBiFunctionX<T1, T2, X>, RS extends AbstractLongAssert<RS>, T1, T2, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiConsumerX<T1, T2, Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Long, Exception> doesApplyAsLong(T1 t1, T2 t2);
+	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Long, Exception> doesApplyAsLong(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LToLongBiFunctionX<T1, T2, X>, RS extends AbstractLongAssert<RS>, T1, T2, X extends Throwable> extends Base<The<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
@@ -68,13 +68,13 @@ public interface LToLongBiFunctionXAssert<S extends LToLongBiFunctionXAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Long, Exception> doesApplyAsLong(T1 t1, T2 t2) {
+		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Long, Exception> doesApplyAsLong(T1 a1, T2 a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Long) actual.doApplyAsLong(t1, t2));
+				return assertFactory.apply((Long) actual.doApplyAsLong(a1, a2));
 			});
 
 		}

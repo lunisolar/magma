@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LCharToFloatFunctionX. */
 public final class LCharToFloatFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LCharToFloatFunctionXBuilder<X>, LCharPredicateX<X>, LCharToFloatFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LCharToFloatFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToFloatFunctionX EVENTUALLY_THROW = LCharToFloatFunctionX.lX((char c) -> {
+	public static final LCharToFloatFunctionX EVENTUALLY_THROW = LCharToFloatFunctionX.lX((char a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", c, LCharToFloatFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LCharToFloatFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LCharToFloatFunctionXBuilder<X extends Throwable> extends Per
 		LCharToFloatFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToFloatFunctionX.<X> lX(c -> {
+		retval = LCharToFloatFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(c)) {
-						return aCase.caseFunction().doApplyAsFloat(c);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsFloat(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(c);
+				return eventuallyFinal.doApplyAsFloat(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

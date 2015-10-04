@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,30 +64,30 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
 
 
     private LBiIntFunctionX<R,X> sut = new LBiIntFunctionX(){
-        public @Nullable Object  doApply(int i1,int i2) throws ParseException {
+        public @Nullable Object  doApply(int a1,int a2) throws ParseException {
             return testValue;
         }
     };
 
     private LBiIntFunction<R> opposite = new LBiIntFunction(){
-        public @Nullable Object  doApply(int i1,int i2)  {
+        public @Nullable Object  doApply(int a1,int a2)  {
             return testValue;
         }
     };
 
     private LBiIntFunctionX<R,X> sutNull = new LBiIntFunctionX(){
-        public @Nullable Object  doApply(int i1,int i2) throws ParseException {
+        public @Nullable Object  doApply(int a1,int a2) throws ParseException {
             return null;
         }
     };
 
 
 
-    private LBiIntFunctionX<R,ParseException> sutAlwaysThrowing = LBiIntFunctionX.lX((int i1,int i2) -> {
+    private LBiIntFunctionX<R,ParseException> sutAlwaysThrowing = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBiIntFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LBiIntFunctionX.lX((int i1,int i2) -> {
+    private LBiIntFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -92,6 +95,19 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApply((int)100,(int)100))
+            .isSameAs(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LIntPair,R,X> theCall = sut;
+
+        LIntPair domainObject = Tuple4U.tuple((int)100,(int)100);
+
+        Object result = sut.tupleApply(domainObject);
+
+        assertThat(result)
             .isSameAs(testValue);
     }
 
@@ -161,7 +177,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiIntFunctionX: R doApply(int i1,int i2) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiIntFunctionX: R doApply(int a1,int a2) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply((int)100,(int)100);
     }
@@ -170,12 +186,12 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiIntFunctionX: R doApply(int i1,int i2) throws X");
+            .isEqualTo("LBiIntFunctionX: R doApply(int a1,int a2) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBiIntFunctionX.lX((int i1,int i2) -> testValue ))
+        assertThat(LBiIntFunctionX.lX((int a1,int a2) -> testValue ))
             .isInstanceOf(LBiIntFunctionX.class);
     }
 
@@ -190,7 +206,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int i1,int i2) -> {
+        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -214,7 +230,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int i1,int i2) -> {
+        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -238,7 +254,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int i1,int i2) -> {
+        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -263,7 +279,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int i1,int i2) -> {
+        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -293,10 +309,10 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiIntFunctionX<Integer ,X> sutO = (int i1,int i2) -> {
+        LBiIntFunctionX<Integer ,X> sutO = (int a1,int a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(i1).isEqualTo((int)90);
-                assertThat(i2).isEqualTo((int)91);
+                assertThat(a1).isEqualTo((int)90);
+                assertThat(a2).isEqualTo((int)91);
                 return 9;
         };
 
@@ -328,10 +344,10 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiIntFunctionX<Integer ,X> sutO = (int i1,int i2) -> {
+        LBiIntFunctionX<Integer ,X> sutO = (int a1,int a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(i1).isEqualTo((int)90);
-                assertThat(i2).isEqualTo((int)91);
+                assertThat(a1).isEqualTo((int)90);
+                assertThat(a2).isEqualTo((int)91);
                 return 9;
         };
 
@@ -368,10 +384,10 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBiIntFunctionX<Integer ,X> sutO = (int i1,int i2) -> {
+        LBiIntFunctionX<Integer ,X> sutO = (int a1,int a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(i1).isEqualTo((int)80);
-                assertThat(i2).isEqualTo((int)81);
+                assertThat(a1).isEqualTo((int)80);
+                assertThat(a2).isEqualTo((int)81);
                 return Integer.valueOf(90);
         };
 
@@ -404,10 +420,10 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBiIntFunctionX<Integer ,X> sutO = (int i1,int i2) -> {
+        LBiIntFunctionX<Integer ,X> sutO = (int a1,int a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(i1).isEqualTo((int)80);
-                assertThat(i2).isEqualTo((int)81);
+                assertThat(a1).isEqualTo((int)80);
+                assertThat(a2).isEqualTo((int)81);
                 return Integer.valueOf(90);
         };
 
@@ -459,7 +475,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int i1,int i2) -> {
+        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -471,7 +487,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
     public void testHandleBiIntFunc() throws X {
 
         // given
-        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int i1,int i2) -> {
+        LBiIntFunctionX<R,X> sutThrowing = LBiIntFunctionX.lX((int a1,int a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -501,7 +517,7 @@ public class LBiIntFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiIntFunctionX: R doApply(int i1,int i2) throws X");
+                .contains("LBiIntFunctionX: R doApply(int a1,int a2) throws X");
     }
 
 

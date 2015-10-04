@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiIntFunction. */
 public final class LBiIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBiIntFunctionBuilder<R>, LBiIntPredicate, LBiIntFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LBiIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiIntFunction EVENTUALLY_THROW = LBiIntFunction.l((int i1, int i2) -> {
+	public static final LBiIntFunction EVENTUALLY_THROW = LBiIntFunction.l((int a1, int a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", i1, i2, LBiIntFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiIntFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		LBiIntFunction<R> retval;
 
 		final Case<LBiIntPredicate, LBiIntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiIntFunction.<R> l((int i1, int i2) -> {
+		retval = LBiIntFunction.<R> l((int a1, int a2) -> {
 			try {
 				for (Case<LBiIntPredicate, LBiIntFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i1, i2)) {
-						return aCase.caseFunction().doApply(i1, i2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(i1, i2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

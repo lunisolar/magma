@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.binary.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBinaryOperatorX. */
+/** Assert class for LBinaryOperatorX. */
 public interface LBinaryOperatorXAssert<S extends LBinaryOperatorXAssert<S, A, RS, T, X>, A extends LBinaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2);
+	Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T a1, T a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBinaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
@@ -68,13 +68,13 @@ public interface LBinaryOperatorXAssert<S extends LBinaryOperatorXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2) {
+		public Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T a1, T a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((T) actual.doApply(t1, t2));
+				return assertFactory.apply((T) actual.doApply(a1, a2));
 			});
 
 		}

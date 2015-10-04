@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LIntToLongFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): int i
+ * Domain (lvl: 1): int a1
  *
- * Co-domain: none
+ * Co-domain: long
  *
  * @see LIntToLongFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LIntToLongFunction: long doApplyAsLong(int i)";
+	String DESCRIPTION = "LIntToLongFunction: long doApplyAsLong(int a1)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,25 +72,29 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 	 */
 	@Override
 	@Deprecated
-	default long applyAsLong(int i) {
-		return this.nestingDoApplyAsLong(i);
+	default long applyAsLong(int a1) {
+		return this.nestingDoApplyAsLong(a1);
 	}
 
-	long doApplyAsLong(int i);
+	long doApplyAsLong(int a1);
+
+	default Long tupleApplyAsLong(LIntSingle args) {
+		return doApplyAsLong(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default long nestingDoApplyAsLong(int i) {
-		return this.doApplyAsLong(i);
+	default long nestingDoApplyAsLong(int a1) {
+		return this.doApplyAsLong(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(int i) {
-		return this.doApplyAsLong(i);
+	default long shovingDoApplyAsLong(int a1) {
+		return this.doApplyAsLong(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(int i) {
-		return doApplyAsLong(i);
+	default long nonNullDoApplyAsLong(int a1) {
+		return doApplyAsLong(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -96,13 +104,13 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureIntToLongFunc(int i) {
-		return () -> this.doApplyAsLong(i);
+	default LLongSupplier captureIntToLongFunc(int a1) {
+		return () -> this.doApplyAsLong(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LIntToLongFunction constant(long r) {
-		return i -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -116,7 +124,7 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static LIntToLongFunction wrap(final java.util.function.IntToLongFunction other) {
+	static LIntToLongFunction wrap(final IntToLongFunction other) {
 		return other::applyAsLong;
 	}
 
@@ -152,63 +160,63 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApply(this.doApplyAsLong(i));
+		return a1 -> after.doApply(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsByte(this.doApplyAsLong(i));
+		return a1 -> after.doApplyAsByte(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LLongToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsShort(this.doApplyAsLong(i));
+		return a1 -> after.doApplyAsShort(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsInt(this.doApplyAsLong(i));
+		return a1 -> after.doApplyAsInt(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsLong(this.doApplyAsLong(i));
+		return a1 -> after.doApplyAsLong(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsFloat(this.doApplyAsLong(i));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsDouble(this.doApplyAsLong(i));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsChar(this.doApplyAsLong(i));
+		return a1 -> after.doApplyAsChar(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntPredicate thenToBoolean(@Nonnull LLongPredicate after) {
+	default LIntPredicate thenToBool(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doTest(this.doApplyAsLong(i));
+		return a1 -> after.doTest(this.doApplyAsLong(a1));
 	}
 
 	// </editor-fold>

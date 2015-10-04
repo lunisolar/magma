@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LToCharBiFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): T1 t1,T2 t2
+ * Domain (lvl: 2): T1 a1,T2 a2
  *
- * Co-domain: none
+ * Co-domain: char
  *
  * @see LToCharBiFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LToCharBiFunction: char doApplyAsChar(T1 t1,T2 t2)";
+	String DESCRIPTION = "LToCharBiFunction: char doApplyAsChar(T1 a1,T2 a2)";
 
-	char doApplyAsChar(T1 t1, T2 t2);
+	char doApplyAsChar(T1 a1, T2 a2);
+
+	default Character tupleApplyAsChar(LPair<T1, T2> args) {
+		return doApplyAsChar(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default char nestingDoApplyAsChar(T1 t1, T2 t2) {
-		return this.doApplyAsChar(t1, t2);
+	default char nestingDoApplyAsChar(T1 a1, T2 a2) {
+		return this.doApplyAsChar(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(T1 t1, T2 t2) {
-		return this.doApplyAsChar(t1, t2);
+	default char shovingDoApplyAsChar(T1 a1, T2 a2) {
+		return this.doApplyAsChar(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(T1 t1, T2 t2) {
-		return doApplyAsChar(t1, t2);
+	default char nonNullDoApplyAsChar(T1 a1, T2 a2) {
+		return doApplyAsChar(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,25 +94,25 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureToCharBiFunc(T1 t1, T2 t2) {
-		return () -> this.doApplyAsChar(t1, t2);
+	default LCharSupplier captureToCharBiFunc(T1 a1, T2 a2) {
+		return () -> this.doApplyAsChar(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToCharBiFunction<T1, T2> constant(char r) {
-		return (t1, t2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToCharBiFunction<T1, T2> apply1stAsChar(@Nonnull LToCharFunction<T1> func) {
-		return (t1, t2) -> func.doApplyAsChar(t1);
+		return (a1, a2) -> func.doApplyAsChar(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToCharBiFunction<T1, T2> apply2ndAsChar(@Nonnull LToCharFunction<T2> func) {
-		return (t1, t2) -> func.doApplyAsChar(t2);
+		return (a1, a2) -> func.doApplyAsChar(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -142,7 +150,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsChar(t1, t2));
+		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsChar(a1, a2));
 	}
 
 	// </editor-fold>

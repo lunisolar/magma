@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.binary.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LCharBinaryOperator. */
+/** Assert class for LCharBinaryOperator. */
 public interface LCharBinaryOperatorAssert<S extends LCharBinaryOperatorAssert<S, A, RS>, A extends LCharBinaryOperator, RS extends AbstractCharacterAssert<RS>>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiCharConsumerX<Exception>, A, RS, Character, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiCharConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(char c1, char c2);
+	Evaluation<S, LBiCharConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(char a1, char a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LCharBinaryOperator, RS extends AbstractCharacterAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -68,13 +68,13 @@ public interface LCharBinaryOperatorAssert<S extends LCharBinaryOperatorAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiCharConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(char c1, char c2) {
+		public Evaluation<S, LBiCharConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(char a1, char a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(c1, c2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Character) actual.doApplyAsChar(c1, c2));
+				return assertFactory.apply((Character) actual.doApplyAsChar(a1, a2));
 			});
 
 		}

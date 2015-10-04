@@ -18,9 +18,12 @@
 
 package eu.lunisolar.magma.basics;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.*;
 
+@SuppressWarnings("unchecked")
 public class Null {
 
     public static final String NULL_ARG_MESSAGE   = "Argument '%s' must not be null.";
@@ -44,6 +47,53 @@ public class Null {
     public static <T> T requireNonNull(T obj, Supplier<String> messageSupplier) {
         return Objects.requireNonNull(obj, messageSupplier);
     }
+
+    //<editor-fold desc="null safe comparable">
+
+    public static <T extends Comparable> int compare(@Nullable T first, @Nullable T second) {
+        return compare(first, second, Comparable::compareTo);
+    }
+
+    public static <T> int compare(@Nullable T first, @Nullable T second, @Nonnull Comparator<T> comparator) {
+        return compare(first, second, false, comparator);
+    }
+
+    public static <T> int compare(T first, T second, boolean nullGreater, @Nonnull Comparator<T> comparator) {
+
+        if (first == second) {
+            return 0;
+        } else if (first == null) {
+            return nullGreater ? 1 : -1;
+        } else if (second == null) {
+            return nullGreater ? -1 : 1;
+        }
+
+        return comparator.compare(first, second);
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="null safe equals">
+
+    public static <T> boolean equals(@Nullable T first, @Nullable Object second) {
+        return equals(first, second, Object::equals);
+    }
+
+    /** Provides null safety. Compliance with rules regarding "equals" are left to the predicate. */
+    public static <T> boolean equals(@Nullable T first, @Nullable Object second, @Nonnull BiPredicate<T, Object> equals) {
+
+        if (first == second) {
+            return true;
+        } else if (first == null) {
+            return false;
+        } else if (second == null) {
+            return false;
+        }
+
+        return equals.test(first, second);
+    }
+
+    //</editor-fold>
 
     // <editor-fold desc="no-instance constructor">
 

@@ -28,6 +28,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -45,11 +47,11 @@ public class LBiLongFunctionXAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiLongFunctionX<Integer ,X> function = LBiLongFunctionX.lX((l1,l2) ->
+    private LBiLongFunctionX<Integer ,X> function = LBiLongFunctionX.lX((a1,a2) ->
             (Integer ) testValue
     );
 
-    private LBiLongFunctionX<Integer ,X> functionThrowing = LBiLongFunctionX.lX((l1,l2) -> {
+    private LBiLongFunctionX<Integer ,X> functionThrowing = LBiLongFunctionX.lX((a1,a2) -> {
         throw new UnsupportedOperationException();
     });
 

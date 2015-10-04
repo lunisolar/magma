@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiShortConsumer. */
 public final class LBiShortConsumerBuilder extends PerCaseBuilder.Base<LBiShortConsumerBuilder, LBiShortPredicate, LBiShortConsumer> {
@@ -54,10 +56,10 @@ public final class LBiShortConsumerBuilder extends PerCaseBuilder.Base<LBiShortC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiShortConsumer EVENTUALLY_THROW = LBiShortConsumer.l((short s1, short s2) -> {
+	public static final LBiShortConsumer EVENTUALLY_THROW = LBiShortConsumer.l((short a1, short a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", s1, s2, LBiShortConsumer.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiShortConsumer.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LBiShortConsumerBuilder extends PerCaseBuilder.Base<LBiShortC
 		LBiShortConsumer retval;
 
 		final Case<LBiShortPredicate, LBiShortConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiShortConsumer.l((short s1, short s2) -> {
+		retval = LBiShortConsumer.l((short a1, short a2) -> {
 			try {
 				for (Case<LBiShortPredicate, LBiShortConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s1, s2)) {
-						aCase.caseFunction().doAccept(s1, s2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						aCase.caseFunction().doAccept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(s1, s2);
+				eventuallyFinal.doAccept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

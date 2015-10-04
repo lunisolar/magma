@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LObjFloatConsumerX. */
+/** Assert class for LObjFloatConsumerX. */
 public interface LObjFloatConsumerXAssert<S extends LObjFloatConsumerXAssert<S, A, T, X>, A extends LObjFloatConsumerX<T, X>, T, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjFloatConsumerX<T, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LObjFloatConsumerX<T, Exception>, A, Exception> doesAccept(T t, float f);
+	SemiEvaluation<S, LObjFloatConsumerX<T, Exception>, A, Exception> doesAccept(T a1, float a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LObjFloatConsumerX<T, X>, T, X extends Throwable> extends Base<The<A, T, X>, A, T, X> {
@@ -60,13 +60,13 @@ public interface LObjFloatConsumerXAssert<S extends LObjFloatConsumerXAssert<S, 
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LObjFloatConsumerX<T, Exception>, A, Exception> doesAccept(T t, float f) {
+		public SemiEvaluation<S, LObjFloatConsumerX<T, Exception>, A, Exception> doesAccept(T a1, float a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t, f);
+					pc.doAccept(a1, a2);
 				}
-				actual.doAccept(t, f);
+				actual.doAccept(a1, a2);
 				return null;
 			});
 

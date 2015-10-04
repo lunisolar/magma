@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortToCharFunction. */
 public final class LShortToCharFunctionBuilder extends PerCaseBuilderWithCharProduct.Base<LShortToCharFunctionBuilder, LShortPredicate, LShortToCharFunction> {
@@ -54,10 +56,10 @@ public final class LShortToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToCharFunction EVENTUALLY_THROW = LShortToCharFunction.l((short s) -> {
+	public static final LShortToCharFunction EVENTUALLY_THROW = LShortToCharFunction.l((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortToCharFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortToCharFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 		LShortToCharFunction retval;
 
 		final Case<LShortPredicate, LShortToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToCharFunction.l(s -> {
+		retval = LShortToCharFunction.l(a1 -> {
 			try {
 				for (Case<LShortPredicate, LShortToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsChar(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsChar(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(s);
+				return eventuallyFinal.doApplyAsChar(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

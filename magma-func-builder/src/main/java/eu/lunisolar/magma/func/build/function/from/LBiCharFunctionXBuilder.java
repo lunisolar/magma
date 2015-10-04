@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiCharFunctionX. */
 public final class LBiCharFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBiCharFunctionXBuilder<R, X>, LBiCharPredicateX<X>, LBiCharFunctionX<R, X>, R> {
@@ -54,10 +56,10 @@ public final class LBiCharFunctionXBuilder<R, X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiCharFunctionX EVENTUALLY_THROW = LBiCharFunctionX.lX((char c1, char c2) -> {
+	public static final LBiCharFunctionX EVENTUALLY_THROW = LBiCharFunctionX.lX((char a1, char a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", c1, c2, LBiCharFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiCharFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiCharFunctionXBuilder<R, X extends Throwable> extends PerCa
 		LBiCharFunctionX<R, X> retval;
 
 		final Case<LBiCharPredicateX<X>, LBiCharFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiCharFunctionX.<R, X> lX((char c1, char c2) -> {
+		retval = LBiCharFunctionX.<R, X> lX((char a1, char a2) -> {
 			try {
 				for (Case<LBiCharPredicateX<X>, LBiCharFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(c1, c2)) {
-						return aCase.caseFunction().doApply(c1, c2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(c1, c2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

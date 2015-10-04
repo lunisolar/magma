@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LLongToDoubleFunction. */
+/** Assert class for LLongToDoubleFunction. */
 public interface LLongToDoubleFunctionAssert<S extends LLongToDoubleFunctionAssert<S, A, RS>, A extends LLongToDoubleFunction, RS extends AbstractDoubleAssert<RS>>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LLongConsumerX<Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, LLongConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(long l);
+	Evaluation<S, LLongConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(long a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -68,13 +68,13 @@ public interface LLongToDoubleFunctionAssert<S extends LLongToDoubleFunctionAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(long l) {
+		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(long a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(l);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Double) actual.doApplyAsDouble(l));
+				return assertFactory.apply((Double) actual.doApplyAsDouble(a1));
 			});
 
 		}

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntToDoubleFunctionX. */
 public final class LIntToDoubleFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithDoubleProduct.Base<LIntToDoubleFunctionXBuilder<X>, LIntPredicateX<X>, LIntToDoubleFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LIntToDoubleFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToDoubleFunctionX EVENTUALLY_THROW = LIntToDoubleFunctionX.lX((int i) -> {
+	public static final LIntToDoubleFunctionX EVENTUALLY_THROW = LIntToDoubleFunctionX.lX((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntToDoubleFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntToDoubleFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntToDoubleFunctionXBuilder<X extends Throwable> extends Per
 		LIntToDoubleFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToDoubleFunctionX.<X> lX(i -> {
+		retval = LIntToDoubleFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().doApplyAsDouble(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(i);
+				return eventuallyFinal.doApplyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

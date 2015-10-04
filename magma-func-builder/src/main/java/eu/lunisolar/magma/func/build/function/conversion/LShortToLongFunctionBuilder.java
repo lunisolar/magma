@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortToLongFunction. */
 public final class LShortToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<LShortToLongFunctionBuilder, LShortPredicate, LShortToLongFunction> {
@@ -54,10 +56,10 @@ public final class LShortToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToLongFunction EVENTUALLY_THROW = LShortToLongFunction.l((short s) -> {
+	public static final LShortToLongFunction EVENTUALLY_THROW = LShortToLongFunction.l((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortToLongFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortToLongFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		LShortToLongFunction retval;
 
 		final Case<LShortPredicate, LShortToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToLongFunction.l(s -> {
+		retval = LShortToLongFunction.l(a1 -> {
 			try {
 				for (Case<LShortPredicate, LShortToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsLong(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsLong(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(s);
+				return eventuallyFinal.doApplyAsLong(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

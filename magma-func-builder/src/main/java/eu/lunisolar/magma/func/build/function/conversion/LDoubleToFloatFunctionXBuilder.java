@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LDoubleToFloatFunctionX. */
 public final class LDoubleToFloatFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LDoubleToFloatFunctionXBuilder<X>, LDoublePredicateX<X>, LDoubleToFloatFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LDoubleToFloatFunctionXBuilder<X extends Throwable> extends P
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToFloatFunctionX EVENTUALLY_THROW = LDoubleToFloatFunctionX.lX((double d) -> {
+	public static final LDoubleToFloatFunctionX EVENTUALLY_THROW = LDoubleToFloatFunctionX.lX((double a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", d, LDoubleToFloatFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LDoubleToFloatFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LDoubleToFloatFunctionXBuilder<X extends Throwable> extends P
 		LDoubleToFloatFunctionX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToFloatFunctionX.<X> lX(d -> {
+		retval = LDoubleToFloatFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d)) {
-						return aCase.caseFunction().doApplyAsFloat(d);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsFloat(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(d);
+				return eventuallyFinal.doApplyAsFloat(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBoolToLongFunction. */
+/** Assert class for LBoolToLongFunction. */
 public interface LBoolToLongFunctionAssert<S extends LBoolToLongFunctionAssert<S, A, RS>, A extends LBoolToLongFunction, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBoolConsumerX<Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(boolean b);
+	Evaluation<S, LBoolConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(boolean a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBoolToLongFunction, RS extends AbstractLongAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -65,13 +65,13 @@ public interface LBoolToLongFunctionAssert<S extends LBoolToLongFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(boolean b) {
+		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(boolean a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Long) actual.doApplyAsLong(b));
+				return assertFactory.apply((Long) actual.doApplyAsLong(a1));
 			});
 
 		}

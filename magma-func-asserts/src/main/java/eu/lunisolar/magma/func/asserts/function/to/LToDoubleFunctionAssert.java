@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.to.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LToDoubleFunction. */
+/** Assert class for LToDoubleFunction. */
 public interface LToDoubleFunctionAssert<S extends LToDoubleFunctionAssert<S, A, RS, T>, A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LConsumerX<T, Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T t);
+	Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends Base<The<A, RS, T>, A, RS, T> {
@@ -68,13 +68,13 @@ public interface LToDoubleFunctionAssert<S extends LToDoubleFunctionAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T t) {
+		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Double) actual.doApplyAsDouble(t));
+				return assertFactory.apply((Double) actual.doApplyAsDouble(a1));
 			});
 
 		}

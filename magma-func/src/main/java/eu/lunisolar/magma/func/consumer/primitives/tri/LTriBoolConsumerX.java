@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LTriBoolConsumerX for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 3): boolean b1,boolean b2,boolean b3
+ * Domain (lvl: 3): boolean a1,boolean a2,boolean a3
  *
  * Co-domain: none
  *
@@ -61,14 +65,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LTriBoolConsumerX: void doAccept(boolean b1,boolean b2,boolean b3) throws X";
+	String DESCRIPTION = "LTriBoolConsumerX: void doAccept(boolean a1,boolean a2,boolean a3) throws X";
 
-	void doAccept(boolean b1, boolean b2, boolean b3) throws X;
+	void doAccept(boolean a1, boolean a2, boolean a3) throws X;
+
+	default LTuple.Void tupleAccept(LBoolTriple args) throws X {
+		doAccept(args.first(), args.second(), args.third());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(boolean b1, boolean b2, boolean b3) {
+	default void nestingDoAccept(boolean a1, boolean a2, boolean a3) {
 		try {
-			this.doAccept(b1, b2, b3);
+			this.doAccept(a1, a2, a3);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,15 +86,15 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(boolean b1, boolean b2, boolean b3) {
-		((LTriBoolConsumerX<RuntimeException>) this).doAccept(b1, b2, b3);
+	default void shovingDoAccept(boolean a1, boolean a2, boolean a3) {
+		((LTriBoolConsumerX<RuntimeException>) this).doAccept(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(boolean b1, boolean b2, boolean b3, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(boolean a1, boolean a2, boolean a3, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(b1, b2, b3);
+			this.doAccept(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -98,26 +107,26 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureTriBoolCons(boolean b1, boolean b2, boolean b3) {
-		return () -> this.doAccept(b1, b2, b3);
+	default LActionX<X> captureTriBoolCons(boolean a1, boolean a2, boolean a3) {
+		return () -> this.doAccept(a1, a2, a3);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LTriBoolConsumerX<X> accept1st(@Nonnull LBoolConsumerX<X> func) {
-		return (b1, b2, b3) -> func.doAccept(b1);
+		return (a1, a2, a3) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LTriBoolConsumerX<X> accept2nd(@Nonnull LBoolConsumerX<X> func) {
-		return (b1, b2, b3) -> func.doAccept(b2);
+		return (a1, a2, a3) -> func.doAccept(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LTriBoolConsumerX<X> accept3rd(@Nonnull LBoolConsumerX<X> func) {
-		return (b1, b2, b3) -> func.doAccept(b3);
+		return (a1, a2, a3) -> func.doAccept(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -172,9 +181,9 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 	@Nonnull
 	default LTriBoolConsumerX<X> andThen(@Nonnull LTriBoolConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b1, boolean b2, boolean b3) -> {
-			this.doAccept(b1, b2, b3);
-			after.doAccept(b1, b2, b3);
+		return (boolean a1, boolean a2, boolean a3) -> {
+			this.doAccept(a1, a2, a3);
+			after.doAccept(a1, a2, a3);
 		};
 	}
 
@@ -209,13 +218,13 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriBoolConsumer handleTriBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoAccept(b1, b2, b3, handling);
+		return (boolean a1, boolean a2, boolean a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriBoolConsumerX<Y> handleTriBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoAccept(b1, b2, b3, handling);
+		return (boolean a1, boolean a2, boolean a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

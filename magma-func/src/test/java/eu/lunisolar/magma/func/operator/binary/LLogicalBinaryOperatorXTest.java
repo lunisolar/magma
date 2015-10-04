@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,24 +64,24 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
 
 
     private LLogicalBinaryOperatorX<X> sut = new LLogicalBinaryOperatorX(){
-        public  boolean doApply(boolean b1,boolean b2) throws ParseException {
+        public  boolean doApply(boolean a1,boolean a2) throws ParseException {
             return testValue;
         }
     };
 
     private LLogicalBinaryOperator opposite = new LLogicalBinaryOperator(){
-        public  boolean doApply(boolean b1,boolean b2)  {
+        public  boolean doApply(boolean a1,boolean a2)  {
             return testValue;
         }
     };
 
 
 
-    private LLogicalBinaryOperatorX<ParseException> sutAlwaysThrowing = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+    private LLogicalBinaryOperatorX<ParseException> sutAlwaysThrowing = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LLogicalBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+    private LLogicalBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -86,6 +89,19 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApply(true,true))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LBoolPair,Boolean,X> theCall = sut;
+
+        LBoolPair domainObject = Tuple4U.tuple(true,true);
+
+        Object result = sut.tupleApply(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -159,12 +175,12 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLogicalBinaryOperatorX: boolean doApply(boolean b1,boolean b2) throws X");
+            .isEqualTo("LLogicalBinaryOperatorX: boolean doApply(boolean a1,boolean a2) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> testValue ))
+        assertThat(LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> testValue ))
             .isInstanceOf(LLogicalBinaryOperatorX.class);
     }
 
@@ -179,7 +195,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -203,7 +219,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -227,7 +243,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -252,7 +268,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -292,8 +308,8 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LLogicalBinaryOperatorX<X> fun1 = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> f1Result);
-        LLogicalBinaryOperatorX<X> fun2 = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> f2Result);
+        LLogicalBinaryOperatorX<X> fun1 = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> f1Result);
+        LLogicalBinaryOperatorX<X> fun2 = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> f2Result);
 
         //when
         LLogicalBinaryOperatorX<X> andFunction = fun1.and(fun2);
@@ -353,10 +369,10 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLogicalBinaryOperatorX<X> sutO = (boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutO = (boolean a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
                 return true;
         };
 
@@ -388,10 +404,10 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLogicalBinaryOperatorX<X> sutO = (boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutO = (boolean a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
                 return true;
         };
 
@@ -428,10 +444,10 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLogicalBinaryOperatorX<X> sutO = (boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutO = (boolean a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
                 return true;
         };
 
@@ -486,7 +502,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -498,7 +514,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
     public void testHandleLogicalBinaryOp() throws X {
 
         // given
-        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+        LLogicalBinaryOperatorX<X> sutThrowing = LLogicalBinaryOperatorX.lX((boolean a1,boolean a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -528,7 +544,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLogicalBinaryOperatorX: boolean doApply(boolean b1,boolean b2) throws X");
+                .contains("LLogicalBinaryOperatorX: boolean doApply(boolean a1,boolean a2) throws X");
     }
 
 

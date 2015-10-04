@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LFloatPredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 1): float f
+ * Domain (lvl: 1): float a1
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LFloatPredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LFloatPredicate: boolean doTest(float f)";
+	String DESCRIPTION = "LFloatPredicate: boolean doTest(float a1)";
 
-	boolean doTest(float f);
+	boolean doTest(float a1);
+
+	default Boolean tupleTest(LFloatSingle args) {
+		return doTest(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(float f) {
-		return this.doTest(f);
+	default boolean nestingDoTest(float a1) {
+		return this.doTest(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(float f) {
-		return this.doTest(f);
+	default boolean shovingDoTest(float a1) {
+		return this.doTest(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(float f) {
-		return doTest(f);
+	default boolean nonNullDoTest(float a1) {
+		return doTest(a1);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(float f) {
-		return doTest(f);
+	default boolean doApplyAsBoolean(float a1) {
+		return doTest(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,13 +100,13 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureFloatPred(float f) {
-		return () -> this.doTest(f);
+	default LBoolSupplier captureFloatPred(float a1) {
+		return () -> this.doTest(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LFloatPredicate constant(boolean r) {
-		return f -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -126,7 +134,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LFloatPredicate negate() {
-		return f -> !doTest(f);
+		return a1 -> !doTest(a1);
 	}
 
 	/**
@@ -136,7 +144,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate and(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return f -> doTest(f) && other.doTest(f);
+		return a1 -> doTest(a1) && other.doTest(a1);
 	}
 
 	/**
@@ -146,7 +154,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate or(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return f -> doTest(f) || other.doTest(f);
+		return a1 -> doTest(a1) || other.doTest(a1);
 	}
 
 	/**
@@ -156,7 +164,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate xor(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return f -> doTest(f) ^ other.doTest(f);
+		return a1 -> doTest(a1) ^ other.doTest(a1);
 	}
 
 	/**
@@ -165,7 +173,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	static LFloatPredicate isEqual(float target) {
-		return f -> f == target;
+		return a1 -> a1 == target;
 	}
 
 	// </editor-fold>
@@ -194,63 +202,63 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LFloatFunction<V> boolToFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApply(this.doTest(f));
+		return a1 -> after.doApply(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToByteFunction boolToFloatToByteFunction(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsByte(this.doTest(f));
+		return a1 -> after.doApplyAsByte(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToShortFunction boolToFloatToShortFunction(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsShort(this.doTest(f));
+		return a1 -> after.doApplyAsShort(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToIntFunction boolToFloatToIntFunction(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsInt(this.doTest(f));
+		return a1 -> after.doApplyAsInt(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToLongFunction boolToFloatToLongFunction(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsLong(this.doTest(f));
+		return a1 -> after.doApplyAsLong(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator boolToFloatUnaryOperator(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsFloat(this.doTest(f));
+		return a1 -> after.doApplyAsFloat(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction boolToFloatToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsDouble(this.doTest(f));
+		return a1 -> after.doApplyAsDouble(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToCharFunction boolToFloatToCharFunction(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsChar(this.doTest(f));
+		return a1 -> after.doApplyAsChar(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatPredicate boolToFloatPredicate(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApply(this.doTest(f));
+		return a1 -> after.doApply(this.doTest(a1));
 	}
 
 	// </editor-fold>

@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LFloatPredicate function = LFloatPredicateBuilder.floatPredicate()
-                .eventually(f -> {
+                .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatPredicate function = floatPredicate((LFloatPredicate f)-> doNothing())
-            .aCase(ce -> ce.of(f -> f == (float)0)
-                             .evaluate(f -> false))
-            .inCase(f -> f > 0 && f < 10).evaluate(f -> true)
-            .inCase(f -> f > 10 && f < 20).evaluate(f -> true)
-            .eventually(f -> true)
+            .aCase(ce -> ce.of(a1 -> a1 == (float)0)
+                             .evaluate(a1 -> false))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> true)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> true)
+            .eventually(a1 -> true)
             .build();
 
 

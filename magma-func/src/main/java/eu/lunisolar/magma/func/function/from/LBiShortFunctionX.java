@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiShortFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): short s1,short s2
+ * Domain (lvl: 2): short a1,short a2
  *
  * Co-domain: R
  *
@@ -60,15 +64,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LBiShortFunctionX: R doApply(short s1,short s2) throws X";
+	String DESCRIPTION = "LBiShortFunctionX: R doApply(short a1,short a2) throws X";
 
 	@Nullable
-	R doApply(short s1, short s2) throws X;
+	R doApply(short a1, short a2) throws X;
+
+	default R tupleApply(LShortPair args) throws X {
+		return doApply(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(short s1, short s2) {
+	default R nestingDoApply(short a1, short a2) {
 		try {
-			return this.doApply(s1, s2);
+			return this.doApply(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,26 +85,26 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(short s1, short s2) {
-		return ((LBiShortFunctionX<R, RuntimeException>) this).doApply(s1, s2);
+	default R shovingDoApply(short a1, short a2) {
+		return ((LBiShortFunctionX<R, RuntimeException>) this).doApply(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> R handlingDoApply(short s1, short s2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> R handlingDoApply(short a1, short a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(s1, s2);
+			return this.doApply(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(short s1, short s2) throws X {
-		return Null.requireNonNull(doApply(s1, s2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(short a1, short a2) throws X {
+		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -106,25 +114,25 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureBiShortFunc(short s1, short s2) {
-		return () -> this.doApply(s1, s2);
+	default LSupplierX<R, X> captureBiShortFunc(short a1, short a2) {
+		return () -> this.doApply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LBiShortFunctionX<R, X> constant(R r) {
-		return (s1, s2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <R, X extends Throwable> LBiShortFunctionX<R, X> apply1st(@Nonnull LShortFunctionX<R, X> func) {
-		return (s1, s2) -> func.doApply(s1);
+		return (a1, a2) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <R, X extends Throwable> LBiShortFunctionX<R, X> apply2nd(@Nonnull LShortFunctionX<R, X> func) {
-		return (s1, s2) -> func.doApply(s2);
+		return (a1, a2) -> func.doApply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -177,14 +185,14 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LBiShortFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s1, short s2) -> after.doApply(this.doApply(s1, s2));
+		return (short a1, short a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiShortConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s1, short s2) -> after.doAccept(this.doApply(s1, s2));
+		return (short a1, short a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -225,13 +233,13 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiShortFunction<R> handleBiShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short s1, short s2) -> this.handlingDoApply(s1, s2, handling);
+		return (short a1, short a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiShortFunctionX<R, Y> handleBiShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short s1, short s2) -> this.handlingDoApply(s1, s2, handling);
+		return (short a1, short a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

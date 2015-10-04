@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.primitives.bi.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBiShortConsumerX. */
+/** Assert class for LBiShortConsumerX. */
 public interface LBiShortConsumerXAssert<S extends LBiShortConsumerXAssert<S, A, X>, A extends LBiShortConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiShortConsumerX<Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LBiShortConsumerX<Exception>, A, Exception> doesAccept(short s1, short s2);
+	SemiEvaluation<S, LBiShortConsumerX<Exception>, A, Exception> doesAccept(short a1, short a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBiShortConsumerX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
@@ -60,13 +60,13 @@ public interface LBiShortConsumerXAssert<S extends LBiShortConsumerXAssert<S, A,
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LBiShortConsumerX<Exception>, A, Exception> doesAccept(short s1, short s2) {
+		public SemiEvaluation<S, LBiShortConsumerX<Exception>, A, Exception> doesAccept(short a1, short a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(s1, s2);
+					pc.doAccept(a1, a2);
 				}
-				actual.doAccept(s1, s2);
+				actual.doAccept(a1, a2);
 				return null;
 			});
 

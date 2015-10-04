@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.ObjIntConsumer. */
 public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntConsumerBuilder<T>, LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> {
@@ -53,10 +55,10 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.ObjIntConsumer EVENTUALLY_THROW = Function4U.objIntConsumer((Object t, int i) -> {
+	public static final java.util.function.ObjIntConsumer EVENTUALLY_THROW = Function4U.objIntConsumer((Object a1, int a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t, i, "java.util.function.ObjIntConsumer: void accept(T t, int i)");
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.ObjIntConsumer: void accept(T a1,int a2)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -101,7 +103,7 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> ObjIntConsumerBuilder<T> casesOf(Class<E1> argC1, Consumer<ObjIntConsumerBuilder<E1>> pcpConsumer) {
-		PartialCase.The pc = partialCaseFactoryMethod((T t, int i) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCase.The pc = partialCaseFactoryMethod((T a1, int a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,7 +112,7 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> ObjIntConsumerBuilder<T> aCase(Class<E1> argC1, java.util.function.ObjIntConsumer<E1> function) {
-		PartialCase.The pc = partialCaseFactoryMethod((T t, int i) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCase.The pc = partialCaseFactoryMethod((T a1, int a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -125,16 +127,16 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 		java.util.function.ObjIntConsumer<T> retval;
 
 		final Case<LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> objIntConsumer((T t, int i) -> {
+		retval = Function4U.<T> objIntConsumer((T a1, int a2) -> {
 			try {
 				for (Case<LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t, i)) {
-						aCase.caseFunction().accept(t, i);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						aCase.caseFunction().accept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t, i);
+				eventuallyFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

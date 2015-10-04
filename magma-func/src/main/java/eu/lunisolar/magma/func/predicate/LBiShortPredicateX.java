@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiShortPredicateX for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): short s1,short s2
+ * Domain (lvl: 2): short a1,short a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiShortPredicate
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LBiShortPredicateX: boolean doTest(short s1,short s2) throws X";
+	String DESCRIPTION = "LBiShortPredicateX: boolean doTest(short a1,short a2) throws X";
 
-	boolean doTest(short s1, short s2) throws X;
+	boolean doTest(short a1, short a2) throws X;
+
+	default Boolean tupleTest(LShortPair args) throws X {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(short s1, short s2) {
+	default boolean nestingDoTest(short a1, short a2) {
 		try {
-			return this.doTest(s1, s2);
+			return this.doTest(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,29 +84,29 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(short s1, short s2) {
-		return ((LBiShortPredicateX<RuntimeException>) this).doTest(s1, s2);
+	default boolean shovingDoTest(short a1, short a2) {
+		return ((LBiShortPredicateX<RuntimeException>) this).doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(short s1, short s2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(short a1, short a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(s1, s2);
+			return this.doTest(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(short s1, short s2) throws X {
-		return doTest(s1, s2);
+	default boolean nonNullDoTest(short a1, short a2) throws X {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(short s1, short s2) throws X {
-		return doTest(s1, s2);
+	default boolean doApplyAsBoolean(short a1, short a2) throws X {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -108,25 +116,25 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureBiShortPred(short s1, short s2) {
-		return () -> this.doTest(s1, s2);
+	default LBoolSupplierX<X> captureBiShortPred(short a1, short a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LBiShortPredicateX<X> constant(boolean r) {
-		return (s1, s2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LBiShortPredicateX<X> test1st(@Nonnull LShortPredicateX<X> func) {
-		return (s1, s2) -> func.doTest(s1);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LBiShortPredicateX<X> test2nd(@Nonnull LShortPredicateX<X> func) {
-		return (s1, s2) -> func.doTest(s2);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -161,7 +169,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	 */
 	@Nonnull
 	default LBiShortPredicateX<X> negate() {
-		return (short s1, short s2) -> !doTest(s1, s2);
+		return (short a1, short a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -171,7 +179,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default LBiShortPredicateX<X> and(@Nonnull LBiShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short s1, short s2) -> doTest(s1, s2) && other.doTest(s1, s2);
+		return (short a1, short a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -181,7 +189,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default LBiShortPredicateX<X> or(@Nonnull LBiShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short s1, short s2) -> doTest(s1, s2) || other.doTest(s1, s2);
+		return (short a1, short a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -191,7 +199,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default LBiShortPredicateX<X> xor(@Nonnull LBiShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short s1, short s2) -> doTest(s1, s2) ^ other.doTest(s1, s2);
+		return (short a1, short a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -200,7 +208,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	 */
 	@Nonnull
 	static <X extends Throwable> LBiShortPredicateX<X> isEqual(final short v1, final short v2) {
-		return (s1, s2) -> (s1 == v1) && (s2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -231,7 +239,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default <V> LBiShortFunctionX<V, X> boolToBiShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s1, short s2) -> after.doApply(this.doTest(s1, s2));
+		return (short a1, short a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -266,13 +274,13 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiShortPredicate handleBiShortPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short s1, short s2) -> this.handlingDoTest(s1, s2, handling);
+		return (short a1, short a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiShortPredicateX<Y> handleBiShortPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short s1, short s2) -> this.handlingDoTest(s1, s2, handling);
+		return (short a1, short a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

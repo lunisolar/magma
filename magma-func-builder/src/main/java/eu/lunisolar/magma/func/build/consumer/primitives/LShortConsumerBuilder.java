@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortConsumer. */
 public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsumerBuilder, LShortPredicate, LShortConsumer> {
@@ -54,10 +56,10 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortConsumer EVENTUALLY_THROW = LShortConsumer.l((short s) -> {
+	public static final LShortConsumer EVENTUALLY_THROW = LShortConsumer.l((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortConsumer.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortConsumer.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 		LShortConsumer retval;
 
 		final Case<LShortPredicate, LShortConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortConsumer.l(s -> {
+		retval = LShortConsumer.l(a1 -> {
 			try {
 				for (Case<LShortPredicate, LShortConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						aCase.caseFunction().doAccept(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						aCase.caseFunction().doAccept(a1);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(s);
+				eventuallyFinal.doAccept(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

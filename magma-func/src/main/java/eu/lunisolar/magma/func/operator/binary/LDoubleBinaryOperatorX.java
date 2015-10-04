@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LDoubleBinaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): double d1,double d2
+ * Domain (lvl: 2): double a1,double a2
  *
- * Co-domain: none
+ * Co-domain: double
  *
  * @see LDoubleBinaryOperator
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.function.DoubleBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleBinaryOperatorX<X extends Throwable> extends DoubleBinaryOperator, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LDoubleBinaryOperatorX: double doApplyAsDouble(double d1,double d2) throws X";
+	String DESCRIPTION = "LDoubleBinaryOperatorX: double doApplyAsDouble(double a1,double a2) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,16 +72,20 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	 */
 	@Override
 	@Deprecated
-	default double applyAsDouble(double d1, double d2) {
-		return this.nestingDoApplyAsDouble(d1, d2);
+	default double applyAsDouble(double a1, double a2) {
+		return this.nestingDoApplyAsDouble(a1, a2);
 	}
 
-	double doApplyAsDouble(double d1, double d2) throws X;
+	double doApplyAsDouble(double a1, double a2) throws X;
+
+	default Double tupleApplyAsDouble(LDoublePair args) throws X {
+		return doApplyAsDouble(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default double nestingDoApplyAsDouble(double d1, double d2) {
+	default double nestingDoApplyAsDouble(double a1, double a2) {
 		try {
-			return this.doApplyAsDouble(d1, d2);
+			return this.doApplyAsDouble(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -86,23 +94,23 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(double d1, double d2) {
-		return ((LDoubleBinaryOperatorX<RuntimeException>) this).doApplyAsDouble(d1, d2);
+	default double shovingDoApplyAsDouble(double a1, double a2) {
+		return ((LDoubleBinaryOperatorX<RuntimeException>) this).doApplyAsDouble(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> double handlingDoApplyAsDouble(double d1, double d2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> double handlingDoApplyAsDouble(double a1, double a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsDouble(d1, d2);
+			return this.doApplyAsDouble(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(double d1, double d2) throws X {
-		return doApplyAsDouble(d1, d2);
+	default double nonNullDoApplyAsDouble(double a1, double a2) throws X {
+		return doApplyAsDouble(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -112,25 +120,25 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> captureDoubleBinaryOp(double d1, double d2) {
-		return () -> this.doApplyAsDouble(d1, d2);
+	default LDoubleSupplierX<X> captureDoubleBinaryOp(double a1, double a2) {
+		return () -> this.doApplyAsDouble(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LDoubleBinaryOperatorX<X> constant(double r) {
-		return (d1, d2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LDoubleBinaryOperatorX<X> apply1stAsDouble(@Nonnull LDoubleUnaryOperatorX<X> func) {
-		return (d1, d2) -> func.doApplyAsDouble(d1);
+		return (a1, a2) -> func.doApplyAsDouble(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <X extends Throwable> LDoubleBinaryOperatorX<X> apply2ndAsDouble(@Nonnull LDoubleUnaryOperatorX<X> func) {
-		return (d1, d2) -> func.doApplyAsDouble(d2);
+		return (a1, a2) -> func.doApplyAsDouble(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -151,7 +159,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <X extends Throwable> LDoubleBinaryOperatorX<X> wrap(final java.util.function.DoubleBinaryOperator other) {
+	static <X extends Throwable> LDoubleBinaryOperatorX<X> wrap(final DoubleBinaryOperator other) {
 		return other::applyAsDouble;
 	}
 
@@ -227,7 +235,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	@Nonnull
 	default <V> LBiDoubleFunctionX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (double d1, double d2) -> after.doApply(this.doApplyAsDouble(d1, d2));
+		return (double a1, double a2) -> after.doApply(this.doApplyAsDouble(a1, a2));
 	}
 
 	// </editor-fold>
@@ -262,13 +270,13 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LDoubleBinaryOperator handleDoubleBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (double d1, double d2) -> this.handlingDoApplyAsDouble(d1, d2, handling);
+		return (double a1, double a2) -> this.handlingDoApplyAsDouble(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LDoubleBinaryOperatorX<Y> handleDoubleBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (double d1, double d2) -> this.handlingDoApplyAsDouble(d1, d2, handling);
+		return (double a1, double a2) -> this.handlingDoApplyAsDouble(a1, a2, handling);
 	}
 
 	// </editor-fold>

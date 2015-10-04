@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LShortToFloatFunctionXBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LShortToFloatFunctionX function = LShortToFloatFunctionXBuilder.shortToFloatFunctionX()
-                .eventually(s -> {
+                .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LShortToFloatFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortToFloatFunctionX<ParseException> function = shortToFloatFunctionX((LShortToFloatFunctionX<ParseException> f)-> doNothing())
-            .aCase(ce -> ce.of(s -> s == (short)0)
-                             .evaluate(s -> (float)0))
-            .inCase(s -> s > 0 && s < 10).evaluate(s -> (float)1)
-            .inCase(s -> s > 10 && s < 20).evaluate(s -> (float)2)
-            .eventually(s -> (float)99)
+            .aCase(ce -> ce.of(a1 -> a1 == (short)0)
+                             .evaluate(a1 -> (float)0))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (float)1)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (float)2)
+            .eventually(a1 -> (float)99)
             .build();
 
 

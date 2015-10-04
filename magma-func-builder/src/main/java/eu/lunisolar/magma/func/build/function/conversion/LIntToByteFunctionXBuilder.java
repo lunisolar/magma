@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntToByteFunctionX. */
 public final class LIntToByteFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithByteProduct.Base<LIntToByteFunctionXBuilder<X>, LIntPredicateX<X>, LIntToByteFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LIntToByteFunctionXBuilder<X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToByteFunctionX EVENTUALLY_THROW = LIntToByteFunctionX.lX((int i) -> {
+	public static final LIntToByteFunctionX EVENTUALLY_THROW = LIntToByteFunctionX.lX((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntToByteFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntToByteFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntToByteFunctionXBuilder<X extends Throwable> extends PerCa
 		LIntToByteFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToByteFunctionX.<X> lX(i -> {
+		retval = LIntToByteFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().doApplyAsByte(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(i);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

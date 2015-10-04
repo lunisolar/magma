@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LIntFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): int i
+ * Domain (lvl: 1): int a1
  *
  * Co-domain: R
  *
@@ -58,9 +62,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntFunctionX<R, X extends Throwable> extends java.util.function.IntFunction<R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
+public interface LIntFunctionX<R, X extends Throwable> extends IntFunction<R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LIntFunctionX: R doApply(int i) throws X";
+	String DESCRIPTION = "LIntFunctionX: R doApply(int a1) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,17 +72,21 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	 */
 	@Override
 	@Deprecated
-	default R apply(int i) {
-		return this.nestingDoApply(i);
+	default R apply(int a1) {
+		return this.nestingDoApply(a1);
 	}
 
 	@Nullable
-	R doApply(int i) throws X;
+	R doApply(int a1) throws X;
+
+	default R tupleApply(LIntSingle args) throws X {
+		return doApply(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(int i) {
+	default R nestingDoApply(int a1) {
 		try {
-			return this.doApply(i);
+			return this.doApply(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -87,26 +95,26 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(int i) {
-		return ((LIntFunctionX<R, RuntimeException>) this).doApply(i);
+	default R shovingDoApply(int a1) {
+		return ((LIntFunctionX<R, RuntimeException>) this).doApply(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> R handlingDoApply(int i, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> R handlingDoApply(int a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(i);
+			return this.doApply(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(int i) throws X {
-		return Null.requireNonNull(doApply(i), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(int a1) throws X {
+		return Null.requireNonNull(doApply(a1), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -116,13 +124,13 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureIntFunc(int i) {
-		return () -> this.doApply(i);
+	default LSupplierX<R, X> captureIntFunc(int a1) {
+		return () -> this.doApply(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LIntFunctionX<R, X> constant(R r) {
-		return i -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -143,7 +151,7 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <R, X extends Throwable> LIntFunctionX<R, X> wrap(final java.util.function.IntFunction<R> other) {
+	static <R, X extends Throwable> LIntFunctionX<R, X> wrap(final IntFunction<R> other) {
 		return other::apply;
 	}
 
@@ -179,70 +187,70 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	@Nonnull
 	default <V> LIntFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApply(this.doApply(i));
+		return a1 -> after.doApply(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doAccept(this.doApply(i));
+		return a1 -> after.doAccept(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsByte(this.doApply(i));
+		return a1 -> after.doApplyAsByte(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsShort(this.doApply(i));
+		return a1 -> after.doApplyAsShort(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsInt(this.doApply(i));
+		return a1 -> after.doApplyAsInt(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsLong(this.doApply(i));
+		return a1 -> after.doApplyAsLong(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsFloat(this.doApply(i));
+		return a1 -> after.doApplyAsFloat(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsDouble(this.doApply(i));
+		return a1 -> after.doApplyAsDouble(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsChar(this.doApply(i));
+		return a1 -> after.doApplyAsChar(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntPredicateX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
+	default LIntPredicateX<X> thenToBool(@Nonnull LPredicateX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doTest(this.doApply(i));
+		return a1 -> after.doTest(this.doApply(a1));
 	}
 
 	// </editor-fold>
@@ -283,13 +291,13 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LIntFunction<R> handleIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return i -> this.handlingDoApply(i, handling);
+		return a1 -> this.handlingDoApply(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LIntFunctionX<R, Y> handleIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return i -> this.handlingDoApply(i, handling);
+		return a1 -> this.handlingDoApply(a1, handling);
 	}
 
 	// </editor-fold>

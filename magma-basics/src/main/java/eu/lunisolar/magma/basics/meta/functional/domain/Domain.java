@@ -18,5 +18,7 @@
 
 package eu.lunisolar.magma.basics.meta.functional.domain;
 
-public interface Domain {
+import eu.lunisolar.magma.basics.meta.LTuple;
+
+public interface Domain<T extends LTuple> {
 }

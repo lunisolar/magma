@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,24 +64,24 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
 
 
     private LObjLongPredicateX<T,X> sut = new LObjLongPredicateX(){
-        public  boolean doTest(Object t, long l) throws ParseException {
+        public  boolean doTest(Object a1,long a2) throws ParseException {
             return testValue;
         }
     };
 
     private LObjLongPredicate<T> opposite = new LObjLongPredicate(){
-        public  boolean doTest(Object t, long l)  {
+        public  boolean doTest(Object a1,long a2)  {
             return testValue;
         }
     };
 
 
 
-    private LObjLongPredicateX<T,ParseException> sutAlwaysThrowing = LObjLongPredicateX.lX((T t, long l) -> {
+    private LObjLongPredicateX<T,ParseException> sutAlwaysThrowing = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LObjLongPredicateX<T,RuntimeException> sutAlwaysThrowingUnckeck = LObjLongPredicateX.lX((T t, long l) -> {
+    private LObjLongPredicateX<T,RuntimeException> sutAlwaysThrowingUnckeck = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -86,6 +89,19 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doTest((T)Integer.valueOf(100),(long)100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LObjLongPair<T>,Boolean,X> theCall = sut;
+
+        LObjLongPair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(long)100);
+
+        Object result = sut.tupleTest(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -166,12 +182,12 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjLongPredicateX: boolean doTest(T t, long l) throws X");
+            .isEqualTo("LObjLongPredicateX: boolean doTest(T a1,long a2) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LObjLongPredicateX.lX((Object t, long l) -> testValue ))
+        assertThat(LObjLongPredicateX.lX((Object a1,long a2) -> testValue ))
             .isInstanceOf(LObjLongPredicateX.class);
     }
 
@@ -186,7 +202,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T t, long l) -> {
+        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -210,7 +226,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T t, long l) -> {
+        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -234,7 +250,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T t, long l) -> {
+        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -259,7 +275,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T t, long l) -> {
+        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -299,8 +315,8 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LObjLongPredicateX<T,X> fun1 = LObjLongPredicateX.lX((T t, long l) -> f1Result);
-        LObjLongPredicateX<T,X> fun2 = LObjLongPredicateX.lX((T t, long l) -> f2Result);
+        LObjLongPredicateX<T,X> fun1 = LObjLongPredicateX.lX((T a1,long a2) -> f1Result);
+        LObjLongPredicateX<T,X> fun2 = LObjLongPredicateX.lX((T a1,long a2) -> f2Result);
 
         //when
         LObjLongPredicateX<T,X> andFunction = fun1.and(fun2);
@@ -342,10 +358,10 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjLongPredicateX<Integer ,X> sutO = (Integer t, long l) -> {
+        LObjLongPredicateX<Integer ,X> sutO = (Integer a1,long a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(90));
-                assertThat( l).isEqualTo((long)91);
+                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((long)91);
                 return true;
         };
 
@@ -377,10 +393,10 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjLongPredicateX<Integer ,X> sutO = (Integer t, long l) -> {
+        LObjLongPredicateX<Integer ,X> sutO = (Integer a1,long a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(90));
-                assertThat( l).isEqualTo((long)91);
+                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((long)91);
                 return true;
         };
 
@@ -417,10 +433,10 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LObjLongPredicateX<Integer ,X> sutO = (Integer t, long l) -> {
+        LObjLongPredicateX<Integer ,X> sutO = (Integer a1,long a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
-                assertThat( l).isEqualTo((long)81);
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((long)81);
                 return true;
         };
 
@@ -475,7 +491,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T t, long l) -> {
+        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -487,7 +503,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     public void testHandleObjLongPred() throws X {
 
         // given
-        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T t, long l) -> {
+        LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T a1,long a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -517,7 +533,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjLongPredicateX: boolean doTest(T t, long l) throws X");
+                .contains("LObjLongPredicateX: boolean doTest(T a1,long a2) throws X");
     }
 
 

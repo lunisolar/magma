@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiBoolFunction. */
 public final class LBiBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBiBoolFunctionBuilder<R>, LLogicalBinaryOperator, LBiBoolFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LBiBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiBoolFunction EVENTUALLY_THROW = LBiBoolFunction.l((boolean b1, boolean b2) -> {
+	public static final LBiBoolFunction EVENTUALLY_THROW = LBiBoolFunction.l((boolean a1, boolean a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", b1, b2, LBiBoolFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiBoolFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 		LBiBoolFunction<R> retval;
 
 		final Case<LLogicalBinaryOperator, LBiBoolFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiBoolFunction.<R> l((boolean b1, boolean b2) -> {
+		retval = LBiBoolFunction.<R> l((boolean a1, boolean a2) -> {
 			try {
 				for (Case<LLogicalBinaryOperator, LBiBoolFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b1, b2)) {
-						return aCase.caseFunction().doApply(b1, b2);
+					if (aCase.casePredicate().doApply(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(b1, b2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,13 +64,13 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
 
     private LCharBinaryOperator sut = new LCharBinaryOperator(){
-        public  char doApplyAsChar(char c1,char c2)  {
+        public  char doApplyAsChar(char a1,char a2)  {
             return testValue;
         }
     };
 
     private LCharBinaryOperatorX<X> opposite = new LCharBinaryOperatorX(){
-        public  char doApplyAsChar(char c1,char c2) throws ParseException {
+        public  char doApplyAsChar(char a1,char a2) throws ParseException {
             return testValue;
         }
     };
@@ -75,7 +78,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
 
 
-    private LCharBinaryOperator sutAlwaysThrowingUnckeck = LCharBinaryOperator.l((char c1,char c2) -> {
+    private LCharBinaryOperator sutAlwaysThrowingUnckeck = LCharBinaryOperator.l((char a1,char a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -83,6 +86,19 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApplyAsChar((char)100,(char)100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LCharPair,Character,RuntimeException> theCall = sut;
+
+        LCharPair domainObject = Tuple4U.tuple((char)100,(char)100);
+
+        Object result = sut.tupleApplyAsChar(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -126,12 +142,12 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharBinaryOperator: char doApplyAsChar(char c1,char c2)");
+            .isEqualTo("LCharBinaryOperator: char doApplyAsChar(char a1,char a2)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LCharBinaryOperator.l((char c1,char c2) -> testValue ))
+        assertThat(LCharBinaryOperator.l((char a1,char a2) -> testValue ))
             .isInstanceOf(LCharBinaryOperator.class);
     }
 
@@ -144,7 +160,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LCharBinaryOperatorX<X> sutThrowing = LCharBinaryOperatorX.lX((char c1,char c2) -> {
+        LCharBinaryOperatorX<X> sutThrowing = LCharBinaryOperatorX.lX((char a1,char a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -166,7 +182,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LCharBinaryOperatorX<ParseException> sutThrowing = LCharBinaryOperatorX.lX((char c1,char c2) -> {
+        LCharBinaryOperatorX<ParseException> sutThrowing = LCharBinaryOperatorX.lX((char a1,char a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -190,7 +206,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char c1,char c2) -> {
+        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char a1,char a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -214,7 +230,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char c1,char c2) -> {
+        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char a1,char a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -238,7 +254,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char c1,char c2) -> {
+        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char a1,char a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -263,7 +279,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char c1,char c2) -> {
+        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char a1,char a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -327,10 +343,10 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharBinaryOperator sutO = (char c1,char c2) -> {
+        LCharBinaryOperator sutO = (char a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(c1).isEqualTo((char)90);
-                assertThat(c2).isEqualTo((char)91);
+                assertThat(a1).isEqualTo((char)90);
+                assertThat(a2).isEqualTo((char)91);
                 return (char)100;
         };
 
@@ -362,10 +378,10 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharBinaryOperator sutO = (char c1,char c2) -> {
+        LCharBinaryOperator sutO = (char a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(c1).isEqualTo((char)90);
-                assertThat(c2).isEqualTo((char)91);
+                assertThat(a1).isEqualTo((char)90);
+                assertThat(a2).isEqualTo((char)91);
                 return (char)100;
         };
 
@@ -402,10 +418,10 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharBinaryOperator sutO = (char c1,char c2) -> {
+        LCharBinaryOperator sutO = (char a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(c1).isEqualTo((char)80);
-                assertThat(c2).isEqualTo((char)81);
+                assertThat(a1).isEqualTo((char)80);
+                assertThat(a2).isEqualTo((char)81);
                 return (char)90;
         };
 
@@ -464,7 +480,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char c1,char c2) -> {
+        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char a1,char a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -476,7 +492,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     public void testHandleCharBinaryOp() throws X {
 
         // given
-        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char c1,char c2) -> {
+        LCharBinaryOperator sutThrowing = LCharBinaryOperator.l((char a1,char a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -506,7 +522,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharBinaryOperator: char doApplyAsChar(char c1,char c2)");
+                .contains("LCharBinaryOperator: char doApplyAsChar(char a1,char a2)");
     }
 
 

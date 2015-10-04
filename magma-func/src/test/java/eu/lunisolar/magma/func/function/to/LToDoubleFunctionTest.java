@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,23 +64,23 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
     private LToDoubleFunction<T> sut = new LToDoubleFunction(){
-        public  double doApplyAsDouble(Object t)  {
+        public  double doApplyAsDouble(Object a1)  {
             return testValue;
         }
     };
 
     private LToDoubleFunctionX<T,X> opposite = new LToDoubleFunctionX(){
-        public  double doApplyAsDouble(Object t) throws ParseException {
+        public  double doApplyAsDouble(Object a1) throws ParseException {
             return testValue;
         }
     };
 
 
-    private java.util.function.ToDoubleFunction jre = t -> testValue;
+    private ToDoubleFunction jre = a1 -> testValue;
 
 
 
-    private LToDoubleFunction<T> sutAlwaysThrowingUnckeck = LToDoubleFunction.l(t -> {
+    private LToDoubleFunction<T> sutAlwaysThrowingUnckeck = LToDoubleFunction.l(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -85,6 +88,19 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApplyAsDouble((T)Integer.valueOf(100)))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LSingle<T>,Double,RuntimeException> theCall = sut;
+
+        LSingle<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100));
+
+        Object result = sut.tupleApplyAsDouble(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -128,12 +144,12 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToDoubleFunction: double doApplyAsDouble(T t)");
+            .isEqualTo("LToDoubleFunction: double doApplyAsDouble(T a1)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LToDoubleFunction.l(t -> testValue ))
+        assertThat(LToDoubleFunction.l(a1 -> testValue ))
             .isInstanceOf(LToDoubleFunction.class);
     }
 
@@ -152,7 +168,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LToDoubleFunctionX<T,X> sutThrowing = LToDoubleFunctionX.lX(t -> {
+        LToDoubleFunctionX<T,X> sutThrowing = LToDoubleFunctionX.lX(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -174,7 +190,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LToDoubleFunctionX<T,ParseException> sutThrowing = LToDoubleFunctionX.lX(t -> {
+        LToDoubleFunctionX<T,ParseException> sutThrowing = LToDoubleFunctionX.lX(a1 -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -198,7 +214,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(t -> {
+        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -222,7 +238,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(t -> {
+        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -246,7 +262,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(t -> {
+        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -271,7 +287,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(t -> {
+        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -301,9 +317,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(90));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
                 return (double)100;
         };
 
@@ -335,9 +351,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -370,9 +386,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -405,9 +421,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -440,9 +456,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -475,9 +491,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -510,9 +526,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -545,9 +561,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -580,9 +596,9 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -608,16 +624,16 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBoolean() throws X  {
+    public void testThen8ToBool() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
 
         //given (+ some assertions)
-        LToDoubleFunction<Integer > sutO = t -> {
+        LToDoubleFunction<Integer > sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(t).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
                 return (double)90;
         };
 
@@ -630,7 +646,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LPredicate<Integer > function = sutO.thenToBoolean(thenFunction);
+        LPredicate<Integer > function = sutO.thenToBool(thenFunction);
         boolean finalValue = function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -676,7 +692,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(t -> {
+        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -688,7 +704,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     public void testHandleToDoubleFunc() throws X {
 
         // given
-        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(t -> {
+        LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -718,7 +734,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToDoubleFunction: double doApplyAsDouble(T t)");
+                .contains("LToDoubleFunction: double doApplyAsDouble(T a1)");
     }
 
 

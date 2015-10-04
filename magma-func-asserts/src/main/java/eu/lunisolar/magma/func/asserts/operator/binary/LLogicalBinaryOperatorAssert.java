@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.binary.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LLogicalBinaryOperator. */
+/** Assert class for LLogicalBinaryOperator. */
 public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAssert<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2);
+	Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean a1, boolean a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -68,13 +68,13 @@ public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2) {
+		public Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean a1, boolean a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b1, b2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Boolean) actual.doApply(b1, b2));
+				return assertFactory.apply((Boolean) actual.doApply(a1, a2));
 			});
 
 		}

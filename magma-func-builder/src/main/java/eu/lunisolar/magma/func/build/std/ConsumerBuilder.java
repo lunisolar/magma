@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.Consumer. */
 public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilder<T>, LPredicate<T>, java.util.function.Consumer<T>> {
@@ -53,10 +55,10 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.Consumer EVENTUALLY_THROW = Function4U.consumer((Object t) -> {
+	public static final java.util.function.Consumer EVENTUALLY_THROW = Function4U.consumer((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, "java.util.function.Consumer: void accept(T t)");
+			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.Consumer: void accept(T a1)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -101,7 +103,7 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> ConsumerBuilder<T> casesOf(Class<E1> argC1, Consumer<ConsumerBuilder<E1>> pcpConsumer) {
-		PartialCase.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCase.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,7 +112,7 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> ConsumerBuilder<T> aCase(Class<E1> argC1, java.util.function.Consumer<E1> function) {
-		PartialCase.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCase.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -125,16 +127,16 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 		java.util.function.Consumer<T> retval;
 
 		final Case<LPredicate<T>, java.util.function.Consumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> consumer(t -> {
+		retval = Function4U.<T> consumer(a1 -> {
 			try {
 				for (Case<LPredicate<T>, java.util.function.Consumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						aCase.caseFunction().accept(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						aCase.caseFunction().accept(a1);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t);
+				eventuallyFinal.accept(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

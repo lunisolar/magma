@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LDoubleBinaryOperator. */
 public final class LDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<LDoubleBinaryOperatorBuilder, LBiDoublePredicate, LDoubleBinaryOperator> {
@@ -54,10 +56,10 @@ public final class LDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDouble
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleBinaryOperator EVENTUALLY_THROW = LDoubleBinaryOperator.l((double d1, double d2) -> {
+	public static final LDoubleBinaryOperator EVENTUALLY_THROW = LDoubleBinaryOperator.l((double a1, double a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", d1, d2, LDoubleBinaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LDoubleBinaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDouble
 		LDoubleBinaryOperator retval;
 
 		final Case<LBiDoublePredicate, LDoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleBinaryOperator.l((double d1, double d2) -> {
+		retval = LDoubleBinaryOperator.l((double a1, double a2) -> {
 			try {
 				for (Case<LBiDoublePredicate, LDoubleBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d1, d2)) {
-						return aCase.caseFunction().doApplyAsDouble(d1, d2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApplyAsDouble(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(d1, d2);
+				return eventuallyFinal.doApplyAsDouble(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

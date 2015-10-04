@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LLongPredicate. */
 public final class LLongPredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<LLongPredicateBuilder, LLongPredicate, LLongPredicate> {
@@ -54,10 +56,10 @@ public final class LLongPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongPredicate EVENTUALLY_THROW = LLongPredicate.l((long l) -> {
+	public static final LLongPredicate EVENTUALLY_THROW = LLongPredicate.l((long a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", l, LLongPredicate.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LLongPredicate.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LLongPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 		LLongPredicate retval;
 
 		final Case<LLongPredicate, LLongPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongPredicate.l(l -> {
+		retval = LLongPredicate.l(a1 -> {
 			try {
 				for (Case<LLongPredicate, LLongPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l)) {
-						return aCase.caseFunction().doTest(l);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doTest(a1);
 					}
 				}
 
-				return eventuallyFinal.doTest(l);
+				return eventuallyFinal.doTest(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.predicate.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LCharPredicate. */
+/** Assert class for LCharPredicate. */
 public interface LCharPredicateAssert<S extends LCharPredicateAssert<S, A, RS>, A extends LCharPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c);
+	Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LCharPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -63,13 +63,13 @@ public interface LCharPredicateAssert<S extends LCharPredicateAssert<S, A, RS>, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c) {
+		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(c);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Boolean) actual.doTest(c));
+				return assertFactory.apply((Boolean) actual.doTest(a1));
 			});
 
 		}

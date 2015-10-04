@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiLongPredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): long l1,long l2
+ * Domain (lvl: 2): long a1,long a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiLongPredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiLongPredicate: boolean doTest(long l1,long l2)";
+	String DESCRIPTION = "LBiLongPredicate: boolean doTest(long a1,long a2)";
 
-	boolean doTest(long l1, long l2);
+	boolean doTest(long a1, long a2);
+
+	default Boolean tupleTest(LLongPair args) {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(long l1, long l2) {
-		return this.doTest(l1, l2);
+	default boolean nestingDoTest(long a1, long a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(long l1, long l2) {
-		return this.doTest(l1, l2);
+	default boolean shovingDoTest(long a1, long a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(long l1, long l2) {
-		return doTest(l1, l2);
+	default boolean nonNullDoTest(long a1, long a2) {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(long l1, long l2) {
-		return doTest(l1, l2);
+	default boolean doApplyAsBoolean(long a1, long a2) {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,25 +100,25 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiLongPred(long l1, long l2) {
-		return () -> this.doTest(l1, l2);
+	default LBoolSupplier captureBiLongPred(long a1, long a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LBiLongPredicate constant(boolean r) {
-		return (l1, l2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiLongPredicate test1st(@Nonnull LLongPredicate func) {
-		return (l1, l2) -> func.doTest(l1);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiLongPredicate test2nd(@Nonnull LLongPredicate func) {
-		return (l1, l2) -> func.doTest(l2);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -138,7 +146,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LBiLongPredicate negate() {
-		return (long l1, long l2) -> !doTest(l1, l2);
+		return (long a1, long a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -148,7 +156,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate and(@Nonnull LBiLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (long l1, long l2) -> doTest(l1, l2) && other.doTest(l1, l2);
+		return (long a1, long a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -158,7 +166,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate or(@Nonnull LBiLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (long l1, long l2) -> doTest(l1, l2) || other.doTest(l1, l2);
+		return (long a1, long a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -168,7 +176,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate xor(@Nonnull LBiLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (long l1, long l2) -> doTest(l1, l2) ^ other.doTest(l1, l2);
+		return (long a1, long a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -177,7 +185,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	static LBiLongPredicate isEqual(final long v1, final long v2) {
-		return (l1, l2) -> (l1 == v1) && (l2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -208,7 +216,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default <V> LBiLongFunction<V> boolToBiLongFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (long l1, long l2) -> after.doApply(this.doTest(l1, l2));
+		return (long a1, long a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

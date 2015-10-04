@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiBoolFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): boolean b1,boolean b2
+ * Domain (lvl: 2): boolean a1,boolean a2
  *
  * Co-domain: R
  *
@@ -60,15 +64,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LBiBoolFunctionX: R doApply(boolean b1,boolean b2) throws X";
+	String DESCRIPTION = "LBiBoolFunctionX: R doApply(boolean a1,boolean a2) throws X";
 
 	@Nullable
-	R doApply(boolean b1, boolean b2) throws X;
+	R doApply(boolean a1, boolean a2) throws X;
+
+	default R tupleApply(LBoolPair args) throws X {
+		return doApply(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(boolean b1, boolean b2) {
+	default R nestingDoApply(boolean a1, boolean a2) {
 		try {
-			return this.doApply(b1, b2);
+			return this.doApply(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,26 +85,26 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(boolean b1, boolean b2) {
-		return ((LBiBoolFunctionX<R, RuntimeException>) this).doApply(b1, b2);
+	default R shovingDoApply(boolean a1, boolean a2) {
+		return ((LBiBoolFunctionX<R, RuntimeException>) this).doApply(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> R handlingDoApply(boolean b1, boolean b2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> R handlingDoApply(boolean a1, boolean a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(b1, b2);
+			return this.doApply(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(boolean b1, boolean b2) throws X {
-		return Null.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(boolean a1, boolean a2) throws X {
+		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -106,25 +114,25 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureBiBoolFunc(boolean b1, boolean b2) {
-		return () -> this.doApply(b1, b2);
+	default LSupplierX<R, X> captureBiBoolFunc(boolean a1, boolean a2) {
+		return () -> this.doApply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LBiBoolFunctionX<R, X> constant(R r) {
-		return (b1, b2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <R, X extends Throwable> LBiBoolFunctionX<R, X> apply1st(@Nonnull LBoolFunctionX<R, X> func) {
-		return (b1, b2) -> func.doApply(b1);
+		return (a1, a2) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <R, X extends Throwable> LBiBoolFunctionX<R, X> apply2nd(@Nonnull LBoolFunctionX<R, X> func) {
-		return (b1, b2) -> func.doApply(b2);
+		return (a1, a2) -> func.doApply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -177,14 +185,14 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	@Nonnull
 	default <V> LBiBoolFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b1, boolean b2) -> after.doApply(this.doApply(b1, b2));
+		return (boolean a1, boolean a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiBoolConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b1, boolean b2) -> after.doAccept(this.doApply(b1, b2));
+		return (boolean a1, boolean a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -225,13 +233,13 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiBoolFunction<R> handleBiBoolFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean b1, boolean b2) -> this.handlingDoApply(b1, b2, handling);
+		return (boolean a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiBoolFunctionX<R, Y> handleBiBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean b1, boolean b2) -> this.handlingDoApply(b1, b2, handling);
+		return (boolean a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

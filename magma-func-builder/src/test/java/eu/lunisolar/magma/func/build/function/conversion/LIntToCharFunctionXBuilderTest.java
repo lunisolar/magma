@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LIntToCharFunctionXBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LIntToCharFunctionX function = LIntToCharFunctionXBuilder.intToCharFunctionX()
-                .eventually(i -> {
+                .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LIntToCharFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LIntToCharFunctionX<ParseException> function = intToCharFunctionX((LIntToCharFunctionX<ParseException> f)-> doNothing())
-            .aCase(ce -> ce.of(i -> i == (int)0)
-                             .evaluate(i -> (char)0))
-            .inCase(i -> i > 0 && i < 10).evaluate(i -> (char)1)
-            .inCase(i -> i > 10 && i < 20).evaluate(i -> (char)2)
-            .eventually(i -> (char)99)
+            .aCase(ce -> ce.of(a1 -> a1 == (int)0)
+                             .evaluate(a1 -> (char)0))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (char)1)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (char)2)
+            .eventually(a1 -> (char)99)
             .build();
 
 

@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LToShortBiFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): T1 t1,T2 t2
+ * Domain (lvl: 2): T1 a1,T2 a2
  *
- * Co-domain: none
+ * Co-domain: short
  *
  * @see LToShortBiFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LToShortBiFunction: short doApplyAsShort(T1 t1,T2 t2)";
+	String DESCRIPTION = "LToShortBiFunction: short doApplyAsShort(T1 a1,T2 a2)";
 
-	short doApplyAsShort(T1 t1, T2 t2);
+	short doApplyAsShort(T1 a1, T2 a2);
+
+	default Short tupleApplyAsShort(LPair<T1, T2> args) {
+		return doApplyAsShort(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default short nestingDoApplyAsShort(T1 t1, T2 t2) {
-		return this.doApplyAsShort(t1, t2);
+	default short nestingDoApplyAsShort(T1 a1, T2 a2) {
+		return this.doApplyAsShort(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default short shovingDoApplyAsShort(T1 t1, T2 t2) {
-		return this.doApplyAsShort(t1, t2);
+	default short shovingDoApplyAsShort(T1 a1, T2 a2) {
+		return this.doApplyAsShort(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsShort(T1 t1, T2 t2) {
-		return doApplyAsShort(t1, t2);
+	default short nonNullDoApplyAsShort(T1 a1, T2 a2) {
+		return doApplyAsShort(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,25 +94,25 @@ public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier captureToShortBiFunc(T1 t1, T2 t2) {
-		return () -> this.doApplyAsShort(t1, t2);
+	default LShortSupplier captureToShortBiFunc(T1 a1, T2 a2) {
+		return () -> this.doApplyAsShort(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToShortBiFunction<T1, T2> constant(short r) {
-		return (t1, t2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToShortBiFunction<T1, T2> apply1stAsShort(@Nonnull LToShortFunction<T1> func) {
-		return (t1, t2) -> func.doApplyAsShort(t1);
+		return (a1, a2) -> func.doApplyAsShort(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LToShortBiFunction<T1, T2> apply2ndAsShort(@Nonnull LToShortFunction<T2> func) {
-		return (t1, t2) -> func.doApplyAsShort(t2);
+		return (a1, a2) -> func.doApplyAsShort(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -142,7 +150,7 @@ public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, 
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LShortFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsShort(t1, t2));
+		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsShort(a1, a2));
 	}
 
 	// </editor-fold>

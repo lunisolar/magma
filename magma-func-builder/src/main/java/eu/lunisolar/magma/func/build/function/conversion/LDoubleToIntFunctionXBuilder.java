@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LDoubleToIntFunctionX. */
 public final class LDoubleToIntFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithIntProduct.Base<LDoubleToIntFunctionXBuilder<X>, LDoublePredicateX<X>, LDoubleToIntFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LDoubleToIntFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToIntFunctionX EVENTUALLY_THROW = LDoubleToIntFunctionX.lX((double d) -> {
+	public static final LDoubleToIntFunctionX EVENTUALLY_THROW = LDoubleToIntFunctionX.lX((double a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", d, LDoubleToIntFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LDoubleToIntFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LDoubleToIntFunctionXBuilder<X extends Throwable> extends Per
 		LDoubleToIntFunctionX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToIntFunctionX.<X> lX(d -> {
+		retval = LDoubleToIntFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d)) {
-						return aCase.caseFunction().doApplyAsInt(d);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(d);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

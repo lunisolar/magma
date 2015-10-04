@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LCharFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): char c
+ * Domain (lvl: 1): char a1
  *
  * Co-domain: R
  *
@@ -60,27 +64,31 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LCharFunction: R doApply(char c)";
+	String DESCRIPTION = "LCharFunction: R doApply(char a1)";
 
 	@Nullable
-	R doApply(char c);
+	R doApply(char a1);
+
+	default R tupleApply(LCharSingle args) {
+		return doApply(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(char c) {
-		return this.doApply(c);
+	default R nestingDoApply(char a1) {
+		return this.doApply(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(char c) {
-		return this.doApply(c);
+	default R shovingDoApply(char a1) {
+		return this.doApply(a1);
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(char c) {
-		return Null.requireNonNull(doApply(c), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(char a1) {
+		return Null.requireNonNull(doApply(a1), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,13 +98,13 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureCharFunc(char c) {
-		return () -> this.doApply(c);
+	default LSupplier<R> captureCharFunc(char a1) {
+		return () -> this.doApply(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <R> LCharFunction<R> constant(R r) {
-		return c -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -140,70 +148,70 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApply(this.doApply(c));
+		return a1 -> after.doApply(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doAccept(this.doApply(c));
+		return a1 -> after.doAccept(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsByte(this.doApply(c));
+		return a1 -> after.doApplyAsByte(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsShort(this.doApply(c));
+		return a1 -> after.doApplyAsShort(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsInt(this.doApply(c));
+		return a1 -> after.doApplyAsInt(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsLong(this.doApply(c));
+		return a1 -> after.doApplyAsLong(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsFloat(this.doApply(c));
+		return a1 -> after.doApplyAsFloat(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsDouble(this.doApply(c));
+		return a1 -> after.doApplyAsDouble(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doApplyAsChar(this.doApply(c));
+		return a1 -> after.doApplyAsChar(this.doApply(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharPredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
+	default LCharPredicate thenToBool(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return c -> after.doTest(this.doApply(c));
+		return a1 -> after.doTest(this.doApply(a1));
 	}
 
 	// </editor-fold>

@@ -19,7 +19,7 @@
 package eu.lunisolar.magma.examples.support;
 
 /**
- * @author Jakub Wach
+ *
  */
 public class DifferentSpecializedCheckedException extends DifferentCheckedException {
     public DifferentSpecializedCheckedException() {

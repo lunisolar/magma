@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LIntUnaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 1): int i
+ * Domain (lvl: 1): int a1
  *
- * Co-domain: none
+ * Co-domain: int
  *
  * @see LIntUnaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int i)";
+	String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int a1)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,25 +72,29 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	 */
 	@Override
 	@Deprecated
-	default int applyAsInt(int i) {
-		return this.nestingDoApplyAsInt(i);
+	default int applyAsInt(int a1) {
+		return this.nestingDoApplyAsInt(a1);
 	}
 
-	int doApplyAsInt(int i);
+	int doApplyAsInt(int a1);
+
+	default Integer tupleApplyAsInt(LIntSingle args) {
+		return doApplyAsInt(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default int nestingDoApplyAsInt(int i) {
-		return this.doApplyAsInt(i);
+	default int nestingDoApplyAsInt(int a1) {
+		return this.doApplyAsInt(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(int i) {
-		return this.doApplyAsInt(i);
+	default int shovingDoApplyAsInt(int a1) {
+		return this.doApplyAsInt(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(int i) {
-		return doApplyAsInt(i);
+	default int nonNullDoApplyAsInt(int a1) {
+		return doApplyAsInt(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -96,13 +104,13 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureIntUnaryOp(int i) {
-		return () -> this.doApplyAsInt(i);
+	default LIntSupplier captureIntUnaryOp(int a1) {
+		return () -> this.doApplyAsInt(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LIntUnaryOperator constant(int r) {
-		return i -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -116,7 +124,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static LIntUnaryOperator wrap(final java.util.function.IntUnaryOperator other) {
+	static LIntUnaryOperator wrap(final IntUnaryOperator other) {
 		return other::applyAsInt;
 	}
 
@@ -152,63 +160,63 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApply(this.doApplyAsInt(i));
+		return a1 -> after.doApply(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsByte(this.doApplyAsInt(i));
+		return a1 -> after.doApplyAsByte(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsShort(this.doApplyAsInt(i));
+		return a1 -> after.doApplyAsShort(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsInt(this.doApplyAsInt(i));
+		return a1 -> after.doApplyAsInt(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsLong(this.doApplyAsInt(i));
+		return a1 -> after.doApplyAsLong(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsFloat(this.doApplyAsInt(i));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsDouble(this.doApplyAsInt(i));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsChar(this.doApplyAsInt(i));
+		return a1 -> after.doApplyAsChar(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LIntPredicate thenToBoolean(@Nonnull LIntPredicate after) {
+	default LIntPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doTest(this.doApplyAsInt(i));
+		return a1 -> after.doTest(this.doApplyAsInt(a1));
 	}
 
 	// </editor-fold>

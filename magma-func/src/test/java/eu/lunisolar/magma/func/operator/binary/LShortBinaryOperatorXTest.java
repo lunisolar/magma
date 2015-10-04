@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,24 +64,24 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
 
 
     private LShortBinaryOperatorX<X> sut = new LShortBinaryOperatorX(){
-        public  short doApplyAsShort(short s1,short s2) throws ParseException {
+        public  short doApplyAsShort(short a1,short a2) throws ParseException {
             return testValue;
         }
     };
 
     private LShortBinaryOperator opposite = new LShortBinaryOperator(){
-        public  short doApplyAsShort(short s1,short s2)  {
+        public  short doApplyAsShort(short a1,short a2)  {
             return testValue;
         }
     };
 
 
 
-    private LShortBinaryOperatorX<ParseException> sutAlwaysThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+    private LShortBinaryOperatorX<ParseException> sutAlwaysThrowing = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LShortBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+    private LShortBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -86,6 +89,19 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApplyAsShort((short)100,(short)100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LShortPair,Short,X> theCall = sut;
+
+        LShortPair domainObject = Tuple4U.tuple((short)100,(short)100);
+
+        Object result = sut.tupleApplyAsShort(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -159,12 +175,12 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortBinaryOperatorX: short doApplyAsShort(short s1,short s2) throws X");
+            .isEqualTo("LShortBinaryOperatorX: short doApplyAsShort(short a1,short a2) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LShortBinaryOperatorX.lX((short s1,short s2) -> testValue ))
+        assertThat(LShortBinaryOperatorX.lX((short a1,short a2) -> testValue ))
             .isInstanceOf(LShortBinaryOperatorX.class);
     }
 
@@ -179,7 +195,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -203,7 +219,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -227,7 +243,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -252,7 +268,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -316,10 +332,10 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortBinaryOperatorX<X> sutO = (short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutO = (short a1,short a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(s1).isEqualTo((short)90);
-                assertThat(s2).isEqualTo((short)91);
+                assertThat(a1).isEqualTo((short)90);
+                assertThat(a2).isEqualTo((short)91);
                 return (short)100;
         };
 
@@ -351,10 +367,10 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortBinaryOperatorX<X> sutO = (short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutO = (short a1,short a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(s1).isEqualTo((short)90);
-                assertThat(s2).isEqualTo((short)91);
+                assertThat(a1).isEqualTo((short)90);
+                assertThat(a2).isEqualTo((short)91);
                 return (short)100;
         };
 
@@ -391,10 +407,10 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortBinaryOperatorX<X> sutO = (short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutO = (short a1,short a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(s1).isEqualTo((short)80);
-                assertThat(s2).isEqualTo((short)81);
+                assertThat(a1).isEqualTo((short)80);
+                assertThat(a2).isEqualTo((short)81);
                 return (short)90;
         };
 
@@ -449,7 +465,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -461,7 +477,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     public void testHandleShortBinaryOp() throws X {
 
         // given
-        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
+        LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short a1,short a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -491,7 +507,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortBinaryOperatorX: short doApplyAsShort(short s1,short s2) throws X");
+                .contains("LShortBinaryOperatorX: short doApplyAsShort(short a1,short a2) throws X");
     }
 
 

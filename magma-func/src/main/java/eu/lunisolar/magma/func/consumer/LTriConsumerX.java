@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LTriConsumerX for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 3): T1 t1,T2 t2,T3 t3
+ * Domain (lvl: 3): T1 a1,T2 a2,T3 a3
  *
  * Co-domain: none
  *
@@ -61,14 +65,19 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	static final String DESCRIPTION = "LTriConsumerX: void doAccept(T1 t1,T2 t2,T3 t3) throws X";
+	String DESCRIPTION = "LTriConsumerX: void doAccept(T1 a1,T2 a2,T3 a3) throws X";
 
-	void doAccept(T1 t1, T2 t2, T3 t3) throws X;
+	void doAccept(T1 a1, T2 a2, T3 a3) throws X;
+
+	default LTuple.Void tupleAccept(LTriple<T1, T2, T3> args) throws X {
+		doAccept(args.first(), args.second(), args.third());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(T1 t1, T2 t2, T3 t3) {
+	default void nestingDoAccept(T1 a1, T2 a2, T3 a3) {
 		try {
-			this.doAccept(t1, t2, t3);
+			this.doAccept(a1, a2, a3);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -77,15 +86,15 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T1 t1, T2 t2, T3 t3) {
-		((LTriConsumerX<T1, T2, T3, RuntimeException>) this).doAccept(t1, t2, t3);
+	default void shovingDoAccept(T1 a1, T2 a2, T3 a3) {
+		((LTriConsumerX<T1, T2, T3, RuntimeException>) this).doAccept(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(T1 t1, T2 t2, T3 t3, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(T1 a1, T2 a2, T3 a3, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(t1, t2, t3);
+			this.doAccept(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -98,26 +107,26 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureTriCons(T1 t1, T2 t2, T3 t3) {
-		return () -> this.doAccept(t1, t2, t3);
+	default LActionX<X> captureTriCons(T1 a1, T2 a2, T3 a3) {
+		return () -> this.doAccept(a1, a2, a3);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> accept1st(@Nonnull LConsumerX<T1, X> func) {
-		return (t1, t2, t3) -> func.doAccept(t1);
+		return (a1, a2, a3) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> accept2nd(@Nonnull LConsumerX<T2, X> func) {
-		return (t1, t2, t3) -> func.doAccept(t2);
+		return (a1, a2, a3) -> func.doAccept(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> accept3rd(@Nonnull LConsumerX<T3, X> func) {
-		return (t1, t2, t3) -> func.doAccept(t3);
+		return (a1, a2, a3) -> func.doAccept(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -164,9 +173,9 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	@Nonnull
 	default LTriConsumerX<T1, T2, T3, X> andThen(@Nonnull LTriConsumerX<? super T1, ? super T2, ? super T3, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, T3 t3) -> {
-			this.doAccept(t1, t2, t3);
-			after.doAccept(t1, t2, t3);
+		return (T1 a1, T2 a2, T3 a3) -> {
+			this.doAccept(a1, a2, a3);
+			after.doAccept(a1, a2, a3);
 		};
 	}
 
@@ -201,13 +210,13 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriConsumer<T1, T2, T3> handleTriCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoAccept(t1, t2, t3, handling);
+		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriConsumerX<T1, T2, T3, Y> handleTriConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoAccept(t1, t2, t3, handling);
+		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

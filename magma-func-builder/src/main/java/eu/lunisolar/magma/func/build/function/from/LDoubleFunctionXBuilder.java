@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LDoubleFunctionX. */
 public final class LDoubleFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LDoubleFunctionXBuilder<R, X>, LDoublePredicateX<X>, LDoubleFunctionX<R, X>, R> {
@@ -54,10 +56,10 @@ public final class LDoubleFunctionXBuilder<R, X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleFunctionX EVENTUALLY_THROW = LDoubleFunctionX.lX((double d) -> {
+	public static final LDoubleFunctionX EVENTUALLY_THROW = LDoubleFunctionX.lX((double a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", d, LDoubleFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LDoubleFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LDoubleFunctionXBuilder<R, X extends Throwable> extends PerCa
 		LDoubleFunctionX<R, X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleFunctionX.<R, X> lX(d -> {
+		retval = LDoubleFunctionX.<R, X> lX(a1 -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d)) {
-						return aCase.caseFunction().doApply(d);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(d);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

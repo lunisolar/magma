@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LShortToLongFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): short s
+ * Domain (lvl: 1): short a1
  *
- * Co-domain: none
+ * Co-domain: long
  *
  * @see LShortToLongFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LShortToLongFunctionX: long doApplyAsLong(short s) throws X";
+	String DESCRIPTION = "LShortToLongFunctionX: long doApplyAsLong(short a1) throws X";
 
-	long doApplyAsLong(short s) throws X;
+	long doApplyAsLong(short a1) throws X;
+
+	default Long tupleApplyAsLong(LShortSingle args) throws X {
+		return doApplyAsLong(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default long nestingDoApplyAsLong(short s) {
+	default long nestingDoApplyAsLong(short a1) {
 		try {
-			return this.doApplyAsLong(s);
+			return this.doApplyAsLong(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,23 +84,23 @@ public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(short s) {
-		return ((LShortToLongFunctionX<RuntimeException>) this).doApplyAsLong(s);
+	default long shovingDoApplyAsLong(short a1) {
+		return ((LShortToLongFunctionX<RuntimeException>) this).doApplyAsLong(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> long handlingDoApplyAsLong(short s, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> long handlingDoApplyAsLong(short a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsLong(s);
+			return this.doApplyAsLong(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(short s) throws X {
-		return doApplyAsLong(s);
+	default long nonNullDoApplyAsLong(short a1) throws X {
+		return doApplyAsLong(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -102,13 +110,13 @@ public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> captureShortToLongFunc(short s) {
-		return () -> this.doApplyAsLong(s);
+	default LLongSupplierX<X> captureShortToLongFunc(short a1) {
+		return () -> this.doApplyAsLong(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LShortToLongFunctionX<X> constant(long r) {
-		return s -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -159,63 +167,63 @@ public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default <V> LShortFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApply(this.doApplyAsLong(s));
+		return a1 -> after.doApply(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsByte(this.doApplyAsLong(s));
+		return a1 -> after.doApplyAsByte(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsShort(this.doApplyAsLong(s));
+		return a1 -> after.doApplyAsShort(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsInt(this.doApplyAsLong(s));
+		return a1 -> after.doApplyAsInt(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunctionX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsLong(this.doApplyAsLong(s));
+		return a1 -> after.doApplyAsLong(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsFloat(this.doApplyAsLong(s));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsDouble(this.doApplyAsLong(s));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsChar(this.doApplyAsLong(s));
+		return a1 -> after.doApplyAsChar(this.doApplyAsLong(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortPredicateX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
+	default LShortPredicateX<X> thenToBool(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doTest(this.doApplyAsLong(s));
+		return a1 -> after.doTest(this.doApplyAsLong(a1));
 	}
 
 	// </editor-fold>
@@ -250,13 +258,13 @@ public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LShortToLongFunction handleShortToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return s -> this.handlingDoApplyAsLong(s, handling);
+		return a1 -> this.handlingDoApplyAsLong(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LShortToLongFunctionX<Y> handleShortToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return s -> this.handlingDoApplyAsLong(s, handling);
+		return a1 -> this.handlingDoApplyAsLong(a1, handling);
 	}
 
 	// </editor-fold>

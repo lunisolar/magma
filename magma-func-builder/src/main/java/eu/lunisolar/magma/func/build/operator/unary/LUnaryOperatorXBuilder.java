@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LUnaryOperatorX. */
 public final class LUnaryOperatorXBuilder<T, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LUnaryOperatorXBuilder<T, X>, LPredicateX<T, X>, LUnaryOperatorX<T, X>, T> {
@@ -54,10 +56,10 @@ public final class LUnaryOperatorXBuilder<T, X extends Throwable> extends PerCas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LUnaryOperatorX EVENTUALLY_THROW = LUnaryOperatorX.lX((Object t) -> {
+	public static final LUnaryOperatorX EVENTUALLY_THROW = LUnaryOperatorX.lX((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, LUnaryOperatorX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LUnaryOperatorX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LUnaryOperatorXBuilder<T, X extends Throwable> extends PerCas
 		LUnaryOperatorX<T, X> retval;
 
 		final Case<LPredicateX<T, X>, LUnaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LUnaryOperatorX.<T, X> lX(t -> {
+		retval = LUnaryOperatorX.<T, X> lX(a1 -> {
 			try {
 				for (Case<LPredicateX<T, X>, LUnaryOperatorX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().doApply(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(t);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntToCharFunction. */
 public final class LIntToCharFunctionBuilder extends PerCaseBuilderWithCharProduct.Base<LIntToCharFunctionBuilder, LIntPredicate, LIntToCharFunction> {
@@ -54,10 +56,10 @@ public final class LIntToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToCharFunction EVENTUALLY_THROW = LIntToCharFunction.l((int i) -> {
+	public static final LIntToCharFunction EVENTUALLY_THROW = LIntToCharFunction.l((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntToCharFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntToCharFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 		LIntToCharFunction retval;
 
 		final Case<LIntPredicate, LIntToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToCharFunction.l(i -> {
+		retval = LIntToCharFunction.l(a1 -> {
 			try {
 				for (Case<LIntPredicate, LIntToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().doApplyAsChar(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsChar(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(i);
+				return eventuallyFinal.doApplyAsChar(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

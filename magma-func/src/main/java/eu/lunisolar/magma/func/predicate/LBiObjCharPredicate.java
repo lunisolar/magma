@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiObjCharPredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 3): T1 t1,T2 t2, char c
+ * Domain (lvl: 3): T1 a1,T2 a2,char a3
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiObjCharPredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2, RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiObjCharPredicate: boolean doTest(T1 t1,T2 t2, char c)";
+	String DESCRIPTION = "LBiObjCharPredicate: boolean doTest(T1 a1,T2 a2,char a3)";
 
-	boolean doTest(T1 t1, T2 t2, char c);
+	boolean doTest(T1 a1, T2 a2, char a3);
+
+	default Boolean tupleTest(LBiObjCharTriple<T1, T2> args) {
+		return doTest(args.first(), args.second(), args.third());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(T1 t1, T2 t2, char c) {
-		return this.doTest(t1, t2, c);
+	default boolean nestingDoTest(T1 a1, T2 a2, char a3) {
+		return this.doTest(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(T1 t1, T2 t2, char c) {
-		return this.doTest(t1, t2, c);
+	default boolean shovingDoTest(T1 a1, T2 a2, char a3) {
+		return this.doTest(a1, a2, a3);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(T1 t1, T2 t2, char c) {
-		return doTest(t1, t2, c);
+	default boolean nonNullDoTest(T1 a1, T2 a2, char a3) {
+		return doTest(a1, a2, a3);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(T1 t1, T2 t2, char c) {
-		return doTest(t1, t2, c);
+	default boolean doApplyAsBoolean(T1 a1, T2 a2, char a3) {
+		return doTest(a1, a2, a3);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,31 +100,31 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiObjCharPred(T1 t1, T2 t2, char c) {
-		return () -> this.doTest(t1, t2, c);
+	default LBoolSupplier captureBiObjCharPred(T1 a1, T2 a2, char a3) {
+		return () -> this.doTest(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LBiObjCharPredicate<T1, T2> constant(boolean r) {
-		return (t1, t2, c) -> r;
+		return (a1, a2, a3) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjCharPredicate<T1, T2> test1st(@Nonnull LPredicate<T1> func) {
-		return (t1, t2, c) -> func.doTest(t1);
+		return (a1, a2, a3) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjCharPredicate<T1, T2> test2nd(@Nonnull LPredicate<T2> func) {
-		return (t1, t2, c) -> func.doTest(t2);
+		return (a1, a2, a3) -> func.doTest(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjCharPredicate<T1, T2> test3rd(@Nonnull LCharPredicate func) {
-		return (t1, t2, c) -> func.doTest(c);
+		return (a1, a2, a3) -> func.doTest(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -144,7 +152,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	 */
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> negate() {
-		return (T1 t1, T2 t2, char c) -> !doTest(t1, t2, c);
+		return (T1 a1, T2 a2, char a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -154,7 +162,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> and(@Nonnull LBiObjCharPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, char c) -> doTest(t1, t2, c) && other.doTest(t1, t2, c);
+		return (T1 a1, T2 a2, char a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -164,7 +172,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> or(@Nonnull LBiObjCharPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, char c) -> doTest(t1, t2, c) || other.doTest(t1, t2, c);
+		return (T1 a1, T2 a2, char a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -174,7 +182,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> xor(@Nonnull LBiObjCharPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 t1, T2 t2, char c) -> doTest(t1, t2, c) ^ other.doTest(t1, t2, c);
+		return (T1 a1, T2 a2, char a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -183,7 +191,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	 */
 	@Nonnull
 	static <T1, T2> LBiObjCharPredicate<T1, T2> isEqual(final T1 v1, final T2 v2, final char v3) {
-		return (t1, t2, c) -> (t1 == null ? v1 == null : t1.equals(v1)) && (t2 == null ? v2 == null : t2.equals(v2)) && (c == v3);
+		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
 	}
 
 	// </editor-fold>
@@ -216,7 +224,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	@Nonnull
 	default <V> LBiObjCharFunction<T1, T2, V> boolToBiObjCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, char c) -> after.doApply(this.doTest(t1, t2, c));
+		return (T1 a1, T2 a2, char a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>

@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.predicate.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LObjBoolPredicateX. */
+/** Assert class for LObjBoolPredicateX. */
 public interface LObjBoolPredicateXAssert<S extends LObjBoolPredicateXAssert<S, A, RS, T, X>, A extends LObjBoolPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LObjBoolConsumerX<T, Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LObjBoolConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, boolean b);
+	Evaluation<S, LObjBoolConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T a1, boolean a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LObjBoolPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
@@ -68,13 +68,13 @@ public interface LObjBoolPredicateXAssert<S extends LObjBoolPredicateXAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LObjBoolConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, boolean b) {
+		public Evaluation<S, LObjBoolConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T a1, boolean a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t, b);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Boolean) actual.doTest(t, b));
+				return assertFactory.apply((Boolean) actual.doTest(a1, a2));
 			});
 
 		}

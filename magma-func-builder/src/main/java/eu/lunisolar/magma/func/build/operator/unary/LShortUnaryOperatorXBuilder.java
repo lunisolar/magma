@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortUnaryOperatorX. */
 public final class LShortUnaryOperatorXBuilder<X extends Throwable> extends PerCaseBuilderWithShortProduct.Base<LShortUnaryOperatorXBuilder<X>, LShortPredicateX<X>, LShortUnaryOperatorX<X>> {
@@ -54,10 +56,10 @@ public final class LShortUnaryOperatorXBuilder<X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortUnaryOperatorX EVENTUALLY_THROW = LShortUnaryOperatorX.lX((short s) -> {
+	public static final LShortUnaryOperatorX EVENTUALLY_THROW = LShortUnaryOperatorX.lX((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortUnaryOperatorX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortUnaryOperatorX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortUnaryOperatorXBuilder<X extends Throwable> extends PerC
 		LShortUnaryOperatorX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortUnaryOperatorX.<X> lX(s -> {
+		retval = LShortUnaryOperatorX.<X> lX(a1 -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsShort(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsShort(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(s);
+				return eventuallyFinal.doApplyAsShort(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

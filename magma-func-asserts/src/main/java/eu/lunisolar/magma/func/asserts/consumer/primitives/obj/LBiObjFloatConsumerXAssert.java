@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBiObjFloatConsumerX. */
+/** Assert class for LBiObjFloatConsumerX. */
 public interface LBiObjFloatConsumerXAssert<S extends LBiObjFloatConsumerXAssert<S, A, T1, T2, X>, A extends LBiObjFloatConsumerX<T1, T2, X>, T1, T2, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FunctionalAssert.Simple<S, LBiObjFloatConsumerX<T1, T2, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LBiObjFloatConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, float f);
+	SemiEvaluation<S, LBiObjFloatConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 a1, T2 a2, float a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBiObjFloatConsumerX<T1, T2, X>, T1, T2, X extends Throwable> extends Base<The<A, T1, T2, X>, A, T1, T2, X> {
@@ -65,13 +65,13 @@ public interface LBiObjFloatConsumerXAssert<S extends LBiObjFloatConsumerXAssert
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LBiObjFloatConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, float f) {
+		public SemiEvaluation<S, LBiObjFloatConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 a1, T2 a2, float a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2, f);
+					pc.doAccept(a1, a2, a3);
 				}
-				actual.doAccept(t1, t2, f);
+				actual.doAccept(a1, a2, a3);
 				return null;
 			});
 

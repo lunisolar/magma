@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LLongConsumerX. */
 public final class LLongConsumerXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LLongConsumerXBuilder<X>, LLongPredicateX<X>, LLongConsumerX<X>> {
@@ -54,10 +56,10 @@ public final class LLongConsumerXBuilder<X extends Throwable> extends PerCaseBui
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongConsumerX EVENTUALLY_THROW = LLongConsumerX.lX((long l) -> {
+	public static final LLongConsumerX EVENTUALLY_THROW = LLongConsumerX.lX((long a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", l, LLongConsumerX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LLongConsumerX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LLongConsumerXBuilder<X extends Throwable> extends PerCaseBui
 		LLongConsumerX<X> retval;
 
 		final Case<LLongPredicateX<X>, LLongConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongConsumerX.<X> lX(l -> {
+		retval = LLongConsumerX.<X> lX(a1 -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l)) {
-						aCase.caseFunction().doAccept(l);
+					if (aCase.casePredicate().doTest(a1)) {
+						aCase.caseFunction().doAccept(a1);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(l);
+				eventuallyFinal.doAccept(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

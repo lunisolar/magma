@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiFloatFunction. */
 public final class LBiFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBiFloatFunctionBuilder<R>, LBiFloatPredicate, LBiFloatFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LBiFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiFloatFunction EVENTUALLY_THROW = LBiFloatFunction.l((float f1, float f2) -> {
+	public static final LBiFloatFunction EVENTUALLY_THROW = LBiFloatFunction.l((float a1, float a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", f1, f2, LBiFloatFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiFloatFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 		LBiFloatFunction<R> retval;
 
 		final Case<LBiFloatPredicate, LBiFloatFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiFloatFunction.<R> l((float f1, float f2) -> {
+		retval = LBiFloatFunction.<R> l((float a1, float a2) -> {
 			try {
 				for (Case<LBiFloatPredicate, LBiFloatFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f1, f2)) {
-						return aCase.caseFunction().doApply(f1, f2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(f1, f2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

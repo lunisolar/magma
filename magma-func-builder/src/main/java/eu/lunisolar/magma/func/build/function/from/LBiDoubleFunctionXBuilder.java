@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiDoubleFunctionX. */
 public final class LBiDoubleFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBiDoubleFunctionXBuilder<R, X>, LBiDoublePredicateX<X>, LBiDoubleFunctionX<R, X>, R> {
@@ -54,10 +56,10 @@ public final class LBiDoubleFunctionXBuilder<R, X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiDoubleFunctionX EVENTUALLY_THROW = LBiDoubleFunctionX.lX((double d1, double d2) -> {
+	public static final LBiDoubleFunctionX EVENTUALLY_THROW = LBiDoubleFunctionX.lX((double a1, double a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", d1, d2, LBiDoubleFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiDoubleFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiDoubleFunctionXBuilder<R, X extends Throwable> extends Per
 		LBiDoubleFunctionX<R, X> retval;
 
 		final Case<LBiDoublePredicateX<X>, LBiDoubleFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiDoubleFunctionX.<R, X> lX((double d1, double d2) -> {
+		retval = LBiDoubleFunctionX.<R, X> lX((double a1, double a2) -> {
 			try {
 				for (Case<LBiDoublePredicateX<X>, LBiDoubleFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d1, d2)) {
-						return aCase.caseFunction().doApply(d1, d2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(d1, d2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,23 +64,23 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
     private LLongUnaryOperator sut = new LLongUnaryOperator(){
-        public  long doApplyAsLong(long l)  {
+        public  long doApplyAsLong(long a1)  {
             return testValue;
         }
     };
 
     private LLongUnaryOperatorX<X> opposite = new LLongUnaryOperatorX(){
-        public  long doApplyAsLong(long l) throws ParseException {
+        public  long doApplyAsLong(long a1) throws ParseException {
             return testValue;
         }
     };
 
 
-    private java.util.function.LongUnaryOperator jre = l -> testValue;
+    private LongUnaryOperator jre = a1 -> testValue;
 
 
 
-    private LLongUnaryOperator sutAlwaysThrowingUnckeck = LLongUnaryOperator.l(l -> {
+    private LLongUnaryOperator sutAlwaysThrowingUnckeck = LLongUnaryOperator.l(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -85,6 +88,19 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApplyAsLong((long)100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LLongSingle,Long,RuntimeException> theCall = sut;
+
+        LLongSingle domainObject = Tuple4U.tuple((long)100);
+
+        Object result = sut.tupleApplyAsLong(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -128,12 +144,12 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongUnaryOperator: long doApplyAsLong(long l)");
+            .isEqualTo("LLongUnaryOperator: long doApplyAsLong(long a1)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LLongUnaryOperator.l(l -> testValue ))
+        assertThat(LLongUnaryOperator.l(a1 -> testValue ))
             .isInstanceOf(LLongUnaryOperator.class);
     }
 
@@ -152,7 +168,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LLongUnaryOperatorX<X> sutThrowing = LLongUnaryOperatorX.lX(l -> {
+        LLongUnaryOperatorX<X> sutThrowing = LLongUnaryOperatorX.lX(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -174,7 +190,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LLongUnaryOperatorX<ParseException> sutThrowing = LLongUnaryOperatorX.lX(l -> {
+        LLongUnaryOperatorX<ParseException> sutThrowing = LLongUnaryOperatorX.lX(a1 -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -198,7 +214,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(l -> {
+        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -222,7 +238,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(l -> {
+        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -246,7 +262,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(l -> {
+        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -271,7 +287,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(l -> {
+        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(a1 -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -301,9 +317,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)90);
+                assertThat(a1).isEqualTo((long)90);
                 return (long)100;
         };
 
@@ -330,9 +346,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)90);
+                assertThat(a1).isEqualTo((long)90);
                 return (long)100;
         };
 
@@ -364,9 +380,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -399,9 +415,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -434,9 +450,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -469,9 +485,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -504,9 +520,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -539,9 +555,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -574,9 +590,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -609,9 +625,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -637,16 +653,16 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBoolean() throws X  {
+    public void testThen8ToBool() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
 
         //given (+ some assertions)
-        LLongUnaryOperator sutO = l -> {
+        LLongUnaryOperator sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(l).isEqualTo((long)80);
+                assertThat(a1).isEqualTo((long)80);
                 return (long)90;
         };
 
@@ -659,7 +675,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LLongPredicate function = sutO.thenToBoolean(thenFunction);
+        LLongPredicate function = sutO.thenToBool(thenFunction);
         boolean finalValue = function.doTest((long)80);
 
         //then - finals
@@ -712,7 +728,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(l -> {
+        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -724,7 +740,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     public void testHandleLongUnaryOp() throws X {
 
         // given
-        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(l -> {
+        LLongUnaryOperator sutThrowing = LLongUnaryOperator.l(a1 -> {
             throw new UnsupportedOperationException();
         });
 
@@ -754,7 +770,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongUnaryOperator: long doApplyAsLong(long l)");
+                .contains("LLongUnaryOperator: long doApplyAsLong(long a1)");
     }
 
 

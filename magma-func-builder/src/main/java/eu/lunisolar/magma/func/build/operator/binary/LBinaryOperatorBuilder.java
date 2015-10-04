@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBinaryOperator. */
 public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<LBinaryOperatorBuilder<T>, LBiPredicate<T, T>, LBinaryOperator<T>, T> {
@@ -54,10 +56,10 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBinaryOperator EVENTUALLY_THROW = LBinaryOperator.l((Object t1, Object t2) -> {
+	public static final LBinaryOperator EVENTUALLY_THROW = LBinaryOperator.l((Object a1, Object a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t1, t2, LBinaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBinaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 		LBinaryOperator<T> retval;
 
 		final Case<LBiPredicate<T, T>, LBinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBinaryOperator.<T> l((T t1, T t2) -> {
+		retval = LBinaryOperator.<T> l((T a1, T a2) -> {
 			try {
 				for (Case<LBiPredicate<T, T>, LBinaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2)) {
-						return aCase.caseFunction().doApply(t1, t2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(t1, t2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

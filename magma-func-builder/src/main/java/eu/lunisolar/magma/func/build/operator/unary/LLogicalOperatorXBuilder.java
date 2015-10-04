@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LLogicalOperatorX. */
 public final class LLogicalOperatorXBuilder<X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LLogicalOperatorXBuilder<X>, LLogicalOperatorX<X>, LLogicalOperatorX<X>> {
@@ -54,10 +56,10 @@ public final class LLogicalOperatorXBuilder<X extends Throwable> extends PerCase
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLogicalOperatorX EVENTUALLY_THROW = LLogicalOperatorX.lX((boolean b) -> {
+	public static final LLogicalOperatorX EVENTUALLY_THROW = LLogicalOperatorX.lX((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LLogicalOperatorX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LLogicalOperatorX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LLogicalOperatorXBuilder<X extends Throwable> extends PerCase
 		LLogicalOperatorX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LLogicalOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLogicalOperatorX.<X> lX(b -> {
+		retval = LLogicalOperatorX.<X> lX(a1 -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LLogicalOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApply(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(b);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

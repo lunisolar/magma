@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntPredicate. */
 public final class LIntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<LIntPredicateBuilder, LIntPredicate, LIntPredicate> {
@@ -54,10 +56,10 @@ public final class LIntPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntPredicate EVENTUALLY_THROW = LIntPredicate.l((int i) -> {
+	public static final LIntPredicate EVENTUALLY_THROW = LIntPredicate.l((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntPredicate.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntPredicate.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 		LIntPredicate retval;
 
 		final Case<LIntPredicate, LIntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntPredicate.l(i -> {
+		retval = LIntPredicate.l(a1 -> {
 			try {
 				for (Case<LIntPredicate, LIntPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().doTest(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doTest(a1);
 					}
 				}
 
-				return eventuallyFinal.doTest(i);
+				return eventuallyFinal.doTest(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

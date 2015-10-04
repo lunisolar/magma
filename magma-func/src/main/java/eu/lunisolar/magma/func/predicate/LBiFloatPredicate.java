@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiFloatPredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): float f1,float f2
+ * Domain (lvl: 2): float a1,float a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiFloatPredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiFloatPredicate: boolean doTest(float f1,float f2)";
+	String DESCRIPTION = "LBiFloatPredicate: boolean doTest(float a1,float a2)";
 
-	boolean doTest(float f1, float f2);
+	boolean doTest(float a1, float a2);
+
+	default Boolean tupleTest(LFloatPair args) {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(float f1, float f2) {
-		return this.doTest(f1, f2);
+	default boolean nestingDoTest(float a1, float a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(float f1, float f2) {
-		return this.doTest(f1, f2);
+	default boolean shovingDoTest(float a1, float a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(float f1, float f2) {
-		return doTest(f1, f2);
+	default boolean nonNullDoTest(float a1, float a2) {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(float f1, float f2) {
-		return doTest(f1, f2);
+	default boolean doApplyAsBoolean(float a1, float a2) {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,25 +100,25 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiFloatPred(float f1, float f2) {
-		return () -> this.doTest(f1, f2);
+	default LBoolSupplier captureBiFloatPred(float a1, float a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LBiFloatPredicate constant(boolean r) {
-		return (f1, f2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiFloatPredicate test1st(@Nonnull LFloatPredicate func) {
-		return (f1, f2) -> func.doTest(f1);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiFloatPredicate test2nd(@Nonnull LFloatPredicate func) {
-		return (f1, f2) -> func.doTest(f2);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -138,7 +146,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	 */
 	@Nonnull
 	default LBiFloatPredicate negate() {
-		return (float f1, float f2) -> !doTest(f1, f2);
+		return (float a1, float a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -148,7 +156,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate and(@Nonnull LBiFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float f1, float f2) -> doTest(f1, f2) && other.doTest(f1, f2);
+		return (float a1, float a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -158,7 +166,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate or(@Nonnull LBiFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float f1, float f2) -> doTest(f1, f2) || other.doTest(f1, f2);
+		return (float a1, float a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -168,7 +176,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate xor(@Nonnull LBiFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float f1, float f2) -> doTest(f1, f2) ^ other.doTest(f1, f2);
+		return (float a1, float a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -177,7 +185,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	 */
 	@Nonnull
 	static LBiFloatPredicate isEqual(final float v1, final float v2) {
-		return (f1, f2) -> (f1 == v1) && (f2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -208,7 +216,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default <V> LBiFloatFunction<V> boolToBiFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
+		return (float a1, float a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

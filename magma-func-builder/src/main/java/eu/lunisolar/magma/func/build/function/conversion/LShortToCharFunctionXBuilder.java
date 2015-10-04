@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortToCharFunctionX. */
 public final class LShortToCharFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithCharProduct.Base<LShortToCharFunctionXBuilder<X>, LShortPredicateX<X>, LShortToCharFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LShortToCharFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToCharFunctionX EVENTUALLY_THROW = LShortToCharFunctionX.lX((short s) -> {
+	public static final LShortToCharFunctionX EVENTUALLY_THROW = LShortToCharFunctionX.lX((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortToCharFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortToCharFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortToCharFunctionXBuilder<X extends Throwable> extends Per
 		LShortToCharFunctionX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToCharFunctionX.<X> lX(s -> {
+		retval = LShortToCharFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsChar(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsChar(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(s);
+				return eventuallyFinal.doApplyAsChar(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

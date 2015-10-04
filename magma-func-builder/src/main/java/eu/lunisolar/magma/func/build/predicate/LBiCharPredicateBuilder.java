@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiCharPredicate. */
 public final class LBiCharPredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<LBiCharPredicateBuilder, LBiCharPredicate, LBiCharPredicate> {
@@ -54,10 +56,10 @@ public final class LBiCharPredicateBuilder extends PerCaseBuilderWithBooleanProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiCharPredicate EVENTUALLY_THROW = LBiCharPredicate.l((char c1, char c2) -> {
+	public static final LBiCharPredicate EVENTUALLY_THROW = LBiCharPredicate.l((char a1, char a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", c1, c2, LBiCharPredicate.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiCharPredicate.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiCharPredicateBuilder extends PerCaseBuilderWithBooleanProd
 		LBiCharPredicate retval;
 
 		final Case<LBiCharPredicate, LBiCharPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiCharPredicate.l((char c1, char c2) -> {
+		retval = LBiCharPredicate.l((char a1, char a2) -> {
 			try {
 				for (Case<LBiCharPredicate, LBiCharPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(c1, c2)) {
-						return aCase.caseFunction().doTest(c1, c2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doTest(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doTest(c1, c2);
+				return eventuallyFinal.doTest(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

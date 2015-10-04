@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiShortFunctionX. */
 public final class LBiShortFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBiShortFunctionXBuilder<R, X>, LBiShortPredicateX<X>, LBiShortFunctionX<R, X>, R> {
@@ -54,10 +56,10 @@ public final class LBiShortFunctionXBuilder<R, X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiShortFunctionX EVENTUALLY_THROW = LBiShortFunctionX.lX((short s1, short s2) -> {
+	public static final LBiShortFunctionX EVENTUALLY_THROW = LBiShortFunctionX.lX((short a1, short a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", s1, s2, LBiShortFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiShortFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiShortFunctionXBuilder<R, X extends Throwable> extends PerC
 		LBiShortFunctionX<R, X> retval;
 
 		final Case<LBiShortPredicateX<X>, LBiShortFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiShortFunctionX.<R, X> lX((short s1, short s2) -> {
+		retval = LBiShortFunctionX.<R, X> lX((short a1, short a2) -> {
 			try {
 				for (Case<LBiShortPredicateX<X>, LBiShortFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s1, s2)) {
-						return aCase.caseFunction().doApply(s1, s2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(s1, s2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

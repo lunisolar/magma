@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LToIntFunctionX for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 1): T t
+ * Domain (lvl: 1): T a1
  *
- * Co-domain: none
+ * Co-domain: int
  *
  * @see LToIntFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToIntFunctionX<T, X extends Throwable> extends java.util.function.ToIntFunction<T>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LToIntFunctionX<T, X extends Throwable> extends ToIntFunction<T>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LToIntFunctionX: int doApplyAsInt(T t) throws X";
+	String DESCRIPTION = "LToIntFunctionX: int doApplyAsInt(T a1) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,16 +72,20 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 	 */
 	@Override
 	@Deprecated
-	default int applyAsInt(T t) {
-		return this.nestingDoApplyAsInt(t);
+	default int applyAsInt(T a1) {
+		return this.nestingDoApplyAsInt(a1);
 	}
 
-	int doApplyAsInt(T t) throws X;
+	int doApplyAsInt(T a1) throws X;
+
+	default Integer tupleApplyAsInt(LSingle<T> args) throws X {
+		return doApplyAsInt(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default int nestingDoApplyAsInt(T t) {
+	default int nestingDoApplyAsInt(T a1) {
 		try {
-			return this.doApplyAsInt(t);
+			return this.doApplyAsInt(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -86,23 +94,23 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(T t) {
-		return ((LToIntFunctionX<T, RuntimeException>) this).doApplyAsInt(t);
+	default int shovingDoApplyAsInt(T a1) {
+		return ((LToIntFunctionX<T, RuntimeException>) this).doApplyAsInt(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> int handlingDoApplyAsInt(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> int handlingDoApplyAsInt(T a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsInt(t);
+			return this.doApplyAsInt(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(T t) throws X {
-		return doApplyAsInt(t);
+	default int nonNullDoApplyAsInt(T a1) throws X {
+		return doApplyAsInt(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -112,13 +120,13 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureToIntFunc(T t) {
-		return () -> this.doApplyAsInt(t);
+	default LIntSupplierX<X> captureToIntFunc(T a1) {
+		return () -> this.doApplyAsInt(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LToIntFunctionX<T, X> constant(int r) {
-		return t -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +147,7 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T, X extends Throwable> LToIntFunctionX<T, X> wrap(final java.util.function.ToIntFunction<T> other) {
+	static <T, X extends Throwable> LToIntFunctionX<T, X> wrap(final ToIntFunction<T> other) {
 		return other::applyAsInt;
 	}
 
@@ -168,63 +176,63 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApply(this.doApplyAsInt(t));
+		return a1 -> after.doApply(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LIntToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsByte(this.doApplyAsInt(t));
+		return a1 -> after.doApplyAsByte(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LIntToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsShort(this.doApplyAsInt(t));
+		return a1 -> after.doApplyAsShort(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LIntUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsInt(this.doApplyAsInt(t));
+		return a1 -> after.doApplyAsInt(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LIntToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsLong(this.doApplyAsInt(t));
+		return a1 -> after.doApplyAsLong(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LIntToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsFloat(this.doApplyAsInt(t));
+		return a1 -> after.doApplyAsFloat(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LIntToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsDouble(this.doApplyAsInt(t));
+		return a1 -> after.doApplyAsDouble(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LIntToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doApplyAsChar(this.doApplyAsInt(t));
+		return a1 -> after.doApplyAsChar(this.doApplyAsInt(a1));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LPredicateX<T, X> thenToBoolean(@Nonnull LIntPredicateX<X> after) {
+	default LPredicateX<T, X> thenToBool(@Nonnull LIntPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return t -> after.doTest(this.doApplyAsInt(t));
+		return a1 -> after.doTest(this.doApplyAsInt(a1));
 	}
 
 	// </editor-fold>
@@ -259,13 +267,13 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToIntFunction<T> handleToIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return t -> this.handlingDoApplyAsInt(t, handling);
+		return a1 -> this.handlingDoApplyAsInt(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToIntFunctionX<T, Y> handleToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return t -> this.handlingDoApplyAsInt(t, handling);
+		return a1 -> this.handlingDoApplyAsInt(a1, handling);
 	}
 
 	// </editor-fold>

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LToByteFunction. */
 public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProduct.Base<LToByteFunctionBuilder<T>, LPredicate<T>, LToByteFunction<T>> {
@@ -54,10 +56,10 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToByteFunction EVENTUALLY_THROW = LToByteFunction.l((Object t) -> {
+	public static final LToByteFunction EVENTUALLY_THROW = LToByteFunction.l((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, LToByteFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LToByteFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LToByteFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<LToByteFunctionBuilder<E1>> pcpConsumer) {
-		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LToByteFunctionBuilder<T> aCase(Class<E1> argC1, LToByteFunction<E1> function) {
-		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 		LToByteFunction<T> retval;
 
 		final Case<LPredicate<T>, LToByteFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToByteFunction.<T> l(t -> {
+		retval = LToByteFunction.<T> l(a1 -> {
 			try {
 				for (Case<LPredicate<T>, LToByteFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().doApplyAsByte(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(t);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortToIntFunction. */
 public final class LShortToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<LShortToIntFunctionBuilder, LShortPredicate, LShortToIntFunction> {
@@ -54,10 +56,10 @@ public final class LShortToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToIntFunction EVENTUALLY_THROW = LShortToIntFunction.l((short s) -> {
+	public static final LShortToIntFunction EVENTUALLY_THROW = LShortToIntFunction.l((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortToIntFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortToIntFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 		LShortToIntFunction retval;
 
 		final Case<LShortPredicate, LShortToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToIntFunction.l(s -> {
+		retval = LShortToIntFunction.l(a1 -> {
 			try {
 				for (Case<LShortPredicate, LShortToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsInt(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(s);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

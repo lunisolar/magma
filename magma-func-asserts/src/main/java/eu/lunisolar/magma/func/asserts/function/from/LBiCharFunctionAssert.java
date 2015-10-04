@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.from.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBiCharFunction. */
+/** Assert class for LBiCharFunction. */
 public interface LBiCharFunctionAssert<S extends LBiCharFunctionAssert<S, A, RS, R>, A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char c1, char c2);
+	Evaluation<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char a1, char a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
@@ -63,13 +63,13 @@ public interface LBiCharFunctionAssert<S extends LBiCharFunctionAssert<S, A, RS,
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char c1, char c2) {
+		public Evaluation<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char a1, char a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(c1, c2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((R) actual.doApply(c1, c2));
+				return assertFactory.apply((R) actual.doApply(a1, a2));
 			});
 
 		}

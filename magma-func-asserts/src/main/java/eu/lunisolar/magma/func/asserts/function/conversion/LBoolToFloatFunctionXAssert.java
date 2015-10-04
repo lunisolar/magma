@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBoolToFloatFunctionX. */
+/** Assert class for LBoolToFloatFunctionX. */
 public interface LBoolToFloatFunctionXAssert<S extends LBoolToFloatFunctionXAssert<S, A, RS, X>, A extends LBoolToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBoolConsumerX<Exception>, A, RS, Float, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(boolean b);
+	Evaluation<S, LBoolConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(boolean a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBoolToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LBoolToFloatFunctionXAssert<S extends LBoolToFloatFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(boolean b) {
+		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(boolean a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Float) actual.doApplyAsFloat(b));
+				return assertFactory.apply((Float) actual.doApplyAsFloat(a1));
 			});
 
 		}

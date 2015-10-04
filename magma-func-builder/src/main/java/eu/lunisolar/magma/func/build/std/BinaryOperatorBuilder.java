@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.BinaryOperator. */
 public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<BinaryOperatorBuilder<T>, LBiPredicate<T, T>, java.util.function.BinaryOperator<T>, T> {
@@ -53,10 +55,10 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.BinaryOperator EVENTUALLY_THROW = Function4U.binaryOperator((Object t1, Object t2) -> {
+	public static final java.util.function.BinaryOperator EVENTUALLY_THROW = Function4U.binaryOperator((Object a1, Object a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t1, t2, "java.util.function.BinaryOperator: T apply(T t1,T t2)");
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.BinaryOperator: T apply(T a1,T a2)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		java.util.function.BinaryOperator<T> retval;
 
 		final Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> binaryOperator((T t1, T t2) -> {
+		retval = Function4U.<T> binaryOperator((T a1, T a2) -> {
 			try {
 				for (Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2)) {
-						return aCase.caseFunction().apply(t1, t2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().apply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2);
+				return eventuallyFinal.apply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

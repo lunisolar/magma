@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,36 +40,42 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LFloatPredicateX for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 1): float f
+ * Domain (lvl: 1): float a1
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LFloatPredicate
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	static final String DESCRIPTION = "LFloatPredicateX: boolean doTest(float f) throws X";
+	String DESCRIPTION = "LFloatPredicateX: boolean doTest(float a1) throws X";
 
-	boolean doTest(float f) throws X;
+	boolean doTest(float a1) throws X;
+
+	default Boolean tupleTest(LFloatSingle args) throws X {
+		return doTest(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(float f) {
+	default boolean nestingDoTest(float a1) {
 		try {
-			return this.doTest(f);
+			return this.doTest(a1);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -76,29 +84,29 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(float f) {
-		return ((LFloatPredicateX<RuntimeException>) this).doTest(f);
+	default boolean shovingDoTest(float a1) {
+		return ((LFloatPredicateX<RuntimeException>) this).doTest(a1);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(float f, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(float a1, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(f);
+			return this.doTest(a1);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(float f) throws X {
-		return doTest(f);
+	default boolean nonNullDoTest(float a1) throws X {
+		return doTest(a1);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(float f) throws X {
-		return doTest(f);
+	default boolean doApplyAsBoolean(float a1) throws X {
+		return doTest(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -108,13 +116,13 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureFloatPred(float f) {
-		return () -> this.doTest(f);
+	default LBoolSupplierX<X> captureFloatPred(float a1) {
+		return () -> this.doTest(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatPredicateX<X> constant(boolean r) {
-		return f -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -149,7 +157,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	 */
 	@Nonnull
 	default LFloatPredicateX<X> negate() {
-		return f -> !doTest(f);
+		return a1 -> !doTest(a1);
 	}
 
 	/**
@@ -159,7 +167,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LFloatPredicateX<X> and(@Nonnull LFloatPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return f -> doTest(f) && other.doTest(f);
+		return a1 -> doTest(a1) && other.doTest(a1);
 	}
 
 	/**
@@ -169,7 +177,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LFloatPredicateX<X> or(@Nonnull LFloatPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return f -> doTest(f) || other.doTest(f);
+		return a1 -> doTest(a1) || other.doTest(a1);
 	}
 
 	/**
@@ -179,7 +187,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LFloatPredicateX<X> xor(@Nonnull LFloatPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return f -> doTest(f) ^ other.doTest(f);
+		return a1 -> doTest(a1) ^ other.doTest(a1);
 	}
 
 	/**
@@ -188,7 +196,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	 */
 	@Nonnull
 	static <X extends Throwable> LFloatPredicateX<X> isEqual(float target) {
-		return f -> f == target;
+		return a1 -> a1 == target;
 	}
 
 	// </editor-fold>
@@ -217,63 +225,63 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default <V> LFloatFunctionX<V, X> boolToFloatFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApply(this.doTest(f));
+		return a1 -> after.doApply(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToByteFunctionX<X> boolToFloatToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsByte(this.doTest(f));
+		return a1 -> after.doApplyAsByte(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToShortFunctionX<X> boolToFloatToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsShort(this.doTest(f));
+		return a1 -> after.doApplyAsShort(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToIntFunctionX<X> boolToFloatToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsInt(this.doTest(f));
+		return a1 -> after.doApplyAsInt(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToLongFunctionX<X> boolToFloatToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsLong(this.doTest(f));
+		return a1 -> after.doApplyAsLong(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatUnaryOperatorX<X> boolToFloatUnaryOperator(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsFloat(this.doTest(f));
+		return a1 -> after.doApplyAsFloat(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunctionX<X> boolToFloatToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsDouble(this.doTest(f));
+		return a1 -> after.doApplyAsDouble(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToCharFunctionX<X> boolToFloatToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsChar(this.doTest(f));
+		return a1 -> after.doApplyAsChar(this.doTest(a1));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatPredicateX<X> boolToFloatPredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApply(this.doTest(f));
+		return a1 -> after.doApply(this.doTest(a1));
 	}
 
 	// </editor-fold>
@@ -308,13 +316,13 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LFloatPredicate handleFloatPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return f -> this.handlingDoTest(f, handling);
+		return a1 -> this.handlingDoTest(a1, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LFloatPredicateX<Y> handleFloatPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return f -> this.handlingDoTest(f, handling);
+		return a1 -> this.handlingDoTest(a1, handling);
 	}
 
 	// </editor-fold>

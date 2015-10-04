@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortToFloatFunction. */
 public final class LShortToFloatFunctionBuilder extends PerCaseBuilderWithFloatProduct.Base<LShortToFloatFunctionBuilder, LShortPredicate, LShortToFloatFunction> {
@@ -54,10 +56,10 @@ public final class LShortToFloatFunctionBuilder extends PerCaseBuilderWithFloatP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToFloatFunction EVENTUALLY_THROW = LShortToFloatFunction.l((short s) -> {
+	public static final LShortToFloatFunction EVENTUALLY_THROW = LShortToFloatFunction.l((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortToFloatFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortToFloatFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortToFloatFunctionBuilder extends PerCaseBuilderWithFloatP
 		LShortToFloatFunction retval;
 
 		final Case<LShortPredicate, LShortToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToFloatFunction.l(s -> {
+		retval = LShortToFloatFunction.l(a1 -> {
 			try {
 				for (Case<LShortPredicate, LShortToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsFloat(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsFloat(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(s);
+				return eventuallyFinal.doApplyAsFloat(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

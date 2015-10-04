@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatToLongFunction. */
 public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<LFloatToLongFunctionBuilder, LFloatPredicate, LFloatToLongFunction> {
@@ -54,10 +56,10 @@ public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToLongFunction EVENTUALLY_THROW = LFloatToLongFunction.l((float f) -> {
+	public static final LFloatToLongFunction EVENTUALLY_THROW = LFloatToLongFunction.l((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatToLongFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatToLongFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		LFloatToLongFunction retval;
 
 		final Case<LFloatPredicate, LFloatToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToLongFunction.l(f -> {
+		retval = LFloatToLongFunction.l(a1 -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApplyAsLong(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsLong(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(f);
+				return eventuallyFinal.doApplyAsLong(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

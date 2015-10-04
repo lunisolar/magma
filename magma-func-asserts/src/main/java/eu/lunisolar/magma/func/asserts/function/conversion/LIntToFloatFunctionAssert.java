@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LIntToFloatFunction. */
+/** Assert class for LIntToFloatFunction. */
 public interface LIntToFloatFunctionAssert<S extends LIntToFloatFunctionAssert<S, A, RS>, A extends LIntToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumerX<Exception>, A, RS, Float, Exception> {
 
 	@Nonnull
-	Evaluation<S, LIntConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(int i);
+	Evaluation<S, LIntConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(int a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LIntToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -65,13 +65,13 @@ public interface LIntToFloatFunctionAssert<S extends LIntToFloatFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(int i) {
+		public Evaluation<S, LIntConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(int a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(i);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Float) actual.doApplyAsFloat(i));
+				return assertFactory.apply((Float) actual.doApplyAsFloat(a1));
 			});
 
 		}

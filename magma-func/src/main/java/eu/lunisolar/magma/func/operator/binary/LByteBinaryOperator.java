@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,45 +40,51 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LByteBinaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): byte b1,byte b2
+ * Domain (lvl: 2): byte a1,byte a2
  *
- * Co-domain: none
+ * Co-domain: byte
  *
  * @see LByteBinaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LByteBinaryOperator: byte doApplyAsByte(byte b1,byte b2)";
+	String DESCRIPTION = "LByteBinaryOperator: byte doApplyAsByte(byte a1,byte a2)";
 
-	byte doApplyAsByte(byte b1, byte b2);
+	byte doApplyAsByte(byte a1, byte a2);
+
+	default Byte tupleApplyAsByte(LBytePair args) {
+		return doApplyAsByte(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default byte nestingDoApplyAsByte(byte b1, byte b2) {
-		return this.doApplyAsByte(b1, b2);
+	default byte nestingDoApplyAsByte(byte a1, byte a2) {
+		return this.doApplyAsByte(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default byte shovingDoApplyAsByte(byte b1, byte b2) {
-		return this.doApplyAsByte(b1, b2);
+	default byte shovingDoApplyAsByte(byte a1, byte a2) {
+		return this.doApplyAsByte(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNullDoApplyAsByte(byte b1, byte b2) {
-		return doApplyAsByte(b1, b2);
+	default byte nonNullDoApplyAsByte(byte a1, byte a2) {
+		return doApplyAsByte(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -86,25 +94,25 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureByteBinaryOp(byte b1, byte b2) {
-		return () -> this.doApplyAsByte(b1, b2);
+	default LByteSupplier captureByteBinaryOp(byte a1, byte a2) {
+		return () -> this.doApplyAsByte(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LByteBinaryOperator constant(byte r) {
-		return (b1, b2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LByteBinaryOperator apply1stAsByte(@Nonnull LByteUnaryOperator func) {
-		return (b1, b2) -> func.doApplyAsByte(b1);
+		return (a1, a2) -> func.doApplyAsByte(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LByteBinaryOperator apply2ndAsByte(@Nonnull LByteUnaryOperator func) {
-		return (b1, b2) -> func.doApplyAsByte(b2);
+		return (a1, a2) -> func.doApplyAsByte(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -188,7 +196,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	@Nonnull
 	default <V> LBiByteFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b1, byte b2) -> after.doApply(this.doApplyAsByte(b1, b2));
+		return (byte a1, byte a2) -> after.doApply(this.doApplyAsByte(a1, a2));
 	}
 
 	// </editor-fold>

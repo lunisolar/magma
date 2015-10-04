@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LShortToByteFunction. */
 public final class LShortToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<LShortToByteFunctionBuilder, LShortPredicate, LShortToByteFunction> {
@@ -54,10 +56,10 @@ public final class LShortToByteFunctionBuilder extends PerCaseBuilderWithBytePro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToByteFunction EVENTUALLY_THROW = LShortToByteFunction.l((short s) -> {
+	public static final LShortToByteFunction EVENTUALLY_THROW = LShortToByteFunction.l((short a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", s, LShortToByteFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LShortToByteFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LShortToByteFunctionBuilder extends PerCaseBuilderWithBytePro
 		LShortToByteFunction retval;
 
 		final Case<LShortPredicate, LShortToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToByteFunction.l(s -> {
+		retval = LShortToByteFunction.l(a1 -> {
 			try {
 				for (Case<LShortPredicate, LShortToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(s)) {
-						return aCase.caseFunction().doApplyAsByte(s);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(s);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

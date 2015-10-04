@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LToShortFunction. */
 public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortProduct.Base<LToShortFunctionBuilder<T>, LPredicate<T>, LToShortFunction<T>> {
@@ -54,10 +56,10 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToShortFunction EVENTUALLY_THROW = LToShortFunction.l((Object t) -> {
+	public static final LToShortFunction EVENTUALLY_THROW = LToShortFunction.l((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, LToShortFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LToShortFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LToShortFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<LToShortFunctionBuilder<E1>> pcpConsumer) {
-		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LToShortFunctionBuilder<T> aCase(Class<E1> argC1, LToShortFunction<E1> function) {
-		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 		LToShortFunction<T> retval;
 
 		final Case<LPredicate<T>, LToShortFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToShortFunction.<T> l(t -> {
+		retval = LToShortFunction.<T> l(a1 -> {
 			try {
 				for (Case<LPredicate<T>, LToShortFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().doApplyAsShort(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsShort(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(t);
+				return eventuallyFinal.doApplyAsShort(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

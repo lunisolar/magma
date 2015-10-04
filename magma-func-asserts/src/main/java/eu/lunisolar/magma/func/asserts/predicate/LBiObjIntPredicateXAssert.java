@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.predicate.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBiObjIntPredicateX. */
+/** Assert class for LBiObjIntPredicateX. */
 public interface LBiObjIntPredicateXAssert<S extends LBiObjIntPredicateXAssert<S, A, RS, T1, T2, X>, A extends LBiObjIntPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiObjIntConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiObjIntConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, int i);
+	Evaluation<S, LBiObjIntConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 a1, T2 a2, int a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBiObjIntPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Throwable> extends Base<The<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
@@ -68,13 +68,13 @@ public interface LBiObjIntPredicateXAssert<S extends LBiObjIntPredicateXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiObjIntConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, int i) {
+		public Evaluation<S, LBiObjIntConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 a1, T2 a2, int a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2, i);
+					pc.doAccept(a1, a2, a3);
 				}
-				return assertFactory.apply((Boolean) actual.doTest(t1, t2, i));
+				return assertFactory.apply((Boolean) actual.doTest(a1, a2, a3));
 			});
 
 		}

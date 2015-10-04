@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiLongPredicate. */
 public final class LBiLongPredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<LBiLongPredicateBuilder, LBiLongPredicate, LBiLongPredicate> {
@@ -54,10 +56,10 @@ public final class LBiLongPredicateBuilder extends PerCaseBuilderWithBooleanProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiLongPredicate EVENTUALLY_THROW = LBiLongPredicate.l((long l1, long l2) -> {
+	public static final LBiLongPredicate EVENTUALLY_THROW = LBiLongPredicate.l((long a1, long a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", l1, l2, LBiLongPredicate.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiLongPredicate.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiLongPredicateBuilder extends PerCaseBuilderWithBooleanProd
 		LBiLongPredicate retval;
 
 		final Case<LBiLongPredicate, LBiLongPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiLongPredicate.l((long l1, long l2) -> {
+		retval = LBiLongPredicate.l((long a1, long a2) -> {
 			try {
 				for (Case<LBiLongPredicate, LBiLongPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(l1, l2)) {
-						return aCase.caseFunction().doTest(l1, l2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doTest(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doTest(l1, l2);
+				return eventuallyFinal.doTest(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

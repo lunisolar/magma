@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntUnaryOperator. */
 public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<LIntUnaryOperatorBuilder, LIntPredicate, LIntUnaryOperator> {
@@ -54,10 +56,10 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntUnaryOperator EVENTUALLY_THROW = LIntUnaryOperator.l((int i) -> {
+	public static final LIntUnaryOperator EVENTUALLY_THROW = LIntUnaryOperator.l((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntUnaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntUnaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		LIntUnaryOperator retval;
 
 		final Case<LIntPredicate, LIntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntUnaryOperator.l(i -> {
+		retval = LIntUnaryOperator.l(a1 -> {
 			try {
 				for (Case<LIntPredicate, LIntUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().doApplyAsInt(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(i);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

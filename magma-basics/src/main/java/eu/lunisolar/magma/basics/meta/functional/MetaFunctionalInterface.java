@@ -19,6 +19,8 @@
 package eu.lunisolar.magma.basics.meta.functional;
 
 import eu.lunisolar.magma.basics.meta.MetaInterface;
+import eu.lunisolar.magma.basics.meta.functional.domain.Codomain;
+import eu.lunisolar.magma.basics.meta.functional.domain.Domain;
 
 import java.util.Formattable;
 import java.util.Formatter;

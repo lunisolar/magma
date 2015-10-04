@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.from.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBoolFunctionX. */
+/** Assert class for LBoolFunctionX. */
 public interface LBoolFunctionXAssert<S extends LBoolFunctionXAssert<S, A, RS, R, X>, A extends LBoolFunctionX<R, X>, RS extends Assert<RS, R>, R, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBoolConsumerX<Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumerX<Exception>, A, RS, R, Exception> doesApply(boolean b);
+	Evaluation<S, LBoolConsumerX<Exception>, A, RS, R, Exception> doesApply(boolean a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBoolFunctionX<R, X>, RS extends Assert<RS, R>, R, X extends Throwable> extends Base<The<A, RS, R, X>, A, RS, R, X> {
@@ -68,13 +68,13 @@ public interface LBoolFunctionXAssert<S extends LBoolFunctionXAssert<S, A, RS, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, R, Exception> doesApply(boolean b) {
+		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, R, Exception> doesApply(boolean a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(b);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((R) actual.doApply(b));
+				return assertFactory.apply((R) actual.doApply(a1));
 			});
 
 		}

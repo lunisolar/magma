@@ -21,13 +21,13 @@ package eu.lunisolar.magma.examples;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumerX;
 import eu.lunisolar.magma.func.consumer.primitives.*;
+import eu.lunisolar.magma.func.function.LBiFunctionX;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.LFunctionX;
+import eu.lunisolar.magma.func.function.LTriFunctionX;
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.function.from.LByteFunction;
-import eu.lunisolar.magma.func.function.from.LByteFunctionX;
-import eu.lunisolar.magma.func.function.from.LIntFunction;
-import eu.lunisolar.magma.func.function.from.LIntFunctionX;
+import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.function.to.LToByteFunctionX;
 import eu.lunisolar.magma.func.operator.unary.*;
 import eu.lunisolar.magma.func.predicate.*;
 import eu.lunisolar.magma.func.supplier.*;
@@ -434,7 +434,7 @@ public class Example_Collision_Test {
         }
     }
 
-    public static class MegaConverter<T, X extends Exception> implements LByteToShortFunctionX<X>, LByteToCharFunctionX<X>,LByteToIntFunctionX<X>,LByteToLongFunctionX<X>,LByteToFloatFunctionX<X>,LByteToDoubleFunctionX<X>,LBytePredicateX<X>, LByteFunctionX<T,X> {
+    public static class MegaByteConverterX<T, X extends Exception> implements LByteToShortFunctionX<X>, LByteToCharFunctionX<X>,LByteToIntFunctionX<X>,LByteToLongFunctionX<X>,LByteToFloatFunctionX<X>,LByteToDoubleFunctionX<X>,LBytePredicateX<X>, LByteFunctionX<T,X> {
 
         @Nullable @Override public T doApply(byte b) throws X {
             return null;

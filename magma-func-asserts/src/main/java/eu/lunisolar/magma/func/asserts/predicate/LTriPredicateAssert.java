@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.predicate.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LTriPredicate. */
+/** Assert class for LTriPredicate. */
 public interface LTriPredicateAssert<S extends LTriPredicateAssert<S, A, RS, T1, T2, T3>, A extends LTriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3);
+	Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 a1, T2 a2, T3 a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LTriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3> extends Base<The<A, RS, T1, T2, T3>, A, RS, T1, T2, T3> {
@@ -68,13 +68,13 @@ public interface LTriPredicateAssert<S extends LTriPredicateAssert<S, A, RS, T1,
 		}
 
 		@Nonnull
-		public Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3) {
+		public Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 a1, T2 a2, T3 a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2, t3);
+					pc.doAccept(a1, a2, a3);
 				}
-				return assertFactory.apply((Boolean) actual.doTest(t1, t2, t3));
+				return assertFactory.apply((Boolean) actual.doTest(a1, a2, a3));
 			});
 
 		}

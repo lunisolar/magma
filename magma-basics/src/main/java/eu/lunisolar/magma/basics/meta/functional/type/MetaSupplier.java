@@ -19,10 +19,9 @@
 package eu.lunisolar.magma.basics.meta.functional.type;
 
 import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
-import eu.lunisolar.magma.basics.meta.functional.domain.Codomain;
 
 /** Meta interface for Supplier interfaces. */
-public interface MetaSupplier extends MetaFunctionalInterface, Codomain {
+public interface MetaSupplier extends MetaFunctionalInterface {
 
     @Override default boolean isSupplier() {
         return true;

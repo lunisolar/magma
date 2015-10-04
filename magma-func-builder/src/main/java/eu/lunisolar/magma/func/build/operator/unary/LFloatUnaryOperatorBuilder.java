@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatUnaryOperator. */
 public final class LFloatUnaryOperatorBuilder extends PerCaseBuilderWithFloatProduct.Base<LFloatUnaryOperatorBuilder, LFloatPredicate, LFloatUnaryOperator> {
@@ -54,10 +56,10 @@ public final class LFloatUnaryOperatorBuilder extends PerCaseBuilderWithFloatPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatUnaryOperator EVENTUALLY_THROW = LFloatUnaryOperator.l((float f) -> {
+	public static final LFloatUnaryOperator EVENTUALLY_THROW = LFloatUnaryOperator.l((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatUnaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatUnaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatUnaryOperatorBuilder extends PerCaseBuilderWithFloatPro
 		LFloatUnaryOperator retval;
 
 		final Case<LFloatPredicate, LFloatUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatUnaryOperator.l(f -> {
+		retval = LFloatUnaryOperator.l(a1 -> {
 			try {
 				for (Case<LFloatPredicate, LFloatUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApplyAsFloat(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsFloat(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(f);
+				return eventuallyFinal.doApplyAsFloat(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

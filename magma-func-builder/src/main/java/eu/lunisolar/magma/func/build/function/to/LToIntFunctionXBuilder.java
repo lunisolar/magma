@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LToIntFunctionX. */
 public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCaseBuilderWithIntProduct.Base<LToIntFunctionXBuilder<T, X>, LPredicateX<T, X>, LToIntFunctionX<T, X>> {
@@ -54,10 +56,10 @@ public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToIntFunctionX EVENTUALLY_THROW = LToIntFunctionX.lX((Object t) -> {
+	public static final LToIntFunctionX EVENTUALLY_THROW = LToIntFunctionX.lX((Object a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", t, LToIntFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LToIntFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCas
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LToIntFunctionXBuilder<T, X> casesOf(Class<E1> argC1, Consumer<LToIntFunctionXBuilder<E1, X>> pcpConsumer) {
-		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCas
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LToIntFunctionXBuilder<T, X> aCase(Class<E1> argC1, LToIntFunctionX<E1, X> function) {
-		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCas
 		LToIntFunctionX<T, X> retval;
 
 		final Case<LPredicateX<T, X>, LToIntFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToIntFunctionX.<T, X> lX(t -> {
+		retval = LToIntFunctionX.<T, X> lX(a1 -> {
 			try {
 				for (Case<LPredicateX<T, X>, LToIntFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t)) {
-						return aCase.caseFunction().doApplyAsInt(t);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(t);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

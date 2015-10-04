@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.from.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBiObjShortFunction. */
+/** Assert class for LBiObjShortFunction. */
 public interface LBiObjShortFunctionAssert<S extends LBiObjShortFunctionAssert<S, A, RS, T1, T2, R>, A extends LBiObjShortFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiObjShortConsumerX<T1, T2, Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiObjShortConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, short s);
+	Evaluation<S, LBiObjShortConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 a1, T2 a2, short a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBiObjShortFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends Base<The<A, RS, T1, T2, R>, A, RS, T1, T2, R> {
@@ -68,13 +68,13 @@ public interface LBiObjShortFunctionAssert<S extends LBiObjShortFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiObjShortConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, short s) {
+		public Evaluation<S, LBiObjShortConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 a1, T2 a2, short a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2, s);
+					pc.doAccept(a1, a2, a3);
 				}
-				return assertFactory.apply((R) actual.doApply(t1, t2, s));
+				return assertFactory.apply((R) actual.doApply(a1, a2, a3));
 			});
 
 		}

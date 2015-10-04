@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,29 +40,31 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LLongBinaryOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): long l1,long l2
+ * Domain (lvl: 2): long a1,long a2
  *
- * Co-domain: none
+ * Co-domain: long
  *
  * @see LLongBinaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LLongBinaryOperator: long doApplyAsLong(long l1,long l2)";
+	String DESCRIPTION = "LLongBinaryOperator: long doApplyAsLong(long a1,long a2)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -68,25 +72,29 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 	 */
 	@Override
 	@Deprecated
-	default long applyAsLong(long l1, long l2) {
-		return this.nestingDoApplyAsLong(l1, l2);
+	default long applyAsLong(long a1, long a2) {
+		return this.nestingDoApplyAsLong(a1, a2);
 	}
 
-	long doApplyAsLong(long l1, long l2);
+	long doApplyAsLong(long a1, long a2);
+
+	default Long tupleApplyAsLong(LLongPair args) {
+		return doApplyAsLong(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default long nestingDoApplyAsLong(long l1, long l2) {
-		return this.doApplyAsLong(l1, l2);
+	default long nestingDoApplyAsLong(long a1, long a2) {
+		return this.doApplyAsLong(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(long l1, long l2) {
-		return this.doApplyAsLong(l1, l2);
+	default long shovingDoApplyAsLong(long a1, long a2) {
+		return this.doApplyAsLong(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(long l1, long l2) {
-		return doApplyAsLong(l1, l2);
+	default long nonNullDoApplyAsLong(long a1, long a2) {
+		return doApplyAsLong(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -96,25 +104,25 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureLongBinaryOp(long l1, long l2) {
-		return () -> this.doApplyAsLong(l1, l2);
+	default LLongSupplier captureLongBinaryOp(long a1, long a2) {
+		return () -> this.doApplyAsLong(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LLongBinaryOperator constant(long r) {
-		return (l1, l2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LLongBinaryOperator apply1stAsLong(@Nonnull LLongUnaryOperator func) {
-		return (l1, l2) -> func.doApplyAsLong(l1);
+		return (a1, a2) -> func.doApplyAsLong(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LLongBinaryOperator apply2ndAsLong(@Nonnull LLongUnaryOperator func) {
-		return (l1, l2) -> func.doApplyAsLong(l2);
+		return (a1, a2) -> func.doApplyAsLong(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -128,7 +136,7 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static LLongBinaryOperator wrap(final java.util.function.LongBinaryOperator other) {
+	static LLongBinaryOperator wrap(final LongBinaryOperator other) {
 		return other::applyAsLong;
 	}
 
@@ -204,7 +212,7 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 	@Nonnull
 	default <V> LBiLongFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (long l1, long l2) -> after.doApply(this.doApplyAsLong(l1, l2));
+		return (long a1, long a2) -> after.doApply(this.doApplyAsLong(a1, a2));
 	}
 
 	// </editor-fold>

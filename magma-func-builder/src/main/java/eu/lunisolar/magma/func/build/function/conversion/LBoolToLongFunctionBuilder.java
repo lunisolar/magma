@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolToLongFunction. */
 public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<LBoolToLongFunctionBuilder, LLogicalOperator, LBoolToLongFunction> {
@@ -54,10 +56,10 @@ public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToLongFunction EVENTUALLY_THROW = LBoolToLongFunction.l((boolean b) -> {
+	public static final LBoolToLongFunction EVENTUALLY_THROW = LBoolToLongFunction.l((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolToLongFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolToLongFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 		LBoolToLongFunction retval;
 
 		final Case<LLogicalOperator, LBoolToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToLongFunction.l(b -> {
+		retval = LBoolToLongFunction.l(a1 -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApplyAsLong(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApplyAsLong(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(b);
+				return eventuallyFinal.doApplyAsLong(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

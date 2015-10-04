@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LBiBytePredicateBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LBiBytePredicate function = LBiBytePredicateBuilder.biBytePredicate()
-                .eventually((b1,b2) -> {
+                .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LBiBytePredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiBytePredicate function = biBytePredicate((LBiBytePredicate f)-> doNothing())
-            .aCase(ce -> ce.of((b1,b2) -> b1 == (byte)0)
-                             .evaluate((b1,b2) -> false))
-            .inCase((b1,b2) -> b1 > 0 && b1 < 10).evaluate((b1,b2) -> true)
-            .inCase((b1,b2) -> b1 > 10 && b1 < 20).evaluate((b1,b2) -> true)
-            .eventually((b1,b2) -> true)
+            .aCase(ce -> ce.of((a1,a2) -> a1 == (byte)0)
+                             .evaluate((a1,a2) -> false))
+            .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> true)
+            .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> true)
+            .eventually((a1,a2) -> true)
             .build();
 
 

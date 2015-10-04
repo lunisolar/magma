@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LCharBinaryOperatorBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LCharBinaryOperator function = LCharBinaryOperatorBuilder.charBinaryOperator()
-                .eventually((c1,c2) -> {
+                .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,11 +117,11 @@ public class LCharBinaryOperatorBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LCharBinaryOperator function = charBinaryOperator((LCharBinaryOperator f)-> doNothing())
-            .aCase(ce -> ce.of((c1,c2) -> c1 == (char)0)
-                             .evaluate((c1,c2) -> (char)0))
-            .inCase((c1,c2) -> c1 > 0 && c1 < 10).evaluate((c1,c2) -> (char)1)
-            .inCase((c1,c2) -> c1 > 10 && c1 < 20).evaluate((c1,c2) -> (char)2)
-            .eventually((c1,c2) -> (char)99)
+            .aCase(ce -> ce.of((a1,a2) -> a1 == (char)0)
+                             .evaluate((a1,a2) -> (char)0))
+            .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> (char)1)
+            .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> (char)2)
+            .eventually((a1,a2) -> (char)99)
             .build();
 
 

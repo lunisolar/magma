@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolToIntFunctionX. */
 public final class LBoolToIntFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithIntProduct.Base<LBoolToIntFunctionXBuilder<X>, LLogicalOperatorX<X>, LBoolToIntFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LBoolToIntFunctionXBuilder<X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToIntFunctionX EVENTUALLY_THROW = LBoolToIntFunctionX.lX((boolean b) -> {
+	public static final LBoolToIntFunctionX EVENTUALLY_THROW = LBoolToIntFunctionX.lX((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolToIntFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolToIntFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolToIntFunctionXBuilder<X extends Throwable> extends PerCa
 		LBoolToIntFunctionX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToIntFunctionX.<X> lX(b -> {
+		retval = LBoolToIntFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApplyAsInt(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(b);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolToByteFunction. */
 public final class LBoolToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<LBoolToByteFunctionBuilder, LLogicalOperator, LBoolToByteFunction> {
@@ -54,10 +56,10 @@ public final class LBoolToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToByteFunction EVENTUALLY_THROW = LBoolToByteFunction.l((boolean b) -> {
+	public static final LBoolToByteFunction EVENTUALLY_THROW = LBoolToByteFunction.l((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolToByteFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolToByteFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		LBoolToByteFunction retval;
 
 		final Case<LLogicalOperator, LBoolToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToByteFunction.l(b -> {
+		retval = LBoolToByteFunction.l(a1 -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApplyAsByte(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApplyAsByte(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(b);
+				return eventuallyFinal.doApplyAsByte(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

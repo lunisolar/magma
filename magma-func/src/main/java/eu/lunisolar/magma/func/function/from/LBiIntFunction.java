@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiIntFunction for Java 8.
  *
  * Type: function
  *
- * Domain (lvl: 2): int i1,int i2
+ * Domain (lvl: 2): int a1,int a2
  *
  * Co-domain: R
  *
@@ -60,27 +64,31 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiIntFunction<R> extends LBiIntFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiIntFunction: R doApply(int i1,int i2)";
+	String DESCRIPTION = "LBiIntFunction: R doApply(int a1,int a2)";
 
 	@Nullable
-	R doApply(int i1, int i2);
+	R doApply(int a1, int a2);
+
+	default R tupleApply(LIntPair args) {
+		return doApply(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default R nestingDoApply(int i1, int i2) {
-		return this.doApply(i1, i2);
+	default R nestingDoApply(int a1, int a2) {
+		return this.doApply(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(int i1, int i2) {
-		return this.doApply(i1, i2);
+	default R shovingDoApply(int a1, int a2) {
+		return this.doApply(a1, a2);
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(int i1, int i2) {
-		return Null.requireNonNull(doApply(i1, i2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(int a1, int a2) {
+		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,25 +98,25 @@ public interface LBiIntFunction<R> extends LBiIntFunctionX<R, RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureBiIntFunc(int i1, int i2) {
-		return () -> this.doApply(i1, i2);
+	default LSupplier<R> captureBiIntFunc(int a1, int a2) {
+		return () -> this.doApply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <R> LBiIntFunction<R> constant(R r) {
-		return (i1, i2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <R> LBiIntFunction<R> apply1st(@Nonnull LIntFunction<R> func) {
-		return (i1, i2) -> func.doApply(i1);
+		return (a1, a2) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <R> LBiIntFunction<R> apply2nd(@Nonnull LIntFunction<R> func) {
-		return (i1, i2) -> func.doApply(i2);
+		return (a1, a2) -> func.doApply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -154,14 +162,14 @@ public interface LBiIntFunction<R> extends LBiIntFunctionX<R, RuntimeException>,
 	@Nonnull
 	default <V> LBiIntFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (int i1, int i2) -> after.doApply(this.doApply(i1, i2));
+		return (int a1, int a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiIntConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (int i1, int i2) -> after.doAccept(this.doApply(i1, i2));
+		return (int a1, int a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

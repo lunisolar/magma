@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LTriPredicateX. */
 public final class LTriPredicateXBuilder<T1, T2, T3, X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LTriPredicateXBuilder<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>> {
@@ -54,10 +56,10 @@ public final class LTriPredicateXBuilder<T1, T2, T3, X extends Throwable> extend
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriPredicateX EVENTUALLY_THROW = LTriPredicateX.lX((Object t1, Object t2, Object t3) -> {
+	public static final LTriPredicateX EVENTUALLY_THROW = LTriPredicateX.lX((Object a1, Object a2, Object a3) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", t1, t2, t3, LTriPredicateX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", a1, a2, a3, LTriPredicateX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LTriPredicateXBuilder<T1, T2, T3, X extends Throwable> extend
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2, E3 extends T3> LTriPredicateXBuilder<T1, T2, T3, X> casesOf(Class<E1> argC1, Class<E2> argC2, Class<E3> argC3, Consumer<LTriPredicateXBuilder<E1, E2, E3, X>> pcpConsumer) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, T3 t3) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)) && (argC3 == null || argC3.isInstance(t3)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2, T3 a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LTriPredicateXBuilder<T1, T2, T3, X extends Throwable> extend
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2, E3 extends T3> LTriPredicateXBuilder<T1, T2, T3, X> aCase(Class<E1> argC1, Class<E2> argC2, Class<E3> argC3, LTriPredicateX<E1, E2, E3, X> function) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, T3 t3) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)) && (argC3 == null || argC3.isInstance(t3)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2, T3 a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LTriPredicateXBuilder<T1, T2, T3, X extends Throwable> extend
 		LTriPredicateX<T1, T2, T3, X> retval;
 
 		final Case<LTriPredicateX<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriPredicateX.<T1, T2, T3, X> lX((T1 t1, T2 t2, T3 t3) -> {
+		retval = LTriPredicateX.<T1, T2, T3, X> lX((T1 a1, T2 a2, T3 a3) -> {
 			try {
 				for (Case<LTriPredicateX<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2, t3)) {
-						return aCase.caseFunction().doTest(t1, t2, t3);
+					if (aCase.casePredicate().doTest(a1, a2, a3)) {
+						return aCase.caseFunction().doTest(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doTest(t1, t2, t3);
+				return eventuallyFinal.doTest(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

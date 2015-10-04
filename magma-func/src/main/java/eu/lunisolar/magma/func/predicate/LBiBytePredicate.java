@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiBytePredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): byte b1,byte b2
+ * Domain (lvl: 2): byte a1,byte a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiBytePredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiBytePredicate: boolean doTest(byte b1,byte b2)";
+	String DESCRIPTION = "LBiBytePredicate: boolean doTest(byte a1,byte a2)";
 
-	boolean doTest(byte b1, byte b2);
+	boolean doTest(byte a1, byte a2);
+
+	default Boolean tupleTest(LBytePair args) {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(byte b1, byte b2) {
-		return this.doTest(b1, b2);
+	default boolean nestingDoTest(byte a1, byte a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(byte b1, byte b2) {
-		return this.doTest(b1, b2);
+	default boolean shovingDoTest(byte a1, byte a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(byte b1, byte b2) {
-		return doTest(b1, b2);
+	default boolean nonNullDoTest(byte a1, byte a2) {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(byte b1, byte b2) {
-		return doTest(b1, b2);
+	default boolean doApplyAsBoolean(byte a1, byte a2) {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,25 +100,25 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiBytePred(byte b1, byte b2) {
-		return () -> this.doTest(b1, b2);
+	default LBoolSupplier captureBiBytePred(byte a1, byte a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LBiBytePredicate constant(boolean r) {
-		return (b1, b2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiBytePredicate test1st(@Nonnull LBytePredicate func) {
-		return (b1, b2) -> func.doTest(b1);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiBytePredicate test2nd(@Nonnull LBytePredicate func) {
-		return (b1, b2) -> func.doTest(b2);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -138,7 +146,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LBiBytePredicate negate() {
-		return (byte b1, byte b2) -> !doTest(b1, b2);
+		return (byte a1, byte a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -148,7 +156,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiBytePredicate and(@Nonnull LBiBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (byte b1, byte b2) -> doTest(b1, b2) && other.doTest(b1, b2);
+		return (byte a1, byte a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -158,7 +166,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiBytePredicate or(@Nonnull LBiBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (byte b1, byte b2) -> doTest(b1, b2) || other.doTest(b1, b2);
+		return (byte a1, byte a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -168,7 +176,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiBytePredicate xor(@Nonnull LBiBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (byte b1, byte b2) -> doTest(b1, b2) ^ other.doTest(b1, b2);
+		return (byte a1, byte a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -177,7 +185,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	static LBiBytePredicate isEqual(final byte v1, final byte v2) {
-		return (b1, b2) -> (b1 == v1) && (b2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -208,7 +216,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	@Nonnull
 	default <V> LBiByteFunction<V> boolToBiByteFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b1, byte b2) -> after.doApply(this.doTest(b1, b2));
+		return (byte a1, byte a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

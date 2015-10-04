@@ -28,23 +28,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for java.util.function.BinaryOperator. */
+/** Assert class for java.util.function.BinaryOperator. */
 public interface BinaryOperatorAssert<S extends BinaryOperatorAssert<S, A, RS, T>, A extends java.util.function.BinaryOperator<T>, RS extends Assert<RS, T>, T>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2);
+	Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T a1, T a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends java.util.function.BinaryOperator<T>, RS extends Assert<RS, T>, T> extends Base<The<A, RS, T>, A, RS, T> {
@@ -67,13 +67,13 @@ public interface BinaryOperatorAssert<S extends BinaryOperatorAssert<S, A, RS, T
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2) {
+		public Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T a1, T a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((T) actual.apply(t1, t2));
+				return assertFactory.apply((T) actual.apply(a1, a2));
 			});
 
 		}

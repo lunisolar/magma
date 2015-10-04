@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiObjLongConsumer for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 3): T1 t1,T2 t2, long l
+ * Domain (lvl: 3): T1 a1,T2 a2,long a3
  *
  * Co-domain: none
  *
@@ -61,18 +65,23 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	static final String DESCRIPTION = "LBiObjLongConsumer: void doAccept(T1 t1,T2 t2, long l)";
+	String DESCRIPTION = "LBiObjLongConsumer: void doAccept(T1 a1,T2 a2,long a3)";
 
-	void doAccept(T1 t1, T2 t2, long l);
+	void doAccept(T1 a1, T2 a2, long a3);
+
+	default LTuple.Void tupleAccept(LBiObjLongTriple<T1, T2> args) {
+		doAccept(args.first(), args.second(), args.third());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(T1 t1, T2 t2, long l) {
-		this.doAccept(t1, t2, l);
+	default void nestingDoAccept(T1 a1, T2 a2, long a3) {
+		this.doAccept(a1, a2, a3);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T1 t1, T2 t2, long l) {
-		this.doAccept(t1, t2, l);
+	default void shovingDoAccept(T1 a1, T2 a2, long a3) {
+		this.doAccept(a1, a2, a3);
 	}
 
 	/** Returns description of the functional interface. */
@@ -82,26 +91,26 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBiObjLongCons(T1 t1, T2 t2, long l) {
-		return () -> this.doAccept(t1, t2, l);
+	default LAction captureBiObjLongCons(T1 a1, T2 a2, long a3) {
+		return () -> this.doAccept(a1, a2, a3);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjLongConsumer<T1, T2> accept1st(@Nonnull LConsumer<T1> func) {
-		return (t1, t2, l) -> func.doAccept(t1);
+		return (a1, a2, a3) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjLongConsumer<T1, T2> accept2nd(@Nonnull LConsumer<T2> func) {
-		return (t1, t2, l) -> func.doAccept(t2);
+		return (a1, a2, a3) -> func.doAccept(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjLongConsumer<T1, T2> accept3rd(@Nonnull LLongConsumer func) {
-		return (t1, t2, l) -> func.doAccept(l);
+		return (a1, a2, a3) -> func.doAccept(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -149,9 +158,9 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	@Nonnull
 	default LBiObjLongConsumer<T1, T2> andThen(@Nonnull LBiObjLongConsumer<? super T1, ? super T2> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 t1, T2 t2, long l) -> {
-			this.doAccept(t1, t2, l);
-			after.doAccept(t1, t2, l);
+		return (T1 a1, T2 a2, long a3) -> {
+			this.doAccept(a1, a2, a3);
+			after.doAccept(a1, a2, a3);
 		};
 	}
 

@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LBiObjLongConsumer. */
+/** Assert class for LBiObjLongConsumer. */
 public interface LBiObjLongConsumerAssert<S extends LBiObjLongConsumerAssert<S, A, T1, T2>, A extends LBiObjLongConsumer<T1, T2>, T1, T2> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiObjLongConsumerX<T1, T2, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LBiObjLongConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, long l);
+	SemiEvaluation<S, LBiObjLongConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 a1, T2 a2, long a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LBiObjLongConsumer<T1, T2>, T1, T2> extends Base<The<A, T1, T2>, A, T1, T2> {
@@ -60,13 +60,13 @@ public interface LBiObjLongConsumerAssert<S extends LBiObjLongConsumerAssert<S, 
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LBiObjLongConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, long l) {
+		public SemiEvaluation<S, LBiObjLongConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 a1, T2 a2, long a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t1, t2, l);
+					pc.doAccept(a1, a2, a3);
 				}
-				actual.doAccept(t1, t2, l);
+				actual.doAccept(a1, a2, a3);
 				return null;
 			});
 

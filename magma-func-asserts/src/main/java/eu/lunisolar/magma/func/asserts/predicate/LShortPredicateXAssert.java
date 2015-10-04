@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.predicate.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LShortPredicateX. */
+/** Assert class for LShortPredicateX. */
 public interface LShortPredicateXAssert<S extends LShortPredicateXAssert<S, A, RS, X>, A extends LShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s);
+	Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LShortPredicateXAssert<S extends LShortPredicateXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s) {
+		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(s);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Boolean) actual.doTest(s));
+				return assertFactory.apply((Boolean) actual.doTest(a1));
 			});
 
 		}

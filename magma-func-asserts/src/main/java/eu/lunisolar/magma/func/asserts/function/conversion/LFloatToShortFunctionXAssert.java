@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LFloatToShortFunctionX. */
+/** Assert class for LFloatToShortFunctionX. */
 public interface LFloatToShortFunctionXAssert<S extends LFloatToShortFunctionXAssert<S, A, RS, X>, A extends LFloatToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LFloatConsumerX<Exception>, A, RS, Short, Exception> {
 
 	@Nonnull
-	Evaluation<S, LFloatConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(float f);
+	Evaluation<S, LFloatConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(float a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LFloatToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -68,13 +68,13 @@ public interface LFloatToShortFunctionXAssert<S extends LFloatToShortFunctionXAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LFloatConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(float f) {
+		public Evaluation<S, LFloatConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(float a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(f);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Short) actual.doApplyAsShort(f));
+				return assertFactory.apply((Short) actual.doApplyAsShort(a1));
 			});
 
 		}

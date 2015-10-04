@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiLongConsumer for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 2): long l1,long l2
+ * Domain (lvl: 2): long a1,long a2
  *
  * Co-domain: none
  *
@@ -61,18 +65,23 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	static final String DESCRIPTION = "LBiLongConsumer: void doAccept(long l1,long l2)";
+	String DESCRIPTION = "LBiLongConsumer: void doAccept(long a1,long a2)";
 
-	void doAccept(long l1, long l2);
+	void doAccept(long a1, long a2);
+
+	default LTuple.Void tupleAccept(LLongPair args) {
+		doAccept(args.first(), args.second());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(long l1, long l2) {
-		this.doAccept(l1, l2);
+	default void nestingDoAccept(long a1, long a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(long l1, long l2) {
-		this.doAccept(l1, l2);
+	default void shovingDoAccept(long a1, long a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -82,20 +91,20 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBiLongCons(long l1, long l2) {
-		return () -> this.doAccept(l1, l2);
+	default LAction captureBiLongCons(long a1, long a2) {
+		return () -> this.doAccept(a1, a2);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiLongConsumer accept1st(@Nonnull LLongConsumer func) {
-		return (l1, l2) -> func.doAccept(l1);
+		return (a1, a2) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiLongConsumer accept2nd(@Nonnull LLongConsumer func) {
-		return (l1, l2) -> func.doAccept(l2);
+		return (a1, a2) -> func.doAccept(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -141,9 +150,9 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 	@Nonnull
 	default LBiLongConsumer andThen(@Nonnull LBiLongConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (long l1, long l2) -> {
-			this.doAccept(l1, l2);
-			after.doAccept(l1, l2);
+		return (long a1, long a2) -> {
+			this.doAccept(a1, a2);
+			after.doAccept(a1, a2);
 		};
 	}
 

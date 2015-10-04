@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,50 +40,56 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LLogicalOperator for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 1): boolean b
+ * Domain (lvl: 1): boolean a1
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LLogicalOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, MetaLogicalOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LLogicalOperator: boolean doApply(boolean b)";
+	String DESCRIPTION = "LLogicalOperator: boolean doApply(boolean a1)";
 
-	boolean doApply(boolean b);
+	boolean doApply(boolean a1);
+
+	default Boolean tupleApply(LBoolSingle args) {
+		return doApply(args.first());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoApply(boolean b) {
-		return this.doApply(b);
+	default boolean nestingDoApply(boolean a1) {
+		return this.doApply(a1);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoApply(boolean b) {
-		return this.doApply(b);
+	default boolean shovingDoApply(boolean a1) {
+		return this.doApply(a1);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoApply(boolean b) {
-		return doApply(b);
+	default boolean nonNullDoApply(boolean a1) {
+		return doApply(a1);
 	}
 
 	/** For convenience, boolean operator is also special case of predicate. */
-	default boolean doTest(boolean b) {
-		return doApply(b);
+	default boolean doTest(boolean a1) {
+		return doApply(a1);
 	}
 
 	/** Returns description of the functional interface. */
@@ -91,13 +99,13 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureLogicalOp(boolean b) {
-		return () -> this.doApply(b);
+	default LBoolSupplier captureLogicalOp(boolean a1) {
+		return () -> this.doApply(a1);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LLogicalOperator constant(boolean r) {
-		return b -> r;
+		return a1 -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -125,7 +133,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LLogicalOperator negate() {
-		return b -> !doApply(b);
+		return a1 -> !doApply(a1);
 	}
 
 	/**
@@ -135,7 +143,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default LLogicalOperator and(@Nonnull LLogicalOperator other) {
 		Null.nonNullArg(other, "other");
-		return b -> doApply(b) && other.doApply(b);
+		return a1 -> doApply(a1) && other.doApply(a1);
 	}
 
 	/**
@@ -145,7 +153,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default LLogicalOperator or(@Nonnull LLogicalOperator other) {
 		Null.nonNullArg(other, "other");
-		return b -> doApply(b) || other.doApply(b);
+		return a1 -> doApply(a1) || other.doApply(a1);
 	}
 
 	/**
@@ -155,7 +163,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default LLogicalOperator xor(@Nonnull LLogicalOperator other) {
 		Null.nonNullArg(other, "other");
-		return b -> doApply(b) ^ other.doApply(b);
+		return a1 -> doApply(a1) ^ other.doApply(a1);
 	}
 
 	/**
@@ -164,7 +172,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	 */
 	@Nonnull
 	static LLogicalOperator isEqual(boolean target) {
-		return b -> b == target;
+		return a1 -> a1 == target;
 	}
 
 	// </editor-fold>
@@ -193,63 +201,63 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default <V> LBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApply(this.doApply(b));
+		return a1 -> after.doApply(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBoolToByteFunction thenToByte(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsByte(this.doApply(b));
+		return a1 -> after.doApplyAsByte(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBoolToShortFunction thenToShort(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsShort(this.doApply(b));
+		return a1 -> after.doApplyAsShort(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBoolToIntFunction thenToInt(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsInt(this.doApply(b));
+		return a1 -> after.doApplyAsInt(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBoolToLongFunction thenToLong(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsLong(this.doApply(b));
+		return a1 -> after.doApplyAsLong(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBoolToFloatFunction thenToFloat(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsFloat(this.doApply(b));
+		return a1 -> after.doApplyAsFloat(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBoolToDoubleFunction thenToDouble(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsDouble(this.doApply(b));
+		return a1 -> after.doApplyAsDouble(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBoolToCharFunction thenToChar(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApplyAsChar(this.doApply(b));
+		return a1 -> after.doApplyAsChar(this.doApply(a1));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LLogicalOperator thenToBoolean(@Nonnull LLogicalOperator after) {
+	default LLogicalOperator thenToBool(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return b -> after.doApply(this.doApply(b));
+		return a1 -> after.doApply(this.doApply(a1));
 	}
 
 	// </editor-fold>

@@ -29,20 +29,20 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.consumer.primitives.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LShortConsumer. */
+/** Assert class for LShortConsumer. */
 public interface LShortConsumerAssert<S extends LShortConsumerAssert<S, A>, A extends LShortConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LShortConsumerX<Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, LShortConsumerX<Exception>, A, Exception> doesAccept(short s);
+	SemiEvaluation<S, LShortConsumerX<Exception>, A, Exception> doesAccept(short a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LShortConsumer> extends Base<The<A>, A> {
@@ -60,13 +60,13 @@ public interface LShortConsumerAssert<S extends LShortConsumerAssert<S, A>, A ex
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LShortConsumerX<Exception>, A, Exception> doesAccept(short s) {
+		public SemiEvaluation<S, LShortConsumerX<Exception>, A, Exception> doesAccept(short a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(s);
+					pc.doAccept(a1);
 				}
-				actual.doAccept(s);
+				actual.doAccept(a1);
 				return null;
 			});
 

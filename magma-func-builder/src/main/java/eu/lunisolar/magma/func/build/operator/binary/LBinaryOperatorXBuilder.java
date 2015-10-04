@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBinaryOperatorX. */
 public final class LBinaryOperatorXBuilder<T, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBinaryOperatorXBuilder<T, X>, LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>, T> {
@@ -54,10 +56,10 @@ public final class LBinaryOperatorXBuilder<T, X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBinaryOperatorX EVENTUALLY_THROW = LBinaryOperatorX.lX((Object t1, Object t2) -> {
+	public static final LBinaryOperatorX EVENTUALLY_THROW = LBinaryOperatorX.lX((Object a1, Object a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t1, t2, LBinaryOperatorX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBinaryOperatorX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBinaryOperatorXBuilder<T, X extends Throwable> extends PerCa
 		LBinaryOperatorX<T, X> retval;
 
 		final Case<LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBinaryOperatorX.<T, X> lX((T t1, T t2) -> {
+		retval = LBinaryOperatorX.<T, X> lX((T a1, T a2) -> {
 			try {
 				for (Case<LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2)) {
-						return aCase.caseFunction().doApply(t1, t2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(t1, t2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

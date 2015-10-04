@@ -32,12 +32,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  *
@@ -55,514 +57,514 @@ public final class Function4U {
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t) {
+	public static <T> void doNothing(T a1, byte a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2) {
+	public static <T> void doNothing(T a1, short a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2, T3> void doNothing(T1 t1, T2 t2, T3 t3) {
+	public static <T> void doNothing(T a1, int a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(byte b) {
+	public static <T> void doNothing(T a1, long a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(short s) {
+	public static <T> void doNothing(T a1, float a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(int i) {
+	public static <T> void doNothing(T a1, double a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(long l) {
+	public static <T> void doNothing(T a1, char a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(float f) {
+	public static <T> void doNothing(T a1, boolean a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(double d) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, byte a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(char c) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, short a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(boolean b) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, int a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(byte b1, byte b2) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, long a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(short s1, short s2) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, float a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(int i1, int i2) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, double a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(long l1, long l2) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, char a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(float f1, float f2) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, boolean a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(double d1, double d2) {
+	public static void doNothing(byte a1, byte a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(char c1, char c2) {
+	public static void doNothing(short a1, short a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(boolean b1, boolean b2) {
+	public static void doNothing(int a1, int a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static void doNothing(boolean b1, boolean b2, boolean b3) {
+	public static void doNothing(long a1, long a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, byte b) {
+	public static void doNothing(float a1, float a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, short s) {
+	public static void doNothing(double a1, double a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, int i) {
+	public static void doNothing(char a1, char a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, long l) {
+	public static void doNothing(boolean a1, boolean a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, float f) {
+	public static void doNothing(boolean a1, boolean a2, boolean a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, double d) {
+	public static void doNothing(byte a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, char c) {
+	public static void doNothing(short a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T> void doNothing(T t, boolean b) {
+	public static void doNothing(int a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, byte b) {
+	public static void doNothing(long a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, short s) {
+	public static void doNothing(float a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, int i) {
+	public static void doNothing(double a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, long l) {
+	public static void doNothing(char a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, float f) {
+	public static void doNothing(boolean a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, double d) {
+	public static <T> void doNothing(T a1) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, char c) {
+	public static <T1, T2> void doNothing(T1 a1, T2 a2) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	/** Does nothing */
-	public static <T1, T2> void doNothing(T1 t1, T2 t2, boolean b) {
+	public static <T1, T2, T3> void doNothing(T1 a1, T2 a2, T3 a3) {
 		// NOSONAR - there is something about 'doNothing' that common check rules do not cover ;)
 	}
 
 	// <editor-fold desc="predicate::method">
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t) {
+	public static <T> boolean alwaysTrue(T a1, byte a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t) {
+	public static <T> boolean alwaysFalse(T a1, byte a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2) {
+	public static <T> boolean alwaysTrue(T a1, short a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2) {
+	public static <T> boolean alwaysFalse(T a1, short a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2, T3> boolean alwaysTrue(T1 t1, T2 t2, T3 t3) {
+	public static <T> boolean alwaysTrue(T a1, int a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2, T3> boolean alwaysFalse(T1 t1, T2 t2, T3 t3) {
+	public static <T> boolean alwaysFalse(T a1, int a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(byte b) {
+	public static <T> boolean alwaysTrue(T a1, long a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(byte b) {
+	public static <T> boolean alwaysFalse(T a1, long a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(short s) {
+	public static <T> boolean alwaysTrue(T a1, float a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(short s) {
+	public static <T> boolean alwaysFalse(T a1, float a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(int i) {
+	public static <T> boolean alwaysTrue(T a1, double a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(int i) {
+	public static <T> boolean alwaysFalse(T a1, double a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(long l) {
+	public static <T> boolean alwaysTrue(T a1, char a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(long l) {
+	public static <T> boolean alwaysFalse(T a1, char a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(float f) {
+	public static <T> boolean alwaysTrue(T a1, boolean a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(float f) {
+	public static <T> boolean alwaysFalse(T a1, boolean a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(double d) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, byte a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(double d) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, byte a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(char c) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, short a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(char c) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, short a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(byte b1, byte b2) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, int a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(byte b1, byte b2) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, int a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(short s1, short s2) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, long a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(short s1, short s2) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, long a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(int i1, int i2) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, float a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(int i1, int i2) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, float a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(long l1, long l2) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, double a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(long l1, long l2) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, double a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(float f1, float f2) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, char a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(float f1, float f2) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, char a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(double d1, double d2) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2, boolean a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(double d1, double d2) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, boolean a3) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(char c1, char c2) {
+	public static boolean alwaysTrue(byte a1, byte a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(char c1, char c2) {
+	public static boolean alwaysFalse(byte a1, byte a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, byte b) {
+	public static boolean alwaysTrue(short a1, short a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, byte b) {
+	public static boolean alwaysFalse(short a1, short a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, short s) {
+	public static boolean alwaysTrue(int a1, int a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, short s) {
+	public static boolean alwaysFalse(int a1, int a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, int i) {
+	public static boolean alwaysTrue(long a1, long a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, int i) {
+	public static boolean alwaysFalse(long a1, long a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, long l) {
+	public static boolean alwaysTrue(float a1, float a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, long l) {
+	public static boolean alwaysFalse(float a1, float a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, float f) {
+	public static boolean alwaysTrue(double a1, double a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, float f) {
+	public static boolean alwaysFalse(double a1, double a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, double d) {
+	public static boolean alwaysTrue(char a1, char a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, double d) {
+	public static boolean alwaysFalse(char a1, char a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, char c) {
+	public static boolean alwaysTrue(byte a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, char c) {
+	public static boolean alwaysFalse(byte a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T t, boolean b) {
+	public static boolean alwaysTrue(short a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T t, boolean b) {
+	public static boolean alwaysFalse(short a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, byte b) {
+	public static boolean alwaysTrue(int a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, byte b) {
+	public static boolean alwaysFalse(int a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, short s) {
+	public static boolean alwaysTrue(long a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, short s) {
+	public static boolean alwaysFalse(long a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, int i) {
+	public static boolean alwaysTrue(float a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, int i) {
+	public static boolean alwaysFalse(float a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, long l) {
+	public static boolean alwaysTrue(double a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, long l) {
+	public static boolean alwaysFalse(double a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, float f) {
+	public static boolean alwaysTrue(char a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, float f) {
+	public static boolean alwaysFalse(char a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, double d) {
+	public static <T> boolean alwaysTrue(T a1) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, double d) {
+	public static <T> boolean alwaysFalse(T a1) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, char c) {
+	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a2) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, char c) {
+	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2) {
 		return false;
 	}
 
 	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 t1, T2 t2, boolean b) {
+	public static <T1, T2, T3> boolean alwaysTrue(T1 a1, T2 a2, T3 a3) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 t1, T2 t2, boolean b) {
+	public static <T1, T2, T3> boolean alwaysFalse(T1 a1, T2 a2, T3 a3) {
 		return false;
 	}
 
@@ -997,6 +999,16 @@ public final class Function4U {
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
 	public static <T> java.util.function.ObjDoubleConsumer objDoubleConsumer(final java.util.function.ObjDoubleConsumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static java.lang.Runnable l(final java.lang.Runnable lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static java.lang.Runnable runnable(final java.lang.Runnable lambda) {
 		return lambda;
 	}
 

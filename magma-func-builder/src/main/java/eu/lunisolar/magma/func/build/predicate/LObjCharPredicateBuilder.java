@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LObjCharPredicate. */
 public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.Base<LObjCharPredicateBuilder<T>, LObjCharPredicate<T>, LObjCharPredicate<T>> {
@@ -54,10 +56,10 @@ public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBoolean
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjCharPredicate EVENTUALLY_THROW = LObjCharPredicate.l((Object t, char c) -> {
+	public static final LObjCharPredicate EVENTUALLY_THROW = LObjCharPredicate.l((Object a1, char a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t, c, LObjCharPredicate.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LObjCharPredicate.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBoolean
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T> LObjCharPredicateBuilder<T> casesOf(Class<E1> argC1, Consumer<LObjCharPredicateBuilder<E1>> pcpConsumer) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, char c) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T a1, char a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBoolean
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T> LObjCharPredicateBuilder<T> aCase(Class<E1> argC1, LObjCharPredicate<E1> function) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, char c) -> (argC1 == null || argC1.isInstance(t)));
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T a1, char a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBoolean
 		LObjCharPredicate<T> retval;
 
 		final Case<LObjCharPredicate<T>, LObjCharPredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjCharPredicate.<T> l((T t, char c) -> {
+		retval = LObjCharPredicate.<T> l((T a1, char a2) -> {
 			try {
 				for (Case<LObjCharPredicate<T>, LObjCharPredicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t, c)) {
-						return aCase.caseFunction().doTest(t, c);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doTest(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doTest(t, c);
+				return eventuallyFinal.doTest(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

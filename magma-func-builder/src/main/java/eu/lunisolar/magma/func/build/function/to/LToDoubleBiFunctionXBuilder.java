@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LToDoubleBiFunctionX. */
 public final class LToDoubleBiFunctionXBuilder<T1, T2, X extends Throwable> extends PerCaseBuilderWithDoubleProduct.Base<LToDoubleBiFunctionXBuilder<T1, T2, X>, LBiPredicateX<T1, T2, X>, LToDoubleBiFunctionX<T1, T2, X>> {
@@ -54,10 +56,10 @@ public final class LToDoubleBiFunctionXBuilder<T1, T2, X extends Throwable> exte
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToDoubleBiFunctionX EVENTUALLY_THROW = LToDoubleBiFunctionX.lX((Object t1, Object t2) -> {
+	public static final LToDoubleBiFunctionX EVENTUALLY_THROW = LToDoubleBiFunctionX.lX((Object a1, Object a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", t1, t2, LToDoubleBiFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LToDoubleBiFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -102,7 +104,7 @@ public final class LToDoubleBiFunctionXBuilder<T1, T2, X extends Throwable> exte
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2> LToDoubleBiFunctionXBuilder<T1, T2, X> casesOf(Class<E1> argC1, Class<E2> argC2, Consumer<LToDoubleBiFunctionXBuilder<E1, E2, X>> pcpConsumer) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class LToDoubleBiFunctionXBuilder<T1, T2, X extends Throwable> exte
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <E1 extends T1, E2 extends T2> LToDoubleBiFunctionXBuilder<T1, T2, X> aCase(Class<E1> argC1, Class<E2> argC2, LToDoubleBiFunctionX<E1, E2, X> function) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +128,15 @@ public final class LToDoubleBiFunctionXBuilder<T1, T2, X extends Throwable> exte
 		LToDoubleBiFunctionX<T1, T2, X> retval;
 
 		final Case<LBiPredicateX<T1, T2, X>, LToDoubleBiFunctionX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToDoubleBiFunctionX.<T1, T2, X> lX((T1 t1, T2 t2) -> {
+		retval = LToDoubleBiFunctionX.<T1, T2, X> lX((T1 a1, T2 a2) -> {
 			try {
 				for (Case<LBiPredicateX<T1, T2, X>, LToDoubleBiFunctionX<T1, T2, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2)) {
-						return aCase.caseFunction().doApplyAsDouble(t1, t2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApplyAsDouble(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(t1, t2);
+				return eventuallyFinal.doApplyAsDouble(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

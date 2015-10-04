@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LTernaryOperator. */
 public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<LTernaryOperatorBuilder<T>, LTriPredicate<T, T, T>, LTernaryOperator<T>, T> {
@@ -54,10 +56,10 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTernaryOperator EVENTUALLY_THROW = LTernaryOperator.l((Object t1, Object t2, Object t3) -> {
+	public static final LTernaryOperator EVENTUALLY_THROW = LTernaryOperator.l((Object a1, Object a2, Object a3) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", t1, t2, t3, LTernaryOperator.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", a1, a2, a3, LTernaryOperator.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 		LTernaryOperator<T> retval;
 
 		final Case<LTriPredicate<T, T, T>, LTernaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTernaryOperator.<T> l((T t1, T t2, T t3) -> {
+		retval = LTernaryOperator.<T> l((T a1, T a2, T a3) -> {
 			try {
 				for (Case<LTriPredicate<T, T, T>, LTernaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(t1, t2, t3)) {
-						return aCase.caseFunction().doApply(t1, t2, t3);
+					if (aCase.casePredicate().doTest(a1, a2, a3)) {
+						return aCase.caseFunction().doApply(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doApply(t1, t2, t3);
+				return eventuallyFinal.doApply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LDoubleToCharFunction. */
 public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharProduct.Base<LDoubleToCharFunctionBuilder, LDoublePredicate, LDoubleToCharFunction> {
@@ -54,10 +56,10 @@ public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharPr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToCharFunction EVENTUALLY_THROW = LDoubleToCharFunction.l((double d) -> {
+	public static final LDoubleToCharFunction EVENTUALLY_THROW = LDoubleToCharFunction.l((double a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", d, LDoubleToCharFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LDoubleToCharFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharPr
 		LDoubleToCharFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToCharFunction.l(d -> {
+		retval = LDoubleToCharFunction.l(a1 -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(d)) {
-						return aCase.caseFunction().doApplyAsChar(d);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsChar(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(d);
+				return eventuallyFinal.doApplyAsChar(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

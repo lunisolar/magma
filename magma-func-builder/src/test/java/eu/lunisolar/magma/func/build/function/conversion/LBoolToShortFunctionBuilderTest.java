@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LBoolToShortFunctionBuilderTest<X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LBoolToShortFunction function = LBoolToShortFunctionBuilder.boolToShortFunction()
-                .eventually(b -> {
+                .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,10 +117,10 @@ public class LBoolToShortFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBoolToShortFunction function = boolToShortFunction((LBoolToShortFunction f)-> doNothing())
-            .aCase(ce -> ce.of(b -> b == false)
-                             .evaluate(b -> (short)0))
-            .inCase(b -> b == true ).evaluate(b -> (short)1)
-            .eventually(b -> (short)99)
+            .aCase(ce -> ce.of(a1 -> a1 == false)
+                             .evaluate(a1 -> (short)0))
+            .inCase(a1 -> a1 == true ).evaluate(a1 -> (short)1)
+            .eventually(a1 -> (short)99)
             .build();
 
 

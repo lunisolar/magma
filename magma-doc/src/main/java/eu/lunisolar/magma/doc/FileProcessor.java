@@ -29,7 +29,7 @@ import static java.util.stream.Collectors.*;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 /**
- * @author Jakub Wach
+ *
  */
 public class FileProcessor {
 

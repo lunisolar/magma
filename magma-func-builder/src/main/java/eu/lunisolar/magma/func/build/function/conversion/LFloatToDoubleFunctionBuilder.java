@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LFloatToDoubleFunction. */
 public final class LFloatToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<LFloatToDoubleFunctionBuilder, LFloatPredicate, LFloatToDoubleFunction> {
@@ -54,10 +56,10 @@ public final class LFloatToDoubleFunctionBuilder extends PerCaseBuilderWithDoubl
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToDoubleFunction EVENTUALLY_THROW = LFloatToDoubleFunction.l((float f) -> {
+	public static final LFloatToDoubleFunction EVENTUALLY_THROW = LFloatToDoubleFunction.l((float a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", f, LFloatToDoubleFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LFloatToDoubleFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LFloatToDoubleFunctionBuilder extends PerCaseBuilderWithDoubl
 		LFloatToDoubleFunction retval;
 
 		final Case<LFloatPredicate, LFloatToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToDoubleFunction.l(f -> {
+		retval = LFloatToDoubleFunction.l(a1 -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(f)) {
-						return aCase.caseFunction().doApplyAsDouble(f);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(f);
+				return eventuallyFinal.doApplyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntToDoubleFunction. */
 public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<LIntToDoubleFunctionBuilder, LIntPredicate, LIntToDoubleFunction> {
@@ -54,10 +56,10 @@ public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToDoubleFunction EVENTUALLY_THROW = LIntToDoubleFunction.l((int i) -> {
+	public static final LIntToDoubleFunction EVENTUALLY_THROW = LIntToDoubleFunction.l((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntToDoubleFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntToDoubleFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 		LIntToDoubleFunction retval;
 
 		final Case<LIntPredicate, LIntToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToDoubleFunction.l(i -> {
+		retval = LIntToDoubleFunction.l(a1 -> {
 			try {
 				for (Case<LIntPredicate, LIntToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().doApplyAsDouble(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsDouble(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(i);
+				return eventuallyFinal.doApplyAsDouble(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

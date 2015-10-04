@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,24 +64,24 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
     private LToShortBiFunctionX<T1,T2,X> sut = new LToShortBiFunctionX(){
-        public  short doApplyAsShort(Object t1,Object t2) throws ParseException {
+        public  short doApplyAsShort(Object a1,Object a2) throws ParseException {
             return testValue;
         }
     };
 
     private LToShortBiFunction<T1,T2> opposite = new LToShortBiFunction(){
-        public  short doApplyAsShort(Object t1,Object t2)  {
+        public  short doApplyAsShort(Object a1,Object a2)  {
             return testValue;
         }
     };
 
 
 
-    private LToShortBiFunctionX<T1,T2,ParseException> sutAlwaysThrowing = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+    private LToShortBiFunctionX<T1,T2,ParseException> sutAlwaysThrowing = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LToShortBiFunctionX<T1,T2,RuntimeException> sutAlwaysThrowingUnckeck = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+    private LToShortBiFunctionX<T1,T2,RuntimeException> sutAlwaysThrowingUnckeck = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -86,6 +89,19 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LPair<T1,T2>,Short,X> theCall = sut;
+
+        LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+
+        Object result = sut.tupleApplyAsShort(domainObject);
+
+        assertThat(result)
             .isEqualTo(testValue);
     }
 
@@ -159,12 +175,12 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToShortBiFunctionX: short doApplyAsShort(T1 t1,T2 t2) throws X");
+            .isEqualTo("LToShortBiFunctionX: short doApplyAsShort(T1 a1,T2 a2) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LToShortBiFunctionX.lX((Object t1,Object t2) -> testValue ))
+        assertThat(LToShortBiFunctionX.lX((Object a1,Object a2) -> testValue ))
             .isInstanceOf(LToShortBiFunctionX.class);
     }
 
@@ -179,7 +195,7 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -203,7 +219,7 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -227,7 +243,7 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -252,7 +268,7 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -282,10 +298,10 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LToShortBiFunctionX<Integer ,Integer ,X> sutO = (Integer t1,Integer t2) -> {
+        LToShortBiFunctionX<Integer ,Integer ,X> sutO = (Integer a1,Integer a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(91));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
                 return (short)100;
         };
 
@@ -322,10 +338,10 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToShortBiFunctionX<Integer ,Integer ,X> sutO = (Integer t1,Integer t2) -> {
+        LToShortBiFunctionX<Integer ,Integer ,X> sutO = (Integer a1,Integer a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(t1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(t2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
+                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
                 return (short)90;
         };
 
@@ -380,7 +396,7 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     public void testShove() {
 
         // given
-        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -392,7 +408,7 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     public void testHandleToShortBiFunc() throws X {
 
         // given
-        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+        LToShortBiFunctionX<T1,T2,X> sutThrowing = LToShortBiFunctionX.lX((T1 a1,T2 a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -422,7 +438,7 @@ public class LToShortBiFunctionXTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToShortBiFunctionX: short doApplyAsShort(T1 t1,T2 t2) throws X");
+                .contains("LToShortBiFunctionX: short doApplyAsShort(T1 a1,T2 a2) throws X");
     }
 
 

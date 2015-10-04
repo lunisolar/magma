@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LObjCharPredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): T t, char c
+ * Domain (lvl: 2): T a1,char a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LObjCharPredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LObjCharPredicate: boolean doTest(T t, char c)";
+	String DESCRIPTION = "LObjCharPredicate: boolean doTest(T a1,char a2)";
 
-	boolean doTest(T t, char c);
+	boolean doTest(T a1, char a2);
+
+	default Boolean tupleTest(LObjCharPair<T> args) {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(T t, char c) {
-		return this.doTest(t, c);
+	default boolean nestingDoTest(T a1, char a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(T t, char c) {
-		return this.doTest(t, c);
+	default boolean shovingDoTest(T a1, char a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(T t, char c) {
-		return doTest(t, c);
+	default boolean nonNullDoTest(T a1, char a2) {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(T t, char c) {
-		return doTest(t, c);
+	default boolean doApplyAsBoolean(T a1, char a2) {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,25 +100,25 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureObjCharPred(T t, char c) {
-		return () -> this.doTest(t, c);
+	default LBoolSupplier captureObjCharPred(T a1, char a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T> LObjCharPredicate<T> constant(boolean r) {
-		return (t, c) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T> LObjCharPredicate<T> test1st(@Nonnull LPredicate<T> func) {
-		return (t, c) -> func.doTest(t);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T> LObjCharPredicate<T> test2nd(@Nonnull LCharPredicate func) {
-		return (t, c) -> func.doTest(c);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -138,7 +146,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default LObjCharPredicate<T> negate() {
-		return (T t, char c) -> !doTest(t, c);
+		return (T a1, char a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -148,7 +156,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjCharPredicate<T> and(@Nonnull LObjCharPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T t, char c) -> doTest(t, c) && other.doTest(t, c);
+		return (T a1, char a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -158,7 +166,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjCharPredicate<T> or(@Nonnull LObjCharPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T t, char c) -> doTest(t, c) || other.doTest(t, c);
+		return (T a1, char a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -168,7 +176,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjCharPredicate<T> xor(@Nonnull LObjCharPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T t, char c) -> doTest(t, c) ^ other.doTest(t, c);
+		return (T a1, char a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -177,7 +185,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	static <T1> LObjCharPredicate<T1> isEqual(final T1 v1, final char v2) {
-		return (t, c) -> (t == null ? v1 == null : t.equals(v1)) && (c == v2);
+		return (a1, a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -208,7 +216,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	@Nonnull
 	default <V> LObjCharFunction<T, V> boolToObjCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, char c) -> after.doApply(this.doTest(t, c));
+		return (T a1, char a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

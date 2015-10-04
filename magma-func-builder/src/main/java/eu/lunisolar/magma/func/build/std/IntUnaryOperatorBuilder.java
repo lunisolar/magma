@@ -39,12 +39,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for java.util.function.IntUnaryOperator. */
 public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<IntUnaryOperatorBuilder, LIntPredicate, java.util.function.IntUnaryOperator> {
@@ -53,10 +55,10 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntUnaryOperator EVENTUALLY_THROW = Function4U.intUnaryOperator((int i) -> {
+	public static final java.util.function.IntUnaryOperator EVENTUALLY_THROW = Function4U.intUnaryOperator((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, "java.util.function.IntUnaryOperator: int applyAsInt(int i)");
+			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.IntUnaryOperator: int applyAsInt(int a1)");
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -107,15 +109,15 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 		java.util.function.IntUnaryOperator retval;
 
 		final Case<LIntPredicate, java.util.function.IntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intUnaryOperator(i -> {
+		retval = Function4U.intUnaryOperator(a1 -> {
 			try {
 				for (Case<LIntPredicate, java.util.function.IntUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						return aCase.caseFunction().applyAsInt(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().applyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(i);
+				return eventuallyFinal.applyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

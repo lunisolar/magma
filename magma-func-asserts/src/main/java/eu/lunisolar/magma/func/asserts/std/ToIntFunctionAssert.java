@@ -28,23 +28,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for java.util.function.ToIntFunction. */
+/** Assert class for java.util.function.ToIntFunction. */
 public interface ToIntFunctionAssert<S extends ToIntFunctionAssert<S, A, RS, T>, A extends java.util.function.ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LConsumerX<T, Exception>, A, RS, Integer, Exception> {
 
 	@Nonnull
-	Evaluation<S, LConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T t);
+	Evaluation<S, LConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends java.util.function.ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Base<The<A, RS, T>, A, RS, T> {
@@ -67,13 +67,13 @@ public interface ToIntFunctionAssert<S extends ToIntFunctionAssert<S, A, RS, T>,
 		}
 
 		@Nonnull
-		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T t) {
+		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(t);
+					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Integer) actual.applyAsInt(t));
+				return assertFactory.apply((Integer) actual.applyAsInt(a1));
 			});
 
 		}

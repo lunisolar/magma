@@ -30,6 +30,8 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -39,19 +41,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LObjCharConsumer for Java 8.
  *
  * Type: consumer
  *
- * Domain (lvl: 2): T t, char c
+ * Domain (lvl: 2): T a1,char a2
  *
  * Co-domain: none
  *
@@ -61,18 +65,23 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	static final String DESCRIPTION = "LObjCharConsumer: void doAccept(T t, char c)";
+	String DESCRIPTION = "LObjCharConsumer: void doAccept(T a1,char a2)";
 
-	void doAccept(T t, char c);
+	void doAccept(T a1, char a2);
+
+	default LTuple.Void tupleAccept(LObjCharPair<T> args) {
+		doAccept(args.first(), args.second());
+		return LTuple.Void.INSTANCE;
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default void nestingDoAccept(T t, char c) {
-		this.doAccept(t, c);
+	default void nestingDoAccept(T a1, char a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T t, char c) {
-		this.doAccept(t, c);
+	default void shovingDoAccept(T a1, char a2) {
+		this.doAccept(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -82,20 +91,20 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureObjCharCons(T t, char c) {
-		return () -> this.doAccept(t, c);
+	default LAction captureObjCharCons(T a1, char a2) {
+		return () -> this.doAccept(a1, a2);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T> LObjCharConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
-		return (t, c) -> func.doAccept(t);
+		return (a1, a2) -> func.doAccept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T> LObjCharConsumer<T> accept2nd(@Nonnull LCharConsumer func) {
-		return (t, c) -> func.doAccept(c);
+		return (a1, a2) -> func.doAccept(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -141,9 +150,9 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	@Nonnull
 	default LObjCharConsumer<T> andThen(@Nonnull LObjCharConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t, char c) -> {
-			this.doAccept(t, c);
-			after.doAccept(t, c);
+		return (T a1, char a2) -> {
+			this.doAccept(a1, a2);
+			after.doAccept(a1, a2);
 		};
 	}
 

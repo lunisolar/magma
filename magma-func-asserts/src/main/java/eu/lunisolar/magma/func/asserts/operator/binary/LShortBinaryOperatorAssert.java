@@ -29,23 +29,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.binary.*;
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert for LShortBinaryOperator. */
+/** Assert class for LShortBinaryOperator. */
 public interface LShortBinaryOperatorAssert<S extends LShortBinaryOperatorAssert<S, A, RS>, A extends LShortBinaryOperator, RS extends AbstractShortAssert<RS>>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s1, short s2);
+	Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short a1, short a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LShortBinaryOperator, RS extends AbstractShortAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -68,13 +68,13 @@ public interface LShortBinaryOperatorAssert<S extends LShortBinaryOperatorAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s1, short s2) {
+		public Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short a1, short a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(s1, s2);
+					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Short) actual.doApplyAsShort(s1, s2));
+				return assertFactory.apply((Short) actual.doApplyAsShort(a1, a2));
 			});
 
 		}

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LIntConsumerX. */
 public final class LIntConsumerXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LIntConsumerXBuilder<X>, LIntPredicateX<X>, LIntConsumerX<X>> {
@@ -54,10 +56,10 @@ public final class LIntConsumerXBuilder<X extends Throwable> extends PerCaseBuil
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntConsumerX EVENTUALLY_THROW = LIntConsumerX.lX((int i) -> {
+	public static final LIntConsumerX EVENTUALLY_THROW = LIntConsumerX.lX((int a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", i, LIntConsumerX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LIntConsumerX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,16 +110,16 @@ public final class LIntConsumerXBuilder<X extends Throwable> extends PerCaseBuil
 		LIntConsumerX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntConsumerX.<X> lX(i -> {
+		retval = LIntConsumerX.<X> lX(a1 -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(i)) {
-						aCase.caseFunction().doAccept(i);
+					if (aCase.casePredicate().doTest(a1)) {
+						aCase.caseFunction().doAccept(a1);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(i);
+				eventuallyFinal.doAccept(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

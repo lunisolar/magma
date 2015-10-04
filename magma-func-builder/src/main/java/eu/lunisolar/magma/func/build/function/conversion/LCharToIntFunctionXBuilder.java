@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LCharToIntFunctionX. */
 public final class LCharToIntFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithIntProduct.Base<LCharToIntFunctionXBuilder<X>, LCharPredicateX<X>, LCharToIntFunctionX<X>> {
@@ -54,10 +56,10 @@ public final class LCharToIntFunctionXBuilder<X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToIntFunctionX EVENTUALLY_THROW = LCharToIntFunctionX.lX((char c) -> {
+	public static final LCharToIntFunctionX EVENTUALLY_THROW = LCharToIntFunctionX.lX((char a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", c, LCharToIntFunctionX.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LCharToIntFunctionX.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LCharToIntFunctionXBuilder<X extends Throwable> extends PerCa
 		LCharToIntFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToIntFunctionX.<X> lX(c -> {
+		retval = LCharToIntFunctionX.<X> lX(a1 -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(c)) {
-						return aCase.caseFunction().doApplyAsInt(c);
+					if (aCase.casePredicate().doTest(a1)) {
+						return aCase.caseFunction().doApplyAsInt(a1);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(c);
+				return eventuallyFinal.doApplyAsInt(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

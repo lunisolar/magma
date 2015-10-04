@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,51 +40,57 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiIntPredicate for Java 8.
  *
  * Type: predicate
  *
- * Domain (lvl: 2): int i1,int i2
+ * Domain (lvl: 2): int a1,int a2
  *
- * Co-domain: none
+ * Co-domain: boolean
  *
  * @see LBiIntPredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	static final String DESCRIPTION = "LBiIntPredicate: boolean doTest(int i1,int i2)";
+	String DESCRIPTION = "LBiIntPredicate: boolean doTest(int a1,int a2)";
 
-	boolean doTest(int i1, int i2);
+	boolean doTest(int a1, int a2);
+
+	default Boolean tupleTest(LIntPair args) {
+		return doTest(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default boolean nestingDoTest(int i1, int i2) {
-		return this.doTest(i1, i2);
+	default boolean nestingDoTest(int a1, int a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(int i1, int i2) {
-		return this.doTest(i1, i2);
+	default boolean shovingDoTest(int a1, int a2) {
+		return this.doTest(a1, a2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(int i1, int i2) {
-		return doTest(i1, i2);
+	default boolean nonNullDoTest(int a1, int a2) {
+		return doTest(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(int i1, int i2) {
-		return doTest(i1, i2);
+	default boolean doApplyAsBoolean(int a1, int a2) {
+		return doTest(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -92,25 +100,25 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiIntPred(int i1, int i2) {
-		return () -> this.doTest(i1, i2);
+	default LBoolSupplier captureBiIntPred(int a1, int a2) {
+		return () -> this.doTest(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LBiIntPredicate constant(boolean r) {
-		return (i1, i2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiIntPredicate test1st(@Nonnull LIntPredicate func) {
-		return (i1, i2) -> func.doTest(i1);
+		return (a1, a2) -> func.doTest(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiIntPredicate test2nd(@Nonnull LIntPredicate func) {
-		return (i1, i2) -> func.doTest(i2);
+		return (a1, a2) -> func.doTest(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -138,7 +146,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LBiIntPredicate negate() {
-		return (int i1, int i2) -> !doTest(i1, i2);
+		return (int a1, int a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -148,7 +156,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LBiIntPredicate and(@Nonnull LBiIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int i1, int i2) -> doTest(i1, i2) && other.doTest(i1, i2);
+		return (int a1, int a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -158,7 +166,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LBiIntPredicate or(@Nonnull LBiIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int i1, int i2) -> doTest(i1, i2) || other.doTest(i1, i2);
+		return (int a1, int a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -168,7 +176,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LBiIntPredicate xor(@Nonnull LBiIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int i1, int i2) -> doTest(i1, i2) ^ other.doTest(i1, i2);
+		return (int a1, int a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -177,7 +185,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	static LBiIntPredicate isEqual(final int v1, final int v2) {
-		return (i1, i2) -> (i1 == v1) && (i2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -208,7 +216,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LBiIntFunction<V> boolToBiIntFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (int i1, int i2) -> after.doApply(this.doTest(i1, i2));
+		return (int a1, int a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

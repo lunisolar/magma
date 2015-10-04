@@ -36,12 +36,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -96,7 +98,7 @@ public class LTriBoolFunctionBuilderTest<R,X extends Throwable>{
 
         assertThatThrownBy(() -> {
             LTriBoolFunction function = LTriBoolFunctionBuilder.triBoolFunction()
-                .eventually((b1,b2,b3) -> {
+                .eventually((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -115,10 +117,10 @@ public class LTriBoolFunctionBuilderTest<R,X extends Throwable>{
     public void testBuild() throws X {
 
         LTriBoolFunction<Integer > function = triBoolFunction((LTriBoolFunction<Integer > f)-> doNothing())
-            .aCase(ce -> ce.of((b1,b2,b3) -> b1 == false)
-                             .evaluate((b1,b2,b3) -> Integer.valueOf(0)))
-            .inCase((b1,b2,b3) -> b1 == true ).evaluate((b1,b2,b3) -> Integer.valueOf(1))
-            .eventually((b1,b2,b3) -> Integer.valueOf(99))
+            .aCase(ce -> ce.of((a1,a2,a3) -> a1 == false)
+                             .evaluate((a1,a2,a3) -> Integer.valueOf(0)))
+            .inCase((a1,a2,a3) -> a1 == true ).evaluate((a1,a2,a3) -> Integer.valueOf(1))
+            .eventually((a1,a2,a3) -> Integer.valueOf(99))
             .build();
 
 

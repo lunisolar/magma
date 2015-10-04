@@ -29,6 +29,8 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -38,19 +40,21 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBinaryOperatorX for Java 8.
  *
  * Type: operator
  *
- * Domain (lvl: 2): T t1,T t2
+ * Domain (lvl: 2): T a1,T a2
  *
  * Co-domain: T
  *
@@ -58,14 +62,18 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.function.BinaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LBiFunctionX<T, T, T, X> { // NOSONAR
+public interface LBinaryOperatorX<T, X extends Throwable> extends BinaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LBiFunctionX<T, T, T, X> { // NOSONAR
 
-	static final String DESCRIPTION = "LBinaryOperatorX: T doApply(T t1,T t2) throws X";
+	String DESCRIPTION = "LBinaryOperatorX: T doApply(T a1,T a2) throws X";
+
+	default T tupleApply(LPair<T, T> args) throws X {
+		return doApply(args.first(), args.second());
+	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
-	default T nestingDoApply(T t1, T t2) {
+	default T nestingDoApply(T a1, T a2) {
 		try {
-			return this.doApply(t1, t2);
+			return this.doApply(a1, a2);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -74,26 +82,26 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default T shovingDoApply(T t1, T t2) {
-		return ((LBinaryOperatorX<T, RuntimeException>) this).doApply(t1, t2);
+	default T shovingDoApply(T a1, T a2) {
+		return ((LBinaryOperatorX<T, RuntimeException>) this).doApply(a1, a2);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> T handlingDoApply(T t1, T t2, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> T handlingDoApply(T a1, T a2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(t1, t2);
+			return this.doApply(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default T nonNullDoApply(T t1, T t2) throws X {
-		return Null.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default T nonNullDoApply(T a1, T a2) throws X {
+		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -103,25 +111,25 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<T, X> captureBinaryOp(T t1, T t2) {
-		return () -> this.doApply(t1, t2);
+	default LSupplierX<T, X> captureBinaryOp(T a1, T a2) {
+		return () -> this.doApply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LBinaryOperatorX<T, X> constant(T r) {
-		return (t1, t2) -> r;
+		return (a1, a2) -> r;
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LBinaryOperatorX<T, X> apply1st(@Nonnull LUnaryOperatorX<T, X> func) {
-		return (t1, t2) -> func.doApply(t1);
+		return (a1, a2) -> func.doApply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T, X extends Throwable> LBinaryOperatorX<T, X> apply2nd(@Nonnull LUnaryOperatorX<T, X> func) {
-		return (t1, t2) -> func.doApply(t2);
+		return (a1, a2) -> func.doApply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -142,7 +150,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <T, X extends Throwable> LBinaryOperatorX<T, X> wrap(final java.util.function.BinaryOperator<T> other) {
+	static <T, X extends Throwable> LBinaryOperatorX<T, X> wrap(final BinaryOperator<T> other) {
 		return other::apply;
 	}
 
@@ -180,7 +188,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 	@Nonnull
 	default <V> LBiFunctionX<T, T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t1, T t2) -> after.doApply(this.doApply(t1, t2));
+		return (T a1, T a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -221,13 +229,13 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBinaryOperator<T> handleBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t1, T t2) -> this.handlingDoApply(t1, t2, handling);
+		return (T a1, T a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBinaryOperatorX<T, Y> handleBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t1, T t2) -> this.handlingDoApply(t1, t2, handling);
+		return (T a1, T a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

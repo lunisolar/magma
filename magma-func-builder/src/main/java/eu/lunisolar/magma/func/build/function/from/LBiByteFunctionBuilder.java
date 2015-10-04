@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBiByteFunction. */
 public final class LBiByteFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBiByteFunctionBuilder<R>, LBiBytePredicate, LBiByteFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LBiByteFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiByteFunction EVENTUALLY_THROW = LBiByteFunction.l((byte b1, byte b2) -> {
+	public static final LBiByteFunction EVENTUALLY_THROW = LBiByteFunction.l((byte a1, byte a2) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", b1, b2, LBiByteFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiByteFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBiByteFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 		LBiByteFunction<R> retval;
 
 		final Case<LBiBytePredicate, LBiByteFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiByteFunction.<R> l((byte b1, byte b2) -> {
+		retval = LBiByteFunction.<R> l((byte a1, byte a2) -> {
 			try {
 				for (Case<LBiBytePredicate, LBiByteFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(b1, b2)) {
-						return aCase.caseFunction().doApply(b1, b2);
+					if (aCase.casePredicate().doTest(a1, a2)) {
+						return aCase.caseFunction().doApply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(b1, b2);
+				return eventuallyFinal.doApply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

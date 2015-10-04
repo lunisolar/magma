@@ -35,12 +35,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -48,6 +50,7 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -61,30 +64,30 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
 
 
     private LBiBoolFunctionX<R,X> sut = new LBiBoolFunctionX(){
-        public @Nullable Object  doApply(boolean b1,boolean b2) throws ParseException {
+        public @Nullable Object  doApply(boolean a1,boolean a2) throws ParseException {
             return testValue;
         }
     };
 
     private LBiBoolFunction<R> opposite = new LBiBoolFunction(){
-        public @Nullable Object  doApply(boolean b1,boolean b2)  {
+        public @Nullable Object  doApply(boolean a1,boolean a2)  {
             return testValue;
         }
     };
 
     private LBiBoolFunctionX<R,X> sutNull = new LBiBoolFunctionX(){
-        public @Nullable Object  doApply(boolean b1,boolean b2) throws ParseException {
+        public @Nullable Object  doApply(boolean a1,boolean a2) throws ParseException {
             return null;
         }
     };
 
 
 
-    private LBiBoolFunctionX<R,ParseException> sutAlwaysThrowing = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+    private LBiBoolFunctionX<R,ParseException> sutAlwaysThrowing = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBiBoolFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+    private LBiBoolFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -92,6 +95,19 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doApply(true,true))
+            .isSameAs(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws X {
+
+        //FunctionalCall<LBoolPair,R,X> theCall = sut;
+
+        LBoolPair domainObject = Tuple4U.tuple(true,true);
+
+        Object result = sut.tupleApply(domainObject);
+
+        assertThat(result)
             .isSameAs(testValue);
     }
 
@@ -161,7 +177,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiBoolFunctionX: R doApply(boolean b1,boolean b2) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiBoolFunctionX: R doApply(boolean a1,boolean a2) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply(true,true);
     }
@@ -170,12 +186,12 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiBoolFunctionX: R doApply(boolean b1,boolean b2) throws X");
+            .isEqualTo("LBiBoolFunctionX: R doApply(boolean a1,boolean a2) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBiBoolFunctionX.lX((boolean b1,boolean b2) -> testValue ))
+        assertThat(LBiBoolFunctionX.lX((boolean a1,boolean a2) -> testValue ))
             .isInstanceOf(LBiBoolFunctionX.class);
     }
 
@@ -190,7 +206,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -214,7 +230,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -238,7 +254,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -263,7 +279,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -293,10 +309,10 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
                 return 9;
         };
 
@@ -328,10 +344,10 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
                 return 9;
         };
 
@@ -368,10 +384,10 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBiBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
                 return Integer.valueOf(90);
         };
 
@@ -404,10 +420,10 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBiBoolFunctionX<Integer ,X> sutO = (boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<Integer ,X> sutO = (boolean a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(b1).isEqualTo(true);
-                assertThat(b2).isEqualTo(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
                 return Integer.valueOf(90);
         };
 
@@ -459,7 +475,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -471,7 +487,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
     public void testHandleBiBoolFunc() throws X {
 
         // given
-        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean b1,boolean b2) -> {
+        LBiBoolFunctionX<R,X> sutThrowing = LBiBoolFunctionX.lX((boolean a1,boolean a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -501,7 +517,7 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiBoolFunctionX: R doApply(boolean b1,boolean b2) throws X");
+                .contains("LBiBoolFunctionX: R doApply(boolean a1,boolean a2) throws X");
     }
 
 

@@ -40,12 +40,14 @@ import eu.lunisolar.magma.func.function.to.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+import java.util.function.*; // NOSONAR
 
 /** Builder for LBoolFunction. */
 public final class LBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBoolFunctionBuilder<R>, LLogicalOperator, LBoolFunction<R>, R> {
@@ -54,10 +56,10 @@ public final class LBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolFunction EVENTUALLY_THROW = LBoolFunction.l((boolean b) -> {
+	public static final LBoolFunction EVENTUALLY_THROW = LBoolFunction.l((boolean a1) -> {
 		String message;
 		try {
-			message = String.format("No case specified for: %s  as function %s.", b, LBoolFunction.DESCRIPTION);
+			message = String.format("No case specified for: %s  as function %s.", a1, LBoolFunction.DESCRIPTION);
 		} catch (Exception e) { // NOSONAR
 				message = "No case specified for input data (no details can be provided).";
 			}
@@ -108,15 +110,15 @@ public final class LBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 		LBoolFunction<R> retval;
 
 		final Case<LLogicalOperator, LBoolFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolFunction.<R> l(b -> {
+		retval = LBoolFunction.<R> l(a1 -> {
 			try {
 				for (Case<LLogicalOperator, LBoolFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(b)) {
-						return aCase.caseFunction().doApply(b);
+					if (aCase.casePredicate().doApply(a1)) {
+						return aCase.caseFunction().doApply(a1);
 					}
 				}
 
-				return eventuallyFinal.doApply(b);
+				return eventuallyFinal.doApply(a1);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR
