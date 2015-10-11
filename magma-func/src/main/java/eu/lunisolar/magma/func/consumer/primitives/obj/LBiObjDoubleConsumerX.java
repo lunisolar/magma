@@ -143,6 +143,26 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 		return lambda;
 	}
 
+	static <T1, T2, X extends Throwable> void call(T1 a1, T2 a2, double a3, final @Nonnull LBiObjDoubleConsumerX<T1, T2, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2, a3);
+	}
+
+	static <T1, T2, X extends Throwable> void shoving(T1 a1, T2 a2, double a3, final @Nonnull LBiObjDoubleConsumerX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1, a2, a3);
+	}
+
+	static <T1, T2, X extends Throwable> void nesting(T1 a1, T2 a2, double a3, final @Nonnull LBiObjDoubleConsumerX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1, a2, a3);
+	}
+
+	static <T1, T2, X extends Throwable, Y extends Throwable> void handling(T1 a1, T2 a2, double a3, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBiObjDoubleConsumerX<T1, T2, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, a2, a3, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

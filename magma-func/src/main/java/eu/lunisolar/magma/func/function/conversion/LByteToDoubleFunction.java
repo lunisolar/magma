@@ -110,6 +110,11 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 		return lambda;
 	}
 
+	static double call(byte a1, final @Nonnull LByteToDoubleFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

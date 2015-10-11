@@ -110,6 +110,11 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 		return lambda;
 	}
 
+	static short call(short a1, final @Nonnull LShortUnaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

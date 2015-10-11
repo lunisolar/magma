@@ -120,6 +120,11 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 		return lambda;
 	}
 
+	static long call(long a1, final @Nonnull LLongUnaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

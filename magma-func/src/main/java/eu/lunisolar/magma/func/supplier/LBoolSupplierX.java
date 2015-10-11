@@ -138,6 +138,26 @@ public interface LBoolSupplierX<X extends Throwable> extends BooleanSupplier, Me
 		return lambda;
 	}
 
+	static <X extends Throwable> boolean call(final @Nonnull LBoolSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsBool();
+	}
+
+	static <X extends Throwable> boolean shoving(final @Nonnull LBoolSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsBool();
+	}
+
+	static <X extends Throwable> boolean nesting(final @Nonnull LBoolSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsBool();
+	}
+
+	static <X extends Throwable, Y extends Throwable> boolean handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBoolSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsBool(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

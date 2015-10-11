@@ -149,6 +149,26 @@ public interface LObjIntFunctionX<T, R, X extends Throwable> extends MetaFunctio
 		return lambda;
 	}
 
+	static <T, R, X extends Throwable> R call(T a1, int a2, final @Nonnull LObjIntFunctionX<T, R, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
+	static <T, R, X extends Throwable> R shoving(T a1, int a2, final @Nonnull LObjIntFunctionX<T, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApply(a1, a2);
+	}
+
+	static <T, R, X extends Throwable> R nesting(T a1, int a2, final @Nonnull LObjIntFunctionX<T, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApply(a1, a2);
+	}
+
+	static <T, R, X extends Throwable, Y extends Throwable> R handling(T a1, int a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LObjIntFunctionX<T, R, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApply(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

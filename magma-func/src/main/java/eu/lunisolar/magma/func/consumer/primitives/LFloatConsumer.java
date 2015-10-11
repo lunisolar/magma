@@ -102,6 +102,11 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 		return lambda;
 	}
 
+	static void call(float a1, final @Nonnull LFloatConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

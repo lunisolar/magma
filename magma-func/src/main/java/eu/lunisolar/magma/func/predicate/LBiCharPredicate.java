@@ -128,6 +128,11 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 		return lambda;
 	}
 
+	static boolean call(char a1, char a2, final @Nonnull LBiCharPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

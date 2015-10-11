@@ -120,6 +120,11 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static double call(int a1, final @Nonnull LIntToDoubleFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

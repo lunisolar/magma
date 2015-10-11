@@ -120,6 +120,11 @@ public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, Ru
 		return lambda;
 	}
 
+	static <T1, T2> void call(T1 a1, T2 a2, int a3, final @Nonnull LBiObjIntConsumer<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2, a3);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

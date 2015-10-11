@@ -129,6 +129,11 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 		return lambda;
 	}
 
+	static <T> T call(T a1, T a2, T a3, final @Nonnull LTernaryOperator<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2, a3);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

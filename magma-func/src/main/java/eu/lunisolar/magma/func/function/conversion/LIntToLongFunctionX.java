@@ -143,6 +143,26 @@ public interface LIntToLongFunctionX<X extends Throwable> extends IntToLongFunct
 		return lambda;
 	}
 
+	static <X extends Throwable> long call(int a1, final @Nonnull LIntToLongFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long shoving(int a1, final @Nonnull LIntToLongFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long nesting(int a1, final @Nonnull LIntToLongFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> long handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntToLongFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsLong(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

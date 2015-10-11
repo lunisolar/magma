@@ -114,6 +114,11 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 		return lambda;
 	}
 
+	static <R> R call(char a1, final @Nonnull LCharFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -133,6 +133,26 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 		return lambda;
 	}
 
+	static <X extends Throwable> short call(short a1, final @Nonnull LShortUnaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
+	static <X extends Throwable> short shoving(short a1, final @Nonnull LShortUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsShort(a1);
+	}
+
+	static <X extends Throwable> short nesting(short a1, final @Nonnull LShortUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsShort(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> short handling(short a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LShortUnaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsShort(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

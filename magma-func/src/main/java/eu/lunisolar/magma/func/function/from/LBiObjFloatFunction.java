@@ -132,6 +132,11 @@ public interface LBiObjFloatFunction<T1, T2, R> extends LBiObjFloatFunctionX<T1,
 		return lambda;
 	}
 
+	static <T1, T2, R> R call(T1 a1, T2 a2, float a3, final @Nonnull LBiObjFloatFunction<T1, T2, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2, a3);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

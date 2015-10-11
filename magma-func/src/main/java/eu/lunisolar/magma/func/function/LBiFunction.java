@@ -136,6 +136,11 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return lambda;
 	}
 
+	static <T1, T2, R> R call(T1 a1, T2 a2, final @Nonnull LBiFunction<T1, T2, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

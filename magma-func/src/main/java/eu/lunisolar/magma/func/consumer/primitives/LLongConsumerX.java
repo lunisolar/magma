@@ -135,6 +135,26 @@ public interface LLongConsumerX<X extends Throwable> extends LongConsumer, MetaC
 		return lambda;
 	}
 
+	static <X extends Throwable> void call(long a1, final @Nonnull LLongConsumerX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
+	static <X extends Throwable> void shoving(long a1, final @Nonnull LLongConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1);
+	}
+
+	static <X extends Throwable> void nesting(long a1, final @Nonnull LLongConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> void handling(long a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongConsumerX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

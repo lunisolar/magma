@@ -116,6 +116,11 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static boolean call(short a1, final @Nonnull LShortPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

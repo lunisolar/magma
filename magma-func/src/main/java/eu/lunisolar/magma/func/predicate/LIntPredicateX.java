@@ -149,6 +149,26 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 		return lambda;
 	}
 
+	static <X extends Throwable> boolean call(int a1, final @Nonnull LIntPredicateX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
+	static <X extends Throwable> boolean shoving(int a1, final @Nonnull LIntPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoTest(a1);
+	}
+
+	static <X extends Throwable> boolean nesting(int a1, final @Nonnull LIntPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoTest(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> boolean handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntPredicateX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoTest(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

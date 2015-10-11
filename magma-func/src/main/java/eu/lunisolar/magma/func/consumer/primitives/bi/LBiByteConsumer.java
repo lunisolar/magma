@@ -114,6 +114,11 @@ public interface LBiByteConsumer extends LBiByteConsumerX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static void call(byte a1, byte a2, final @Nonnull LBiByteConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

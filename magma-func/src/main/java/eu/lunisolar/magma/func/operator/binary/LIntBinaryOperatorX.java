@@ -155,6 +155,26 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends IntBinaryOpera
 		return lambda;
 	}
 
+	static <X extends Throwable> int call(int a1, int a2, final @Nonnull LIntBinaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1, a2);
+	}
+
+	static <X extends Throwable> int shoving(int a1, int a2, final @Nonnull LIntBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsInt(a1, a2);
+	}
+
+	static <X extends Throwable> int nesting(int a1, int a2, final @Nonnull LIntBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsInt(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> int handling(int a1, int a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntBinaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsInt(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

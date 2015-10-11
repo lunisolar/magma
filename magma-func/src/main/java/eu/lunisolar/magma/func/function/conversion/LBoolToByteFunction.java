@@ -110,6 +110,11 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static byte call(boolean a1, final @Nonnull LBoolToByteFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

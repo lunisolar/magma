@@ -114,6 +114,11 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 		return lambda;
 	}
 
+	static <R> R call(short a1, final @Nonnull LShortFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

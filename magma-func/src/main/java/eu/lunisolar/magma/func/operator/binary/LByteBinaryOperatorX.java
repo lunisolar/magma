@@ -145,6 +145,26 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 		return lambda;
 	}
 
+	static <X extends Throwable> byte call(byte a1, byte a2, final @Nonnull LByteBinaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1, a2);
+	}
+
+	static <X extends Throwable> byte shoving(byte a1, byte a2, final @Nonnull LByteBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsByte(a1, a2);
+	}
+
+	static <X extends Throwable> byte nesting(byte a1, byte a2, final @Nonnull LByteBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsByte(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> byte handling(byte a1, byte a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LByteBinaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsByte(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

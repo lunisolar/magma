@@ -105,6 +105,11 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 		return lambda;
 	}
 
+	static char call(final @Nonnull LCharSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsChar();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

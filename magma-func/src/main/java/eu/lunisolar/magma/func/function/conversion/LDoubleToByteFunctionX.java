@@ -133,6 +133,26 @@ public interface LDoubleToByteFunctionX<X extends Throwable> extends MetaFunctio
 		return lambda;
 	}
 
+	static <X extends Throwable> byte call(double a1, final @Nonnull LDoubleToByteFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1);
+	}
+
+	static <X extends Throwable> byte shoving(double a1, final @Nonnull LDoubleToByteFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsByte(a1);
+	}
+
+	static <X extends Throwable> byte nesting(double a1, final @Nonnull LDoubleToByteFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsByte(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> byte handling(double a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LDoubleToByteFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsByte(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

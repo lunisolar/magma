@@ -120,6 +120,11 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 		return lambda;
 	}
 
+	static int call(long a1, final @Nonnull LLongToIntFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

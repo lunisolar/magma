@@ -133,6 +133,26 @@ public interface LCharToLongFunctionX<X extends Throwable> extends MetaFunction,
 		return lambda;
 	}
 
+	static <X extends Throwable> long call(char a1, final @Nonnull LCharToLongFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long shoving(char a1, final @Nonnull LCharToLongFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long nesting(char a1, final @Nonnull LCharToLongFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> long handling(char a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharToLongFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsLong(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

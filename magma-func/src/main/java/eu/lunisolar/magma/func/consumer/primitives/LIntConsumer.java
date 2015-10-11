@@ -112,6 +112,11 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 		return lambda;
 	}
 
+	static void call(int a1, final @Nonnull LIntConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

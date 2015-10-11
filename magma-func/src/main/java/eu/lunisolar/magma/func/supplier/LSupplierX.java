@@ -142,6 +142,26 @@ public interface LSupplierX<R, X extends Throwable> extends Supplier<R>, MetaSup
 		return lambda;
 	}
 
+	static <R, X extends Throwable> R call(final @Nonnull LSupplierX<R, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGet();
+	}
+
+	static <R, X extends Throwable> R shoving(final @Nonnull LSupplierX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGet();
+	}
+
+	static <R, X extends Throwable> R nesting(final @Nonnull LSupplierX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGet();
+	}
+
+	static <R, X extends Throwable, Y extends Throwable> R handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LSupplierX<R, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGet(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

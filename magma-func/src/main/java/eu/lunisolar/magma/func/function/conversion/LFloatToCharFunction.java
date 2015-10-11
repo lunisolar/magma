@@ -110,6 +110,11 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static char call(float a1, final @Nonnull LFloatToCharFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

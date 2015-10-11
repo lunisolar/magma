@@ -128,6 +128,11 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 		return lambda;
 	}
 
+	static boolean call(byte a1, byte a2, final @Nonnull LBiBytePredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

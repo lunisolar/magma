@@ -155,6 +155,26 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends ToIntBiF
 		return lambda;
 	}
 
+	static <T1, T2, X extends Throwable> int call(T1 a1, T2 a2, final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> int shoving(T1 a1, T2 a2, final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsInt(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> int nesting(T1 a1, T2 a2, final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsInt(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable, Y extends Throwable> int handling(T1 a1, T2 a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsInt(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

@@ -128,6 +128,11 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 		return lambda;
 	}
 
+	static <T> boolean call(T a1, long a2, final @Nonnull LObjLongPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

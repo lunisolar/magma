@@ -116,6 +116,11 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return lambda;
 	}
 
+	static boolean call(char a1, final @Nonnull LCharPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

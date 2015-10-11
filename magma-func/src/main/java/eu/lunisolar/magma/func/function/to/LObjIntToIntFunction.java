@@ -122,6 +122,11 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 		return lambda;
 	}
 
+	static <T> int call(T a1, int a2, final @Nonnull LObjIntToIntFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

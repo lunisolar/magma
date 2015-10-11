@@ -110,6 +110,11 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 		return lambda;
 	}
 
+	static int call(char a1, final @Nonnull LCharToIntFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

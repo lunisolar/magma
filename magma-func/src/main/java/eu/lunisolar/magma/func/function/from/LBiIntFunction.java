@@ -126,6 +126,11 @@ public interface LBiIntFunction<R> extends LBiIntFunctionX<R, RuntimeException>,
 		return lambda;
 	}
 
+	static <R> R call(int a1, int a2, final @Nonnull LBiIntFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

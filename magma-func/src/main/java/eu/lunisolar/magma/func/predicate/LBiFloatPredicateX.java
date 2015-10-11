@@ -151,6 +151,26 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 		return lambda;
 	}
 
+	static <X extends Throwable> boolean call(float a1, float a2, final @Nonnull LBiFloatPredicateX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
+	static <X extends Throwable> boolean shoving(float a1, float a2, final @Nonnull LBiFloatPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoTest(a1, a2);
+	}
+
+	static <X extends Throwable> boolean nesting(float a1, float a2, final @Nonnull LBiFloatPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoTest(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> boolean handling(float a1, float a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBiFloatPredicateX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoTest(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

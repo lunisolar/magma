@@ -120,6 +120,11 @@ public interface LDoubleToLongFunction extends LDoubleToLongFunctionX<RuntimeExc
 		return lambda;
 	}
 
+	static long call(double a1, final @Nonnull LDoubleToLongFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

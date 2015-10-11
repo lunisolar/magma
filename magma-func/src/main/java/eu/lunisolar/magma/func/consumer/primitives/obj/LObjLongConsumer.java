@@ -124,6 +124,11 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 		return lambda;
 	}
 
+	static <T> void call(T a1, long a2, final @Nonnull LObjLongConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

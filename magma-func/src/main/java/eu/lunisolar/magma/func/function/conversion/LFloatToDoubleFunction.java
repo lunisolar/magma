@@ -110,6 +110,11 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 		return lambda;
 	}
 
+	static double call(float a1, final @Nonnull LFloatToDoubleFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -110,6 +110,11 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 		return lambda;
 	}
 
+	static char call(int a1, final @Nonnull LIntToCharFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

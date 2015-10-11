@@ -110,6 +110,11 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 		return lambda;
 	}
 
+	static <T> short call(T a1, final @Nonnull LToShortFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

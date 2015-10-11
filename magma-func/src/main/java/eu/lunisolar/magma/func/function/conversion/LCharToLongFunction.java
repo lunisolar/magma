@@ -110,6 +110,11 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static long call(char a1, final @Nonnull LCharToLongFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

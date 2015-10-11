@@ -110,6 +110,11 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 		return lambda;
 	}
 
+	static <T> float call(T a1, final @Nonnull LToFloatFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

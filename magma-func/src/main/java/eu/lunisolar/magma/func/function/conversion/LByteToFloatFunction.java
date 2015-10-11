@@ -110,6 +110,11 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static float call(byte a1, final @Nonnull LByteToFloatFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

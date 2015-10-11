@@ -132,6 +132,11 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 		return lambda;
 	}
 
+	static int call(int a1, int a2, final @Nonnull LIntBinaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

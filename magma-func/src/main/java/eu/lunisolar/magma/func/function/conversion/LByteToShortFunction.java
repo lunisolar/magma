@@ -110,6 +110,11 @@ public interface LByteToShortFunction extends LByteToShortFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static short call(byte a1, final @Nonnull LByteToShortFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

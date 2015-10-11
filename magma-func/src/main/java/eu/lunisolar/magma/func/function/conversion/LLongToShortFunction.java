@@ -110,6 +110,11 @@ public interface LLongToShortFunction extends LLongToShortFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static short call(long a1, final @Nonnull LLongToShortFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

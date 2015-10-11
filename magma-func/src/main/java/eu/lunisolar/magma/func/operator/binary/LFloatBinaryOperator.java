@@ -122,6 +122,11 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 		return lambda;
 	}
 
+	static float call(float a1, float a2, final @Nonnull LFloatBinaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

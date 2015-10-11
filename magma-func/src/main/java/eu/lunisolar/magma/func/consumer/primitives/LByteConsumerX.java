@@ -125,6 +125,26 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 		return lambda;
 	}
 
+	static <X extends Throwable> void call(byte a1, final @Nonnull LByteConsumerX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
+	static <X extends Throwable> void shoving(byte a1, final @Nonnull LByteConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1);
+	}
+
+	static <X extends Throwable> void nesting(byte a1, final @Nonnull LByteConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> void handling(byte a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LByteConsumerX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

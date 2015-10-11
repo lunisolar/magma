@@ -114,6 +114,11 @@ public interface LObjBoolConsumer<T> extends LObjBoolConsumerX<T, RuntimeExcepti
 		return lambda;
 	}
 
+	static <T> void call(T a1, boolean a2, final @Nonnull LObjBoolConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

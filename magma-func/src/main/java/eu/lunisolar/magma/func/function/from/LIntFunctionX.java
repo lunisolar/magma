@@ -147,6 +147,26 @@ public interface LIntFunctionX<R, X extends Throwable> extends IntFunction<R>, M
 		return lambda;
 	}
 
+	static <R, X extends Throwable> R call(int a1, final @Nonnull LIntFunctionX<R, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
+	static <R, X extends Throwable> R shoving(int a1, final @Nonnull LIntFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApply(a1);
+	}
+
+	static <R, X extends Throwable> R nesting(int a1, final @Nonnull LIntFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApply(a1);
+	}
+
+	static <R, X extends Throwable, Y extends Throwable> R handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntFunctionX<R, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApply(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

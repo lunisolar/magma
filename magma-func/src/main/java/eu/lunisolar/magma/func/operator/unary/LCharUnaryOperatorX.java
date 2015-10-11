@@ -133,6 +133,26 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 		return lambda;
 	}
 
+	static <X extends Throwable> char call(char a1, final @Nonnull LCharUnaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
+	static <X extends Throwable> char shoving(char a1, final @Nonnull LCharUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsChar(a1);
+	}
+
+	static <X extends Throwable> char nesting(char a1, final @Nonnull LCharUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsChar(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> char handling(char a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharUnaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsChar(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

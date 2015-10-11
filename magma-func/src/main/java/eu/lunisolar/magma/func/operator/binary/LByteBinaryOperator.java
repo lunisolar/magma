@@ -122,6 +122,11 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 		return lambda;
 	}
 
+	static byte call(byte a1, byte a2, final @Nonnull LByteBinaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

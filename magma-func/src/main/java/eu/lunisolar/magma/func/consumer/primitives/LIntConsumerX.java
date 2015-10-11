@@ -135,6 +135,26 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 		return lambda;
 	}
 
+	static <X extends Throwable> void call(int a1, final @Nonnull LIntConsumerX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
+	static <X extends Throwable> void shoving(int a1, final @Nonnull LIntConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1);
+	}
+
+	static <X extends Throwable> void nesting(int a1, final @Nonnull LIntConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> void handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntConsumerX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

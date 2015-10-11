@@ -116,6 +116,11 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 		return lambda;
 	}
 
+	static boolean call(byte a1, final @Nonnull LBytePredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -114,6 +114,11 @@ public interface LBiIntConsumer extends LBiIntConsumerX<RuntimeException>, MetaC
 		return lambda;
 	}
 
+	static void call(int a1, int a2, final @Nonnull LBiIntConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

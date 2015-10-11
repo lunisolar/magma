@@ -122,6 +122,11 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 		return lambda;
 	}
 
+	static <T1, T2> float call(T1 a1, T2 a2, final @Nonnull LToFloatBiFunction<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

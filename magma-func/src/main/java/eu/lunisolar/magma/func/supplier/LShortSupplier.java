@@ -105,6 +105,11 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 		return lambda;
 	}
 
+	static short call(final @Nonnull LShortSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsShort();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

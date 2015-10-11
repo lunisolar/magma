@@ -110,6 +110,11 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static char call(byte a1, final @Nonnull LByteToCharFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

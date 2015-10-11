@@ -133,6 +133,26 @@ public interface LLongToFloatFunctionX<X extends Throwable> extends MetaFunction
 		return lambda;
 	}
 
+	static <X extends Throwable> float call(long a1, final @Nonnull LLongToFloatFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1);
+	}
+
+	static <X extends Throwable> float shoving(long a1, final @Nonnull LLongToFloatFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsFloat(a1);
+	}
+
+	static <X extends Throwable> float nesting(long a1, final @Nonnull LLongToFloatFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsFloat(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> float handling(long a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongToFloatFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsFloat(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

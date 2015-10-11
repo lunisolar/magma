@@ -110,6 +110,11 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 		return lambda;
 	}
 
+	static <T> char call(T a1, final @Nonnull LToCharFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

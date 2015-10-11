@@ -110,6 +110,11 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static int call(float a1, final @Nonnull LFloatToIntFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

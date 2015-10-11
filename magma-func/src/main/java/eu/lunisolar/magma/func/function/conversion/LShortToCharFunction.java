@@ -110,6 +110,11 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static char call(short a1, final @Nonnull LShortToCharFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

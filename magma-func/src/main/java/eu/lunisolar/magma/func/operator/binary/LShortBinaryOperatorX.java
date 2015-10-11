@@ -145,6 +145,26 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 		return lambda;
 	}
 
+	static <X extends Throwable> short call(short a1, short a2, final @Nonnull LShortBinaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1, a2);
+	}
+
+	static <X extends Throwable> short shoving(short a1, short a2, final @Nonnull LShortBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsShort(a1, a2);
+	}
+
+	static <X extends Throwable> short nesting(short a1, short a2, final @Nonnull LShortBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsShort(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> short handling(short a1, short a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LShortBinaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsShort(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

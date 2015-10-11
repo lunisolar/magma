@@ -112,6 +112,11 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static void call(double a1, final @Nonnull LDoubleConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

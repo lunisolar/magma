@@ -134,6 +134,11 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 		return lambda;
 	}
 
+	static <T1, T2> boolean call(T1 a1, T2 a2, double a3, final @Nonnull LBiObjDoublePredicate<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2, a3);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

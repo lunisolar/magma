@@ -155,6 +155,26 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends LongBinaryOpe
 		return lambda;
 	}
 
+	static <X extends Throwable> long call(long a1, long a2, final @Nonnull LLongBinaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1, a2);
+	}
+
+	static <X extends Throwable> long shoving(long a1, long a2, final @Nonnull LLongBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsLong(a1, a2);
+	}
+
+	static <X extends Throwable> long nesting(long a1, long a2, final @Nonnull LLongBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsLong(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> long handling(long a1, long a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongBinaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsLong(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

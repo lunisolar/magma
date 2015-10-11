@@ -132,6 +132,11 @@ public interface LTriBoolFunction<R> extends LTriBoolFunctionX<R, RuntimeExcepti
 		return lambda;
 	}
 
+	static <R> R call(boolean a1, boolean a2, boolean a3, final @Nonnull LTriBoolFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2, a3);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

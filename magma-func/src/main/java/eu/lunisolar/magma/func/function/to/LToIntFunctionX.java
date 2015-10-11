@@ -143,6 +143,26 @@ public interface LToIntFunctionX<T, X extends Throwable> extends ToIntFunction<T
 		return lambda;
 	}
 
+	static <T, X extends Throwable> int call(T a1, final @Nonnull LToIntFunctionX<T, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
+	static <T, X extends Throwable> int shoving(T a1, final @Nonnull LToIntFunctionX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsInt(a1);
+	}
+
+	static <T, X extends Throwable> int nesting(T a1, final @Nonnull LToIntFunctionX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsInt(a1);
+	}
+
+	static <T, X extends Throwable, Y extends Throwable> int handling(T a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToIntFunctionX<T, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsInt(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

@@ -145,6 +145,26 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		return lambda;
 	}
 
+	static <T1, T2, X extends Throwable> byte call(T1 a1, T2 a2, final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> byte shoving(T1 a1, T2 a2, final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsByte(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> byte nesting(T1 a1, T2 a2, final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsByte(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable, Y extends Throwable> byte handling(T1 a1, T2 a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsByte(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

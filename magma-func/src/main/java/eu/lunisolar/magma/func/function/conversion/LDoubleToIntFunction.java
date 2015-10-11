@@ -120,6 +120,11 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static int call(double a1, final @Nonnull LDoubleToIntFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

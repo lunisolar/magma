@@ -128,6 +128,11 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 		return lambda;
 	}
 
+	static boolean call(float a1, float a2, final @Nonnull LBiFloatPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -124,6 +124,11 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 		return lambda;
 	}
 
+	static <R> R call(long a1, final @Nonnull LLongFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

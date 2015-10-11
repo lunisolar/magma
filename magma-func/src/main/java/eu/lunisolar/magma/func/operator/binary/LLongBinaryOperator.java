@@ -132,6 +132,11 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 		return lambda;
 	}
 
+	static long call(long a1, long a2, final @Nonnull LLongBinaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

@@ -114,6 +114,11 @@ public interface LBoolFunction<R> extends LBoolFunctionX<R, RuntimeException>, M
 		return lambda;
 	}
 
+	static <R> R call(boolean a1, final @Nonnull LBoolFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

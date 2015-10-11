@@ -133,6 +133,26 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 		return lambda;
 	}
 
+	static <X extends Throwable> byte call(char a1, final @Nonnull LCharToByteFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1);
+	}
+
+	static <X extends Throwable> byte shoving(char a1, final @Nonnull LCharToByteFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsByte(a1);
+	}
+
+	static <X extends Throwable> byte nesting(char a1, final @Nonnull LCharToByteFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsByte(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> byte handling(char a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharToByteFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsByte(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

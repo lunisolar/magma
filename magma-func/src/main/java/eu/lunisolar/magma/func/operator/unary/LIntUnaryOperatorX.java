@@ -143,6 +143,26 @@ public interface LIntUnaryOperatorX<X extends Throwable> extends IntUnaryOperato
 		return lambda;
 	}
 
+	static <X extends Throwable> int call(int a1, final @Nonnull LIntUnaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
+	static <X extends Throwable> int shoving(int a1, final @Nonnull LIntUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsInt(a1);
+	}
+
+	static <X extends Throwable> int nesting(int a1, final @Nonnull LIntUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsInt(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> int handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntUnaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsInt(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

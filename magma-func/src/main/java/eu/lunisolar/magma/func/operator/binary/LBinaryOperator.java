@@ -123,6 +123,11 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 		return lambda;
 	}
 
+	static <T> T call(T a1, T a2, final @Nonnull LBinaryOperator<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

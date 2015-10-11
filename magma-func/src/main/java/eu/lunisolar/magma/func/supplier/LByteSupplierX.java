@@ -128,6 +128,26 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, MetaI
 		return lambda;
 	}
 
+	static <X extends Throwable> byte call(final @Nonnull LByteSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsByte();
+	}
+
+	static <X extends Throwable> byte shoving(final @Nonnull LByteSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsByte();
+	}
+
+	static <X extends Throwable> byte nesting(final @Nonnull LByteSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsByte();
+	}
+
+	static <X extends Throwable, Y extends Throwable> byte handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LByteSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsByte(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

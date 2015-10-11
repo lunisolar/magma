@@ -149,6 +149,26 @@ public interface LBiDoubleFunctionX<R, X extends Throwable> extends MetaFunction
 		return lambda;
 	}
 
+	static <R, X extends Throwable> R call(double a1, double a2, final @Nonnull LBiDoubleFunctionX<R, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
+	static <R, X extends Throwable> R shoving(double a1, double a2, final @Nonnull LBiDoubleFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApply(a1, a2);
+	}
+
+	static <R, X extends Throwable> R nesting(double a1, double a2, final @Nonnull LBiDoubleFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApply(a1, a2);
+	}
+
+	static <R, X extends Throwable, Y extends Throwable> R handling(double a1, double a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBiDoubleFunctionX<R, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApply(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -114,6 +114,11 @@ public interface LBiBoolConsumer extends LBiBoolConsumerX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static void call(boolean a1, boolean a2, final @Nonnull LBiBoolConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

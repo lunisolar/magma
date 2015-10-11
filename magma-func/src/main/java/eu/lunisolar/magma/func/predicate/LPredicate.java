@@ -126,6 +126,11 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return lambda;
 	}
 
+	static <T> boolean call(T a1, final @Nonnull LPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

@@ -115,6 +115,11 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 		return lambda;
 	}
 
+	static boolean call(boolean a1, final @Nonnull LLogicalOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

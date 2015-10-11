@@ -132,6 +132,11 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 		return lambda;
 	}
 
+	static <T1, T2> int call(T1 a1, T2 a2, final @Nonnull LToIntBiFunction<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

@@ -138,6 +138,11 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 		return lambda;
 	}
 
+	static <T1, T2> boolean call(T1 a1, T2 a2, final @Nonnull LBiPredicate<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

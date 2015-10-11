@@ -120,6 +120,11 @@ public interface LTriBoolConsumer extends LTriBoolConsumerX<RuntimeException>, M
 		return lambda;
 	}
 
+	static void call(boolean a1, boolean a2, boolean a3, final @Nonnull LTriBoolConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2, a3);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

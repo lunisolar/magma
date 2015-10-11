@@ -138,6 +138,26 @@ public interface LLongSupplierX<X extends Throwable> extends LongSupplier, MetaS
 		return lambda;
 	}
 
+	static <X extends Throwable> long call(final @Nonnull LLongSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsLong();
+	}
+
+	static <X extends Throwable> long shoving(final @Nonnull LLongSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsLong();
+	}
+
+	static <X extends Throwable> long nesting(final @Nonnull LLongSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsLong();
+	}
+
+	static <X extends Throwable, Y extends Throwable> long handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsLong(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

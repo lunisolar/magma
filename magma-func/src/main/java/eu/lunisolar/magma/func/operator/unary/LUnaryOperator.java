@@ -111,6 +111,11 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 		return lambda;
 	}
 
+	static <T> T call(T a1, final @Nonnull LUnaryOperator<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

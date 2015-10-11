@@ -120,6 +120,11 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 		return lambda;
 	}
 
+	static <T> long call(T a1, final @Nonnull LToLongFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

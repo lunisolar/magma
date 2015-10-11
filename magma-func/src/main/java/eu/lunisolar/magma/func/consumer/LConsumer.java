@@ -112,6 +112,11 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 		return lambda;
 	}
 
+	static <T> void call(T a1, final @Nonnull LConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

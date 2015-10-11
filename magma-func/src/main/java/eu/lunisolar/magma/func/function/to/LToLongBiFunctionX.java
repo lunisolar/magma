@@ -155,6 +155,26 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends ToLongB
 		return lambda;
 	}
 
+	static <T1, T2, X extends Throwable> long call(T1 a1, T2 a2, final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> long shoving(T1 a1, T2 a2, final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsLong(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> long nesting(T1 a1, T2 a2, final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsLong(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable, Y extends Throwable> long handling(T1 a1, T2 a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsLong(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

@@ -126,6 +126,11 @@ public interface LBiDoubleFunction<R> extends LBiDoubleFunctionX<R, RuntimeExcep
 		return lambda;
 	}
 
+	static <R> R call(double a1, double a2, final @Nonnull LBiDoubleFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

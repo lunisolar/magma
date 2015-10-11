@@ -122,6 +122,11 @@ public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, 
 		return lambda;
 	}
 
+	static <T1, T2> short call(T1 a1, T2 a2, final @Nonnull LToShortBiFunction<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

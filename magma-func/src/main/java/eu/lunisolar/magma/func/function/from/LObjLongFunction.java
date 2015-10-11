@@ -126,6 +126,11 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 		return lambda;
 	}
 
+	static <T, R> R call(T a1, long a2, final @Nonnull LObjLongFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -151,6 +151,26 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 		return lambda;
 	}
 
+	static <T, X extends Throwable> boolean call(T a1, short a2, final @Nonnull LObjShortPredicateX<T, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
+	static <T, X extends Throwable> boolean shoving(T a1, short a2, final @Nonnull LObjShortPredicateX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoTest(a1, a2);
+	}
+
+	static <T, X extends Throwable> boolean nesting(T a1, short a2, final @Nonnull LObjShortPredicateX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoTest(a1, a2);
+	}
+
+	static <T, X extends Throwable, Y extends Throwable> boolean handling(T a1, short a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LObjShortPredicateX<T, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoTest(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

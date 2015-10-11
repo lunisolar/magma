@@ -114,6 +114,11 @@ public interface LBiFloatConsumer extends LBiFloatConsumerX<RuntimeException>, M
 		return lambda;
 	}
 
+	static void call(float a1, float a2, final @Nonnull LBiFloatConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

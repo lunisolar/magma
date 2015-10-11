@@ -120,6 +120,11 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 		return lambda;
 	}
 
+	static int call(int a1, final @Nonnull LIntUnaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

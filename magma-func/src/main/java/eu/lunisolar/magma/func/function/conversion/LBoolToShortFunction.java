@@ -110,6 +110,11 @@ public interface LBoolToShortFunction extends LBoolToShortFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static short call(boolean a1, final @Nonnull LBoolToShortFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -128,6 +128,26 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Meta
 		return lambda;
 	}
 
+	static <X extends Throwable> float call(final @Nonnull LFloatSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsFloat();
+	}
+
+	static <X extends Throwable> float shoving(final @Nonnull LFloatSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsFloat();
+	}
+
+	static <X extends Throwable> float nesting(final @Nonnull LFloatSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsFloat();
+	}
+
+	static <X extends Throwable, Y extends Throwable> float handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LFloatSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsFloat(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

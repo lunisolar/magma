@@ -126,6 +126,11 @@ public interface LBiBoolFunction<R> extends LBiBoolFunctionX<R, RuntimeException
 		return lambda;
 	}
 
+	static <R> R call(boolean a1, boolean a2, final @Nonnull LBiBoolFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -128,6 +128,11 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 		return lambda;
 	}
 
+	static <T> boolean call(T a1, float a2, final @Nonnull LObjFloatPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -126,6 +126,11 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return lambda;
 	}
 
+	static boolean call(int a1, final @Nonnull LIntPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

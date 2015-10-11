@@ -132,6 +132,11 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 		return lambda;
 	}
 
+	static <T1, T2> long call(T1 a1, T2 a2, final @Nonnull LToLongBiFunction<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

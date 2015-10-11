@@ -133,6 +133,26 @@ public interface LShortToIntFunctionX<X extends Throwable> extends MetaFunction,
 		return lambda;
 	}
 
+	static <X extends Throwable> int call(short a1, final @Nonnull LShortToIntFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
+	static <X extends Throwable> int shoving(short a1, final @Nonnull LShortToIntFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsInt(a1);
+	}
+
+	static <X extends Throwable> int nesting(short a1, final @Nonnull LShortToIntFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsInt(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> int handling(short a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LShortToIntFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsInt(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

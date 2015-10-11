@@ -110,6 +110,11 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static char call(boolean a1, final @Nonnull LBoolToCharFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

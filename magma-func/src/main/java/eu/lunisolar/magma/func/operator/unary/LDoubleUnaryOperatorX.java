@@ -143,6 +143,26 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends DoubleUnaryO
 		return lambda;
 	}
 
+	static <X extends Throwable> double call(double a1, final @Nonnull LDoubleUnaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable> double shoving(double a1, final @Nonnull LDoubleUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable> double nesting(double a1, final @Nonnull LDoubleUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> double handling(double a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LDoubleUnaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsDouble(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

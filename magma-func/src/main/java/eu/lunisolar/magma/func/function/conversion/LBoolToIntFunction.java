@@ -110,6 +110,11 @@ public interface LBoolToIntFunction extends LBoolToIntFunctionX<RuntimeException
 		return lambda;
 	}
 
+	static int call(boolean a1, final @Nonnull LBoolToIntFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

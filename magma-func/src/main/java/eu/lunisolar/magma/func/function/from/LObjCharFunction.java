@@ -126,6 +126,11 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 		return lambda;
 	}
 
+	static <T, R> R call(T a1, char a2, final @Nonnull LObjCharFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -155,6 +155,26 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends ToDou
 		return lambda;
 	}
 
+	static <T1, T2, X extends Throwable> double call(T1 a1, T2 a2, final @Nonnull LToDoubleBiFunctionX<T1, T2, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> double shoving(T1 a1, T2 a2, final @Nonnull LToDoubleBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsDouble(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> double nesting(T1 a1, T2 a2, final @Nonnull LToDoubleBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsDouble(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable, Y extends Throwable> double handling(T1 a1, T2 a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToDoubleBiFunctionX<T1, T2, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsDouble(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

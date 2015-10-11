@@ -132,6 +132,11 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 		return lambda;
 	}
 
+	static <T1, T2> double call(T1 a1, T2 a2, final @Nonnull LToDoubleBiFunction<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

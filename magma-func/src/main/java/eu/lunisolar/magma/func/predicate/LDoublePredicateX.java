@@ -149,6 +149,26 @@ public interface LDoublePredicateX<X extends Throwable> extends DoublePredicate,
 		return lambda;
 	}
 
+	static <X extends Throwable> boolean call(double a1, final @Nonnull LDoublePredicateX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
+	static <X extends Throwable> boolean shoving(double a1, final @Nonnull LDoublePredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoTest(a1);
+	}
+
+	static <X extends Throwable> boolean nesting(double a1, final @Nonnull LDoublePredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoTest(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> boolean handling(double a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LDoublePredicateX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoTest(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

@@ -138,6 +138,26 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 		return lambda;
 	}
 
+	static <X extends Throwable> boolean call(boolean a1, final @Nonnull LLogicalOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
+	static <X extends Throwable> boolean shoving(boolean a1, final @Nonnull LLogicalOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApply(a1);
+	}
+
+	static <X extends Throwable> boolean nesting(boolean a1, final @Nonnull LLogicalOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApply(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> boolean handling(boolean a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLogicalOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApply(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

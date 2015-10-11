@@ -114,6 +114,11 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static void call(long a1, long a2, final @Nonnull LBiLongConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

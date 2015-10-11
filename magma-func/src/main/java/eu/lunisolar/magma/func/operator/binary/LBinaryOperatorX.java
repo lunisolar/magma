@@ -146,6 +146,26 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends BinaryOperator
 		return lambda;
 	}
 
+	static <T, X extends Throwable> T call(T a1, T a2, final @Nonnull LBinaryOperatorX<T, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
+	static <T, X extends Throwable> T shoving(T a1, T a2, final @Nonnull LBinaryOperatorX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApply(a1, a2);
+	}
+
+	static <T, X extends Throwable> T nesting(T a1, T a2, final @Nonnull LBinaryOperatorX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApply(a1, a2);
+	}
+
+	static <T, X extends Throwable, Y extends Throwable> T handling(T a1, T a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBinaryOperatorX<T, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApply(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

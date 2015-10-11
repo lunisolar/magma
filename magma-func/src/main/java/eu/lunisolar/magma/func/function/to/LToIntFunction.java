@@ -120,6 +120,11 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 		return lambda;
 	}
 
+	static <T> int call(T a1, final @Nonnull LToIntFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

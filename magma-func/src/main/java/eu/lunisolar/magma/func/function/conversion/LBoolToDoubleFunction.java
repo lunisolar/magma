@@ -110,6 +110,11 @@ public interface LBoolToDoubleFunction extends LBoolToDoubleFunctionX<RuntimeExc
 		return lambda;
 	}
 
+	static double call(boolean a1, final @Nonnull LBoolToDoubleFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

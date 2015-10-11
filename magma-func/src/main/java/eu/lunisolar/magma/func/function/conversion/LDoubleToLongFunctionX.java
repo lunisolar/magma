@@ -143,6 +143,26 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends DoubleToLon
 		return lambda;
 	}
 
+	static <X extends Throwable> long call(double a1, final @Nonnull LDoubleToLongFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long shoving(double a1, final @Nonnull LDoubleToLongFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long nesting(double a1, final @Nonnull LDoubleToLongFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> long handling(double a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LDoubleToLongFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsLong(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

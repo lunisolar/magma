@@ -157,6 +157,26 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 		return lambda;
 	}
 
+	static <T1, T2, X extends Throwable> boolean call(T1 a1, T2 a2, short a3, final @Nonnull LBiObjShortPredicateX<T1, T2, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2, a3);
+	}
+
+	static <T1, T2, X extends Throwable> boolean shoving(T1 a1, T2 a2, short a3, final @Nonnull LBiObjShortPredicateX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoTest(a1, a2, a3);
+	}
+
+	static <T1, T2, X extends Throwable> boolean nesting(T1 a1, T2 a2, short a3, final @Nonnull LBiObjShortPredicateX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoTest(a1, a2, a3);
+	}
+
+	static <T1, T2, X extends Throwable, Y extends Throwable> boolean handling(T1 a1, T2 a2, short a3, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBiObjShortPredicateX<T1, T2, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoTest(a1, a2, a3, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -110,6 +110,11 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 		return lambda;
 	}
 
+	static char call(char a1, final @Nonnull LCharUnaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

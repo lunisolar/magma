@@ -110,6 +110,11 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static byte call(long a1, final @Nonnull LLongToByteFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

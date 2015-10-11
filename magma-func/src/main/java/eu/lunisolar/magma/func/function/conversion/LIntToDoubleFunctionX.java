@@ -143,6 +143,26 @@ public interface LIntToDoubleFunctionX<X extends Throwable> extends IntToDoubleF
 		return lambda;
 	}
 
+	static <X extends Throwable> double call(int a1, final @Nonnull LIntToDoubleFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable> double shoving(int a1, final @Nonnull LIntToDoubleFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable> double nesting(int a1, final @Nonnull LIntToDoubleFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> double handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntToDoubleFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsDouble(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

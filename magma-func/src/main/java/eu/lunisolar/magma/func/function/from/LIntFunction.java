@@ -124,6 +124,11 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 		return lambda;
 	}
 
+	static <R> R call(int a1, final @Nonnull LIntFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

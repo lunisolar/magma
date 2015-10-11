@@ -145,6 +145,26 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 		return lambda;
 	}
 
+	static <X extends Throwable> float call(float a1, float a2, final @Nonnull LFloatBinaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1, a2);
+	}
+
+	static <X extends Throwable> float shoving(float a1, float a2, final @Nonnull LFloatBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsFloat(a1, a2);
+	}
+
+	static <X extends Throwable> float nesting(float a1, float a2, final @Nonnull LFloatBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsFloat(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> float handling(float a1, float a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LFloatBinaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsFloat(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

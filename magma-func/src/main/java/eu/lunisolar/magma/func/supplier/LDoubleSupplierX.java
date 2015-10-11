@@ -138,6 +138,26 @@ public interface LDoubleSupplierX<X extends Throwable> extends DoubleSupplier, M
 		return lambda;
 	}
 
+	static <X extends Throwable> double call(final @Nonnull LDoubleSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsDouble();
+	}
+
+	static <X extends Throwable> double shoving(final @Nonnull LDoubleSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsDouble();
+	}
+
+	static <X extends Throwable> double nesting(final @Nonnull LDoubleSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsDouble();
+	}
+
+	static <X extends Throwable, Y extends Throwable> double handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LDoubleSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsDouble(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

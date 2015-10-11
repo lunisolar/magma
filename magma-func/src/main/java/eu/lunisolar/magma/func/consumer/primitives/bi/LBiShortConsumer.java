@@ -114,6 +114,11 @@ public interface LBiShortConsumer extends LBiShortConsumerX<RuntimeException>, M
 		return lambda;
 	}
 
+	static void call(short a1, short a2, final @Nonnull LBiShortConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

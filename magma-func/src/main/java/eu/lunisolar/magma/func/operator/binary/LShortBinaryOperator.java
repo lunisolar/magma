@@ -122,6 +122,11 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 		return lambda;
 	}
 
+	static short call(short a1, short a2, final @Nonnull LShortBinaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

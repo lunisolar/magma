@@ -102,6 +102,11 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 		return lambda;
 	}
 
+	static void call(boolean a1, final @Nonnull LBoolConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

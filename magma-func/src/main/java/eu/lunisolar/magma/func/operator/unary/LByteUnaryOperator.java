@@ -110,6 +110,11 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 		return lambda;
 	}
 
+	static byte call(byte a1, final @Nonnull LByteUnaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

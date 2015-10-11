@@ -110,6 +110,11 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 		return lambda;
 	}
 
+	static byte call(int a1, final @Nonnull LIntToByteFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

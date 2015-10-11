@@ -126,6 +126,11 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 		return lambda;
 	}
 
+	static boolean call(double a1, final @Nonnull LDoublePredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

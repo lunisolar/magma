@@ -145,6 +145,26 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 		return lambda;
 	}
 
+	static <X extends Throwable> char call(char a1, char a2, final @Nonnull LCharBinaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1, a2);
+	}
+
+	static <X extends Throwable> char shoving(char a1, char a2, final @Nonnull LCharBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsChar(a1, a2);
+	}
+
+	static <X extends Throwable> char nesting(char a1, char a2, final @Nonnull LCharBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsChar(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> char handling(char a1, char a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharBinaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsChar(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

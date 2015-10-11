@@ -105,6 +105,11 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 		return lambda;
 	}
 
+	static float call(final @Nonnull LFloatSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsFloat();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -124,6 +124,11 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 		return lambda;
 	}
 
+	static <T, R> R call(T a1, final @Nonnull LFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

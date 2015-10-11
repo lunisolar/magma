@@ -115,6 +115,11 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 		return lambda;
 	}
 
+	static long call(final @Nonnull LLongSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsLong();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

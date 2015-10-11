@@ -143,6 +143,26 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 		return lambda;
 	}
 
+	static <X extends Throwable> long call(long a1, final @Nonnull LLongUnaryOperatorX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long shoving(long a1, final @Nonnull LLongUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable> long nesting(long a1, final @Nonnull LLongUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsLong(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> long handling(long a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongUnaryOperatorX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsLong(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

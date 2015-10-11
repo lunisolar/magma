@@ -105,6 +105,11 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 		return lambda;
 	}
 
+	static byte call(final @Nonnull LByteSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsByte();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

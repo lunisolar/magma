@@ -133,6 +133,26 @@ public interface LFloatToDoubleFunctionX<X extends Throwable> extends MetaFuncti
 		return lambda;
 	}
 
+	static <X extends Throwable> double call(float a1, final @Nonnull LFloatToDoubleFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable> double shoving(float a1, final @Nonnull LFloatToDoubleFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable> double nesting(float a1, final @Nonnull LFloatToDoubleFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsDouble(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> double handling(float a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LFloatToDoubleFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsDouble(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

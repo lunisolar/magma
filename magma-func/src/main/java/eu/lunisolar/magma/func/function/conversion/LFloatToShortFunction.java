@@ -110,6 +110,11 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 		return lambda;
 	}
 
+	static short call(float a1, final @Nonnull LFloatToShortFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -18,15 +18,24 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.basics.exceptions.HandlingInstructions;
 import eu.lunisolar.magma.basics.exceptions.NestedException;
+import eu.lunisolar.magma.basics.probing.ThrowableProbe;
 import eu.lunisolar.magma.examples.support.CheckedException;
+import eu.lunisolar.magma.func.consumer.LConsumerX;
+import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.func.function.LFunctionX;
 import eu.lunisolar.magma.func.predicate.LPredicateX;
 import org.assertj.core.util.Lists;
 import org.testng.annotations.Test;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.*;
 
+import static eu.lunisolar.magma.func.consumer.LConsumerX.handling;
+import static eu.lunisolar.magma.func.consumer.LConsumerX.nesting;
+import static eu.lunisolar.magma.func.consumer.LConsumerX.shoving;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
@@ -47,7 +56,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class Example_Goal1_Test {
 
-    private static final List<Integer> integerList = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+    private static final List<Integer>                                     integerList  = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     /**
      * ### Introduction to the issue
@@ -165,6 +175,48 @@ public class Example_Goal1_Test {
     //>example<
     public static LPredicateX<Integer, CheckedException> example(Predicate<Integer> predicateStd) {
         return LPredicateX.wrap(predicateStd);
+    }
+    //>example<
+
+    /**
+     * ### Addition effects
+     *
+     * By having an set of functions that have various input and output argument and can handle exceptions we can utilise them for quick exception handling.
+     * We could use one single MyCustomConsumer that would do similar job, but the difference is in capturing vs non-capturing lambdas. To overcome
+     * disadvantages of a capturing lambda (provided that we got the case that it matters) we again would need to define more functional interfaces than just
+     * one - or simply have different approach all together. But with interfaces from this library following quick solution are possible for potential
+     * exceptions:
+     */
+
+    //>example<
+    @Test
+    public void quickRethrowAsRuntimeException() {
+        byte[] input = new byte[0];
+
+        shoving(input, in -> new ByteArrayInputStream(in).close());
+    }
+
+    @Test
+    public void quickNestException() {
+        byte[] input = new byte[0];
+
+        nesting(input, in -> new ByteArrayInputStream(in).close());
+    }
+    //>example<
+
+    /**
+     * When you write some utility that constantly do for example IO operations and is already defined by contract that it cannot declare checked exceptions.
+     */
+    //>example<
+    public static final HandlingInstructions<Throwable, RuntimeException> INSTRUCTIONS = e -> e
+            .wrapIf(IOException.class::isInstance, RuntimeException::new)
+            .handleRest();
+
+    @Test
+    public void quickHandlingException() {
+        byte[] input = new byte[0];
+
+        handling(input, INSTRUCTIONS, in -> new ByteArrayInputStream(in).close());
     }
     //>example<
 

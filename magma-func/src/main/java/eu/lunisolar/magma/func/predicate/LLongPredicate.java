@@ -126,6 +126,11 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return lambda;
 	}
 
+	static boolean call(long a1, final @Nonnull LLongPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

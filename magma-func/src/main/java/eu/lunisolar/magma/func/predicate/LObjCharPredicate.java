@@ -128,6 +128,11 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 		return lambda;
 	}
 
+	static <T> boolean call(T a1, char a2, final @Nonnull LObjCharPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

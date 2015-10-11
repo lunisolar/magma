@@ -128,6 +128,26 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Meta
 		return lambda;
 	}
 
+	static <X extends Throwable> short call(final @Nonnull LShortSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsShort();
+	}
+
+	static <X extends Throwable> short shoving(final @Nonnull LShortSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsShort();
+	}
+
+	static <X extends Throwable> short nesting(final @Nonnull LShortSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsShort();
+	}
+
+	static <X extends Throwable, Y extends Throwable> short handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LShortSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsShort(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

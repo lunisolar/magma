@@ -124,6 +124,11 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 		return lambda;
 	}
 
+	static <T> void call(T a1, double a2, final @Nonnull LObjDoubleConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

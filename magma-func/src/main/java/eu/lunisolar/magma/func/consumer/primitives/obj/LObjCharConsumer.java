@@ -114,6 +114,11 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 		return lambda;
 	}
 
+	static <T> void call(T a1, char a2, final @Nonnull LObjCharConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -124,6 +124,11 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 		return lambda;
 	}
 
+	static <R> R call(double a1, final @Nonnull LDoubleFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

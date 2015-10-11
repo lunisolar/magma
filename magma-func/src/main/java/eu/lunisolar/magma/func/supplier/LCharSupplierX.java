@@ -128,6 +128,26 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, MetaI
 		return lambda;
 	}
 
+	static <X extends Throwable> char call(final @Nonnull LCharSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsChar();
+	}
+
+	static <X extends Throwable> char shoving(final @Nonnull LCharSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsChar();
+	}
+
+	static <X extends Throwable> char nesting(final @Nonnull LCharSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsChar();
+	}
+
+	static <X extends Throwable, Y extends Throwable> char handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsChar(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

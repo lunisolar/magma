@@ -110,6 +110,11 @@ public interface LBoolToLongFunction extends LBoolToLongFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static long call(boolean a1, final @Nonnull LBoolToLongFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsLong(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

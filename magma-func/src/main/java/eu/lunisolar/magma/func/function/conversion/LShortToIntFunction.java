@@ -110,6 +110,11 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static int call(short a1, final @Nonnull LShortToIntFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

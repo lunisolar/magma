@@ -114,6 +114,11 @@ public interface LBiCharConsumer extends LBiCharConsumerX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static void call(char a1, char a2, final @Nonnull LBiCharConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

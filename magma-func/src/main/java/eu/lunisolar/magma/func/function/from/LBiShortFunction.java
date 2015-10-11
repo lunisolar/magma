@@ -126,6 +126,11 @@ public interface LBiShortFunction<R> extends LBiShortFunctionX<R, RuntimeExcepti
 		return lambda;
 	}
 
+	static <R> R call(short a1, short a2, final @Nonnull LBiShortFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -138,6 +138,26 @@ public interface LIntSupplierX<X extends Throwable> extends IntSupplier, MetaSup
 		return lambda;
 	}
 
+	static <X extends Throwable> int call(final @Nonnull LIntSupplierX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsInt();
+	}
+
+	static <X extends Throwable> int shoving(final @Nonnull LIntSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoGetAsInt();
+	}
+
+	static <X extends Throwable> int nesting(final @Nonnull LIntSupplierX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoGetAsInt();
+	}
+
+	static <X extends Throwable, Y extends Throwable> int handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntSupplierX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoGetAsInt(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

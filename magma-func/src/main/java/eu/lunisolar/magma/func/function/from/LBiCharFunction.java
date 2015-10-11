@@ -126,6 +126,11 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 		return lambda;
 	}
 
+	static <R> R call(char a1, char a2, final @Nonnull LBiCharFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

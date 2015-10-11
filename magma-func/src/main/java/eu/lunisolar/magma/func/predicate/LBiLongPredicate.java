@@ -128,6 +128,11 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 		return lambda;
 	}
 
+	static boolean call(long a1, long a2, final @Nonnull LBiLongPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

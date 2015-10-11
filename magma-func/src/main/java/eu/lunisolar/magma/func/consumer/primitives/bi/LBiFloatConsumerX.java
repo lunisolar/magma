@@ -137,6 +137,26 @@ public interface LBiFloatConsumerX<X extends Throwable> extends MetaConsumer, Me
 		return lambda;
 	}
 
+	static <X extends Throwable> void call(float a1, float a2, final @Nonnull LBiFloatConsumerX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
+	static <X extends Throwable> void shoving(float a1, float a2, final @Nonnull LBiFloatConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1, a2);
+	}
+
+	static <X extends Throwable> void nesting(float a1, float a2, final @Nonnull LBiFloatConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1, a2);
+	}
+
+	static <X extends Throwable, Y extends Throwable> void handling(float a1, float a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBiFloatConsumerX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

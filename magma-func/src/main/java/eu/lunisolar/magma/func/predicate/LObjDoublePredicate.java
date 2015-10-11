@@ -128,6 +128,11 @@ public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeE
 		return lambda;
 	}
 
+	static <T> boolean call(T a1, double a2, final @Nonnull LObjDoublePredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -139,6 +139,26 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 		return lambda;
 	}
 
+	static <X extends Throwable> boolean call(char a1, final @Nonnull LCharPredicateX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
+	static <X extends Throwable> boolean shoving(char a1, final @Nonnull LCharPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoTest(a1);
+	}
+
+	static <X extends Throwable> boolean nesting(char a1, final @Nonnull LCharPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoTest(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> boolean handling(char a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharPredicateX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoTest(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

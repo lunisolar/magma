@@ -110,6 +110,11 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 		return lambda;
 	}
 
+	static int call(byte a1, final @Nonnull LByteToIntFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsInt(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -110,6 +110,11 @@ public interface LCharToDoubleFunction extends LCharToDoubleFunctionX<RuntimeExc
 		return lambda;
 	}
 
+	static double call(char a1, final @Nonnull LCharToDoubleFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

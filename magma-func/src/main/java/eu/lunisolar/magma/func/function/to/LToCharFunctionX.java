@@ -133,6 +133,26 @@ public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, 
 		return lambda;
 	}
 
+	static <T, X extends Throwable> char call(T a1, final @Nonnull LToCharFunctionX<T, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1);
+	}
+
+	static <T, X extends Throwable> char shoving(T a1, final @Nonnull LToCharFunctionX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsChar(a1);
+	}
+
+	static <T, X extends Throwable> char nesting(T a1, final @Nonnull LToCharFunctionX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsChar(a1);
+	}
+
+	static <T, X extends Throwable, Y extends Throwable> char handling(T a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToCharFunctionX<T, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsChar(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -110,6 +110,11 @@ public interface LLongToFloatFunction extends LLongToFloatFunctionX<RuntimeExcep
 		return lambda;
 	}
 
+	static float call(long a1, final @Nonnull LLongToFloatFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

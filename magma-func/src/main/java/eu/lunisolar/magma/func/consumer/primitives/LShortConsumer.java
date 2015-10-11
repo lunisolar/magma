@@ -102,6 +102,11 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 		return lambda;
 	}
 
+	static void call(short a1, final @Nonnull LShortConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

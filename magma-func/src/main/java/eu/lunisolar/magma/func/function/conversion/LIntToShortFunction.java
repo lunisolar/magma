@@ -110,6 +110,11 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static short call(int a1, final @Nonnull LIntToShortFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

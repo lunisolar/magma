@@ -116,6 +116,11 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static boolean call(float a1, final @Nonnull LFloatPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

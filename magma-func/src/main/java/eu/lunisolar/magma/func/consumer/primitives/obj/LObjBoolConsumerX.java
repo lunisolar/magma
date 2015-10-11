@@ -137,6 +137,26 @@ public interface LObjBoolConsumerX<T, X extends Throwable> extends MetaConsumer,
 		return lambda;
 	}
 
+	static <T, X extends Throwable> void call(T a1, boolean a2, final @Nonnull LObjBoolConsumerX<T, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
+	static <T, X extends Throwable> void shoving(T a1, boolean a2, final @Nonnull LObjBoolConsumerX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1, a2);
+	}
+
+	static <T, X extends Throwable> void nesting(T a1, boolean a2, final @Nonnull LObjBoolConsumerX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1, a2);
+	}
+
+	static <T, X extends Throwable, Y extends Throwable> void handling(T a1, boolean a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LObjBoolConsumerX<T, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

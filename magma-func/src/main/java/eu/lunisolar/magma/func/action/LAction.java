@@ -97,6 +97,11 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 		return lambda;
 	}
 
+	static void call(final @Nonnull LAction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doExecute();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

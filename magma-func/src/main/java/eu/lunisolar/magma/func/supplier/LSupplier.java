@@ -119,6 +119,11 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 		return lambda;
 	}
 
+	static <R> R call(final @Nonnull LSupplier<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGet();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

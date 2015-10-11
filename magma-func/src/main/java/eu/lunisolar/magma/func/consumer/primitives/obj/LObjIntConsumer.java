@@ -124,6 +124,11 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 		return lambda;
 	}
 
+	static <T> void call(T a1, int a2, final @Nonnull LObjIntConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

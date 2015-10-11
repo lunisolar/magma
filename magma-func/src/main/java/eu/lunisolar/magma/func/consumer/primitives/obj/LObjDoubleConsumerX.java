@@ -147,6 +147,26 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends ObjDoubleCo
 		return lambda;
 	}
 
+	static <T, X extends Throwable> void call(T a1, double a2, final @Nonnull LObjDoubleConsumerX<T, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
+	static <T, X extends Throwable> void shoving(T a1, double a2, final @Nonnull LObjDoubleConsumerX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1, a2);
+	}
+
+	static <T, X extends Throwable> void nesting(T a1, double a2, final @Nonnull LObjDoubleConsumerX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1, a2);
+	}
+
+	static <T, X extends Throwable, Y extends Throwable> void handling(T a1, double a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LObjDoubleConsumerX<T, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

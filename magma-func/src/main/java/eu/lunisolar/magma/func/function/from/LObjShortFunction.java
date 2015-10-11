@@ -126,6 +126,11 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 		return lambda;
 	}
 
+	static <T, R> R call(T a1, short a2, final @Nonnull LObjShortFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -115,6 +115,11 @@ public interface LBoolSupplier extends LBoolSupplierX<RuntimeException>, MetaSup
 		return lambda;
 	}
 
+	static boolean call(final @Nonnull LBoolSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsBool();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

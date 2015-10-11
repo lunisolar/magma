@@ -126,6 +126,11 @@ public interface LBiByteFunction<R> extends LBiByteFunctionX<R, RuntimeException
 		return lambda;
 	}
 
+	static <R> R call(byte a1, byte a2, final @Nonnull LBiByteFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

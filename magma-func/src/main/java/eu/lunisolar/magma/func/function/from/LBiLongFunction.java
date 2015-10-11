@@ -126,6 +126,11 @@ public interface LBiLongFunction<R> extends LBiLongFunctionX<R, RuntimeException
 		return lambda;
 	}
 
+	static <R> R call(long a1, long a2, final @Nonnull LBiLongFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -133,6 +133,26 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 		return lambda;
 	}
 
+	static <X extends Throwable> short call(double a1, final @Nonnull LDoubleToShortFunctionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsShort(a1);
+	}
+
+	static <X extends Throwable> short shoving(double a1, final @Nonnull LDoubleToShortFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsShort(a1);
+	}
+
+	static <X extends Throwable> short nesting(double a1, final @Nonnull LDoubleToShortFunctionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsShort(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> short handling(double a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LDoubleToShortFunctionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsShort(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

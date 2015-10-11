@@ -128,6 +128,11 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 		return lambda;
 	}
 
+	static boolean call(short a1, short a2, final @Nonnull LBiShortPredicate lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

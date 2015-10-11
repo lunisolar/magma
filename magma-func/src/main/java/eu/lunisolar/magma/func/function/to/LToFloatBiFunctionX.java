@@ -145,6 +145,26 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 		return lambda;
 	}
 
+	static <T1, T2, X extends Throwable> float call(T1 a1, T2 a2, final @Nonnull LToFloatBiFunctionX<T1, T2, X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> float shoving(T1 a1, T2 a2, final @Nonnull LToFloatBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.shovingDoApplyAsFloat(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable> float nesting(T1 a1, T2 a2, final @Nonnull LToFloatBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.nestingDoApplyAsFloat(a1, a2);
+	}
+
+	static <T1, T2, X extends Throwable, Y extends Throwable> float handling(T1 a1, T2 a2, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToFloatBiFunctionX<T1, T2, X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.handlingDoApplyAsFloat(a1, a2, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

@@ -115,6 +115,11 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return lambda;
 	}
 
+	static int call(final @Nonnull LIntSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsInt();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

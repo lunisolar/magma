@@ -128,6 +128,11 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 		return lambda;
 	}
 
+	static <T> boolean call(T a1, short a2, final @Nonnull LObjShortPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doTest(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

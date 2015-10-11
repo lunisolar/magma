@@ -112,6 +112,11 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 		return lambda;
 	}
 
+	static void call(long a1, final @Nonnull LLongConsumer lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

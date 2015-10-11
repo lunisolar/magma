@@ -126,6 +126,11 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 		return lambda;
 	}
 
+	static <T, R> R call(T a1, byte a2, final @Nonnull LObjByteFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

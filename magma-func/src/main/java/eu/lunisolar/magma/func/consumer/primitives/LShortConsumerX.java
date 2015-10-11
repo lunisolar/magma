@@ -125,6 +125,26 @@ public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, Meta
 		return lambda;
 	}
 
+	static <X extends Throwable> void call(short a1, final @Nonnull LShortConsumerX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1);
+	}
+
+	static <X extends Throwable> void shoving(short a1, final @Nonnull LShortConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1);
+	}
+
+	static <X extends Throwable> void nesting(short a1, final @Nonnull LShortConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1);
+	}
+
+	static <X extends Throwable, Y extends Throwable> void handling(short a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LShortConsumerX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

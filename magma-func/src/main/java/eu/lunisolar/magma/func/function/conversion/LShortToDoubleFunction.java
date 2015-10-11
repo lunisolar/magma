@@ -110,6 +110,11 @@ public interface LShortToDoubleFunction extends LShortToDoubleFunctionX<RuntimeE
 		return lambda;
 	}
 
+	static double call(short a1, final @Nonnull LShortToDoubleFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsDouble(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

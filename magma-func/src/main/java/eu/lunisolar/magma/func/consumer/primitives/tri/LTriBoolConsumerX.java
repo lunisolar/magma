@@ -143,6 +143,26 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 		return lambda;
 	}
 
+	static <X extends Throwable> void call(boolean a1, boolean a2, boolean a3, final @Nonnull LTriBoolConsumerX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2, a3);
+	}
+
+	static <X extends Throwable> void shoving(boolean a1, boolean a2, boolean a3, final @Nonnull LTriBoolConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoAccept(a1, a2, a3);
+	}
+
+	static <X extends Throwable> void nesting(boolean a1, boolean a2, boolean a3, final @Nonnull LTriBoolConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoAccept(a1, a2, a3);
+	}
+
+	static <X extends Throwable, Y extends Throwable> void handling(boolean a1, boolean a2, boolean a3, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LTriBoolConsumerX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoAccept(a1, a2, a3, handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

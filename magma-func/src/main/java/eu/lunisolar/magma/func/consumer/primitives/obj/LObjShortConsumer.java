@@ -114,6 +114,11 @@ public interface LObjShortConsumer<T> extends LObjShortConsumerX<T, RuntimeExcep
 		return lambda;
 	}
 
+	static <T> void call(T a1, short a2, final @Nonnull LObjShortConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doAccept(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

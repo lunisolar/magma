@@ -115,6 +115,11 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 		return lambda;
 	}
 
+	static double call(final @Nonnull LDoubleSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doGetAsDouble();
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

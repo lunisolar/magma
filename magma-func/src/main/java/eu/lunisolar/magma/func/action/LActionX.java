@@ -120,6 +120,26 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 		return lambda;
 	}
 
+	static <X extends Throwable> void call(final @Nonnull LActionX<X> lambda) throws X {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.doExecute();
+	}
+
+	static <X extends Throwable> void shoving(final @Nonnull LActionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.shovingDoExecute();
+	}
+
+	static <X extends Throwable> void nesting(final @Nonnull LActionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.nestingDoExecute();
+	}
+
+	static <X extends Throwable, Y extends Throwable> void handling(final HandlingInstructions<Throwable, Y> handling, final @Nonnull LActionX<X> lambda) throws Y {
+		Null.nonNullArg(lambda, "lambda");
+		lambda.handlingDoExecute(handling);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps JRE instance. */

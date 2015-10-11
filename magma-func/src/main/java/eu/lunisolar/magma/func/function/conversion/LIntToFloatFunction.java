@@ -110,6 +110,11 @@ public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
+	static float call(int a1, final @Nonnull LIntToFloatFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsFloat(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

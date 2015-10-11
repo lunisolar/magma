@@ -110,6 +110,11 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 		return lambda;
 	}
 
+	static byte call(double a1, final @Nonnull LDoubleToByteFunction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsByte(a1);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

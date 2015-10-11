@@ -122,6 +122,11 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 		return lambda;
 	}
 
+	static char call(char a1, char a2, final @Nonnull LCharBinaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApplyAsChar(a1, a2);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */

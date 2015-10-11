@@ -133,6 +133,11 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 		return lambda;
 	}
 
+	static boolean call(boolean a1, boolean a2, boolean a3, final @Nonnull LLogicalTernaryOperator lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.doApply(a1, a2, a3);
+	}
+
 	// <editor-fold desc="wrap">
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */
