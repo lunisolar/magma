@@ -161,7 +161,9 @@ public interface LBiCharConsumer extends LBiCharConsumerX<RuntimeException>, Met
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

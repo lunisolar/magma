@@ -202,6 +202,7 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

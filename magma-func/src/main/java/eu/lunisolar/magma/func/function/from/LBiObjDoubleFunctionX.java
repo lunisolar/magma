@@ -226,6 +226,7 @@ public interface LBiObjDoubleFunctionX<T1, T2, R, X extends Throwable> extends M
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

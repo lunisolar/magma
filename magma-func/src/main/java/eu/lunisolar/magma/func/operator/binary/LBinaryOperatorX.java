@@ -212,6 +212,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends BinaryOperator
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

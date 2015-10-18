@@ -169,7 +169,9 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

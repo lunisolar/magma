@@ -274,6 +274,7 @@ public interface LIntFunctionX<R, X extends Throwable> extends IntFunction<R>, M
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

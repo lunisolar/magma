@@ -186,6 +186,7 @@ public interface LBiObjFloatFunction<T1, T2, R> extends LBiObjFloatFunctionX<T1,
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

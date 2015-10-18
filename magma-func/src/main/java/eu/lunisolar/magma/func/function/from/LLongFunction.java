@@ -236,6 +236,7 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

@@ -205,6 +205,7 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

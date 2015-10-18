@@ -294,6 +294,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaLogic
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

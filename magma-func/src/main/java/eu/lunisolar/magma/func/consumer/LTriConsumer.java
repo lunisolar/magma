@@ -160,7 +160,9 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

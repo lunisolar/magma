@@ -233,6 +233,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

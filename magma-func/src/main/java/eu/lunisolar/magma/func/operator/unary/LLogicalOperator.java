@@ -266,6 +266,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

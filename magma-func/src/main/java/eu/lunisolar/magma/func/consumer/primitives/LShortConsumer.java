@@ -147,7 +147,9 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

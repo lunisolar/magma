@@ -52,6 +52,8 @@
         <module>magma-func-asserts</module>
         <module>magma-func-builder</module>
 
+        <module>magma-func-supp</module>
+
         <module>magma-examples</module>
     </modules>
 

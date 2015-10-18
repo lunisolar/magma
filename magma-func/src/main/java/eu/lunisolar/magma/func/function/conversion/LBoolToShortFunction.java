@@ -209,6 +209,7 @@ public interface LBoolToShortFunction extends LBoolToShortFunctionX<RuntimeExcep
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

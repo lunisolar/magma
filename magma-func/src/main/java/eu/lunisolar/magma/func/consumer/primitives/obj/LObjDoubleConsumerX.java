@@ -215,7 +215,9 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends ObjDoubleCo
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

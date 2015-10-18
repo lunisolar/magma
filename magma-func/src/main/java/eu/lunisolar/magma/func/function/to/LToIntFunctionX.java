@@ -256,6 +256,7 @@ public interface LToIntFunctionX<T, X extends Throwable> extends ToIntFunction<T
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

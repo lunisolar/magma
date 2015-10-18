@@ -201,7 +201,9 @@ public interface LLongConsumerX<X extends Throwable> extends LongConsumer, MetaC
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

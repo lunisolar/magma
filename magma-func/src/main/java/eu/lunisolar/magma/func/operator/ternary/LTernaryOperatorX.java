@@ -192,6 +192,7 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

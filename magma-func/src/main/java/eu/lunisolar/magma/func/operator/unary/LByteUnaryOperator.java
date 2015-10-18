@@ -215,6 +215,7 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 	static LByteUnaryOperator identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

@@ -247,6 +247,7 @@ public interface LLongToByteFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

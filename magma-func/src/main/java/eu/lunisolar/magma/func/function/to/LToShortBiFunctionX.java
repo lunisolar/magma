@@ -197,6 +197,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

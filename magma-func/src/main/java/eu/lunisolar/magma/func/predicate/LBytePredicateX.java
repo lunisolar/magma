@@ -305,6 +305,7 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Met
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

@@ -269,6 +269,7 @@ public interface LIntUnaryOperatorX<X extends Throwable> extends IntUnaryOperato
 	static <X extends Throwable> LIntUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

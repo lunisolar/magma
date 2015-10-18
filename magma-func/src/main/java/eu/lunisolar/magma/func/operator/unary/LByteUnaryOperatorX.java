@@ -253,6 +253,7 @@ public interface LByteUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	static <X extends Throwable> LByteUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

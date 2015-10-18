@@ -37,7 +37,7 @@ import static eu.lunisolar.magma.basics.exceptions.Handling.*;
 public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, Y extends Throwable> extends Fluent<SELF> {
 
     static <X extends Throwable, Y extends Throwable> Handler.The<X, Y> handler(@Nonnull X throwable) {
-        return new The<>(throwable);
+        return new The<>(throwable); // TODO that can be potentially change in the future into a thread singleton.
     }
 
     /**

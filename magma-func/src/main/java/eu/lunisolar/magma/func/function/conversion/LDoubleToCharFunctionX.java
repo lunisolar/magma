@@ -247,6 +247,7 @@ public interface LDoubleToCharFunctionX<X extends Throwable> extends MetaFunctio
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

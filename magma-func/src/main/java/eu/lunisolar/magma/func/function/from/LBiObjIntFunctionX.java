@@ -225,6 +225,7 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

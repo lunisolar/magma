@@ -199,7 +199,9 @@ public interface LBiByteConsumerX<X extends Throwable> extends MetaConsumer, Met
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

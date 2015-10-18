@@ -202,6 +202,7 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

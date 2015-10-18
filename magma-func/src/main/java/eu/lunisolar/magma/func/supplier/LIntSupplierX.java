@@ -240,6 +240,7 @@ public interface LIntSupplierX<X extends Throwable> extends IntSupplier, MetaSup
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

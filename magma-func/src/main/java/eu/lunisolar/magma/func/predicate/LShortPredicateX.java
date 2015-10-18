@@ -305,6 +305,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Me
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

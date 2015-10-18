@@ -215,6 +215,7 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 	static LCharUnaryOperator identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

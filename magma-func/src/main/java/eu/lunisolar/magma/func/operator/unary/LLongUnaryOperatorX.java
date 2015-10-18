@@ -269,6 +269,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 	static <X extends Throwable> LLongUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

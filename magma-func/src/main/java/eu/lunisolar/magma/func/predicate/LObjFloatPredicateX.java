@@ -263,6 +263,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

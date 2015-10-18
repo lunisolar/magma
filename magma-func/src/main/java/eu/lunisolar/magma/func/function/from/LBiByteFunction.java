@@ -178,6 +178,7 @@ public interface LBiByteFunction<R> extends LBiByteFunctionX<R, RuntimeException
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

@@ -253,6 +253,7 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	static <X extends Throwable> LCharUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

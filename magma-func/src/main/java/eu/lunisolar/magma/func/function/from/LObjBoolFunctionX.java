@@ -216,6 +216,7 @@ public interface LObjBoolFunctionX<T, R, X extends Throwable> extends MetaFuncti
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

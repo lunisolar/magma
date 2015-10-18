@@ -207,7 +207,9 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

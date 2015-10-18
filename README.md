@@ -9,7 +9,7 @@ Lunisolar Magma
 -----------------------------------------
 ### What is it?
 
-A library of throwing and non-throwing functional interfaces (lambda interfaces) for Java 8, supplemented with assertion classes and builders.
+A library of functional interfaces for Java 8, concentrated on ability to handle checked exceptions (throwing lambda) and/or primitive types, supplemented with assertion classes and builders.
 
 It started with few interfaces that I happened to write and use. Then I found that extending, synchronising, and testing, and most of all making sure it is 
 behaving consistently between growing number of classes that look and do almost the same except for the specifics of arguments and return value, is getting 

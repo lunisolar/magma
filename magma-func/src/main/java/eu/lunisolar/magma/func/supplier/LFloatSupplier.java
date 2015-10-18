@@ -186,6 +186,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

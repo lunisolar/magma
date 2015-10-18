@@ -194,7 +194,9 @@ public interface LConsumerX<T, X extends Throwable> extends Consumer<T>, MetaCon
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

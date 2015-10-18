@@ -175,6 +175,7 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

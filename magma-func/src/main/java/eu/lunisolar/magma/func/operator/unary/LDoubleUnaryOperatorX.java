@@ -269,6 +269,7 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends DoubleUnaryO
 	static <X extends Throwable> LDoubleUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

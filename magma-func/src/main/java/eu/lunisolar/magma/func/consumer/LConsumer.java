@@ -156,7 +156,9 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

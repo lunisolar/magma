@@ -259,6 +259,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends LongBinaryOpe
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

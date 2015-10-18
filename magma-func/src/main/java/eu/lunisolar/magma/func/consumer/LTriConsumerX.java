@@ -199,7 +199,9 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

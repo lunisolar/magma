@@ -256,6 +256,7 @@ public interface LToLongFunctionX<T, X extends Throwable> extends ToLongFunction
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

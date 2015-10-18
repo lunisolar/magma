@@ -271,6 +271,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

@@ -197,6 +197,7 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

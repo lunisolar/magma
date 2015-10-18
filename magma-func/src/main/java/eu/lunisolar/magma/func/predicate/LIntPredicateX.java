@@ -321,6 +321,7 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

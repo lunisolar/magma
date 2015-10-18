@@ -258,6 +258,7 @@ public interface LByteFunctionX<R, X extends Throwable> extends MetaFunction, Me
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

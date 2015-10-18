@@ -242,6 +242,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T
 	static <V, X extends Throwable> LUnaryOperatorX<V, X> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

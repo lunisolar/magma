@@ -169,7 +169,9 @@ public interface LBiObjCharConsumer<T1, T2> extends LBiObjCharConsumerX<T1, T2, 
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

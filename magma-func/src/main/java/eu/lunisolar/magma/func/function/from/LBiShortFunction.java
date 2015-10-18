@@ -178,6 +178,7 @@ public interface LBiShortFunction<R> extends LBiShortFunctionX<R, RuntimeExcepti
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

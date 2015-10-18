@@ -204,6 +204,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 	static <V> LUnaryOperator<V> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

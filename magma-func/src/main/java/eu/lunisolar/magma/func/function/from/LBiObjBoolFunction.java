@@ -186,6 +186,7 @@ public interface LBiObjBoolFunction<T1, T2, R> extends LBiObjBoolFunctionX<T1, T
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

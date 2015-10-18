@@ -321,6 +321,7 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

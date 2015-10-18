@@ -186,6 +186,7 @@ public interface LTriBoolFunction<R> extends LTriBoolFunctionX<R, RuntimeExcepti
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

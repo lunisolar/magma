@@ -224,6 +224,7 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Meta
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

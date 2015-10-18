@@ -209,6 +209,7 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

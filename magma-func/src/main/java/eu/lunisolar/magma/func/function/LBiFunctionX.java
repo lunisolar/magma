@@ -224,6 +224,7 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends BiFunction
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

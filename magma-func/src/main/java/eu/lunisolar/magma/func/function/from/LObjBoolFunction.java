@@ -178,6 +178,7 @@ public interface LObjBoolFunction<T, R> extends LObjBoolFunctionX<T, R, RuntimeE
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

@@ -251,6 +251,7 @@ public interface LSupplierX<R, X extends Throwable> extends Supplier<R>, MetaSup
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

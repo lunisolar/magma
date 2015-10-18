@@ -175,6 +175,7 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

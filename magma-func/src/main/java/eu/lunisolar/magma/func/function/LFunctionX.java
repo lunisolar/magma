@@ -273,6 +273,7 @@ public interface LFunctionX<T, R, X extends Throwable> extends Function<T, R>, M
 	static <V, X extends Throwable> LFunctionX<V, V, X> identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

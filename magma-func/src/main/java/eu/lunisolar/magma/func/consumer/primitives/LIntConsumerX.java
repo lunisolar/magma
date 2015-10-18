@@ -201,7 +201,9 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

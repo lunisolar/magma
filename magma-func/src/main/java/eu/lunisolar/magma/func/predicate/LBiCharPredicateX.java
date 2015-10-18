@@ -263,6 +263,7 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, M
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

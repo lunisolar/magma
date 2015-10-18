@@ -225,6 +225,7 @@ public interface LObjBoolPredicate<T> extends LObjBoolPredicateX<T, RuntimeExcep
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

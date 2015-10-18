@@ -231,6 +231,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	static LIntUnaryOperator identity() {
 		return t -> t;
 	}
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

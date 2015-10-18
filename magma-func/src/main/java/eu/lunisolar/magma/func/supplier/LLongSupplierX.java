@@ -240,6 +240,7 @@ public interface LLongSupplierX<X extends Throwable> extends LongSupplier, MetaS
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */

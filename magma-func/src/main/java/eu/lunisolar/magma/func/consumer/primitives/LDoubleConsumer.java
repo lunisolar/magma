@@ -163,7 +163,9 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 		};
 	}
 
-	// </editor-fold> // <editor-fold desc="variant conversions">
+	// </editor-fold>
+
+	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull

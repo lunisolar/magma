@@ -263,6 +263,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	}
 
 	// </editor-fold>
+
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
