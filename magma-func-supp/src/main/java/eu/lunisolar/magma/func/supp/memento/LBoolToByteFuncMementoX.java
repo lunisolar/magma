@@ -58,16 +58,16 @@ public class LBoolToByteFuncMementoX<X extends Throwable> implements LBoolToByte
 
 	private final LBoolToByteFunctionX<X> function;
 
-	protected LBoolToByteFuncMementoX(LBoolToByteFunctionX<X> function) throws X {
+	protected LBoolToByteFuncMementoX(LBoolToByteFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolToByteFuncMementoX(byte initialValue, LBoolToByteFunctionX<X> function) throws X {
+	protected LBoolToByteFuncMementoX(byte initialValue, LBoolToByteFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolToByteFuncMementoX<X> mementoOf(LBoolToByteFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolToByteFuncMementoX<X> mementoOf(LBoolToByteFunctionX<X> supplier) {
 		return new LBoolToByteFuncMementoX<X>(supplier);
 	}
 

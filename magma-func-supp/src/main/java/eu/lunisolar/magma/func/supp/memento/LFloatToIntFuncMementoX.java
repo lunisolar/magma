@@ -58,16 +58,16 @@ public class LFloatToIntFuncMementoX<X extends Throwable> implements LFloatToInt
 
 	private final LFloatToIntFunctionX<X> function;
 
-	protected LFloatToIntFuncMementoX(LFloatToIntFunctionX<X> function) throws X {
+	protected LFloatToIntFuncMementoX(LFloatToIntFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatToIntFuncMementoX(int initialValue, LFloatToIntFunctionX<X> function) throws X {
+	protected LFloatToIntFuncMementoX(int initialValue, LFloatToIntFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatToIntFuncMementoX<X> mementoOf(LFloatToIntFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatToIntFuncMementoX<X> mementoOf(LFloatToIntFunctionX<X> supplier) {
 		return new LFloatToIntFuncMementoX<X>(supplier);
 	}
 

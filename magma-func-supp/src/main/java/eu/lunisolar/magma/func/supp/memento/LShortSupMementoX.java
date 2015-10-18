@@ -58,16 +58,16 @@ public class LShortSupMementoX<X extends Throwable> implements LShortSupplierX<X
 
 	private final LShortSupplierX<X> function;
 
-	protected LShortSupMementoX(LShortSupplierX<X> function) throws X {
+	protected LShortSupMementoX(LShortSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LShortSupMementoX(short initialValue, LShortSupplierX<X> function) throws X {
+	protected LShortSupMementoX(short initialValue, LShortSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LShortSupMementoX<X> mementoOf(LShortSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LShortSupMementoX<X> mementoOf(LShortSupplierX<X> supplier) {
 		return new LShortSupMementoX<X>(supplier);
 	}
 

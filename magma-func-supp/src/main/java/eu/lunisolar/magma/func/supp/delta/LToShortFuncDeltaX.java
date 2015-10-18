@@ -57,29 +57,29 @@ public class LToShortFuncDeltaX<T, X extends Throwable> extends LToShortFuncMeme
 
 	private final LShortBinaryOperator deltaFunction;
 
-	protected LToShortFuncDeltaX(LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LToShortFuncDeltaX(LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToShortFuncDeltaX(short initialValue, LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LToShortFuncDeltaX(short initialValue, LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) {
 		return new LToShortFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(short initialValue, LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(short initialValue, LToShortFunctionX<T, X> function, LShortBinaryOperator deltaFunction) {
 		return new LToShortFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(LToShortFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(LToShortFunctionX<T, X> function) {
 		return deltaOf(function, LToShortFuncDeltaX::mathDelta);
 	}
 
-	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(short initialValue, LToShortFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToShortFuncDeltaX<T, X> deltaOf(short initialValue, LToShortFunctionX<T, X> function) {
 		return deltaOf(initialValue, function, LToShortFuncDeltaX::mathDelta);
 	}
 

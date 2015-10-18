@@ -58,16 +58,16 @@ public class LBoolToCharFuncMementoX<X extends Throwable> implements LBoolToChar
 
 	private final LBoolToCharFunctionX<X> function;
 
-	protected LBoolToCharFuncMementoX(LBoolToCharFunctionX<X> function) throws X {
+	protected LBoolToCharFuncMementoX(LBoolToCharFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolToCharFuncMementoX(char initialValue, LBoolToCharFunctionX<X> function) throws X {
+	protected LBoolToCharFuncMementoX(char initialValue, LBoolToCharFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolToCharFuncMementoX<X> mementoOf(LBoolToCharFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolToCharFuncMementoX<X> mementoOf(LBoolToCharFunctionX<X> supplier) {
 		return new LBoolToCharFuncMementoX<X>(supplier);
 	}
 

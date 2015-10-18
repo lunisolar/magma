@@ -58,16 +58,16 @@ public class LIntSupMementoX<X extends Throwable> implements LIntSupplierX<X> {
 
 	private final LIntSupplierX<X> function;
 
-	protected LIntSupMementoX(LIntSupplierX<X> function) throws X {
+	protected LIntSupMementoX(LIntSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntSupMementoX(int initialValue, LIntSupplierX<X> function) throws X {
+	protected LIntSupMementoX(int initialValue, LIntSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntSupMementoX<X> mementoOf(LIntSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LIntSupMementoX<X> mementoOf(LIntSupplierX<X> supplier) {
 		return new LIntSupMementoX<X>(supplier);
 	}
 

@@ -57,29 +57,29 @@ public class LIntToLongFuncDeltaX<X extends Throwable> extends LIntToLongFuncMem
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LIntToLongFuncDeltaX(LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LIntToLongFuncDeltaX(LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntToLongFuncDeltaX(long initialValue, LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LIntToLongFuncDeltaX(long initialValue, LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LIntToLongFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(long initialValue, LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(long initialValue, LIntToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LIntToLongFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(LIntToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(LIntToLongFunctionX<X> function) {
 		return deltaOf(function, LIntToLongFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(long initialValue, LIntToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToLongFuncDeltaX<X> deltaOf(long initialValue, LIntToLongFunctionX<X> function) {
 		return deltaOf(initialValue, function, LIntToLongFuncDeltaX::mathDelta);
 	}
 

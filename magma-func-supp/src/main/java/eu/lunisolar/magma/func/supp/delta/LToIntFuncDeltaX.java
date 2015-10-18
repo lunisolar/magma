@@ -57,29 +57,29 @@ public class LToIntFuncDeltaX<T, X extends Throwable> extends LToIntFuncMementoX
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LToIntFuncDeltaX(LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LToIntFuncDeltaX(LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToIntFuncDeltaX(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LToIntFuncDeltaX(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		return new LToIntFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		return new LToIntFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(LToIntFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(LToIntFunctionX<T, X> function) {
 		return deltaOf(function, LToIntFuncDeltaX::mathDelta);
 	}
 
-	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(int initialValue, LToIntFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(int initialValue, LToIntFunctionX<T, X> function) {
 		return deltaOf(initialValue, function, LToIntFuncDeltaX::mathDelta);
 	}
 

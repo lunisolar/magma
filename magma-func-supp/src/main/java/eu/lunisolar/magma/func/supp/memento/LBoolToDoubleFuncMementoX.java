@@ -58,16 +58,16 @@ public class LBoolToDoubleFuncMementoX<X extends Throwable> implements LBoolToDo
 
 	private final LBoolToDoubleFunctionX<X> function;
 
-	protected LBoolToDoubleFuncMementoX(LBoolToDoubleFunctionX<X> function) throws X {
+	protected LBoolToDoubleFuncMementoX(LBoolToDoubleFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolToDoubleFuncMementoX(double initialValue, LBoolToDoubleFunctionX<X> function) throws X {
+	protected LBoolToDoubleFuncMementoX(double initialValue, LBoolToDoubleFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolToDoubleFuncMementoX<X> mementoOf(LBoolToDoubleFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolToDoubleFuncMementoX<X> mementoOf(LBoolToDoubleFunctionX<X> supplier) {
 		return new LBoolToDoubleFuncMementoX<X>(supplier);
 	}
 

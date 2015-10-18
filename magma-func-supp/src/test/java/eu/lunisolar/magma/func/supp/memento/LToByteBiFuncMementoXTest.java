@@ -43,7 +43,7 @@ public class LToByteBiFuncMementoXTest<T1,T2,X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LToByteBiFuncMementoX sut =  LToByteBiFuncMementoX.mementoOf( (a1,a2) ->{
+    private LToByteBiFuncMementoX<T1,T2,X> sut =  LToByteBiFuncMementoX.<T1,T2,X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

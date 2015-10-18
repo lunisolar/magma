@@ -58,16 +58,16 @@ public class LToShortBiFuncMementoX<T1, T2, X extends Throwable> implements LToS
 
 	private final LToShortBiFunctionX<T1, T2, X> function;
 
-	protected LToShortBiFuncMementoX(LToShortBiFunctionX<T1, T2, X> function) throws X {
+	protected LToShortBiFuncMementoX(LToShortBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 	}
 
-	protected LToShortBiFuncMementoX(short initialValue, LToShortBiFunctionX<T1, T2, X> function) throws X {
+	protected LToShortBiFuncMementoX(short initialValue, LToShortBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, X extends Throwable> LToShortBiFuncMementoX<T1, T2, X> mementoOf(LToShortBiFunctionX<T1, T2, X> supplier) throws X {
+	public static <T1, T2, X extends Throwable> LToShortBiFuncMementoX<T1, T2, X> mementoOf(LToShortBiFunctionX<T1, T2, X> supplier) {
 		return new LToShortBiFuncMementoX<T1, T2, X>(supplier);
 	}
 

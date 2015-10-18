@@ -57,29 +57,29 @@ public class LShortBinaryOpDeltaX<X extends Throwable> extends LShortBinaryOpMem
 
 	private final LShortBinaryOperator deltaFunction;
 
-	protected LShortBinaryOpDeltaX(LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LShortBinaryOpDeltaX(LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LShortBinaryOpDeltaX(short initialValue, LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LShortBinaryOpDeltaX(short initialValue, LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LShortBinaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(short initialValue, LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(short initialValue, LShortBinaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LShortBinaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(LShortBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(LShortBinaryOperatorX<X> function) {
 		return deltaOf(function, LShortBinaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(short initialValue, LShortBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LShortBinaryOpDeltaX<X> deltaOf(short initialValue, LShortBinaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LShortBinaryOpDeltaX::mathDelta);
 	}
 

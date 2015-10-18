@@ -43,7 +43,7 @@ public class LIntBinaryOpMementoXTest<X extends Throwable> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LIntBinaryOpMementoX sut =  LIntBinaryOpMementoX.mementoOf( (a1,a2) ->{
+    private LIntBinaryOpMementoX<X> sut =  LIntBinaryOpMementoX.<X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

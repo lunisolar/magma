@@ -44,7 +44,7 @@ public class LShortToByteFuncDeltaXTest<X extends Throwable> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LShortToByteFuncDeltaX sut =  LShortToByteFuncDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LShortToByteFuncDeltaX<X> sut =  LShortToByteFuncDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

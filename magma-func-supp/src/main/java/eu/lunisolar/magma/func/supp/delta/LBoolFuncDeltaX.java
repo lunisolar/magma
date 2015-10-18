@@ -57,21 +57,21 @@ public class LBoolFuncDeltaX<R, X extends Throwable> extends LBoolFuncMementoX<R
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LBoolFuncDeltaX(LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LBoolFuncDeltaX(LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBoolFuncDeltaX(R initialValue, LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LBoolFuncDeltaX(R initialValue, LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <R, X extends Throwable> LBoolFuncDeltaX<R, X> deltaOf(LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LBoolFuncDeltaX<R, X> deltaOf(LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LBoolFuncDeltaX<R, X>(function, deltaFunction);
 	}
 
-	public static <R, X extends Throwable> LBoolFuncDeltaX<R, X> deltaOf(R initialValue, LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LBoolFuncDeltaX<R, X> deltaOf(R initialValue, LBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LBoolFuncDeltaX<R, X>(initialValue, function, deltaFunction);
 	}
 

@@ -58,16 +58,16 @@ public class LDoubleBinaryOpMementoX<X extends Throwable> implements LDoubleBina
 
 	private final LDoubleBinaryOperatorX<X> function;
 
-	protected LDoubleBinaryOpMementoX(LDoubleBinaryOperatorX<X> function) throws X {
+	protected LDoubleBinaryOpMementoX(LDoubleBinaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleBinaryOpMementoX(double initialValue, LDoubleBinaryOperatorX<X> function) throws X {
+	protected LDoubleBinaryOpMementoX(double initialValue, LDoubleBinaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleBinaryOpMementoX<X> mementoOf(LDoubleBinaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleBinaryOpMementoX<X> mementoOf(LDoubleBinaryOperatorX<X> supplier) {
 		return new LDoubleBinaryOpMementoX<X>(supplier);
 	}
 

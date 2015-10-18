@@ -57,29 +57,29 @@ public class LShortToLongFuncDeltaX<X extends Throwable> extends LShortToLongFun
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LShortToLongFuncDeltaX(LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LShortToLongFuncDeltaX(LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LShortToLongFuncDeltaX(long initialValue, LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LShortToLongFuncDeltaX(long initialValue, LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LShortToLongFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(long initialValue, LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(long initialValue, LShortToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LShortToLongFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(LShortToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(LShortToLongFunctionX<X> function) {
 		return deltaOf(function, LShortToLongFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(long initialValue, LShortToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToLongFuncDeltaX<X> deltaOf(long initialValue, LShortToLongFunctionX<X> function) {
 		return deltaOf(initialValue, function, LShortToLongFuncDeltaX::mathDelta);
 	}
 

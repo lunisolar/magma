@@ -44,7 +44,7 @@ public class LShortSupDeltaXTest<X extends Throwable> {
 
     private final short initialLastValue = (short)0;
 
-    private LShortSupDeltaX sut =  LShortSupDeltaX.deltaOf(initialLastValue, () ->{
+    private LShortSupDeltaX<X> sut =  LShortSupDeltaX.<X>deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
     });

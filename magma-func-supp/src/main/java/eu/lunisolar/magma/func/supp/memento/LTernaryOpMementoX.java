@@ -58,16 +58,16 @@ public class LTernaryOpMementoX<T, X extends Throwable> implements LTernaryOpera
 
 	private final LTernaryOperatorX<T, X> function;
 
-	protected LTernaryOpMementoX(LTernaryOperatorX<T, X> function) throws X {
+	protected LTernaryOpMementoX(LTernaryOperatorX<T, X> function) {
 		this.function = function;
 	}
 
-	protected LTernaryOpMementoX(T initialValue, LTernaryOperatorX<T, X> function) throws X {
+	protected LTernaryOpMementoX(T initialValue, LTernaryOperatorX<T, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, X extends Throwable> LTernaryOpMementoX<T, X> mementoOf(LTernaryOperatorX<T, X> supplier) throws X {
+	public static <T, X extends Throwable> LTernaryOpMementoX<T, X> mementoOf(LTernaryOperatorX<T, X> supplier) {
 		return new LTernaryOpMementoX<T, X>(supplier);
 	}
 

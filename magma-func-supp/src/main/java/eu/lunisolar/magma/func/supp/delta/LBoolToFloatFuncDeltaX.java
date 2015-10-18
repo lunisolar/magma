@@ -57,29 +57,29 @@ public class LBoolToFloatFuncDeltaX<X extends Throwable> extends LBoolToFloatFun
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LBoolToFloatFuncDeltaX(LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LBoolToFloatFuncDeltaX(LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBoolToFloatFuncDeltaX(float initialValue, LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LBoolToFloatFuncDeltaX(float initialValue, LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LBoolToFloatFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(float initialValue, LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(float initialValue, LBoolToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LBoolToFloatFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(LBoolToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(LBoolToFloatFunctionX<X> function) {
 		return deltaOf(function, LBoolToFloatFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(float initialValue, LBoolToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToFloatFuncDeltaX<X> deltaOf(float initialValue, LBoolToFloatFunctionX<X> function) {
 		return deltaOf(initialValue, function, LBoolToFloatFuncDeltaX::mathDelta);
 	}
 

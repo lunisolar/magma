@@ -58,16 +58,16 @@ public class LLongUnaryOpMementoX<X extends Throwable> implements LLongUnaryOper
 
 	private final LLongUnaryOperatorX<X> function;
 
-	protected LLongUnaryOpMementoX(LLongUnaryOperatorX<X> function) throws X {
+	protected LLongUnaryOpMementoX(LLongUnaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LLongUnaryOpMementoX(long initialValue, LLongUnaryOperatorX<X> function) throws X {
+	protected LLongUnaryOpMementoX(long initialValue, LLongUnaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLongUnaryOpMementoX<X> mementoOf(LLongUnaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LLongUnaryOpMementoX<X> mementoOf(LLongUnaryOperatorX<X> supplier) {
 		return new LLongUnaryOpMementoX<X>(supplier);
 	}
 

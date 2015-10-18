@@ -58,16 +58,16 @@ public class LBoolToIntFuncMementoX<X extends Throwable> implements LBoolToIntFu
 
 	private final LBoolToIntFunctionX<X> function;
 
-	protected LBoolToIntFuncMementoX(LBoolToIntFunctionX<X> function) throws X {
+	protected LBoolToIntFuncMementoX(LBoolToIntFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolToIntFuncMementoX(int initialValue, LBoolToIntFunctionX<X> function) throws X {
+	protected LBoolToIntFuncMementoX(int initialValue, LBoolToIntFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolToIntFuncMementoX<X> mementoOf(LBoolToIntFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolToIntFuncMementoX<X> mementoOf(LBoolToIntFunctionX<X> supplier) {
 		return new LBoolToIntFuncMementoX<X>(supplier);
 	}
 

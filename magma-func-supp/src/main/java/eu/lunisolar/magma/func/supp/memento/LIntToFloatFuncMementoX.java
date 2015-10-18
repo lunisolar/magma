@@ -58,16 +58,16 @@ public class LIntToFloatFuncMementoX<X extends Throwable> implements LIntToFloat
 
 	private final LIntToFloatFunctionX<X> function;
 
-	protected LIntToFloatFuncMementoX(LIntToFloatFunctionX<X> function) throws X {
+	protected LIntToFloatFuncMementoX(LIntToFloatFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntToFloatFuncMementoX(float initialValue, LIntToFloatFunctionX<X> function) throws X {
+	protected LIntToFloatFuncMementoX(float initialValue, LIntToFloatFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntToFloatFuncMementoX<X> mementoOf(LIntToFloatFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LIntToFloatFuncMementoX<X> mementoOf(LIntToFloatFunctionX<X> supplier) {
 		return new LIntToFloatFuncMementoX<X>(supplier);
 	}
 

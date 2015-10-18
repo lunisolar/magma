@@ -58,16 +58,16 @@ public class LIntToDoubleFuncMementoX<X extends Throwable> implements LIntToDoub
 
 	private final LIntToDoubleFunctionX<X> function;
 
-	protected LIntToDoubleFuncMementoX(LIntToDoubleFunctionX<X> function) throws X {
+	protected LIntToDoubleFuncMementoX(LIntToDoubleFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntToDoubleFuncMementoX(double initialValue, LIntToDoubleFunctionX<X> function) throws X {
+	protected LIntToDoubleFuncMementoX(double initialValue, LIntToDoubleFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntToDoubleFuncMementoX<X> mementoOf(LIntToDoubleFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LIntToDoubleFuncMementoX<X> mementoOf(LIntToDoubleFunctionX<X> supplier) {
 		return new LIntToDoubleFuncMementoX<X>(supplier);
 	}
 

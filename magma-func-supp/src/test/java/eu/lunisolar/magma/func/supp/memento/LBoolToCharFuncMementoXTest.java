@@ -43,7 +43,7 @@ public class LBoolToCharFuncMementoXTest<X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LBoolToCharFuncMementoX sut =  LBoolToCharFuncMementoX.mementoOf( (a1) ->{
+    private LBoolToCharFuncMementoX<X> sut =  LBoolToCharFuncMementoX.<X>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

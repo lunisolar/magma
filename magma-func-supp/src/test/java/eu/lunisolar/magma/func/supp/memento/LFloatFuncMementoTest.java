@@ -40,10 +40,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LFloatFuncMementoTest<R> {
 
     private int functionCallCount = 0;
-    private Object  initialTestValue = (R)Integer.valueOf(1);
-    private Object  testValue = initialTestValue;
+    private R initialTestValue = (R)Integer.valueOf(1);
+    private R testValue = initialTestValue;
 
-    private LFloatFuncMemento sut =  LFloatFuncMemento.mementoOf( (a1) ->{
+    private LFloatFuncMemento<R> sut =  LFloatFuncMemento.<R>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

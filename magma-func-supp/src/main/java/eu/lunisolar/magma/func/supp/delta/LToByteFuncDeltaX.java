@@ -57,29 +57,29 @@ public class LToByteFuncDeltaX<T, X extends Throwable> extends LToByteFuncMement
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LToByteFuncDeltaX(LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LToByteFuncDeltaX(LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToByteFuncDeltaX(byte initialValue, LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LToByteFuncDeltaX(byte initialValue, LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) {
 		return new LToByteFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(byte initialValue, LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(byte initialValue, LToByteFunctionX<T, X> function, LByteBinaryOperator deltaFunction) {
 		return new LToByteFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(LToByteFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(LToByteFunctionX<T, X> function) {
 		return deltaOf(function, LToByteFuncDeltaX::mathDelta);
 	}
 
-	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(byte initialValue, LToByteFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToByteFuncDeltaX<T, X> deltaOf(byte initialValue, LToByteFunctionX<T, X> function) {
 		return deltaOf(initialValue, function, LToByteFuncDeltaX::mathDelta);
 	}
 

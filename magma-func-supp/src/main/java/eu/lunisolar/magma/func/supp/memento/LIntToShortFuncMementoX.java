@@ -58,16 +58,16 @@ public class LIntToShortFuncMementoX<X extends Throwable> implements LIntToShort
 
 	private final LIntToShortFunctionX<X> function;
 
-	protected LIntToShortFuncMementoX(LIntToShortFunctionX<X> function) throws X {
+	protected LIntToShortFuncMementoX(LIntToShortFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntToShortFuncMementoX(short initialValue, LIntToShortFunctionX<X> function) throws X {
+	protected LIntToShortFuncMementoX(short initialValue, LIntToShortFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntToShortFuncMementoX<X> mementoOf(LIntToShortFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LIntToShortFuncMementoX<X> mementoOf(LIntToShortFunctionX<X> supplier) {
 		return new LIntToShortFuncMementoX<X>(supplier);
 	}
 

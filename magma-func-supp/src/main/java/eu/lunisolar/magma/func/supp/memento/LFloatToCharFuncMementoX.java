@@ -58,16 +58,16 @@ public class LFloatToCharFuncMementoX<X extends Throwable> implements LFloatToCh
 
 	private final LFloatToCharFunctionX<X> function;
 
-	protected LFloatToCharFuncMementoX(LFloatToCharFunctionX<X> function) throws X {
+	protected LFloatToCharFuncMementoX(LFloatToCharFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatToCharFuncMementoX(char initialValue, LFloatToCharFunctionX<X> function) throws X {
+	protected LFloatToCharFuncMementoX(char initialValue, LFloatToCharFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatToCharFuncMementoX<X> mementoOf(LFloatToCharFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatToCharFuncMementoX<X> mementoOf(LFloatToCharFunctionX<X> supplier) {
 		return new LFloatToCharFuncMementoX<X>(supplier);
 	}
 

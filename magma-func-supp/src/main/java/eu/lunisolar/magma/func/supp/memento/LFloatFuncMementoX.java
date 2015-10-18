@@ -58,16 +58,16 @@ public class LFloatFuncMementoX<R, X extends Throwable> implements LFloatFunctio
 
 	private final LFloatFunctionX<R, X> function;
 
-	protected LFloatFuncMementoX(LFloatFunctionX<R, X> function) throws X {
+	protected LFloatFuncMementoX(LFloatFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LFloatFuncMementoX(R initialValue, LFloatFunctionX<R, X> function) throws X {
+	protected LFloatFuncMementoX(R initialValue, LFloatFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LFloatFuncMementoX<R, X> mementoOf(LFloatFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LFloatFuncMementoX<R, X> mementoOf(LFloatFunctionX<R, X> supplier) {
 		return new LFloatFuncMementoX<R, X>(supplier);
 	}
 

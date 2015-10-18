@@ -43,7 +43,7 @@ public class LCharUnaryOpMementoXTest<X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LCharUnaryOpMementoX sut =  LCharUnaryOpMementoX.mementoOf( (a1) ->{
+    private LCharUnaryOpMementoX<X> sut =  LCharUnaryOpMementoX.<X>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

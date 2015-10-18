@@ -58,16 +58,16 @@ public class LIntUnaryOpMementoX<X extends Throwable> implements LIntUnaryOperat
 
 	private final LIntUnaryOperatorX<X> function;
 
-	protected LIntUnaryOpMementoX(LIntUnaryOperatorX<X> function) throws X {
+	protected LIntUnaryOpMementoX(LIntUnaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntUnaryOpMementoX(int initialValue, LIntUnaryOperatorX<X> function) throws X {
+	protected LIntUnaryOpMementoX(int initialValue, LIntUnaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntUnaryOpMementoX<X> mementoOf(LIntUnaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LIntUnaryOpMementoX<X> mementoOf(LIntUnaryOperatorX<X> supplier) {
 		return new LIntUnaryOpMementoX<X>(supplier);
 	}
 

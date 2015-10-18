@@ -58,16 +58,16 @@ public class LCharSupMementoX<X extends Throwable> implements LCharSupplierX<X> 
 
 	private final LCharSupplierX<X> function;
 
-	protected LCharSupMementoX(LCharSupplierX<X> function) throws X {
+	protected LCharSupMementoX(LCharSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LCharSupMementoX(char initialValue, LCharSupplierX<X> function) throws X {
+	protected LCharSupMementoX(char initialValue, LCharSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LCharSupMementoX<X> mementoOf(LCharSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LCharSupMementoX<X> mementoOf(LCharSupplierX<X> supplier) {
 		return new LCharSupMementoX<X>(supplier);
 	}
 

@@ -58,16 +58,16 @@ public class LFloatToShortFuncMementoX<X extends Throwable> implements LFloatToS
 
 	private final LFloatToShortFunctionX<X> function;
 
-	protected LFloatToShortFuncMementoX(LFloatToShortFunctionX<X> function) throws X {
+	protected LFloatToShortFuncMementoX(LFloatToShortFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatToShortFuncMementoX(short initialValue, LFloatToShortFunctionX<X> function) throws X {
+	protected LFloatToShortFuncMementoX(short initialValue, LFloatToShortFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatToShortFuncMementoX<X> mementoOf(LFloatToShortFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatToShortFuncMementoX<X> mementoOf(LFloatToShortFunctionX<X> supplier) {
 		return new LFloatToShortFuncMementoX<X>(supplier);
 	}
 

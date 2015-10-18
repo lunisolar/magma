@@ -57,29 +57,29 @@ public class LByteUnaryOpDeltaX<X extends Throwable> extends LByteUnaryOpMemento
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LByteUnaryOpDeltaX(LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LByteUnaryOpDeltaX(LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LByteUnaryOpDeltaX(byte initialValue, LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LByteUnaryOpDeltaX(byte initialValue, LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LByteUnaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(byte initialValue, LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(byte initialValue, LByteUnaryOperatorX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LByteUnaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(LByteUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(LByteUnaryOperatorX<X> function) {
 		return deltaOf(function, LByteUnaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(byte initialValue, LByteUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LByteUnaryOpDeltaX<X> deltaOf(byte initialValue, LByteUnaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LByteUnaryOpDeltaX::mathDelta);
 	}
 

@@ -58,16 +58,16 @@ public class LLogicalTernaryOpMementoX<X extends Throwable> implements LLogicalT
 
 	private final LLogicalTernaryOperatorX<X> function;
 
-	protected LLogicalTernaryOpMementoX(LLogicalTernaryOperatorX<X> function) throws X {
+	protected LLogicalTernaryOpMementoX(LLogicalTernaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LLogicalTernaryOpMementoX(boolean initialValue, LLogicalTernaryOperatorX<X> function) throws X {
+	protected LLogicalTernaryOpMementoX(boolean initialValue, LLogicalTernaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLogicalTernaryOpMementoX<X> mementoOf(LLogicalTernaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LLogicalTernaryOpMementoX<X> mementoOf(LLogicalTernaryOperatorX<X> supplier) {
 		return new LLogicalTernaryOpMementoX<X>(supplier);
 	}
 

@@ -44,7 +44,7 @@ public class LToByteBiFuncDeltaXTest<T1,T2,X extends Throwable> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LToByteBiFuncDeltaX sut =  LToByteBiFuncDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
+    private LToByteBiFuncDeltaX<T1,T2,X> sut =  LToByteBiFuncDeltaX.<T1,T2,X>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

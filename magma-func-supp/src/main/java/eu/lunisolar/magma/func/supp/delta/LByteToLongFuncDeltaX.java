@@ -57,29 +57,29 @@ public class LByteToLongFuncDeltaX<X extends Throwable> extends LByteToLongFuncM
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LByteToLongFuncDeltaX(LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LByteToLongFuncDeltaX(LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LByteToLongFuncDeltaX(long initialValue, LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LByteToLongFuncDeltaX(long initialValue, LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LByteToLongFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(long initialValue, LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(long initialValue, LByteToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LByteToLongFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(LByteToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(LByteToLongFunctionX<X> function) {
 		return deltaOf(function, LByteToLongFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(long initialValue, LByteToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LByteToLongFuncDeltaX<X> deltaOf(long initialValue, LByteToLongFunctionX<X> function) {
 		return deltaOf(initialValue, function, LByteToLongFuncDeltaX::mathDelta);
 	}
 

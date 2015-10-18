@@ -57,29 +57,29 @@ public class LLongUnaryOpDeltaX<X extends Throwable> extends LLongUnaryOpMemento
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LLongUnaryOpDeltaX(LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LLongUnaryOpDeltaX(LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LLongUnaryOpDeltaX(long initialValue, LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LLongUnaryOpDeltaX(long initialValue, LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LLongUnaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(long initialValue, LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(long initialValue, LLongUnaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LLongUnaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(LLongUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(LLongUnaryOperatorX<X> function) {
 		return deltaOf(function, LLongUnaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(long initialValue, LLongUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLongUnaryOpDeltaX<X> deltaOf(long initialValue, LLongUnaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LLongUnaryOpDeltaX::mathDelta);
 	}
 

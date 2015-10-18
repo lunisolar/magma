@@ -57,29 +57,29 @@ public class LDoubleToFloatFuncDeltaX<X extends Throwable> extends LDoubleToFloa
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LDoubleToFloatFuncDeltaX(LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LDoubleToFloatFuncDeltaX(LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleToFloatFuncDeltaX(float initialValue, LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LDoubleToFloatFuncDeltaX(float initialValue, LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LDoubleToFloatFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(float initialValue, LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(float initialValue, LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LDoubleToFloatFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(LDoubleToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(LDoubleToFloatFunctionX<X> function) {
 		return deltaOf(function, LDoubleToFloatFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(float initialValue, LDoubleToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToFloatFuncDeltaX<X> deltaOf(float initialValue, LDoubleToFloatFunctionX<X> function) {
 		return deltaOf(initialValue, function, LDoubleToFloatFuncDeltaX::mathDelta);
 	}
 

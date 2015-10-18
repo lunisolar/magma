@@ -57,29 +57,29 @@ public class LShortToByteFuncDeltaX<X extends Throwable> extends LShortToByteFun
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LShortToByteFuncDeltaX(LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LShortToByteFuncDeltaX(LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LShortToByteFuncDeltaX(byte initialValue, LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LShortToByteFuncDeltaX(byte initialValue, LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LShortToByteFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(byte initialValue, LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(byte initialValue, LShortToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LShortToByteFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(LShortToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(LShortToByteFunctionX<X> function) {
 		return deltaOf(function, LShortToByteFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(byte initialValue, LShortToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToByteFuncDeltaX<X> deltaOf(byte initialValue, LShortToByteFunctionX<X> function) {
 		return deltaOf(initialValue, function, LShortToByteFuncDeltaX::mathDelta);
 	}
 

@@ -57,29 +57,29 @@ public class LCharToByteFuncDeltaX<X extends Throwable> extends LCharToByteFuncM
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LCharToByteFuncDeltaX(LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LCharToByteFuncDeltaX(LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LCharToByteFuncDeltaX(byte initialValue, LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LCharToByteFuncDeltaX(byte initialValue, LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LCharToByteFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(byte initialValue, LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(byte initialValue, LCharToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LCharToByteFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(LCharToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(LCharToByteFunctionX<X> function) {
 		return deltaOf(function, LCharToByteFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(byte initialValue, LCharToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToByteFuncDeltaX<X> deltaOf(byte initialValue, LCharToByteFunctionX<X> function) {
 		return deltaOf(initialValue, function, LCharToByteFuncDeltaX::mathDelta);
 	}
 

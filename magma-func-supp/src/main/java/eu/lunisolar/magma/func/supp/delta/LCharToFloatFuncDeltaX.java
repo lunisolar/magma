@@ -57,29 +57,29 @@ public class LCharToFloatFuncDeltaX<X extends Throwable> extends LCharToFloatFun
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LCharToFloatFuncDeltaX(LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LCharToFloatFuncDeltaX(LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LCharToFloatFuncDeltaX(float initialValue, LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LCharToFloatFuncDeltaX(float initialValue, LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LCharToFloatFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(float initialValue, LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(float initialValue, LCharToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LCharToFloatFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(LCharToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(LCharToFloatFunctionX<X> function) {
 		return deltaOf(function, LCharToFloatFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(float initialValue, LCharToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToFloatFuncDeltaX<X> deltaOf(float initialValue, LCharToFloatFunctionX<X> function) {
 		return deltaOf(initialValue, function, LCharToFloatFuncDeltaX::mathDelta);
 	}
 

@@ -58,16 +58,16 @@ public class LToDoubleFuncMementoX<T, X extends Throwable> implements LToDoubleF
 
 	private final LToDoubleFunctionX<T, X> function;
 
-	protected LToDoubleFuncMementoX(LToDoubleFunctionX<T, X> function) throws X {
+	protected LToDoubleFuncMementoX(LToDoubleFunctionX<T, X> function) {
 		this.function = function;
 	}
 
-	protected LToDoubleFuncMementoX(double initialValue, LToDoubleFunctionX<T, X> function) throws X {
+	protected LToDoubleFuncMementoX(double initialValue, LToDoubleFunctionX<T, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, X extends Throwable> LToDoubleFuncMementoX<T, X> mementoOf(LToDoubleFunctionX<T, X> supplier) throws X {
+	public static <T, X extends Throwable> LToDoubleFuncMementoX<T, X> mementoOf(LToDoubleFunctionX<T, X> supplier) {
 		return new LToDoubleFuncMementoX<T, X>(supplier);
 	}
 

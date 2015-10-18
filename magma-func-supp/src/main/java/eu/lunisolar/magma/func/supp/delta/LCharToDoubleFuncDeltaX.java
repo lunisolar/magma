@@ -57,29 +57,29 @@ public class LCharToDoubleFuncDeltaX<X extends Throwable> extends LCharToDoubleF
 
 	private final LDoubleBinaryOperator deltaFunction;
 
-	protected LCharToDoubleFuncDeltaX(LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LCharToDoubleFuncDeltaX(LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LCharToDoubleFuncDeltaX(double initialValue, LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LCharToDoubleFuncDeltaX(double initialValue, LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LCharToDoubleFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(double initialValue, LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(double initialValue, LCharToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LCharToDoubleFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(LCharToDoubleFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(LCharToDoubleFunctionX<X> function) {
 		return deltaOf(function, LCharToDoubleFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(double initialValue, LCharToDoubleFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToDoubleFuncDeltaX<X> deltaOf(double initialValue, LCharToDoubleFunctionX<X> function) {
 		return deltaOf(initialValue, function, LCharToDoubleFuncDeltaX::mathDelta);
 	}
 

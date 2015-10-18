@@ -57,21 +57,21 @@ public class LBiByteFuncDeltaX<R, X extends Throwable> extends LBiByteFuncMement
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LBiByteFuncDeltaX(LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LBiByteFuncDeltaX(LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBiByteFuncDeltaX(R initialValue, LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LBiByteFuncDeltaX(R initialValue, LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <R, X extends Throwable> LBiByteFuncDeltaX<R, X> deltaOf(LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LBiByteFuncDeltaX<R, X> deltaOf(LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LBiByteFuncDeltaX<R, X>(function, deltaFunction);
 	}
 
-	public static <R, X extends Throwable> LBiByteFuncDeltaX<R, X> deltaOf(R initialValue, LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LBiByteFuncDeltaX<R, X> deltaOf(R initialValue, LBiByteFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LBiByteFuncDeltaX<R, X>(initialValue, function, deltaFunction);
 	}
 

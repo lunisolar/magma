@@ -44,7 +44,7 @@ public class LToShortFuncDeltaTest<T> {
 
     private final short initialLastValue = (short)0;
 
-    private LToShortFuncDelta sut =  LToShortFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LToShortFuncDelta<T> sut =  LToShortFuncDelta.<T>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

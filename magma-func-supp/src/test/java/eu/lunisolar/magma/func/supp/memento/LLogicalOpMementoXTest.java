@@ -43,7 +43,7 @@ public class LLogicalOpMementoXTest<X extends Throwable> {
     private boolean initialTestValue = true;
     private boolean testValue = initialTestValue;
 
-    private LLogicalOpMementoX sut =  LLogicalOpMementoX.mementoOf( (a1) ->{
+    private LLogicalOpMementoX<X> sut =  LLogicalOpMementoX.<X>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

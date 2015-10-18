@@ -43,7 +43,7 @@ public class LShortSupMementoXTest<X extends Throwable> {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LShortSupMementoX sut =  LShortSupMementoX.mementoOf( () ->{
+    private LShortSupMementoX<X> sut =  LShortSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

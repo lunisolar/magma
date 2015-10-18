@@ -43,7 +43,7 @@ public class LObjIntToIntFuncMementoXTest<T,X extends Throwable> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LObjIntToIntFuncMementoX sut =  LObjIntToIntFuncMementoX.mementoOf( (a1,a2) ->{
+    private LObjIntToIntFuncMementoX<T,X> sut =  LObjIntToIntFuncMementoX.<T,X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

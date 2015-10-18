@@ -58,16 +58,16 @@ public class LIntToCharFuncMementoX<X extends Throwable> implements LIntToCharFu
 
 	private final LIntToCharFunctionX<X> function;
 
-	protected LIntToCharFuncMementoX(LIntToCharFunctionX<X> function) throws X {
+	protected LIntToCharFuncMementoX(LIntToCharFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntToCharFuncMementoX(char initialValue, LIntToCharFunctionX<X> function) throws X {
+	protected LIntToCharFuncMementoX(char initialValue, LIntToCharFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntToCharFuncMementoX<X> mementoOf(LIntToCharFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LIntToCharFuncMementoX<X> mementoOf(LIntToCharFunctionX<X> supplier) {
 		return new LIntToCharFuncMementoX<X>(supplier);
 	}
 

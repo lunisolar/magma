@@ -58,16 +58,16 @@ public class LDoubleToCharFuncMementoX<X extends Throwable> implements LDoubleTo
 
 	private final LDoubleToCharFunctionX<X> function;
 
-	protected LDoubleToCharFuncMementoX(LDoubleToCharFunctionX<X> function) throws X {
+	protected LDoubleToCharFuncMementoX(LDoubleToCharFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleToCharFuncMementoX(char initialValue, LDoubleToCharFunctionX<X> function) throws X {
+	protected LDoubleToCharFuncMementoX(char initialValue, LDoubleToCharFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleToCharFuncMementoX<X> mementoOf(LDoubleToCharFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleToCharFuncMementoX<X> mementoOf(LDoubleToCharFunctionX<X> supplier) {
 		return new LDoubleToCharFuncMementoX<X>(supplier);
 	}
 

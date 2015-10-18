@@ -57,29 +57,29 @@ public class LIntToFloatFuncDeltaX<X extends Throwable> extends LIntToFloatFuncM
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LIntToFloatFuncDeltaX(LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LIntToFloatFuncDeltaX(LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntToFloatFuncDeltaX(float initialValue, LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LIntToFloatFuncDeltaX(float initialValue, LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LIntToFloatFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(float initialValue, LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(float initialValue, LIntToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LIntToFloatFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(LIntToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(LIntToFloatFunctionX<X> function) {
 		return deltaOf(function, LIntToFloatFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(float initialValue, LIntToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToFloatFuncDeltaX<X> deltaOf(float initialValue, LIntToFloatFunctionX<X> function) {
 		return deltaOf(initialValue, function, LIntToFloatFuncDeltaX::mathDelta);
 	}
 

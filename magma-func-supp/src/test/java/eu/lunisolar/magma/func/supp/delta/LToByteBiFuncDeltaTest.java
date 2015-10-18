@@ -44,7 +44,7 @@ public class LToByteBiFuncDeltaTest<T1,T2> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LToByteBiFuncDelta sut =  LToByteBiFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LToByteBiFuncDelta<T1,T2> sut =  LToByteBiFuncDelta.<T1,T2>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

@@ -44,7 +44,7 @@ public class LToCharBiFuncDeltaTest<T1,T2> {
 
     private final char initialLastValue = '\u0000';
 
-    private LToCharBiFuncDelta sut =  LToCharBiFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LToCharBiFuncDelta<T1,T2> sut =  LToCharBiFuncDelta.<T1,T2>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

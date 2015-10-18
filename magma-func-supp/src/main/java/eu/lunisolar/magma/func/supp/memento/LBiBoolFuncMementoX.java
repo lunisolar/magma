@@ -58,16 +58,16 @@ public class LBiBoolFuncMementoX<R, X extends Throwable> implements LBiBoolFunct
 
 	private final LBiBoolFunctionX<R, X> function;
 
-	protected LBiBoolFuncMementoX(LBiBoolFunctionX<R, X> function) throws X {
+	protected LBiBoolFuncMementoX(LBiBoolFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LBiBoolFuncMementoX(R initialValue, LBiBoolFunctionX<R, X> function) throws X {
+	protected LBiBoolFuncMementoX(R initialValue, LBiBoolFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LBiBoolFuncMementoX<R, X> mementoOf(LBiBoolFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LBiBoolFuncMementoX<R, X> mementoOf(LBiBoolFunctionX<R, X> supplier) {
 		return new LBiBoolFuncMementoX<R, X>(supplier);
 	}
 

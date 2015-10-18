@@ -57,29 +57,29 @@ public class LFloatUnaryOpDeltaX<X extends Throwable> extends LFloatUnaryOpMemen
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LFloatUnaryOpDeltaX(LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LFloatUnaryOpDeltaX(LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LFloatUnaryOpDeltaX(float initialValue, LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LFloatUnaryOpDeltaX(float initialValue, LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LFloatUnaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(float initialValue, LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(float initialValue, LFloatUnaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LFloatUnaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(LFloatUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(LFloatUnaryOperatorX<X> function) {
 		return deltaOf(function, LFloatUnaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(float initialValue, LFloatUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LFloatUnaryOpDeltaX<X> deltaOf(float initialValue, LFloatUnaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LFloatUnaryOpDeltaX::mathDelta);
 	}
 

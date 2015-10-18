@@ -57,29 +57,29 @@ public class LBoolToShortFuncDeltaX<X extends Throwable> extends LBoolToShortFun
 
 	private final LShortBinaryOperator deltaFunction;
 
-	protected LBoolToShortFuncDeltaX(LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LBoolToShortFuncDeltaX(LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBoolToShortFuncDeltaX(short initialValue, LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LBoolToShortFuncDeltaX(short initialValue, LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LBoolToShortFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(short initialValue, LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(short initialValue, LBoolToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LBoolToShortFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(LBoolToShortFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(LBoolToShortFunctionX<X> function) {
 		return deltaOf(function, LBoolToShortFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(short initialValue, LBoolToShortFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToShortFuncDeltaX<X> deltaOf(short initialValue, LBoolToShortFunctionX<X> function) {
 		return deltaOf(initialValue, function, LBoolToShortFuncDeltaX::mathDelta);
 	}
 

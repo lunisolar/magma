@@ -58,16 +58,16 @@ public class LFloatSupMementoX<X extends Throwable> implements LFloatSupplierX<X
 
 	private final LFloatSupplierX<X> function;
 
-	protected LFloatSupMementoX(LFloatSupplierX<X> function) throws X {
+	protected LFloatSupMementoX(LFloatSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatSupMementoX(float initialValue, LFloatSupplierX<X> function) throws X {
+	protected LFloatSupMementoX(float initialValue, LFloatSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatSupMementoX<X> mementoOf(LFloatSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatSupMementoX<X> mementoOf(LFloatSupplierX<X> supplier) {
 		return new LFloatSupMementoX<X>(supplier);
 	}
 

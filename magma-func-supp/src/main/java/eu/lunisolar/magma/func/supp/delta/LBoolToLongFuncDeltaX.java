@@ -57,29 +57,29 @@ public class LBoolToLongFuncDeltaX<X extends Throwable> extends LBoolToLongFuncM
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LBoolToLongFuncDeltaX(LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LBoolToLongFuncDeltaX(LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBoolToLongFuncDeltaX(long initialValue, LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LBoolToLongFuncDeltaX(long initialValue, LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LBoolToLongFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(long initialValue, LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(long initialValue, LBoolToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LBoolToLongFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(LBoolToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(LBoolToLongFunctionX<X> function) {
 		return deltaOf(function, LBoolToLongFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(long initialValue, LBoolToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToLongFuncDeltaX<X> deltaOf(long initialValue, LBoolToLongFunctionX<X> function) {
 		return deltaOf(initialValue, function, LBoolToLongFuncDeltaX::mathDelta);
 	}
 

@@ -58,16 +58,16 @@ public class LCharToShortFuncMementoX<X extends Throwable> implements LCharToSho
 
 	private final LCharToShortFunctionX<X> function;
 
-	protected LCharToShortFuncMementoX(LCharToShortFunctionX<X> function) throws X {
+	protected LCharToShortFuncMementoX(LCharToShortFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LCharToShortFuncMementoX(short initialValue, LCharToShortFunctionX<X> function) throws X {
+	protected LCharToShortFuncMementoX(short initialValue, LCharToShortFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LCharToShortFuncMementoX<X> mementoOf(LCharToShortFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LCharToShortFuncMementoX<X> mementoOf(LCharToShortFunctionX<X> supplier) {
 		return new LCharToShortFuncMementoX<X>(supplier);
 	}
 

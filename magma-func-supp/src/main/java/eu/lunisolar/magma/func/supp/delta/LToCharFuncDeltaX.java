@@ -57,29 +57,29 @@ public class LToCharFuncDeltaX<T, X extends Throwable> extends LToCharFuncMement
 
 	private final LCharBinaryOperator deltaFunction;
 
-	protected LToCharFuncDeltaX(LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LToCharFuncDeltaX(LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToCharFuncDeltaX(char initialValue, LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LToCharFuncDeltaX(char initialValue, LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) {
 		return new LToCharFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(char initialValue, LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(char initialValue, LToCharFunctionX<T, X> function, LCharBinaryOperator deltaFunction) {
 		return new LToCharFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(LToCharFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(LToCharFunctionX<T, X> function) {
 		return deltaOf(function, LToCharFuncDeltaX::mathDelta);
 	}
 
-	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(char initialValue, LToCharFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToCharFuncDeltaX<T, X> deltaOf(char initialValue, LToCharFunctionX<T, X> function) {
 		return deltaOf(initialValue, function, LToCharFuncDeltaX::mathDelta);
 	}
 

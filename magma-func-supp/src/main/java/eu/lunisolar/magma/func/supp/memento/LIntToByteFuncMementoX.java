@@ -58,16 +58,16 @@ public class LIntToByteFuncMementoX<X extends Throwable> implements LIntToByteFu
 
 	private final LIntToByteFunctionX<X> function;
 
-	protected LIntToByteFuncMementoX(LIntToByteFunctionX<X> function) throws X {
+	protected LIntToByteFuncMementoX(LIntToByteFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntToByteFuncMementoX(byte initialValue, LIntToByteFunctionX<X> function) throws X {
+	protected LIntToByteFuncMementoX(byte initialValue, LIntToByteFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntToByteFuncMementoX<X> mementoOf(LIntToByteFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LIntToByteFuncMementoX<X> mementoOf(LIntToByteFunctionX<X> supplier) {
 		return new LIntToByteFuncMementoX<X>(supplier);
 	}
 

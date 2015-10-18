@@ -58,16 +58,16 @@ public class LCharToFloatFuncMementoX<X extends Throwable> implements LCharToFlo
 
 	private final LCharToFloatFunctionX<X> function;
 
-	protected LCharToFloatFuncMementoX(LCharToFloatFunctionX<X> function) throws X {
+	protected LCharToFloatFuncMementoX(LCharToFloatFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LCharToFloatFuncMementoX(float initialValue, LCharToFloatFunctionX<X> function) throws X {
+	protected LCharToFloatFuncMementoX(float initialValue, LCharToFloatFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LCharToFloatFuncMementoX<X> mementoOf(LCharToFloatFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LCharToFloatFuncMementoX<X> mementoOf(LCharToFloatFunctionX<X> supplier) {
 		return new LCharToFloatFuncMementoX<X>(supplier);
 	}
 

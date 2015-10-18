@@ -57,29 +57,29 @@ public class LFloatBinaryOpDeltaX<X extends Throwable> extends LFloatBinaryOpMem
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LFloatBinaryOpDeltaX(LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LFloatBinaryOpDeltaX(LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LFloatBinaryOpDeltaX(float initialValue, LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LFloatBinaryOpDeltaX(float initialValue, LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LFloatBinaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(float initialValue, LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(float initialValue, LFloatBinaryOperatorX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LFloatBinaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(LFloatBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(LFloatBinaryOperatorX<X> function) {
 		return deltaOf(function, LFloatBinaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(float initialValue, LFloatBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LFloatBinaryOpDeltaX<X> deltaOf(float initialValue, LFloatBinaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LFloatBinaryOpDeltaX::mathDelta);
 	}
 

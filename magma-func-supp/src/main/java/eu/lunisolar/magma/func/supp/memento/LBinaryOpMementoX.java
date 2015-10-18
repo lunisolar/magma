@@ -58,16 +58,16 @@ public class LBinaryOpMementoX<T, X extends Throwable> implements LBinaryOperato
 
 	private final LBinaryOperatorX<T, X> function;
 
-	protected LBinaryOpMementoX(LBinaryOperatorX<T, X> function) throws X {
+	protected LBinaryOpMementoX(LBinaryOperatorX<T, X> function) {
 		this.function = function;
 	}
 
-	protected LBinaryOpMementoX(T initialValue, LBinaryOperatorX<T, X> function) throws X {
+	protected LBinaryOpMementoX(T initialValue, LBinaryOperatorX<T, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, X extends Throwable> LBinaryOpMementoX<T, X> mementoOf(LBinaryOperatorX<T, X> supplier) throws X {
+	public static <T, X extends Throwable> LBinaryOpMementoX<T, X> mementoOf(LBinaryOperatorX<T, X> supplier) {
 		return new LBinaryOpMementoX<T, X>(supplier);
 	}
 

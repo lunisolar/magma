@@ -57,29 +57,29 @@ public class LBoolSupDeltaX<X extends Throwable> extends LBoolSupMementoX<X> {
 
 	private final LLogicalBinaryOperator deltaFunction;
 
-	protected LBoolSupDeltaX(LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	protected LBoolSupDeltaX(LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBoolSupDeltaX(boolean initialValue, LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	protected LBoolSupDeltaX(boolean initialValue, LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) {
 		return new LBoolSupDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(boolean initialValue, LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(boolean initialValue, LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) {
 		return new LBoolSupDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(LBoolSupplierX<X> function) throws X {
+	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(LBoolSupplierX<X> function) {
 		return deltaOf(function, (last, current) -> current != last);
 	}
 
-	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(boolean initialValue, LBoolSupplierX<X> function) throws X {
+	public static <X extends Throwable> LBoolSupDeltaX<X> deltaOf(boolean initialValue, LBoolSupplierX<X> function) {
 		return deltaOf(initialValue, function, (last, current) -> current != last);
 	}
 

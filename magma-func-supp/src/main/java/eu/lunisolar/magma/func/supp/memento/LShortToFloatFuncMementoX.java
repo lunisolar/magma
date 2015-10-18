@@ -58,16 +58,16 @@ public class LShortToFloatFuncMementoX<X extends Throwable> implements LShortToF
 
 	private final LShortToFloatFunctionX<X> function;
 
-	protected LShortToFloatFuncMementoX(LShortToFloatFunctionX<X> function) throws X {
+	protected LShortToFloatFuncMementoX(LShortToFloatFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LShortToFloatFuncMementoX(float initialValue, LShortToFloatFunctionX<X> function) throws X {
+	protected LShortToFloatFuncMementoX(float initialValue, LShortToFloatFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LShortToFloatFuncMementoX<X> mementoOf(LShortToFloatFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LShortToFloatFuncMementoX<X> mementoOf(LShortToFloatFunctionX<X> supplier) {
 		return new LShortToFloatFuncMementoX<X>(supplier);
 	}
 

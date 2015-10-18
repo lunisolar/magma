@@ -44,7 +44,7 @@ public class LCharSupDeltaXTest<X extends Throwable> {
 
     private final char initialLastValue = '\u0000';
 
-    private LCharSupDeltaX sut =  LCharSupDeltaX.deltaOf(initialLastValue, () ->{
+    private LCharSupDeltaX<X> sut =  LCharSupDeltaX.<X>deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
     });

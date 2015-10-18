@@ -57,21 +57,21 @@ public class LDoubleFuncDeltaX<R, X extends Throwable> extends LDoubleFuncMement
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LDoubleFuncDeltaX(LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LDoubleFuncDeltaX(LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleFuncDeltaX(R initialValue, LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LDoubleFuncDeltaX(R initialValue, LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <R, X extends Throwable> LDoubleFuncDeltaX<R, X> deltaOf(LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LDoubleFuncDeltaX<R, X> deltaOf(LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LDoubleFuncDeltaX<R, X>(function, deltaFunction);
 	}
 
-	public static <R, X extends Throwable> LDoubleFuncDeltaX<R, X> deltaOf(R initialValue, LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LDoubleFuncDeltaX<R, X> deltaOf(R initialValue, LDoubleFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LDoubleFuncDeltaX<R, X>(initialValue, function, deltaFunction);
 	}
 

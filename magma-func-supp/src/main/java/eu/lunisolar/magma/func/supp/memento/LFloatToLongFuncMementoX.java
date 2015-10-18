@@ -58,16 +58,16 @@ public class LFloatToLongFuncMementoX<X extends Throwable> implements LFloatToLo
 
 	private final LFloatToLongFunctionX<X> function;
 
-	protected LFloatToLongFuncMementoX(LFloatToLongFunctionX<X> function) throws X {
+	protected LFloatToLongFuncMementoX(LFloatToLongFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatToLongFuncMementoX(long initialValue, LFloatToLongFunctionX<X> function) throws X {
+	protected LFloatToLongFuncMementoX(long initialValue, LFloatToLongFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatToLongFuncMementoX<X> mementoOf(LFloatToLongFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatToLongFuncMementoX<X> mementoOf(LFloatToLongFunctionX<X> supplier) {
 		return new LFloatToLongFuncMementoX<X>(supplier);
 	}
 

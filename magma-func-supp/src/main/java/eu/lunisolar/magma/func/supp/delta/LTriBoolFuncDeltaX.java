@@ -57,21 +57,21 @@ public class LTriBoolFuncDeltaX<R, X extends Throwable> extends LTriBoolFuncMeme
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LTriBoolFuncDeltaX(LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LTriBoolFuncDeltaX(LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LTriBoolFuncDeltaX(R initialValue, LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LTriBoolFuncDeltaX(R initialValue, LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <R, X extends Throwable> LTriBoolFuncDeltaX<R, X> deltaOf(LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LTriBoolFuncDeltaX<R, X> deltaOf(LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LTriBoolFuncDeltaX<R, X>(function, deltaFunction);
 	}
 
-	public static <R, X extends Throwable> LTriBoolFuncDeltaX<R, X> deltaOf(R initialValue, LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LTriBoolFuncDeltaX<R, X> deltaOf(R initialValue, LTriBoolFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LTriBoolFuncDeltaX<R, X>(initialValue, function, deltaFunction);
 	}
 

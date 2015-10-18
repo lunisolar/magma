@@ -58,16 +58,16 @@ public class LTriFuncMementoX<T1, T2, T3, R, X extends Throwable> implements LTr
 
 	private final LTriFunctionX<T1, T2, T3, R, X> function;
 
-	protected LTriFuncMementoX(LTriFunctionX<T1, T2, T3, R, X> function) throws X {
+	protected LTriFuncMementoX(LTriFunctionX<T1, T2, T3, R, X> function) {
 		this.function = function;
 	}
 
-	protected LTriFuncMementoX(R initialValue, LTriFunctionX<T1, T2, T3, R, X> function) throws X {
+	protected LTriFuncMementoX(R initialValue, LTriFunctionX<T1, T2, T3, R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, T3, R, X extends Throwable> LTriFuncMementoX<T1, T2, T3, R, X> mementoOf(LTriFunctionX<T1, T2, T3, R, X> supplier) throws X {
+	public static <T1, T2, T3, R, X extends Throwable> LTriFuncMementoX<T1, T2, T3, R, X> mementoOf(LTriFunctionX<T1, T2, T3, R, X> supplier) {
 		return new LTriFuncMementoX<T1, T2, T3, R, X>(supplier);
 	}
 

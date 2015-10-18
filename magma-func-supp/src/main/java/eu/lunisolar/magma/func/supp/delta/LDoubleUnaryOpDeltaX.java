@@ -57,29 +57,29 @@ public class LDoubleUnaryOpDeltaX<X extends Throwable> extends LDoubleUnaryOpMem
 
 	private final LDoubleBinaryOperator deltaFunction;
 
-	protected LDoubleUnaryOpDeltaX(LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LDoubleUnaryOpDeltaX(LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleUnaryOpDeltaX(double initialValue, LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LDoubleUnaryOpDeltaX(double initialValue, LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LDoubleUnaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(double initialValue, LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(double initialValue, LDoubleUnaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LDoubleUnaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(LDoubleUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(LDoubleUnaryOperatorX<X> function) {
 		return deltaOf(function, LDoubleUnaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(double initialValue, LDoubleUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LDoubleUnaryOpDeltaX<X> deltaOf(double initialValue, LDoubleUnaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LDoubleUnaryOpDeltaX::mathDelta);
 	}
 

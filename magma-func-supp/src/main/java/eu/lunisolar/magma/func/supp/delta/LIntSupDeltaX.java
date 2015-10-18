@@ -57,29 +57,29 @@ public class LIntSupDeltaX<X extends Throwable> extends LIntSupMementoX<X> {
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LIntSupDeltaX(LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LIntSupDeltaX(LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntSupDeltaX(int initialValue, LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LIntSupDeltaX(int initialValue, LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LIntSupDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(int initialValue, LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(int initialValue, LIntSupplierX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LIntSupDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(LIntSupplierX<X> function) throws X {
+	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(LIntSupplierX<X> function) {
 		return deltaOf(function, LIntSupDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(int initialValue, LIntSupplierX<X> function) throws X {
+	public static <X extends Throwable> LIntSupDeltaX<X> deltaOf(int initialValue, LIntSupplierX<X> function) {
 		return deltaOf(initialValue, function, LIntSupDeltaX::mathDelta);
 	}
 

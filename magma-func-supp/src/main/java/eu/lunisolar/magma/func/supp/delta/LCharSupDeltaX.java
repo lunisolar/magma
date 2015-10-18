@@ -57,29 +57,29 @@ public class LCharSupDeltaX<X extends Throwable> extends LCharSupMementoX<X> {
 
 	private final LCharBinaryOperator deltaFunction;
 
-	protected LCharSupDeltaX(LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LCharSupDeltaX(LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LCharSupDeltaX(char initialValue, LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LCharSupDeltaX(char initialValue, LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LCharSupDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(char initialValue, LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(char initialValue, LCharSupplierX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LCharSupDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(LCharSupplierX<X> function) throws X {
+	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(LCharSupplierX<X> function) {
 		return deltaOf(function, LCharSupDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(char initialValue, LCharSupplierX<X> function) throws X {
+	public static <X extends Throwable> LCharSupDeltaX<X> deltaOf(char initialValue, LCharSupplierX<X> function) {
 		return deltaOf(initialValue, function, LCharSupDeltaX::mathDelta);
 	}
 

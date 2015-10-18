@@ -57,29 +57,29 @@ public class LLongToFloatFuncDeltaX<X extends Throwable> extends LLongToFloatFun
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LLongToFloatFuncDeltaX(LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LLongToFloatFuncDeltaX(LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LLongToFloatFuncDeltaX(float initialValue, LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LLongToFloatFuncDeltaX(float initialValue, LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LLongToFloatFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(float initialValue, LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(float initialValue, LLongToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LLongToFloatFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(LLongToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(LLongToFloatFunctionX<X> function) {
 		return deltaOf(function, LLongToFloatFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(float initialValue, LLongToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LLongToFloatFuncDeltaX<X> deltaOf(float initialValue, LLongToFloatFunctionX<X> function) {
 		return deltaOf(initialValue, function, LLongToFloatFuncDeltaX::mathDelta);
 	}
 

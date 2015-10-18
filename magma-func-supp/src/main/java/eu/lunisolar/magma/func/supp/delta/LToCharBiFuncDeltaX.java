@@ -57,29 +57,29 @@ public class LToCharBiFuncDeltaX<T1, T2, X extends Throwable> extends LToCharBiF
 
 	private final LCharBinaryOperator deltaFunction;
 
-	protected LToCharBiFuncDeltaX(LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LToCharBiFuncDeltaX(LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToCharBiFuncDeltaX(char initialValue, LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LToCharBiFuncDeltaX(char initialValue, LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) {
 		return new LToCharBiFuncDeltaX<T1, T2, X>(function, deltaFunction);
 	}
 
-	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(char initialValue, LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(char initialValue, LToCharBiFunctionX<T1, T2, X> function, LCharBinaryOperator deltaFunction) {
 		return new LToCharBiFuncDeltaX<T1, T2, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(LToCharBiFunctionX<T1, T2, X> function) throws X {
+	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(LToCharBiFunctionX<T1, T2, X> function) {
 		return deltaOf(function, LToCharBiFuncDeltaX::mathDelta);
 	}
 
-	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(char initialValue, LToCharBiFunctionX<T1, T2, X> function) throws X {
+	public static <T1, T2, X extends Throwable> LToCharBiFuncDeltaX<T1, T2, X> deltaOf(char initialValue, LToCharBiFunctionX<T1, T2, X> function) {
 		return deltaOf(initialValue, function, LToCharBiFuncDeltaX::mathDelta);
 	}
 

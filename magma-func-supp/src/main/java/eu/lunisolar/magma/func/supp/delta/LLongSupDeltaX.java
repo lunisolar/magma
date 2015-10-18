@@ -57,29 +57,29 @@ public class LLongSupDeltaX<X extends Throwable> extends LLongSupMementoX<X> {
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LLongSupDeltaX(LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LLongSupDeltaX(LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LLongSupDeltaX(long initialValue, LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LLongSupDeltaX(long initialValue, LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LLongSupDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(long initialValue, LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(long initialValue, LLongSupplierX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LLongSupDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(LLongSupplierX<X> function) throws X {
+	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(LLongSupplierX<X> function) {
 		return deltaOf(function, LLongSupDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(long initialValue, LLongSupplierX<X> function) throws X {
+	public static <X extends Throwable> LLongSupDeltaX<X> deltaOf(long initialValue, LLongSupplierX<X> function) {
 		return deltaOf(initialValue, function, LLongSupDeltaX::mathDelta);
 	}
 

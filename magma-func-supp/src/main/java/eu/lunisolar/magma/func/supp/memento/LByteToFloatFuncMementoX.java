@@ -58,16 +58,16 @@ public class LByteToFloatFuncMementoX<X extends Throwable> implements LByteToFlo
 
 	private final LByteToFloatFunctionX<X> function;
 
-	protected LByteToFloatFuncMementoX(LByteToFloatFunctionX<X> function) throws X {
+	protected LByteToFloatFuncMementoX(LByteToFloatFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LByteToFloatFuncMementoX(float initialValue, LByteToFloatFunctionX<X> function) throws X {
+	protected LByteToFloatFuncMementoX(float initialValue, LByteToFloatFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LByteToFloatFuncMementoX<X> mementoOf(LByteToFloatFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LByteToFloatFuncMementoX<X> mementoOf(LByteToFloatFunctionX<X> supplier) {
 		return new LByteToFloatFuncMementoX<X>(supplier);
 	}
 

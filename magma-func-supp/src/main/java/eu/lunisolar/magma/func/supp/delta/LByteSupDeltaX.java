@@ -57,29 +57,29 @@ public class LByteSupDeltaX<X extends Throwable> extends LByteSupMementoX<X> {
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LByteSupDeltaX(LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LByteSupDeltaX(LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LByteSupDeltaX(byte initialValue, LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LByteSupDeltaX(byte initialValue, LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LByteSupDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(byte initialValue, LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(byte initialValue, LByteSupplierX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LByteSupDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(LByteSupplierX<X> function) throws X {
+	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(LByteSupplierX<X> function) {
 		return deltaOf(function, LByteSupDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(byte initialValue, LByteSupplierX<X> function) throws X {
+	public static <X extends Throwable> LByteSupDeltaX<X> deltaOf(byte initialValue, LByteSupplierX<X> function) {
 		return deltaOf(initialValue, function, LByteSupDeltaX::mathDelta);
 	}
 

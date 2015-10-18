@@ -58,16 +58,16 @@ public class LDoubleToFloatFuncMementoX<X extends Throwable> implements LDoubleT
 
 	private final LDoubleToFloatFunctionX<X> function;
 
-	protected LDoubleToFloatFuncMementoX(LDoubleToFloatFunctionX<X> function) throws X {
+	protected LDoubleToFloatFuncMementoX(LDoubleToFloatFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleToFloatFuncMementoX(float initialValue, LDoubleToFloatFunctionX<X> function) throws X {
+	protected LDoubleToFloatFuncMementoX(float initialValue, LDoubleToFloatFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleToFloatFuncMementoX<X> mementoOf(LDoubleToFloatFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleToFloatFuncMementoX<X> mementoOf(LDoubleToFloatFunctionX<X> supplier) {
 		return new LDoubleToFloatFuncMementoX<X>(supplier);
 	}
 

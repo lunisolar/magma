@@ -44,7 +44,7 @@ public class LToLongFuncDeltaXTest<T,X extends Throwable> {
 
     private final long initialLastValue = 0L;
 
-    private LToLongFuncDeltaX sut =  LToLongFuncDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LToLongFuncDeltaX<T,X> sut =  LToLongFuncDeltaX.<T,X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

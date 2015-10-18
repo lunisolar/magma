@@ -44,7 +44,7 @@ public class LToLongFuncDeltaTest<T> {
 
     private final long initialLastValue = 0L;
 
-    private LToLongFuncDelta sut =  LToLongFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LToLongFuncDelta<T> sut =  LToLongFuncDelta.<T>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

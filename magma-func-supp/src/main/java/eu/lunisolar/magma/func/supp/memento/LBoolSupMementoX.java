@@ -58,16 +58,16 @@ public class LBoolSupMementoX<X extends Throwable> implements LBoolSupplierX<X> 
 
 	private final LBoolSupplierX<X> function;
 
-	protected LBoolSupMementoX(LBoolSupplierX<X> function) throws X {
+	protected LBoolSupMementoX(LBoolSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolSupMementoX(boolean initialValue, LBoolSupplierX<X> function) throws X {
+	protected LBoolSupMementoX(boolean initialValue, LBoolSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolSupMementoX<X> mementoOf(LBoolSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolSupMementoX<X> mementoOf(LBoolSupplierX<X> supplier) {
 		return new LBoolSupMementoX<X>(supplier);
 	}
 

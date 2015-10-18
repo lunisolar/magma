@@ -58,16 +58,16 @@ public class LIntBinaryOpMementoX<X extends Throwable> implements LIntBinaryOper
 
 	private final LIntBinaryOperatorX<X> function;
 
-	protected LIntBinaryOpMementoX(LIntBinaryOperatorX<X> function) throws X {
+	protected LIntBinaryOpMementoX(LIntBinaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntBinaryOpMementoX(int initialValue, LIntBinaryOperatorX<X> function) throws X {
+	protected LIntBinaryOpMementoX(int initialValue, LIntBinaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntBinaryOpMementoX<X> mementoOf(LIntBinaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LIntBinaryOpMementoX<X> mementoOf(LIntBinaryOperatorX<X> supplier) {
 		return new LIntBinaryOpMementoX<X>(supplier);
 	}
 

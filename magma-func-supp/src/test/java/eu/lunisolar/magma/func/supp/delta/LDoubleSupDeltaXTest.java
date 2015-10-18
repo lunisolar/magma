@@ -44,7 +44,7 @@ public class LDoubleSupDeltaXTest<X extends Throwable> {
 
     private final double initialLastValue = 0d;
 
-    private LDoubleSupDeltaX sut =  LDoubleSupDeltaX.deltaOf(initialLastValue, () ->{
+    private LDoubleSupDeltaX<X> sut =  LDoubleSupDeltaX.<X>deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
     });

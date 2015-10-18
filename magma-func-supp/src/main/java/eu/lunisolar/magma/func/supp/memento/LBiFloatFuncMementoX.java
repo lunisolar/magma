@@ -58,16 +58,16 @@ public class LBiFloatFuncMementoX<R, X extends Throwable> implements LBiFloatFun
 
 	private final LBiFloatFunctionX<R, X> function;
 
-	protected LBiFloatFuncMementoX(LBiFloatFunctionX<R, X> function) throws X {
+	protected LBiFloatFuncMementoX(LBiFloatFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LBiFloatFuncMementoX(R initialValue, LBiFloatFunctionX<R, X> function) throws X {
+	protected LBiFloatFuncMementoX(R initialValue, LBiFloatFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LBiFloatFuncMementoX<R, X> mementoOf(LBiFloatFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LBiFloatFuncMementoX<R, X> mementoOf(LBiFloatFunctionX<R, X> supplier) {
 		return new LBiFloatFuncMementoX<R, X>(supplier);
 	}
 

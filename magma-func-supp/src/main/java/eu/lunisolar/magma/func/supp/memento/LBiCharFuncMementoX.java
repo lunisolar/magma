@@ -58,16 +58,16 @@ public class LBiCharFuncMementoX<R, X extends Throwable> implements LBiCharFunct
 
 	private final LBiCharFunctionX<R, X> function;
 
-	protected LBiCharFuncMementoX(LBiCharFunctionX<R, X> function) throws X {
+	protected LBiCharFuncMementoX(LBiCharFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LBiCharFuncMementoX(R initialValue, LBiCharFunctionX<R, X> function) throws X {
+	protected LBiCharFuncMementoX(R initialValue, LBiCharFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LBiCharFuncMementoX<R, X> mementoOf(LBiCharFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LBiCharFuncMementoX<R, X> mementoOf(LBiCharFunctionX<R, X> supplier) {
 		return new LBiCharFuncMementoX<R, X>(supplier);
 	}
 

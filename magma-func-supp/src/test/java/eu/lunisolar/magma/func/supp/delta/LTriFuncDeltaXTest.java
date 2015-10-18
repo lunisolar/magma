@@ -39,15 +39,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LTriFuncDeltaXTest<T1,T2,T3,R,X extends Throwable> {
 
     private int functionCallCount = 0;
-    private final Object  initialTestValue = (R)Integer.valueOf(1);
-    private Object  testValue = initialTestValue;
+    private final R initialTestValue = (R)Integer.valueOf(1);
+    private R testValue = initialTestValue;
 
-    private final Object  initialLastValue = (R)Integer.valueOf(0);
+    private final R initialLastValue = (R)Integer.valueOf(0);
 
-    private LTriFuncDeltaX sut =  LTriFuncDeltaX.deltaOf(initialLastValue, (a1,a2,a3) ->{
+    private LTriFuncDeltaX<T1,T2,T3,R,X> sut =  LTriFuncDeltaX.<T1,T2,T3,R,X>deltaOf(initialLastValue, (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (int)current-(int)last );
+    }, (last, current) -> (R) (Integer) ((Integer)current-(Integer)last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

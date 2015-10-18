@@ -57,21 +57,21 @@ public class LBiObjShortFuncDeltaX<T1, T2, R, X extends Throwable> extends LBiOb
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LBiObjShortFuncDeltaX(LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LBiObjShortFuncDeltaX(LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBiObjShortFuncDeltaX(R initialValue, LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LBiObjShortFuncDeltaX(R initialValue, LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T1, T2, R, X extends Throwable> LBiObjShortFuncDeltaX<T1, T2, R, X> deltaOf(LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <T1, T2, R, X extends Throwable> LBiObjShortFuncDeltaX<T1, T2, R, X> deltaOf(LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LBiObjShortFuncDeltaX<T1, T2, R, X>(function, deltaFunction);
 	}
 
-	public static <T1, T2, R, X extends Throwable> LBiObjShortFuncDeltaX<T1, T2, R, X> deltaOf(R initialValue, LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <T1, T2, R, X extends Throwable> LBiObjShortFuncDeltaX<T1, T2, R, X> deltaOf(R initialValue, LBiObjShortFunctionX<T1, T2, R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LBiObjShortFuncDeltaX<T1, T2, R, X>(initialValue, function, deltaFunction);
 	}
 

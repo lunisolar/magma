@@ -39,15 +39,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LBinaryOpDeltaTest<T> {
 
     private int functionCallCount = 0;
-    private final Object  initialTestValue = (T)Integer.valueOf(1);
-    private Object  testValue = initialTestValue;
+    private final T initialTestValue = (T)Integer.valueOf(1);
+    private T testValue = initialTestValue;
 
-    private final Object  initialLastValue = (T)Integer.valueOf(0);
+    private final T initialLastValue = (T)Integer.valueOf(0);
 
-    private LBinaryOpDelta sut =  LBinaryOpDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LBinaryOpDelta<T> sut =  LBinaryOpDelta.<T>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (int)current-(int)last );
+    }, (last, current) -> (T) (Integer) ((Integer)current-(Integer)last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

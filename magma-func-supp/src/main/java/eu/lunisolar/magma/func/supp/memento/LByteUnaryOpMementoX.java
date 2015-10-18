@@ -58,16 +58,16 @@ public class LByteUnaryOpMementoX<X extends Throwable> implements LByteUnaryOper
 
 	private final LByteUnaryOperatorX<X> function;
 
-	protected LByteUnaryOpMementoX(LByteUnaryOperatorX<X> function) throws X {
+	protected LByteUnaryOpMementoX(LByteUnaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LByteUnaryOpMementoX(byte initialValue, LByteUnaryOperatorX<X> function) throws X {
+	protected LByteUnaryOpMementoX(byte initialValue, LByteUnaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LByteUnaryOpMementoX<X> mementoOf(LByteUnaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LByteUnaryOpMementoX<X> mementoOf(LByteUnaryOperatorX<X> supplier) {
 		return new LByteUnaryOpMementoX<X>(supplier);
 	}
 

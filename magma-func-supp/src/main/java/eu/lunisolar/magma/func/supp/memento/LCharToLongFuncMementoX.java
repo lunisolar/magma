@@ -58,16 +58,16 @@ public class LCharToLongFuncMementoX<X extends Throwable> implements LCharToLong
 
 	private final LCharToLongFunctionX<X> function;
 
-	protected LCharToLongFuncMementoX(LCharToLongFunctionX<X> function) throws X {
+	protected LCharToLongFuncMementoX(LCharToLongFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LCharToLongFuncMementoX(long initialValue, LCharToLongFunctionX<X> function) throws X {
+	protected LCharToLongFuncMementoX(long initialValue, LCharToLongFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LCharToLongFuncMementoX<X> mementoOf(LCharToLongFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LCharToLongFuncMementoX<X> mementoOf(LCharToLongFunctionX<X> supplier) {
 		return new LCharToLongFuncMementoX<X>(supplier);
 	}
 

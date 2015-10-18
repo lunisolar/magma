@@ -57,29 +57,29 @@ public class LDoubleToByteFuncDeltaX<X extends Throwable> extends LDoubleToByteF
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LDoubleToByteFuncDeltaX(LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LDoubleToByteFuncDeltaX(LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleToByteFuncDeltaX(byte initialValue, LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LDoubleToByteFuncDeltaX(byte initialValue, LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LDoubleToByteFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(byte initialValue, LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(byte initialValue, LDoubleToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LDoubleToByteFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(LDoubleToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(LDoubleToByteFunctionX<X> function) {
 		return deltaOf(function, LDoubleToByteFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(byte initialValue, LDoubleToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToByteFuncDeltaX<X> deltaOf(byte initialValue, LDoubleToByteFunctionX<X> function) {
 		return deltaOf(initialValue, function, LDoubleToByteFuncDeltaX::mathDelta);
 	}
 

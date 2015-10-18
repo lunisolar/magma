@@ -57,29 +57,29 @@ public class LIntToByteFuncDeltaX<X extends Throwable> extends LIntToByteFuncMem
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LIntToByteFuncDeltaX(LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LIntToByteFuncDeltaX(LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntToByteFuncDeltaX(byte initialValue, LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LIntToByteFuncDeltaX(byte initialValue, LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LIntToByteFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(byte initialValue, LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(byte initialValue, LIntToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LIntToByteFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(LIntToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(LIntToByteFunctionX<X> function) {
 		return deltaOf(function, LIntToByteFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(byte initialValue, LIntToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToByteFuncDeltaX<X> deltaOf(byte initialValue, LIntToByteFunctionX<X> function) {
 		return deltaOf(initialValue, function, LIntToByteFuncDeltaX::mathDelta);
 	}
 

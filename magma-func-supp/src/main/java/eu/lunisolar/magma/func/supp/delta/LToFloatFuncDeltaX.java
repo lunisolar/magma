@@ -57,29 +57,29 @@ public class LToFloatFuncDeltaX<T, X extends Throwable> extends LToFloatFuncMeme
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LToFloatFuncDeltaX(LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LToFloatFuncDeltaX(LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToFloatFuncDeltaX(float initialValue, LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LToFloatFuncDeltaX(float initialValue, LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) {
 		return new LToFloatFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(float initialValue, LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(float initialValue, LToFloatFunctionX<T, X> function, LFloatBinaryOperator deltaFunction) {
 		return new LToFloatFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(LToFloatFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(LToFloatFunctionX<T, X> function) {
 		return deltaOf(function, LToFloatFuncDeltaX::mathDelta);
 	}
 
-	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(float initialValue, LToFloatFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToFloatFuncDeltaX<T, X> deltaOf(float initialValue, LToFloatFunctionX<T, X> function) {
 		return deltaOf(initialValue, function, LToFloatFuncDeltaX::mathDelta);
 	}
 

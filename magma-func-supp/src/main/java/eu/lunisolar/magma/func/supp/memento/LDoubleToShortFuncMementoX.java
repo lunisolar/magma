@@ -58,16 +58,16 @@ public class LDoubleToShortFuncMementoX<X extends Throwable> implements LDoubleT
 
 	private final LDoubleToShortFunctionX<X> function;
 
-	protected LDoubleToShortFuncMementoX(LDoubleToShortFunctionX<X> function) throws X {
+	protected LDoubleToShortFuncMementoX(LDoubleToShortFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleToShortFuncMementoX(short initialValue, LDoubleToShortFunctionX<X> function) throws X {
+	protected LDoubleToShortFuncMementoX(short initialValue, LDoubleToShortFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleToShortFuncMementoX<X> mementoOf(LDoubleToShortFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleToShortFuncMementoX<X> mementoOf(LDoubleToShortFunctionX<X> supplier) {
 		return new LDoubleToShortFuncMementoX<X>(supplier);
 	}
 

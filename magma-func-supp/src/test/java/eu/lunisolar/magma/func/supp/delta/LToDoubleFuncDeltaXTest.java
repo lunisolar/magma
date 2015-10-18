@@ -44,7 +44,7 @@ public class LToDoubleFuncDeltaXTest<T,X extends Throwable> {
 
     private final double initialLastValue = 0d;
 
-    private LToDoubleFuncDeltaX sut =  LToDoubleFuncDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LToDoubleFuncDeltaX<T,X> sut =  LToDoubleFuncDeltaX.<T,X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

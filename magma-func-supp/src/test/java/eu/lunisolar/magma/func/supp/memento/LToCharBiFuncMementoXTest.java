@@ -43,7 +43,7 @@ public class LToCharBiFuncMementoXTest<T1,T2,X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LToCharBiFuncMementoX sut =  LToCharBiFuncMementoX.mementoOf( (a1,a2) ->{
+    private LToCharBiFuncMementoX<T1,T2,X> sut =  LToCharBiFuncMementoX.<T1,T2,X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

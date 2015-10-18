@@ -58,16 +58,16 @@ public class LLogicalBinaryOpMementoX<X extends Throwable> implements LLogicalBi
 
 	private final LLogicalBinaryOperatorX<X> function;
 
-	protected LLogicalBinaryOpMementoX(LLogicalBinaryOperatorX<X> function) throws X {
+	protected LLogicalBinaryOpMementoX(LLogicalBinaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LLogicalBinaryOpMementoX(boolean initialValue, LLogicalBinaryOperatorX<X> function) throws X {
+	protected LLogicalBinaryOpMementoX(boolean initialValue, LLogicalBinaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLogicalBinaryOpMementoX<X> mementoOf(LLogicalBinaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LLogicalBinaryOpMementoX<X> mementoOf(LLogicalBinaryOperatorX<X> supplier) {
 		return new LLogicalBinaryOpMementoX<X>(supplier);
 	}
 

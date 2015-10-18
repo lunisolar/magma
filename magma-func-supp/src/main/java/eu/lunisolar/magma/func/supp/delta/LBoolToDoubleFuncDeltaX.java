@@ -57,29 +57,29 @@ public class LBoolToDoubleFuncDeltaX<X extends Throwable> extends LBoolToDoubleF
 
 	private final LDoubleBinaryOperator deltaFunction;
 
-	protected LBoolToDoubleFuncDeltaX(LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LBoolToDoubleFuncDeltaX(LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBoolToDoubleFuncDeltaX(double initialValue, LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LBoolToDoubleFuncDeltaX(double initialValue, LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LBoolToDoubleFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(double initialValue, LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(double initialValue, LBoolToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LBoolToDoubleFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(LBoolToDoubleFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(LBoolToDoubleFunctionX<X> function) {
 		return deltaOf(function, LBoolToDoubleFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(double initialValue, LBoolToDoubleFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToDoubleFuncDeltaX<X> deltaOf(double initialValue, LBoolToDoubleFunctionX<X> function) {
 		return deltaOf(initialValue, function, LBoolToDoubleFuncDeltaX::mathDelta);
 	}
 

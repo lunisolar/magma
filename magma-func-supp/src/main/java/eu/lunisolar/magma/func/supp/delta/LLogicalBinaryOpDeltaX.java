@@ -57,29 +57,29 @@ public class LLogicalBinaryOpDeltaX<X extends Throwable> extends LLogicalBinaryO
 
 	private final LLogicalBinaryOperator deltaFunction;
 
-	protected LLogicalBinaryOpDeltaX(LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	protected LLogicalBinaryOpDeltaX(LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LLogicalBinaryOpDeltaX(boolean initialValue, LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	protected LLogicalBinaryOpDeltaX(boolean initialValue, LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		return new LLogicalBinaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(boolean initialValue, LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(boolean initialValue, LLogicalBinaryOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		return new LLogicalBinaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(LLogicalBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(LLogicalBinaryOperatorX<X> function) {
 		return deltaOf(function, (last, current) -> current != last);
 	}
 
-	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(boolean initialValue, LLogicalBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLogicalBinaryOpDeltaX<X> deltaOf(boolean initialValue, LLogicalBinaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, (last, current) -> current != last);
 	}
 

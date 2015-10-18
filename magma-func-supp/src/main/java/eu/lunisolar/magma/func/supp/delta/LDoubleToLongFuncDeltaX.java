@@ -57,29 +57,29 @@ public class LDoubleToLongFuncDeltaX<X extends Throwable> extends LDoubleToLongF
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LDoubleToLongFuncDeltaX(LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LDoubleToLongFuncDeltaX(LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleToLongFuncDeltaX(long initialValue, LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LDoubleToLongFuncDeltaX(long initialValue, LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LDoubleToLongFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(long initialValue, LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(long initialValue, LDoubleToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LDoubleToLongFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(LDoubleToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(LDoubleToLongFunctionX<X> function) {
 		return deltaOf(function, LDoubleToLongFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(long initialValue, LDoubleToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToLongFuncDeltaX<X> deltaOf(long initialValue, LDoubleToLongFunctionX<X> function) {
 		return deltaOf(initialValue, function, LDoubleToLongFuncDeltaX::mathDelta);
 	}
 

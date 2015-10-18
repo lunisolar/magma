@@ -58,16 +58,16 @@ public class LShortToCharFuncMementoX<X extends Throwable> implements LShortToCh
 
 	private final LShortToCharFunctionX<X> function;
 
-	protected LShortToCharFuncMementoX(LShortToCharFunctionX<X> function) throws X {
+	protected LShortToCharFuncMementoX(LShortToCharFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LShortToCharFuncMementoX(char initialValue, LShortToCharFunctionX<X> function) throws X {
+	protected LShortToCharFuncMementoX(char initialValue, LShortToCharFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LShortToCharFuncMementoX<X> mementoOf(LShortToCharFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LShortToCharFuncMementoX<X> mementoOf(LShortToCharFunctionX<X> supplier) {
 		return new LShortToCharFuncMementoX<X>(supplier);
 	}
 

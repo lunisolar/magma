@@ -58,16 +58,16 @@ public class LTriBoolFuncMementoX<R, X extends Throwable> implements LTriBoolFun
 
 	private final LTriBoolFunctionX<R, X> function;
 
-	protected LTriBoolFuncMementoX(LTriBoolFunctionX<R, X> function) throws X {
+	protected LTriBoolFuncMementoX(LTriBoolFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LTriBoolFuncMementoX(R initialValue, LTriBoolFunctionX<R, X> function) throws X {
+	protected LTriBoolFuncMementoX(R initialValue, LTriBoolFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LTriBoolFuncMementoX<R, X> mementoOf(LTriBoolFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LTriBoolFuncMementoX<R, X> mementoOf(LTriBoolFunctionX<R, X> supplier) {
 		return new LTriBoolFuncMementoX<R, X>(supplier);
 	}
 

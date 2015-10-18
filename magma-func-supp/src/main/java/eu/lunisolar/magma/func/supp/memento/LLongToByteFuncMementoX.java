@@ -58,16 +58,16 @@ public class LLongToByteFuncMementoX<X extends Throwable> implements LLongToByte
 
 	private final LLongToByteFunctionX<X> function;
 
-	protected LLongToByteFuncMementoX(LLongToByteFunctionX<X> function) throws X {
+	protected LLongToByteFuncMementoX(LLongToByteFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LLongToByteFuncMementoX(byte initialValue, LLongToByteFunctionX<X> function) throws X {
+	protected LLongToByteFuncMementoX(byte initialValue, LLongToByteFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLongToByteFuncMementoX<X> mementoOf(LLongToByteFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LLongToByteFuncMementoX<X> mementoOf(LLongToByteFunctionX<X> supplier) {
 		return new LLongToByteFuncMementoX<X>(supplier);
 	}
 

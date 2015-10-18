@@ -44,7 +44,7 @@ public class LDoubleUnaryOpDeltaXTest<X extends Throwable> {
 
     private final double initialLastValue = 0d;
 
-    private LDoubleUnaryOpDeltaX sut =  LDoubleUnaryOpDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LDoubleUnaryOpDeltaX<X> sut =  LDoubleUnaryOpDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

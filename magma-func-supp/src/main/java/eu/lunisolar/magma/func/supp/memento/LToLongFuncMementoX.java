@@ -58,16 +58,16 @@ public class LToLongFuncMementoX<T, X extends Throwable> implements LToLongFunct
 
 	private final LToLongFunctionX<T, X> function;
 
-	protected LToLongFuncMementoX(LToLongFunctionX<T, X> function) throws X {
+	protected LToLongFuncMementoX(LToLongFunctionX<T, X> function) {
 		this.function = function;
 	}
 
-	protected LToLongFuncMementoX(long initialValue, LToLongFunctionX<T, X> function) throws X {
+	protected LToLongFuncMementoX(long initialValue, LToLongFunctionX<T, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, X extends Throwable> LToLongFuncMementoX<T, X> mementoOf(LToLongFunctionX<T, X> supplier) throws X {
+	public static <T, X extends Throwable> LToLongFuncMementoX<T, X> mementoOf(LToLongFunctionX<T, X> supplier) {
 		return new LToLongFuncMementoX<T, X>(supplier);
 	}
 

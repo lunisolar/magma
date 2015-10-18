@@ -58,16 +58,16 @@ public class LCharToIntFuncMementoX<X extends Throwable> implements LCharToIntFu
 
 	private final LCharToIntFunctionX<X> function;
 
-	protected LCharToIntFuncMementoX(LCharToIntFunctionX<X> function) throws X {
+	protected LCharToIntFuncMementoX(LCharToIntFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LCharToIntFuncMementoX(int initialValue, LCharToIntFunctionX<X> function) throws X {
+	protected LCharToIntFuncMementoX(int initialValue, LCharToIntFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LCharToIntFuncMementoX<X> mementoOf(LCharToIntFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LCharToIntFuncMementoX<X> mementoOf(LCharToIntFunctionX<X> supplier) {
 		return new LCharToIntFuncMementoX<X>(supplier);
 	}
 

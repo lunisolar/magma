@@ -58,16 +58,16 @@ public class LBoolToFloatFuncMementoX<X extends Throwable> implements LBoolToFlo
 
 	private final LBoolToFloatFunctionX<X> function;
 
-	protected LBoolToFloatFuncMementoX(LBoolToFloatFunctionX<X> function) throws X {
+	protected LBoolToFloatFuncMementoX(LBoolToFloatFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolToFloatFuncMementoX(float initialValue, LBoolToFloatFunctionX<X> function) throws X {
+	protected LBoolToFloatFuncMementoX(float initialValue, LBoolToFloatFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolToFloatFuncMementoX<X> mementoOf(LBoolToFloatFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolToFloatFuncMementoX<X> mementoOf(LBoolToFloatFunctionX<X> supplier) {
 		return new LBoolToFloatFuncMementoX<X>(supplier);
 	}
 

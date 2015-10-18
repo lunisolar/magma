@@ -43,7 +43,7 @@ public class LDoubleToCharFuncMementoXTest<X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LDoubleToCharFuncMementoX sut =  LDoubleToCharFuncMementoX.mementoOf( (a1) ->{
+    private LDoubleToCharFuncMementoX<X> sut =  LDoubleToCharFuncMementoX.<X>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

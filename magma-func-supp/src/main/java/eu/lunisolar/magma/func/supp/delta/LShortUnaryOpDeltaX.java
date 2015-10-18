@@ -57,29 +57,29 @@ public class LShortUnaryOpDeltaX<X extends Throwable> extends LShortUnaryOpMemen
 
 	private final LShortBinaryOperator deltaFunction;
 
-	protected LShortUnaryOpDeltaX(LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LShortUnaryOpDeltaX(LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LShortUnaryOpDeltaX(short initialValue, LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LShortUnaryOpDeltaX(short initialValue, LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LShortUnaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(short initialValue, LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(short initialValue, LShortUnaryOperatorX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LShortUnaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(LShortUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(LShortUnaryOperatorX<X> function) {
 		return deltaOf(function, LShortUnaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(short initialValue, LShortUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LShortUnaryOpDeltaX<X> deltaOf(short initialValue, LShortUnaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LShortUnaryOpDeltaX::mathDelta);
 	}
 

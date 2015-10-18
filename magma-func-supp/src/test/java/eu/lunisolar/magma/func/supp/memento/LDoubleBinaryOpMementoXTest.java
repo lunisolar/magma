@@ -43,7 +43,7 @@ public class LDoubleBinaryOpMementoXTest<X extends Throwable> {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDoubleBinaryOpMementoX sut =  LDoubleBinaryOpMementoX.mementoOf( (a1,a2) ->{
+    private LDoubleBinaryOpMementoX<X> sut =  LDoubleBinaryOpMementoX.<X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

@@ -58,16 +58,16 @@ public class LToByteBiFuncMementoX<T1, T2, X extends Throwable> implements LToBy
 
 	private final LToByteBiFunctionX<T1, T2, X> function;
 
-	protected LToByteBiFuncMementoX(LToByteBiFunctionX<T1, T2, X> function) throws X {
+	protected LToByteBiFuncMementoX(LToByteBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 	}
 
-	protected LToByteBiFuncMementoX(byte initialValue, LToByteBiFunctionX<T1, T2, X> function) throws X {
+	protected LToByteBiFuncMementoX(byte initialValue, LToByteBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, X extends Throwable> LToByteBiFuncMementoX<T1, T2, X> mementoOf(LToByteBiFunctionX<T1, T2, X> supplier) throws X {
+	public static <T1, T2, X extends Throwable> LToByteBiFuncMementoX<T1, T2, X> mementoOf(LToByteBiFunctionX<T1, T2, X> supplier) {
 		return new LToByteBiFuncMementoX<T1, T2, X>(supplier);
 	}
 

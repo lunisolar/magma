@@ -58,16 +58,16 @@ public class LIntToLongFuncMementoX<X extends Throwable> implements LIntToLongFu
 
 	private final LIntToLongFunctionX<X> function;
 
-	protected LIntToLongFuncMementoX(LIntToLongFunctionX<X> function) throws X {
+	protected LIntToLongFuncMementoX(LIntToLongFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LIntToLongFuncMementoX(long initialValue, LIntToLongFunctionX<X> function) throws X {
+	protected LIntToLongFuncMementoX(long initialValue, LIntToLongFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LIntToLongFuncMementoX<X> mementoOf(LIntToLongFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LIntToLongFuncMementoX<X> mementoOf(LIntToLongFunctionX<X> supplier) {
 		return new LIntToLongFuncMementoX<X>(supplier);
 	}
 

@@ -58,16 +58,16 @@ public class LUnaryOpMementoX<T, X extends Throwable> implements LUnaryOperatorX
 
 	private final LUnaryOperatorX<T, X> function;
 
-	protected LUnaryOpMementoX(LUnaryOperatorX<T, X> function) throws X {
+	protected LUnaryOpMementoX(LUnaryOperatorX<T, X> function) {
 		this.function = function;
 	}
 
-	protected LUnaryOpMementoX(T initialValue, LUnaryOperatorX<T, X> function) throws X {
+	protected LUnaryOpMementoX(T initialValue, LUnaryOperatorX<T, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, X extends Throwable> LUnaryOpMementoX<T, X> mementoOf(LUnaryOperatorX<T, X> supplier) throws X {
+	public static <T, X extends Throwable> LUnaryOpMementoX<T, X> mementoOf(LUnaryOperatorX<T, X> supplier) {
 		return new LUnaryOpMementoX<T, X>(supplier);
 	}
 

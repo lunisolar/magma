@@ -57,29 +57,29 @@ public class LFloatToLongFuncDeltaX<X extends Throwable> extends LFloatToLongFun
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LFloatToLongFuncDeltaX(LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LFloatToLongFuncDeltaX(LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LFloatToLongFuncDeltaX(long initialValue, LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LFloatToLongFuncDeltaX(long initialValue, LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LFloatToLongFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(long initialValue, LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(long initialValue, LFloatToLongFunctionX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LFloatToLongFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(LFloatToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(LFloatToLongFunctionX<X> function) {
 		return deltaOf(function, LFloatToLongFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(long initialValue, LFloatToLongFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToLongFuncDeltaX<X> deltaOf(long initialValue, LFloatToLongFunctionX<X> function) {
 		return deltaOf(initialValue, function, LFloatToLongFuncDeltaX::mathDelta);
 	}
 

@@ -58,16 +58,16 @@ public class LObjDoubleFuncMementoX<T, R, X extends Throwable> implements LObjDo
 
 	private final LObjDoubleFunctionX<T, R, X> function;
 
-	protected LObjDoubleFuncMementoX(LObjDoubleFunctionX<T, R, X> function) throws X {
+	protected LObjDoubleFuncMementoX(LObjDoubleFunctionX<T, R, X> function) {
 		this.function = function;
 	}
 
-	protected LObjDoubleFuncMementoX(R initialValue, LObjDoubleFunctionX<T, R, X> function) throws X {
+	protected LObjDoubleFuncMementoX(R initialValue, LObjDoubleFunctionX<T, R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, R, X extends Throwable> LObjDoubleFuncMementoX<T, R, X> mementoOf(LObjDoubleFunctionX<T, R, X> supplier) throws X {
+	public static <T, R, X extends Throwable> LObjDoubleFuncMementoX<T, R, X> mementoOf(LObjDoubleFunctionX<T, R, X> supplier) {
 		return new LObjDoubleFuncMementoX<T, R, X>(supplier);
 	}
 

@@ -58,16 +58,16 @@ public class LDoubleSupMementoX<X extends Throwable> implements LDoubleSupplierX
 
 	private final LDoubleSupplierX<X> function;
 
-	protected LDoubleSupMementoX(LDoubleSupplierX<X> function) throws X {
+	protected LDoubleSupMementoX(LDoubleSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleSupMementoX(double initialValue, LDoubleSupplierX<X> function) throws X {
+	protected LDoubleSupMementoX(double initialValue, LDoubleSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleSupMementoX<X> mementoOf(LDoubleSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleSupMementoX<X> mementoOf(LDoubleSupplierX<X> supplier) {
 		return new LDoubleSupMementoX<X>(supplier);
 	}
 

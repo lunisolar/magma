@@ -58,16 +58,16 @@ public class LObjByteFuncMementoX<T, R, X extends Throwable> implements LObjByte
 
 	private final LObjByteFunctionX<T, R, X> function;
 
-	protected LObjByteFuncMementoX(LObjByteFunctionX<T, R, X> function) throws X {
+	protected LObjByteFuncMementoX(LObjByteFunctionX<T, R, X> function) {
 		this.function = function;
 	}
 
-	protected LObjByteFuncMementoX(R initialValue, LObjByteFunctionX<T, R, X> function) throws X {
+	protected LObjByteFuncMementoX(R initialValue, LObjByteFunctionX<T, R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, R, X extends Throwable> LObjByteFuncMementoX<T, R, X> mementoOf(LObjByteFunctionX<T, R, X> supplier) throws X {
+	public static <T, R, X extends Throwable> LObjByteFuncMementoX<T, R, X> mementoOf(LObjByteFunctionX<T, R, X> supplier) {
 		return new LObjByteFuncMementoX<T, R, X>(supplier);
 	}
 

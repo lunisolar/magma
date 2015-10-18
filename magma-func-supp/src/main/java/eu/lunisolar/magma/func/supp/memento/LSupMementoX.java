@@ -58,16 +58,16 @@ public class LSupMementoX<R, X extends Throwable> implements LSupplierX<R, X> {
 
 	private final LSupplierX<R, X> function;
 
-	protected LSupMementoX(LSupplierX<R, X> function) throws X {
+	protected LSupMementoX(LSupplierX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LSupMementoX(R initialValue, LSupplierX<R, X> function) throws X {
+	protected LSupMementoX(R initialValue, LSupplierX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LSupMementoX<R, X> mementoOf(LSupplierX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LSupMementoX<R, X> mementoOf(LSupplierX<R, X> supplier) {
 		return new LSupMementoX<R, X>(supplier);
 	}
 

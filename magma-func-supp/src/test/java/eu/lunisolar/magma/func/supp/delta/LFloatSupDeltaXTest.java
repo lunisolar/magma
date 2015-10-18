@@ -44,7 +44,7 @@ public class LFloatSupDeltaXTest<X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LFloatSupDeltaX sut =  LFloatSupDeltaX.deltaOf(initialLastValue, () ->{
+    private LFloatSupDeltaX<X> sut =  LFloatSupDeltaX.<X>deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
     });

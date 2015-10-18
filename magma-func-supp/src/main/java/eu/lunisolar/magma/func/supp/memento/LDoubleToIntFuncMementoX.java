@@ -58,16 +58,16 @@ public class LDoubleToIntFuncMementoX<X extends Throwable> implements LDoubleToI
 
 	private final LDoubleToIntFunctionX<X> function;
 
-	protected LDoubleToIntFuncMementoX(LDoubleToIntFunctionX<X> function) throws X {
+	protected LDoubleToIntFuncMementoX(LDoubleToIntFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleToIntFuncMementoX(int initialValue, LDoubleToIntFunctionX<X> function) throws X {
+	protected LDoubleToIntFuncMementoX(int initialValue, LDoubleToIntFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleToIntFuncMementoX<X> mementoOf(LDoubleToIntFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleToIntFuncMementoX<X> mementoOf(LDoubleToIntFunctionX<X> supplier) {
 		return new LDoubleToIntFuncMementoX<X>(supplier);
 	}
 

@@ -58,16 +58,16 @@ public class LLogicalOpMementoX<X extends Throwable> implements LLogicalOperator
 
 	private final LLogicalOperatorX<X> function;
 
-	protected LLogicalOpMementoX(LLogicalOperatorX<X> function) throws X {
+	protected LLogicalOpMementoX(LLogicalOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LLogicalOpMementoX(boolean initialValue, LLogicalOperatorX<X> function) throws X {
+	protected LLogicalOpMementoX(boolean initialValue, LLogicalOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLogicalOpMementoX<X> mementoOf(LLogicalOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LLogicalOpMementoX<X> mementoOf(LLogicalOperatorX<X> supplier) {
 		return new LLogicalOpMementoX<X>(supplier);
 	}
 

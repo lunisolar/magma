@@ -57,29 +57,29 @@ public class LIntBinaryOpDeltaX<X extends Throwable> extends LIntBinaryOpMemento
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LIntBinaryOpDeltaX(LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LIntBinaryOpDeltaX(LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntBinaryOpDeltaX(int initialValue, LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LIntBinaryOpDeltaX(int initialValue, LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LIntBinaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(int initialValue, LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(int initialValue, LIntBinaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LIntBinaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(LIntBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(LIntBinaryOperatorX<X> function) {
 		return deltaOf(function, LIntBinaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(int initialValue, LIntBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LIntBinaryOpDeltaX<X> deltaOf(int initialValue, LIntBinaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LIntBinaryOpDeltaX::mathDelta);
 	}
 

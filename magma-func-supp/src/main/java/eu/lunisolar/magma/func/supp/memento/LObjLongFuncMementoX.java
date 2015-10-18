@@ -58,16 +58,16 @@ public class LObjLongFuncMementoX<T, R, X extends Throwable> implements LObjLong
 
 	private final LObjLongFunctionX<T, R, X> function;
 
-	protected LObjLongFuncMementoX(LObjLongFunctionX<T, R, X> function) throws X {
+	protected LObjLongFuncMementoX(LObjLongFunctionX<T, R, X> function) {
 		this.function = function;
 	}
 
-	protected LObjLongFuncMementoX(R initialValue, LObjLongFunctionX<T, R, X> function) throws X {
+	protected LObjLongFuncMementoX(R initialValue, LObjLongFunctionX<T, R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, R, X extends Throwable> LObjLongFuncMementoX<T, R, X> mementoOf(LObjLongFunctionX<T, R, X> supplier) throws X {
+	public static <T, R, X extends Throwable> LObjLongFuncMementoX<T, R, X> mementoOf(LObjLongFunctionX<T, R, X> supplier) {
 		return new LObjLongFuncMementoX<T, R, X>(supplier);
 	}
 

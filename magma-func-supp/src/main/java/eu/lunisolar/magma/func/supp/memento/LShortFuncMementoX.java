@@ -58,16 +58,16 @@ public class LShortFuncMementoX<R, X extends Throwable> implements LShortFunctio
 
 	private final LShortFunctionX<R, X> function;
 
-	protected LShortFuncMementoX(LShortFunctionX<R, X> function) throws X {
+	protected LShortFuncMementoX(LShortFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LShortFuncMementoX(R initialValue, LShortFunctionX<R, X> function) throws X {
+	protected LShortFuncMementoX(R initialValue, LShortFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LShortFuncMementoX<R, X> mementoOf(LShortFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LShortFuncMementoX<R, X> mementoOf(LShortFunctionX<R, X> supplier) {
 		return new LShortFuncMementoX<R, X>(supplier);
 	}
 

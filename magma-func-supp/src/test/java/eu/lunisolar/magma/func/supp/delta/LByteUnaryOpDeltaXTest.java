@@ -44,7 +44,7 @@ public class LByteUnaryOpDeltaXTest<X extends Throwable> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LByteUnaryOpDeltaX sut =  LByteUnaryOpDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LByteUnaryOpDeltaX<X> sut =  LByteUnaryOpDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

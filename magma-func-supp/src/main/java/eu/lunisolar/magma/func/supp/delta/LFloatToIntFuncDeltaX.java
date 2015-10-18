@@ -57,29 +57,29 @@ public class LFloatToIntFuncDeltaX<X extends Throwable> extends LFloatToIntFuncM
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LFloatToIntFuncDeltaX(LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LFloatToIntFuncDeltaX(LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LFloatToIntFuncDeltaX(int initialValue, LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LFloatToIntFuncDeltaX(int initialValue, LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LFloatToIntFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(int initialValue, LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(int initialValue, LFloatToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LFloatToIntFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(LFloatToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(LFloatToIntFunctionX<X> function) {
 		return deltaOf(function, LFloatToIntFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(int initialValue, LFloatToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToIntFuncDeltaX<X> deltaOf(int initialValue, LFloatToIntFunctionX<X> function) {
 		return deltaOf(initialValue, function, LFloatToIntFuncDeltaX::mathDelta);
 	}
 

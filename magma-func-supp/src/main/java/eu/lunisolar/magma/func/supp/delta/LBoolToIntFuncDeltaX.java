@@ -57,29 +57,29 @@ public class LBoolToIntFuncDeltaX<X extends Throwable> extends LBoolToIntFuncMem
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LBoolToIntFuncDeltaX(LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LBoolToIntFuncDeltaX(LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LBoolToIntFuncDeltaX(int initialValue, LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LBoolToIntFuncDeltaX(int initialValue, LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LBoolToIntFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(int initialValue, LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(int initialValue, LBoolToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LBoolToIntFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(LBoolToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(LBoolToIntFunctionX<X> function) {
 		return deltaOf(function, LBoolToIntFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(int initialValue, LBoolToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LBoolToIntFuncDeltaX<X> deltaOf(int initialValue, LBoolToIntFunctionX<X> function) {
 		return deltaOf(initialValue, function, LBoolToIntFuncDeltaX::mathDelta);
 	}
 

@@ -43,7 +43,7 @@ public class LDoubleToIntFuncMementoXTest<X extends Throwable> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LDoubleToIntFuncMementoX sut =  LDoubleToIntFuncMementoX.mementoOf( (a1) ->{
+    private LDoubleToIntFuncMementoX<X> sut =  LDoubleToIntFuncMementoX.<X>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

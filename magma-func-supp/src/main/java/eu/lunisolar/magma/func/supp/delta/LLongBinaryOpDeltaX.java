@@ -57,29 +57,29 @@ public class LLongBinaryOpDeltaX<X extends Throwable> extends LLongBinaryOpMemen
 
 	private final LLongBinaryOperator deltaFunction;
 
-	protected LLongBinaryOpDeltaX(LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LLongBinaryOpDeltaX(LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LLongBinaryOpDeltaX(long initialValue, LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	protected LLongBinaryOpDeltaX(long initialValue, LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LLongBinaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(long initialValue, LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(long initialValue, LLongBinaryOperatorX<X> function, LLongBinaryOperator deltaFunction) {
 		return new LLongBinaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(LLongBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(LLongBinaryOperatorX<X> function) {
 		return deltaOf(function, LLongBinaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(long initialValue, LLongBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLongBinaryOpDeltaX<X> deltaOf(long initialValue, LLongBinaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LLongBinaryOpDeltaX::mathDelta);
 	}
 

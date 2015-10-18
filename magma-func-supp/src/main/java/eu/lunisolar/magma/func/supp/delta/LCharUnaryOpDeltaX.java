@@ -57,29 +57,29 @@ public class LCharUnaryOpDeltaX<X extends Throwable> extends LCharUnaryOpMemento
 
 	private final LCharBinaryOperator deltaFunction;
 
-	protected LCharUnaryOpDeltaX(LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LCharUnaryOpDeltaX(LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LCharUnaryOpDeltaX(char initialValue, LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LCharUnaryOpDeltaX(char initialValue, LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LCharUnaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(char initialValue, LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(char initialValue, LCharUnaryOperatorX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LCharUnaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(LCharUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(LCharUnaryOperatorX<X> function) {
 		return deltaOf(function, LCharUnaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(char initialValue, LCharUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LCharUnaryOpDeltaX<X> deltaOf(char initialValue, LCharUnaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LCharUnaryOpDeltaX::mathDelta);
 	}
 

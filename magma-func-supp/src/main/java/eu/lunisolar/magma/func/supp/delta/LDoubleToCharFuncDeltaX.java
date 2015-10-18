@@ -57,29 +57,29 @@ public class LDoubleToCharFuncDeltaX<X extends Throwable> extends LDoubleToCharF
 
 	private final LCharBinaryOperator deltaFunction;
 
-	protected LDoubleToCharFuncDeltaX(LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LDoubleToCharFuncDeltaX(LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleToCharFuncDeltaX(char initialValue, LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LDoubleToCharFuncDeltaX(char initialValue, LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LDoubleToCharFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(char initialValue, LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(char initialValue, LDoubleToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LDoubleToCharFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(LDoubleToCharFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(LDoubleToCharFunctionX<X> function) {
 		return deltaOf(function, LDoubleToCharFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(char initialValue, LDoubleToCharFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToCharFuncDeltaX<X> deltaOf(char initialValue, LDoubleToCharFunctionX<X> function) {
 		return deltaOf(initialValue, function, LDoubleToCharFuncDeltaX::mathDelta);
 	}
 

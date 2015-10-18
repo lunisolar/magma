@@ -57,29 +57,29 @@ public class LLogicalOpDeltaX<X extends Throwable> extends LLogicalOpMementoX<X>
 
 	private final LLogicalBinaryOperator deltaFunction;
 
-	protected LLogicalOpDeltaX(LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	protected LLogicalOpDeltaX(LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LLogicalOpDeltaX(boolean initialValue, LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	protected LLogicalOpDeltaX(boolean initialValue, LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		return new LLogicalOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(boolean initialValue, LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(boolean initialValue, LLogicalOperatorX<X> function, LLogicalBinaryOperator deltaFunction) {
 		return new LLogicalOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(LLogicalOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(LLogicalOperatorX<X> function) {
 		return deltaOf(function, (last, current) -> current != last);
 	}
 
-	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(boolean initialValue, LLogicalOperatorX<X> function) throws X {
+	public static <X extends Throwable> LLogicalOpDeltaX<X> deltaOf(boolean initialValue, LLogicalOperatorX<X> function) {
 		return deltaOf(initialValue, function, (last, current) -> current != last);
 	}
 

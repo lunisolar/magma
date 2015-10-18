@@ -58,16 +58,16 @@ public class LLongSupMementoX<X extends Throwable> implements LLongSupplierX<X> 
 
 	private final LLongSupplierX<X> function;
 
-	protected LLongSupMementoX(LLongSupplierX<X> function) throws X {
+	protected LLongSupMementoX(LLongSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LLongSupMementoX(long initialValue, LLongSupplierX<X> function) throws X {
+	protected LLongSupMementoX(long initialValue, LLongSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLongSupMementoX<X> mementoOf(LLongSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LLongSupMementoX<X> mementoOf(LLongSupplierX<X> supplier) {
 		return new LLongSupMementoX<X>(supplier);
 	}
 

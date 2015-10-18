@@ -57,29 +57,29 @@ public class LCharToIntFuncDeltaX<X extends Throwable> extends LCharToIntFuncMem
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LCharToIntFuncDeltaX(LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LCharToIntFuncDeltaX(LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LCharToIntFuncDeltaX(int initialValue, LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LCharToIntFuncDeltaX(int initialValue, LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LCharToIntFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(int initialValue, LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(int initialValue, LCharToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LCharToIntFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(LCharToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(LCharToIntFunctionX<X> function) {
 		return deltaOf(function, LCharToIntFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(int initialValue, LCharToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LCharToIntFuncDeltaX<X> deltaOf(int initialValue, LCharToIntFunctionX<X> function) {
 		return deltaOf(initialValue, function, LCharToIntFuncDeltaX::mathDelta);
 	}
 

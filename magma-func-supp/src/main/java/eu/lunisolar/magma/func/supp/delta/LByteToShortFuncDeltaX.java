@@ -57,29 +57,29 @@ public class LByteToShortFuncDeltaX<X extends Throwable> extends LByteToShortFun
 
 	private final LShortBinaryOperator deltaFunction;
 
-	protected LByteToShortFuncDeltaX(LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LByteToShortFuncDeltaX(LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LByteToShortFuncDeltaX(short initialValue, LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LByteToShortFuncDeltaX(short initialValue, LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LByteToShortFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(short initialValue, LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(short initialValue, LByteToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LByteToShortFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(LByteToShortFunctionX<X> function) throws X {
+	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(LByteToShortFunctionX<X> function) {
 		return deltaOf(function, LByteToShortFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(short initialValue, LByteToShortFunctionX<X> function) throws X {
+	public static <X extends Throwable> LByteToShortFuncDeltaX<X> deltaOf(short initialValue, LByteToShortFunctionX<X> function) {
 		return deltaOf(initialValue, function, LByteToShortFuncDeltaX::mathDelta);
 	}
 

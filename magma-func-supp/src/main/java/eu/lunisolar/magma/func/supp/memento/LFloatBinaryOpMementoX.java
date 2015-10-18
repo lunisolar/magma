@@ -58,16 +58,16 @@ public class LFloatBinaryOpMementoX<X extends Throwable> implements LFloatBinary
 
 	private final LFloatBinaryOperatorX<X> function;
 
-	protected LFloatBinaryOpMementoX(LFloatBinaryOperatorX<X> function) throws X {
+	protected LFloatBinaryOpMementoX(LFloatBinaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatBinaryOpMementoX(float initialValue, LFloatBinaryOperatorX<X> function) throws X {
+	protected LFloatBinaryOpMementoX(float initialValue, LFloatBinaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatBinaryOpMementoX<X> mementoOf(LFloatBinaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatBinaryOpMementoX<X> mementoOf(LFloatBinaryOperatorX<X> supplier) {
 		return new LFloatBinaryOpMementoX<X>(supplier);
 	}
 

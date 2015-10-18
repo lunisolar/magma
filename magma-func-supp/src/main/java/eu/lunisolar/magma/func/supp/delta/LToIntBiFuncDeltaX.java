@@ -57,29 +57,29 @@ public class LToIntBiFuncDeltaX<T1, T2, X extends Throwable> extends LToIntBiFun
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LToIntBiFuncDeltaX(LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LToIntBiFuncDeltaX(LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToIntBiFuncDeltaX(int initialValue, LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LToIntBiFuncDeltaX(int initialValue, LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) {
 		return new LToIntBiFuncDeltaX<T1, T2, X>(function, deltaFunction);
 	}
 
-	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(int initialValue, LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(int initialValue, LToIntBiFunctionX<T1, T2, X> function, LIntBinaryOperator deltaFunction) {
 		return new LToIntBiFuncDeltaX<T1, T2, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(LToIntBiFunctionX<T1, T2, X> function) throws X {
+	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(LToIntBiFunctionX<T1, T2, X> function) {
 		return deltaOf(function, LToIntBiFuncDeltaX::mathDelta);
 	}
 
-	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(int initialValue, LToIntBiFunctionX<T1, T2, X> function) throws X {
+	public static <T1, T2, X extends Throwable> LToIntBiFuncDeltaX<T1, T2, X> deltaOf(int initialValue, LToIntBiFunctionX<T1, T2, X> function) {
 		return deltaOf(initialValue, function, LToIntBiFuncDeltaX::mathDelta);
 	}
 

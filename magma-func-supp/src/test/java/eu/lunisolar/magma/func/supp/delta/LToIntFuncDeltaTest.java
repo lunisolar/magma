@@ -44,7 +44,7 @@ public class LToIntFuncDeltaTest<T> {
 
     private final int initialLastValue = 0;
 
-    private LToIntFuncDelta sut =  LToIntFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LToIntFuncDelta<T> sut =  LToIntFuncDelta.<T>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

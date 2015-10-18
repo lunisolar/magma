@@ -58,16 +58,16 @@ public class LCharFuncMementoX<R, X extends Throwable> implements LCharFunctionX
 
 	private final LCharFunctionX<R, X> function;
 
-	protected LCharFuncMementoX(LCharFunctionX<R, X> function) throws X {
+	protected LCharFuncMementoX(LCharFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LCharFuncMementoX(R initialValue, LCharFunctionX<R, X> function) throws X {
+	protected LCharFuncMementoX(R initialValue, LCharFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LCharFuncMementoX<R, X> mementoOf(LCharFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LCharFuncMementoX<R, X> mementoOf(LCharFunctionX<R, X> supplier) {
 		return new LCharFuncMementoX<R, X>(supplier);
 	}
 

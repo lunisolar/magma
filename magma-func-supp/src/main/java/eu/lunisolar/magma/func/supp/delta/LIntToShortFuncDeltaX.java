@@ -57,29 +57,29 @@ public class LIntToShortFuncDeltaX<X extends Throwable> extends LIntToShortFuncM
 
 	private final LShortBinaryOperator deltaFunction;
 
-	protected LIntToShortFuncDeltaX(LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LIntToShortFuncDeltaX(LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntToShortFuncDeltaX(short initialValue, LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LIntToShortFuncDeltaX(short initialValue, LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LIntToShortFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(short initialValue, LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(short initialValue, LIntToShortFunctionX<X> function, LShortBinaryOperator deltaFunction) {
 		return new LIntToShortFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(LIntToShortFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(LIntToShortFunctionX<X> function) {
 		return deltaOf(function, LIntToShortFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(short initialValue, LIntToShortFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToShortFuncDeltaX<X> deltaOf(short initialValue, LIntToShortFunctionX<X> function) {
 		return deltaOf(initialValue, function, LIntToShortFuncDeltaX::mathDelta);
 	}
 

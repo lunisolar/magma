@@ -44,7 +44,7 @@ public class LDoubleToShortFuncDeltaXTest<X extends Throwable> {
 
     private final short initialLastValue = (short)0;
 
-    private LDoubleToShortFuncDeltaX sut =  LDoubleToShortFuncDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LDoubleToShortFuncDeltaX<X> sut =  LDoubleToShortFuncDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

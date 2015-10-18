@@ -58,16 +58,16 @@ public class LByteSupMementoX<X extends Throwable> implements LByteSupplierX<X> 
 
 	private final LByteSupplierX<X> function;
 
-	protected LByteSupMementoX(LByteSupplierX<X> function) throws X {
+	protected LByteSupMementoX(LByteSupplierX<X> function) {
 		this.function = function;
 	}
 
-	protected LByteSupMementoX(byte initialValue, LByteSupplierX<X> function) throws X {
+	protected LByteSupMementoX(byte initialValue, LByteSupplierX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LByteSupMementoX<X> mementoOf(LByteSupplierX<X> supplier) throws X {
+	public static <X extends Throwable> LByteSupMementoX<X> mementoOf(LByteSupplierX<X> supplier) {
 		return new LByteSupMementoX<X>(supplier);
 	}
 

@@ -58,16 +58,16 @@ public class LFloatToDoubleFuncMementoX<X extends Throwable> implements LFloatTo
 
 	private final LFloatToDoubleFunctionX<X> function;
 
-	protected LFloatToDoubleFuncMementoX(LFloatToDoubleFunctionX<X> function) throws X {
+	protected LFloatToDoubleFuncMementoX(LFloatToDoubleFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatToDoubleFuncMementoX(double initialValue, LFloatToDoubleFunctionX<X> function) throws X {
+	protected LFloatToDoubleFuncMementoX(double initialValue, LFloatToDoubleFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatToDoubleFuncMementoX<X> mementoOf(LFloatToDoubleFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatToDoubleFuncMementoX<X> mementoOf(LFloatToDoubleFunctionX<X> supplier) {
 		return new LFloatToDoubleFuncMementoX<X>(supplier);
 	}
 

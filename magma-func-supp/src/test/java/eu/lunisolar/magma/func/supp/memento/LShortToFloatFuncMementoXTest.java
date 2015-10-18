@@ -43,7 +43,7 @@ public class LShortToFloatFuncMementoXTest<X extends Throwable> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LShortToFloatFuncMementoX sut =  LShortToFloatFuncMementoX.mementoOf( (a1) ->{
+    private LShortToFloatFuncMementoX<X> sut =  LShortToFloatFuncMementoX.<X>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

@@ -57,21 +57,21 @@ public class LCharFuncDeltaX<R, X extends Throwable> extends LCharFuncMementoX<R
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LCharFuncDeltaX(LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LCharFuncDeltaX(LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LCharFuncDeltaX(R initialValue, LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LCharFuncDeltaX(R initialValue, LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <R, X extends Throwable> LCharFuncDeltaX<R, X> deltaOf(LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LCharFuncDeltaX<R, X> deltaOf(LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LCharFuncDeltaX<R, X>(function, deltaFunction);
 	}
 
-	public static <R, X extends Throwable> LCharFuncDeltaX<R, X> deltaOf(R initialValue, LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LCharFuncDeltaX<R, X> deltaOf(R initialValue, LCharFunctionX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LCharFuncDeltaX<R, X>(initialValue, function, deltaFunction);
 	}
 

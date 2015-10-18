@@ -58,16 +58,16 @@ public class LLongToShortFuncMementoX<X extends Throwable> implements LLongToSho
 
 	private final LLongToShortFunctionX<X> function;
 
-	protected LLongToShortFuncMementoX(LLongToShortFunctionX<X> function) throws X {
+	protected LLongToShortFuncMementoX(LLongToShortFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LLongToShortFuncMementoX(short initialValue, LLongToShortFunctionX<X> function) throws X {
+	protected LLongToShortFuncMementoX(short initialValue, LLongToShortFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLongToShortFuncMementoX<X> mementoOf(LLongToShortFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LLongToShortFuncMementoX<X> mementoOf(LLongToShortFunctionX<X> supplier) {
 		return new LLongToShortFuncMementoX<X>(supplier);
 	}
 

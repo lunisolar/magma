@@ -43,7 +43,7 @@ public class LToFloatBiFuncMementoXTest<T1,T2,X extends Throwable> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LToFloatBiFuncMementoX sut =  LToFloatBiFuncMementoX.mementoOf( (a1,a2) ->{
+    private LToFloatBiFuncMementoX<T1,T2,X> sut =  LToFloatBiFuncMementoX.<T1,T2,X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

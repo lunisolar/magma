@@ -58,16 +58,16 @@ public class LToCharBiFuncMementoX<T1, T2, X extends Throwable> implements LToCh
 
 	private final LToCharBiFunctionX<T1, T2, X> function;
 
-	protected LToCharBiFuncMementoX(LToCharBiFunctionX<T1, T2, X> function) throws X {
+	protected LToCharBiFuncMementoX(LToCharBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 	}
 
-	protected LToCharBiFuncMementoX(char initialValue, LToCharBiFunctionX<T1, T2, X> function) throws X {
+	protected LToCharBiFuncMementoX(char initialValue, LToCharBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, X extends Throwable> LToCharBiFuncMementoX<T1, T2, X> mementoOf(LToCharBiFunctionX<T1, T2, X> supplier) throws X {
+	public static <T1, T2, X extends Throwable> LToCharBiFuncMementoX<T1, T2, X> mementoOf(LToCharBiFunctionX<T1, T2, X> supplier) {
 		return new LToCharBiFuncMementoX<T1, T2, X>(supplier);
 	}
 

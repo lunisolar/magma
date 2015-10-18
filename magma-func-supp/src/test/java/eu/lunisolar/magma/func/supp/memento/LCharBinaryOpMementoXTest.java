@@ -43,7 +43,7 @@ public class LCharBinaryOpMementoXTest<X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LCharBinaryOpMementoX sut =  LCharBinaryOpMementoX.mementoOf( (a1,a2) ->{
+    private LCharBinaryOpMementoX<X> sut =  LCharBinaryOpMementoX.<X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

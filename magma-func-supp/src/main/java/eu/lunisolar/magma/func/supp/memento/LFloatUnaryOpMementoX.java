@@ -58,16 +58,16 @@ public class LFloatUnaryOpMementoX<X extends Throwable> implements LFloatUnaryOp
 
 	private final LFloatUnaryOperatorX<X> function;
 
-	protected LFloatUnaryOpMementoX(LFloatUnaryOperatorX<X> function) throws X {
+	protected LFloatUnaryOpMementoX(LFloatUnaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LFloatUnaryOpMementoX(float initialValue, LFloatUnaryOperatorX<X> function) throws X {
+	protected LFloatUnaryOpMementoX(float initialValue, LFloatUnaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LFloatUnaryOpMementoX<X> mementoOf(LFloatUnaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LFloatUnaryOpMementoX<X> mementoOf(LFloatUnaryOperatorX<X> supplier) {
 		return new LFloatUnaryOpMementoX<X>(supplier);
 	}
 

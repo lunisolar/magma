@@ -58,16 +58,16 @@ public class LCharToDoubleFuncMementoX<X extends Throwable> implements LCharToDo
 
 	private final LCharToDoubleFunctionX<X> function;
 
-	protected LCharToDoubleFuncMementoX(LCharToDoubleFunctionX<X> function) throws X {
+	protected LCharToDoubleFuncMementoX(LCharToDoubleFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LCharToDoubleFuncMementoX(double initialValue, LCharToDoubleFunctionX<X> function) throws X {
+	protected LCharToDoubleFuncMementoX(double initialValue, LCharToDoubleFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LCharToDoubleFuncMementoX<X> mementoOf(LCharToDoubleFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LCharToDoubleFuncMementoX<X> mementoOf(LCharToDoubleFunctionX<X> supplier) {
 		return new LCharToDoubleFuncMementoX<X>(supplier);
 	}
 

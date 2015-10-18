@@ -57,29 +57,29 @@ public class LIntToDoubleFuncDeltaX<X extends Throwable> extends LIntToDoubleFun
 
 	private final LDoubleBinaryOperator deltaFunction;
 
-	protected LIntToDoubleFuncDeltaX(LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LIntToDoubleFuncDeltaX(LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntToDoubleFuncDeltaX(double initialValue, LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LIntToDoubleFuncDeltaX(double initialValue, LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LIntToDoubleFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(double initialValue, LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(double initialValue, LIntToDoubleFunctionX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LIntToDoubleFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(LIntToDoubleFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(LIntToDoubleFunctionX<X> function) {
 		return deltaOf(function, LIntToDoubleFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(double initialValue, LIntToDoubleFunctionX<X> function) throws X {
+	public static <X extends Throwable> LIntToDoubleFuncDeltaX<X> deltaOf(double initialValue, LIntToDoubleFunctionX<X> function) {
 		return deltaOf(initialValue, function, LIntToDoubleFuncDeltaX::mathDelta);
 	}
 

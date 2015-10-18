@@ -57,21 +57,21 @@ public class LTriFuncDeltaX<T1, T2, T3, R, X extends Throwable> extends LTriFunc
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LTriFuncDeltaX(LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LTriFuncDeltaX(LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LTriFuncDeltaX(R initialValue, LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LTriFuncDeltaX(R initialValue, LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T1, T2, T3, R, X extends Throwable> LTriFuncDeltaX<T1, T2, T3, R, X> deltaOf(LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <T1, T2, T3, R, X extends Throwable> LTriFuncDeltaX<T1, T2, T3, R, X> deltaOf(LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LTriFuncDeltaX<T1, T2, T3, R, X>(function, deltaFunction);
 	}
 
-	public static <T1, T2, T3, R, X extends Throwable> LTriFuncDeltaX<T1, T2, T3, R, X> deltaOf(R initialValue, LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <T1, T2, T3, R, X extends Throwable> LTriFuncDeltaX<T1, T2, T3, R, X> deltaOf(R initialValue, LTriFunctionX<T1, T2, T3, R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LTriFuncDeltaX<T1, T2, T3, R, X>(initialValue, function, deltaFunction);
 	}
 

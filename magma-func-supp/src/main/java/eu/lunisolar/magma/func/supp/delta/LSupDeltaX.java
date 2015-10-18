@@ -57,21 +57,21 @@ public class LSupDeltaX<R, X extends Throwable> extends LSupMementoX<R, X> {
 
 	private final LBinaryOperator<R> deltaFunction;
 
-	protected LSupDeltaX(LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LSupDeltaX(LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LSupDeltaX(R initialValue, LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	protected LSupDeltaX(R initialValue, LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <R, X extends Throwable> LSupDeltaX<R, X> deltaOf(LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LSupDeltaX<R, X> deltaOf(LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LSupDeltaX<R, X>(function, deltaFunction);
 	}
 
-	public static <R, X extends Throwable> LSupDeltaX<R, X> deltaOf(R initialValue, LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) throws X {
+	public static <R, X extends Throwable> LSupDeltaX<R, X> deltaOf(R initialValue, LSupplierX<R, X> function, LBinaryOperator<R> deltaFunction) {
 		return new LSupDeltaX<R, X>(initialValue, function, deltaFunction);
 	}
 

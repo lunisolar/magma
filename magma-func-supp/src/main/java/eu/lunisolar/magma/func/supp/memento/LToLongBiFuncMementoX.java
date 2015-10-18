@@ -58,16 +58,16 @@ public class LToLongBiFuncMementoX<T1, T2, X extends Throwable> implements LToLo
 
 	private final LToLongBiFunctionX<T1, T2, X> function;
 
-	protected LToLongBiFuncMementoX(LToLongBiFunctionX<T1, T2, X> function) throws X {
+	protected LToLongBiFuncMementoX(LToLongBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 	}
 
-	protected LToLongBiFuncMementoX(long initialValue, LToLongBiFunctionX<T1, T2, X> function) throws X {
+	protected LToLongBiFuncMementoX(long initialValue, LToLongBiFunctionX<T1, T2, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, X extends Throwable> LToLongBiFuncMementoX<T1, T2, X> mementoOf(LToLongBiFunctionX<T1, T2, X> supplier) throws X {
+	public static <T1, T2, X extends Throwable> LToLongBiFuncMementoX<T1, T2, X> mementoOf(LToLongBiFunctionX<T1, T2, X> supplier) {
 		return new LToLongBiFuncMementoX<T1, T2, X>(supplier);
 	}
 

@@ -58,16 +58,16 @@ public class LToByteFuncMementoX<T, X extends Throwable> implements LToByteFunct
 
 	private final LToByteFunctionX<T, X> function;
 
-	protected LToByteFuncMementoX(LToByteFunctionX<T, X> function) throws X {
+	protected LToByteFuncMementoX(LToByteFunctionX<T, X> function) {
 		this.function = function;
 	}
 
-	protected LToByteFuncMementoX(byte initialValue, LToByteFunctionX<T, X> function) throws X {
+	protected LToByteFuncMementoX(byte initialValue, LToByteFunctionX<T, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <T, X extends Throwable> LToByteFuncMementoX<T, X> mementoOf(LToByteFunctionX<T, X> supplier) throws X {
+	public static <T, X extends Throwable> LToByteFuncMementoX<T, X> mementoOf(LToByteFunctionX<T, X> supplier) {
 		return new LToByteFuncMementoX<T, X>(supplier);
 	}
 

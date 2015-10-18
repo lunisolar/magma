@@ -57,29 +57,29 @@ public class LDoubleToIntFuncDeltaX<X extends Throwable> extends LDoubleToIntFun
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LDoubleToIntFuncDeltaX(LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LDoubleToIntFuncDeltaX(LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleToIntFuncDeltaX(int initialValue, LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LDoubleToIntFuncDeltaX(int initialValue, LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LDoubleToIntFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(int initialValue, LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(int initialValue, LDoubleToIntFunctionX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LDoubleToIntFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(LDoubleToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(LDoubleToIntFunctionX<X> function) {
 		return deltaOf(function, LDoubleToIntFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(int initialValue, LDoubleToIntFunctionX<X> function) throws X {
+	public static <X extends Throwable> LDoubleToIntFuncDeltaX<X> deltaOf(int initialValue, LDoubleToIntFunctionX<X> function) {
 		return deltaOf(initialValue, function, LDoubleToIntFuncDeltaX::mathDelta);
 	}
 

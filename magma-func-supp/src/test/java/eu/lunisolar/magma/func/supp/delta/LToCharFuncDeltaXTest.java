@@ -44,7 +44,7 @@ public class LToCharFuncDeltaXTest<T,X extends Throwable> {
 
     private final char initialLastValue = '\u0000';
 
-    private LToCharFuncDeltaX sut =  LToCharFuncDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LToCharFuncDeltaX<T,X> sut =  LToCharFuncDeltaX.<T,X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

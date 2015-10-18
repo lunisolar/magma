@@ -57,29 +57,29 @@ public class LFloatToByteFuncDeltaX<X extends Throwable> extends LFloatToByteFun
 
 	private final LByteBinaryOperator deltaFunction;
 
-	protected LFloatToByteFuncDeltaX(LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LFloatToByteFuncDeltaX(LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LFloatToByteFuncDeltaX(byte initialValue, LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	protected LFloatToByteFuncDeltaX(byte initialValue, LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LFloatToByteFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(byte initialValue, LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(byte initialValue, LFloatToByteFunctionX<X> function, LByteBinaryOperator deltaFunction) {
 		return new LFloatToByteFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(LFloatToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(LFloatToByteFunctionX<X> function) {
 		return deltaOf(function, LFloatToByteFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(byte initialValue, LFloatToByteFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToByteFuncDeltaX<X> deltaOf(byte initialValue, LFloatToByteFunctionX<X> function) {
 		return deltaOf(initialValue, function, LFloatToByteFuncDeltaX::mathDelta);
 	}
 

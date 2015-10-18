@@ -57,29 +57,29 @@ public class LShortToCharFuncDeltaX<X extends Throwable> extends LShortToCharFun
 
 	private final LCharBinaryOperator deltaFunction;
 
-	protected LShortToCharFuncDeltaX(LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LShortToCharFuncDeltaX(LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LShortToCharFuncDeltaX(char initialValue, LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LShortToCharFuncDeltaX(char initialValue, LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LShortToCharFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(char initialValue, LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(char initialValue, LShortToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LShortToCharFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(LShortToCharFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(LShortToCharFunctionX<X> function) {
 		return deltaOf(function, LShortToCharFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(char initialValue, LShortToCharFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToCharFuncDeltaX<X> deltaOf(char initialValue, LShortToCharFunctionX<X> function) {
 		return deltaOf(initialValue, function, LShortToCharFuncDeltaX::mathDelta);
 	}
 

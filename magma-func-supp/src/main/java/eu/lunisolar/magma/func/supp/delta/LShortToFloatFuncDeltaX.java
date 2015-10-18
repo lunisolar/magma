@@ -57,29 +57,29 @@ public class LShortToFloatFuncDeltaX<X extends Throwable> extends LShortToFloatF
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LShortToFloatFuncDeltaX(LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LShortToFloatFuncDeltaX(LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LShortToFloatFuncDeltaX(float initialValue, LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LShortToFloatFuncDeltaX(float initialValue, LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LShortToFloatFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(float initialValue, LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(float initialValue, LShortToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LShortToFloatFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(LShortToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(LShortToFloatFunctionX<X> function) {
 		return deltaOf(function, LShortToFloatFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(float initialValue, LShortToFloatFunctionX<X> function) throws X {
+	public static <X extends Throwable> LShortToFloatFuncDeltaX<X> deltaOf(float initialValue, LShortToFloatFunctionX<X> function) {
 		return deltaOf(initialValue, function, LShortToFloatFuncDeltaX::mathDelta);
 	}
 

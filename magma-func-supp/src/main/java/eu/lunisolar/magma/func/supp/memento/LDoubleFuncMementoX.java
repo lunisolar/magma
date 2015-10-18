@@ -58,16 +58,16 @@ public class LDoubleFuncMementoX<R, X extends Throwable> implements LDoubleFunct
 
 	private final LDoubleFunctionX<R, X> function;
 
-	protected LDoubleFuncMementoX(LDoubleFunctionX<R, X> function) throws X {
+	protected LDoubleFuncMementoX(LDoubleFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleFuncMementoX(R initialValue, LDoubleFunctionX<R, X> function) throws X {
+	protected LDoubleFuncMementoX(R initialValue, LDoubleFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LDoubleFuncMementoX<R, X> mementoOf(LDoubleFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LDoubleFuncMementoX<R, X> mementoOf(LDoubleFunctionX<R, X> supplier) {
 		return new LDoubleFuncMementoX<R, X>(supplier);
 	}
 

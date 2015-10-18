@@ -57,29 +57,29 @@ public class LToDoubleFuncDeltaX<T, X extends Throwable> extends LToDoubleFuncMe
 
 	private final LDoubleBinaryOperator deltaFunction;
 
-	protected LToDoubleFuncDeltaX(LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LToDoubleFuncDeltaX(LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToDoubleFuncDeltaX(double initialValue, LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LToDoubleFuncDeltaX(double initialValue, LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LToDoubleFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(double initialValue, LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(double initialValue, LToDoubleFunctionX<T, X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LToDoubleFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(LToDoubleFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(LToDoubleFunctionX<T, X> function) {
 		return deltaOf(function, LToDoubleFuncDeltaX::mathDelta);
 	}
 
-	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(double initialValue, LToDoubleFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LToDoubleFuncDeltaX<T, X> deltaOf(double initialValue, LToDoubleFunctionX<T, X> function) {
 		return deltaOf(initialValue, function, LToDoubleFuncDeltaX::mathDelta);
 	}
 

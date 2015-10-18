@@ -58,16 +58,16 @@ public class LCharBinaryOpMementoX<X extends Throwable> implements LCharBinaryOp
 
 	private final LCharBinaryOperatorX<X> function;
 
-	protected LCharBinaryOpMementoX(LCharBinaryOperatorX<X> function) throws X {
+	protected LCharBinaryOpMementoX(LCharBinaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LCharBinaryOpMementoX(char initialValue, LCharBinaryOperatorX<X> function) throws X {
+	protected LCharBinaryOpMementoX(char initialValue, LCharBinaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LCharBinaryOpMementoX<X> mementoOf(LCharBinaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LCharBinaryOpMementoX<X> mementoOf(LCharBinaryOperatorX<X> supplier) {
 		return new LCharBinaryOpMementoX<X>(supplier);
 	}
 

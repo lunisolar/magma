@@ -57,29 +57,29 @@ public class LDoubleBinaryOpDeltaX<X extends Throwable> extends LDoubleBinaryOpM
 
 	private final LDoubleBinaryOperator deltaFunction;
 
-	protected LDoubleBinaryOpDeltaX(LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LDoubleBinaryOpDeltaX(LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleBinaryOpDeltaX(double initialValue, LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LDoubleBinaryOpDeltaX(double initialValue, LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LDoubleBinaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(double initialValue, LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(double initialValue, LDoubleBinaryOperatorX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LDoubleBinaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(LDoubleBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(LDoubleBinaryOperatorX<X> function) {
 		return deltaOf(function, LDoubleBinaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(double initialValue, LDoubleBinaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LDoubleBinaryOpDeltaX<X> deltaOf(double initialValue, LDoubleBinaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LDoubleBinaryOpDeltaX::mathDelta);
 	}
 

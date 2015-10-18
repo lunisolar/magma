@@ -44,7 +44,7 @@ public class LFloatUnaryOpDeltaXTest<X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LFloatUnaryOpDeltaX sut =  LFloatUnaryOpDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LFloatUnaryOpDeltaX<X> sut =  LFloatUnaryOpDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

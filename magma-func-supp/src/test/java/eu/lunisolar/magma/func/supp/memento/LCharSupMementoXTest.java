@@ -43,7 +43,7 @@ public class LCharSupMementoXTest<X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LCharSupMementoX sut =  LCharSupMementoX.mementoOf( () ->{
+    private LCharSupMementoX<X> sut =  LCharSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

@@ -57,29 +57,29 @@ public class LIntUnaryOpDeltaX<X extends Throwable> extends LIntUnaryOpMementoX<
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LIntUnaryOpDeltaX(LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LIntUnaryOpDeltaX(LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LIntUnaryOpDeltaX(int initialValue, LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LIntUnaryOpDeltaX(int initialValue, LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LIntUnaryOpDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(int initialValue, LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(int initialValue, LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		return new LIntUnaryOpDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(LIntUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(LIntUnaryOperatorX<X> function) {
 		return deltaOf(function, LIntUnaryOpDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(int initialValue, LIntUnaryOperatorX<X> function) throws X {
+	public static <X extends Throwable> LIntUnaryOpDeltaX<X> deltaOf(int initialValue, LIntUnaryOperatorX<X> function) {
 		return deltaOf(initialValue, function, LIntUnaryOpDeltaX::mathDelta);
 	}
 

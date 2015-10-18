@@ -43,7 +43,7 @@ public class LToByteBiFuncMementoTest<T1,T2> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LToByteBiFuncMemento sut =  LToByteBiFuncMemento.mementoOf( (a1,a2) ->{
+    private LToByteBiFuncMemento<T1,T2> sut =  LToByteBiFuncMemento.<T1,T2>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

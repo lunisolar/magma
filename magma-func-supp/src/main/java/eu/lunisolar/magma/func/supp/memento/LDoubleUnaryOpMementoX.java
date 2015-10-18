@@ -58,16 +58,16 @@ public class LDoubleUnaryOpMementoX<X extends Throwable> implements LDoubleUnary
 
 	private final LDoubleUnaryOperatorX<X> function;
 
-	protected LDoubleUnaryOpMementoX(LDoubleUnaryOperatorX<X> function) throws X {
+	protected LDoubleUnaryOpMementoX(LDoubleUnaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleUnaryOpMementoX(double initialValue, LDoubleUnaryOperatorX<X> function) throws X {
+	protected LDoubleUnaryOpMementoX(double initialValue, LDoubleUnaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleUnaryOpMementoX<X> mementoOf(LDoubleUnaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleUnaryOpMementoX<X> mementoOf(LDoubleUnaryOperatorX<X> supplier) {
 		return new LDoubleUnaryOpMementoX<X>(supplier);
 	}
 

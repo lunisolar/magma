@@ -58,16 +58,16 @@ public class LByteBinaryOpMementoX<X extends Throwable> implements LByteBinaryOp
 
 	private final LByteBinaryOperatorX<X> function;
 
-	protected LByteBinaryOpMementoX(LByteBinaryOperatorX<X> function) throws X {
+	protected LByteBinaryOpMementoX(LByteBinaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LByteBinaryOpMementoX(byte initialValue, LByteBinaryOperatorX<X> function) throws X {
+	protected LByteBinaryOpMementoX(byte initialValue, LByteBinaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LByteBinaryOpMementoX<X> mementoOf(LByteBinaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LByteBinaryOpMementoX<X> mementoOf(LByteBinaryOperatorX<X> supplier) {
 		return new LByteBinaryOpMementoX<X>(supplier);
 	}
 

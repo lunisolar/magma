@@ -57,29 +57,29 @@ public class LToShortBiFuncDeltaX<T1, T2, X extends Throwable> extends LToShortB
 
 	private final LShortBinaryOperator deltaFunction;
 
-	protected LToShortBiFuncDeltaX(LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LToShortBiFuncDeltaX(LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToShortBiFuncDeltaX(short initialValue, LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) throws X {
+	protected LToShortBiFuncDeltaX(short initialValue, LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) {
 		return new LToShortBiFuncDeltaX<T1, T2, X>(function, deltaFunction);
 	}
 
-	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(short initialValue, LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) throws X {
+	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(short initialValue, LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) {
 		return new LToShortBiFuncDeltaX<T1, T2, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(LToShortBiFunctionX<T1, T2, X> function) throws X {
+	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(LToShortBiFunctionX<T1, T2, X> function) {
 		return deltaOf(function, LToShortBiFuncDeltaX::mathDelta);
 	}
 
-	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(short initialValue, LToShortBiFunctionX<T1, T2, X> function) throws X {
+	public static <T1, T2, X extends Throwable> LToShortBiFuncDeltaX<T1, T2, X> deltaOf(short initialValue, LToShortBiFunctionX<T1, T2, X> function) {
 		return deltaOf(initialValue, function, LToShortBiFuncDeltaX::mathDelta);
 	}
 

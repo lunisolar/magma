@@ -58,16 +58,16 @@ public class LBoolToLongFuncMementoX<X extends Throwable> implements LBoolToLong
 
 	private final LBoolToLongFunctionX<X> function;
 
-	protected LBoolToLongFuncMementoX(LBoolToLongFunctionX<X> function) throws X {
+	protected LBoolToLongFuncMementoX(LBoolToLongFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolToLongFuncMementoX(long initialValue, LBoolToLongFunctionX<X> function) throws X {
+	protected LBoolToLongFuncMementoX(long initialValue, LBoolToLongFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolToLongFuncMementoX<X> mementoOf(LBoolToLongFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolToLongFuncMementoX<X> mementoOf(LBoolToLongFunctionX<X> supplier) {
 		return new LBoolToLongFuncMementoX<X>(supplier);
 	}
 

@@ -40,10 +40,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LBinaryOpMementoTest<T> {
 
     private int functionCallCount = 0;
-    private Object  initialTestValue = (T)Integer.valueOf(1);
-    private Object  testValue = initialTestValue;
+    private T initialTestValue = (T)Integer.valueOf(1);
+    private T testValue = initialTestValue;
 
-    private LBinaryOpMemento sut =  LBinaryOpMemento.mementoOf( (a1,a2) ->{
+    private LBinaryOpMemento<T> sut =  LBinaryOpMemento.<T>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

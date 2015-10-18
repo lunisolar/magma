@@ -58,16 +58,16 @@ public class LByteToDoubleFuncMementoX<X extends Throwable> implements LByteToDo
 
 	private final LByteToDoubleFunctionX<X> function;
 
-	protected LByteToDoubleFuncMementoX(LByteToDoubleFunctionX<X> function) throws X {
+	protected LByteToDoubleFuncMementoX(LByteToDoubleFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LByteToDoubleFuncMementoX(double initialValue, LByteToDoubleFunctionX<X> function) throws X {
+	protected LByteToDoubleFuncMementoX(double initialValue, LByteToDoubleFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LByteToDoubleFuncMementoX<X> mementoOf(LByteToDoubleFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LByteToDoubleFuncMementoX<X> mementoOf(LByteToDoubleFunctionX<X> supplier) {
 		return new LByteToDoubleFuncMementoX<X>(supplier);
 	}
 

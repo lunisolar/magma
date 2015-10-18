@@ -57,29 +57,29 @@ public class LFloatSupDeltaX<X extends Throwable> extends LFloatSupMementoX<X> {
 
 	private final LFloatBinaryOperator deltaFunction;
 
-	protected LFloatSupDeltaX(LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LFloatSupDeltaX(LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LFloatSupDeltaX(float initialValue, LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	protected LFloatSupDeltaX(float initialValue, LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LFloatSupDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(float initialValue, LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(float initialValue, LFloatSupplierX<X> function, LFloatBinaryOperator deltaFunction) {
 		return new LFloatSupDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(LFloatSupplierX<X> function) throws X {
+	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(LFloatSupplierX<X> function) {
 		return deltaOf(function, LFloatSupDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(float initialValue, LFloatSupplierX<X> function) throws X {
+	public static <X extends Throwable> LFloatSupDeltaX<X> deltaOf(float initialValue, LFloatSupplierX<X> function) {
 		return deltaOf(initialValue, function, LFloatSupDeltaX::mathDelta);
 	}
 

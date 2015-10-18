@@ -57,29 +57,29 @@ public class LDoubleSupDeltaX<X extends Throwable> extends LDoubleSupMementoX<X>
 
 	private final LDoubleBinaryOperator deltaFunction;
 
-	protected LDoubleSupDeltaX(LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LDoubleSupDeltaX(LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LDoubleSupDeltaX(double initialValue, LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	protected LDoubleSupDeltaX(double initialValue, LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LDoubleSupDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(double initialValue, LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(double initialValue, LDoubleSupplierX<X> function, LDoubleBinaryOperator deltaFunction) {
 		return new LDoubleSupDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(LDoubleSupplierX<X> function) throws X {
+	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(LDoubleSupplierX<X> function) {
 		return deltaOf(function, LDoubleSupDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(double initialValue, LDoubleSupplierX<X> function) throws X {
+	public static <X extends Throwable> LDoubleSupDeltaX<X> deltaOf(double initialValue, LDoubleSupplierX<X> function) {
 		return deltaOf(initialValue, function, LDoubleSupDeltaX::mathDelta);
 	}
 

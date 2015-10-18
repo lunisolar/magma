@@ -58,16 +58,16 @@ public class LBoolToShortFuncMementoX<X extends Throwable> implements LBoolToSho
 
 	private final LBoolToShortFunctionX<X> function;
 
-	protected LBoolToShortFuncMementoX(LBoolToShortFunctionX<X> function) throws X {
+	protected LBoolToShortFuncMementoX(LBoolToShortFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LBoolToShortFuncMementoX(short initialValue, LBoolToShortFunctionX<X> function) throws X {
+	protected LBoolToShortFuncMementoX(short initialValue, LBoolToShortFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LBoolToShortFuncMementoX<X> mementoOf(LBoolToShortFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LBoolToShortFuncMementoX<X> mementoOf(LBoolToShortFunctionX<X> supplier) {
 		return new LBoolToShortFuncMementoX<X>(supplier);
 	}
 

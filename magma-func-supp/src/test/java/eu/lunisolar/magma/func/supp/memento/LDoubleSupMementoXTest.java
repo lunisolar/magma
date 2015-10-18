@@ -43,7 +43,7 @@ public class LDoubleSupMementoXTest<X extends Throwable> {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDoubleSupMementoX sut =  LDoubleSupMementoX.mementoOf( () ->{
+    private LDoubleSupMementoX<X> sut =  LDoubleSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

@@ -58,16 +58,16 @@ public class LDoubleToLongFuncMementoX<X extends Throwable> implements LDoubleTo
 
 	private final LDoubleToLongFunctionX<X> function;
 
-	protected LDoubleToLongFuncMementoX(LDoubleToLongFunctionX<X> function) throws X {
+	protected LDoubleToLongFuncMementoX(LDoubleToLongFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LDoubleToLongFuncMementoX(long initialValue, LDoubleToLongFunctionX<X> function) throws X {
+	protected LDoubleToLongFuncMementoX(long initialValue, LDoubleToLongFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LDoubleToLongFuncMementoX<X> mementoOf(LDoubleToLongFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LDoubleToLongFuncMementoX<X> mementoOf(LDoubleToLongFunctionX<X> supplier) {
 		return new LDoubleToLongFuncMementoX<X>(supplier);
 	}
 

@@ -44,7 +44,7 @@ public class LCharToLongFuncDeltaXTest<X extends Throwable> {
 
     private final long initialLastValue = 0L;
 
-    private LCharToLongFuncDeltaX sut =  LCharToLongFuncDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LCharToLongFuncDeltaX<X> sut =  LCharToLongFuncDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

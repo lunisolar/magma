@@ -43,7 +43,7 @@ public class LToFloatFuncMementoTest<T> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LToFloatFuncMemento sut =  LToFloatFuncMemento.mementoOf( (a1) ->{
+    private LToFloatFuncMemento<T> sut =  LToFloatFuncMemento.<T>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

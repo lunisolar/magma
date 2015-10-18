@@ -57,29 +57,29 @@ public class LObjIntToIntFuncDeltaX<T, X extends Throwable> extends LObjIntToInt
 
 	private final LIntBinaryOperator deltaFunction;
 
-	protected LObjIntToIntFuncDeltaX(LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LObjIntToIntFuncDeltaX(LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LObjIntToIntFuncDeltaX(int initialValue, LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	protected LObjIntToIntFuncDeltaX(int initialValue, LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		return new LObjIntToIntFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(int initialValue, LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) throws X {
+	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(int initialValue, LObjIntToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
 		return new LObjIntToIntFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(LObjIntToIntFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(LObjIntToIntFunctionX<T, X> function) {
 		return deltaOf(function, LObjIntToIntFuncDeltaX::mathDelta);
 	}
 
-	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(int initialValue, LObjIntToIntFunctionX<T, X> function) throws X {
+	public static <T, X extends Throwable> LObjIntToIntFuncDeltaX<T, X> deltaOf(int initialValue, LObjIntToIntFunctionX<T, X> function) {
 		return deltaOf(initialValue, function, LObjIntToIntFuncDeltaX::mathDelta);
 	}
 

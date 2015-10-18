@@ -57,29 +57,29 @@ public class LFloatToCharFuncDeltaX<X extends Throwable> extends LFloatToCharFun
 
 	private final LCharBinaryOperator deltaFunction;
 
-	protected LFloatToCharFuncDeltaX(LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LFloatToCharFuncDeltaX(LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LFloatToCharFuncDeltaX(char initialValue, LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	protected LFloatToCharFuncDeltaX(char initialValue, LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LFloatToCharFuncDeltaX<X>(function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(char initialValue, LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) throws X {
+	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(char initialValue, LFloatToCharFunctionX<X> function, LCharBinaryOperator deltaFunction) {
 		return new LFloatToCharFuncDeltaX<X>(initialValue, function, deltaFunction);
 	}
 
-	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(LFloatToCharFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(LFloatToCharFunctionX<X> function) {
 		return deltaOf(function, LFloatToCharFuncDeltaX::mathDelta);
 	}
 
-	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(char initialValue, LFloatToCharFunctionX<X> function) throws X {
+	public static <X extends Throwable> LFloatToCharFuncDeltaX<X> deltaOf(char initialValue, LFloatToCharFunctionX<X> function) {
 		return deltaOf(initialValue, function, LFloatToCharFuncDeltaX::mathDelta);
 	}
 

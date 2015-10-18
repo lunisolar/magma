@@ -58,16 +58,16 @@ public class LBoolFuncMementoX<R, X extends Throwable> implements LBoolFunctionX
 
 	private final LBoolFunctionX<R, X> function;
 
-	protected LBoolFuncMementoX(LBoolFunctionX<R, X> function) throws X {
+	protected LBoolFuncMementoX(LBoolFunctionX<R, X> function) {
 		this.function = function;
 	}
 
-	protected LBoolFuncMementoX(R initialValue, LBoolFunctionX<R, X> function) throws X {
+	protected LBoolFuncMementoX(R initialValue, LBoolFunctionX<R, X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <R, X extends Throwable> LBoolFuncMementoX<R, X> mementoOf(LBoolFunctionX<R, X> supplier) throws X {
+	public static <R, X extends Throwable> LBoolFuncMementoX<R, X> mementoOf(LBoolFunctionX<R, X> supplier) {
 		return new LBoolFuncMementoX<R, X>(supplier);
 	}
 

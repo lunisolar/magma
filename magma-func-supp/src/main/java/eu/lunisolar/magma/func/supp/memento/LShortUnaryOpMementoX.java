@@ -58,16 +58,16 @@ public class LShortUnaryOpMementoX<X extends Throwable> implements LShortUnaryOp
 
 	private final LShortUnaryOperatorX<X> function;
 
-	protected LShortUnaryOpMementoX(LShortUnaryOperatorX<X> function) throws X {
+	protected LShortUnaryOpMementoX(LShortUnaryOperatorX<X> function) {
 		this.function = function;
 	}
 
-	protected LShortUnaryOpMementoX(short initialValue, LShortUnaryOperatorX<X> function) throws X {
+	protected LShortUnaryOpMementoX(short initialValue, LShortUnaryOperatorX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LShortUnaryOpMementoX<X> mementoOf(LShortUnaryOperatorX<X> supplier) throws X {
+	public static <X extends Throwable> LShortUnaryOpMementoX<X> mementoOf(LShortUnaryOperatorX<X> supplier) {
 		return new LShortUnaryOpMementoX<X>(supplier);
 	}
 

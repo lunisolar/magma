@@ -44,7 +44,7 @@ public class LFloatToLongFuncDeltaXTest<X extends Throwable> {
 
     private final long initialLastValue = 0L;
 
-    private LFloatToLongFuncDeltaX sut =  LFloatToLongFuncDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LFloatToLongFuncDeltaX<X> sut =  LFloatToLongFuncDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });

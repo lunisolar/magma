@@ -58,16 +58,16 @@ public class LShortToByteFuncMementoX<X extends Throwable> implements LShortToBy
 
 	private final LShortToByteFunctionX<X> function;
 
-	protected LShortToByteFuncMementoX(LShortToByteFunctionX<X> function) throws X {
+	protected LShortToByteFuncMementoX(LShortToByteFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LShortToByteFuncMementoX(byte initialValue, LShortToByteFunctionX<X> function) throws X {
+	protected LShortToByteFuncMementoX(byte initialValue, LShortToByteFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LShortToByteFuncMementoX<X> mementoOf(LShortToByteFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LShortToByteFuncMementoX<X> mementoOf(LShortToByteFunctionX<X> supplier) {
 		return new LShortToByteFuncMementoX<X>(supplier);
 	}
 

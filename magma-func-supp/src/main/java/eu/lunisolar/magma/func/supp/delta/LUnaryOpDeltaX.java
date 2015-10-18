@@ -57,21 +57,21 @@ public class LUnaryOpDeltaX<T, X extends Throwable> extends LUnaryOpMementoX<T, 
 
 	private final LBinaryOperator<T> deltaFunction;
 
-	protected LUnaryOpDeltaX(LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) throws X {
+	protected LUnaryOpDeltaX(LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) {
 		super(function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LUnaryOpDeltaX(T initialValue, LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) throws X {
+	protected LUnaryOpDeltaX(T initialValue, LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) {
 		super(initialValue, function);
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LUnaryOpDeltaX<T, X> deltaOf(LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) throws X {
+	public static <T, X extends Throwable> LUnaryOpDeltaX<T, X> deltaOf(LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) {
 		return new LUnaryOpDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LUnaryOpDeltaX<T, X> deltaOf(T initialValue, LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) throws X {
+	public static <T, X extends Throwable> LUnaryOpDeltaX<T, X> deltaOf(T initialValue, LUnaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) {
 		return new LUnaryOpDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 

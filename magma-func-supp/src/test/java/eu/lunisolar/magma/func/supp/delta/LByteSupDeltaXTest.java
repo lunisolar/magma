@@ -44,7 +44,7 @@ public class LByteSupDeltaXTest<X extends Throwable> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LByteSupDeltaX sut =  LByteSupDeltaX.deltaOf(initialLastValue, () ->{
+    private LByteSupDeltaX<X> sut =  LByteSupDeltaX.<X>deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
     });

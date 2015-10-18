@@ -58,16 +58,16 @@ public class LLongToFloatFuncMementoX<X extends Throwable> implements LLongToFlo
 
 	private final LLongToFloatFunctionX<X> function;
 
-	protected LLongToFloatFuncMementoX(LLongToFloatFunctionX<X> function) throws X {
+	protected LLongToFloatFuncMementoX(LLongToFloatFunctionX<X> function) {
 		this.function = function;
 	}
 
-	protected LLongToFloatFuncMementoX(float initialValue, LLongToFloatFunctionX<X> function) throws X {
+	protected LLongToFloatFuncMementoX(float initialValue, LLongToFloatFunctionX<X> function) {
 		this.function = function;
 		this.lastValue = initialValue;
 	}
 
-	public static <X extends Throwable> LLongToFloatFuncMementoX<X> mementoOf(LLongToFloatFunctionX<X> supplier) throws X {
+	public static <X extends Throwable> LLongToFloatFuncMementoX<X> mementoOf(LLongToFloatFunctionX<X> supplier) {
 		return new LLongToFloatFuncMementoX<X>(supplier);
 	}
 

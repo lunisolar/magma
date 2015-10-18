@@ -40,10 +40,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LUnaryOpMementoXTest<T,X extends Throwable> {
 
     private int functionCallCount = 0;
-    private Object  initialTestValue = (T)Integer.valueOf(1);
-    private Object  testValue = initialTestValue;
+    private T initialTestValue = (T)Integer.valueOf(1);
+    private T testValue = initialTestValue;
 
-    private LUnaryOpMementoX sut =  LUnaryOpMementoX.mementoOf( (a1) ->{
+    private LUnaryOpMementoX<T,X> sut =  LUnaryOpMementoX.<T,X>mementoOf( (a1) ->{
         functionCallCount++;
         return testValue;
     });

@@ -44,7 +44,7 @@ public class LCharUnaryOpDeltaXTest<X extends Throwable> {
 
     private final char initialLastValue = '\u0000';
 
-    private LCharUnaryOpDeltaX sut =  LCharUnaryOpDeltaX.deltaOf(initialLastValue, (a1) ->{
+    private LCharUnaryOpDeltaX<X> sut =  LCharUnaryOpDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
         functionCallCount++;
         return testValue;
     });
