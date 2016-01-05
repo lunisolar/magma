@@ -72,7 +72,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 		return doApplyAsFloat(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default float nestingDoApplyAsFloat(float a1, float a2) {
 		return this.doApplyAsFloat(a1, a2);
 	}
@@ -133,6 +133,42 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	@Nonnull
 	static <X extends Throwable> LFloatBinaryOperator wrap(final @Nonnull LFloatBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsFloat;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LFloatBinaryOperator safe() {
+		return Function4U::produceFloat;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LFloatBinaryOperator> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LFloatBinaryOperator safe(final @Nullable LFloatBinaryOperator other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LFloatBinaryOperator> safeSupplier(final @Nullable LSupplier<LFloatBinaryOperator> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

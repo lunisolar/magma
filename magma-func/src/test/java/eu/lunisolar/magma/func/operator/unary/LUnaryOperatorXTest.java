@@ -714,5 +714,35 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LUnaryOperatorX r1 = LUnaryOperatorX.safe(sut);
+        UnaryOperator r3 = LUnaryOperatorX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LUnaryOperatorX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LUnaryOperatorX.safe(null);
+        assertThat(result).isSameAs(LUnaryOperatorX.lX(LUnaryOperatorX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LUnaryOperatorX<T,X>,Y> supplier = ()->sut;
+        Object result = LUnaryOperatorX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LUnaryOperatorX.safeSupplier(null);
+        assertThat(result).isSameAs(LUnaryOperatorX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LUnaryOperatorX<T,X>,Y> r1 = LUnaryOperatorX.safeSupplier(()->sut);
+        Supplier<LUnaryOperatorX<T,X>> r2 = LUnaryOperatorX.safeSupplier(()->sut);
+    }
 
 }

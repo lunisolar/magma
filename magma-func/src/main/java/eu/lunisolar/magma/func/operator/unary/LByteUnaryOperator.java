@@ -72,7 +72,7 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 		return doApplyAsByte(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default byte nestingDoApplyAsByte(byte a1) {
 		return this.doApplyAsByte(a1);
 	}
@@ -121,6 +121,42 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 	@Nonnull
 	static <X extends Throwable> LByteUnaryOperator wrap(final @Nonnull LByteUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsByte;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LByteUnaryOperator safe() {
+		return Function4U::produceByte;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LByteUnaryOperator> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LByteUnaryOperator safe(final @Nullable LByteUnaryOperator other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LByteUnaryOperator> safeSupplier(final @Nullable LSupplier<LByteUnaryOperator> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

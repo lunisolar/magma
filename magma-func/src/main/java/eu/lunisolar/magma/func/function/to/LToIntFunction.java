@@ -82,7 +82,7 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 		return doApplyAsInt(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default int nestingDoApplyAsInt(T a1) {
 		return this.doApplyAsInt(a1);
 	}
@@ -137,6 +137,42 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 	@Nonnull
 	static <T, X extends Throwable> LToIntFunction<T> wrap(final @Nonnull LToIntFunctionX<T, X> other) {
 		return other::nestingDoApplyAsInt;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T> LToIntFunction<T> safe() {
+		return Function4U::produceInt;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LToIntFunction<T>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T> LToIntFunction<T> safe(final @Nullable LToIntFunction<T> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LToIntFunction<T>> safeSupplier(final @Nullable LSupplier<LToIntFunction<T>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

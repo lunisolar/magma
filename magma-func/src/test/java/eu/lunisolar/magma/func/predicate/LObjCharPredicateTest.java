@@ -558,5 +558,50 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private boolean variant1(char a2,T a1) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LObjCharPredicate lambda = LObjCharPredicate./*<T>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LObjCharPredicate.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LObjCharPredicate r1 = LObjCharPredicate.safe(sut);
+        LObjCharPredicateX r2 = LObjCharPredicate.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LObjCharPredicate.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LObjCharPredicate.safe(null);
+        assertThat(result).isSameAs(LObjCharPredicate.l(LObjCharPredicate.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LObjCharPredicate<T>> supplier = ()->sut;
+        Object result = LObjCharPredicate.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LObjCharPredicate.safeSupplier(null);
+        assertThat(result).isSameAs(LObjCharPredicate.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LObjCharPredicate<T>> r1 = LObjCharPredicate.safeSupplier(()->sut);
+    }
 
 }

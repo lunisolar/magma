@@ -457,5 +457,34 @@ public class LByteConsumerTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LByteConsumer r1 = LByteConsumer.safe(sut);
+        LByteConsumerX r2 = LByteConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LByteConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LByteConsumer.safe(null);
+        assertThat(result).isSameAs(LByteConsumer.l(LByteConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LByteConsumer> supplier = ()->sut;
+        Object result = LByteConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LByteConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LByteConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LByteConsumer> r1 = LByteConsumer.safeSupplier(()->sut);
+    }
 
 }

@@ -744,5 +744,36 @@ public class LSupplierTest<R,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LSupplier r1 = LSupplier.safe(sut);
+        LSupplierX r2 = LSupplier.safe(sut);
+        Supplier r3 = LSupplier.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LSupplier.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LSupplier.safe(null);
+        assertThat(result).isSameAs(LSupplier.l(LSupplier.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LSupplier<R>> supplier = ()->sut;
+        Object result = LSupplier.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LSupplier.safeSupplier(null);
+        assertThat(result).isSameAs(LSupplier.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LSupplier<R>> r1 = LSupplier.safeSupplier(()->sut);
+        Supplier<LSupplier<R>> r2 = LSupplier.safeSupplier(()->sut);
+    }
 
 }

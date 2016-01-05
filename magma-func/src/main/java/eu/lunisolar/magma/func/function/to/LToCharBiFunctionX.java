@@ -72,7 +72,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		return doApplyAsChar(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default char nestingDoApplyAsChar(T1 a1, T2 a2) {
 		try {
 			return this.doApplyAsChar(a1, a2);
@@ -145,6 +145,24 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V1<T2, T1, X> lX1(final @Nonnull V1<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V1<T2, T1, X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2, X extends Throwable> char call(T1 a1, T2 a2, final @Nonnull LToCharBiFunctionX<T1, T2, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApplyAsChar(a1, a2);
@@ -171,6 +189,42 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToCharBiFunction<T1, T2> other) {
 		return (LToCharBiFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> safe() {
+		return Function4U::produceChar;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, X extends Throwable, Y extends Throwable> LSupplierX<LToCharBiFunctionX<T1, T2, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> safe(final @Nullable LToCharBiFunctionX<T1, T2, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, X extends Throwable, Y extends Throwable> LSupplierX<LToCharBiFunctionX<T1, T2, X>, Y> safeSupplier(final @Nullable LSupplierX<LToCharBiFunctionX<T1, T2, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -236,6 +290,22 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	@Nonnull
 	default <Y extends Throwable> LToCharBiFunctionX<T1, T2, Y> handleToCharBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 a1, T2 a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LToCharBiFunctionX for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2, X extends Throwable> extends LToCharBiFunctionX<T1, T2, X> {
+
+		char apply1(T2 a2, T1 a1) throws X;
+
+		@Override
+		default char doApplyAsChar(T1 a1, T2 a2) throws X {
+			return this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

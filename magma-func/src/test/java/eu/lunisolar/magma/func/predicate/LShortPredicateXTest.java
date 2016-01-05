@@ -810,5 +810,33 @@ public class LShortPredicateXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LShortPredicateX r1 = LShortPredicateX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LShortPredicateX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LShortPredicateX.safe(null);
+        assertThat(result).isSameAs(LShortPredicateX.lX(LShortPredicateX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LShortPredicateX<X>,Y> supplier = ()->sut;
+        Object result = LShortPredicateX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LShortPredicateX.safeSupplier(null);
+        assertThat(result).isSameAs(LShortPredicateX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LShortPredicateX<X>,Y> r1 = LShortPredicateX.safeSupplier(()->sut);
+    }
 
 }

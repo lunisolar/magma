@@ -532,5 +532,34 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LFloatBinaryOperator r1 = LFloatBinaryOperator.safe(sut);
+        LFloatBinaryOperatorX r2 = LFloatBinaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LFloatBinaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LFloatBinaryOperator.safe(null);
+        assertThat(result).isSameAs(LFloatBinaryOperator.l(LFloatBinaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LFloatBinaryOperator> supplier = ()->sut;
+        Object result = LFloatBinaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LFloatBinaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LFloatBinaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LFloatBinaryOperator> r1 = LFloatBinaryOperator.safeSupplier(()->sut);
+    }
 
 }

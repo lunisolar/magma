@@ -72,7 +72,7 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 		return doGetAsChar();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default char nestingDoGetAsChar() {
 		return this.doGetAsChar();
 	}
@@ -116,6 +116,42 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 	@Nonnull
 	static <X extends Throwable> LCharSupplier wrap(final @Nonnull LCharSupplierX<X> other) {
 		return other::nestingDoGetAsChar;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LCharSupplier safe() {
+		return Function4U::produceChar;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LCharSupplier> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LCharSupplier safe(final @Nullable LCharSupplier other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LCharSupplier> safeSupplier(final @Nullable LSupplier<LCharSupplier> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

@@ -818,5 +818,35 @@ public class LIntPredicateXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LIntPredicateX r1 = LIntPredicateX.safe(sut);
+        IntPredicate r3 = LIntPredicateX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LIntPredicateX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LIntPredicateX.safe(null);
+        assertThat(result).isSameAs(LIntPredicateX.lX(LIntPredicateX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LIntPredicateX<X>,Y> supplier = ()->sut;
+        Object result = LIntPredicateX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LIntPredicateX.safeSupplier(null);
+        assertThat(result).isSameAs(LIntPredicateX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LIntPredicateX<X>,Y> r1 = LIntPredicateX.safeSupplier(()->sut);
+        Supplier<LIntPredicateX<X>> r2 = LIntPredicateX.safeSupplier(()->sut);
+    }
 
 }

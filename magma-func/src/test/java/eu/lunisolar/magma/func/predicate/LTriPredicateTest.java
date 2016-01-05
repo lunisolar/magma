@@ -530,5 +530,34 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LTriPredicate r1 = LTriPredicate.safe(sut);
+        LTriPredicateX r2 = LTriPredicate.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LTriPredicate.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LTriPredicate.safe(null);
+        assertThat(result).isSameAs(LTriPredicate.l(LTriPredicate.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LTriPredicate<T1,T2,T3>> supplier = ()->sut;
+        Object result = LTriPredicate.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LTriPredicate.safeSupplier(null);
+        assertThat(result).isSameAs(LTriPredicate.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LTriPredicate<T1,T2,T3>> r1 = LTriPredicate.safeSupplier(()->sut);
+    }
 
 }

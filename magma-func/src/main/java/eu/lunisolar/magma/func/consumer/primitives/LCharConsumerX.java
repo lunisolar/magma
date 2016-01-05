@@ -74,7 +74,7 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(char a1) {
 		try {
 			this.doAccept(a1);
@@ -151,6 +151,42 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	static <X extends Throwable> LCharConsumerX<X> wrapX(final @Nonnull LCharConsumer other) {
 		return (LCharConsumerX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static <X extends Throwable> LCharConsumerX<X> safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LCharConsumerX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LCharConsumerX<X> safe(final @Nullable LCharConsumerX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LCharConsumerX<X>, Y> safeSupplier(final @Nullable LSupplierX<LCharConsumerX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

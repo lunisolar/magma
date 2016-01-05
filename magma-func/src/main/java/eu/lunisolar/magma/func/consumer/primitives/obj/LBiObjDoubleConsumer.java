@@ -74,7 +74,7 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(T1 a1, T2 a2, double a3) {
 		this.doAccept(a1, a2, a3);
 	}
@@ -120,6 +120,45 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2> V1<T1, T2> l1(final @Nonnull V1<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V2<T2, T1> l2(final @Nonnull V2<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V3<T2, T1> l3(final @Nonnull V3<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2> V4<T1, T2> l4(final @Nonnull V4<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V5<T2, T1> l5(final @Nonnull V5<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2> void call(T1 a1, T2 a2, double a3, final @Nonnull LBiObjDoubleConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.doAccept(a1, a2, a3);
@@ -131,6 +170,42 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjDoubleConsumer<T1, T2> wrap(final @Nonnull LBiObjDoubleConsumerX<T1, T2, X> other) {
 		return other::nestingDoAccept;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static <T1, T2> LBiObjDoubleConsumer<T1, T2> safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LBiObjDoubleConsumer<T1, T2>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2> LBiObjDoubleConsumer<T1, T2> safe(final @Nullable LBiObjDoubleConsumer<T1, T2> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LBiObjDoubleConsumer<T1, T2>> safeSupplier(final @Nullable LSupplier<LBiObjDoubleConsumer<T1, T2>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -193,6 +268,70 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> shovingBiObjDoubleConsX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiObjDoubleConsumer for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2> extends LBiObjDoubleConsumer<T1, T2> {
+
+		void apply1(T1 a1, double a3, T2 a2);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, double a3) {
+			this.apply1(a1, a3, a2);
+		}
+	}
+
+	/** Permutation of LBiObjDoubleConsumer for method references. */
+	@FunctionalInterface
+	interface V2<T1, T2> extends LBiObjDoubleConsumer<T1, T2> {
+
+		void apply2(T2 a2, T1 a1, double a3);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, double a3) {
+			this.apply2(a2, a1, a3);
+		}
+	}
+
+	/** Permutation of LBiObjDoubleConsumer for method references. */
+	@FunctionalInterface
+	interface V3<T1, T2> extends LBiObjDoubleConsumer<T1, T2> {
+
+		void apply3(T2 a2, double a3, T1 a1);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, double a3) {
+			this.apply3(a2, a3, a1);
+		}
+	}
+
+	/** Permutation of LBiObjDoubleConsumer for method references. */
+	@FunctionalInterface
+	interface V4<T1, T2> extends LBiObjDoubleConsumer<T1, T2> {
+
+		void apply4(double a3, T1 a1, T2 a2);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, double a3) {
+			this.apply4(a3, a1, a2);
+		}
+	}
+
+	/** Permutation of LBiObjDoubleConsumer for method references. */
+	@FunctionalInterface
+	interface V5<T1, T2> extends LBiObjDoubleConsumer<T1, T2> {
+
+		void apply5(double a3, T2 a2, T1 a1);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, double a3) {
+			this.apply5(a3, a2, a1);
+		}
 	}
 
 	// </editor-fold>

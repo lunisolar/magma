@@ -74,7 +74,7 @@ public interface LTriBoolConsumer extends LTriBoolConsumerX<RuntimeException>, M
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(boolean a1, boolean a2, boolean a3) {
 		this.doAccept(a1, a2, a3);
 	}
@@ -131,6 +131,42 @@ public interface LTriBoolConsumer extends LTriBoolConsumerX<RuntimeException>, M
 	@Nonnull
 	static <X extends Throwable> LTriBoolConsumer wrap(final @Nonnull LTriBoolConsumerX<X> other) {
 		return other::nestingDoAccept;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static LTriBoolConsumer safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LTriBoolConsumer> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LTriBoolConsumer safe(final @Nullable LTriBoolConsumer other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LTriBoolConsumer> safeSupplier(final @Nullable LSupplier<LTriBoolConsumer> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

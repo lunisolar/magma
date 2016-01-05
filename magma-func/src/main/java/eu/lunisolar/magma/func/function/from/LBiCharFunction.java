@@ -73,7 +73,7 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(char a1, char a2) {
 		return this.doApply(a1, a2);
 	}
@@ -126,6 +126,17 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <R> V1<R> l1(final @Nonnull V1<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <R> R call(char a1, char a2, final @Nonnull LBiCharFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApply(a1, a2);
@@ -137,6 +148,42 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 	@Nonnull
 	static <R, X extends Throwable> LBiCharFunction<R> wrap(final @Nonnull LBiCharFunctionX<R, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <R> LBiCharFunction<R> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <R> LSupplier<LBiCharFunction<R>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <R> LBiCharFunction<R> safe(final @Nullable LBiCharFunction<R> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <R> LSupplier<LBiCharFunction<R>> safeSupplier(final @Nullable LSupplier<LBiCharFunction<R>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -210,5 +257,21 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 	default LBiCharFunction<R> nonNullBiCharFunc() {
 		return this::nonNullDoApply;
 	}
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiCharFunction for method references. */
+	@FunctionalInterface
+	interface V1<R> extends LBiCharFunction<R> {
+		@Nullable
+		R apply1(char a2, char a1);
+
+		@Override
+		default R doApply(char a1, char a2) {
+			return this.apply1(a2, a1);
+		}
+	}
+
+	// </editor-fold>
 
 }

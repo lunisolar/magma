@@ -687,5 +687,35 @@ public class LDoubleSupplierXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LDoubleSupplierX r1 = LDoubleSupplierX.safe(sut);
+        DoubleSupplier r3 = LDoubleSupplierX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LDoubleSupplierX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LDoubleSupplierX.safe(null);
+        assertThat(result).isSameAs(LDoubleSupplierX.lX(LDoubleSupplierX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LDoubleSupplierX<X>,Y> supplier = ()->sut;
+        Object result = LDoubleSupplierX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LDoubleSupplierX.safeSupplier(null);
+        assertThat(result).isSameAs(LDoubleSupplierX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LDoubleSupplierX<X>,Y> r1 = LDoubleSupplierX.safeSupplier(()->sut);
+        Supplier<LDoubleSupplierX<X>> r2 = LDoubleSupplierX.safeSupplier(()->sut);
+    }
 
 }

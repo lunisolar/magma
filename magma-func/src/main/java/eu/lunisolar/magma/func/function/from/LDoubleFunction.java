@@ -83,7 +83,7 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 		return doApply(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(double a1) {
 		return this.doApply(a1);
 	}
@@ -141,6 +141,42 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 	@Nonnull
 	static <R, X extends Throwable> LDoubleFunction<R> wrap(final @Nonnull LDoubleFunctionX<R, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <R> LDoubleFunction<R> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <R> LSupplier<LDoubleFunction<R>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <R> LDoubleFunction<R> safe(final @Nullable LDoubleFunction<R> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <R> LSupplier<LDoubleFunction<R>> safeSupplier(final @Nullable LSupplier<LDoubleFunction<R>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

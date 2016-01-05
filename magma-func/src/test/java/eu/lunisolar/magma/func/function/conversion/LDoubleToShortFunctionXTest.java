@@ -750,5 +750,33 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LDoubleToShortFunctionX r1 = LDoubleToShortFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LDoubleToShortFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LDoubleToShortFunctionX.safe(null);
+        assertThat(result).isSameAs(LDoubleToShortFunctionX.lX(LDoubleToShortFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LDoubleToShortFunctionX<X>,Y> supplier = ()->sut;
+        Object result = LDoubleToShortFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LDoubleToShortFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LDoubleToShortFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LDoubleToShortFunctionX<X>,Y> r1 = LDoubleToShortFunctionX.safeSupplier(()->sut);
+    }
 
 }

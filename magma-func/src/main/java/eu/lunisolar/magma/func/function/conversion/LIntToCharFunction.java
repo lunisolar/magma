@@ -72,7 +72,7 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 		return doApplyAsChar(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default char nestingDoApplyAsChar(int a1) {
 		return this.doApplyAsChar(a1);
 	}
@@ -121,6 +121,42 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 	@Nonnull
 	static <X extends Throwable> LIntToCharFunction wrap(final @Nonnull LIntToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LIntToCharFunction safe() {
+		return Function4U::produceChar;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntToCharFunction> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LIntToCharFunction safe(final @Nullable LIntToCharFunction other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntToCharFunction> safeSupplier(final @Nullable LSupplier<LIntToCharFunction> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

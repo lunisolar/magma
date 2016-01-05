@@ -72,7 +72,7 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 		return doApplyAsChar(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default char nestingDoApplyAsChar(double a1) {
 		return this.doApplyAsChar(a1);
 	}
@@ -121,6 +121,42 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 	@Nonnull
 	static <X extends Throwable> LDoubleToCharFunction wrap(final @Nonnull LDoubleToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LDoubleToCharFunction safe() {
+		return Function4U::produceChar;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LDoubleToCharFunction> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LDoubleToCharFunction safe(final @Nullable LDoubleToCharFunction other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LDoubleToCharFunction> safeSupplier(final @Nullable LSupplier<LDoubleToCharFunction> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

@@ -72,7 +72,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 		return doApply(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoApply(boolean a1) {
 		return this.doApply(a1);
 	}
@@ -126,6 +126,42 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	static <X extends Throwable> LLogicalOperator wrap(final @Nonnull LLogicalOperatorX<X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LLogicalOperator safe() {
+		return Function4U::produceBoolean;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLogicalOperator> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LLogicalOperator safe(final @Nullable LLogicalOperator other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLogicalOperator> safeSupplier(final @Nullable LSupplier<LLogicalOperator> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

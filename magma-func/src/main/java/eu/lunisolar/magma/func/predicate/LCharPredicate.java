@@ -72,7 +72,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return doTest(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(char a1) {
 		return this.doTest(a1);
 	}
@@ -127,6 +127,42 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	static <X extends Throwable> LCharPredicate wrap(final @Nonnull LCharPredicateX<X> other) {
 		return other::nestingDoTest;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LCharPredicate safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LCharPredicate> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LCharPredicate safe(final @Nullable LCharPredicate other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LCharPredicate> safeSupplier(final @Nullable LSupplier<LCharPredicate> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

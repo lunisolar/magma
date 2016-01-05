@@ -72,7 +72,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 		return doApplyAsLong(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default long nestingDoApplyAsLong(byte a1) {
 		return this.doApplyAsLong(a1);
 	}
@@ -121,6 +121,42 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	static <X extends Throwable> LByteToLongFunction wrap(final @Nonnull LByteToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LByteToLongFunction safe() {
+		return Function4U::produceLong;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LByteToLongFunction> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LByteToLongFunction safe(final @Nullable LByteToLongFunction other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LByteToLongFunction> safeSupplier(final @Nullable LSupplier<LByteToLongFunction> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

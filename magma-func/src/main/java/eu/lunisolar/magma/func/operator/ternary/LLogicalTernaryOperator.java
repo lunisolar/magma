@@ -72,7 +72,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 		return doApply(args.first(), args.second(), args.third());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoApply(boolean a1, boolean a2, boolean a3) {
 		return this.doApply(a1, a2, a3);
 	}
@@ -144,6 +144,42 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	@Nonnull
 	static <X extends Throwable> LLogicalTernaryOperator wrap(final @Nonnull LLogicalTernaryOperatorX<X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LLogicalTernaryOperator safe() {
+		return Function4U::produceBoolean;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLogicalTernaryOperator> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LLogicalTernaryOperator safe(final @Nullable LLogicalTernaryOperator other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLogicalTernaryOperator> safeSupplier(final @Nullable LSupplier<LLogicalTernaryOperator> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

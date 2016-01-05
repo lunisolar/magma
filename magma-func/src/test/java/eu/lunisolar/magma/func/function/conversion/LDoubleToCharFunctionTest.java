@@ -765,5 +765,34 @@ public class LDoubleToCharFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LDoubleToCharFunction r1 = LDoubleToCharFunction.safe(sut);
+        LDoubleToCharFunctionX r2 = LDoubleToCharFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LDoubleToCharFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LDoubleToCharFunction.safe(null);
+        assertThat(result).isSameAs(LDoubleToCharFunction.l(LDoubleToCharFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LDoubleToCharFunction> supplier = ()->sut;
+        Object result = LDoubleToCharFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LDoubleToCharFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LDoubleToCharFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LDoubleToCharFunction> r1 = LDoubleToCharFunction.safeSupplier(()->sut);
+    }
 
 }

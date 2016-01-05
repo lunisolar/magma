@@ -72,7 +72,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 		return doApplyAsFloat(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default float nestingDoApplyAsFloat(float a1, float a2) {
 		try {
 			return this.doApplyAsFloat(a1, a2);
@@ -171,6 +171,42 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	@Nonnull
 	static <X extends Throwable> LFloatBinaryOperatorX<X> wrapX(final @Nonnull LFloatBinaryOperator other) {
 		return (LFloatBinaryOperatorX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <X extends Throwable> LFloatBinaryOperatorX<X> safe() {
+		return Function4U::produceFloat;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LFloatBinaryOperatorX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LFloatBinaryOperatorX<X> safe(final @Nullable LFloatBinaryOperatorX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LFloatBinaryOperatorX<X>, Y> safeSupplier(final @Nullable LSupplierX<LFloatBinaryOperatorX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

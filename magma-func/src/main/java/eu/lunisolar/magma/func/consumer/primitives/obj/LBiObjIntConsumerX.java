@@ -74,7 +74,7 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(T1 a1, T2 a2, int a3) {
 		try {
 			this.doAccept(a1, a2, a3);
@@ -143,6 +143,80 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, X extends Throwable> V1<T1, T2, X> lX1(final @Nonnull V1<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, X extends Throwable> V1<T1, T2, X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V2<T2, T1, X> lX2(final @Nonnull V2<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V2<T2, T1, X> lX2(@Nonnull Class<X> xClass, final @Nonnull V2<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V3<T2, T1, X> lX3(final @Nonnull V3<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V3<T2, T1, X> lX3(@Nonnull Class<X> xClass, final @Nonnull V3<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, X extends Throwable> V4<T1, T2, X> lX4(final @Nonnull V4<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, X extends Throwable> V4<T1, T2, X> lX4(@Nonnull Class<X> xClass, final @Nonnull V4<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V5<T2, T1, X> lX5(final @Nonnull V5<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, X extends Throwable> V5<T2, T1, X> lX5(@Nonnull Class<X> xClass, final @Nonnull V5<T2, T1, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2, X extends Throwable> void call(T1 a1, T2 a2, int a3, final @Nonnull LBiObjIntConsumerX<T1, T2, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.doAccept(a1, a2, a3);
@@ -169,6 +243,42 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjIntConsumer<T1, T2> other) {
 		return (LBiObjIntConsumerX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, X extends Throwable, Y extends Throwable> LSupplierX<LBiObjIntConsumerX<T1, T2, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> safe(final @Nullable LBiObjIntConsumerX<T1, T2, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, X extends Throwable, Y extends Throwable> LSupplierX<LBiObjIntConsumerX<T1, T2, X>, Y> safeSupplier(final @Nullable LSupplierX<LBiObjIntConsumerX<T1, T2, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -247,6 +357,70 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 	@Nonnull
 	default <Y extends Throwable> LBiObjIntConsumerX<T1, T2, Y> handleBiObjIntConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 a1, T2 a2, int a3) -> this.handlingDoAccept(a1, a2, a3, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiObjIntConsumerX for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2, X extends Throwable> extends LBiObjIntConsumerX<T1, T2, X> {
+
+		void apply1(T1 a1, int a3, T2 a2) throws X;
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, int a3) throws X {
+			this.apply1(a1, a3, a2);
+		}
+	}
+
+	/** Permutation of LBiObjIntConsumerX for method references. */
+	@FunctionalInterface
+	interface V2<T1, T2, X extends Throwable> extends LBiObjIntConsumerX<T1, T2, X> {
+
+		void apply2(T2 a2, T1 a1, int a3) throws X;
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, int a3) throws X {
+			this.apply2(a2, a1, a3);
+		}
+	}
+
+	/** Permutation of LBiObjIntConsumerX for method references. */
+	@FunctionalInterface
+	interface V3<T1, T2, X extends Throwable> extends LBiObjIntConsumerX<T1, T2, X> {
+
+		void apply3(T2 a2, int a3, T1 a1) throws X;
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, int a3) throws X {
+			this.apply3(a2, a3, a1);
+		}
+	}
+
+	/** Permutation of LBiObjIntConsumerX for method references. */
+	@FunctionalInterface
+	interface V4<T1, T2, X extends Throwable> extends LBiObjIntConsumerX<T1, T2, X> {
+
+		void apply4(int a3, T1 a1, T2 a2) throws X;
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, int a3) throws X {
+			this.apply4(a3, a1, a2);
+		}
+	}
+
+	/** Permutation of LBiObjIntConsumerX for method references. */
+	@FunctionalInterface
+	interface V5<T1, T2, X extends Throwable> extends LBiObjIntConsumerX<T1, T2, X> {
+
+		void apply5(int a3, T2 a2, T1 a1) throws X;
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, int a3) throws X {
+			this.apply5(a3, a2, a1);
+		}
 	}
 
 	// </editor-fold>

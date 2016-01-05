@@ -72,7 +72,7 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 		return doApplyAsByte(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default byte nestingDoApplyAsByte(T1 a1, T2 a2) {
 		return this.doApplyAsByte(a1, a2);
 	}
@@ -122,6 +122,17 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V1<T2, T1> l1(final @Nonnull V1<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2> byte call(T1 a1, T2 a2, final @Nonnull LToByteBiFunction<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApplyAsByte(a1, a2);
@@ -133,6 +144,42 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToByteBiFunction<T1, T2> wrap(final @Nonnull LToByteBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsByte;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2> LToByteBiFunction<T1, T2> safe() {
+		return Function4U::produceByte;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LToByteBiFunction<T1, T2>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2> LToByteBiFunction<T1, T2> safe(final @Nullable LToByteBiFunction<T1, T2> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LToByteBiFunction<T1, T2>> safeSupplier(final @Nullable LSupplier<LToByteBiFunction<T1, T2>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -182,6 +229,22 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToByteBiFunctionX<T1, T2, RuntimeException> shovingToByteBiFuncX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LToByteBiFunction for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2> extends LToByteBiFunction<T1, T2> {
+
+		byte apply1(T2 a2, T1 a1);
+
+		@Override
+		default byte doApplyAsByte(T1 a1, T2 a2) {
+			return this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

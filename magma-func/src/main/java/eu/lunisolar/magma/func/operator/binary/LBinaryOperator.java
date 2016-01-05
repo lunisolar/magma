@@ -70,7 +70,7 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default T nestingDoApply(T a1, T a2) {
 		return this.doApply(a1, a2);
 	}
@@ -140,6 +140,42 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 	@Nonnull
 	static <T, X extends Throwable> LBinaryOperator<T> wrap(final @Nonnull LBinaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T> LBinaryOperator<T> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LBinaryOperator<T>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T> LBinaryOperator<T> safe(final @Nullable LBinaryOperator<T> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LBinaryOperator<T>> safeSupplier(final @Nullable LSupplier<LBinaryOperator<T>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

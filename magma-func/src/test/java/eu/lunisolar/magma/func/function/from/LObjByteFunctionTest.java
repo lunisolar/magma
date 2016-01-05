@@ -542,5 +542,50 @@ public class LObjByteFunctionTest<T,R,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private R variant1(byte a2,T a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LObjByteFunction lambda = LObjByteFunction./*<T,R>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LObjByteFunction.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LObjByteFunction r1 = LObjByteFunction.safe(sut);
+        LObjByteFunctionX r2 = LObjByteFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LObjByteFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LObjByteFunction.safe(null);
+        assertThat(result).isSameAs(LObjByteFunction.l(LObjByteFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LObjByteFunction<T,R>> supplier = ()->sut;
+        Object result = LObjByteFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LObjByteFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LObjByteFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LObjByteFunction<T,R>> r1 = LObjByteFunction.safeSupplier(()->sut);
+    }
 
 }

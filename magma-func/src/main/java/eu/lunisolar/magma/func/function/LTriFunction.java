@@ -73,7 +73,7 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		return doApply(args.first(), args.second(), args.third());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(T1 a1, T2 a2, T3 a3) {
 		return this.doApply(a1, a2, a3);
 	}
@@ -143,6 +143,42 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	@Nonnull
 	static <T1, T2, T3, R, X extends Throwable> LTriFunction<T1, T2, T3, R> wrap(final @Nonnull LTriFunctionX<T1, T2, T3, R, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, T3, R> LSupplier<LTriFunction<T1, T2, T3, R>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> safe(final @Nullable LTriFunction<T1, T2, T3, R> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, T3, R> LSupplier<LTriFunction<T1, T2, T3, R>> safeSupplier(final @Nullable LSupplier<LTriFunction<T1, T2, T3, R>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

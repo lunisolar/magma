@@ -793,5 +793,33 @@ public class LShortFunctionXTest<R,X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LShortFunctionX r1 = LShortFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LShortFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LShortFunctionX.safe(null);
+        assertThat(result).isSameAs(LShortFunctionX.lX(LShortFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LShortFunctionX<R,X>,Y> supplier = ()->sut;
+        Object result = LShortFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LShortFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LShortFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LShortFunctionX<R,X>,Y> r1 = LShortFunctionX.safeSupplier(()->sut);
+    }
 
 }

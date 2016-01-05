@@ -72,7 +72,7 @@ public interface LBiObjFloatPredicate<T1, T2> extends LBiObjFloatPredicateX<T1, 
 		return doTest(args.first(), args.second(), args.third());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(T1 a1, T2 a2, float a3) {
 		return this.doTest(a1, a2, a3);
 	}
@@ -134,6 +134,45 @@ public interface LBiObjFloatPredicate<T1, T2> extends LBiObjFloatPredicateX<T1, 
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2> V1<T1, T2> l1(final @Nonnull V1<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V2<T2, T1> l2(final @Nonnull V2<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V3<T2, T1> l3(final @Nonnull V3<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2> V4<T1, T2> l4(final @Nonnull V4<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V5<T2, T1> l5(final @Nonnull V5<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2> boolean call(T1 a1, T2 a2, float a3, final @Nonnull LBiObjFloatPredicate<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doTest(a1, a2, a3);
@@ -145,6 +184,42 @@ public interface LBiObjFloatPredicate<T1, T2> extends LBiObjFloatPredicateX<T1, 
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjFloatPredicate<T1, T2> wrap(final @Nonnull LBiObjFloatPredicateX<T1, T2, X> other) {
 		return other::nestingDoTest;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2> LBiObjFloatPredicate<T1, T2> safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LBiObjFloatPredicate<T1, T2>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2> LBiObjFloatPredicate<T1, T2> safe(final @Nullable LBiObjFloatPredicate<T1, T2> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LBiObjFloatPredicate<T1, T2>> safeSupplier(final @Nullable LSupplier<LBiObjFloatPredicate<T1, T2>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -256,6 +331,70 @@ public interface LBiObjFloatPredicate<T1, T2> extends LBiObjFloatPredicateX<T1, 
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjFloatPredicateX<T1, T2, RuntimeException> shovingBiObjFloatPredX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiObjFloatPredicate for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2> extends LBiObjFloatPredicate<T1, T2> {
+
+		boolean apply1(T1 a1, float a3, T2 a2);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, float a3) {
+			return this.apply1(a1, a3, a2);
+		}
+	}
+
+	/** Permutation of LBiObjFloatPredicate for method references. */
+	@FunctionalInterface
+	interface V2<T1, T2> extends LBiObjFloatPredicate<T1, T2> {
+
+		boolean apply2(T2 a2, T1 a1, float a3);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, float a3) {
+			return this.apply2(a2, a1, a3);
+		}
+	}
+
+	/** Permutation of LBiObjFloatPredicate for method references. */
+	@FunctionalInterface
+	interface V3<T1, T2> extends LBiObjFloatPredicate<T1, T2> {
+
+		boolean apply3(T2 a2, float a3, T1 a1);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, float a3) {
+			return this.apply3(a2, a3, a1);
+		}
+	}
+
+	/** Permutation of LBiObjFloatPredicate for method references. */
+	@FunctionalInterface
+	interface V4<T1, T2> extends LBiObjFloatPredicate<T1, T2> {
+
+		boolean apply4(float a3, T1 a1, T2 a2);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, float a3) {
+			return this.apply4(a3, a1, a2);
+		}
+	}
+
+	/** Permutation of LBiObjFloatPredicate for method references. */
+	@FunctionalInterface
+	interface V5<T1, T2> extends LBiObjFloatPredicate<T1, T2> {
+
+		boolean apply5(float a3, T2 a2, T1 a1);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, float a3) {
+			return this.apply5(a3, a2, a1);
+		}
 	}
 
 	// </editor-fold>

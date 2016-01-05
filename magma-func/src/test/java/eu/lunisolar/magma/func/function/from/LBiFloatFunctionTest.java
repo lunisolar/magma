@@ -542,5 +542,50 @@ public class LBiFloatFunctionTest<R,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private R variant1(float a2,float a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiFloatFunction lambda = LBiFloatFunction./*<R>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiFloatFunction.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiFloatFunction r1 = LBiFloatFunction.safe(sut);
+        LBiFloatFunctionX r2 = LBiFloatFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiFloatFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiFloatFunction.safe(null);
+        assertThat(result).isSameAs(LBiFloatFunction.l(LBiFloatFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiFloatFunction<R>> supplier = ()->sut;
+        Object result = LBiFloatFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiFloatFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LBiFloatFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiFloatFunction<R>> r1 = LBiFloatFunction.safeSupplier(()->sut);
+    }
 
 }

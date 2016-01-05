@@ -72,7 +72,7 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 		return doTest(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(T a1, byte a2) {
 		return this.doTest(a1, a2);
 	}
@@ -128,6 +128,17 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T> V1<T> l1(final @Nonnull V1<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T> boolean call(T a1, byte a2, final @Nonnull LObjBytePredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doTest(a1, a2);
@@ -139,6 +150,42 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	@Nonnull
 	static <T, X extends Throwable> LObjBytePredicate<T> wrap(final @Nonnull LObjBytePredicateX<T, X> other) {
 		return other::nestingDoTest;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T> LObjBytePredicate<T> safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LObjBytePredicate<T>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T> LObjBytePredicate<T> safe(final @Nullable LObjBytePredicate<T> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LObjBytePredicate<T>> safeSupplier(final @Nullable LSupplier<LObjBytePredicate<T>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -248,6 +295,22 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBytePredicateX<T, RuntimeException> shovingObjBytePredX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LObjBytePredicate for method references. */
+	@FunctionalInterface
+	interface V1<T> extends LObjBytePredicate<T> {
+
+		boolean apply(byte a2, T a1);
+
+		@Override
+		default boolean doTest(T a1, byte a2) {
+			return this.apply(a2, a1);
+		}
 	}
 
 	// </editor-fold>

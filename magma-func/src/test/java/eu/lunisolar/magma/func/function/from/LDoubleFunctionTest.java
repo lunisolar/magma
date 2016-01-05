@@ -816,5 +816,36 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LDoubleFunction r1 = LDoubleFunction.safe(sut);
+        LDoubleFunctionX r2 = LDoubleFunction.safe(sut);
+        DoubleFunction r3 = LDoubleFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LDoubleFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LDoubleFunction.safe(null);
+        assertThat(result).isSameAs(LDoubleFunction.l(LDoubleFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LDoubleFunction<R>> supplier = ()->sut;
+        Object result = LDoubleFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LDoubleFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LDoubleFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LDoubleFunction<R>> r1 = LDoubleFunction.safeSupplier(()->sut);
+        Supplier<LDoubleFunction<R>> r2 = LDoubleFunction.safeSupplier(()->sut);
+    }
 
 }

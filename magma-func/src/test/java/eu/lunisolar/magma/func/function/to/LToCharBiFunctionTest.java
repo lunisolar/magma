@@ -463,5 +463,50 @@ public class LToCharBiFunctionTest<T1,T2,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private char variant1(T2 a2,T1 a1) {
+        return (char)100;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LToCharBiFunction lambda = LToCharBiFunction./*<T1,T2>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LToCharBiFunction.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LToCharBiFunction r1 = LToCharBiFunction.safe(sut);
+        LToCharBiFunctionX r2 = LToCharBiFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LToCharBiFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LToCharBiFunction.safe(null);
+        assertThat(result).isSameAs(LToCharBiFunction.l(LToCharBiFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LToCharBiFunction<T1,T2>> supplier = ()->sut;
+        Object result = LToCharBiFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LToCharBiFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LToCharBiFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LToCharBiFunction<T1,T2>> r1 = LToCharBiFunction.safeSupplier(()->sut);
+    }
 
 }

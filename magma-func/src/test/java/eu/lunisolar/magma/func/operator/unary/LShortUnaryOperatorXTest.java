@@ -757,5 +757,33 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LShortUnaryOperatorX r1 = LShortUnaryOperatorX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LShortUnaryOperatorX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LShortUnaryOperatorX.safe(null);
+        assertThat(result).isSameAs(LShortUnaryOperatorX.lX(LShortUnaryOperatorX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LShortUnaryOperatorX<X>,Y> supplier = ()->sut;
+        Object result = LShortUnaryOperatorX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LShortUnaryOperatorX.safeSupplier(null);
+        assertThat(result).isSameAs(LShortUnaryOperatorX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LShortUnaryOperatorX<X>,Y> r1 = LShortUnaryOperatorX.safeSupplier(()->sut);
+    }
 
 }

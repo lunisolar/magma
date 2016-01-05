@@ -541,5 +541,97 @@ public class LBiObjByteFunctionXTest<T1,T2,R,X extends ParseException> {
             .isTrue();
     }
 
+    //<editor-fold desc="Variants">
+
+    private R variant1(T1 a1,byte a3,T2 a2) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiObjByteFunctionX lambda = LBiObjByteFunctionX./*<T1,T2,R,X>*/lX1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiObjByteFunctionX.V1.class);
+    }
+
+
+    private R variant2(T2 a2,T1 a1,byte a3) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant2() {
+        LBiObjByteFunctionX lambda = LBiObjByteFunctionX./*<T1,T2,R,X>*/lX2(this::variant2);
+
+        assertThat(lambda).isInstanceOf(LBiObjByteFunctionX.V2.class);
+    }
+
+
+    private R variant3(T2 a2,byte a3,T1 a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant3() {
+        LBiObjByteFunctionX lambda = LBiObjByteFunctionX./*<T1,T2,R,X>*/lX3(this::variant3);
+
+        assertThat(lambda).isInstanceOf(LBiObjByteFunctionX.V3.class);
+    }
+
+
+    private R variant4(byte a3,T1 a1,T2 a2) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant4() {
+        LBiObjByteFunctionX lambda = LBiObjByteFunctionX./*<T1,T2,R,X>*/lX4(this::variant4);
+
+        assertThat(lambda).isInstanceOf(LBiObjByteFunctionX.V4.class);
+    }
+
+
+    private R variant5(byte a3,T2 a2,T1 a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant5() {
+        LBiObjByteFunctionX lambda = LBiObjByteFunctionX./*<T1,T2,R,X>*/lX5(this::variant5);
+
+        assertThat(lambda).isInstanceOf(LBiObjByteFunctionX.V5.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiObjByteFunctionX r1 = LBiObjByteFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiObjByteFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiObjByteFunctionX.safe(null);
+        assertThat(result).isSameAs(LBiObjByteFunctionX.lX(LBiObjByteFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LBiObjByteFunctionX<T1,T2,R,X>,Y> supplier = ()->sut;
+        Object result = LBiObjByteFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiObjByteFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LBiObjByteFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LBiObjByteFunctionX<T1,T2,R,X>,Y> r1 = LBiObjByteFunctionX.safeSupplier(()->sut);
+    }
 
 }

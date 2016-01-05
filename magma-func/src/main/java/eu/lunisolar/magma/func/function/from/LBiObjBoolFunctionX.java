@@ -73,7 +73,7 @@ public interface LBiObjBoolFunctionX<T1, T2, R, X extends Throwable> extends Met
 		return doApply(args.first(), args.second(), args.third());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(T1 a1, T2 a2, boolean a3) {
 		try {
 			return this.doApply(a1, a2, a3);
@@ -155,6 +155,80 @@ public interface LBiObjBoolFunctionX<T1, T2, R, X extends Throwable> extends Met
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> V1<T1, T2, R, X> lX1(final @Nonnull V1<T1, T2, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> V1<T1, T2, R, X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<T1, T2, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R, X extends Throwable> V2<T2, T1, R, X> lX2(final @Nonnull V2<T2, T1, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R, X extends Throwable> V2<T2, T1, R, X> lX2(@Nonnull Class<X> xClass, final @Nonnull V2<T2, T1, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R, X extends Throwable> V3<T2, T1, R, X> lX3(final @Nonnull V3<T2, T1, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R, X extends Throwable> V3<T2, T1, R, X> lX3(@Nonnull Class<X> xClass, final @Nonnull V3<T2, T1, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> V4<T1, T2, R, X> lX4(final @Nonnull V4<T1, T2, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> V4<T1, T2, R, X> lX4(@Nonnull Class<X> xClass, final @Nonnull V4<T1, T2, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R, X extends Throwable> V5<T2, T1, R, X> lX5(final @Nonnull V5<T2, T1, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R, X extends Throwable> V5<T2, T1, R, X> lX5(@Nonnull Class<X> xClass, final @Nonnull V5<T2, T1, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2, R, X extends Throwable> R call(T1 a1, T2 a2, boolean a3, final @Nonnull LBiObjBoolFunctionX<T1, T2, R, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApply(a1, a2, a3);
@@ -181,6 +255,42 @@ public interface LBiObjBoolFunctionX<T1, T2, R, X extends Throwable> extends Met
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiObjBoolFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjBoolFunction<T1, T2, R> other) {
 		return (LBiObjBoolFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjBoolFunctionX<T1, T2, R, X> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable, Y extends Throwable> LSupplierX<LBiObjBoolFunctionX<T1, T2, R, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjBoolFunctionX<T1, T2, R, X> safe(final @Nullable LBiObjBoolFunctionX<T1, T2, R, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable, Y extends Throwable> LSupplierX<LBiObjBoolFunctionX<T1, T2, R, X>, Y> safeSupplier(final @Nullable LSupplierX<LBiObjBoolFunctionX<T1, T2, R, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -269,6 +379,70 @@ public interface LBiObjBoolFunctionX<T1, T2, R, X extends Throwable> extends Met
 	@Nonnull
 	default <Y extends Throwable> LBiObjBoolFunctionX<T1, T2, R, Y> handleBiObjBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 a1, T2 a2, boolean a3) -> this.handlingDoApply(a1, a2, a3, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiObjBoolFunctionX for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2, R, X extends Throwable> extends LBiObjBoolFunctionX<T1, T2, R, X> {
+		@Nullable
+		R apply1(T1 a1, boolean a3, T2 a2) throws X;
+
+		@Override
+		default R doApply(T1 a1, T2 a2, boolean a3) throws X {
+			return this.apply1(a1, a3, a2);
+		}
+	}
+
+	/** Permutation of LBiObjBoolFunctionX for method references. */
+	@FunctionalInterface
+	interface V2<T1, T2, R, X extends Throwable> extends LBiObjBoolFunctionX<T1, T2, R, X> {
+		@Nullable
+		R apply2(T2 a2, T1 a1, boolean a3) throws X;
+
+		@Override
+		default R doApply(T1 a1, T2 a2, boolean a3) throws X {
+			return this.apply2(a2, a1, a3);
+		}
+	}
+
+	/** Permutation of LBiObjBoolFunctionX for method references. */
+	@FunctionalInterface
+	interface V3<T1, T2, R, X extends Throwable> extends LBiObjBoolFunctionX<T1, T2, R, X> {
+		@Nullable
+		R apply3(T2 a2, boolean a3, T1 a1) throws X;
+
+		@Override
+		default R doApply(T1 a1, T2 a2, boolean a3) throws X {
+			return this.apply3(a2, a3, a1);
+		}
+	}
+
+	/** Permutation of LBiObjBoolFunctionX for method references. */
+	@FunctionalInterface
+	interface V4<T1, T2, R, X extends Throwable> extends LBiObjBoolFunctionX<T1, T2, R, X> {
+		@Nullable
+		R apply4(boolean a3, T1 a1, T2 a2) throws X;
+
+		@Override
+		default R doApply(T1 a1, T2 a2, boolean a3) throws X {
+			return this.apply4(a3, a1, a2);
+		}
+	}
+
+	/** Permutation of LBiObjBoolFunctionX for method references. */
+	@FunctionalInterface
+	interface V5<T1, T2, R, X extends Throwable> extends LBiObjBoolFunctionX<T1, T2, R, X> {
+		@Nullable
+		R apply5(boolean a3, T2 a2, T1 a1) throws X;
+
+		@Override
+		default R doApply(T1 a1, T2 a2, boolean a3) throws X {
+			return this.apply5(a3, a2, a1);
+		}
 	}
 
 	// </editor-fold>

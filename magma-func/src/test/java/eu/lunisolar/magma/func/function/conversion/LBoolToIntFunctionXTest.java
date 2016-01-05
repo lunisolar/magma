@@ -750,5 +750,33 @@ public class LBoolToIntFunctionXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LBoolToIntFunctionX r1 = LBoolToIntFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBoolToIntFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBoolToIntFunctionX.safe(null);
+        assertThat(result).isSameAs(LBoolToIntFunctionX.lX(LBoolToIntFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LBoolToIntFunctionX<X>,Y> supplier = ()->sut;
+        Object result = LBoolToIntFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LBoolToIntFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LBoolToIntFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LBoolToIntFunctionX<X>,Y> r1 = LBoolToIntFunctionX.safeSupplier(()->sut);
+    }
 
 }

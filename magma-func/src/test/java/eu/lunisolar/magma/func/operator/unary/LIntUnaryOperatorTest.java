@@ -780,5 +780,36 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LIntUnaryOperator r1 = LIntUnaryOperator.safe(sut);
+        LIntUnaryOperatorX r2 = LIntUnaryOperator.safe(sut);
+        IntUnaryOperator r3 = LIntUnaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LIntUnaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LIntUnaryOperator.safe(null);
+        assertThat(result).isSameAs(LIntUnaryOperator.l(LIntUnaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LIntUnaryOperator> supplier = ()->sut;
+        Object result = LIntUnaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LIntUnaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LIntUnaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LIntUnaryOperator> r1 = LIntUnaryOperator.safeSupplier(()->sut);
+        Supplier<LIntUnaryOperator> r2 = LIntUnaryOperator.safeSupplier(()->sut);
+    }
 
 }

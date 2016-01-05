@@ -556,5 +556,98 @@ public class LBiObjDoubleFunctionTest<T1,T2,R,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private R variant1(T1 a1,double a3,T2 a2) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiObjDoubleFunction lambda = LBiObjDoubleFunction./*<T1,T2,R>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiObjDoubleFunction.V1.class);
+    }
+
+
+    private R variant2(T2 a2,T1 a1,double a3) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant2() {
+        LBiObjDoubleFunction lambda = LBiObjDoubleFunction./*<T1,T2,R>*/l2(this::variant2);
+
+        assertThat(lambda).isInstanceOf(LBiObjDoubleFunction.V2.class);
+    }
+
+
+    private R variant3(T2 a2,double a3,T1 a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant3() {
+        LBiObjDoubleFunction lambda = LBiObjDoubleFunction./*<T1,T2,R>*/l3(this::variant3);
+
+        assertThat(lambda).isInstanceOf(LBiObjDoubleFunction.V3.class);
+    }
+
+
+    private R variant4(double a3,T1 a1,T2 a2) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant4() {
+        LBiObjDoubleFunction lambda = LBiObjDoubleFunction./*<T1,T2,R>*/l4(this::variant4);
+
+        assertThat(lambda).isInstanceOf(LBiObjDoubleFunction.V4.class);
+    }
+
+
+    private R variant5(double a3,T2 a2,T1 a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant5() {
+        LBiObjDoubleFunction lambda = LBiObjDoubleFunction./*<T1,T2,R>*/l5(this::variant5);
+
+        assertThat(lambda).isInstanceOf(LBiObjDoubleFunction.V5.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiObjDoubleFunction r1 = LBiObjDoubleFunction.safe(sut);
+        LBiObjDoubleFunctionX r2 = LBiObjDoubleFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiObjDoubleFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiObjDoubleFunction.safe(null);
+        assertThat(result).isSameAs(LBiObjDoubleFunction.l(LBiObjDoubleFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiObjDoubleFunction<T1,T2,R>> supplier = ()->sut;
+        Object result = LBiObjDoubleFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiObjDoubleFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LBiObjDoubleFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiObjDoubleFunction<T1,T2,R>> r1 = LBiObjDoubleFunction.safeSupplier(()->sut);
+    }
 
 }

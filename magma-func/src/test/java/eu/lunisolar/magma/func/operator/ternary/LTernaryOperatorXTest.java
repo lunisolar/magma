@@ -421,5 +421,33 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LTernaryOperatorX r1 = LTernaryOperatorX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LTernaryOperatorX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LTernaryOperatorX.safe(null);
+        assertThat(result).isSameAs(LTernaryOperatorX.lX(LTernaryOperatorX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LTernaryOperatorX<T,X>,Y> supplier = ()->sut;
+        Object result = LTernaryOperatorX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LTernaryOperatorX.safeSupplier(null);
+        assertThat(result).isSameAs(LTernaryOperatorX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LTernaryOperatorX<T,X>,Y> r1 = LTernaryOperatorX.safeSupplier(()->sut);
+    }
 
 }

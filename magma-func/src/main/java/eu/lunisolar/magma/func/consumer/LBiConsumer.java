@@ -84,7 +84,7 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(T1 a1, T2 a2) {
 		this.doAccept(a1, a2);
 	}
@@ -124,6 +124,17 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V1<T2, T1> l1(final @Nonnull V1<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2> void call(T1 a1, T2 a2, final @Nonnull LBiConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.doAccept(a1, a2);
@@ -141,6 +152,42 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiConsumer<T1, T2> wrap(final @Nonnull LBiConsumerX<T1, T2, X> other) {
 		return other::nestingDoAccept;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static <T1, T2> LBiConsumer<T1, T2> safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LBiConsumer<T1, T2>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2> LBiConsumer<T1, T2> safe(final @Nullable LBiConsumer<T1, T2> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LBiConsumer<T1, T2>> safeSupplier(final @Nullable LSupplier<LBiConsumer<T1, T2>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -193,6 +240,22 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiConsumerX<T1, T2, RuntimeException> shovingBiConsX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiConsumer for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2> extends LBiConsumer<T1, T2> {
+
+		void apply1(T2 a2, T1 a1);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2) {
+			this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

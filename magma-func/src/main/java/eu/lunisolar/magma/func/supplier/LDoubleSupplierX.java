@@ -82,7 +82,7 @@ public interface LDoubleSupplierX<X extends Throwable> extends DoubleSupplier, M
 		return doGetAsDouble();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default double nestingDoGetAsDouble() {
 		try {
 			return this.doGetAsDouble();
@@ -170,6 +170,42 @@ public interface LDoubleSupplierX<X extends Throwable> extends DoubleSupplier, M
 	@Nonnull
 	static <X extends Throwable> LDoubleSupplierX<X> wrapX(final @Nonnull LDoubleSupplier other) {
 		return (LDoubleSupplierX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <X extends Throwable> LDoubleSupplierX<X> safe() {
+		return Function4U::produceDouble;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LDoubleSupplierX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LDoubleSupplierX<X> safe(final @Nullable LDoubleSupplierX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LDoubleSupplierX<X>, Y> safeSupplier(final @Nullable LSupplierX<LDoubleSupplierX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

@@ -772,5 +772,34 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LFloatUnaryOperator r1 = LFloatUnaryOperator.safe(sut);
+        LFloatUnaryOperatorX r2 = LFloatUnaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LFloatUnaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LFloatUnaryOperator.safe(null);
+        assertThat(result).isSameAs(LFloatUnaryOperator.l(LFloatUnaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LFloatUnaryOperator> supplier = ()->sut;
+        Object result = LFloatUnaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LFloatUnaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LFloatUnaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LFloatUnaryOperator> r1 = LFloatUnaryOperator.safeSupplier(()->sut);
+    }
 
 }

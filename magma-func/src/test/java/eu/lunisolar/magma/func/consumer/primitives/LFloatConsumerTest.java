@@ -457,5 +457,34 @@ public class LFloatConsumerTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LFloatConsumer r1 = LFloatConsumer.safe(sut);
+        LFloatConsumerX r2 = LFloatConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LFloatConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LFloatConsumer.safe(null);
+        assertThat(result).isSameAs(LFloatConsumer.l(LFloatConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LFloatConsumer> supplier = ()->sut;
+        Object result = LFloatConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LFloatConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LFloatConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LFloatConsumer> r1 = LFloatConsumer.safeSupplier(()->sut);
+    }
 
 }

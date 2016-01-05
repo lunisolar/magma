@@ -532,5 +532,34 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LShortBinaryOperator r1 = LShortBinaryOperator.safe(sut);
+        LShortBinaryOperatorX r2 = LShortBinaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LShortBinaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LShortBinaryOperator.safe(null);
+        assertThat(result).isSameAs(LShortBinaryOperator.l(LShortBinaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LShortBinaryOperator> supplier = ()->sut;
+        Object result = LShortBinaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LShortBinaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LShortBinaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LShortBinaryOperator> r1 = LShortBinaryOperator.safeSupplier(()->sut);
+    }
 
 }

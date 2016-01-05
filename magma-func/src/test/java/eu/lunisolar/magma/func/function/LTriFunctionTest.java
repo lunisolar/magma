@@ -515,5 +515,34 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LTriFunction r1 = LTriFunction.safe(sut);
+        LTriFunctionX r2 = LTriFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LTriFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LTriFunction.safe(null);
+        assertThat(result).isSameAs(LTriFunction.l(LTriFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LTriFunction<T1,T2,T3,R>> supplier = ()->sut;
+        Object result = LTriFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LTriFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LTriFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LTriFunction<T1,T2,T3,R>> r1 = LTriFunction.safeSupplier(()->sut);
+    }
 
 }

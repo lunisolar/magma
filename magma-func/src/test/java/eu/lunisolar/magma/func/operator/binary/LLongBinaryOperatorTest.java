@@ -540,5 +540,36 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LLongBinaryOperator r1 = LLongBinaryOperator.safe(sut);
+        LLongBinaryOperatorX r2 = LLongBinaryOperator.safe(sut);
+        LongBinaryOperator r3 = LLongBinaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LLongBinaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LLongBinaryOperator.safe(null);
+        assertThat(result).isSameAs(LLongBinaryOperator.l(LLongBinaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LLongBinaryOperator> supplier = ()->sut;
+        Object result = LLongBinaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LLongBinaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LLongBinaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LLongBinaryOperator> r1 = LLongBinaryOperator.safeSupplier(()->sut);
+        Supplier<LLongBinaryOperator> r2 = LLongBinaryOperator.safeSupplier(()->sut);
+    }
 
 }

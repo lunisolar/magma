@@ -558,5 +558,50 @@ public class LBiCharPredicateTest<X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private boolean variant1(char a2,char a1) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiCharPredicate lambda = LBiCharPredicate./**/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiCharPredicate.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiCharPredicate r1 = LBiCharPredicate.safe(sut);
+        LBiCharPredicateX r2 = LBiCharPredicate.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiCharPredicate.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiCharPredicate.safe(null);
+        assertThat(result).isSameAs(LBiCharPredicate.l(LBiCharPredicate.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiCharPredicate> supplier = ()->sut;
+        Object result = LBiCharPredicate.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiCharPredicate.safeSupplier(null);
+        assertThat(result).isSameAs(LBiCharPredicate.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiCharPredicate> r1 = LBiCharPredicate.safeSupplier(()->sut);
+    }
 
 }

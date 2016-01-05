@@ -721,5 +721,33 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LToByteFunctionX r1 = LToByteFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LToByteFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LToByteFunctionX.safe(null);
+        assertThat(result).isSameAs(LToByteFunctionX.lX(LToByteFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LToByteFunctionX<T,X>,Y> supplier = ()->sut;
+        Object result = LToByteFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LToByteFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LToByteFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LToByteFunctionX<T,X>,Y> r1 = LToByteFunctionX.safeSupplier(()->sut);
+    }
 
 }

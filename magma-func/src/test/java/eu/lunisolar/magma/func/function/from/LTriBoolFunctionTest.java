@@ -556,5 +556,34 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LTriBoolFunction r1 = LTriBoolFunction.safe(sut);
+        LTriBoolFunctionX r2 = LTriBoolFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LTriBoolFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LTriBoolFunction.safe(null);
+        assertThat(result).isSameAs(LTriBoolFunction.l(LTriBoolFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LTriBoolFunction<R>> supplier = ()->sut;
+        Object result = LTriBoolFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LTriBoolFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LTriBoolFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LTriBoolFunction<R>> r1 = LTriBoolFunction.safeSupplier(()->sut);
+    }
 
 }

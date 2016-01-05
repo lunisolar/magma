@@ -83,7 +83,7 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(T1 a1, T2 a2) {
 		return this.doApply(a1, a2);
 	}
@@ -136,6 +136,17 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R> V1<T2, T1, R> l1(final @Nonnull V1<T2, T1, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2, R> R call(T1 a1, T2 a2, final @Nonnull LBiFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApply(a1, a2);
@@ -153,6 +164,42 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiFunction<T1, T2, R> wrap(final @Nonnull LBiFunctionX<T1, T2, R, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, R> LSupplier<LBiFunction<T1, T2, R>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> safe(final @Nullable LBiFunction<T1, T2, R> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, R> LSupplier<LBiFunction<T1, T2, R>> safeSupplier(final @Nullable LSupplier<LBiFunction<T1, T2, R>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -218,5 +265,21 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	default LBiFunction<T1, T2, R> nonNullBiFunc() {
 		return this::nonNullDoApply;
 	}
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiFunction for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2, R> extends LBiFunction<T1, T2, R> {
+		@Nullable
+		R apply1(T2 a2, T1 a1);
+
+		@Override
+		default R doApply(T1 a1, T2 a2) {
+			return this.apply1(a2, a1);
+		}
+	}
+
+	// </editor-fold>
 
 }

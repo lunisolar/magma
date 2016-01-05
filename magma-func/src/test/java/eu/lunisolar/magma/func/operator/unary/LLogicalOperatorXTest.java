@@ -803,5 +803,33 @@ public class LLogicalOperatorXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LLogicalOperatorX r1 = LLogicalOperatorX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LLogicalOperatorX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LLogicalOperatorX.safe(null);
+        assertThat(result).isSameAs(LLogicalOperatorX.lX(LLogicalOperatorX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LLogicalOperatorX<X>,Y> supplier = ()->sut;
+        Object result = LLogicalOperatorX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LLogicalOperatorX.safeSupplier(null);
+        assertThat(result).isSameAs(LLogicalOperatorX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LLogicalOperatorX<X>,Y> r1 = LLogicalOperatorX.safeSupplier(()->sut);
+    }
 
 }

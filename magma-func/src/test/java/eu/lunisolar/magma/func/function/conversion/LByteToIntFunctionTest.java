@@ -765,5 +765,34 @@ public class LByteToIntFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LByteToIntFunction r1 = LByteToIntFunction.safe(sut);
+        LByteToIntFunctionX r2 = LByteToIntFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LByteToIntFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LByteToIntFunction.safe(null);
+        assertThat(result).isSameAs(LByteToIntFunction.l(LByteToIntFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LByteToIntFunction> supplier = ()->sut;
+        Object result = LByteToIntFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LByteToIntFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LByteToIntFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LByteToIntFunction> r1 = LByteToIntFunction.safeSupplier(()->sut);
+    }
 
 }

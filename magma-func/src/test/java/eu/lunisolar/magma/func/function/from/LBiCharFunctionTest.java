@@ -542,5 +542,50 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private R variant1(char a2,char a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiCharFunction lambda = LBiCharFunction./*<R>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiCharFunction.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiCharFunction r1 = LBiCharFunction.safe(sut);
+        LBiCharFunctionX r2 = LBiCharFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiCharFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiCharFunction.safe(null);
+        assertThat(result).isSameAs(LBiCharFunction.l(LBiCharFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiCharFunction<R>> supplier = ()->sut;
+        Object result = LBiCharFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiCharFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LBiCharFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiCharFunction<R>> r1 = LBiCharFunction.safeSupplier(()->sut);
+    }
 
 }

@@ -70,7 +70,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T
 		return doApply(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default T nestingDoApply(T a1) {
 		try {
 			return this.doApply(a1);
@@ -166,6 +166,42 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T
 	@Nonnull
 	static <T, X extends Throwable> LUnaryOperatorX<T, X> wrapX(final @Nonnull LUnaryOperator<T> other) {
 		return (LUnaryOperatorX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T, X extends Throwable> LUnaryOperatorX<T, X> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable, Y extends Throwable> LSupplierX<LUnaryOperatorX<T, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable> LUnaryOperatorX<T, X> safe(final @Nullable LUnaryOperatorX<T, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable, Y extends Throwable> LSupplierX<LUnaryOperatorX<T, X>, Y> safeSupplier(final @Nullable LSupplierX<LUnaryOperatorX<T, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

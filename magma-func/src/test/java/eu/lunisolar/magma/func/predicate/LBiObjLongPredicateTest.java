@@ -571,5 +571,98 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private boolean variant1(T1 a1,long a3,T2 a2) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.V1.class);
+    }
+
+
+    private boolean variant2(T2 a2,T1 a1,long a3) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant2() {
+        LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/l2(this::variant2);
+
+        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.V2.class);
+    }
+
+
+    private boolean variant3(T2 a2,long a3,T1 a1) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant3() {
+        LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/l3(this::variant3);
+
+        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.V3.class);
+    }
+
+
+    private boolean variant4(long a3,T1 a1,T2 a2) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant4() {
+        LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/l4(this::variant4);
+
+        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.V4.class);
+    }
+
+
+    private boolean variant5(long a3,T2 a2,T1 a1) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant5() {
+        LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/l5(this::variant5);
+
+        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.V5.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiObjLongPredicate r1 = LBiObjLongPredicate.safe(sut);
+        LBiObjLongPredicateX r2 = LBiObjLongPredicate.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiObjLongPredicate.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiObjLongPredicate.safe(null);
+        assertThat(result).isSameAs(LBiObjLongPredicate.l(LBiObjLongPredicate.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiObjLongPredicate<T1,T2>> supplier = ()->sut;
+        Object result = LBiObjLongPredicate.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiObjLongPredicate.safeSupplier(null);
+        assertThat(result).isSameAs(LBiObjLongPredicate.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiObjLongPredicate<T1,T2>> r1 = LBiObjLongPredicate.safeSupplier(()->sut);
+    }
 
 }

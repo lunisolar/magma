@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
-import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
 import eu.lunisolar.magma.basics.probing.ThrowableProbe;
 

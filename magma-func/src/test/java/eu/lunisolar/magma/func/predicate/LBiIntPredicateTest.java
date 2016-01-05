@@ -558,5 +558,50 @@ public class LBiIntPredicateTest<X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private boolean variant1(int a2,int a1) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiIntPredicate lambda = LBiIntPredicate./**/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiIntPredicate.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiIntPredicate r1 = LBiIntPredicate.safe(sut);
+        LBiIntPredicateX r2 = LBiIntPredicate.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiIntPredicate.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiIntPredicate.safe(null);
+        assertThat(result).isSameAs(LBiIntPredicate.l(LBiIntPredicate.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiIntPredicate> supplier = ()->sut;
+        Object result = LBiIntPredicate.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiIntPredicate.safeSupplier(null);
+        assertThat(result).isSameAs(LBiIntPredicate.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiIntPredicate> r1 = LBiIntPredicate.safeSupplier(()->sut);
+    }
 
 }

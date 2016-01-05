@@ -825,5 +825,34 @@ public class LFloatPredicateTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LFloatPredicate r1 = LFloatPredicate.safe(sut);
+        LFloatPredicateX r2 = LFloatPredicate.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LFloatPredicate.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LFloatPredicate.safe(null);
+        assertThat(result).isSameAs(LFloatPredicate.l(LFloatPredicate.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LFloatPredicate> supplier = ()->sut;
+        Object result = LFloatPredicate.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LFloatPredicate.safeSupplier(null);
+        assertThat(result).isSameAs(LFloatPredicate.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LFloatPredicate> r1 = LFloatPredicate.safeSupplier(()->sut);
+    }
 
 }

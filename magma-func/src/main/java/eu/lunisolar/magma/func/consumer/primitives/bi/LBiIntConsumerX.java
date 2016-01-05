@@ -74,7 +74,7 @@ public interface LBiIntConsumerX<X extends Throwable> extends MetaConsumer, Meta
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(int a1, int a2) {
 		try {
 			this.doAccept(a1, a2);
@@ -137,6 +137,24 @@ public interface LBiIntConsumerX<X extends Throwable> extends MetaConsumer, Meta
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <X extends Throwable> V1<X> lX1(final @Nonnull V1<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <X extends Throwable> V1<X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <X extends Throwable> void call(int a1, int a2, final @Nonnull LBiIntConsumerX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.doAccept(a1, a2);
@@ -163,6 +181,42 @@ public interface LBiIntConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	@Nonnull
 	static <X extends Throwable> LBiIntConsumerX<X> wrapX(final @Nonnull LBiIntConsumer other) {
 		return (LBiIntConsumerX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static <X extends Throwable> LBiIntConsumerX<X> safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LBiIntConsumerX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LBiIntConsumerX<X> safe(final @Nullable LBiIntConsumerX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LBiIntConsumerX<X>, Y> safeSupplier(final @Nullable LSupplierX<LBiIntConsumerX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -239,6 +293,22 @@ public interface LBiIntConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	@Nonnull
 	default <Y extends Throwable> LBiIntConsumerX<Y> handleBiIntConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (int a1, int a2) -> this.handlingDoAccept(a1, a2, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiIntConsumerX for method references. */
+	@FunctionalInterface
+	interface V1<X extends Throwable> extends LBiIntConsumerX<X> {
+
+		void apply1(int a2, int a1) throws X;
+
+		@Override
+		default void doAccept(int a1, int a2) throws X {
+			this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

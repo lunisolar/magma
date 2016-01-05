@@ -687,5 +687,35 @@ public class LBoolSupplierXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LBoolSupplierX r1 = LBoolSupplierX.safe(sut);
+        BooleanSupplier r3 = LBoolSupplierX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBoolSupplierX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBoolSupplierX.safe(null);
+        assertThat(result).isSameAs(LBoolSupplierX.lX(LBoolSupplierX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LBoolSupplierX<X>,Y> supplier = ()->sut;
+        Object result = LBoolSupplierX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LBoolSupplierX.safeSupplier(null);
+        assertThat(result).isSameAs(LBoolSupplierX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LBoolSupplierX<X>,Y> r1 = LBoolSupplierX.safeSupplier(()->sut);
+        Supplier<LBoolSupplierX<X>> r2 = LBoolSupplierX.safeSupplier(()->sut);
+    }
 
 }

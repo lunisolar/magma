@@ -445,5 +445,34 @@ public class LTriConsumerTest<T1,T2,T3,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LTriConsumer r1 = LTriConsumer.safe(sut);
+        LTriConsumerX r2 = LTriConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LTriConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LTriConsumer.safe(null);
+        assertThat(result).isSameAs(LTriConsumer.l(LTriConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LTriConsumer<T1,T2,T3>> supplier = ()->sut;
+        Object result = LTriConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LTriConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LTriConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LTriConsumer<T1,T2,T3>> r1 = LTriConsumer.safeSupplier(()->sut);
+    }
 
 }

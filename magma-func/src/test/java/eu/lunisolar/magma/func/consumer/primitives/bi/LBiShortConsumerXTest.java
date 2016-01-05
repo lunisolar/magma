@@ -456,5 +456,48 @@ public class LBiShortConsumerXTest<X extends ParseException> {
             .isTrue();
     }
 
+    //<editor-fold desc="Variants">
+
+    private void variant1(short a2,short a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiShortConsumerX lambda = LBiShortConsumerX./*<X>*/lX1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiShortConsumerX.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiShortConsumerX r1 = LBiShortConsumerX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiShortConsumerX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiShortConsumerX.safe(null);
+        assertThat(result).isSameAs(LBiShortConsumerX.lX(LBiShortConsumerX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LBiShortConsumerX<X>,Y> supplier = ()->sut;
+        Object result = LBiShortConsumerX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiShortConsumerX.safeSupplier(null);
+        assertThat(result).isSameAs(LBiShortConsumerX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LBiShortConsumerX<X>,Y> r1 = LBiShortConsumerX.safeSupplier(()->sut);
+    }
 
 }

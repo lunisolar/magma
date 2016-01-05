@@ -437,5 +437,36 @@ public class LConsumerTest<T,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LConsumer r1 = LConsumer.safe(sut);
+        LConsumerX r2 = LConsumer.safe(sut);
+        Consumer r3 = LConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LConsumer.safe(null);
+        assertThat(result).isSameAs(LConsumer.l(LConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LConsumer<T>> supplier = ()->sut;
+        Object result = LConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LConsumer<T>> r1 = LConsumer.safeSupplier(()->sut);
+        Supplier<LConsumer<T>> r2 = LConsumer.safeSupplier(()->sut);
+    }
 
 }

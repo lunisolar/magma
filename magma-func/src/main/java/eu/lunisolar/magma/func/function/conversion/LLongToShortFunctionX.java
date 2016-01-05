@@ -72,7 +72,7 @@ public interface LLongToShortFunctionX<X extends Throwable> extends MetaFunction
 		return doApplyAsShort(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default short nestingDoApplyAsShort(long a1) {
 		try {
 			return this.doApplyAsShort(a1);
@@ -159,6 +159,42 @@ public interface LLongToShortFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	static <X extends Throwable> LLongToShortFunctionX<X> wrapX(final @Nonnull LLongToShortFunction other) {
 		return (LLongToShortFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <X extends Throwable> LLongToShortFunctionX<X> safe() {
+		return Function4U::produceShort;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LLongToShortFunctionX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LLongToShortFunctionX<X> safe(final @Nullable LLongToShortFunctionX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LLongToShortFunctionX<X>, Y> safeSupplier(final @Nullable LSupplierX<LLongToShortFunctionX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

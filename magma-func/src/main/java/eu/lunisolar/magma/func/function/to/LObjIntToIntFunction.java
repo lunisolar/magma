@@ -72,7 +72,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 		return doApplyAsInt(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default int nestingDoApplyAsInt(T a1, int a2) {
 		return this.doApplyAsInt(a1, a2);
 	}
@@ -122,6 +122,17 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T> V1<T> l1(final @Nonnull V1<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T> int call(T a1, int a2, final @Nonnull LObjIntToIntFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApplyAsInt(a1, a2);
@@ -133,6 +144,42 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	@Nonnull
 	static <T, X extends Throwable> LObjIntToIntFunction<T> wrap(final @Nonnull LObjIntToIntFunctionX<T, X> other) {
 		return other::nestingDoApplyAsInt;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T> LObjIntToIntFunction<T> safe() {
+		return Function4U::produceInt;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LObjIntToIntFunction<T>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T> LObjIntToIntFunction<T> safe(final @Nullable LObjIntToIntFunction<T> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LObjIntToIntFunction<T>> safeSupplier(final @Nullable LSupplier<LObjIntToIntFunction<T>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -190,6 +237,22 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjIntToIntFunctionX<T, RuntimeException> shovingObjIntToIntFuncX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LObjIntToIntFunction for method references. */
+	@FunctionalInterface
+	interface V1<T> extends LObjIntToIntFunction<T> {
+
+		int apply(int a2, T a1);
+
+		@Override
+		default int doApplyAsInt(T a1, int a2) {
+			return this.apply(a2, a1);
+		}
 	}
 
 	// </editor-fold>

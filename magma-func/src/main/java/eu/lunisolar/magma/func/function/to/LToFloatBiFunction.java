@@ -72,7 +72,7 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 		return doApplyAsFloat(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default float nestingDoApplyAsFloat(T1 a1, T2 a2) {
 		return this.doApplyAsFloat(a1, a2);
 	}
@@ -122,6 +122,17 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1> V1<T2, T1> l1(final @Nonnull V1<T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2> float call(T1 a1, T2 a2, final @Nonnull LToFloatBiFunction<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApplyAsFloat(a1, a2);
@@ -133,6 +144,42 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToFloatBiFunction<T1, T2> wrap(final @Nonnull LToFloatBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsFloat;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2> LToFloatBiFunction<T1, T2> safe() {
+		return Function4U::produceFloat;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LToFloatBiFunction<T1, T2>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2> LToFloatBiFunction<T1, T2> safe(final @Nullable LToFloatBiFunction<T1, T2> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2> LSupplier<LToFloatBiFunction<T1, T2>> safeSupplier(final @Nullable LSupplier<LToFloatBiFunction<T1, T2>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -182,6 +229,22 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToFloatBiFunctionX<T1, T2, RuntimeException> shovingToFloatBiFuncX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LToFloatBiFunction for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2> extends LToFloatBiFunction<T1, T2> {
+
+		float apply1(T2 a2, T1 a1);
+
+		@Override
+		default float doApplyAsFloat(T1 a1, T2 a2) {
+			return this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

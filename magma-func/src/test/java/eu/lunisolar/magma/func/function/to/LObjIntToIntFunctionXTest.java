@@ -483,5 +483,49 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
             .isTrue();
     }
 
+    //<editor-fold desc="Variants">
+
+    private int variant1(int a2,T a1) {
+        return (int)100;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LObjIntToIntFunctionX lambda = LObjIntToIntFunctionX./*<T,X>*/lX1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LObjIntToIntFunctionX.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LObjIntToIntFunctionX r1 = LObjIntToIntFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LObjIntToIntFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LObjIntToIntFunctionX.safe(null);
+        assertThat(result).isSameAs(LObjIntToIntFunctionX.lX(LObjIntToIntFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LObjIntToIntFunctionX<T,X>,Y> supplier = ()->sut;
+        Object result = LObjIntToIntFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LObjIntToIntFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LObjIntToIntFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LObjIntToIntFunctionX<T,X>,Y> r1 = LObjIntToIntFunctionX.safeSupplier(()->sut);
+    }
 
 }

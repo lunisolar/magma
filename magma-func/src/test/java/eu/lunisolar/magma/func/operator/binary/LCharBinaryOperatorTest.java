@@ -532,5 +532,34 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LCharBinaryOperator r1 = LCharBinaryOperator.safe(sut);
+        LCharBinaryOperatorX r2 = LCharBinaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LCharBinaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LCharBinaryOperator.safe(null);
+        assertThat(result).isSameAs(LCharBinaryOperator.l(LCharBinaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LCharBinaryOperator> supplier = ()->sut;
+        Object result = LCharBinaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LCharBinaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LCharBinaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LCharBinaryOperator> r1 = LCharBinaryOperator.safeSupplier(()->sut);
+    }
 
 }

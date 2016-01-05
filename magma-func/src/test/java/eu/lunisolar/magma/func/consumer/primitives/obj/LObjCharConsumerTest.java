@@ -471,5 +471,49 @@ public class LObjCharConsumerTest<T,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private void variant1(char a2,T a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LObjCharConsumer lambda = LObjCharConsumer./*<T>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LObjCharConsumer.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LObjCharConsumer r1 = LObjCharConsumer.safe(sut);
+        LObjCharConsumerX r2 = LObjCharConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LObjCharConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LObjCharConsumer.safe(null);
+        assertThat(result).isSameAs(LObjCharConsumer.l(LObjCharConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LObjCharConsumer<T>> supplier = ()->sut;
+        Object result = LObjCharConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LObjCharConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LObjCharConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LObjCharConsumer<T>> r1 = LObjCharConsumer.safeSupplier(()->sut);
+    }
 
 }

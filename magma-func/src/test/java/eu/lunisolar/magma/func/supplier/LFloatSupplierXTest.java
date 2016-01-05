@@ -679,5 +679,33 @@ public class LFloatSupplierXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LFloatSupplierX r1 = LFloatSupplierX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LFloatSupplierX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LFloatSupplierX.safe(null);
+        assertThat(result).isSameAs(LFloatSupplierX.lX(LFloatSupplierX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LFloatSupplierX<X>,Y> supplier = ()->sut;
+        Object result = LFloatSupplierX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LFloatSupplierX.safeSupplier(null);
+        assertThat(result).isSameAs(LFloatSupplierX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LFloatSupplierX<X>,Y> r1 = LFloatSupplierX.safeSupplier(()->sut);
+    }
 
 }

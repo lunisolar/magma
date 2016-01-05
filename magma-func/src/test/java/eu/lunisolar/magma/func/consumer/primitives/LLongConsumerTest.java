@@ -465,5 +465,36 @@ public class LLongConsumerTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LLongConsumer r1 = LLongConsumer.safe(sut);
+        LLongConsumerX r2 = LLongConsumer.safe(sut);
+        LongConsumer r3 = LLongConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LLongConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LLongConsumer.safe(null);
+        assertThat(result).isSameAs(LLongConsumer.l(LLongConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LLongConsumer> supplier = ()->sut;
+        Object result = LLongConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LLongConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LLongConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LLongConsumer> r1 = LLongConsumer.safeSupplier(()->sut);
+        Supplier<LLongConsumer> r2 = LLongConsumer.safeSupplier(()->sut);
+    }
 
 }

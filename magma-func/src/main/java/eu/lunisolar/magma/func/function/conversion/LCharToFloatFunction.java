@@ -72,7 +72,7 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 		return doApplyAsFloat(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default float nestingDoApplyAsFloat(char a1) {
 		return this.doApplyAsFloat(a1);
 	}
@@ -121,6 +121,42 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 	@Nonnull
 	static <X extends Throwable> LCharToFloatFunction wrap(final @Nonnull LCharToFloatFunctionX<X> other) {
 		return other::nestingDoApplyAsFloat;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LCharToFloatFunction safe() {
+		return Function4U::produceFloat;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LCharToFloatFunction> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LCharToFloatFunction safe(final @Nullable LCharToFloatFunction other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LCharToFloatFunction> safeSupplier(final @Nullable LSupplier<LCharToFloatFunction> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

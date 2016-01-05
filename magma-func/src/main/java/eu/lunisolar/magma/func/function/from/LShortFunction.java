@@ -73,7 +73,7 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 		return doApply(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(short a1) {
 		return this.doApply(a1);
 	}
@@ -125,6 +125,42 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 	@Nonnull
 	static <R, X extends Throwable> LShortFunction<R> wrap(final @Nonnull LShortFunctionX<R, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <R> LShortFunction<R> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <R> LSupplier<LShortFunction<R>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <R> LShortFunction<R> safe(final @Nullable LShortFunction<R> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <R> LSupplier<LShortFunction<R>> safeSupplier(final @Nullable LSupplier<LShortFunction<R>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

@@ -543,5 +543,49 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
             .isTrue();
     }
 
+    //<editor-fold desc="Variants">
+
+    private boolean variant1(long a2,T a1) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LObjLongPredicateX lambda = LObjLongPredicateX./*<T,X>*/lX1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LObjLongPredicateX.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LObjLongPredicateX r1 = LObjLongPredicateX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LObjLongPredicateX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LObjLongPredicateX.safe(null);
+        assertThat(result).isSameAs(LObjLongPredicateX.lX(LObjLongPredicateX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LObjLongPredicateX<T,X>,Y> supplier = ()->sut;
+        Object result = LObjLongPredicateX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LObjLongPredicateX.safeSupplier(null);
+        assertThat(result).isSameAs(LObjLongPredicateX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LObjLongPredicateX<T,X>,Y> r1 = LObjLongPredicateX.safeSupplier(()->sut);
+    }
 
 }

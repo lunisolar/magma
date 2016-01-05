@@ -750,5 +750,33 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LDoubleToFloatFunctionX r1 = LDoubleToFloatFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LDoubleToFloatFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LDoubleToFloatFunctionX.safe(null);
+        assertThat(result).isSameAs(LDoubleToFloatFunctionX.lX(LDoubleToFloatFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LDoubleToFloatFunctionX<X>,Y> supplier = ()->sut;
+        Object result = LDoubleToFloatFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LDoubleToFloatFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LDoubleToFloatFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LDoubleToFloatFunctionX<X>,Y> r1 = LDoubleToFloatFunctionX.safeSupplier(()->sut);
+    }
 
 }

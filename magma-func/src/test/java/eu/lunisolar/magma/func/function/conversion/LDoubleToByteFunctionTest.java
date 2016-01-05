@@ -765,5 +765,34 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LDoubleToByteFunction r1 = LDoubleToByteFunction.safe(sut);
+        LDoubleToByteFunctionX r2 = LDoubleToByteFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LDoubleToByteFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LDoubleToByteFunction.safe(null);
+        assertThat(result).isSameAs(LDoubleToByteFunction.l(LDoubleToByteFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LDoubleToByteFunction> supplier = ()->sut;
+        Object result = LDoubleToByteFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LDoubleToByteFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LDoubleToByteFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LDoubleToByteFunction> r1 = LDoubleToByteFunction.safeSupplier(()->sut);
+    }
 
 }

@@ -780,5 +780,36 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LLongUnaryOperator r1 = LLongUnaryOperator.safe(sut);
+        LLongUnaryOperatorX r2 = LLongUnaryOperator.safe(sut);
+        LongUnaryOperator r3 = LLongUnaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LLongUnaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LLongUnaryOperator.safe(null);
+        assertThat(result).isSameAs(LLongUnaryOperator.l(LLongUnaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LLongUnaryOperator> supplier = ()->sut;
+        Object result = LLongUnaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LLongUnaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LLongUnaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LLongUnaryOperator> r1 = LLongUnaryOperator.safeSupplier(()->sut);
+        Supplier<LLongUnaryOperator> r2 = LLongUnaryOperator.safeSupplier(()->sut);
+    }
 
 }

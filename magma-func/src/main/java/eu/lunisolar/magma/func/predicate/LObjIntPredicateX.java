@@ -72,7 +72,7 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 		return doTest(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(T a1, int a2) {
 		try {
 			return this.doTest(a1, a2);
@@ -151,6 +151,24 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T, X extends Throwable> V1<T, X> lX1(final @Nonnull V1<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T, X extends Throwable> V1<T, X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T, X extends Throwable> boolean call(T a1, int a2, final @Nonnull LObjIntPredicateX<T, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doTest(a1, a2);
@@ -177,6 +195,42 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 	@Nonnull
 	static <T, X extends Throwable> LObjIntPredicateX<T, X> wrapX(final @Nonnull LObjIntPredicate<T> other) {
 		return (LObjIntPredicateX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T, X extends Throwable> LObjIntPredicateX<T, X> safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable, Y extends Throwable> LSupplierX<LObjIntPredicateX<T, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable> LObjIntPredicateX<T, X> safe(final @Nullable LObjIntPredicateX<T, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable, Y extends Throwable> LSupplierX<LObjIntPredicateX<T, X>, Y> safeSupplier(final @Nullable LSupplierX<LObjIntPredicateX<T, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -302,6 +356,22 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 	@Nonnull
 	default <Y extends Throwable> LObjIntPredicateX<T, Y> handleObjIntPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T a1, int a2) -> this.handlingDoTest(a1, a2, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LObjIntPredicateX for method references. */
+	@FunctionalInterface
+	interface V1<T, X extends Throwable> extends LObjIntPredicateX<T, X> {
+
+		boolean apply(int a2, T a1) throws X;
+
+		@Override
+		default boolean doTest(T a1, int a2) throws X {
+			return this.apply(a2, a1);
+		}
 	}
 
 	// </editor-fold>

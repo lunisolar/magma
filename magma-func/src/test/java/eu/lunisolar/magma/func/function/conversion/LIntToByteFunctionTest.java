@@ -765,5 +765,34 @@ public class LIntToByteFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LIntToByteFunction r1 = LIntToByteFunction.safe(sut);
+        LIntToByteFunctionX r2 = LIntToByteFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LIntToByteFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LIntToByteFunction.safe(null);
+        assertThat(result).isSameAs(LIntToByteFunction.l(LIntToByteFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LIntToByteFunction> supplier = ()->sut;
+        Object result = LIntToByteFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LIntToByteFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LIntToByteFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LIntToByteFunction> r1 = LIntToByteFunction.safeSupplier(()->sut);
+    }
 
 }

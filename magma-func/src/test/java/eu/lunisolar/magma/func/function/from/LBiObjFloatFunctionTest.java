@@ -556,5 +556,98 @@ public class LBiObjFloatFunctionTest<T1,T2,R,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private R variant1(T1 a1,float a3,T2 a2) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiObjFloatFunction lambda = LBiObjFloatFunction./*<T1,T2,R>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiObjFloatFunction.V1.class);
+    }
+
+
+    private R variant2(T2 a2,T1 a1,float a3) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant2() {
+        LBiObjFloatFunction lambda = LBiObjFloatFunction./*<T1,T2,R>*/l2(this::variant2);
+
+        assertThat(lambda).isInstanceOf(LBiObjFloatFunction.V2.class);
+    }
+
+
+    private R variant3(T2 a2,float a3,T1 a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant3() {
+        LBiObjFloatFunction lambda = LBiObjFloatFunction./*<T1,T2,R>*/l3(this::variant3);
+
+        assertThat(lambda).isInstanceOf(LBiObjFloatFunction.V3.class);
+    }
+
+
+    private R variant4(float a3,T1 a1,T2 a2) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant4() {
+        LBiObjFloatFunction lambda = LBiObjFloatFunction./*<T1,T2,R>*/l4(this::variant4);
+
+        assertThat(lambda).isInstanceOf(LBiObjFloatFunction.V4.class);
+    }
+
+
+    private R variant5(float a3,T2 a2,T1 a1) {
+        return (R)Integer.valueOf(100);
+    }
+
+    @Test
+    public void compilerSubstituteVariant5() {
+        LBiObjFloatFunction lambda = LBiObjFloatFunction./*<T1,T2,R>*/l5(this::variant5);
+
+        assertThat(lambda).isInstanceOf(LBiObjFloatFunction.V5.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiObjFloatFunction r1 = LBiObjFloatFunction.safe(sut);
+        LBiObjFloatFunctionX r2 = LBiObjFloatFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiObjFloatFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiObjFloatFunction.safe(null);
+        assertThat(result).isSameAs(LBiObjFloatFunction.l(LBiObjFloatFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiObjFloatFunction<T1,T2,R>> supplier = ()->sut;
+        Object result = LBiObjFloatFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiObjFloatFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LBiObjFloatFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiObjFloatFunction<T1,T2,R>> r1 = LBiObjFloatFunction.safeSupplier(()->sut);
+    }
 
 }

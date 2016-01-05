@@ -549,5 +549,33 @@ public class LLogicalTernaryOperatorXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LLogicalTernaryOperatorX r1 = LLogicalTernaryOperatorX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LLogicalTernaryOperatorX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LLogicalTernaryOperatorX.safe(null);
+        assertThat(result).isSameAs(LLogicalTernaryOperatorX.lX(LLogicalTernaryOperatorX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LLogicalTernaryOperatorX<X>,Y> supplier = ()->sut;
+        Object result = LLogicalTernaryOperatorX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LLogicalTernaryOperatorX.safeSupplier(null);
+        assertThat(result).isSameAs(LLogicalTernaryOperatorX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LLogicalTernaryOperatorX<X>,Y> r1 = LLogicalTernaryOperatorX.safeSupplier(()->sut);
+    }
 
 }

@@ -388,5 +388,35 @@ public class LActionXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LActionX r1 = LActionX.safe(sut);
+        Runnable r3 = LActionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LActionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LActionX.safe(null);
+        assertThat(result).isSameAs(LActionX.lX(LActionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LActionX<X>,Y> supplier = ()->sut;
+        Object result = LActionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LActionX.safeSupplier(null);
+        assertThat(result).isSameAs(LActionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LActionX<X>,Y> r1 = LActionX.safeSupplier(()->sut);
+        Supplier<LActionX<X>> r2 = LActionX.safeSupplier(()->sut);
+    }
 
 }

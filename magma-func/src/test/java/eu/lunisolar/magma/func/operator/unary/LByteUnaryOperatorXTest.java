@@ -757,5 +757,33 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LByteUnaryOperatorX r1 = LByteUnaryOperatorX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LByteUnaryOperatorX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LByteUnaryOperatorX.safe(null);
+        assertThat(result).isSameAs(LByteUnaryOperatorX.lX(LByteUnaryOperatorX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LByteUnaryOperatorX<X>,Y> supplier = ()->sut;
+        Object result = LByteUnaryOperatorX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LByteUnaryOperatorX.safeSupplier(null);
+        assertThat(result).isSameAs(LByteUnaryOperatorX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LByteUnaryOperatorX<X>,Y> r1 = LByteUnaryOperatorX.safeSupplier(()->sut);
+    }
 
 }

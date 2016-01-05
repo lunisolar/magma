@@ -74,7 +74,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(T1 a1, T2 a2, T3 a3) {
 		this.doAccept(a1, a2, a3);
 	}
@@ -131,6 +131,42 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriConsumer<T1, T2, T3> wrap(final @Nonnull LTriConsumerX<T1, T2, T3, X> other) {
 		return other::nestingDoAccept;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, T3> LSupplier<LTriConsumer<T1, T2, T3>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> safe(final @Nullable LTriConsumer<T1, T2, T3> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, T3> LSupplier<LTriConsumer<T1, T2, T3>> safeSupplier(final @Nullable LSupplier<LTriConsumer<T1, T2, T3>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

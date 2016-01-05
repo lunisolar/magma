@@ -750,5 +750,33 @@ public class LByteToCharFunctionXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LByteToCharFunctionX r1 = LByteToCharFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LByteToCharFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LByteToCharFunctionX.safe(null);
+        assertThat(result).isSameAs(LByteToCharFunctionX.lX(LByteToCharFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LByteToCharFunctionX<X>,Y> supplier = ()->sut;
+        Object result = LByteToCharFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LByteToCharFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LByteToCharFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LByteToCharFunctionX<X>,Y> r1 = LByteToCharFunctionX.safeSupplier(()->sut);
+    }
 
 }

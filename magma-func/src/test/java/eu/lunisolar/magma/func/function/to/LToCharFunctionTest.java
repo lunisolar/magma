@@ -736,5 +736,34 @@ public class LToCharFunctionTest<T,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LToCharFunction r1 = LToCharFunction.safe(sut);
+        LToCharFunctionX r2 = LToCharFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LToCharFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LToCharFunction.safe(null);
+        assertThat(result).isSameAs(LToCharFunction.l(LToCharFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LToCharFunction<T>> supplier = ()->sut;
+        Object result = LToCharFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LToCharFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LToCharFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LToCharFunction<T>> r1 = LToCharFunction.safeSupplier(()->sut);
+    }
 
 }

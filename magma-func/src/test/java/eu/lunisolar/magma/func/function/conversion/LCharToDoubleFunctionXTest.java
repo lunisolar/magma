@@ -750,5 +750,33 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LCharToDoubleFunctionX r1 = LCharToDoubleFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LCharToDoubleFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LCharToDoubleFunctionX.safe(null);
+        assertThat(result).isSameAs(LCharToDoubleFunctionX.lX(LCharToDoubleFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LCharToDoubleFunctionX<X>,Y> supplier = ()->sut;
+        Object result = LCharToDoubleFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LCharToDoubleFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LCharToDoubleFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LCharToDoubleFunctionX<X>,Y> r1 = LCharToDoubleFunctionX.safeSupplier(()->sut);
+    }
 
 }

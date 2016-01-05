@@ -82,7 +82,7 @@ public interface LIntToDoubleFunctionX<X extends Throwable> extends IntToDoubleF
 		return doApplyAsDouble(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default double nestingDoApplyAsDouble(int a1) {
 		try {
 			return this.doApplyAsDouble(a1);
@@ -175,6 +175,42 @@ public interface LIntToDoubleFunctionX<X extends Throwable> extends IntToDoubleF
 	@Nonnull
 	static <X extends Throwable> LIntToDoubleFunctionX<X> wrapX(final @Nonnull LIntToDoubleFunction other) {
 		return (LIntToDoubleFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <X extends Throwable> LIntToDoubleFunctionX<X> safe() {
+		return Function4U::produceDouble;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LIntToDoubleFunctionX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LIntToDoubleFunctionX<X> safe(final @Nullable LIntToDoubleFunctionX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LIntToDoubleFunctionX<X>, Y> safeSupplier(final @Nullable LSupplierX<LIntToDoubleFunctionX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

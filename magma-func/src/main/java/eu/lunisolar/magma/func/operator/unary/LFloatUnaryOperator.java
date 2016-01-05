@@ -72,7 +72,7 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 		return doApplyAsFloat(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default float nestingDoApplyAsFloat(float a1) {
 		return this.doApplyAsFloat(a1);
 	}
@@ -121,6 +121,42 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 	@Nonnull
 	static <X extends Throwable> LFloatUnaryOperator wrap(final @Nonnull LFloatUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsFloat;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LFloatUnaryOperator safe() {
+		return Function4U::produceFloat;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LFloatUnaryOperator> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LFloatUnaryOperator safe(final @Nullable LFloatUnaryOperator other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LFloatUnaryOperator> safeSupplier(final @Nullable LSupplier<LFloatUnaryOperator> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

@@ -744,5 +744,36 @@ public class LToIntFunctionTest<T,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LToIntFunction r1 = LToIntFunction.safe(sut);
+        LToIntFunctionX r2 = LToIntFunction.safe(sut);
+        ToIntFunction r3 = LToIntFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LToIntFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LToIntFunction.safe(null);
+        assertThat(result).isSameAs(LToIntFunction.l(LToIntFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LToIntFunction<T>> supplier = ()->sut;
+        Object result = LToIntFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LToIntFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LToIntFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LToIntFunction<T>> r1 = LToIntFunction.safeSupplier(()->sut);
+        Supplier<LToIntFunction<T>> r2 = LToIntFunction.safeSupplier(()->sut);
+    }
 
 }

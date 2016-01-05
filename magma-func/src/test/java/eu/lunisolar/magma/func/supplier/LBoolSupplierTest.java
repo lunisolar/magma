@@ -702,5 +702,36 @@ public class LBoolSupplierTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LBoolSupplier r1 = LBoolSupplier.safe(sut);
+        LBoolSupplierX r2 = LBoolSupplier.safe(sut);
+        BooleanSupplier r3 = LBoolSupplier.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBoolSupplier.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBoolSupplier.safe(null);
+        assertThat(result).isSameAs(LBoolSupplier.l(LBoolSupplier.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBoolSupplier> supplier = ()->sut;
+        Object result = LBoolSupplier.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBoolSupplier.safeSupplier(null);
+        assertThat(result).isSameAs(LBoolSupplier.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBoolSupplier> r1 = LBoolSupplier.safeSupplier(()->sut);
+        Supplier<LBoolSupplier> r2 = LBoolSupplier.safeSupplier(()->sut);
+    }
 
 }

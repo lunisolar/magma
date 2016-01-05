@@ -82,7 +82,7 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 		return doApplyAsLong(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default long nestingDoApplyAsLong(int a1) {
 		return this.doApplyAsLong(a1);
 	}
@@ -137,6 +137,42 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 	@Nonnull
 	static <X extends Throwable> LIntToLongFunction wrap(final @Nonnull LIntToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LIntToLongFunction safe() {
+		return Function4U::produceLong;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntToLongFunction> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LIntToLongFunction safe(final @Nullable LIntToLongFunction other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntToLongFunction> safeSupplier(final @Nullable LSupplier<LIntToLongFunction> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

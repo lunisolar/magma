@@ -72,7 +72,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 		return doApplyAsByte(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default byte nestingDoApplyAsByte(short a1) {
 		return this.doApplyAsByte(a1);
 	}
@@ -121,6 +121,42 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	@Nonnull
 	static <X extends Throwable> LShortToByteFunction wrap(final @Nonnull LShortToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LShortToByteFunction safe() {
+		return Function4U::produceByte;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LShortToByteFunction> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LShortToByteFunction safe(final @Nullable LShortToByteFunction other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LShortToByteFunction> safeSupplier(final @Nullable LSupplier<LShortToByteFunction> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

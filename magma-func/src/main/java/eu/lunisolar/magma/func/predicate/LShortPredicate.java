@@ -72,7 +72,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 		return doTest(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(short a1) {
 		return this.doTest(a1);
 	}
@@ -127,6 +127,42 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	static <X extends Throwable> LShortPredicate wrap(final @Nonnull LShortPredicateX<X> other) {
 		return other::nestingDoTest;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LShortPredicate safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LShortPredicate> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LShortPredicate safe(final @Nullable LShortPredicate other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LShortPredicate> safeSupplier(final @Nullable LSupplier<LShortPredicate> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

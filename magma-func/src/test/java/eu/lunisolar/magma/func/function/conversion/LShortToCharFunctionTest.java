@@ -765,5 +765,34 @@ public class LShortToCharFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LShortToCharFunction r1 = LShortToCharFunction.safe(sut);
+        LShortToCharFunctionX r2 = LShortToCharFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LShortToCharFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LShortToCharFunction.safe(null);
+        assertThat(result).isSameAs(LShortToCharFunction.l(LShortToCharFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LShortToCharFunction> supplier = ()->sut;
+        Object result = LShortToCharFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LShortToCharFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LShortToCharFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LShortToCharFunction> r1 = LShortToCharFunction.safeSupplier(()->sut);
+    }
 
 }

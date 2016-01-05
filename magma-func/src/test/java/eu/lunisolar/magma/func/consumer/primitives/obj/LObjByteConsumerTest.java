@@ -471,5 +471,49 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private void variant1(byte a2,T a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LObjByteConsumer lambda = LObjByteConsumer./*<T>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LObjByteConsumer.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LObjByteConsumer r1 = LObjByteConsumer.safe(sut);
+        LObjByteConsumerX r2 = LObjByteConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LObjByteConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LObjByteConsumer.safe(null);
+        assertThat(result).isSameAs(LObjByteConsumer.l(LObjByteConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LObjByteConsumer<T>> supplier = ()->sut;
+        Object result = LObjByteConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LObjByteConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LObjByteConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LObjByteConsumer<T>> r1 = LObjByteConsumer.safeSupplier(()->sut);
+    }
 
 }

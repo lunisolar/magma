@@ -457,5 +457,34 @@ public class LBoolConsumerTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LBoolConsumer r1 = LBoolConsumer.safe(sut);
+        LBoolConsumerX r2 = LBoolConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBoolConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBoolConsumer.safe(null);
+        assertThat(result).isSameAs(LBoolConsumer.l(LBoolConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBoolConsumer> supplier = ()->sut;
+        Object result = LBoolConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBoolConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LBoolConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBoolConsumer> r1 = LBoolConsumer.safeSupplier(()->sut);
+    }
 
 }

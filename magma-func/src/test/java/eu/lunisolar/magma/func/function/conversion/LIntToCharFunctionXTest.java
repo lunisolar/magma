@@ -750,5 +750,33 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LIntToCharFunctionX r1 = LIntToCharFunctionX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LIntToCharFunctionX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LIntToCharFunctionX.safe(null);
+        assertThat(result).isSameAs(LIntToCharFunctionX.lX(LIntToCharFunctionX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LIntToCharFunctionX<X>,Y> supplier = ()->sut;
+        Object result = LIntToCharFunctionX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LIntToCharFunctionX.safeSupplier(null);
+        assertThat(result).isSameAs(LIntToCharFunctionX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LIntToCharFunctionX<X>,Y> r1 = LIntToCharFunctionX.safeSupplier(()->sut);
+    }
 
 }

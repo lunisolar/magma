@@ -765,5 +765,34 @@ public class LLongToFloatFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LLongToFloatFunction r1 = LLongToFloatFunction.safe(sut);
+        LLongToFloatFunctionX r2 = LLongToFloatFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LLongToFloatFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LLongToFloatFunction.safe(null);
+        assertThat(result).isSameAs(LLongToFloatFunction.l(LLongToFloatFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LLongToFloatFunction> supplier = ()->sut;
+        Object result = LLongToFloatFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LLongToFloatFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LLongToFloatFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LLongToFloatFunction> r1 = LLongToFloatFunction.safeSupplier(()->sut);
+    }
 
 }

@@ -74,7 +74,7 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(long a1, long a2) {
 		this.doAccept(a1, a2);
 	}
@@ -114,6 +114,17 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static V1 l1(final @Nonnull V1 lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static void call(long a1, long a2, final @Nonnull LBiLongConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.doAccept(a1, a2);
@@ -125,6 +136,42 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 	@Nonnull
 	static <X extends Throwable> LBiLongConsumer wrap(final @Nonnull LBiLongConsumerX<X> other) {
 		return other::nestingDoAccept;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static LBiLongConsumer safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LBiLongConsumer> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LBiLongConsumer safe(final @Nullable LBiLongConsumer other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LBiLongConsumer> safeSupplier(final @Nullable LSupplier<LBiLongConsumer> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -185,6 +232,22 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiLongConsumerX<RuntimeException> shovingBiLongConsX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiLongConsumer for method references. */
+	@FunctionalInterface
+	interface V1 extends LBiLongConsumer {
+
+		void apply1(long a2, long a1);
+
+		@Override
+		default void doAccept(long a1, long a2) {
+			this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

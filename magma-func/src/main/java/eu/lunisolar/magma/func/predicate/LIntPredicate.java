@@ -82,7 +82,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return doTest(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(int a1) {
 		return this.doTest(a1);
 	}
@@ -143,6 +143,42 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	static <X extends Throwable> LIntPredicate wrap(final @Nonnull LIntPredicateX<X> other) {
 		return other::nestingDoTest;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LIntPredicate safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntPredicate> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LIntPredicate safe(final @Nullable LIntPredicate other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntPredicate> safeSupplier(final @Nullable LSupplier<LIntPredicate> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

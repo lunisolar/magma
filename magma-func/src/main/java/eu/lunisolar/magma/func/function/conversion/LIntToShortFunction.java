@@ -72,7 +72,7 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 		return doApplyAsShort(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default short nestingDoApplyAsShort(int a1) {
 		return this.doApplyAsShort(a1);
 	}
@@ -121,6 +121,42 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 	@Nonnull
 	static <X extends Throwable> LIntToShortFunction wrap(final @Nonnull LIntToShortFunctionX<X> other) {
 		return other::nestingDoApplyAsShort;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LIntToShortFunction safe() {
+		return Function4U::produceShort;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntToShortFunction> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LIntToShortFunction safe(final @Nullable LIntToShortFunction other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntToShortFunction> safeSupplier(final @Nullable LSupplier<LIntToShortFunction> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

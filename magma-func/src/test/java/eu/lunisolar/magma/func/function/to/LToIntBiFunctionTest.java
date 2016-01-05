@@ -471,5 +471,52 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private int variant1(T2 a2,T1 a1) {
+        return (int)100;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LToIntBiFunction lambda = LToIntBiFunction./*<T1,T2>*/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LToIntBiFunction.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LToIntBiFunction r1 = LToIntBiFunction.safe(sut);
+        LToIntBiFunctionX r2 = LToIntBiFunction.safe(sut);
+        ToIntBiFunction r3 = LToIntBiFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LToIntBiFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LToIntBiFunction.safe(null);
+        assertThat(result).isSameAs(LToIntBiFunction.l(LToIntBiFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LToIntBiFunction<T1,T2>> supplier = ()->sut;
+        Object result = LToIntBiFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LToIntBiFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LToIntBiFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LToIntBiFunction<T1,T2>> r1 = LToIntBiFunction.safeSupplier(()->sut);
+        Supplier<LToIntBiFunction<T1,T2>> r2 = LToIntBiFunction.safeSupplier(()->sut);
+    }
 
 }

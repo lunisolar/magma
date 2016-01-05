@@ -470,5 +470,92 @@ public class LBiObjShortConsumerXTest<T1,T2,X extends ParseException> {
             .isTrue();
     }
 
+    //<editor-fold desc="Variants">
+
+    private void variant1(T1 a1,short a3,T2 a2) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiObjShortConsumerX lambda = LBiObjShortConsumerX./*<T1,T2,X>*/lX1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiObjShortConsumerX.V1.class);
+    }
+
+
+    private void variant2(T2 a2,T1 a1,short a3) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant2() {
+        LBiObjShortConsumerX lambda = LBiObjShortConsumerX./*<T1,T2,X>*/lX2(this::variant2);
+
+        assertThat(lambda).isInstanceOf(LBiObjShortConsumerX.V2.class);
+    }
+
+
+    private void variant3(T2 a2,short a3,T1 a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant3() {
+        LBiObjShortConsumerX lambda = LBiObjShortConsumerX./*<T1,T2,X>*/lX3(this::variant3);
+
+        assertThat(lambda).isInstanceOf(LBiObjShortConsumerX.V3.class);
+    }
+
+
+    private void variant4(short a3,T1 a1,T2 a2) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant4() {
+        LBiObjShortConsumerX lambda = LBiObjShortConsumerX./*<T1,T2,X>*/lX4(this::variant4);
+
+        assertThat(lambda).isInstanceOf(LBiObjShortConsumerX.V4.class);
+    }
+
+
+    private void variant5(short a3,T2 a2,T1 a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant5() {
+        LBiObjShortConsumerX lambda = LBiObjShortConsumerX./*<T1,T2,X>*/lX5(this::variant5);
+
+        assertThat(lambda).isInstanceOf(LBiObjShortConsumerX.V5.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiObjShortConsumerX r1 = LBiObjShortConsumerX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiObjShortConsumerX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiObjShortConsumerX.safe(null);
+        assertThat(result).isSameAs(LBiObjShortConsumerX.lX(LBiObjShortConsumerX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LBiObjShortConsumerX<T1,T2,X>,Y> supplier = ()->sut;
+        Object result = LBiObjShortConsumerX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiObjShortConsumerX.safeSupplier(null);
+        assertThat(result).isSameAs(LBiObjShortConsumerX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LBiObjShortConsumerX<T1,T2,X>,Y> r1 = LBiObjShortConsumerX.safeSupplier(()->sut);
+    }
 
 }

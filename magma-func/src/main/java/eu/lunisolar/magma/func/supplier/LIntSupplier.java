@@ -82,7 +82,7 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return doGetAsInt();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default int nestingDoGetAsInt() {
 		return this.doGetAsInt();
 	}
@@ -132,6 +132,42 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 	@Nonnull
 	static <X extends Throwable> LIntSupplier wrap(final @Nonnull LIntSupplierX<X> other) {
 		return other::nestingDoGetAsInt;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LIntSupplier safe() {
+		return Function4U::produceInt;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntSupplier> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LIntSupplier safe(final @Nullable LIntSupplier other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LIntSupplier> safeSupplier(final @Nullable LSupplier<LIntSupplier> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

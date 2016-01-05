@@ -72,7 +72,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 		return doTest(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(short a1, short a2) {
 		try {
 			return this.doTest(a1, a2);
@@ -151,6 +151,24 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <X extends Throwable> V1<X> lX1(final @Nonnull V1<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <X extends Throwable> V1<X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <X extends Throwable> boolean call(short a1, short a2, final @Nonnull LBiShortPredicateX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doTest(a1, a2);
@@ -177,6 +195,42 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	static <X extends Throwable> LBiShortPredicateX<X> wrapX(final @Nonnull LBiShortPredicate other) {
 		return (LBiShortPredicateX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <X extends Throwable> LBiShortPredicateX<X> safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LBiShortPredicateX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LBiShortPredicateX<X> safe(final @Nullable LBiShortPredicateX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LBiShortPredicateX<X>, Y> safeSupplier(final @Nullable LSupplierX<LBiShortPredicateX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -302,6 +356,22 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default <Y extends Throwable> LBiShortPredicateX<Y> handleBiShortPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (short a1, short a2) -> this.handlingDoTest(a1, a2, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiShortPredicateX for method references. */
+	@FunctionalInterface
+	interface V1<X extends Throwable> extends LBiShortPredicateX<X> {
+
+		boolean apply1(short a2, short a1) throws X;
+
+		@Override
+		default boolean doTest(short a1, short a2) throws X {
+			return this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

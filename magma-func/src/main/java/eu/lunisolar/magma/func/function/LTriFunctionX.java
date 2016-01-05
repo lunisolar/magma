@@ -73,7 +73,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 		return doApply(args.first(), args.second(), args.third());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(T1 a1, T2 a2, T3 a3) {
 		try {
 			return this.doApply(a1, a2, a3);
@@ -181,6 +181,42 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 	@Nonnull
 	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> wrapX(final @Nonnull LTriFunction<T1, T2, T3, R> other) {
 		return (LTriFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, T3, R, X extends Throwable, Y extends Throwable> LSupplierX<LTriFunctionX<T1, T2, T3, R, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> safe(final @Nullable LTriFunctionX<T1, T2, T3, R, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, T3, R, X extends Throwable, Y extends Throwable> LSupplierX<LTriFunctionX<T1, T2, T3, R, X>, Y> safeSupplier(final @Nullable LSupplierX<LTriFunctionX<T1, T2, T3, R, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

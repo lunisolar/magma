@@ -765,5 +765,34 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LFloatToCharFunction r1 = LFloatToCharFunction.safe(sut);
+        LFloatToCharFunctionX r2 = LFloatToCharFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LFloatToCharFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LFloatToCharFunction.safe(null);
+        assertThat(result).isSameAs(LFloatToCharFunction.l(LFloatToCharFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LFloatToCharFunction> supplier = ()->sut;
+        Object result = LFloatToCharFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LFloatToCharFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LFloatToCharFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LFloatToCharFunction> r1 = LFloatToCharFunction.safeSupplier(()->sut);
+    }
 
 }

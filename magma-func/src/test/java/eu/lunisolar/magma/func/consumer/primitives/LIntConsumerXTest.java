@@ -450,5 +450,35 @@ public class LIntConsumerXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LIntConsumerX r1 = LIntConsumerX.safe(sut);
+        IntConsumer r3 = LIntConsumerX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LIntConsumerX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LIntConsumerX.safe(null);
+        assertThat(result).isSameAs(LIntConsumerX.lX(LIntConsumerX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LIntConsumerX<X>,Y> supplier = ()->sut;
+        Object result = LIntConsumerX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LIntConsumerX.safeSupplier(null);
+        assertThat(result).isSameAs(LIntConsumerX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LIntConsumerX<X>,Y> r1 = LIntConsumerX.safeSupplier(()->sut);
+        Supplier<LIntConsumerX<X>> r2 = LIntConsumerX.safeSupplier(()->sut);
+    }
 
 }

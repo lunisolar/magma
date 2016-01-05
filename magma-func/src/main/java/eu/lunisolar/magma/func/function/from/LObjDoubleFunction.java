@@ -73,7 +73,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(T a1, double a2) {
 		return this.doApply(a1, a2);
 	}
@@ -126,6 +126,17 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T, R> V1<T, R> l1(final @Nonnull V1<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T, R> R call(T a1, double a2, final @Nonnull LObjDoubleFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApply(a1, a2);
@@ -137,6 +148,42 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	@Nonnull
 	static <T, R, X extends Throwable> LObjDoubleFunction<T, R> wrap(final @Nonnull LObjDoubleFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T, R> LObjDoubleFunction<T, R> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T, R> LSupplier<LObjDoubleFunction<T, R>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T, R> LObjDoubleFunction<T, R> safe(final @Nullable LObjDoubleFunction<T, R> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T, R> LSupplier<LObjDoubleFunction<T, R>> safeSupplier(final @Nullable LSupplier<LObjDoubleFunction<T, R>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -210,5 +257,21 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	default LObjDoubleFunction<T, R> nonNullObjDoubleFunc() {
 		return this::nonNullDoApply;
 	}
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LObjDoubleFunction for method references. */
+	@FunctionalInterface
+	interface V1<T, R> extends LObjDoubleFunction<T, R> {
+		@Nullable
+		R apply(double a2, T a1);
+
+		@Override
+		default R doApply(T a1, double a2) {
+			return this.apply(a2, a1);
+		}
+	}
+
+	// </editor-fold>
 
 }

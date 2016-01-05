@@ -73,7 +73,7 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(short a1, short a2) {
 		try {
 			return this.doApply(a1, a2);
@@ -149,6 +149,24 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <R, X extends Throwable> V1<R, X> lX1(final @Nonnull V1<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <R, X extends Throwable> V1<R, X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <R, X extends Throwable> R call(short a1, short a2, final @Nonnull LBiShortFunctionX<R, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApply(a1, a2);
@@ -175,6 +193,42 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 	@Nonnull
 	static <R, X extends Throwable> LBiShortFunctionX<R, X> wrapX(final @Nonnull LBiShortFunction<R> other) {
 		return (LBiShortFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <R, X extends Throwable> LBiShortFunctionX<R, X> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <R, X extends Throwable, Y extends Throwable> LSupplierX<LBiShortFunctionX<R, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <R, X extends Throwable> LBiShortFunctionX<R, X> safe(final @Nullable LBiShortFunctionX<R, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <R, X extends Throwable, Y extends Throwable> LSupplierX<LBiShortFunctionX<R, X>, Y> safeSupplier(final @Nullable LSupplierX<LBiShortFunctionX<R, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -261,6 +315,22 @@ public interface LBiShortFunctionX<R, X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <Y extends Throwable> LBiShortFunctionX<R, Y> handleBiShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (short a1, short a2) -> this.handlingDoApply(a1, a2, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiShortFunctionX for method references. */
+	@FunctionalInterface
+	interface V1<R, X extends Throwable> extends LBiShortFunctionX<R, X> {
+		@Nullable
+		R apply1(short a2, short a1) throws X;
+
+		@Override
+		default R doApply(short a1, short a2) throws X {
+			return this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>

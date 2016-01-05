@@ -82,7 +82,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends DoubleBinar
 		return doApplyAsDouble(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default double nestingDoApplyAsDouble(double a1, double a2) {
 		try {
 			return this.doApplyAsDouble(a1, a2);
@@ -187,6 +187,42 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends DoubleBinar
 	@Nonnull
 	static <X extends Throwable> LDoubleBinaryOperatorX<X> wrapX(final @Nonnull LDoubleBinaryOperator other) {
 		return (LDoubleBinaryOperatorX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <X extends Throwable> LDoubleBinaryOperatorX<X> safe() {
+		return Function4U::produceDouble;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LDoubleBinaryOperatorX<X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <X extends Throwable> LDoubleBinaryOperatorX<X> safe(final @Nullable LDoubleBinaryOperatorX<X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <X extends Throwable, Y extends Throwable> LSupplierX<LDoubleBinaryOperatorX<X>, Y> safeSupplier(final @Nullable LSupplierX<LDoubleBinaryOperatorX<X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

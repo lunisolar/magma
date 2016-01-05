@@ -471,5 +471,49 @@ public class LBiCharConsumerTest<X extends ParseException> {
             .isFalse();
     }
 
+    //<editor-fold desc="Variants">
+
+    private void variant1(char a2,char a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiCharConsumer lambda = LBiCharConsumer./**/l1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiCharConsumer.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiCharConsumer r1 = LBiCharConsumer.safe(sut);
+        LBiCharConsumerX r2 = LBiCharConsumer.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiCharConsumer.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiCharConsumer.safe(null);
+        assertThat(result).isSameAs(LBiCharConsumer.l(LBiCharConsumer.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LBiCharConsumer> supplier = ()->sut;
+        Object result = LBiCharConsumer.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiCharConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LBiCharConsumer.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LBiCharConsumer> r1 = LBiCharConsumer.safeSupplier(()->sut);
+    }
 
 }

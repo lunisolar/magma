@@ -540,5 +540,36 @@ public class LIntBinaryOperatorTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LIntBinaryOperator r1 = LIntBinaryOperator.safe(sut);
+        LIntBinaryOperatorX r2 = LIntBinaryOperator.safe(sut);
+        IntBinaryOperator r3 = LIntBinaryOperator.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LIntBinaryOperator.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LIntBinaryOperator.safe(null);
+        assertThat(result).isSameAs(LIntBinaryOperator.l(LIntBinaryOperator.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LIntBinaryOperator> supplier = ()->sut;
+        Object result = LIntBinaryOperator.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LIntBinaryOperator.safeSupplier(null);
+        assertThat(result).isSameAs(LIntBinaryOperator.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LIntBinaryOperator> r1 = LIntBinaryOperator.safeSupplier(()->sut);
+        Supplier<LIntBinaryOperator> r2 = LIntBinaryOperator.safeSupplier(()->sut);
+    }
 
 }

@@ -470,5 +470,33 @@ public class LTriBoolConsumerXTest<X extends ParseException> {
             .isTrue();
     }
 
+    @Test void safeCompiles() {
+        LTriBoolConsumerX r1 = LTriBoolConsumerX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LTriBoolConsumerX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LTriBoolConsumerX.safe(null);
+        assertThat(result).isSameAs(LTriBoolConsumerX.lX(LTriBoolConsumerX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LTriBoolConsumerX<X>,Y> supplier = ()->sut;
+        Object result = LTriBoolConsumerX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LTriBoolConsumerX.safeSupplier(null);
+        assertThat(result).isSameAs(LTriBoolConsumerX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LTriBoolConsumerX<X>,Y> r1 = LTriBoolConsumerX.safeSupplier(()->sut);
+    }
 
 }

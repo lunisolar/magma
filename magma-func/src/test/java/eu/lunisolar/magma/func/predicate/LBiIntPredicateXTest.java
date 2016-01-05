@@ -543,5 +543,49 @@ public class LBiIntPredicateXTest<X extends ParseException> {
             .isTrue();
     }
 
+    //<editor-fold desc="Variants">
+
+    private boolean variant1(int a2,int a1) {
+        return true;
+    }
+
+    @Test
+    public void compilerSubstituteVariant1() {
+        LBiIntPredicateX lambda = LBiIntPredicateX./*<X>*/lX1(this::variant1);
+
+        assertThat(lambda).isInstanceOf(LBiIntPredicateX.V1.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LBiIntPredicateX r1 = LBiIntPredicateX.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LBiIntPredicateX.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LBiIntPredicateX.safe(null);
+        assertThat(result).isSameAs(LBiIntPredicateX.lX(LBiIntPredicateX.safe()));
+    }
+
+    @Test <Y extends Throwable> void safeSupplierPropagates() {
+        LSupplierX<LBiIntPredicateX<X>,Y> supplier = ()->sut;
+        Object result = LBiIntPredicateX.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test <Y extends Throwable> void safeSupplierProtectsAgainstNpe() {
+        Object result = LBiIntPredicateX.safeSupplier(null);
+        assertThat(result).isSameAs(LBiIntPredicateX.safeSupplier());
+    }
+
+    @Test <Y extends Throwable> void safeSupplierCompiles() {
+        LSupplierX<LBiIntPredicateX<X>,Y> r1 = LBiIntPredicateX.safeSupplier(()->sut);
+    }
 
 }

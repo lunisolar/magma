@@ -84,7 +84,7 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default void nestingDoAccept(T a1, int a2) {
 		this.doAccept(a1, a2);
 	}
@@ -124,6 +124,17 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T> V1<T> l1(final @Nonnull V1<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T> void call(T a1, int a2, final @Nonnull LObjIntConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.doAccept(a1, a2);
@@ -141,6 +152,42 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 	@Nonnull
 	static <T, X extends Throwable> LObjIntConsumer<T> wrap(final @Nonnull LObjIntConsumerX<T, X> other) {
 		return other::nestingDoAccept;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. */
+	@Nonnull
+	static <T> LObjIntConsumer<T> safe() {
+		return Function4U::doNothing;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LObjIntConsumer<T>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T> LObjIntConsumer<T> safe(final @Nullable LObjIntConsumer<T> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T> LSupplier<LObjIntConsumer<T>> safeSupplier(final @Nullable LSupplier<LObjIntConsumer<T>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -201,6 +248,22 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjIntConsumerX<T, RuntimeException> shovingObjIntConsX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LObjIntConsumer for method references. */
+	@FunctionalInterface
+	interface V1<T> extends LObjIntConsumer<T> {
+
+		void apply(int a2, T a1);
+
+		@Override
+		default void doAccept(T a1, int a2) {
+			this.apply(a2, a1);
+		}
 	}
 
 	// </editor-fold>

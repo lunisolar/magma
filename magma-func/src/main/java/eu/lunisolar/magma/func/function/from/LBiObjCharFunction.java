@@ -73,7 +73,7 @@ public interface LBiObjCharFunction<T1, T2, R> extends LBiObjCharFunctionX<T1, T
 		return doApply(args.first(), args.second(), args.third());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(T1 a1, T2 a2, char a3) {
 		return this.doApply(a1, a2, a3);
 	}
@@ -132,6 +132,45 @@ public interface LBiObjCharFunction<T1, T2, R> extends LBiObjCharFunctionX<T1, T
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, R> V1<T1, T2, R> l1(final @Nonnull V1<T1, T2, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R> V2<T2, T1, R> l2(final @Nonnull V2<T2, T1, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R> V3<T2, T1, R> l3(final @Nonnull V3<T2, T1, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T2, R> V4<T1, T2, R> l4(final @Nonnull V4<T1, T2, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, R> V5<T2, T1, R> l5(final @Nonnull V5<T2, T1, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2, R> R call(T1 a1, T2 a2, char a3, final @Nonnull LBiObjCharFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApply(a1, a2, a3);
@@ -143,6 +182,42 @@ public interface LBiObjCharFunction<T1, T2, R> extends LBiObjCharFunctionX<T1, T
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiObjCharFunction<T1, T2, R> wrap(final @Nonnull LBiObjCharFunctionX<T1, T2, R, X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T1, T2, R> LBiObjCharFunction<T1, T2, R> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, R> LSupplier<LBiObjCharFunction<T1, T2, R>> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T1, T2, R> LBiObjCharFunction<T1, T2, R> safe(final @Nullable LBiObjCharFunction<T1, T2, R> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T1, T2, R> LSupplier<LBiObjCharFunction<T1, T2, R>> safeSupplier(final @Nullable LSupplier<LBiObjCharFunction<T1, T2, R>> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -218,5 +293,69 @@ public interface LBiObjCharFunction<T1, T2, R> extends LBiObjCharFunctionX<T1, T
 	default LBiObjCharFunction<T1, T2, R> nonNullBiObjCharFunc() {
 		return this::nonNullDoApply;
 	}
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiObjCharFunction for method references. */
+	@FunctionalInterface
+	interface V1<T1, T2, R> extends LBiObjCharFunction<T1, T2, R> {
+		@Nullable
+		R apply1(T1 a1, char a3, T2 a2);
+
+		@Override
+		default R doApply(T1 a1, T2 a2, char a3) {
+			return this.apply1(a1, a3, a2);
+		}
+	}
+
+	/** Permutation of LBiObjCharFunction for method references. */
+	@FunctionalInterface
+	interface V2<T1, T2, R> extends LBiObjCharFunction<T1, T2, R> {
+		@Nullable
+		R apply2(T2 a2, T1 a1, char a3);
+
+		@Override
+		default R doApply(T1 a1, T2 a2, char a3) {
+			return this.apply2(a2, a1, a3);
+		}
+	}
+
+	/** Permutation of LBiObjCharFunction for method references. */
+	@FunctionalInterface
+	interface V3<T1, T2, R> extends LBiObjCharFunction<T1, T2, R> {
+		@Nullable
+		R apply3(T2 a2, char a3, T1 a1);
+
+		@Override
+		default R doApply(T1 a1, T2 a2, char a3) {
+			return this.apply3(a2, a3, a1);
+		}
+	}
+
+	/** Permutation of LBiObjCharFunction for method references. */
+	@FunctionalInterface
+	interface V4<T1, T2, R> extends LBiObjCharFunction<T1, T2, R> {
+		@Nullable
+		R apply4(char a3, T1 a1, T2 a2);
+
+		@Override
+		default R doApply(T1 a1, T2 a2, char a3) {
+			return this.apply4(a3, a1, a2);
+		}
+	}
+
+	/** Permutation of LBiObjCharFunction for method references. */
+	@FunctionalInterface
+	interface V5<T1, T2, R> extends LBiObjCharFunction<T1, T2, R> {
+		@Nullable
+		R apply5(char a3, T2 a2, T1 a1);
+
+		@Override
+		default R doApply(T1 a1, T2 a2, char a3) {
+			return this.apply5(a3, a2, a1);
+		}
+	}
+
+	// </editor-fold>
 
 }

@@ -808,5 +808,34 @@ public class LCharFunctionTest<R,X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LCharFunction r1 = LCharFunction.safe(sut);
+        LCharFunctionX r2 = LCharFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LCharFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LCharFunction.safe(null);
+        assertThat(result).isSameAs(LCharFunction.l(LCharFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LCharFunction<R>> supplier = ()->sut;
+        Object result = LCharFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LCharFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LCharFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LCharFunction<R>> r1 = LCharFunction.safeSupplier(()->sut);
+    }
 
 }

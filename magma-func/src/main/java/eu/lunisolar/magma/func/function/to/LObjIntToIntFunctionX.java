@@ -72,7 +72,7 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 		return doApplyAsInt(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default int nestingDoApplyAsInt(T a1, int a2) {
 		try {
 			return this.doApplyAsInt(a1, a2);
@@ -145,6 +145,24 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T, X extends Throwable> V1<T, X> lX1(final @Nonnull V1<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T, X extends Throwable> V1<T, X> lX1(@Nonnull Class<X> xClass, final @Nonnull V1<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T, X extends Throwable> int call(T a1, int a2, final @Nonnull LObjIntToIntFunctionX<T, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doApplyAsInt(a1, a2);
@@ -171,6 +189,42 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 	@Nonnull
 	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> wrapX(final @Nonnull LObjIntToIntFunction<T> other) {
 		return (LObjIntToIntFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> safe() {
+		return Function4U::produceInt;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable, Y extends Throwable> LSupplierX<LObjIntToIntFunctionX<T, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> safe(final @Nullable LObjIntToIntFunctionX<T, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <T, X extends Throwable, Y extends Throwable> LSupplierX<LObjIntToIntFunctionX<T, X>, Y> safeSupplier(final @Nullable LSupplierX<LObjIntToIntFunctionX<T, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -244,6 +298,22 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 	@Nonnull
 	default <Y extends Throwable> LObjIntToIntFunctionX<T, Y> handleObjIntToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T a1, int a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LObjIntToIntFunctionX for method references. */
+	@FunctionalInterface
+	interface V1<T, X extends Throwable> extends LObjIntToIntFunctionX<T, X> {
+
+		int apply(int a2, T a1) throws X;
+
+		@Override
+		default int doApplyAsInt(T a1, int a2) throws X {
+			return this.apply(a2, a1);
+		}
 	}
 
 	// </editor-fold>

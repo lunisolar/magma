@@ -82,7 +82,7 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 		return doGetAsLong();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default long nestingDoGetAsLong() {
 		return this.doGetAsLong();
 	}
@@ -132,6 +132,42 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 	@Nonnull
 	static <X extends Throwable> LLongSupplier wrap(final @Nonnull LLongSupplierX<X> other) {
 		return other::nestingDoGetAsLong;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LLongSupplier safe() {
+		return Function4U::produceLong;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLongSupplier> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LLongSupplier safe(final @Nullable LLongSupplier other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLongSupplier> safeSupplier(final @Nullable LSupplier<LLongSupplier> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

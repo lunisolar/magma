@@ -73,7 +73,7 @@ public interface LCharFunctionX<R, X extends Throwable> extends MetaFunction, Me
 		return doApply(args.first());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default R nestingDoApply(char a1) {
 		try {
 			return this.doApply(a1);
@@ -163,6 +163,42 @@ public interface LCharFunctionX<R, X extends Throwable> extends MetaFunction, Me
 	@Nonnull
 	static <R, X extends Throwable> LCharFunctionX<R, X> wrapX(final @Nonnull LCharFunction<R> other) {
 		return (LCharFunctionX) other;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static <R, X extends Throwable> LCharFunctionX<R, X> safe() {
+		return Function4U::produce;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static <R, X extends Throwable, Y extends Throwable> LSupplierX<LCharFunctionX<R, X>, Y> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static <R, X extends Throwable> LCharFunctionX<R, X> safe(final @Nullable LCharFunctionX<R, X> other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static <R, X extends Throwable, Y extends Throwable> LSupplierX<LCharFunctionX<R, X>, Y> safeSupplier(final @Nullable LSupplierX<LCharFunctionX<R, X>, Y> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

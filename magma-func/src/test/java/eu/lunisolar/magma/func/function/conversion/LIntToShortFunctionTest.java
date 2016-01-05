@@ -765,5 +765,34 @@ public class LIntToShortFunctionTest<X extends ParseException> {
             .isFalse();
     }
 
+    @Test void safeCompiles() {
+        LIntToShortFunction r1 = LIntToShortFunction.safe(sut);
+        LIntToShortFunctionX r2 = LIntToShortFunction.safe(sut);
+    }
+
+    @Test void safePropagates() {
+        Object result = LIntToShortFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LIntToShortFunction.safe(null);
+        assertThat(result).isSameAs(LIntToShortFunction.l(LIntToShortFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LIntToShortFunction> supplier = ()->sut;
+        Object result = LIntToShortFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LIntToShortFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LIntToShortFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LIntToShortFunction> r1 = LIntToShortFunction.safeSupplier(()->sut);
+    }
 
 }

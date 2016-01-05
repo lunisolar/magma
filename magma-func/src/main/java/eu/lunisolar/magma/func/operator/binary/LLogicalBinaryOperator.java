@@ -72,7 +72,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoApply(boolean a1, boolean a2) {
 		return this.doApply(a1, a2);
 	}
@@ -138,6 +138,42 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	@Nonnull
 	static <X extends Throwable> LLogicalBinaryOperator wrap(final @Nonnull LLogicalBinaryOperatorX<X> other) {
 		return other::nestingDoApply;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LLogicalBinaryOperator safe() {
+		return Function4U::produceBoolean;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLogicalBinaryOperator> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LLogicalBinaryOperator safe(final @Nullable LLogicalBinaryOperator other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LLogicalBinaryOperator> safeSupplier(final @Nullable LSupplier<LLogicalBinaryOperator> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>

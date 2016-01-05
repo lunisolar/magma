@@ -72,7 +72,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 		return doTest(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
 	default boolean nestingDoTest(short a1, short a2) {
 		return this.doTest(a1, a2);
 	}
@@ -128,6 +128,17 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static V1 l1(final @Nonnull V1 lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static boolean call(short a1, short a2, final @Nonnull LBiShortPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doTest(a1, a2);
@@ -139,6 +150,42 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	@Nonnull
 	static <X extends Throwable> LBiShortPredicate wrap(final @Nonnull LBiShortPredicateX<X> other) {
 		return other::nestingDoTest;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="safe">
+
+	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	@Nonnull
+	static LBiShortPredicate safe() {
+		return Function4U::alwaysFalse;
+	}
+
+	/** Safe instance supplier. Returns supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LBiShortPredicate> safeSupplier() {
+		return () -> safe();
+	}
+
+	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
+	@Nonnull
+	static LBiShortPredicate safe(final @Nullable LBiShortPredicate other) {
+		if (other == null) {
+			return safe();
+		} else {
+			return other;
+		}
+	}
+
+	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
+	@Nonnull
+	static LSupplier<LBiShortPredicate> safeSupplier(final @Nullable LSupplier<LBiShortPredicate> supplier) {
+		if (supplier == null) {
+			return safeSupplier();
+		} else {
+			return supplier;
+		}
 	}
 
 	// </editor-fold>
@@ -248,6 +295,22 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiShortPredicateX<RuntimeException> shovingBiShortPredX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LBiShortPredicate for method references. */
+	@FunctionalInterface
+	interface V1 extends LBiShortPredicate {
+
+		boolean apply1(short a2, short a1);
+
+		@Override
+		default boolean doTest(short a1, short a2) {
+			return this.apply1(a2, a1);
+		}
 	}
 
 	// </editor-fold>
