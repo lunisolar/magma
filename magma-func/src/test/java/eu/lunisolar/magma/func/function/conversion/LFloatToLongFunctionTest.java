@@ -92,8 +92,6 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LFloatSingle,Long,RuntimeException> theCall = sut;
-
         LFloatSingle domainObject = Tuple4U.tuple((float)100);
 
         Object result = sut.tupleApplyAsLong(domainObject);
@@ -766,8 +764,8 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LFloatToLongFunction r1 = LFloatToLongFunction.safe(sut);
-        LFloatToLongFunctionX r2 = LFloatToLongFunction.safe(sut);
+        LFloatToLongFunction r1 = LFloatToLongFunction.safe(sut); //NOSONAR
+        LFloatToLongFunctionX r2 = LFloatToLongFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,7 +790,7 @@ public class LFloatToLongFunctionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LFloatToLongFunction> r1 = LFloatToLongFunction.safeSupplier(()->sut);
+        LSupplier<LFloatToLongFunction> r1 = LFloatToLongFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

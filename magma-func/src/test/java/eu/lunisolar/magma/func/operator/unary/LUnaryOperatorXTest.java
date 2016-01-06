@@ -103,8 +103,6 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LSingle<T>,T,X> theCall = sut;
-
         LSingle<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100));
 
         Object result = sut.tupleApply(domainObject);
@@ -715,8 +713,8 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LUnaryOperatorX r1 = LUnaryOperatorX.safe(sut);
-        UnaryOperator r3 = LUnaryOperatorX.safe(sut);
+        LUnaryOperatorX r1 = LUnaryOperatorX.safe(sut); //NOSONAR
+        UnaryOperator r3 = LUnaryOperatorX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -741,8 +739,8 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LUnaryOperatorX<T,X>,Y> r1 = LUnaryOperatorX.safeSupplier(()->sut);
-        Supplier<LUnaryOperatorX<T,X>> r2 = LUnaryOperatorX.safeSupplier(()->sut);
+        LSupplierX<LUnaryOperatorX<T,X>,Y> r1 = LUnaryOperatorX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LUnaryOperatorX<T,X>> r2 = LUnaryOperatorX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

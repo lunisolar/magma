@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LCharToShortFuncMemento implements LCharToShortFunction {
 
-	private short lastValue;
+	protected short lastValue;
 
-	private final LCharToShortFunction function;
+	protected LCharToShortFunction function;
 
 	protected LCharToShortFuncMemento(LCharToShortFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LCharToShortFuncMemento(short initialValue, LCharToShortFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LCharToShortFuncMemento implements LCharToShortFunction {
 		return new LCharToShortFuncMemento(supplier);
 	}
 
+	@Override
 	public short doApplyAsShort(char a1) {
 		return lastValue = function.doApplyAsShort(a1);
 	}
@@ -78,5 +81,30 @@ public class LCharToShortFuncMemento implements LCharToShortFunction {
 	public short lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LCharToShortFuncMemento the, Object that) {
+		return Null.<LCharToShortFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LCharToShortFuncMemento other = (LCharToShortFuncMemento) two;
+
+			return LObjShortPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjShortPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

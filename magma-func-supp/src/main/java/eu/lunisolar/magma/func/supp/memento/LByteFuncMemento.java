@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LByteFuncMemento<R> implements LByteFunction<R> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LByteFunction<R> function;
+	protected LByteFunction<R> function;
 
 	protected LByteFuncMemento(LByteFunction<R> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LByteFuncMemento(R initialValue, LByteFunction<R> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LByteFuncMemento<R> implements LByteFunction<R> {
 		return new LByteFuncMemento<R>(supplier);
 	}
 
+	@Override
 	public R doApply(byte a1) {
 		return lastValue = function.doApply(a1);
 	}
@@ -78,5 +81,30 @@ public class LByteFuncMemento<R> implements LByteFunction<R> {
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LByteFuncMemento the, Object that) {
+		return Null.<LByteFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LByteFuncMemento other = (LByteFuncMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

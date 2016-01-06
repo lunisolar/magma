@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LTernaryOpDeltaX<T, X extends Throwable> extends LTernaryOpMementoX<T, X> {
 
-	private final LBinaryOperator<T> deltaFunction;
+	protected final LBinaryOperator<T> deltaFunction;
 
 	protected LTernaryOpDeltaX(LTernaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LTernaryOpDeltaX(T initialValue, LTernaryOperatorX<T, X> function, LBinaryOperator<T> deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -75,8 +78,34 @@ public class LTernaryOpDeltaX<T, X extends Throwable> extends LTernaryOpMementoX
 		return new LTernaryOpDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
+	@Override
 	public T doApply(T a1, T a2, T a3) throws X {
 		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2, a3));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LTernaryOpDeltaX the, Object that) {
+		return Null.<LTernaryOpDeltaX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LTernaryOpDeltaX other = (LTernaryOpDeltaX) two;
+
+			return LTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

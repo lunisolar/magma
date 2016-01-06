@@ -95,8 +95,6 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LFloatSingle,Float,X> theCall = sut;
-
         LFloatSingle domainObject = Tuple4U.tuple((float)100);
 
         Object result = sut.tupleApplyAsFloat(domainObject);
@@ -758,7 +756,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LFloatUnaryOperatorX r1 = LFloatUnaryOperatorX.safe(sut);
+        LFloatUnaryOperatorX r1 = LFloatUnaryOperatorX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -783,7 +781,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LFloatUnaryOperatorX<X>,Y> r1 = LFloatUnaryOperatorX.safeSupplier(()->sut);
+        LSupplierX<LFloatUnaryOperatorX<X>,Y> r1 = LFloatUnaryOperatorX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

@@ -95,8 +95,6 @@ public class LCharToByteFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LCharSingle,Byte,X> theCall = sut;
-
         LCharSingle domainObject = Tuple4U.tuple((char)100);
 
         Object result = sut.tupleApplyAsByte(domainObject);
@@ -751,7 +749,7 @@ public class LCharToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LCharToByteFunctionX r1 = LCharToByteFunctionX.safe(sut);
+        LCharToByteFunctionX r1 = LCharToByteFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -776,7 +774,7 @@ public class LCharToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LCharToByteFunctionX<X>,Y> r1 = LCharToByteFunctionX.safeSupplier(()->sut);
+        LSupplierX<LCharToByteFunctionX<X>,Y> r1 = LCharToByteFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

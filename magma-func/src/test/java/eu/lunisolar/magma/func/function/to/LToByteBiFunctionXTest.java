@@ -95,8 +95,6 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LPair<T1,T2>,Byte,X> theCall = sut;
-
         LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
         Object result = sut.tupleApplyAsByte(domainObject);
@@ -465,7 +463,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LToByteBiFunctionX r1 = LToByteBiFunctionX.safe(sut);
+        LToByteBiFunctionX r1 = LToByteBiFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -490,7 +488,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LToByteBiFunctionX<T1,T2,X>,Y> r1 = LToByteBiFunctionX.safeSupplier(()->sut);
+        LSupplierX<LToByteBiFunctionX<T1,T2,X>,Y> r1 = LToByteBiFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

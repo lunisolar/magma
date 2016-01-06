@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToIntBiFuncDelta<T1, T2> extends LToIntBiFuncMemento<T1, T2> {
 
-	private final LIntBinaryOperator deltaFunction;
+	protected final LIntBinaryOperator deltaFunction;
 
 	protected LToIntBiFuncDelta(LToIntBiFunction<T1, T2> function, LIntBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LToIntBiFuncDelta(int initialValue, LToIntBiFunction<T1, T2> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LToIntBiFuncDelta<T1, T2> extends LToIntBiFuncMemento<T1, T2> {
 		return current - last;
 	}
 
+	@Override
 	public int doApplyAsInt(T1 a1, T2 a2) {
 		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1, a2));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToIntBiFuncDelta the, Object that) {
+		return Null.<LToIntBiFuncDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToIntBiFuncDelta other = (LToIntBiFuncDelta) two;
+
+			return LBiObjIntTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjIntTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

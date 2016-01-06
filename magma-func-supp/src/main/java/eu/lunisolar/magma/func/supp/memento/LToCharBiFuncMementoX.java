@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToCharBiFuncMementoX<T1, T2, X extends Throwable> implements LToCharBiFunctionX<T1, T2, X> {
 
-	private char lastValue;
+	protected char lastValue;
 
-	private final LToCharBiFunctionX<T1, T2, X> function;
+	protected LToCharBiFunctionX<T1, T2, X> function;
 
 	protected LToCharBiFuncMementoX(LToCharBiFunctionX<T1, T2, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToCharBiFuncMementoX(char initialValue, LToCharBiFunctionX<T1, T2, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToCharBiFuncMementoX<T1, T2, X extends Throwable> implements LToCh
 		return new LToCharBiFuncMementoX<T1, T2, X>(supplier);
 	}
 
+	@Override
 	public char doApplyAsChar(T1 a1, T2 a2) throws X {
 		return lastValue = function.doApplyAsChar(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LToCharBiFuncMementoX<T1, T2, X extends Throwable> implements LToCh
 	public char lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToCharBiFuncMementoX the, Object that) {
+		return Null.<LToCharBiFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToCharBiFuncMementoX other = (LToCharBiFuncMementoX) two;
+
+			return LObjCharPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjCharPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

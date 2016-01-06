@@ -56,15 +56,40 @@ public interface LDoubleSingle extends LTuple<Double> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static int hashCode(double first) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LDoubleSingle and calculates hash from it. */
+	static int argHashCode(double first) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Double.hashCode(first);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LDoubleSingle and checks if all values are equal. */
+	static boolean argEquals(double first, double firstOfOther) {
+		return first == firstOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static boolean argEquals(LDoubleSingle the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LDoubleSingle are allowed.
+				if (!(two instanceof LDoubleSingle)) {
+					return false;
+				}
+
+				LDoubleSingle other = (LDoubleSingle) two;
+
+				return argEquals(one.first(), other.first());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -175,22 +200,12 @@ public interface LDoubleSingle extends LTuple<Double> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LDoubleSingle are allowed.
-					if (!(two instanceof LDoubleSingle)) {
-						return false;
-					}
-
-					LDoubleSingle other = (LDoubleSingle) two;
-
-					return one.first() == other.first(); //
-				});
+			return LDoubleSingle.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LDoubleSingle.hashCode(first());
+			return LDoubleSingle.argHashCode(first());
 		}
 
 		@Override

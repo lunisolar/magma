@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLongToByteFuncMemento implements LLongToByteFunction {
 
-	private byte lastValue;
+	protected byte lastValue;
 
-	private final LLongToByteFunction function;
+	protected LLongToByteFunction function;
 
 	protected LLongToByteFuncMemento(LLongToByteFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LLongToByteFuncMemento(byte initialValue, LLongToByteFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LLongToByteFuncMemento implements LLongToByteFunction {
 		return new LLongToByteFuncMemento(supplier);
 	}
 
+	@Override
 	public byte doApplyAsByte(long a1) {
 		return lastValue = function.doApplyAsByte(a1);
 	}
@@ -78,5 +81,30 @@ public class LLongToByteFuncMemento implements LLongToByteFunction {
 	public byte lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLongToByteFuncMemento the, Object that) {
+		return Null.<LLongToByteFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLongToByteFuncMemento other = (LLongToByteFuncMemento) two;
+
+			return LObjBytePair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjBytePair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

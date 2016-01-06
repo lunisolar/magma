@@ -92,8 +92,6 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LCharSingle,Long,RuntimeException> theCall = sut;
-
         LCharSingle domainObject = Tuple4U.tuple((char)100);
 
         Object result = sut.tupleApplyAsLong(domainObject);
@@ -766,8 +764,8 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LCharToLongFunction r1 = LCharToLongFunction.safe(sut);
-        LCharToLongFunctionX r2 = LCharToLongFunction.safe(sut);
+        LCharToLongFunction r1 = LCharToLongFunction.safe(sut); //NOSONAR
+        LCharToLongFunctionX r2 = LCharToLongFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,7 +790,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LCharToLongFunction> r1 = LCharToLongFunction.safeSupplier(()->sut);
+        LSupplier<LCharToLongFunction> r1 = LCharToLongFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

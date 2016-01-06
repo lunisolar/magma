@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LDoubleToFloatFuncDeltaX<X extends Throwable> extends LDoubleToFloatFuncMementoX<X> {
 
-	private final LFloatBinaryOperator deltaFunction;
+	protected final LFloatBinaryOperator deltaFunction;
 
 	protected LDoubleToFloatFuncDeltaX(LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LDoubleToFloatFuncDeltaX(float initialValue, LDoubleToFloatFunctionX<X> function, LFloatBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LDoubleToFloatFuncDeltaX<X extends Throwable> extends LDoubleToFloa
 		return current - last;
 	}
 
+	@Override
 	public float doApplyAsFloat(double a1) throws X {
 		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LDoubleToFloatFuncDeltaX the, Object that) {
+		return Null.<LDoubleToFloatFuncDeltaX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LDoubleToFloatFuncDeltaX other = (LDoubleToFloatFuncDeltaX) two;
+
+			return LBiObjFloatTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjFloatTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

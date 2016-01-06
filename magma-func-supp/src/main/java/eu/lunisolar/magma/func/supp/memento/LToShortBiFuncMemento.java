@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToShortBiFuncMemento<T1, T2> implements LToShortBiFunction<T1, T2> {
 
-	private short lastValue;
+	protected short lastValue;
 
-	private final LToShortBiFunction<T1, T2> function;
+	protected LToShortBiFunction<T1, T2> function;
 
 	protected LToShortBiFuncMemento(LToShortBiFunction<T1, T2> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToShortBiFuncMemento(short initialValue, LToShortBiFunction<T1, T2> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToShortBiFuncMemento<T1, T2> implements LToShortBiFunction<T1, T2>
 		return new LToShortBiFuncMemento<T1, T2>(supplier);
 	}
 
+	@Override
 	public short doApplyAsShort(T1 a1, T2 a2) {
 		return lastValue = function.doApplyAsShort(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LToShortBiFuncMemento<T1, T2> implements LToShortBiFunction<T1, T2>
 	public short lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToShortBiFuncMemento the, Object that) {
+		return Null.<LToShortBiFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToShortBiFuncMemento other = (LToShortBiFuncMemento) two;
+
+			return LObjShortPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjShortPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

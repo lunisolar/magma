@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LBiFloatFuncMemento<R> implements LBiFloatFunction<R> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LBiFloatFunction<R> function;
+	protected LBiFloatFunction<R> function;
 
 	protected LBiFloatFuncMemento(LBiFloatFunction<R> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LBiFloatFuncMemento(R initialValue, LBiFloatFunction<R> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LBiFloatFuncMemento<R> implements LBiFloatFunction<R> {
 		return new LBiFloatFuncMemento<R>(supplier);
 	}
 
+	@Override
 	public R doApply(float a1, float a2) {
 		return lastValue = function.doApply(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LBiFloatFuncMemento<R> implements LBiFloatFunction<R> {
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LBiFloatFuncMemento the, Object that) {
+		return Null.<LBiFloatFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LBiFloatFuncMemento other = (LBiFloatFuncMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

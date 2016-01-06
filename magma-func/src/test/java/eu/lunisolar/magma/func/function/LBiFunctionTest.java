@@ -100,8 +100,6 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LPair<T1,T2>,R,RuntimeException> theCall = sut;
-
         LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
         Object result = sut.tupleApply(domainObject);
@@ -532,9 +530,9 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiFunction r1 = LBiFunction.safe(sut);
-        LBiFunctionX r2 = LBiFunction.safe(sut);
-        BiFunction r3 = LBiFunction.safe(sut);
+        LBiFunction r1 = LBiFunction.safe(sut); //NOSONAR
+        LBiFunctionX r2 = LBiFunction.safe(sut); //NOSONAR
+        BiFunction r3 = LBiFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -559,8 +557,8 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LBiFunction<T1,T2,R>> r1 = LBiFunction.safeSupplier(()->sut);
-        Supplier<LBiFunction<T1,T2,R>> r2 = LBiFunction.safeSupplier(()->sut);
+        LSupplier<LBiFunction<T1,T2,R>> r1 = LBiFunction.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LBiFunction<T1,T2,R>> r2 = LBiFunction.safeSupplier(()->sut); //NOSONAR
     }
 
 }

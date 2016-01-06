@@ -85,8 +85,6 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LObjBytePair<T>,LTuple.Void,RuntimeException> theCall = sut;
-
         LObjBytePair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(byte)100);
 
         Object result = sut.tupleAccept(domainObject);
@@ -487,8 +485,8 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LObjByteConsumer r1 = LObjByteConsumer.safe(sut);
-        LObjByteConsumerX r2 = LObjByteConsumer.safe(sut);
+        LObjByteConsumer r1 = LObjByteConsumer.safe(sut); //NOSONAR
+        LObjByteConsumerX r2 = LObjByteConsumer.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -513,7 +511,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LObjByteConsumer<T>> r1 = LObjByteConsumer.safeSupplier(()->sut);
+        LSupplier<LObjByteConsumer<T>> r1 = LObjByteConsumer.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

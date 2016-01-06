@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LFloatToByteFuncMemento implements LFloatToByteFunction {
 
-	private byte lastValue;
+	protected byte lastValue;
 
-	private final LFloatToByteFunction function;
+	protected LFloatToByteFunction function;
 
 	protected LFloatToByteFuncMemento(LFloatToByteFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LFloatToByteFuncMemento(byte initialValue, LFloatToByteFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LFloatToByteFuncMemento implements LFloatToByteFunction {
 		return new LFloatToByteFuncMemento(supplier);
 	}
 
+	@Override
 	public byte doApplyAsByte(float a1) {
 		return lastValue = function.doApplyAsByte(a1);
 	}
@@ -78,5 +81,30 @@ public class LFloatToByteFuncMemento implements LFloatToByteFunction {
 	public byte lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LFloatToByteFuncMemento the, Object that) {
+		return Null.<LFloatToByteFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LFloatToByteFuncMemento other = (LFloatToByteFuncMemento) two;
+
+			return LObjBytePair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjBytePair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

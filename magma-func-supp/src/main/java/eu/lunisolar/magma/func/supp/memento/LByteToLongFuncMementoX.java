@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LByteToLongFuncMementoX<X extends Throwable> implements LByteToLongFunctionX<X> {
 
-	private long lastValue;
+	protected long lastValue;
 
-	private final LByteToLongFunctionX<X> function;
+	protected LByteToLongFunctionX<X> function;
 
 	protected LByteToLongFuncMementoX(LByteToLongFunctionX<X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LByteToLongFuncMementoX(long initialValue, LByteToLongFunctionX<X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LByteToLongFuncMementoX<X extends Throwable> implements LByteToLong
 		return new LByteToLongFuncMementoX<X>(supplier);
 	}
 
+	@Override
 	public long doApplyAsLong(byte a1) throws X {
 		return lastValue = function.doApplyAsLong(a1);
 	}
@@ -78,5 +81,30 @@ public class LByteToLongFuncMementoX<X extends Throwable> implements LByteToLong
 	public long lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LByteToLongFuncMementoX the, Object that) {
+		return Null.<LByteToLongFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LByteToLongFuncMementoX other = (LByteToLongFuncMementoX) two;
+
+			return LObjLongPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjLongPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

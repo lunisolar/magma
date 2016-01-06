@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToCharFuncMementoX<T, X extends Throwable> implements LToCharFunctionX<T, X> {
 
-	private char lastValue;
+	protected char lastValue;
 
-	private final LToCharFunctionX<T, X> function;
+	protected LToCharFunctionX<T, X> function;
 
 	protected LToCharFuncMementoX(LToCharFunctionX<T, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToCharFuncMementoX(char initialValue, LToCharFunctionX<T, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToCharFuncMementoX<T, X extends Throwable> implements LToCharFunct
 		return new LToCharFuncMementoX<T, X>(supplier);
 	}
 
+	@Override
 	public char doApplyAsChar(T a1) throws X {
 		return lastValue = function.doApplyAsChar(a1);
 	}
@@ -78,5 +81,30 @@ public class LToCharFuncMementoX<T, X extends Throwable> implements LToCharFunct
 	public char lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToCharFuncMementoX the, Object that) {
+		return Null.<LToCharFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToCharFuncMementoX other = (LToCharFuncMementoX) two;
+
+			return LObjCharPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjCharPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

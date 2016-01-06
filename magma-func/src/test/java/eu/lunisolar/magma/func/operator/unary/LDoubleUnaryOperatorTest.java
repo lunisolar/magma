@@ -94,8 +94,6 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LDoubleSingle,Double,RuntimeException> theCall = sut;
-
         LDoubleSingle domainObject = Tuple4U.tuple((double)100);
 
         Object result = sut.tupleApplyAsDouble(domainObject);
@@ -781,9 +779,9 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LDoubleUnaryOperator r1 = LDoubleUnaryOperator.safe(sut);
-        LDoubleUnaryOperatorX r2 = LDoubleUnaryOperator.safe(sut);
-        DoubleUnaryOperator r3 = LDoubleUnaryOperator.safe(sut);
+        LDoubleUnaryOperator r1 = LDoubleUnaryOperator.safe(sut); //NOSONAR
+        LDoubleUnaryOperatorX r2 = LDoubleUnaryOperator.safe(sut); //NOSONAR
+        DoubleUnaryOperator r3 = LDoubleUnaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -808,8 +806,8 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LDoubleUnaryOperator> r1 = LDoubleUnaryOperator.safeSupplier(()->sut);
-        Supplier<LDoubleUnaryOperator> r2 = LDoubleUnaryOperator.safeSupplier(()->sut);
+        LSupplier<LDoubleUnaryOperator> r1 = LDoubleUnaryOperator.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LDoubleUnaryOperator> r2 = LDoubleUnaryOperator.safeSupplier(()->sut); //NOSONAR
     }
 
 }

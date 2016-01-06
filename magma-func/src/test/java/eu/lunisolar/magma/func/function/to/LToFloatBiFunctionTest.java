@@ -92,8 +92,6 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LPair<T1,T2>,Float,RuntimeException> theCall = sut;
-
         LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
         Object result = sut.tupleApplyAsFloat(domainObject);
@@ -480,8 +478,8 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LToFloatBiFunction r1 = LToFloatBiFunction.safe(sut);
-        LToFloatBiFunctionX r2 = LToFloatBiFunction.safe(sut);
+        LToFloatBiFunction r1 = LToFloatBiFunction.safe(sut); //NOSONAR
+        LToFloatBiFunctionX r2 = LToFloatBiFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -506,7 +504,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LToFloatBiFunction<T1,T2>> r1 = LToFloatBiFunction.safeSupplier(()->sut);
+        LSupplier<LToFloatBiFunction<T1,T2>> r1 = LToFloatBiFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

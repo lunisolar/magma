@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLongFuncMementoX<R, X extends Throwable> implements LLongFunctionX<R, X> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LLongFunctionX<R, X> function;
+	protected LLongFunctionX<R, X> function;
 
 	protected LLongFuncMementoX(LLongFunctionX<R, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LLongFuncMementoX(R initialValue, LLongFunctionX<R, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LLongFuncMementoX<R, X extends Throwable> implements LLongFunctionX
 		return new LLongFuncMementoX<R, X>(supplier);
 	}
 
+	@Override
 	public R doApply(long a1) throws X {
 		return lastValue = function.doApply(a1);
 	}
@@ -78,5 +81,30 @@ public class LLongFuncMementoX<R, X extends Throwable> implements LLongFunctionX
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLongFuncMementoX the, Object that) {
+		return Null.<LLongFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLongFuncMementoX other = (LLongFuncMementoX) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToLongFuncMemento<T> implements LToLongFunction<T> {
 
-	private long lastValue;
+	protected long lastValue;
 
-	private final LToLongFunction<T> function;
+	protected LToLongFunction<T> function;
 
 	protected LToLongFuncMemento(LToLongFunction<T> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToLongFuncMemento(long initialValue, LToLongFunction<T> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToLongFuncMemento<T> implements LToLongFunction<T> {
 		return new LToLongFuncMemento<T>(supplier);
 	}
 
+	@Override
 	public long doApplyAsLong(T a1) {
 		return lastValue = function.doApplyAsLong(a1);
 	}
@@ -78,5 +81,30 @@ public class LToLongFuncMemento<T> implements LToLongFunction<T> {
 	public long lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToLongFuncMemento the, Object that) {
+		return Null.<LToLongFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToLongFuncMemento other = (LToLongFuncMemento) two;
+
+			return LObjLongPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjLongPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

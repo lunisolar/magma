@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LShortToFloatFuncMemento implements LShortToFloatFunction {
 
-	private float lastValue;
+	protected float lastValue;
 
-	private final LShortToFloatFunction function;
+	protected LShortToFloatFunction function;
 
 	protected LShortToFloatFuncMemento(LShortToFloatFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LShortToFloatFuncMemento(float initialValue, LShortToFloatFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LShortToFloatFuncMemento implements LShortToFloatFunction {
 		return new LShortToFloatFuncMemento(supplier);
 	}
 
+	@Override
 	public float doApplyAsFloat(short a1) {
 		return lastValue = function.doApplyAsFloat(a1);
 	}
@@ -78,5 +81,30 @@ public class LShortToFloatFuncMemento implements LShortToFloatFunction {
 	public float lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LShortToFloatFuncMemento the, Object that) {
+		return Null.<LShortToFloatFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LShortToFloatFuncMemento other = (LShortToFloatFuncMemento) two;
+
+			return LObjFloatPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjFloatPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

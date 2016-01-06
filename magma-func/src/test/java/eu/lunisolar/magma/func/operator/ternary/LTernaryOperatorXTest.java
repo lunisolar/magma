@@ -101,8 +101,6 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LTriple<T,T,T>,T,X> theCall = sut;
-
         LTriple<T,T,T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
 
         Object result = sut.tupleApply(domainObject);
@@ -422,7 +420,7 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LTernaryOperatorX r1 = LTernaryOperatorX.safe(sut);
+        LTernaryOperatorX r1 = LTernaryOperatorX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -447,7 +445,7 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LTernaryOperatorX<T,X>,Y> r1 = LTernaryOperatorX.safeSupplier(()->sut);
+        LSupplierX<LTernaryOperatorX<T,X>,Y> r1 = LTernaryOperatorX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

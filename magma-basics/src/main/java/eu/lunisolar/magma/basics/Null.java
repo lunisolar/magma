@@ -95,6 +95,14 @@ public class Null {
 
     //</editor-fold>
 
+    //<editor-fold desc="null safe hash">
+
+    public static int hashCode(Object the) {
+        return the == null ? -1 : the.hashCode();
+    }
+
+    //</editor-fold>
+
     // <editor-fold desc="no-instance constructor">
 
     private Null() {

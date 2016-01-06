@@ -63,17 +63,44 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static <T1, T2, T3> int hashCode(T1 first, T2 second, T3 third) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LTriple and calculates hash from it. */
+	static <T1, T2, T3> int argHashCode(T1 first, T2 second, T3 third) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((first == null) ? 0 : first.hashCode());
 		result = prime * result + ((second == null) ? 0 : second.hashCode());
 		result = prime * result + ((third == null) ? 0 : third.hashCode());
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LTriple and checks if all values are equal. */
+	static <T1, T2, T3> boolean argEquals(T1 first, T2 second, T3 third, T1 firstOfOther, T2 secondOfOther, T3 thirdOfOther) {
+		return Null.equals(first, firstOfOther) && //
+				Null.equals(second, secondOfOther) && //
+				Null.equals(third, thirdOfOther); //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static <T1, T2, T3> boolean argEquals(LTriple the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LTriple are allowed.
+				if (!(two instanceof LTriple)) {
+					return false;
+				}
+
+				LTriple other = (LTriple) two;
+
+				return argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -136,24 +163,12 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LTriple are allowed.
-					if (!(two instanceof LTriple)) {
-						return false;
-					}
-
-					LTriple other = (LTriple) two;
-
-					return Null.equals(one.first(), other.first()) && //
-							Null.equals(one.second(), other.second()) && //
-							Null.equals(one.third(), other.third()); //
-				});
+			return LTriple.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LTriple.hashCode(first(), second(), third());
+			return LTriple.argHashCode(first(), second(), third());
 		}
 
 	}

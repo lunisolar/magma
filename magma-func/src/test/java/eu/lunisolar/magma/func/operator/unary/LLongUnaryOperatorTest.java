@@ -94,8 +94,6 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LLongSingle,Long,RuntimeException> theCall = sut;
-
         LLongSingle domainObject = Tuple4U.tuple((long)100);
 
         Object result = sut.tupleApplyAsLong(domainObject);
@@ -781,9 +779,9 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LLongUnaryOperator r1 = LLongUnaryOperator.safe(sut);
-        LLongUnaryOperatorX r2 = LLongUnaryOperator.safe(sut);
-        LongUnaryOperator r3 = LLongUnaryOperator.safe(sut);
+        LLongUnaryOperator r1 = LLongUnaryOperator.safe(sut); //NOSONAR
+        LLongUnaryOperatorX r2 = LLongUnaryOperator.safe(sut); //NOSONAR
+        LongUnaryOperator r3 = LLongUnaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -808,8 +806,8 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LLongUnaryOperator> r1 = LLongUnaryOperator.safeSupplier(()->sut);
-        Supplier<LLongUnaryOperator> r2 = LLongUnaryOperator.safeSupplier(()->sut);
+        LSupplier<LLongUnaryOperator> r1 = LLongUnaryOperator.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LLongUnaryOperator> r2 = LLongUnaryOperator.safeSupplier(()->sut); //NOSONAR
     }
 
 }

@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToShortBiFuncDeltaX<T1, T2, X extends Throwable> extends LToShortBiFuncMementoX<T1, T2, X> {
 
-	private final LShortBinaryOperator deltaFunction;
+	protected final LShortBinaryOperator deltaFunction;
 
 	protected LToShortBiFuncDeltaX(LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LToShortBiFuncDeltaX(short initialValue, LToShortBiFunctionX<T1, T2, X> function, LShortBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LToShortBiFuncDeltaX<T1, T2, X extends Throwable> extends LToShortB
 		return (short) (current - last);
 	}
 
+	@Override
 	public short doApplyAsShort(T1 a1, T2 a2) throws X {
 		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1, a2));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToShortBiFuncDeltaX the, Object that) {
+		return Null.<LToShortBiFuncDeltaX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToShortBiFuncDeltaX other = (LToShortBiFuncDeltaX) two;
+
+			return LBiObjShortTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjShortTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

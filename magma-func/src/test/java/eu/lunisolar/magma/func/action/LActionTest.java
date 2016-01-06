@@ -87,8 +87,6 @@ public class LActionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LTuple.Void,LTuple.Void,RuntimeException> theCall = sut;
-
         LTuple.Void domainObject = Tuple4U.tuple();
 
         Object result = sut.tupleExecute(domainObject);
@@ -404,9 +402,9 @@ public class LActionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LAction r1 = LAction.safe(sut);
-        LActionX r2 = LAction.safe(sut);
-        Runnable r3 = LAction.safe(sut);
+        LAction r1 = LAction.safe(sut); //NOSONAR
+        LActionX r2 = LAction.safe(sut); //NOSONAR
+        Runnable r3 = LAction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -431,8 +429,8 @@ public class LActionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LAction> r1 = LAction.safeSupplier(()->sut);
-        Supplier<LAction> r2 = LAction.safeSupplier(()->sut);
+        LSupplier<LAction> r1 = LAction.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LAction> r2 = LAction.safeSupplier(()->sut); //NOSONAR
     }
 
 }

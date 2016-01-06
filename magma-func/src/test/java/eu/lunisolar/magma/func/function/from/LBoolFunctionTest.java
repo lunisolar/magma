@@ -98,8 +98,6 @@ public class LBoolFunctionTest<R,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBoolSingle,R,RuntimeException> theCall = sut;
-
         LBoolSingle domainObject = Tuple4U.tuple(true);
 
         Object result = sut.tupleApply(domainObject);
@@ -809,8 +807,8 @@ public class LBoolFunctionTest<R,X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LBoolFunction r1 = LBoolFunction.safe(sut);
-        LBoolFunctionX r2 = LBoolFunction.safe(sut);
+        LBoolFunction r1 = LBoolFunction.safe(sut); //NOSONAR
+        LBoolFunctionX r2 = LBoolFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -835,7 +833,7 @@ public class LBoolFunctionTest<R,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolFunction<R>> r1 = LBoolFunction.safeSupplier(()->sut);
+        LSupplier<LBoolFunction<R>> r1 = LBoolFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

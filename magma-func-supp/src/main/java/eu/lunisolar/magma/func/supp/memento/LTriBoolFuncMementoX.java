@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LTriBoolFuncMementoX<R, X extends Throwable> implements LTriBoolFunctionX<R, X> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LTriBoolFunctionX<R, X> function;
+	protected LTriBoolFunctionX<R, X> function;
 
 	protected LTriBoolFuncMementoX(LTriBoolFunctionX<R, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LTriBoolFuncMementoX(R initialValue, LTriBoolFunctionX<R, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LTriBoolFuncMementoX<R, X extends Throwable> implements LTriBoolFun
 		return new LTriBoolFuncMementoX<R, X>(supplier);
 	}
 
+	@Override
 	public R doApply(boolean a1, boolean a2, boolean a3) throws X {
 		return lastValue = function.doApply(a1, a2, a3);
 	}
@@ -78,5 +81,30 @@ public class LTriBoolFuncMementoX<R, X extends Throwable> implements LTriBoolFun
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LTriBoolFuncMementoX the, Object that) {
+		return Null.<LTriBoolFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LTriBoolFuncMementoX other = (LTriBoolFuncMementoX) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

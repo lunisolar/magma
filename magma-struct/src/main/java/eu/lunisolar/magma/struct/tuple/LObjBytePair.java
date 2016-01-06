@@ -55,16 +55,42 @@ public interface LObjBytePair<T> extends LTuple<Object> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static <T> int hashCode(T first, byte second) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LObjBytePair and calculates hash from it. */
+	static <T> int argHashCode(T first, byte second) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((first == null) ? 0 : first.hashCode());
 		result = prime * result + Byte.hashCode(second);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjBytePair and checks if all values are equal. */
+	static <T> boolean argEquals(T first, byte second, T firstOfOther, byte secondOfOther) {
+		return Null.equals(first, firstOfOther) && //
+				second == secondOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static <T> boolean argEquals(LObjBytePair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LObjBytePair are allowed.
+				if (!(two instanceof LObjBytePair)) {
+					return false;
+				}
+
+				LObjBytePair other = (LObjBytePair) two;
+
+				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -124,23 +150,12 @@ public interface LObjBytePair<T> extends LTuple<Object> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LObjBytePair are allowed.
-					if (!(two instanceof LObjBytePair)) {
-						return false;
-					}
-
-					LObjBytePair other = (LObjBytePair) two;
-
-					return Null.equals(one.first(), other.first()) && //
-							one.second() == other.second(); //
-				});
+			return LObjBytePair.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LObjBytePair.hashCode(first(), second());
+			return LObjBytePair.argHashCode(first(), second());
 		}
 
 	}

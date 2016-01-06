@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LFloatSupMementoX<X extends Throwable> implements LFloatSupplierX<X> {
 
-	private float lastValue;
+	protected float lastValue;
 
-	private final LFloatSupplierX<X> function;
+	protected LFloatSupplierX<X> function;
 
 	protected LFloatSupMementoX(LFloatSupplierX<X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LFloatSupMementoX(float initialValue, LFloatSupplierX<X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LFloatSupMementoX<X extends Throwable> implements LFloatSupplierX<X
 		return new LFloatSupMementoX<X>(supplier);
 	}
 
+	@Override
 	public float doGetAsFloat() throws X {
 		return lastValue = function.doGetAsFloat();
 	}
@@ -78,5 +81,30 @@ public class LFloatSupMementoX<X extends Throwable> implements LFloatSupplierX<X
 	public float lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LFloatSupMementoX the, Object that) {
+		return Null.<LFloatSupMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LFloatSupMementoX other = (LFloatSupMementoX) two;
+
+			return LObjFloatPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjFloatPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

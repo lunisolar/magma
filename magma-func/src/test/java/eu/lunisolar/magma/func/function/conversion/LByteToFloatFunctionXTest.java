@@ -95,8 +95,6 @@ public class LByteToFloatFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LByteSingle,Float,X> theCall = sut;
-
         LByteSingle domainObject = Tuple4U.tuple((byte)100);
 
         Object result = sut.tupleApplyAsFloat(domainObject);
@@ -751,7 +749,7 @@ public class LByteToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LByteToFloatFunctionX r1 = LByteToFloatFunctionX.safe(sut);
+        LByteToFloatFunctionX r1 = LByteToFloatFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -776,7 +774,7 @@ public class LByteToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LByteToFloatFunctionX<X>,Y> r1 = LByteToFloatFunctionX.safeSupplier(()->sut);
+        LSupplierX<LByteToFloatFunctionX<X>,Y> r1 = LByteToFloatFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

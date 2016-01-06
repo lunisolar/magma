@@ -92,8 +92,6 @@ public class LShortToDoubleFunctionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LShortSingle,Double,RuntimeException> theCall = sut;
-
         LShortSingle domainObject = Tuple4U.tuple((short)100);
 
         Object result = sut.tupleApplyAsDouble(domainObject);
@@ -766,8 +764,8 @@ public class LShortToDoubleFunctionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LShortToDoubleFunction r1 = LShortToDoubleFunction.safe(sut);
-        LShortToDoubleFunctionX r2 = LShortToDoubleFunction.safe(sut);
+        LShortToDoubleFunction r1 = LShortToDoubleFunction.safe(sut); //NOSONAR
+        LShortToDoubleFunctionX r2 = LShortToDoubleFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,7 +790,7 @@ public class LShortToDoubleFunctionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LShortToDoubleFunction> r1 = LShortToDoubleFunction.safeSupplier(()->sut);
+        LSupplier<LShortToDoubleFunction> r1 = LShortToDoubleFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

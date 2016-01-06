@@ -97,8 +97,6 @@ public class LToLongBiFunctionXTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LPair<T1,T2>,Long,X> theCall = sut;
-
         LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
         Object result = sut.tupleApplyAsLong(domainObject);
@@ -473,8 +471,8 @@ public class LToLongBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LToLongBiFunctionX r1 = LToLongBiFunctionX.safe(sut);
-        ToLongBiFunction r3 = LToLongBiFunctionX.safe(sut);
+        LToLongBiFunctionX r1 = LToLongBiFunctionX.safe(sut); //NOSONAR
+        ToLongBiFunction r3 = LToLongBiFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -499,8 +497,8 @@ public class LToLongBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LToLongBiFunctionX<T1,T2,X>,Y> r1 = LToLongBiFunctionX.safeSupplier(()->sut);
-        Supplier<LToLongBiFunctionX<T1,T2,X>> r2 = LToLongBiFunctionX.safeSupplier(()->sut);
+        LSupplierX<LToLongBiFunctionX<T1,T2,X>,Y> r1 = LToLongBiFunctionX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LToLongBiFunctionX<T1,T2,X>> r2 = LToLongBiFunctionX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

@@ -92,8 +92,6 @@ public class LDoubleToFloatFunctionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LDoubleSingle,Float,RuntimeException> theCall = sut;
-
         LDoubleSingle domainObject = Tuple4U.tuple((double)100);
 
         Object result = sut.tupleApplyAsFloat(domainObject);
@@ -766,8 +764,8 @@ public class LDoubleToFloatFunctionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LDoubleToFloatFunction r1 = LDoubleToFloatFunction.safe(sut);
-        LDoubleToFloatFunctionX r2 = LDoubleToFloatFunction.safe(sut);
+        LDoubleToFloatFunction r1 = LDoubleToFloatFunction.safe(sut); //NOSONAR
+        LDoubleToFloatFunctionX r2 = LDoubleToFloatFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,7 +790,7 @@ public class LDoubleToFloatFunctionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LDoubleToFloatFunction> r1 = LDoubleToFloatFunction.safeSupplier(()->sut);
+        LSupplier<LDoubleToFloatFunction> r1 = LDoubleToFloatFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

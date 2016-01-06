@@ -95,8 +95,6 @@ public class LShortToByteFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LShortSingle,Byte,X> theCall = sut;
-
         LShortSingle domainObject = Tuple4U.tuple((short)100);
 
         Object result = sut.tupleApplyAsByte(domainObject);
@@ -751,7 +749,7 @@ public class LShortToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LShortToByteFunctionX r1 = LShortToByteFunctionX.safe(sut);
+        LShortToByteFunctionX r1 = LShortToByteFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -776,7 +774,7 @@ public class LShortToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LShortToByteFunctionX<X>,Y> r1 = LShortToByteFunctionX.safeSupplier(()->sut);
+        LSupplierX<LShortToByteFunctionX<X>,Y> r1 = LShortToByteFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

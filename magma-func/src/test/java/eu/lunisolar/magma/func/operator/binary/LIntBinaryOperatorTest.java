@@ -94,8 +94,6 @@ public class LIntBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LIntPair,Integer,RuntimeException> theCall = sut;
-
         LIntPair domainObject = Tuple4U.tuple((int)100,(int)100);
 
         Object result = sut.tupleApplyAsInt(domainObject);
@@ -541,9 +539,9 @@ public class LIntBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LIntBinaryOperator r1 = LIntBinaryOperator.safe(sut);
-        LIntBinaryOperatorX r2 = LIntBinaryOperator.safe(sut);
-        IntBinaryOperator r3 = LIntBinaryOperator.safe(sut);
+        LIntBinaryOperator r1 = LIntBinaryOperator.safe(sut); //NOSONAR
+        LIntBinaryOperatorX r2 = LIntBinaryOperator.safe(sut); //NOSONAR
+        IntBinaryOperator r3 = LIntBinaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -568,8 +566,8 @@ public class LIntBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LIntBinaryOperator> r1 = LIntBinaryOperator.safeSupplier(()->sut);
-        Supplier<LIntBinaryOperator> r2 = LIntBinaryOperator.safeSupplier(()->sut);
+        LSupplier<LIntBinaryOperator> r1 = LIntBinaryOperator.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LIntBinaryOperator> r2 = LIntBinaryOperator.safeSupplier(()->sut); //NOSONAR
     }
 
 }

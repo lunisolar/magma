@@ -92,8 +92,6 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LByteSingle,Byte,RuntimeException> theCall = sut;
-
         LByteSingle domainObject = Tuple4U.tuple((byte)100);
 
         Object result = sut.tupleApplyAsByte(domainObject);
@@ -773,8 +771,8 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LByteUnaryOperator r1 = LByteUnaryOperator.safe(sut);
-        LByteUnaryOperatorX r2 = LByteUnaryOperator.safe(sut);
+        LByteUnaryOperator r1 = LByteUnaryOperator.safe(sut); //NOSONAR
+        LByteUnaryOperatorX r2 = LByteUnaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -799,7 +797,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LByteUnaryOperator> r1 = LByteUnaryOperator.safeSupplier(()->sut);
+        LSupplier<LByteUnaryOperator> r1 = LByteUnaryOperator.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

@@ -88,8 +88,6 @@ public class LBiByteConsumerXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBytePair,LTuple.Void,X> theCall = sut;
-
         LBytePair domainObject = Tuple4U.tuple((byte)100,(byte)100);
 
         Object result = sut.tupleAccept(domainObject);
@@ -472,7 +470,7 @@ public class LBiByteConsumerXTest<X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiByteConsumerX r1 = LBiByteConsumerX.safe(sut);
+        LBiByteConsumerX r1 = LBiByteConsumerX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -497,7 +495,7 @@ public class LBiByteConsumerXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBiByteConsumerX<X>,Y> r1 = LBiByteConsumerX.safeSupplier(()->sut);
+        LSupplierX<LBiByteConsumerX<X>,Y> r1 = LBiByteConsumerX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

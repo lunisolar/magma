@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLongBinaryOpDelta extends LLongBinaryOpMemento {
 
-	private final LLongBinaryOperator deltaFunction;
+	protected final LLongBinaryOperator deltaFunction;
 
 	protected LLongBinaryOpDelta(LLongBinaryOperator function, LLongBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LLongBinaryOpDelta(long initialValue, LLongBinaryOperator function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LLongBinaryOpDelta extends LLongBinaryOpMemento {
 		return current - last;
 	}
 
+	@Override
 	public long doApplyAsLong(long a1, long a2) {
 		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1, a2));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLongBinaryOpDelta the, Object that) {
+		return Null.<LLongBinaryOpDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLongBinaryOpDelta other = (LLongBinaryOpDelta) two;
+
+			return LBiObjLongTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjLongTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

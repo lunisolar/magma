@@ -95,8 +95,6 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LFloatSingle,Integer,X> theCall = sut;
-
         LFloatSingle domainObject = Tuple4U.tuple((float)100);
 
         Object result = sut.tupleApplyAsInt(domainObject);
@@ -751,7 +749,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LFloatToIntFunctionX r1 = LFloatToIntFunctionX.safe(sut);
+        LFloatToIntFunctionX r1 = LFloatToIntFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -776,7 +774,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LFloatToIntFunctionX<X>,Y> r1 = LFloatToIntFunctionX.safeSupplier(()->sut);
+        LSupplierX<LFloatToIntFunctionX<X>,Y> r1 = LFloatToIntFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

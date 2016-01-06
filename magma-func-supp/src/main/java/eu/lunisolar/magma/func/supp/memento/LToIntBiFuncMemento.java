@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToIntBiFuncMemento<T1, T2> implements LToIntBiFunction<T1, T2> {
 
-	private int lastValue;
+	protected int lastValue;
 
-	private final LToIntBiFunction<T1, T2> function;
+	protected LToIntBiFunction<T1, T2> function;
 
 	protected LToIntBiFuncMemento(LToIntBiFunction<T1, T2> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToIntBiFuncMemento(int initialValue, LToIntBiFunction<T1, T2> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToIntBiFuncMemento<T1, T2> implements LToIntBiFunction<T1, T2> {
 		return new LToIntBiFuncMemento<T1, T2>(supplier);
 	}
 
+	@Override
 	public int doApplyAsInt(T1 a1, T2 a2) {
 		return lastValue = function.doApplyAsInt(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LToIntBiFuncMemento<T1, T2> implements LToIntBiFunction<T1, T2> {
 	public int lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToIntBiFuncMemento the, Object that) {
+		return Null.<LToIntBiFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToIntBiFuncMemento other = (LToIntBiFuncMemento) two;
+
+			return LObjIntPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjIntPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

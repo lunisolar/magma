@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LIntToLongFuncDelta extends LIntToLongFuncMemento {
 
-	private final LLongBinaryOperator deltaFunction;
+	protected final LLongBinaryOperator deltaFunction;
 
 	protected LIntToLongFuncDelta(LIntToLongFunction function, LLongBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LIntToLongFuncDelta(long initialValue, LIntToLongFunction function, LLongBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LIntToLongFuncDelta extends LIntToLongFuncMemento {
 		return current - last;
 	}
 
+	@Override
 	public long doApplyAsLong(int a1) {
 		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LIntToLongFuncDelta the, Object that) {
+		return Null.<LIntToLongFuncDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LIntToLongFuncDelta other = (LIntToLongFuncDelta) two;
+
+			return LBiObjLongTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjLongTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

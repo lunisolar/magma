@@ -90,8 +90,6 @@ public class LIntConsumerXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LIntSingle,LTuple.Void,X> theCall = sut;
-
         LIntSingle domainObject = Tuple4U.tuple((int)100);
 
         Object result = sut.tupleAccept(domainObject);
@@ -451,8 +449,8 @@ public class LIntConsumerXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LIntConsumerX r1 = LIntConsumerX.safe(sut);
-        IntConsumer r3 = LIntConsumerX.safe(sut);
+        LIntConsumerX r1 = LIntConsumerX.safe(sut); //NOSONAR
+        IntConsumer r3 = LIntConsumerX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -477,8 +475,8 @@ public class LIntConsumerXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LIntConsumerX<X>,Y> r1 = LIntConsumerX.safeSupplier(()->sut);
-        Supplier<LIntConsumerX<X>> r2 = LIntConsumerX.safeSupplier(()->sut);
+        LSupplierX<LIntConsumerX<X>,Y> r1 = LIntConsumerX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LIntConsumerX<X>> r2 = LIntConsumerX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

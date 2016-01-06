@@ -66,16 +66,42 @@ public interface LBoolPair extends LTuple<Boolean> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static int hashCode(boolean first, boolean second) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolPair and calculates hash from it. */
+	static int argHashCode(boolean first, boolean second) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Boolean.hashCode(first);
 		result = prime * result + Boolean.hashCode(second);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolPair and checks if all values are equal. */
+	static boolean argEquals(boolean first, boolean second, boolean firstOfOther, boolean secondOfOther) {
+		return first == firstOfOther && //
+				second == secondOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static boolean argEquals(LBoolPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LBoolPair are allowed.
+				if (!(two instanceof LBoolPair)) {
+					return false;
+				}
+
+				LBoolPair other = (LBoolPair) two;
+
+				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -175,23 +201,12 @@ public interface LBoolPair extends LTuple<Boolean> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LBoolPair are allowed.
-					if (!(two instanceof LBoolPair)) {
-						return false;
-					}
-
-					LBoolPair other = (LBoolPair) two;
-
-					return one.first() == other.first() && //
-							one.second() == other.second(); //
-				});
+			return LBoolPair.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LBoolPair.hashCode(first(), second());
+			return LBoolPair.argHashCode(first(), second());
 		}
 
 	}

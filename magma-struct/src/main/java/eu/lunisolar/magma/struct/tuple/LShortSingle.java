@@ -56,15 +56,40 @@ public interface LShortSingle extends LTuple<Short> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static int hashCode(short first) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LShortSingle and calculates hash from it. */
+	static int argHashCode(short first) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Short.hashCode(first);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LShortSingle and checks if all values are equal. */
+	static boolean argEquals(short first, short firstOfOther) {
+		return first == firstOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static boolean argEquals(LShortSingle the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LShortSingle are allowed.
+				if (!(two instanceof LShortSingle)) {
+					return false;
+				}
+
+				LShortSingle other = (LShortSingle) two;
+
+				return argEquals(one.first(), other.first());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -175,22 +200,12 @@ public interface LShortSingle extends LTuple<Short> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LShortSingle are allowed.
-					if (!(two instanceof LShortSingle)) {
-						return false;
-					}
-
-					LShortSingle other = (LShortSingle) two;
-
-					return one.first() == other.first(); //
-				});
+			return LShortSingle.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LShortSingle.hashCode(first());
+			return LShortSingle.argHashCode(first());
 		}
 
 		@Override

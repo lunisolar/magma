@@ -88,8 +88,6 @@ public class LShortConsumerXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LShortSingle,LTuple.Void,X> theCall = sut;
-
         LShortSingle domainObject = Tuple4U.tuple((short)100);
 
         Object result = sut.tupleAccept(domainObject);
@@ -443,7 +441,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LShortConsumerX r1 = LShortConsumerX.safe(sut);
+        LShortConsumerX r1 = LShortConsumerX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -468,7 +466,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LShortConsumerX<X>,Y> r1 = LShortConsumerX.safeSupplier(()->sut);
+        LSupplierX<LShortConsumerX<X>,Y> r1 = LShortConsumerX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

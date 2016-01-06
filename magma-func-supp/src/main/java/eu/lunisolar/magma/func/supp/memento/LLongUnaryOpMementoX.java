@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLongUnaryOpMementoX<X extends Throwable> implements LLongUnaryOperatorX<X> {
 
-	private long lastValue;
+	protected long lastValue;
 
-	private final LLongUnaryOperatorX<X> function;
+	protected LLongUnaryOperatorX<X> function;
 
 	protected LLongUnaryOpMementoX(LLongUnaryOperatorX<X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LLongUnaryOpMementoX(long initialValue, LLongUnaryOperatorX<X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LLongUnaryOpMementoX<X extends Throwable> implements LLongUnaryOper
 		return new LLongUnaryOpMementoX<X>(supplier);
 	}
 
+	@Override
 	public long doApplyAsLong(long a1) throws X {
 		return lastValue = function.doApplyAsLong(a1);
 	}
@@ -78,5 +81,30 @@ public class LLongUnaryOpMementoX<X extends Throwable> implements LLongUnaryOper
 	public long lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLongUnaryOpMementoX the, Object that) {
+		return Null.<LLongUnaryOpMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLongUnaryOpMementoX other = (LLongUnaryOpMementoX) two;
+
+			return LObjLongPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjLongPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

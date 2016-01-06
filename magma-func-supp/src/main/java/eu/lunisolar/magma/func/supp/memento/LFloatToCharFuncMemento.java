@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LFloatToCharFuncMemento implements LFloatToCharFunction {
 
-	private char lastValue;
+	protected char lastValue;
 
-	private final LFloatToCharFunction function;
+	protected LFloatToCharFunction function;
 
 	protected LFloatToCharFuncMemento(LFloatToCharFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LFloatToCharFuncMemento(char initialValue, LFloatToCharFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LFloatToCharFuncMemento implements LFloatToCharFunction {
 		return new LFloatToCharFuncMemento(supplier);
 	}
 
+	@Override
 	public char doApplyAsChar(float a1) {
 		return lastValue = function.doApplyAsChar(a1);
 	}
@@ -78,5 +81,30 @@ public class LFloatToCharFuncMemento implements LFloatToCharFunction {
 	public char lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LFloatToCharFuncMemento the, Object that) {
+		return Null.<LFloatToCharFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LFloatToCharFuncMemento other = (LFloatToCharFuncMemento) two;
+
+			return LObjCharPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjCharPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

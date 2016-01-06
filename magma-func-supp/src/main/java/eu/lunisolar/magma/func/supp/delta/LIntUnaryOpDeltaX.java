@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LIntUnaryOpDeltaX<X extends Throwable> extends LIntUnaryOpMementoX<X> {
 
-	private final LIntBinaryOperator deltaFunction;
+	protected final LIntBinaryOperator deltaFunction;
 
 	protected LIntUnaryOpDeltaX(LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LIntUnaryOpDeltaX(int initialValue, LIntUnaryOperatorX<X> function, LIntBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LIntUnaryOpDeltaX<X extends Throwable> extends LIntUnaryOpMementoX<
 		return current - last;
 	}
 
+	@Override
 	public int doApplyAsInt(int a1) throws X {
 		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LIntUnaryOpDeltaX the, Object that) {
+		return Null.<LIntUnaryOpDeltaX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LIntUnaryOpDeltaX other = (LIntUnaryOpDeltaX) two;
+
+			return LBiObjIntTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjIntTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

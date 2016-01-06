@@ -92,8 +92,6 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LObjBytePair<T>,Boolean,RuntimeException> theCall = sut;
-
         LObjBytePair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(byte)100);
 
         Object result = sut.tupleTest(domainObject);
@@ -575,8 +573,8 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LObjBytePredicate r1 = LObjBytePredicate.safe(sut);
-        LObjBytePredicateX r2 = LObjBytePredicate.safe(sut);
+        LObjBytePredicate r1 = LObjBytePredicate.safe(sut); //NOSONAR
+        LObjBytePredicateX r2 = LObjBytePredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -601,7 +599,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LObjBytePredicate<T>> r1 = LObjBytePredicate.safeSupplier(()->sut);
+        LSupplier<LObjBytePredicate<T>> r1 = LObjBytePredicate.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

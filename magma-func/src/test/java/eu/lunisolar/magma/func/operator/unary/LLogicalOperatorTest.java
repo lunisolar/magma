@@ -92,8 +92,6 @@ public class LLogicalOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBoolSingle,Boolean,RuntimeException> theCall = sut;
-
         LBoolSingle domainObject = Tuple4U.tuple(true);
 
         Object result = sut.tupleApply(domainObject);
@@ -819,8 +817,8 @@ public class LLogicalOperatorTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LLogicalOperator r1 = LLogicalOperator.safe(sut);
-        LLogicalOperatorX r2 = LLogicalOperator.safe(sut);
+        LLogicalOperator r1 = LLogicalOperator.safe(sut); //NOSONAR
+        LLogicalOperatorX r2 = LLogicalOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -845,7 +843,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LLogicalOperator> r1 = LLogicalOperator.safeSupplier(()->sut);
+        LSupplier<LLogicalOperator> r1 = LLogicalOperator.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

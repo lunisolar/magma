@@ -66,16 +66,42 @@ public interface LBytePair extends LTuple<Byte> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static int hashCode(byte first, byte second) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LBytePair and calculates hash from it. */
+	static int argHashCode(byte first, byte second) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Byte.hashCode(first);
 		result = prime * result + Byte.hashCode(second);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBytePair and checks if all values are equal. */
+	static boolean argEquals(byte first, byte second, byte firstOfOther, byte secondOfOther) {
+		return first == firstOfOther && //
+				second == secondOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static boolean argEquals(LBytePair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LBytePair are allowed.
+				if (!(two instanceof LBytePair)) {
+					return false;
+				}
+
+				LBytePair other = (LBytePair) two;
+
+				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -193,23 +219,12 @@ public interface LBytePair extends LTuple<Byte> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LBytePair are allowed.
-					if (!(two instanceof LBytePair)) {
-						return false;
-					}
-
-					LBytePair other = (LBytePair) two;
-
-					return one.first() == other.first() && //
-							one.second() == other.second(); //
-				});
+			return LBytePair.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LBytePair.hashCode(first(), second());
+			return LBytePair.argHashCode(first(), second());
 		}
 
 	}

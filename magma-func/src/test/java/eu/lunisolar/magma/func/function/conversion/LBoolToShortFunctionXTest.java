@@ -95,8 +95,6 @@ public class LBoolToShortFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBoolSingle,Short,X> theCall = sut;
-
         LBoolSingle domainObject = Tuple4U.tuple(true);
 
         Object result = sut.tupleApplyAsShort(domainObject);
@@ -751,7 +749,7 @@ public class LBoolToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LBoolToShortFunctionX r1 = LBoolToShortFunctionX.safe(sut);
+        LBoolToShortFunctionX r1 = LBoolToShortFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -776,7 +774,7 @@ public class LBoolToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBoolToShortFunctionX<X>,Y> r1 = LBoolToShortFunctionX.safeSupplier(()->sut);
+        LSupplierX<LBoolToShortFunctionX<X>,Y> r1 = LBoolToShortFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

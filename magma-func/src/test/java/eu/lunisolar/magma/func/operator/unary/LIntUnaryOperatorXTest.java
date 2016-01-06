@@ -97,8 +97,6 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LIntSingle,Integer,X> theCall = sut;
-
         LIntSingle domainObject = Tuple4U.tuple((int)100);
 
         Object result = sut.tupleApplyAsInt(domainObject);
@@ -766,8 +764,8 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LIntUnaryOperatorX r1 = LIntUnaryOperatorX.safe(sut);
-        IntUnaryOperator r3 = LIntUnaryOperatorX.safe(sut);
+        LIntUnaryOperatorX r1 = LIntUnaryOperatorX.safe(sut); //NOSONAR
+        IntUnaryOperator r3 = LIntUnaryOperatorX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,8 +790,8 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LIntUnaryOperatorX<X>,Y> r1 = LIntUnaryOperatorX.safeSupplier(()->sut);
-        Supplier<LIntUnaryOperatorX<X>> r2 = LIntUnaryOperatorX.safeSupplier(()->sut);
+        LSupplierX<LIntUnaryOperatorX<X>,Y> r1 = LIntUnaryOperatorX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LIntUnaryOperatorX<X>> r2 = LIntUnaryOperatorX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

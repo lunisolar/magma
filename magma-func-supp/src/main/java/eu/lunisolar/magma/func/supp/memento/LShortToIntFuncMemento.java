@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LShortToIntFuncMemento implements LShortToIntFunction {
 
-	private int lastValue;
+	protected int lastValue;
 
-	private final LShortToIntFunction function;
+	protected LShortToIntFunction function;
 
 	protected LShortToIntFuncMemento(LShortToIntFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LShortToIntFuncMemento(int initialValue, LShortToIntFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LShortToIntFuncMemento implements LShortToIntFunction {
 		return new LShortToIntFuncMemento(supplier);
 	}
 
+	@Override
 	public int doApplyAsInt(short a1) {
 		return lastValue = function.doApplyAsInt(a1);
 	}
@@ -78,5 +81,30 @@ public class LShortToIntFuncMemento implements LShortToIntFunction {
 	public int lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LShortToIntFuncMemento the, Object that) {
+		return Null.<LShortToIntFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LShortToIntFuncMemento other = (LShortToIntFuncMemento) two;
+
+			return LObjIntPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjIntPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

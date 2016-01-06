@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToFloatFuncMemento<T> implements LToFloatFunction<T> {
 
-	private float lastValue;
+	protected float lastValue;
 
-	private final LToFloatFunction<T> function;
+	protected LToFloatFunction<T> function;
 
 	protected LToFloatFuncMemento(LToFloatFunction<T> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToFloatFuncMemento(float initialValue, LToFloatFunction<T> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToFloatFuncMemento<T> implements LToFloatFunction<T> {
 		return new LToFloatFuncMemento<T>(supplier);
 	}
 
+	@Override
 	public float doApplyAsFloat(T a1) {
 		return lastValue = function.doApplyAsFloat(a1);
 	}
@@ -78,5 +81,30 @@ public class LToFloatFuncMemento<T> implements LToFloatFunction<T> {
 	public float lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToFloatFuncMemento the, Object that) {
+		return Null.<LToFloatFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToFloatFuncMemento other = (LToFloatFuncMemento) two;
+
+			return LObjFloatPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjFloatPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

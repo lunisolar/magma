@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToFloatBiFuncMementoX<T1, T2, X extends Throwable> implements LToFloatBiFunctionX<T1, T2, X> {
 
-	private float lastValue;
+	protected float lastValue;
 
-	private final LToFloatBiFunctionX<T1, T2, X> function;
+	protected LToFloatBiFunctionX<T1, T2, X> function;
 
 	protected LToFloatBiFuncMementoX(LToFloatBiFunctionX<T1, T2, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToFloatBiFuncMementoX(float initialValue, LToFloatBiFunctionX<T1, T2, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToFloatBiFuncMementoX<T1, T2, X extends Throwable> implements LToF
 		return new LToFloatBiFuncMementoX<T1, T2, X>(supplier);
 	}
 
+	@Override
 	public float doApplyAsFloat(T1 a1, T2 a2) throws X {
 		return lastValue = function.doApplyAsFloat(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LToFloatBiFuncMementoX<T1, T2, X extends Throwable> implements LToF
 	public float lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToFloatBiFuncMementoX the, Object that) {
+		return Null.<LToFloatBiFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToFloatBiFuncMementoX other = (LToFloatBiFuncMementoX) two;
+
+			return LObjFloatPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjFloatPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

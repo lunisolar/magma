@@ -92,8 +92,6 @@ public class LToCharBiFunctionTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LPair<T1,T2>,Character,RuntimeException> theCall = sut;
-
         LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
         Object result = sut.tupleApplyAsChar(domainObject);
@@ -480,8 +478,8 @@ public class LToCharBiFunctionTest<T1,T2,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LToCharBiFunction r1 = LToCharBiFunction.safe(sut);
-        LToCharBiFunctionX r2 = LToCharBiFunction.safe(sut);
+        LToCharBiFunction r1 = LToCharBiFunction.safe(sut); //NOSONAR
+        LToCharBiFunctionX r2 = LToCharBiFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -506,7 +504,7 @@ public class LToCharBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LToCharBiFunction<T1,T2>> r1 = LToCharBiFunction.safeSupplier(()->sut);
+        LSupplier<LToCharBiFunction<T1,T2>> r1 = LToCharBiFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

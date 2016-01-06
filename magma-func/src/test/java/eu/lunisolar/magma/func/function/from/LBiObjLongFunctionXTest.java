@@ -101,8 +101,6 @@ public class LBiObjLongFunctionXTest<T1,T2,R,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBiObjLongTriple<T1,T2>,R,X> theCall = sut;
-
         LBiObjLongTriple<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(long)100);
 
         Object result = sut.tupleApply(domainObject);
@@ -606,7 +604,7 @@ public class LBiObjLongFunctionXTest<T1,T2,R,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiObjLongFunctionX r1 = LBiObjLongFunctionX.safe(sut);
+        LBiObjLongFunctionX r1 = LBiObjLongFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -631,7 +629,7 @@ public class LBiObjLongFunctionXTest<T1,T2,R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBiObjLongFunctionX<T1,T2,R,X>,Y> r1 = LBiObjLongFunctionX.safeSupplier(()->sut);
+        LSupplierX<LBiObjLongFunctionX<T1,T2,R,X>,Y> r1 = LBiObjLongFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

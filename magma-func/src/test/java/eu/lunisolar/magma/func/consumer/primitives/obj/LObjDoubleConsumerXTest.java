@@ -90,8 +90,6 @@ public class LObjDoubleConsumerXTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LObjDoublePair<T>,LTuple.Void,X> theCall = sut;
-
         LObjDoublePair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(double)100);
 
         Object result = sut.tupleAccept(domainObject);
@@ -480,8 +478,8 @@ public class LObjDoubleConsumerXTest<T,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LObjDoubleConsumerX r1 = LObjDoubleConsumerX.safe(sut);
-        ObjDoubleConsumer r3 = LObjDoubleConsumerX.safe(sut);
+        LObjDoubleConsumerX r1 = LObjDoubleConsumerX.safe(sut); //NOSONAR
+        ObjDoubleConsumer r3 = LObjDoubleConsumerX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -506,8 +504,8 @@ public class LObjDoubleConsumerXTest<T,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LObjDoubleConsumerX<T,X>,Y> r1 = LObjDoubleConsumerX.safeSupplier(()->sut);
-        Supplier<LObjDoubleConsumerX<T,X>> r2 = LObjDoubleConsumerX.safeSupplier(()->sut);
+        LSupplierX<LObjDoubleConsumerX<T,X>,Y> r1 = LObjDoubleConsumerX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LObjDoubleConsumerX<T,X>> r2 = LObjDoubleConsumerX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

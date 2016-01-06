@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LSupMementoX<R, X extends Throwable> implements LSupplierX<R, X> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LSupplierX<R, X> function;
+	protected LSupplierX<R, X> function;
 
 	protected LSupMementoX(LSupplierX<R, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LSupMementoX(R initialValue, LSupplierX<R, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LSupMementoX<R, X extends Throwable> implements LSupplierX<R, X> {
 		return new LSupMementoX<R, X>(supplier);
 	}
 
+	@Override
 	public R doGet() throws X {
 		return lastValue = function.doGet();
 	}
@@ -78,5 +81,30 @@ public class LSupMementoX<R, X extends Throwable> implements LSupplierX<R, X> {
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LSupMementoX the, Object that) {
+		return Null.<LSupMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LSupMementoX other = (LSupMementoX) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

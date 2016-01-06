@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToIntFuncMementoX<T, X extends Throwable> implements LToIntFunctionX<T, X> {
 
-	private int lastValue;
+	protected int lastValue;
 
-	private final LToIntFunctionX<T, X> function;
+	protected LToIntFunctionX<T, X> function;
 
 	protected LToIntFuncMementoX(LToIntFunctionX<T, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToIntFuncMementoX(int initialValue, LToIntFunctionX<T, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToIntFuncMementoX<T, X extends Throwable> implements LToIntFunctio
 		return new LToIntFuncMementoX<T, X>(supplier);
 	}
 
+	@Override
 	public int doApplyAsInt(T a1) throws X {
 		return lastValue = function.doApplyAsInt(a1);
 	}
@@ -78,5 +81,30 @@ public class LToIntFuncMementoX<T, X extends Throwable> implements LToIntFunctio
 	public int lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToIntFuncMementoX the, Object that) {
+		return Null.<LToIntFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToIntFuncMementoX other = (LToIntFuncMementoX) two;
+
+			return LObjIntPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjIntPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

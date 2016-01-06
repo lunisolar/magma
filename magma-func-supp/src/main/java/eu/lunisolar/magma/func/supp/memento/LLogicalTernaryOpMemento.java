@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLogicalTernaryOpMemento implements LLogicalTernaryOperator {
 
-	private boolean lastValue;
+	protected boolean lastValue;
 
-	private final LLogicalTernaryOperator function;
+	protected LLogicalTernaryOperator function;
 
 	protected LLogicalTernaryOpMemento(LLogicalTernaryOperator function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LLogicalTernaryOpMemento(boolean initialValue, LLogicalTernaryOperator function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LLogicalTernaryOpMemento implements LLogicalTernaryOperator {
 		return new LLogicalTernaryOpMemento(supplier);
 	}
 
+	@Override
 	public boolean doApply(boolean a1, boolean a2, boolean a3) {
 		return lastValue = function.doApply(a1, a2, a3);
 	}
@@ -78,5 +81,30 @@ public class LLogicalTernaryOpMemento implements LLogicalTernaryOperator {
 	public boolean lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLogicalTernaryOpMemento the, Object that) {
+		return Null.<LLogicalTernaryOpMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLogicalTernaryOpMemento other = (LLogicalTernaryOpMemento) two;
+
+			return LObjBoolPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjBoolPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

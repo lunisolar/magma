@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LIntToDoubleFuncMemento implements LIntToDoubleFunction {
 
-	private double lastValue;
+	protected double lastValue;
 
-	private final LIntToDoubleFunction function;
+	protected LIntToDoubleFunction function;
 
 	protected LIntToDoubleFuncMemento(LIntToDoubleFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LIntToDoubleFuncMemento(double initialValue, LIntToDoubleFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LIntToDoubleFuncMemento implements LIntToDoubleFunction {
 		return new LIntToDoubleFuncMemento(supplier);
 	}
 
+	@Override
 	public double doApplyAsDouble(int a1) {
 		return lastValue = function.doApplyAsDouble(a1);
 	}
@@ -78,5 +81,30 @@ public class LIntToDoubleFuncMemento implements LIntToDoubleFunction {
 	public double lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LIntToDoubleFuncMemento the, Object that) {
+		return Null.<LIntToDoubleFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LIntToDoubleFuncMemento other = (LIntToDoubleFuncMemento) two;
+
+			return LObjDoublePair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjDoublePair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

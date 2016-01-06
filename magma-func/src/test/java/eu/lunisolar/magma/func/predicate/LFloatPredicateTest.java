@@ -92,8 +92,6 @@ public class LFloatPredicateTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LFloatSingle,Boolean,RuntimeException> theCall = sut;
-
         LFloatSingle domainObject = Tuple4U.tuple((float)100);
 
         Object result = sut.tupleTest(domainObject);
@@ -826,8 +824,8 @@ public class LFloatPredicateTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LFloatPredicate r1 = LFloatPredicate.safe(sut);
-        LFloatPredicateX r2 = LFloatPredicate.safe(sut);
+        LFloatPredicate r1 = LFloatPredicate.safe(sut); //NOSONAR
+        LFloatPredicateX r2 = LFloatPredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -852,7 +850,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LFloatPredicate> r1 = LFloatPredicate.safeSupplier(()->sut);
+        LSupplier<LFloatPredicate> r1 = LFloatPredicate.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

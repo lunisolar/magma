@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LCharToDoubleFuncMementoX<X extends Throwable> implements LCharToDoubleFunctionX<X> {
 
-	private double lastValue;
+	protected double lastValue;
 
-	private final LCharToDoubleFunctionX<X> function;
+	protected LCharToDoubleFunctionX<X> function;
 
 	protected LCharToDoubleFuncMementoX(LCharToDoubleFunctionX<X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LCharToDoubleFuncMementoX(double initialValue, LCharToDoubleFunctionX<X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LCharToDoubleFuncMementoX<X extends Throwable> implements LCharToDo
 		return new LCharToDoubleFuncMementoX<X>(supplier);
 	}
 
+	@Override
 	public double doApplyAsDouble(char a1) throws X {
 		return lastValue = function.doApplyAsDouble(a1);
 	}
@@ -78,5 +81,30 @@ public class LCharToDoubleFuncMementoX<X extends Throwable> implements LCharToDo
 	public double lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LCharToDoubleFuncMementoX the, Object that) {
+		return Null.<LCharToDoubleFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LCharToDoubleFuncMementoX other = (LCharToDoubleFuncMementoX) two;
+
+			return LObjDoublePair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjDoublePair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

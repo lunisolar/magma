@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LBoolToIntFuncMemento implements LBoolToIntFunction {
 
-	private int lastValue;
+	protected int lastValue;
 
-	private final LBoolToIntFunction function;
+	protected LBoolToIntFunction function;
 
 	protected LBoolToIntFuncMemento(LBoolToIntFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LBoolToIntFuncMemento(int initialValue, LBoolToIntFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LBoolToIntFuncMemento implements LBoolToIntFunction {
 		return new LBoolToIntFuncMemento(supplier);
 	}
 
+	@Override
 	public int doApplyAsInt(boolean a1) {
 		return lastValue = function.doApplyAsInt(a1);
 	}
@@ -78,5 +81,30 @@ public class LBoolToIntFuncMemento implements LBoolToIntFunction {
 	public int lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LBoolToIntFuncMemento the, Object that) {
+		return Null.<LBoolToIntFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LBoolToIntFuncMemento other = (LBoolToIntFuncMemento) two;
+
+			return LObjIntPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjIntPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

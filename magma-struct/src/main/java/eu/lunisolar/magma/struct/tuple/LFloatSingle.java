@@ -56,15 +56,40 @@ public interface LFloatSingle extends LTuple<Float> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static int hashCode(float first) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LFloatSingle and calculates hash from it. */
+	static int argHashCode(float first) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.hashCode(first);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LFloatSingle and checks if all values are equal. */
+	static boolean argEquals(float first, float firstOfOther) {
+		return first == firstOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static boolean argEquals(LFloatSingle the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LFloatSingle are allowed.
+				if (!(two instanceof LFloatSingle)) {
+					return false;
+				}
+
+				LFloatSingle other = (LFloatSingle) two;
+
+				return argEquals(one.first(), other.first());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -175,22 +200,12 @@ public interface LFloatSingle extends LTuple<Float> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LFloatSingle are allowed.
-					if (!(two instanceof LFloatSingle)) {
-						return false;
-					}
-
-					LFloatSingle other = (LFloatSingle) two;
-
-					return one.first() == other.first(); //
-				});
+			return LFloatSingle.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LFloatSingle.hashCode(first());
+			return LFloatSingle.argHashCode(first());
 		}
 
 		@Override

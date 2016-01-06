@@ -95,8 +95,6 @@ public class LBiObjBoolPredicateXTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBiObjBoolTriple<T1,T2>,Boolean,X> theCall = sut;
-
         LBiObjBoolTriple<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
 
         Object result = sut.tupleTest(domainObject);
@@ -621,7 +619,7 @@ public class LBiObjBoolPredicateXTest<T1,T2,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiObjBoolPredicateX r1 = LBiObjBoolPredicateX.safe(sut);
+        LBiObjBoolPredicateX r1 = LBiObjBoolPredicateX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -646,7 +644,7 @@ public class LBiObjBoolPredicateXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBiObjBoolPredicateX<T1,T2,X>,Y> r1 = LBiObjBoolPredicateX.safeSupplier(()->sut);
+        LSupplierX<LBiObjBoolPredicateX<T1,T2,X>,Y> r1 = LBiObjBoolPredicateX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

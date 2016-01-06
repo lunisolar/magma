@@ -63,17 +63,44 @@ public interface LBiObjFloatTriple<T1, T2> extends LTuple<Object> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static <T1, T2> int hashCode(T1 first, T2 second, float third) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LBiObjFloatTriple and calculates hash from it. */
+	static <T1, T2> int argHashCode(T1 first, T2 second, float third) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((first == null) ? 0 : first.hashCode());
 		result = prime * result + ((second == null) ? 0 : second.hashCode());
 		result = prime * result + Float.hashCode(third);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBiObjFloatTriple and checks if all values are equal. */
+	static <T1, T2> boolean argEquals(T1 first, T2 second, float third, T1 firstOfOther, T2 secondOfOther, float thirdOfOther) {
+		return Null.equals(first, firstOfOther) && //
+				Null.equals(second, secondOfOther) && //
+				third == thirdOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static <T1, T2> boolean argEquals(LBiObjFloatTriple the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LBiObjFloatTriple are allowed.
+				if (!(two instanceof LBiObjFloatTriple)) {
+					return false;
+				}
+
+				LBiObjFloatTriple other = (LBiObjFloatTriple) two;
+
+				return argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -136,24 +163,12 @@ public interface LBiObjFloatTriple<T1, T2> extends LTuple<Object> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LBiObjFloatTriple are allowed.
-					if (!(two instanceof LBiObjFloatTriple)) {
-						return false;
-					}
-
-					LBiObjFloatTriple other = (LBiObjFloatTriple) two;
-
-					return Null.equals(one.first(), other.first()) && //
-							Null.equals(one.second(), other.second()) && //
-							one.third() == other.third(); //
-				});
+			return LBiObjFloatTriple.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LBiObjFloatTriple.hashCode(first(), second(), third());
+			return LBiObjFloatTriple.argHashCode(first(), second(), third());
 		}
 
 	}

@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToDoubleBiFuncMemento<T1, T2> implements LToDoubleBiFunction<T1, T2> {
 
-	private double lastValue;
+	protected double lastValue;
 
-	private final LToDoubleBiFunction<T1, T2> function;
+	protected LToDoubleBiFunction<T1, T2> function;
 
 	protected LToDoubleBiFuncMemento(LToDoubleBiFunction<T1, T2> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToDoubleBiFuncMemento(double initialValue, LToDoubleBiFunction<T1, T2> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToDoubleBiFuncMemento<T1, T2> implements LToDoubleBiFunction<T1, T
 		return new LToDoubleBiFuncMemento<T1, T2>(supplier);
 	}
 
+	@Override
 	public double doApplyAsDouble(T1 a1, T2 a2) {
 		return lastValue = function.doApplyAsDouble(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LToDoubleBiFuncMemento<T1, T2> implements LToDoubleBiFunction<T1, T
 	public double lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToDoubleBiFuncMemento the, Object that) {
+		return Null.<LToDoubleBiFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToDoubleBiFuncMemento other = (LToDoubleBiFuncMemento) two;
+
+			return LObjDoublePair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjDoublePair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

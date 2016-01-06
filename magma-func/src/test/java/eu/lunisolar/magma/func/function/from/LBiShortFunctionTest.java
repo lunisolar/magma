@@ -98,8 +98,6 @@ public class LBiShortFunctionTest<R,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LShortPair,R,RuntimeException> theCall = sut;
-
         LShortPair domainObject = Tuple4U.tuple((short)100,(short)100);
 
         Object result = sut.tupleApply(domainObject);
@@ -559,8 +557,8 @@ public class LBiShortFunctionTest<R,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiShortFunction r1 = LBiShortFunction.safe(sut);
-        LBiShortFunctionX r2 = LBiShortFunction.safe(sut);
+        LBiShortFunction r1 = LBiShortFunction.safe(sut); //NOSONAR
+        LBiShortFunctionX r2 = LBiShortFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -585,7 +583,7 @@ public class LBiShortFunctionTest<R,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LBiShortFunction<R>> r1 = LBiShortFunction.safeSupplier(()->sut);
+        LSupplier<LBiShortFunction<R>> r1 = LBiShortFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

@@ -92,8 +92,6 @@ public class LByteToDoubleFunctionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LByteSingle,Double,RuntimeException> theCall = sut;
-
         LByteSingle domainObject = Tuple4U.tuple((byte)100);
 
         Object result = sut.tupleApplyAsDouble(domainObject);
@@ -766,8 +764,8 @@ public class LByteToDoubleFunctionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LByteToDoubleFunction r1 = LByteToDoubleFunction.safe(sut);
-        LByteToDoubleFunctionX r2 = LByteToDoubleFunction.safe(sut);
+        LByteToDoubleFunction r1 = LByteToDoubleFunction.safe(sut); //NOSONAR
+        LByteToDoubleFunctionX r2 = LByteToDoubleFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,7 +790,7 @@ public class LByteToDoubleFunctionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LByteToDoubleFunction> r1 = LByteToDoubleFunction.safeSupplier(()->sut);
+        LSupplier<LByteToDoubleFunction> r1 = LByteToDoubleFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

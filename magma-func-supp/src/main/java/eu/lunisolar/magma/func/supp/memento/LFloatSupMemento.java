@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LFloatSupMemento implements LFloatSupplier {
 
-	private float lastValue;
+	protected float lastValue;
 
-	private final LFloatSupplier function;
+	protected LFloatSupplier function;
 
 	protected LFloatSupMemento(LFloatSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LFloatSupMemento(float initialValue, LFloatSupplier function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LFloatSupMemento implements LFloatSupplier {
 		return new LFloatSupMemento(supplier);
 	}
 
+	@Override
 	public float doGetAsFloat() {
 		return lastValue = function.doGetAsFloat();
 	}
@@ -78,5 +81,30 @@ public class LFloatSupMemento implements LFloatSupplier {
 	public float lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LFloatSupMemento the, Object that) {
+		return Null.<LFloatSupMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LFloatSupMemento other = (LFloatSupMemento) two;
+
+			return LObjFloatPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjFloatPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

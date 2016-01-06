@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LCharBinaryOpDelta extends LCharBinaryOpMemento {
 
-	private final LCharBinaryOperator deltaFunction;
+	protected final LCharBinaryOperator deltaFunction;
 
 	protected LCharBinaryOpDelta(LCharBinaryOperator function, LCharBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LCharBinaryOpDelta(char initialValue, LCharBinaryOperator function, LCharBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LCharBinaryOpDelta extends LCharBinaryOpMemento {
 		return (char) (current - last);
 	}
 
+	@Override
 	public char doApplyAsChar(char a1, char a2) {
 		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1, a2));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LCharBinaryOpDelta the, Object that) {
+		return Null.<LCharBinaryOpDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LCharBinaryOpDelta other = (LCharBinaryOpDelta) two;
+
+			return LBiObjCharTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjCharTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

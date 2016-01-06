@@ -94,8 +94,6 @@ public class LLongSupplierTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LTuple.Void,Long,RuntimeException> theCall = sut;
-
         LTuple.Void domainObject = Tuple4U.tuple();
 
         Object result = sut.tupleGetAsLong(domainObject);
@@ -703,9 +701,9 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LLongSupplier r1 = LLongSupplier.safe(sut);
-        LLongSupplierX r2 = LLongSupplier.safe(sut);
-        LongSupplier r3 = LLongSupplier.safe(sut);
+        LLongSupplier r1 = LLongSupplier.safe(sut); //NOSONAR
+        LLongSupplierX r2 = LLongSupplier.safe(sut); //NOSONAR
+        LongSupplier r3 = LLongSupplier.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -730,8 +728,8 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LLongSupplier> r1 = LLongSupplier.safeSupplier(()->sut);
-        Supplier<LLongSupplier> r2 = LLongSupplier.safeSupplier(()->sut);
+        LSupplier<LLongSupplier> r1 = LLongSupplier.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LLongSupplier> r2 = LLongSupplier.safeSupplier(()->sut); //NOSONAR
     }
 
 }

@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LDoubleToFloatFuncMemento implements LDoubleToFloatFunction {
 
-	private float lastValue;
+	protected float lastValue;
 
-	private final LDoubleToFloatFunction function;
+	protected LDoubleToFloatFunction function;
 
 	protected LDoubleToFloatFuncMemento(LDoubleToFloatFunction function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LDoubleToFloatFuncMemento(float initialValue, LDoubleToFloatFunction function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LDoubleToFloatFuncMemento implements LDoubleToFloatFunction {
 		return new LDoubleToFloatFuncMemento(supplier);
 	}
 
+	@Override
 	public float doApplyAsFloat(double a1) {
 		return lastValue = function.doApplyAsFloat(a1);
 	}
@@ -78,5 +81,30 @@ public class LDoubleToFloatFuncMemento implements LDoubleToFloatFunction {
 	public float lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LDoubleToFloatFuncMemento the, Object that) {
+		return Null.<LDoubleToFloatFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LDoubleToFloatFuncMemento other = (LDoubleToFloatFuncMemento) two;
+
+			return LObjFloatPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjFloatPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

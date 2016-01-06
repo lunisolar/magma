@@ -97,8 +97,6 @@ public class LLongPredicateXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LLongSingle,Boolean,X> theCall = sut;
-
         LLongSingle domainObject = Tuple4U.tuple((long)100);
 
         Object result = sut.tupleTest(domainObject);
@@ -819,8 +817,8 @@ public class LLongPredicateXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LLongPredicateX r1 = LLongPredicateX.safe(sut);
-        LongPredicate r3 = LLongPredicateX.safe(sut);
+        LLongPredicateX r1 = LLongPredicateX.safe(sut); //NOSONAR
+        LongPredicate r3 = LLongPredicateX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -845,8 +843,8 @@ public class LLongPredicateXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LLongPredicateX<X>,Y> r1 = LLongPredicateX.safeSupplier(()->sut);
-        Supplier<LLongPredicateX<X>> r2 = LLongPredicateX.safeSupplier(()->sut);
+        LSupplierX<LLongPredicateX<X>,Y> r1 = LLongPredicateX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LLongPredicateX<X>> r2 = LLongPredicateX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

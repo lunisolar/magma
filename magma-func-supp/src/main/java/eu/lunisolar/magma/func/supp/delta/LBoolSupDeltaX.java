@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LBoolSupDeltaX<X extends Throwable> extends LBoolSupMementoX<X> {
 
-	private final LLogicalBinaryOperator deltaFunction;
+	protected final LLogicalBinaryOperator deltaFunction;
 
 	protected LBoolSupDeltaX(LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LBoolSupDeltaX(boolean initialValue, LBoolSupplierX<X> function, LLogicalBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -83,8 +86,34 @@ public class LBoolSupDeltaX<X extends Throwable> extends LBoolSupMementoX<X> {
 		return deltaOf(initialValue, function, (last, current) -> current != last);
 	}
 
+	@Override
 	public boolean doGetAsBool() throws X {
 		return deltaFunction.doApply(lastValue(), super.doGetAsBool());
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LBoolSupDeltaX the, Object that) {
+		return Null.<LBoolSupDeltaX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LBoolSupDeltaX other = (LBoolSupDeltaX) two;
+
+			return LBiObjBoolTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjBoolTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

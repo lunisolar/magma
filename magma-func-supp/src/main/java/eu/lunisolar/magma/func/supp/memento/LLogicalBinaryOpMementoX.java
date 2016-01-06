@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLogicalBinaryOpMementoX<X extends Throwable> implements LLogicalBinaryOperatorX<X> {
 
-	private boolean lastValue;
+	protected boolean lastValue;
 
-	private final LLogicalBinaryOperatorX<X> function;
+	protected LLogicalBinaryOperatorX<X> function;
 
 	protected LLogicalBinaryOpMementoX(LLogicalBinaryOperatorX<X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LLogicalBinaryOpMementoX(boolean initialValue, LLogicalBinaryOperatorX<X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LLogicalBinaryOpMementoX<X extends Throwable> implements LLogicalBi
 		return new LLogicalBinaryOpMementoX<X>(supplier);
 	}
 
+	@Override
 	public boolean doApply(boolean a1, boolean a2) throws X {
 		return lastValue = function.doApply(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LLogicalBinaryOpMementoX<X extends Throwable> implements LLogicalBi
 	public boolean lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLogicalBinaryOpMementoX the, Object that) {
+		return Null.<LLogicalBinaryOpMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLogicalBinaryOpMementoX other = (LLogicalBinaryOpMementoX) two;
+
+			return LObjBoolPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjBoolPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

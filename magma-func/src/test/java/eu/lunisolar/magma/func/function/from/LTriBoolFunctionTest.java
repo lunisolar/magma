@@ -98,8 +98,6 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBoolTriple,R,RuntimeException> theCall = sut;
-
         LBoolTriple domainObject = Tuple4U.tuple(true,true,true);
 
         Object result = sut.tupleApply(domainObject);
@@ -557,8 +555,8 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LTriBoolFunction r1 = LTriBoolFunction.safe(sut);
-        LTriBoolFunctionX r2 = LTriBoolFunction.safe(sut);
+        LTriBoolFunction r1 = LTriBoolFunction.safe(sut); //NOSONAR
+        LTriBoolFunctionX r2 = LTriBoolFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -583,7 +581,7 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LTriBoolFunction<R>> r1 = LTriBoolFunction.safeSupplier(()->sut);
+        LSupplier<LTriBoolFunction<R>> r1 = LTriBoolFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

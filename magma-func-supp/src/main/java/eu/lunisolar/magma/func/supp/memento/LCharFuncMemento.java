@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LCharFuncMemento<R> implements LCharFunction<R> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LCharFunction<R> function;
+	protected LCharFunction<R> function;
 
 	protected LCharFuncMemento(LCharFunction<R> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LCharFuncMemento(R initialValue, LCharFunction<R> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LCharFuncMemento<R> implements LCharFunction<R> {
 		return new LCharFuncMemento<R>(supplier);
 	}
 
+	@Override
 	public R doApply(char a1) {
 		return lastValue = function.doApply(a1);
 	}
@@ -78,5 +81,30 @@ public class LCharFuncMemento<R> implements LCharFunction<R> {
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LCharFuncMemento the, Object that) {
+		return Null.<LCharFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LCharFuncMemento other = (LCharFuncMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

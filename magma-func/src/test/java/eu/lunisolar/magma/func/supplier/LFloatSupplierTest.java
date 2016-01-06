@@ -92,8 +92,6 @@ public class LFloatSupplierTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LTuple.Void,Float,RuntimeException> theCall = sut;
-
         LTuple.Void domainObject = Tuple4U.tuple();
 
         Object result = sut.tupleGetAsFloat(domainObject);
@@ -695,8 +693,8 @@ public class LFloatSupplierTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LFloatSupplier r1 = LFloatSupplier.safe(sut);
-        LFloatSupplierX r2 = LFloatSupplier.safe(sut);
+        LFloatSupplier r1 = LFloatSupplier.safe(sut); //NOSONAR
+        LFloatSupplierX r2 = LFloatSupplier.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -721,7 +719,7 @@ public class LFloatSupplierTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LFloatSupplier> r1 = LFloatSupplier.safeSupplier(()->sut);
+        LSupplier<LFloatSupplier> r1 = LFloatSupplier.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

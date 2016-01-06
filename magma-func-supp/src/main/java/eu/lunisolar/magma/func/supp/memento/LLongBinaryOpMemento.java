@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLongBinaryOpMemento implements LLongBinaryOperator {
 
-	private long lastValue;
+	protected long lastValue;
 
-	private final LLongBinaryOperator function;
+	protected LLongBinaryOperator function;
 
 	protected LLongBinaryOpMemento(LLongBinaryOperator function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LLongBinaryOpMemento(long initialValue, LLongBinaryOperator function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LLongBinaryOpMemento implements LLongBinaryOperator {
 		return new LLongBinaryOpMemento(supplier);
 	}
 
+	@Override
 	public long doApplyAsLong(long a1, long a2) {
 		return lastValue = function.doApplyAsLong(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LLongBinaryOpMemento implements LLongBinaryOperator {
 	public long lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLongBinaryOpMemento the, Object that) {
+		return Null.<LLongBinaryOpMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLongBinaryOpMemento other = (LLongBinaryOpMemento) two;
+
+			return LObjLongPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjLongPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

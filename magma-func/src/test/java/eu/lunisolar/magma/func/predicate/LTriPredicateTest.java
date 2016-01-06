@@ -92,8 +92,6 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LTriple<T1,T2,T3>,Boolean,RuntimeException> theCall = sut;
-
         LTriple<T1,T2,T3> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
 
         Object result = sut.tupleTest(domainObject);
@@ -531,8 +529,8 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LTriPredicate r1 = LTriPredicate.safe(sut);
-        LTriPredicateX r2 = LTriPredicate.safe(sut);
+        LTriPredicate r1 = LTriPredicate.safe(sut); //NOSONAR
+        LTriPredicateX r2 = LTriPredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -557,7 +555,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LTriPredicate<T1,T2,T3>> r1 = LTriPredicate.safeSupplier(()->sut);
+        LSupplier<LTriPredicate<T1,T2,T3>> r1 = LTriPredicate.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

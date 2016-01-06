@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LIntUnaryOpMemento implements LIntUnaryOperator {
 
-	private int lastValue;
+	protected int lastValue;
 
-	private final LIntUnaryOperator function;
+	protected LIntUnaryOperator function;
 
 	protected LIntUnaryOpMemento(LIntUnaryOperator function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LIntUnaryOpMemento(int initialValue, LIntUnaryOperator function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LIntUnaryOpMemento implements LIntUnaryOperator {
 		return new LIntUnaryOpMemento(supplier);
 	}
 
+	@Override
 	public int doApplyAsInt(int a1) {
 		return lastValue = function.doApplyAsInt(a1);
 	}
@@ -78,5 +81,30 @@ public class LIntUnaryOpMemento implements LIntUnaryOperator {
 	public int lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LIntUnaryOpMemento the, Object that) {
+		return Null.<LIntUnaryOpMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LIntUnaryOpMemento other = (LIntUnaryOpMemento) two;
+
+			return LObjIntPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjIntPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

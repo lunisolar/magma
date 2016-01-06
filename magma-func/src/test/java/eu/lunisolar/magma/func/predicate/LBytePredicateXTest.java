@@ -95,8 +95,6 @@ public class LBytePredicateXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LByteSingle,Boolean,X> theCall = sut;
-
         LByteSingle domainObject = Tuple4U.tuple((byte)100);
 
         Object result = sut.tupleTest(domainObject);
@@ -811,7 +809,7 @@ public class LBytePredicateXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LBytePredicateX r1 = LBytePredicateX.safe(sut);
+        LBytePredicateX r1 = LBytePredicateX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -836,7 +834,7 @@ public class LBytePredicateXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBytePredicateX<X>,Y> r1 = LBytePredicateX.safeSupplier(()->sut);
+        LSupplierX<LBytePredicateX<X>,Y> r1 = LBytePredicateX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

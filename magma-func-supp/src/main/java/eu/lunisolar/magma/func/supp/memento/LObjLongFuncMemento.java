@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LObjLongFuncMemento<T, R> implements LObjLongFunction<T, R> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LObjLongFunction<T, R> function;
+	protected LObjLongFunction<T, R> function;
 
 	protected LObjLongFuncMemento(LObjLongFunction<T, R> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LObjLongFuncMemento(R initialValue, LObjLongFunction<T, R> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LObjLongFuncMemento<T, R> implements LObjLongFunction<T, R> {
 		return new LObjLongFuncMemento<T, R>(supplier);
 	}
 
+	@Override
 	public R doApply(T a1, long a2) {
 		return lastValue = function.doApply(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LObjLongFuncMemento<T, R> implements LObjLongFunction<T, R> {
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LObjLongFuncMemento the, Object that) {
+		return Null.<LObjLongFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LObjLongFuncMemento other = (LObjLongFuncMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

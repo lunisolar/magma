@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToLongBiFuncMemento<T1, T2> implements LToLongBiFunction<T1, T2> {
 
-	private long lastValue;
+	protected long lastValue;
 
-	private final LToLongBiFunction<T1, T2> function;
+	protected LToLongBiFunction<T1, T2> function;
 
 	protected LToLongBiFuncMemento(LToLongBiFunction<T1, T2> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LToLongBiFuncMemento(long initialValue, LToLongBiFunction<T1, T2> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LToLongBiFuncMemento<T1, T2> implements LToLongBiFunction<T1, T2> {
 		return new LToLongBiFuncMemento<T1, T2>(supplier);
 	}
 
+	@Override
 	public long doApplyAsLong(T1 a1, T2 a2) {
 		return lastValue = function.doApplyAsLong(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LToLongBiFuncMemento<T1, T2> implements LToLongBiFunction<T1, T2> {
 	public long lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToLongBiFuncMemento the, Object that) {
+		return Null.<LToLongBiFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToLongBiFuncMemento other = (LToLongBiFuncMemento) two;
+
+			return LObjLongPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjLongPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

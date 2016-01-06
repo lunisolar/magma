@@ -92,8 +92,6 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LShortSingle,Short,RuntimeException> theCall = sut;
-
         LShortSingle domainObject = Tuple4U.tuple((short)100);
 
         Object result = sut.tupleApplyAsShort(domainObject);
@@ -773,8 +771,8 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LShortUnaryOperator r1 = LShortUnaryOperator.safe(sut);
-        LShortUnaryOperatorX r2 = LShortUnaryOperator.safe(sut);
+        LShortUnaryOperator r1 = LShortUnaryOperator.safe(sut); //NOSONAR
+        LShortUnaryOperatorX r2 = LShortUnaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -799,7 +797,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LShortUnaryOperator> r1 = LShortUnaryOperator.safeSupplier(()->sut);
+        LSupplier<LShortUnaryOperator> r1 = LShortUnaryOperator.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

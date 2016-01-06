@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LShortSupMemento implements LShortSupplier {
 
-	private short lastValue;
+	protected short lastValue;
 
-	private final LShortSupplier function;
+	protected LShortSupplier function;
 
 	protected LShortSupMemento(LShortSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LShortSupMemento(short initialValue, LShortSupplier function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LShortSupMemento implements LShortSupplier {
 		return new LShortSupMemento(supplier);
 	}
 
+	@Override
 	public short doGetAsShort() {
 		return lastValue = function.doGetAsShort();
 	}
@@ -78,5 +81,30 @@ public class LShortSupMemento implements LShortSupplier {
 	public short lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LShortSupMemento the, Object that) {
+		return Null.<LShortSupMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LShortSupMemento other = (LShortSupMemento) two;
+
+			return LObjShortPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjShortPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

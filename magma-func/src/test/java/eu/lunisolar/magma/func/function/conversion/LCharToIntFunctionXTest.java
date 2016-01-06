@@ -95,8 +95,6 @@ public class LCharToIntFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LCharSingle,Integer,X> theCall = sut;
-
         LCharSingle domainObject = Tuple4U.tuple((char)100);
 
         Object result = sut.tupleApplyAsInt(domainObject);
@@ -751,7 +749,7 @@ public class LCharToIntFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LCharToIntFunctionX r1 = LCharToIntFunctionX.safe(sut);
+        LCharToIntFunctionX r1 = LCharToIntFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -776,7 +774,7 @@ public class LCharToIntFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LCharToIntFunctionX<X>,Y> r1 = LCharToIntFunctionX.safeSupplier(()->sut);
+        LSupplierX<LCharToIntFunctionX<X>,Y> r1 = LCharToIntFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

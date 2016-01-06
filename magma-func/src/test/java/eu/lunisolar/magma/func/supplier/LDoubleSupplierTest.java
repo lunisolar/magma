@@ -94,8 +94,6 @@ public class LDoubleSupplierTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LTuple.Void,Double,RuntimeException> theCall = sut;
-
         LTuple.Void domainObject = Tuple4U.tuple();
 
         Object result = sut.tupleGetAsDouble(domainObject);
@@ -703,9 +701,9 @@ public class LDoubleSupplierTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LDoubleSupplier r1 = LDoubleSupplier.safe(sut);
-        LDoubleSupplierX r2 = LDoubleSupplier.safe(sut);
-        DoubleSupplier r3 = LDoubleSupplier.safe(sut);
+        LDoubleSupplier r1 = LDoubleSupplier.safe(sut); //NOSONAR
+        LDoubleSupplierX r2 = LDoubleSupplier.safe(sut); //NOSONAR
+        DoubleSupplier r3 = LDoubleSupplier.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -730,8 +728,8 @@ public class LDoubleSupplierTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LDoubleSupplier> r1 = LDoubleSupplier.safeSupplier(()->sut);
-        Supplier<LDoubleSupplier> r2 = LDoubleSupplier.safeSupplier(()->sut);
+        LSupplier<LDoubleSupplier> r1 = LDoubleSupplier.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LDoubleSupplier> r2 = LDoubleSupplier.safeSupplier(()->sut); //NOSONAR
     }
 
 }

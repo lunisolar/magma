@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LBinaryOpDelta<T> extends LBinaryOpMemento<T> {
 
-	private final LBinaryOperator<T> deltaFunction;
+	protected final LBinaryOperator<T> deltaFunction;
 
 	protected LBinaryOpDelta(LBinaryOperator<T> function, LBinaryOperator<T> deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LBinaryOpDelta(T initialValue, LBinaryOperator<T> function, LBinaryOperator<T> deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -75,8 +78,34 @@ public class LBinaryOpDelta<T> extends LBinaryOpMemento<T> {
 		return new LBinaryOpDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	@Override
 	public T doApply(T a1, T a2) {
 		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LBinaryOpDelta the, Object that) {
+		return Null.<LBinaryOpDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LBinaryOpDelta other = (LBinaryOpDelta) two;
+
+			return LTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

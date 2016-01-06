@@ -92,8 +92,6 @@ public class LBiLongPredicateTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LLongPair,Boolean,RuntimeException> theCall = sut;
-
         LLongPair domainObject = Tuple4U.tuple((long)100,(long)100);
 
         Object result = sut.tupleTest(domainObject);
@@ -575,8 +573,8 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiLongPredicate r1 = LBiLongPredicate.safe(sut);
-        LBiLongPredicateX r2 = LBiLongPredicate.safe(sut);
+        LBiLongPredicate r1 = LBiLongPredicate.safe(sut); //NOSONAR
+        LBiLongPredicateX r2 = LBiLongPredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -601,7 +599,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LBiLongPredicate> r1 = LBiLongPredicate.safeSupplier(()->sut);
+        LSupplier<LBiLongPredicate> r1 = LBiLongPredicate.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

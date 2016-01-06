@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LShortSupMementoX<X extends Throwable> implements LShortSupplierX<X> {
 
-	private short lastValue;
+	protected short lastValue;
 
-	private final LShortSupplierX<X> function;
+	protected LShortSupplierX<X> function;
 
 	protected LShortSupMementoX(LShortSupplierX<X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LShortSupMementoX(short initialValue, LShortSupplierX<X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LShortSupMementoX<X extends Throwable> implements LShortSupplierX<X
 		return new LShortSupMementoX<X>(supplier);
 	}
 
+	@Override
 	public short doGetAsShort() throws X {
 		return lastValue = function.doGetAsShort();
 	}
@@ -78,5 +81,30 @@ public class LShortSupMementoX<X extends Throwable> implements LShortSupplierX<X
 	public short lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LShortSupMementoX the, Object that) {
+		return Null.<LShortSupMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LShortSupMementoX other = (LShortSupMementoX) two;
+
+			return LObjShortPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjShortPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

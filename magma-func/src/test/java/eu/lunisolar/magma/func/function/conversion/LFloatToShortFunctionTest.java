@@ -92,8 +92,6 @@ public class LFloatToShortFunctionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LFloatSingle,Short,RuntimeException> theCall = sut;
-
         LFloatSingle domainObject = Tuple4U.tuple((float)100);
 
         Object result = sut.tupleApplyAsShort(domainObject);
@@ -766,8 +764,8 @@ public class LFloatToShortFunctionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LFloatToShortFunction r1 = LFloatToShortFunction.safe(sut);
-        LFloatToShortFunctionX r2 = LFloatToShortFunction.safe(sut);
+        LFloatToShortFunction r1 = LFloatToShortFunction.safe(sut); //NOSONAR
+        LFloatToShortFunctionX r2 = LFloatToShortFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,7 +790,7 @@ public class LFloatToShortFunctionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LFloatToShortFunction> r1 = LFloatToShortFunction.safeSupplier(()->sut);
+        LSupplier<LFloatToShortFunction> r1 = LFloatToShortFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

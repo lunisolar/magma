@@ -92,8 +92,6 @@ public class LDoubleToCharFunctionTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LDoubleSingle,Character,RuntimeException> theCall = sut;
-
         LDoubleSingle domainObject = Tuple4U.tuple((double)100);
 
         Object result = sut.tupleApplyAsChar(domainObject);
@@ -766,8 +764,8 @@ public class LDoubleToCharFunctionTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LDoubleToCharFunction r1 = LDoubleToCharFunction.safe(sut);
-        LDoubleToCharFunctionX r2 = LDoubleToCharFunction.safe(sut);
+        LDoubleToCharFunction r1 = LDoubleToCharFunction.safe(sut); //NOSONAR
+        LDoubleToCharFunctionX r2 = LDoubleToCharFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -792,7 +790,7 @@ public class LDoubleToCharFunctionTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LDoubleToCharFunction> r1 = LDoubleToCharFunction.safeSupplier(()->sut);
+        LSupplier<LDoubleToCharFunction> r1 = LDoubleToCharFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

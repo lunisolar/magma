@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LUnaryOpMemento<T> implements LUnaryOperator<T> {
 
-	private T lastValue;
+	protected T lastValue;
 
-	private final LUnaryOperator<T> function;
+	protected LUnaryOperator<T> function;
 
 	protected LUnaryOpMemento(LUnaryOperator<T> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LUnaryOpMemento(T initialValue, LUnaryOperator<T> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LUnaryOpMemento<T> implements LUnaryOperator<T> {
 		return new LUnaryOpMemento<T>(supplier);
 	}
 
+	@Override
 	public T doApply(T a1) {
 		return lastValue = function.doApply(a1);
 	}
@@ -78,5 +81,30 @@ public class LUnaryOpMemento<T> implements LUnaryOperator<T> {
 	public T lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LUnaryOpMemento the, Object that) {
+		return Null.<LUnaryOpMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LUnaryOpMemento other = (LUnaryOpMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LLongSupMemento implements LLongSupplier {
 
-	private long lastValue;
+	protected long lastValue;
 
-	private final LLongSupplier function;
+	protected LLongSupplier function;
 
 	protected LLongSupMemento(LLongSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LLongSupMemento(long initialValue, LLongSupplier function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LLongSupMemento implements LLongSupplier {
 		return new LLongSupMemento(supplier);
 	}
 
+	@Override
 	public long doGetAsLong() {
 		return lastValue = function.doGetAsLong();
 	}
@@ -78,5 +81,30 @@ public class LLongSupMemento implements LLongSupplier {
 	public long lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LLongSupMemento the, Object that) {
+		return Null.<LLongSupMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LLongSupMemento other = (LLongSupMemento) two;
+
+			return LObjLongPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjLongPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

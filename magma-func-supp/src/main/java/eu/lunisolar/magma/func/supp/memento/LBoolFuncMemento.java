@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LBoolFuncMemento<R> implements LBoolFunction<R> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LBoolFunction<R> function;
+	protected LBoolFunction<R> function;
 
 	protected LBoolFuncMemento(LBoolFunction<R> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LBoolFuncMemento(R initialValue, LBoolFunction<R> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LBoolFuncMemento<R> implements LBoolFunction<R> {
 		return new LBoolFuncMemento<R>(supplier);
 	}
 
+	@Override
 	public R doApply(boolean a1) {
 		return lastValue = function.doApply(a1);
 	}
@@ -78,5 +81,30 @@ public class LBoolFuncMemento<R> implements LBoolFunction<R> {
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LBoolFuncMemento the, Object that) {
+		return Null.<LBoolFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LBoolFuncMemento other = (LBoolFuncMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

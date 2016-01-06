@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LSupDelta<R> extends LSupMemento<R> {
 
-	private final LBinaryOperator<R> deltaFunction;
+	protected final LBinaryOperator<R> deltaFunction;
 
 	protected LSupDelta(LSupplier<R> function, LBinaryOperator<R> deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LSupDelta(R initialValue, LSupplier<R> function, LBinaryOperator<R> deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -75,8 +78,34 @@ public class LSupDelta<R> extends LSupMemento<R> {
 		return new LSupDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	@Override
 	public R doGet() {
 		return deltaFunction.doApply(lastValue(), super.doGet());
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LSupDelta the, Object that) {
+		return Null.<LSupDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LSupDelta other = (LSupDelta) two;
+
+			return LTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

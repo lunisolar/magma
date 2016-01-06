@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LObjIntFuncMemento<T, R> implements LObjIntFunction<T, R> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LObjIntFunction<T, R> function;
+	protected LObjIntFunction<T, R> function;
 
 	protected LObjIntFuncMemento(LObjIntFunction<T, R> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LObjIntFuncMemento(R initialValue, LObjIntFunction<T, R> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LObjIntFuncMemento<T, R> implements LObjIntFunction<T, R> {
 		return new LObjIntFuncMemento<T, R>(supplier);
 	}
 
+	@Override
 	public R doApply(T a1, int a2) {
 		return lastValue = function.doApply(a1, a2);
 	}
@@ -78,5 +81,30 @@ public class LObjIntFuncMemento<T, R> implements LObjIntFunction<T, R> {
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LObjIntFuncMemento the, Object that) {
+		return Null.<LObjIntFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LObjIntFuncMemento other = (LObjIntFuncMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

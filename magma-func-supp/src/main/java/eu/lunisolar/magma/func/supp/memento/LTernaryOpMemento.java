@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
 
-	private T lastValue;
+	protected T lastValue;
 
-	private final LTernaryOperator<T> function;
+	protected LTernaryOperator<T> function;
 
 	protected LTernaryOpMemento(LTernaryOperator<T> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LTernaryOpMemento(T initialValue, LTernaryOperator<T> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
 		return new LTernaryOpMemento<T>(supplier);
 	}
 
+	@Override
 	public T doApply(T a1, T a2, T a3) {
 		return lastValue = function.doApply(a1, a2, a3);
 	}
@@ -78,5 +81,30 @@ public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
 	public T lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LTernaryOpMemento the, Object that) {
+		return Null.<LTernaryOpMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LTernaryOpMemento other = (LTernaryOpMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

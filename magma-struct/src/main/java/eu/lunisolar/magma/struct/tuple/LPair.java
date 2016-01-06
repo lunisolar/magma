@@ -55,16 +55,42 @@ public interface LPair<T1, T2> extends LTuple<Object> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static <T1, T2> int hashCode(T1 first, T2 second) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LPair and calculates hash from it. */
+	static <T1, T2> int argHashCode(T1 first, T2 second) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((first == null) ? 0 : first.hashCode());
 		result = prime * result + ((second == null) ? 0 : second.hashCode());
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LPair and checks if all values are equal. */
+	static <T1, T2> boolean argEquals(T1 first, T2 second, T1 firstOfOther, T2 secondOfOther) {
+		return Null.equals(first, firstOfOther) && //
+				Null.equals(second, secondOfOther); //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static <T1, T2> boolean argEquals(LPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LPair are allowed.
+				if (!(two instanceof LPair)) {
+					return false;
+				}
+
+				LPair other = (LPair) two;
+
+				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -124,23 +150,12 @@ public interface LPair<T1, T2> extends LTuple<Object> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LPair are allowed.
-					if (!(two instanceof LPair)) {
-						return false;
-					}
-
-					LPair other = (LPair) two;
-
-					return Null.equals(one.first(), other.first()) && //
-							Null.equals(one.second(), other.second()); //
-				});
+			return LPair.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LPair.hashCode(first(), second());
+			return LPair.argHashCode(first(), second());
 		}
 
 	}

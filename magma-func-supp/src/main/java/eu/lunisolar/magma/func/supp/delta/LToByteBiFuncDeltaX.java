@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToByteBiFuncDeltaX<T1, T2, X extends Throwable> extends LToByteBiFuncMementoX<T1, T2, X> {
 
-	private final LByteBinaryOperator deltaFunction;
+	protected final LByteBinaryOperator deltaFunction;
 
 	protected LToByteBiFuncDeltaX(LToByteBiFunctionX<T1, T2, X> function, LByteBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LToByteBiFuncDeltaX(byte initialValue, LToByteBiFunctionX<T1, T2, X> function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LToByteBiFuncDeltaX<T1, T2, X extends Throwable> extends LToByteBiF
 		return (byte) (current - last);
 	}
 
+	@Override
 	public byte doApplyAsByte(T1 a1, T2 a2) throws X {
 		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1, a2));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LToByteBiFuncDeltaX the, Object that) {
+		return Null.<LToByteBiFuncDeltaX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LToByteBiFuncDeltaX other = (LToByteBiFuncDeltaX) two;
+
+			return LBiObjByteTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjByteTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

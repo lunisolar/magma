@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LByteToIntFuncMementoX<X extends Throwable> implements LByteToIntFunctionX<X> {
 
-	private int lastValue;
+	protected int lastValue;
 
-	private final LByteToIntFunctionX<X> function;
+	protected LByteToIntFunctionX<X> function;
 
 	protected LByteToIntFuncMementoX(LByteToIntFunctionX<X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LByteToIntFuncMementoX(int initialValue, LByteToIntFunctionX<X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LByteToIntFuncMementoX<X extends Throwable> implements LByteToIntFu
 		return new LByteToIntFuncMementoX<X>(supplier);
 	}
 
+	@Override
 	public int doApplyAsInt(byte a1) throws X {
 		return lastValue = function.doApplyAsInt(a1);
 	}
@@ -78,5 +81,30 @@ public class LByteToIntFuncMementoX<X extends Throwable> implements LByteToIntFu
 	public int lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LByteToIntFuncMementoX the, Object that) {
+		return Null.<LByteToIntFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LByteToIntFuncMementoX other = (LByteToIntFuncMementoX) two;
+
+			return LObjIntPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LObjIntPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }

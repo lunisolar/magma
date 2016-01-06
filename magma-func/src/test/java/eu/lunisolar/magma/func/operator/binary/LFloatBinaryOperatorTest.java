@@ -92,8 +92,6 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LFloatPair,Float,RuntimeException> theCall = sut;
-
         LFloatPair domainObject = Tuple4U.tuple((float)100,(float)100);
 
         Object result = sut.tupleApplyAsFloat(domainObject);
@@ -533,8 +531,8 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LFloatBinaryOperator r1 = LFloatBinaryOperator.safe(sut);
-        LFloatBinaryOperatorX r2 = LFloatBinaryOperator.safe(sut);
+        LFloatBinaryOperator r1 = LFloatBinaryOperator.safe(sut); //NOSONAR
+        LFloatBinaryOperatorX r2 = LFloatBinaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -559,7 +557,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LFloatBinaryOperator> r1 = LFloatBinaryOperator.safeSupplier(()->sut);
+        LSupplier<LFloatBinaryOperator> r1 = LFloatBinaryOperator.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

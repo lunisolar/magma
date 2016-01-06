@@ -97,8 +97,6 @@ public class LDoubleToIntFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LDoubleSingle,Integer,X> theCall = sut;
-
         LDoubleSingle domainObject = Tuple4U.tuple((double)100);
 
         Object result = sut.tupleApplyAsInt(domainObject);
@@ -759,8 +757,8 @@ public class LDoubleToIntFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LDoubleToIntFunctionX r1 = LDoubleToIntFunctionX.safe(sut);
-        DoubleToIntFunction r3 = LDoubleToIntFunctionX.safe(sut);
+        LDoubleToIntFunctionX r1 = LDoubleToIntFunctionX.safe(sut); //NOSONAR
+        DoubleToIntFunction r3 = LDoubleToIntFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -785,8 +783,8 @@ public class LDoubleToIntFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LDoubleToIntFunctionX<X>,Y> r1 = LDoubleToIntFunctionX.safeSupplier(()->sut);
-        Supplier<LDoubleToIntFunctionX<X>> r2 = LDoubleToIntFunctionX.safeSupplier(()->sut);
+        LSupplierX<LDoubleToIntFunctionX<X>,Y> r1 = LDoubleToIntFunctionX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LDoubleToIntFunctionX<X>> r2 = LDoubleToIntFunctionX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

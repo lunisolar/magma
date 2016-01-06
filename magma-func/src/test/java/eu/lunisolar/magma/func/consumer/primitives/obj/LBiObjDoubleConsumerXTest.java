@@ -88,8 +88,6 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBiObjDoubleTriple<T1,T2>,LTuple.Void,X> theCall = sut;
-
         LBiObjDoubleTriple<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
 
         Object result = sut.tupleAccept(domainObject);
@@ -530,7 +528,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiObjDoubleConsumerX r1 = LBiObjDoubleConsumerX.safe(sut);
+        LBiObjDoubleConsumerX r1 = LBiObjDoubleConsumerX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -555,7 +553,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBiObjDoubleConsumerX<T1,T2,X>,Y> r1 = LBiObjDoubleConsumerX.safeSupplier(()->sut);
+        LSupplierX<LBiObjDoubleConsumerX<T1,T2,X>,Y> r1 = LBiObjDoubleConsumerX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

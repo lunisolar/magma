@@ -94,8 +94,6 @@ public class LIntPredicateTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LIntSingle,Boolean,RuntimeException> theCall = sut;
-
         LIntSingle domainObject = Tuple4U.tuple((int)100);
 
         Object result = sut.tupleTest(domainObject);
@@ -834,9 +832,9 @@ public class LIntPredicateTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LIntPredicate r1 = LIntPredicate.safe(sut);
-        LIntPredicateX r2 = LIntPredicate.safe(sut);
-        IntPredicate r3 = LIntPredicate.safe(sut);
+        LIntPredicate r1 = LIntPredicate.safe(sut); //NOSONAR
+        LIntPredicateX r2 = LIntPredicate.safe(sut); //NOSONAR
+        IntPredicate r3 = LIntPredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -861,8 +859,8 @@ public class LIntPredicateTest<X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LIntPredicate> r1 = LIntPredicate.safeSupplier(()->sut);
-        Supplier<LIntPredicate> r2 = LIntPredicate.safeSupplier(()->sut);
+        LSupplier<LIntPredicate> r1 = LIntPredicate.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LIntPredicate> r2 = LIntPredicate.safeSupplier(()->sut); //NOSONAR
     }
 
 }

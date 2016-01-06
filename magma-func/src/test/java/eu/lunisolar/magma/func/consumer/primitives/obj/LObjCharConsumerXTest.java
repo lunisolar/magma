@@ -88,8 +88,6 @@ public class LObjCharConsumerXTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LObjCharPair<T>,LTuple.Void,X> theCall = sut;
-
         LObjCharPair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(char)100);
 
         Object result = sut.tupleAccept(domainObject);
@@ -472,7 +470,7 @@ public class LObjCharConsumerXTest<T,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LObjCharConsumerX r1 = LObjCharConsumerX.safe(sut);
+        LObjCharConsumerX r1 = LObjCharConsumerX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -497,7 +495,7 @@ public class LObjCharConsumerXTest<T,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LObjCharConsumerX<T,X>,Y> r1 = LObjCharConsumerX.safeSupplier(()->sut);
+        LSupplierX<LObjCharConsumerX<T,X>,Y> r1 = LObjCharConsumerX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

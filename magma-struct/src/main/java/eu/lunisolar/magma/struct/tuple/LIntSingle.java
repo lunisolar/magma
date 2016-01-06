@@ -56,15 +56,40 @@ public interface LIntSingle extends LTuple<Integer> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static int hashCode(int first) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LIntSingle and calculates hash from it. */
+	static int argHashCode(int first) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Integer.hashCode(first);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LIntSingle and checks if all values are equal. */
+	static boolean argEquals(int first, int firstOfOther) {
+		return first == firstOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static boolean argEquals(LIntSingle the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LIntSingle are allowed.
+				if (!(two instanceof LIntSingle)) {
+					return false;
+				}
+
+				LIntSingle other = (LIntSingle) two;
+
+				return argEquals(one.first(), other.first());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -175,22 +200,12 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LIntSingle are allowed.
-					if (!(two instanceof LIntSingle)) {
-						return false;
-					}
-
-					LIntSingle other = (LIntSingle) two;
-
-					return one.first() == other.first(); //
-				});
+			return LIntSingle.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LIntSingle.hashCode(first());
+			return LIntSingle.argHashCode(first());
 		}
 
 		@Override

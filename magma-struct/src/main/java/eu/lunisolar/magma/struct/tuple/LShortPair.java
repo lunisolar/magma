@@ -66,16 +66,42 @@ public interface LShortPair extends LTuple<Short> {
 		}
 	}
 
+	/** Tuple size */
 	default int size() {
 		return SIZE;
 	}
 
-	static int hashCode(short first, short second) {
+	/** Static hashCode() implementation method that takes same arguments as fields of the LShortPair and calculates hash from it. */
+	static int argHashCode(short first, short second) {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Short.hashCode(first);
 		result = prime * result + Short.hashCode(second);
 		return result;
+	}
+
+	/** Static equals() implementation that takes same arguments (doubled) as fields of the LShortPair and checks if all values are equal. */
+	static boolean argEquals(short first, short second, short firstOfOther, short secondOfOther) {
+		return first == firstOfOther && //
+				second == secondOfOther; //
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
+	 *
+	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 */
+	static boolean argEquals(LShortPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LShortPair are allowed.
+				if (!(two instanceof LShortPair)) {
+					return false;
+				}
+
+				LShortPair other = (LShortPair) two;
+
+				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
@@ -193,23 +219,12 @@ public interface LShortPair extends LTuple<Short> {
 
 		@Override
 		public boolean equals(Object that) {
-			return Null.equals(this, that, (one, two) -> {
-
-				// Intentionally all subclasses of LShortPair are allowed.
-					if (!(two instanceof LShortPair)) {
-						return false;
-					}
-
-					LShortPair other = (LShortPair) two;
-
-					return one.first() == other.first() && //
-							one.second() == other.second(); //
-				});
+			return LShortPair.argEquals(this, that);
 		}
 
 		@Override
 		public int hashCode() {
-			return LShortPair.hashCode(first(), second());
+			return LShortPair.argHashCode(first(), second());
 		}
 
 	}

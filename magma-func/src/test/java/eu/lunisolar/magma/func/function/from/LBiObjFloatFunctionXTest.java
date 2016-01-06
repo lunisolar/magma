@@ -101,8 +101,6 @@ public class LBiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LBiObjFloatTriple<T1,T2>,R,X> theCall = sut;
-
         LBiObjFloatTriple<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(float)100);
 
         Object result = sut.tupleApply(domainObject);
@@ -606,7 +604,7 @@ public class LBiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LBiObjFloatFunctionX r1 = LBiObjFloatFunctionX.safe(sut);
+        LBiObjFloatFunctionX r1 = LBiObjFloatFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -631,7 +629,7 @@ public class LBiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBiObjFloatFunctionX<T1,T2,R,X>,Y> r1 = LBiObjFloatFunctionX.safeSupplier(()->sut);
+        LSupplierX<LBiObjFloatFunctionX<T1,T2,R,X>,Y> r1 = LBiObjFloatFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

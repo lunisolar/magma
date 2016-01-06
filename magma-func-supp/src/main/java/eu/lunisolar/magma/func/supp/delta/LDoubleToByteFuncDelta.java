@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -55,15 +56,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LDoubleToByteFuncDelta extends LDoubleToByteFuncMemento {
 
-	private final LByteBinaryOperator deltaFunction;
+	protected final LByteBinaryOperator deltaFunction;
 
 	protected LDoubleToByteFuncDelta(LDoubleToByteFunction function, LByteBinaryOperator deltaFunction) {
 		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
 	protected LDoubleToByteFuncDelta(byte initialValue, LDoubleToByteFunction function, LByteBinaryOperator deltaFunction) {
 		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
@@ -87,8 +90,34 @@ public class LDoubleToByteFuncDelta extends LDoubleToByteFuncMemento {
 		return (byte) (current - last);
 	}
 
+	@Override
 	public byte doApplyAsByte(double a1) {
 		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LDoubleToByteFuncDelta the, Object that) {
+		return Null.<LDoubleToByteFuncDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LDoubleToByteFuncDelta other = (LDoubleToByteFuncDelta) two;
+
+			return LBiObjByteTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LBiObjByteTriple.argHashCode(function, deltaFunction, lastValue);
+	}
+
+	// </editor-fold>
 
 }

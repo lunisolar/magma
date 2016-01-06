@@ -98,8 +98,6 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LObjFloatPair<T>,R,RuntimeException> theCall = sut;
-
         LObjFloatPair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(float)100);
 
         Object result = sut.tupleApply(domainObject);
@@ -559,8 +557,8 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
 
 
     @Test void safeCompiles() {
-        LObjFloatFunction r1 = LObjFloatFunction.safe(sut);
-        LObjFloatFunctionX r2 = LObjFloatFunction.safe(sut);
+        LObjFloatFunction r1 = LObjFloatFunction.safe(sut); //NOSONAR
+        LObjFloatFunctionX r2 = LObjFloatFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -585,7 +583,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LObjFloatFunction<T,R>> r1 = LObjFloatFunction.safeSupplier(()->sut);
+        LSupplier<LObjFloatFunction<T,R>> r1 = LObjFloatFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

@@ -95,8 +95,6 @@ public class LIntToByteFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        //FunctionalCall<LIntSingle,Byte,X> theCall = sut;
-
         LIntSingle domainObject = Tuple4U.tuple((int)100);
 
         Object result = sut.tupleApplyAsByte(domainObject);
@@ -751,7 +749,7 @@ public class LIntToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test void safeCompiles() {
-        LIntToByteFunctionX r1 = LIntToByteFunctionX.safe(sut);
+        LIntToByteFunctionX r1 = LIntToByteFunctionX.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -776,7 +774,7 @@ public class LIntToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LIntToByteFunctionX<X>,Y> r1 = LIntToByteFunctionX.safeSupplier(()->sut);
+        LSupplierX<LIntToByteFunctionX<X>,Y> r1 = LIntToByteFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

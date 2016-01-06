@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -54,16 +55,17 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LShortFuncMementoX<R, X extends Throwable> implements LShortFunctionX<R, X> {
 
-	private R lastValue;
+	protected R lastValue;
 
-	private final LShortFunctionX<R, X> function;
+	protected LShortFunctionX<R, X> function;
 
 	protected LShortFuncMementoX(LShortFunctionX<R, X> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	protected LShortFuncMementoX(R initialValue, LShortFunctionX<R, X> function) {
-		this.function = function;
+		this(function);
 		this.lastValue = initialValue;
 	}
 
@@ -71,6 +73,7 @@ public class LShortFuncMementoX<R, X extends Throwable> implements LShortFunctio
 		return new LShortFuncMementoX<R, X>(supplier);
 	}
 
+	@Override
 	public R doApply(short a1) throws X {
 		return lastValue = function.doApply(a1);
 	}
@@ -78,5 +81,30 @@ public class LShortFuncMementoX<R, X extends Throwable> implements LShortFunctio
 	public R lastValue() {
 		return lastValue;
 	}
+
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LShortFuncMementoX the, Object that) {
+		return Null.<LShortFuncMementoX> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LShortFuncMementoX other = (LShortFuncMementoX) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
+	}
+
+	public boolean equals(Object that) {
+		return argEquals(this, that);
+	}
+
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
+	}
+
+	// </editor-fold>
 
 }
