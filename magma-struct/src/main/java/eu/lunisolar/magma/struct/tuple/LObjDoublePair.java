@@ -61,18 +61,18 @@ public interface LObjDoublePair<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjDoublePair and calculates hash from it. */
-	static <T> int argHashCode(T first, double second) {
+	static <T> int argHashCode(T a1, double a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + Double.hashCode(second);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + Double.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjDoublePair and checks if all values are equal. */
-	static <T> boolean argEquals(T first, double second, T firstOfOther, double secondOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				second == secondOfOther; //
+	static <T> boolean argEquals(T a1, double a2, T b1, double b2) {
+		return Null.equals(a1, b1) && //
+				a2 == b2; //
 	}
 
 	/**
@@ -80,7 +80,7 @@ public interface LObjDoublePair<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LObjDoublePair the, Object that) {
+	static boolean argEquals(LObjDoublePair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LObjDoublePair are allowed.
 				if (!(two instanceof LObjDoublePair)) {
@@ -168,13 +168,13 @@ public interface LObjDoublePair<T> extends LTuple<Object> {
 		private T first;
 		private double second;
 
-		public MutObjDoublePair(T first, double second) {
-			this.first = first;
-			this.second = second;
+		public MutObjDoublePair(T a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> MutObjDoublePair<T> of(T first, double second) {
-			return new MutObjDoublePair(first, second);
+		public static <T> MutObjDoublePair<T> of(T a1, double a2) {
+			return new MutObjDoublePair(a1, a2);
 		}
 
 		public static <T> MutObjDoublePair<T> copyOf(LObjDoublePair<T> tuple) {
@@ -221,13 +221,13 @@ public interface LObjDoublePair<T> extends LTuple<Object> {
 		private T first;
 		private double second;
 
-		public MutCompObjDoublePair(T first, double second) {
-			this.first = first;
-			this.second = second;
+		public MutCompObjDoublePair(T a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjDoublePair<T> of(T first, double second) {
-			return new MutCompObjDoublePair(first, second);
+		public static <T extends Comparable<T>> MutCompObjDoublePair<T> of(T a1, double a2) {
+			return new MutCompObjDoublePair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> MutCompObjDoublePair<T> copyOf(LObjDoublePair<T> tuple) {
@@ -275,13 +275,13 @@ public interface LObjDoublePair<T> extends LTuple<Object> {
 		private final T first;
 		private final double second;
 
-		public ImmObjDoublePair(T first, double second) {
-			this.first = first;
-			this.second = second;
+		public ImmObjDoublePair(T a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> ImmObjDoublePair<T> of(T first, double second) {
-			return new ImmObjDoublePair(first, second);
+		public static <T> ImmObjDoublePair<T> of(T a1, double a2) {
+			return new ImmObjDoublePair(a1, a2);
 		}
 
 		public static <T> ImmObjDoublePair<T> copyOf(LObjDoublePair<T> tuple) {
@@ -307,13 +307,13 @@ public interface LObjDoublePair<T> extends LTuple<Object> {
 		private final T first;
 		private final double second;
 
-		public ImmCompObjDoublePair(T first, double second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompObjDoublePair(T a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjDoublePair<T> of(T first, double second) {
-			return new ImmCompObjDoublePair(first, second);
+		public static <T extends Comparable<T>> ImmCompObjDoublePair<T> of(T a1, double a2) {
+			return new ImmCompObjDoublePair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> ImmCompObjDoublePair<T> copyOf(LObjDoublePair<T> tuple) {

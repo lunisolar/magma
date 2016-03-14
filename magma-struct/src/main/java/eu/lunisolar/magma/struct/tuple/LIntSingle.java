@@ -62,16 +62,16 @@ public interface LIntSingle extends LTuple<Integer> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LIntSingle and calculates hash from it. */
-	static int argHashCode(int first) {
+	static int argHashCode(int a1) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Integer.hashCode(first);
+		result = prime * result + Integer.hashCode(a1);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LIntSingle and checks if all values are equal. */
-	static boolean argEquals(int first, int firstOfOther) {
-		return first == firstOfOther; //
+	static boolean argEquals(int a1, int b1) {
+		return a1 == b1; //
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LIntSingle extends LTuple<Integer> {
 		return toVoArray(array);
 	}
 
-	default int[] toIntArray(int[] array, int startingIndex) {
+	default int[] toIntegerArray(int[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -136,14 +136,14 @@ public interface LIntSingle extends LTuple<Integer> {
 		return array;
 	}
 
-	default int[] toIntArray(int[] array) {
-		return toIntArray(array, 0);
+	default int[] toIntegerArray(int[] array) {
+		return toIntegerArray(array, 0);
 	}
 
-	default int[] toIntArray() {
+	default int[] toIntegerArray() {
 		int[] array = new int[size()];
 
-		return toIntArray(array);
+		return toIntegerArray(array);
 	}
 
 	@Override
@@ -220,7 +220,7 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		@Override
 		public int intValue() {
-			return first();
+			return (int) first();
 		}
 
 		@Override
@@ -246,12 +246,12 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		private int first;
 
-		public MutIntSingle(int first) {
-			this.first = first;
+		public MutIntSingle(int a1) {
+			this.first = a1;
 		}
 
-		public static MutIntSingle of(int first) {
-			return new MutIntSingle(first);
+		public static MutIntSingle of(int a1) {
+			return new MutIntSingle(a1);
 		}
 
 		public static MutIntSingle copyOf(LIntSingle tuple) {
@@ -283,12 +283,12 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		private int first;
 
-		public MutCompIntSingle(int first) {
-			this.first = first;
+		public MutCompIntSingle(int a1) {
+			this.first = a1;
 		}
 
-		public static MutCompIntSingle of(int first) {
-			return new MutCompIntSingle(first);
+		public static MutCompIntSingle of(int a1) {
+			return new MutCompIntSingle(a1);
 		}
 
 		public static MutCompIntSingle copyOf(LIntSingle tuple) {
@@ -321,12 +321,12 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		private final int first;
 
-		public ImmIntSingle(int first) {
-			this.first = first;
+		public ImmIntSingle(int a1) {
+			this.first = a1;
 		}
 
-		public static ImmIntSingle of(int first) {
-			return new ImmIntSingle(first);
+		public static ImmIntSingle of(int a1) {
+			return new ImmIntSingle(a1);
 		}
 
 		public static ImmIntSingle copyOf(LIntSingle tuple) {
@@ -347,12 +347,12 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		private final int first;
 
-		public ImmCompIntSingle(int first) {
-			this.first = first;
+		public ImmCompIntSingle(int a1) {
+			this.first = a1;
 		}
 
-		public static ImmCompIntSingle of(int first) {
-			return new ImmCompIntSingle(first);
+		public static ImmCompIntSingle of(int a1) {
+			return new ImmCompIntSingle(a1);
 		}
 
 		public static ImmCompIntSingle copyOf(LIntSingle tuple) {

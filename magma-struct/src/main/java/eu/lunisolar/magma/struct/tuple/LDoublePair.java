@@ -72,18 +72,18 @@ public interface LDoublePair extends LTuple<Double> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LDoublePair and calculates hash from it. */
-	static int argHashCode(double first, double second) {
+	static int argHashCode(double a1, double a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Double.hashCode(first);
-		result = prime * result + Double.hashCode(second);
+		result = prime * result + Double.hashCode(a1);
+		result = prime * result + Double.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LDoublePair and checks if all values are equal. */
-	static boolean argEquals(double first, double second, double firstOfOther, double secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(double a1, double a2, double b1, double b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -237,13 +237,13 @@ public interface LDoublePair extends LTuple<Double> {
 		private double first;
 		private double second;
 
-		public MutDoublePair(double first, double second) {
-			this.first = first;
-			this.second = second;
+		public MutDoublePair(double a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutDoublePair of(double first, double second) {
-			return new MutDoublePair(first, second);
+		public static MutDoublePair of(double a1, double a2) {
+			return new MutDoublePair(a1, a2);
 		}
 
 		public static MutDoublePair copyOf(LDoublePair tuple) {
@@ -290,13 +290,13 @@ public interface LDoublePair extends LTuple<Double> {
 		private double first;
 		private double second;
 
-		public MutCompDoublePair(double first, double second) {
-			this.first = first;
-			this.second = second;
+		public MutCompDoublePair(double a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompDoublePair of(double first, double second) {
-			return new MutCompDoublePair(first, second);
+		public static MutCompDoublePair of(double a1, double a2) {
+			return new MutCompDoublePair(a1, a2);
 		}
 
 		public static MutCompDoublePair copyOf(LDoublePair tuple) {
@@ -344,13 +344,13 @@ public interface LDoublePair extends LTuple<Double> {
 		private final double first;
 		private final double second;
 
-		public ImmDoublePair(double first, double second) {
-			this.first = first;
-			this.second = second;
+		public ImmDoublePair(double a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmDoublePair of(double first, double second) {
-			return new ImmDoublePair(first, second);
+		public static ImmDoublePair of(double a1, double a2) {
+			return new ImmDoublePair(a1, a2);
 		}
 
 		public static ImmDoublePair copyOf(LDoublePair tuple) {
@@ -376,13 +376,13 @@ public interface LDoublePair extends LTuple<Double> {
 		private final double first;
 		private final double second;
 
-		public ImmCompDoublePair(double first, double second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompDoublePair(double a1, double a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompDoublePair of(double first, double second) {
-			return new ImmCompDoublePair(first, second);
+		public static ImmCompDoublePair of(double a1, double a2) {
+			return new ImmCompDoublePair(a1, a2);
 		}
 
 		public static ImmCompDoublePair copyOf(LDoublePair tuple) {

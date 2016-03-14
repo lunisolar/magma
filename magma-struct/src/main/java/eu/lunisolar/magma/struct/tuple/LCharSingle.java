@@ -62,16 +62,16 @@ public interface LCharSingle extends LTuple<Character> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharSingle and calculates hash from it. */
-	static int argHashCode(char first) {
+	static int argHashCode(char a1) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Character.hashCode(first);
+		result = prime * result + Character.hashCode(a1);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LCharSingle and checks if all values are equal. */
-	static boolean argEquals(char first, char firstOfOther) {
-		return first == firstOfOther; //
+	static boolean argEquals(char a1, char b1) {
+		return a1 == b1; //
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LCharSingle extends LTuple<Character> {
 		return toVoArray(array);
 	}
 
-	default char[] toCharArray(char[] array, int startingIndex) {
+	default char[] toCharacterArray(char[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -136,14 +136,14 @@ public interface LCharSingle extends LTuple<Character> {
 		return array;
 	}
 
-	default char[] toCharArray(char[] array) {
-		return toCharArray(array, 0);
+	default char[] toCharacterArray(char[] array) {
+		return toCharacterArray(array, 0);
 	}
 
-	default char[] toCharArray() {
+	default char[] toCharacterArray() {
 		char[] array = new char[size()];
 
-		return toCharArray(array);
+		return toCharacterArray(array);
 	}
 
 	@Override
@@ -217,12 +217,12 @@ public interface LCharSingle extends LTuple<Character> {
 
 		private char first;
 
-		public MutCharSingle(char first) {
-			this.first = first;
+		public MutCharSingle(char a1) {
+			this.first = a1;
 		}
 
-		public static MutCharSingle of(char first) {
-			return new MutCharSingle(first);
+		public static MutCharSingle of(char a1) {
+			return new MutCharSingle(a1);
 		}
 
 		public static MutCharSingle copyOf(LCharSingle tuple) {
@@ -254,12 +254,12 @@ public interface LCharSingle extends LTuple<Character> {
 
 		private char first;
 
-		public MutCompCharSingle(char first) {
-			this.first = first;
+		public MutCompCharSingle(char a1) {
+			this.first = a1;
 		}
 
-		public static MutCompCharSingle of(char first) {
-			return new MutCompCharSingle(first);
+		public static MutCompCharSingle of(char a1) {
+			return new MutCompCharSingle(a1);
 		}
 
 		public static MutCompCharSingle copyOf(LCharSingle tuple) {
@@ -292,12 +292,12 @@ public interface LCharSingle extends LTuple<Character> {
 
 		private final char first;
 
-		public ImmCharSingle(char first) {
-			this.first = first;
+		public ImmCharSingle(char a1) {
+			this.first = a1;
 		}
 
-		public static ImmCharSingle of(char first) {
-			return new ImmCharSingle(first);
+		public static ImmCharSingle of(char a1) {
+			return new ImmCharSingle(a1);
 		}
 
 		public static ImmCharSingle copyOf(LCharSingle tuple) {
@@ -318,12 +318,12 @@ public interface LCharSingle extends LTuple<Character> {
 
 		private final char first;
 
-		public ImmCompCharSingle(char first) {
-			this.first = first;
+		public ImmCompCharSingle(char a1) {
+			this.first = a1;
 		}
 
-		public static ImmCompCharSingle of(char first) {
-			return new ImmCompCharSingle(first);
+		public static ImmCompCharSingle of(char a1) {
+			return new ImmCompCharSingle(a1);
 		}
 
 		public static ImmCompCharSingle copyOf(LCharSingle tuple) {

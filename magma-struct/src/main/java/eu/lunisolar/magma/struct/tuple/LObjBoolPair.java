@@ -61,18 +61,18 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjBoolPair and calculates hash from it. */
-	static <T> int argHashCode(T first, boolean second) {
+	static <T> int argHashCode(T a1, boolean a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + Boolean.hashCode(second);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + Boolean.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjBoolPair and checks if all values are equal. */
-	static <T> boolean argEquals(T first, boolean second, T firstOfOther, boolean secondOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				second == secondOfOther; //
+	static <T> boolean argEquals(T a1, boolean a2, T b1, boolean b2) {
+		return Null.equals(a1, b1) && //
+				a2 == b2; //
 	}
 
 	/**
@@ -80,7 +80,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LObjBoolPair the, Object that) {
+	static boolean argEquals(LObjBoolPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LObjBoolPair are allowed.
 				if (!(two instanceof LObjBoolPair)) {
@@ -168,13 +168,13 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		private T first;
 		private boolean second;
 
-		public MutObjBoolPair(T first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public MutObjBoolPair(T a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> MutObjBoolPair<T> of(T first, boolean second) {
-			return new MutObjBoolPair(first, second);
+		public static <T> MutObjBoolPair<T> of(T a1, boolean a2) {
+			return new MutObjBoolPair(a1, a2);
 		}
 
 		public static <T> MutObjBoolPair<T> copyOf(LObjBoolPair<T> tuple) {
@@ -221,13 +221,13 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		private T first;
 		private boolean second;
 
-		public MutCompObjBoolPair(T first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public MutCompObjBoolPair(T a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjBoolPair<T> of(T first, boolean second) {
-			return new MutCompObjBoolPair(first, second);
+		public static <T extends Comparable<T>> MutCompObjBoolPair<T> of(T a1, boolean a2) {
+			return new MutCompObjBoolPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> MutCompObjBoolPair<T> copyOf(LObjBoolPair<T> tuple) {
@@ -275,13 +275,13 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		private final T first;
 		private final boolean second;
 
-		public ImmObjBoolPair(T first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public ImmObjBoolPair(T a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> ImmObjBoolPair<T> of(T first, boolean second) {
-			return new ImmObjBoolPair(first, second);
+		public static <T> ImmObjBoolPair<T> of(T a1, boolean a2) {
+			return new ImmObjBoolPair(a1, a2);
 		}
 
 		public static <T> ImmObjBoolPair<T> copyOf(LObjBoolPair<T> tuple) {
@@ -307,13 +307,13 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		private final T first;
 		private final boolean second;
 
-		public ImmCompObjBoolPair(T first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompObjBoolPair(T a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjBoolPair<T> of(T first, boolean second) {
-			return new ImmCompObjBoolPair(first, second);
+		public static <T extends Comparable<T>> ImmCompObjBoolPair<T> of(T a1, boolean a2) {
+			return new ImmCompObjBoolPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> ImmCompObjBoolPair<T> copyOf(LObjBoolPair<T> tuple) {

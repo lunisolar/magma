@@ -82,20 +82,20 @@ public interface LBoolTriple extends LTuple<Boolean> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolTriple and calculates hash from it. */
-	static int argHashCode(boolean first, boolean second, boolean third) {
+	static int argHashCode(boolean a1, boolean a2, boolean a3) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Boolean.hashCode(first);
-		result = prime * result + Boolean.hashCode(second);
-		result = prime * result + Boolean.hashCode(third);
+		result = prime * result + Boolean.hashCode(a1);
+		result = prime * result + Boolean.hashCode(a2);
+		result = prime * result + Boolean.hashCode(a3);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolTriple and checks if all values are equal. */
-	static boolean argEquals(boolean first, boolean second, boolean third, boolean firstOfOther, boolean secondOfOther, boolean thirdOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther && //
-				third == thirdOfOther; //
+	static boolean argEquals(boolean a1, boolean a2, boolean a3, boolean b1, boolean b2, boolean b3) {
+		return a1 == b1 && //
+				a2 == b2 && //
+				a3 == b3; //
 	}
 
 	/**
@@ -160,7 +160,7 @@ public interface LBoolTriple extends LTuple<Boolean> {
 		return toVoArray(array);
 	}
 
-	default boolean[] toBoolArray(boolean[] array, int startingIndex) {
+	default boolean[] toBooleanArray(boolean[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -172,14 +172,14 @@ public interface LBoolTriple extends LTuple<Boolean> {
 		return array;
 	}
 
-	default boolean[] toBoolArray(boolean[] array) {
-		return toBoolArray(array, 0);
+	default boolean[] toBooleanArray(boolean[] array) {
+		return toBooleanArray(array, 0);
 	}
 
-	default boolean[] toBoolArray() {
+	default boolean[] toBooleanArray() {
 		boolean[] array = new boolean[size()];
 
-		return toBoolArray(array);
+		return toBooleanArray(array);
 	}
 
 	@Override
@@ -239,14 +239,14 @@ public interface LBoolTriple extends LTuple<Boolean> {
 		private boolean second;
 		private boolean third;
 
-		public MutBoolTriple(boolean first, boolean second, boolean third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public MutBoolTriple(boolean a1, boolean a2, boolean a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static MutBoolTriple of(boolean first, boolean second, boolean third) {
-			return new MutBoolTriple(first, second, third);
+		public static MutBoolTriple of(boolean a1, boolean a2, boolean a3) {
+			return new MutBoolTriple(a1, a2, a3);
 		}
 
 		public static MutBoolTriple copyOf(LBoolTriple tuple) {
@@ -308,14 +308,14 @@ public interface LBoolTriple extends LTuple<Boolean> {
 		private boolean second;
 		private boolean third;
 
-		public MutCompBoolTriple(boolean first, boolean second, boolean third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public MutCompBoolTriple(boolean a1, boolean a2, boolean a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static MutCompBoolTriple of(boolean first, boolean second, boolean third) {
-			return new MutCompBoolTriple(first, second, third);
+		public static MutCompBoolTriple of(boolean a1, boolean a2, boolean a3) {
+			return new MutCompBoolTriple(a1, a2, a3);
 		}
 
 		public static MutCompBoolTriple copyOf(LBoolTriple tuple) {
@@ -378,14 +378,14 @@ public interface LBoolTriple extends LTuple<Boolean> {
 		private final boolean second;
 		private final boolean third;
 
-		public ImmBoolTriple(boolean first, boolean second, boolean third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public ImmBoolTriple(boolean a1, boolean a2, boolean a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static ImmBoolTriple of(boolean first, boolean second, boolean third) {
-			return new ImmBoolTriple(first, second, third);
+		public static ImmBoolTriple of(boolean a1, boolean a2, boolean a3) {
+			return new ImmBoolTriple(a1, a2, a3);
 		}
 
 		public static ImmBoolTriple copyOf(LBoolTriple tuple) {
@@ -416,14 +416,14 @@ public interface LBoolTriple extends LTuple<Boolean> {
 		private final boolean second;
 		private final boolean third;
 
-		public ImmCompBoolTriple(boolean first, boolean second, boolean third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public ImmCompBoolTriple(boolean a1, boolean a2, boolean a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static ImmCompBoolTriple of(boolean first, boolean second, boolean third) {
-			return new ImmCompBoolTriple(first, second, third);
+		public static ImmCompBoolTriple of(boolean a1, boolean a2, boolean a3) {
+			return new ImmCompBoolTriple(a1, a2, a3);
 		}
 
 		public static ImmCompBoolTriple copyOf(LBoolTriple tuple) {

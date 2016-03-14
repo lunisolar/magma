@@ -72,18 +72,18 @@ public interface LBytePair extends LTuple<Byte> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBytePair and calculates hash from it. */
-	static int argHashCode(byte first, byte second) {
+	static int argHashCode(byte a1, byte a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Byte.hashCode(first);
-		result = prime * result + Byte.hashCode(second);
+		result = prime * result + Byte.hashCode(a1);
+		result = prime * result + Byte.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBytePair and checks if all values are equal. */
-	static boolean argEquals(byte first, byte second, byte firstOfOther, byte secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(byte a1, byte a2, byte b1, byte b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -237,13 +237,13 @@ public interface LBytePair extends LTuple<Byte> {
 		private byte first;
 		private byte second;
 
-		public MutBytePair(byte first, byte second) {
-			this.first = first;
-			this.second = second;
+		public MutBytePair(byte a1, byte a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutBytePair of(byte first, byte second) {
-			return new MutBytePair(first, second);
+		public static MutBytePair of(byte a1, byte a2) {
+			return new MutBytePair(a1, a2);
 		}
 
 		public static MutBytePair copyOf(LBytePair tuple) {
@@ -290,13 +290,13 @@ public interface LBytePair extends LTuple<Byte> {
 		private byte first;
 		private byte second;
 
-		public MutCompBytePair(byte first, byte second) {
-			this.first = first;
-			this.second = second;
+		public MutCompBytePair(byte a1, byte a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompBytePair of(byte first, byte second) {
-			return new MutCompBytePair(first, second);
+		public static MutCompBytePair of(byte a1, byte a2) {
+			return new MutCompBytePair(a1, a2);
 		}
 
 		public static MutCompBytePair copyOf(LBytePair tuple) {
@@ -344,13 +344,13 @@ public interface LBytePair extends LTuple<Byte> {
 		private final byte first;
 		private final byte second;
 
-		public ImmBytePair(byte first, byte second) {
-			this.first = first;
-			this.second = second;
+		public ImmBytePair(byte a1, byte a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmBytePair of(byte first, byte second) {
-			return new ImmBytePair(first, second);
+		public static ImmBytePair of(byte a1, byte a2) {
+			return new ImmBytePair(a1, a2);
 		}
 
 		public static ImmBytePair copyOf(LBytePair tuple) {
@@ -376,13 +376,13 @@ public interface LBytePair extends LTuple<Byte> {
 		private final byte first;
 		private final byte second;
 
-		public ImmCompBytePair(byte first, byte second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompBytePair(byte a1, byte a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompBytePair of(byte first, byte second) {
-			return new ImmCompBytePair(first, second);
+		public static ImmCompBytePair of(byte a1, byte a2) {
+			return new ImmCompBytePair(a1, a2);
 		}
 
 		public static ImmCompBytePair copyOf(LBytePair tuple) {

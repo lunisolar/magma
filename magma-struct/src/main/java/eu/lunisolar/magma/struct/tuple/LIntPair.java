@@ -72,18 +72,18 @@ public interface LIntPair extends LTuple<Integer> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LIntPair and calculates hash from it. */
-	static int argHashCode(int first, int second) {
+	static int argHashCode(int a1, int a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Integer.hashCode(first);
-		result = prime * result + Integer.hashCode(second);
+		result = prime * result + Integer.hashCode(a1);
+		result = prime * result + Integer.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LIntPair and checks if all values are equal. */
-	static boolean argEquals(int first, int second, int firstOfOther, int secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(int a1, int a2, int b1, int b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -144,7 +144,7 @@ public interface LIntPair extends LTuple<Integer> {
 		return toVoArray(array);
 	}
 
-	default int[] toIntArray(int[] array, int startingIndex) {
+	default int[] toIntegerArray(int[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -154,14 +154,14 @@ public interface LIntPair extends LTuple<Integer> {
 		return array;
 	}
 
-	default int[] toIntArray(int[] array) {
-		return toIntArray(array, 0);
+	default int[] toIntegerArray(int[] array) {
+		return toIntegerArray(array, 0);
 	}
 
-	default int[] toIntArray() {
+	default int[] toIntegerArray() {
 		int[] array = new int[size()];
 
-		return toIntArray(array);
+		return toIntegerArray(array);
 	}
 
 	@Override
@@ -237,13 +237,13 @@ public interface LIntPair extends LTuple<Integer> {
 		private int first;
 		private int second;
 
-		public MutIntPair(int first, int second) {
-			this.first = first;
-			this.second = second;
+		public MutIntPair(int a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutIntPair of(int first, int second) {
-			return new MutIntPair(first, second);
+		public static MutIntPair of(int a1, int a2) {
+			return new MutIntPair(a1, a2);
 		}
 
 		public static MutIntPair copyOf(LIntPair tuple) {
@@ -290,13 +290,13 @@ public interface LIntPair extends LTuple<Integer> {
 		private int first;
 		private int second;
 
-		public MutCompIntPair(int first, int second) {
-			this.first = first;
-			this.second = second;
+		public MutCompIntPair(int a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompIntPair of(int first, int second) {
-			return new MutCompIntPair(first, second);
+		public static MutCompIntPair of(int a1, int a2) {
+			return new MutCompIntPair(a1, a2);
 		}
 
 		public static MutCompIntPair copyOf(LIntPair tuple) {
@@ -344,13 +344,13 @@ public interface LIntPair extends LTuple<Integer> {
 		private final int first;
 		private final int second;
 
-		public ImmIntPair(int first, int second) {
-			this.first = first;
-			this.second = second;
+		public ImmIntPair(int a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmIntPair of(int first, int second) {
-			return new ImmIntPair(first, second);
+		public static ImmIntPair of(int a1, int a2) {
+			return new ImmIntPair(a1, a2);
 		}
 
 		public static ImmIntPair copyOf(LIntPair tuple) {
@@ -376,13 +376,13 @@ public interface LIntPair extends LTuple<Integer> {
 		private final int first;
 		private final int second;
 
-		public ImmCompIntPair(int first, int second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompIntPair(int a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompIntPair of(int first, int second) {
-			return new ImmCompIntPair(first, second);
+		public static ImmCompIntPair of(int a1, int a2) {
+			return new ImmCompIntPair(a1, a2);
 		}
 
 		public static ImmCompIntPair copyOf(LIntPair tuple) {

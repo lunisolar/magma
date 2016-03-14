@@ -62,16 +62,16 @@ public interface LShortSingle extends LTuple<Short> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LShortSingle and calculates hash from it. */
-	static int argHashCode(short first) {
+	static int argHashCode(short a1) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Short.hashCode(first);
+		result = prime * result + Short.hashCode(a1);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LShortSingle and checks if all values are equal. */
-	static boolean argEquals(short first, short firstOfOther) {
-		return first == firstOfOther; //
+	static boolean argEquals(short a1, short b1) {
+		return a1 == b1; //
 	}
 
 	/**
@@ -215,7 +215,7 @@ public interface LShortSingle extends LTuple<Short> {
 
 		@Override
 		public short shortValue() {
-			return first();
+			return (short) first();
 		}
 
 		@Override
@@ -246,12 +246,12 @@ public interface LShortSingle extends LTuple<Short> {
 
 		private short first;
 
-		public MutShortSingle(short first) {
-			this.first = first;
+		public MutShortSingle(short a1) {
+			this.first = a1;
 		}
 
-		public static MutShortSingle of(short first) {
-			return new MutShortSingle(first);
+		public static MutShortSingle of(short a1) {
+			return new MutShortSingle(a1);
 		}
 
 		public static MutShortSingle copyOf(LShortSingle tuple) {
@@ -283,12 +283,12 @@ public interface LShortSingle extends LTuple<Short> {
 
 		private short first;
 
-		public MutCompShortSingle(short first) {
-			this.first = first;
+		public MutCompShortSingle(short a1) {
+			this.first = a1;
 		}
 
-		public static MutCompShortSingle of(short first) {
-			return new MutCompShortSingle(first);
+		public static MutCompShortSingle of(short a1) {
+			return new MutCompShortSingle(a1);
 		}
 
 		public static MutCompShortSingle copyOf(LShortSingle tuple) {
@@ -321,12 +321,12 @@ public interface LShortSingle extends LTuple<Short> {
 
 		private final short first;
 
-		public ImmShortSingle(short first) {
-			this.first = first;
+		public ImmShortSingle(short a1) {
+			this.first = a1;
 		}
 
-		public static ImmShortSingle of(short first) {
-			return new ImmShortSingle(first);
+		public static ImmShortSingle of(short a1) {
+			return new ImmShortSingle(a1);
 		}
 
 		public static ImmShortSingle copyOf(LShortSingle tuple) {
@@ -347,12 +347,12 @@ public interface LShortSingle extends LTuple<Short> {
 
 		private final short first;
 
-		public ImmCompShortSingle(short first) {
-			this.first = first;
+		public ImmCompShortSingle(short a1) {
+			this.first = a1;
 		}
 
-		public static ImmCompShortSingle of(short first) {
-			return new ImmCompShortSingle(first);
+		public static ImmCompShortSingle of(short a1) {
+			return new ImmCompShortSingle(a1);
 		}
 
 		public static ImmCompShortSingle copyOf(LShortSingle tuple) {

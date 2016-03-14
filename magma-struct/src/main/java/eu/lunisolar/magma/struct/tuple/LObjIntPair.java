@@ -61,18 +61,18 @@ public interface LObjIntPair<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjIntPair and calculates hash from it. */
-	static <T> int argHashCode(T first, int second) {
+	static <T> int argHashCode(T a1, int a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + Integer.hashCode(second);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + Integer.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjIntPair and checks if all values are equal. */
-	static <T> boolean argEquals(T first, int second, T firstOfOther, int secondOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				second == secondOfOther; //
+	static <T> boolean argEquals(T a1, int a2, T b1, int b2) {
+		return Null.equals(a1, b1) && //
+				a2 == b2; //
 	}
 
 	/**
@@ -80,7 +80,7 @@ public interface LObjIntPair<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LObjIntPair the, Object that) {
+	static boolean argEquals(LObjIntPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LObjIntPair are allowed.
 				if (!(two instanceof LObjIntPair)) {
@@ -168,13 +168,13 @@ public interface LObjIntPair<T> extends LTuple<Object> {
 		private T first;
 		private int second;
 
-		public MutObjIntPair(T first, int second) {
-			this.first = first;
-			this.second = second;
+		public MutObjIntPair(T a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> MutObjIntPair<T> of(T first, int second) {
-			return new MutObjIntPair(first, second);
+		public static <T> MutObjIntPair<T> of(T a1, int a2) {
+			return new MutObjIntPair(a1, a2);
 		}
 
 		public static <T> MutObjIntPair<T> copyOf(LObjIntPair<T> tuple) {
@@ -221,13 +221,13 @@ public interface LObjIntPair<T> extends LTuple<Object> {
 		private T first;
 		private int second;
 
-		public MutCompObjIntPair(T first, int second) {
-			this.first = first;
-			this.second = second;
+		public MutCompObjIntPair(T a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjIntPair<T> of(T first, int second) {
-			return new MutCompObjIntPair(first, second);
+		public static <T extends Comparable<T>> MutCompObjIntPair<T> of(T a1, int a2) {
+			return new MutCompObjIntPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> MutCompObjIntPair<T> copyOf(LObjIntPair<T> tuple) {
@@ -275,13 +275,13 @@ public interface LObjIntPair<T> extends LTuple<Object> {
 		private final T first;
 		private final int second;
 
-		public ImmObjIntPair(T first, int second) {
-			this.first = first;
-			this.second = second;
+		public ImmObjIntPair(T a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> ImmObjIntPair<T> of(T first, int second) {
-			return new ImmObjIntPair(first, second);
+		public static <T> ImmObjIntPair<T> of(T a1, int a2) {
+			return new ImmObjIntPair(a1, a2);
 		}
 
 		public static <T> ImmObjIntPair<T> copyOf(LObjIntPair<T> tuple) {
@@ -307,13 +307,13 @@ public interface LObjIntPair<T> extends LTuple<Object> {
 		private final T first;
 		private final int second;
 
-		public ImmCompObjIntPair(T first, int second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompObjIntPair(T a1, int a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjIntPair<T> of(T first, int second) {
-			return new ImmCompObjIntPair(first, second);
+		public static <T extends Comparable<T>> ImmCompObjIntPair<T> of(T a1, int a2) {
+			return new ImmCompObjIntPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> ImmCompObjIntPair<T> copyOf(LObjIntPair<T> tuple) {

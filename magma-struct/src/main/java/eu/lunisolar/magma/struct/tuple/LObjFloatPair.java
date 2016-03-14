@@ -61,18 +61,18 @@ public interface LObjFloatPair<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjFloatPair and calculates hash from it. */
-	static <T> int argHashCode(T first, float second) {
+	static <T> int argHashCode(T a1, float a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + Float.hashCode(second);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + Float.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjFloatPair and checks if all values are equal. */
-	static <T> boolean argEquals(T first, float second, T firstOfOther, float secondOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				second == secondOfOther; //
+	static <T> boolean argEquals(T a1, float a2, T b1, float b2) {
+		return Null.equals(a1, b1) && //
+				a2 == b2; //
 	}
 
 	/**
@@ -80,7 +80,7 @@ public interface LObjFloatPair<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LObjFloatPair the, Object that) {
+	static boolean argEquals(LObjFloatPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LObjFloatPair are allowed.
 				if (!(two instanceof LObjFloatPair)) {
@@ -168,13 +168,13 @@ public interface LObjFloatPair<T> extends LTuple<Object> {
 		private T first;
 		private float second;
 
-		public MutObjFloatPair(T first, float second) {
-			this.first = first;
-			this.second = second;
+		public MutObjFloatPair(T a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> MutObjFloatPair<T> of(T first, float second) {
-			return new MutObjFloatPair(first, second);
+		public static <T> MutObjFloatPair<T> of(T a1, float a2) {
+			return new MutObjFloatPair(a1, a2);
 		}
 
 		public static <T> MutObjFloatPair<T> copyOf(LObjFloatPair<T> tuple) {
@@ -221,13 +221,13 @@ public interface LObjFloatPair<T> extends LTuple<Object> {
 		private T first;
 		private float second;
 
-		public MutCompObjFloatPair(T first, float second) {
-			this.first = first;
-			this.second = second;
+		public MutCompObjFloatPair(T a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjFloatPair<T> of(T first, float second) {
-			return new MutCompObjFloatPair(first, second);
+		public static <T extends Comparable<T>> MutCompObjFloatPair<T> of(T a1, float a2) {
+			return new MutCompObjFloatPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> MutCompObjFloatPair<T> copyOf(LObjFloatPair<T> tuple) {
@@ -275,13 +275,13 @@ public interface LObjFloatPair<T> extends LTuple<Object> {
 		private final T first;
 		private final float second;
 
-		public ImmObjFloatPair(T first, float second) {
-			this.first = first;
-			this.second = second;
+		public ImmObjFloatPair(T a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> ImmObjFloatPair<T> of(T first, float second) {
-			return new ImmObjFloatPair(first, second);
+		public static <T> ImmObjFloatPair<T> of(T a1, float a2) {
+			return new ImmObjFloatPair(a1, a2);
 		}
 
 		public static <T> ImmObjFloatPair<T> copyOf(LObjFloatPair<T> tuple) {
@@ -307,13 +307,13 @@ public interface LObjFloatPair<T> extends LTuple<Object> {
 		private final T first;
 		private final float second;
 
-		public ImmCompObjFloatPair(T first, float second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompObjFloatPair(T a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjFloatPair<T> of(T first, float second) {
-			return new ImmCompObjFloatPair(first, second);
+		public static <T extends Comparable<T>> ImmCompObjFloatPair<T> of(T a1, float a2) {
+			return new ImmCompObjFloatPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> ImmCompObjFloatPair<T> copyOf(LObjFloatPair<T> tuple) {

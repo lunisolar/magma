@@ -69,20 +69,20 @@ public interface LBiObjDoubleTriple<T1, T2> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBiObjDoubleTriple and calculates hash from it. */
-	static <T1, T2> int argHashCode(T1 first, T2 second, double third) {
+	static <T1, T2> int argHashCode(T1 a1, T2 a2, double a3) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + ((second == null) ? 0 : second.hashCode());
-		result = prime * result + Double.hashCode(third);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + ((a2 == null) ? 0 : a2.hashCode());
+		result = prime * result + Double.hashCode(a3);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBiObjDoubleTriple and checks if all values are equal. */
-	static <T1, T2> boolean argEquals(T1 first, T2 second, double third, T1 firstOfOther, T2 secondOfOther, double thirdOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				Null.equals(second, secondOfOther) && //
-				third == thirdOfOther; //
+	static <T1, T2> boolean argEquals(T1 a1, T2 a2, double a3, T1 b1, T2 b2, double b3) {
+		return Null.equals(a1, b1) && //
+				Null.equals(a2, b2) && //
+				a3 == b3; //
 	}
 
 	/**
@@ -90,7 +90,7 @@ public interface LBiObjDoubleTriple<T1, T2> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T1, T2> boolean argEquals(LBiObjDoubleTriple the, Object that) {
+	static boolean argEquals(LBiObjDoubleTriple the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LBiObjDoubleTriple are allowed.
 				if (!(two instanceof LBiObjDoubleTriple)) {
@@ -182,14 +182,14 @@ public interface LBiObjDoubleTriple<T1, T2> extends LTuple<Object> {
 		private T2 second;
 		private double third;
 
-		public MutBiObjDoubleTriple(T1 first, T2 second, double third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public MutBiObjDoubleTriple(T1 a1, T2 a2, double a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static <T1, T2> MutBiObjDoubleTriple<T1, T2> of(T1 first, T2 second, double third) {
-			return new MutBiObjDoubleTriple(first, second, third);
+		public static <T1, T2> MutBiObjDoubleTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
+			return new MutBiObjDoubleTriple(a1, a2, a3);
 		}
 
 		public static <T1, T2> MutBiObjDoubleTriple<T1, T2> copyOf(LBiObjDoubleTriple<T1, T2> tuple) {
@@ -251,14 +251,14 @@ public interface LBiObjDoubleTriple<T1, T2> extends LTuple<Object> {
 		private T2 second;
 		private double third;
 
-		public MutCompBiObjDoubleTriple(T1 first, T2 second, double third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public MutCompBiObjDoubleTriple(T1 a1, T2 a2, double a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> MutCompBiObjDoubleTriple<T1, T2> of(T1 first, T2 second, double third) {
-			return new MutCompBiObjDoubleTriple(first, second, third);
+		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> MutCompBiObjDoubleTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
+			return new MutCompBiObjDoubleTriple(a1, a2, a3);
 		}
 
 		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> MutCompBiObjDoubleTriple<T1, T2> copyOf(LBiObjDoubleTriple<T1, T2> tuple) {
@@ -321,14 +321,14 @@ public interface LBiObjDoubleTriple<T1, T2> extends LTuple<Object> {
 		private final T2 second;
 		private final double third;
 
-		public ImmBiObjDoubleTriple(T1 first, T2 second, double third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public ImmBiObjDoubleTriple(T1 a1, T2 a2, double a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static <T1, T2> ImmBiObjDoubleTriple<T1, T2> of(T1 first, T2 second, double third) {
-			return new ImmBiObjDoubleTriple(first, second, third);
+		public static <T1, T2> ImmBiObjDoubleTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
+			return new ImmBiObjDoubleTriple(a1, a2, a3);
 		}
 
 		public static <T1, T2> ImmBiObjDoubleTriple<T1, T2> copyOf(LBiObjDoubleTriple<T1, T2> tuple) {
@@ -359,14 +359,14 @@ public interface LBiObjDoubleTriple<T1, T2> extends LTuple<Object> {
 		private final T2 second;
 		private final double third;
 
-		public ImmCompBiObjDoubleTriple(T1 first, T2 second, double third) {
-			this.first = first;
-			this.second = second;
-			this.third = third;
+		public ImmCompBiObjDoubleTriple(T1 a1, T2 a2, double a3) {
+			this.first = a1;
+			this.second = a2;
+			this.third = a3;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> ImmCompBiObjDoubleTriple<T1, T2> of(T1 first, T2 second, double third) {
-			return new ImmCompBiObjDoubleTriple(first, second, third);
+		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> ImmCompBiObjDoubleTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
+			return new ImmCompBiObjDoubleTriple(a1, a2, a3);
 		}
 
 		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> ImmCompBiObjDoubleTriple<T1, T2> copyOf(LBiObjDoubleTriple<T1, T2> tuple) {

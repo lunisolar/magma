@@ -72,18 +72,18 @@ public interface LCharPair extends LTuple<Character> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharPair and calculates hash from it. */
-	static int argHashCode(char first, char second) {
+	static int argHashCode(char a1, char a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Character.hashCode(first);
-		result = prime * result + Character.hashCode(second);
+		result = prime * result + Character.hashCode(a1);
+		result = prime * result + Character.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LCharPair and checks if all values are equal. */
-	static boolean argEquals(char first, char second, char firstOfOther, char secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(char a1, char a2, char b1, char b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -144,7 +144,7 @@ public interface LCharPair extends LTuple<Character> {
 		return toVoArray(array);
 	}
 
-	default char[] toCharArray(char[] array, int startingIndex) {
+	default char[] toCharacterArray(char[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -154,14 +154,14 @@ public interface LCharPair extends LTuple<Character> {
 		return array;
 	}
 
-	default char[] toCharArray(char[] array) {
-		return toCharArray(array, 0);
+	default char[] toCharacterArray(char[] array) {
+		return toCharacterArray(array, 0);
 	}
 
-	default char[] toCharArray() {
+	default char[] toCharacterArray() {
 		char[] array = new char[size()];
 
-		return toCharArray(array);
+		return toCharacterArray(array);
 	}
 
 	@Override
@@ -237,13 +237,13 @@ public interface LCharPair extends LTuple<Character> {
 		private char first;
 		private char second;
 
-		public MutCharPair(char first, char second) {
-			this.first = first;
-			this.second = second;
+		public MutCharPair(char a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCharPair of(char first, char second) {
-			return new MutCharPair(first, second);
+		public static MutCharPair of(char a1, char a2) {
+			return new MutCharPair(a1, a2);
 		}
 
 		public static MutCharPair copyOf(LCharPair tuple) {
@@ -290,13 +290,13 @@ public interface LCharPair extends LTuple<Character> {
 		private char first;
 		private char second;
 
-		public MutCompCharPair(char first, char second) {
-			this.first = first;
-			this.second = second;
+		public MutCompCharPair(char a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompCharPair of(char first, char second) {
-			return new MutCompCharPair(first, second);
+		public static MutCompCharPair of(char a1, char a2) {
+			return new MutCompCharPair(a1, a2);
 		}
 
 		public static MutCompCharPair copyOf(LCharPair tuple) {
@@ -344,13 +344,13 @@ public interface LCharPair extends LTuple<Character> {
 		private final char first;
 		private final char second;
 
-		public ImmCharPair(char first, char second) {
-			this.first = first;
-			this.second = second;
+		public ImmCharPair(char a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCharPair of(char first, char second) {
-			return new ImmCharPair(first, second);
+		public static ImmCharPair of(char a1, char a2) {
+			return new ImmCharPair(a1, a2);
 		}
 
 		public static ImmCharPair copyOf(LCharPair tuple) {
@@ -376,13 +376,13 @@ public interface LCharPair extends LTuple<Character> {
 		private final char first;
 		private final char second;
 
-		public ImmCompCharPair(char first, char second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompCharPair(char a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompCharPair of(char first, char second) {
-			return new ImmCompCharPair(first, second);
+		public static ImmCompCharPair of(char a1, char a2) {
+			return new ImmCompCharPair(a1, a2);
 		}
 
 		public static ImmCompCharPair copyOf(LCharPair tuple) {

@@ -72,18 +72,18 @@ public interface LBoolPair extends LTuple<Boolean> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolPair and calculates hash from it. */
-	static int argHashCode(boolean first, boolean second) {
+	static int argHashCode(boolean a1, boolean a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Boolean.hashCode(first);
-		result = prime * result + Boolean.hashCode(second);
+		result = prime * result + Boolean.hashCode(a1);
+		result = prime * result + Boolean.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolPair and checks if all values are equal. */
-	static boolean argEquals(boolean first, boolean second, boolean firstOfOther, boolean secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(boolean a1, boolean a2, boolean b1, boolean b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -144,7 +144,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		return toVoArray(array);
 	}
 
-	default boolean[] toBoolArray(boolean[] array, int startingIndex) {
+	default boolean[] toBooleanArray(boolean[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -154,14 +154,14 @@ public interface LBoolPair extends LTuple<Boolean> {
 		return array;
 	}
 
-	default boolean[] toBoolArray(boolean[] array) {
-		return toBoolArray(array, 0);
+	default boolean[] toBooleanArray(boolean[] array) {
+		return toBooleanArray(array, 0);
 	}
 
-	default boolean[] toBoolArray() {
+	default boolean[] toBooleanArray() {
 		boolean[] array = new boolean[size()];
 
-		return toBoolArray(array);
+		return toBooleanArray(array);
 	}
 
 	@Override
@@ -219,13 +219,13 @@ public interface LBoolPair extends LTuple<Boolean> {
 		private boolean first;
 		private boolean second;
 
-		public MutBoolPair(boolean first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public MutBoolPair(boolean a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutBoolPair of(boolean first, boolean second) {
-			return new MutBoolPair(first, second);
+		public static MutBoolPair of(boolean a1, boolean a2) {
+			return new MutBoolPair(a1, a2);
 		}
 
 		public static MutBoolPair copyOf(LBoolPair tuple) {
@@ -272,13 +272,13 @@ public interface LBoolPair extends LTuple<Boolean> {
 		private boolean first;
 		private boolean second;
 
-		public MutCompBoolPair(boolean first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public MutCompBoolPair(boolean a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompBoolPair of(boolean first, boolean second) {
-			return new MutCompBoolPair(first, second);
+		public static MutCompBoolPair of(boolean a1, boolean a2) {
+			return new MutCompBoolPair(a1, a2);
 		}
 
 		public static MutCompBoolPair copyOf(LBoolPair tuple) {
@@ -326,13 +326,13 @@ public interface LBoolPair extends LTuple<Boolean> {
 		private final boolean first;
 		private final boolean second;
 
-		public ImmBoolPair(boolean first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public ImmBoolPair(boolean a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmBoolPair of(boolean first, boolean second) {
-			return new ImmBoolPair(first, second);
+		public static ImmBoolPair of(boolean a1, boolean a2) {
+			return new ImmBoolPair(a1, a2);
 		}
 
 		public static ImmBoolPair copyOf(LBoolPair tuple) {
@@ -358,13 +358,13 @@ public interface LBoolPair extends LTuple<Boolean> {
 		private final boolean first;
 		private final boolean second;
 
-		public ImmCompBoolPair(boolean first, boolean second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompBoolPair(boolean a1, boolean a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompBoolPair of(boolean first, boolean second) {
-			return new ImmCompBoolPair(first, second);
+		public static ImmCompBoolPair of(boolean a1, boolean a2) {
+			return new ImmCompBoolPair(a1, a2);
 		}
 
 		public static ImmCompBoolPair copyOf(LBoolPair tuple) {

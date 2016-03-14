@@ -61,18 +61,18 @@ public interface LObjLongPair<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjLongPair and calculates hash from it. */
-	static <T> int argHashCode(T first, long second) {
+	static <T> int argHashCode(T a1, long a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + Long.hashCode(second);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + Long.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjLongPair and checks if all values are equal. */
-	static <T> boolean argEquals(T first, long second, T firstOfOther, long secondOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				second == secondOfOther; //
+	static <T> boolean argEquals(T a1, long a2, T b1, long b2) {
+		return Null.equals(a1, b1) && //
+				a2 == b2; //
 	}
 
 	/**
@@ -80,7 +80,7 @@ public interface LObjLongPair<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LObjLongPair the, Object that) {
+	static boolean argEquals(LObjLongPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LObjLongPair are allowed.
 				if (!(two instanceof LObjLongPair)) {
@@ -168,13 +168,13 @@ public interface LObjLongPair<T> extends LTuple<Object> {
 		private T first;
 		private long second;
 
-		public MutObjLongPair(T first, long second) {
-			this.first = first;
-			this.second = second;
+		public MutObjLongPair(T a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> MutObjLongPair<T> of(T first, long second) {
-			return new MutObjLongPair(first, second);
+		public static <T> MutObjLongPair<T> of(T a1, long a2) {
+			return new MutObjLongPair(a1, a2);
 		}
 
 		public static <T> MutObjLongPair<T> copyOf(LObjLongPair<T> tuple) {
@@ -221,13 +221,13 @@ public interface LObjLongPair<T> extends LTuple<Object> {
 		private T first;
 		private long second;
 
-		public MutCompObjLongPair(T first, long second) {
-			this.first = first;
-			this.second = second;
+		public MutCompObjLongPair(T a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjLongPair<T> of(T first, long second) {
-			return new MutCompObjLongPair(first, second);
+		public static <T extends Comparable<T>> MutCompObjLongPair<T> of(T a1, long a2) {
+			return new MutCompObjLongPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> MutCompObjLongPair<T> copyOf(LObjLongPair<T> tuple) {
@@ -275,13 +275,13 @@ public interface LObjLongPair<T> extends LTuple<Object> {
 		private final T first;
 		private final long second;
 
-		public ImmObjLongPair(T first, long second) {
-			this.first = first;
-			this.second = second;
+		public ImmObjLongPair(T a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> ImmObjLongPair<T> of(T first, long second) {
-			return new ImmObjLongPair(first, second);
+		public static <T> ImmObjLongPair<T> of(T a1, long a2) {
+			return new ImmObjLongPair(a1, a2);
 		}
 
 		public static <T> ImmObjLongPair<T> copyOf(LObjLongPair<T> tuple) {
@@ -307,13 +307,13 @@ public interface LObjLongPair<T> extends LTuple<Object> {
 		private final T first;
 		private final long second;
 
-		public ImmCompObjLongPair(T first, long second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompObjLongPair(T a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjLongPair<T> of(T first, long second) {
-			return new ImmCompObjLongPair(first, second);
+		public static <T extends Comparable<T>> ImmCompObjLongPair<T> of(T a1, long a2) {
+			return new ImmCompObjLongPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> ImmCompObjLongPair<T> copyOf(LObjLongPair<T> tuple) {

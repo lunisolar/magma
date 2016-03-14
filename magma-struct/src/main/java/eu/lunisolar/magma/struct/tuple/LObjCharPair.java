@@ -61,18 +61,18 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjCharPair and calculates hash from it. */
-	static <T> int argHashCode(T first, char second) {
+	static <T> int argHashCode(T a1, char a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + Character.hashCode(second);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + Character.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjCharPair and checks if all values are equal. */
-	static <T> boolean argEquals(T first, char second, T firstOfOther, char secondOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				second == secondOfOther; //
+	static <T> boolean argEquals(T a1, char a2, T b1, char b2) {
+		return Null.equals(a1, b1) && //
+				a2 == b2; //
 	}
 
 	/**
@@ -80,7 +80,7 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LObjCharPair the, Object that) {
+	static boolean argEquals(LObjCharPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LObjCharPair are allowed.
 				if (!(two instanceof LObjCharPair)) {
@@ -168,13 +168,13 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 		private T first;
 		private char second;
 
-		public MutObjCharPair(T first, char second) {
-			this.first = first;
-			this.second = second;
+		public MutObjCharPair(T a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> MutObjCharPair<T> of(T first, char second) {
-			return new MutObjCharPair(first, second);
+		public static <T> MutObjCharPair<T> of(T a1, char a2) {
+			return new MutObjCharPair(a1, a2);
 		}
 
 		public static <T> MutObjCharPair<T> copyOf(LObjCharPair<T> tuple) {
@@ -221,13 +221,13 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 		private T first;
 		private char second;
 
-		public MutCompObjCharPair(T first, char second) {
-			this.first = first;
-			this.second = second;
+		public MutCompObjCharPair(T a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjCharPair<T> of(T first, char second) {
-			return new MutCompObjCharPair(first, second);
+		public static <T extends Comparable<T>> MutCompObjCharPair<T> of(T a1, char a2) {
+			return new MutCompObjCharPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> MutCompObjCharPair<T> copyOf(LObjCharPair<T> tuple) {
@@ -275,13 +275,13 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 		private final T first;
 		private final char second;
 
-		public ImmObjCharPair(T first, char second) {
-			this.first = first;
-			this.second = second;
+		public ImmObjCharPair(T a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> ImmObjCharPair<T> of(T first, char second) {
-			return new ImmObjCharPair(first, second);
+		public static <T> ImmObjCharPair<T> of(T a1, char a2) {
+			return new ImmObjCharPair(a1, a2);
 		}
 
 		public static <T> ImmObjCharPair<T> copyOf(LObjCharPair<T> tuple) {
@@ -307,13 +307,13 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 		private final T first;
 		private final char second;
 
-		public ImmCompObjCharPair(T first, char second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompObjCharPair(T a1, char a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjCharPair<T> of(T first, char second) {
-			return new ImmCompObjCharPair(first, second);
+		public static <T extends Comparable<T>> ImmCompObjCharPair<T> of(T a1, char a2) {
+			return new ImmCompObjCharPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> ImmCompObjCharPair<T> copyOf(LObjCharPair<T> tuple) {

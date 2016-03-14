@@ -72,18 +72,18 @@ public interface LLongPair extends LTuple<Long> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongPair and calculates hash from it. */
-	static int argHashCode(long first, long second) {
+	static int argHashCode(long a1, long a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Long.hashCode(first);
-		result = prime * result + Long.hashCode(second);
+		result = prime * result + Long.hashCode(a1);
+		result = prime * result + Long.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LLongPair and checks if all values are equal. */
-	static boolean argEquals(long first, long second, long firstOfOther, long secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(long a1, long a2, long b1, long b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -237,13 +237,13 @@ public interface LLongPair extends LTuple<Long> {
 		private long first;
 		private long second;
 
-		public MutLongPair(long first, long second) {
-			this.first = first;
-			this.second = second;
+		public MutLongPair(long a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutLongPair of(long first, long second) {
-			return new MutLongPair(first, second);
+		public static MutLongPair of(long a1, long a2) {
+			return new MutLongPair(a1, a2);
 		}
 
 		public static MutLongPair copyOf(LLongPair tuple) {
@@ -290,13 +290,13 @@ public interface LLongPair extends LTuple<Long> {
 		private long first;
 		private long second;
 
-		public MutCompLongPair(long first, long second) {
-			this.first = first;
-			this.second = second;
+		public MutCompLongPair(long a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompLongPair of(long first, long second) {
-			return new MutCompLongPair(first, second);
+		public static MutCompLongPair of(long a1, long a2) {
+			return new MutCompLongPair(a1, a2);
 		}
 
 		public static MutCompLongPair copyOf(LLongPair tuple) {
@@ -344,13 +344,13 @@ public interface LLongPair extends LTuple<Long> {
 		private final long first;
 		private final long second;
 
-		public ImmLongPair(long first, long second) {
-			this.first = first;
-			this.second = second;
+		public ImmLongPair(long a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmLongPair of(long first, long second) {
-			return new ImmLongPair(first, second);
+		public static ImmLongPair of(long a1, long a2) {
+			return new ImmLongPair(a1, a2);
 		}
 
 		public static ImmLongPair copyOf(LLongPair tuple) {
@@ -376,13 +376,13 @@ public interface LLongPair extends LTuple<Long> {
 		private final long first;
 		private final long second;
 
-		public ImmCompLongPair(long first, long second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompLongPair(long a1, long a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompLongPair of(long first, long second) {
-			return new ImmCompLongPair(first, second);
+		public static ImmCompLongPair of(long a1, long a2) {
+			return new ImmCompLongPair(a1, a2);
 		}
 
 		public static ImmCompLongPair copyOf(LLongPair tuple) {

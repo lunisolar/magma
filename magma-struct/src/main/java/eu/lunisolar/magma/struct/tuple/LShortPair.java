@@ -72,18 +72,18 @@ public interface LShortPair extends LTuple<Short> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LShortPair and calculates hash from it. */
-	static int argHashCode(short first, short second) {
+	static int argHashCode(short a1, short a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Short.hashCode(first);
-		result = prime * result + Short.hashCode(second);
+		result = prime * result + Short.hashCode(a1);
+		result = prime * result + Short.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LShortPair and checks if all values are equal. */
-	static boolean argEquals(short first, short second, short firstOfOther, short secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(short a1, short a2, short b1, short b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -237,13 +237,13 @@ public interface LShortPair extends LTuple<Short> {
 		private short first;
 		private short second;
 
-		public MutShortPair(short first, short second) {
-			this.first = first;
-			this.second = second;
+		public MutShortPair(short a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutShortPair of(short first, short second) {
-			return new MutShortPair(first, second);
+		public static MutShortPair of(short a1, short a2) {
+			return new MutShortPair(a1, a2);
 		}
 
 		public static MutShortPair copyOf(LShortPair tuple) {
@@ -290,13 +290,13 @@ public interface LShortPair extends LTuple<Short> {
 		private short first;
 		private short second;
 
-		public MutCompShortPair(short first, short second) {
-			this.first = first;
-			this.second = second;
+		public MutCompShortPair(short a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompShortPair of(short first, short second) {
-			return new MutCompShortPair(first, second);
+		public static MutCompShortPair of(short a1, short a2) {
+			return new MutCompShortPair(a1, a2);
 		}
 
 		public static MutCompShortPair copyOf(LShortPair tuple) {
@@ -344,13 +344,13 @@ public interface LShortPair extends LTuple<Short> {
 		private final short first;
 		private final short second;
 
-		public ImmShortPair(short first, short second) {
-			this.first = first;
-			this.second = second;
+		public ImmShortPair(short a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmShortPair of(short first, short second) {
-			return new ImmShortPair(first, second);
+		public static ImmShortPair of(short a1, short a2) {
+			return new ImmShortPair(a1, a2);
 		}
 
 		public static ImmShortPair copyOf(LShortPair tuple) {
@@ -376,13 +376,13 @@ public interface LShortPair extends LTuple<Short> {
 		private final short first;
 		private final short second;
 
-		public ImmCompShortPair(short first, short second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompShortPair(short a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompShortPair of(short first, short second) {
-			return new ImmCompShortPair(first, second);
+		public static ImmCompShortPair of(short a1, short a2) {
+			return new ImmCompShortPair(a1, a2);
 		}
 
 		public static ImmCompShortPair copyOf(LShortPair tuple) {

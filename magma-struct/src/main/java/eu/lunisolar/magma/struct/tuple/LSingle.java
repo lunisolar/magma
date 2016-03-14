@@ -28,7 +28,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LSingle<T> extends LTuple<Object> {
+public interface LSingle<T> extends LTuple<T> {
 
 	int SIZE = 1;
 
@@ -38,7 +38,7 @@ public interface LSingle<T> extends LTuple<Object> {
 		return first();
 	}
 
-	default Object get(int index) {
+	default T get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -53,16 +53,16 @@ public interface LSingle<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSingle and calculates hash from it. */
-	static <T> int argHashCode(T first) {
+	static <T> int argHashCode(T a1) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LSingle and checks if all values are equal. */
-	static <T> boolean argEquals(T first, T firstOfOther) {
-		return Null.equals(first, firstOfOther); //
+	static <T> boolean argEquals(T a1, T b1) {
+		return Null.equals(a1, b1); //
 	}
 
 	/**
@@ -70,7 +70,7 @@ public interface LSingle<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LSingle the, Object that) {
+	static boolean argEquals(LSingle the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LSingle are allowed.
 				if (!(two instanceof LSingle)) {
@@ -102,8 +102,8 @@ public interface LSingle<T> extends LTuple<Object> {
 	}
 
 	@Override
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	default Iterator<T> iterator() {
+		return new Iterator<T>() {
 
 			private int index;
 
@@ -113,7 +113,7 @@ public interface LSingle<T> extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public T next() {
 				index++;
 				return get(index);
 			}
@@ -154,12 +154,12 @@ public interface LSingle<T> extends LTuple<Object> {
 
 		private T first;
 
-		public MutSingle(T first) {
-			this.first = first;
+		public MutSingle(T a1) {
+			this.first = a1;
 		}
 
-		public static <T> MutSingle<T> of(T first) {
-			return new MutSingle(first);
+		public static <T> MutSingle<T> of(T a1) {
+			return new MutSingle(a1);
 		}
 
 		public static <T> MutSingle<T> copyOf(LSingle<T> tuple) {
@@ -191,12 +191,12 @@ public interface LSingle<T> extends LTuple<Object> {
 
 		private T first;
 
-		public MutCompSingle(T first) {
-			this.first = first;
+		public MutCompSingle(T a1) {
+			this.first = a1;
 		}
 
-		public static <T extends Comparable<T>> MutCompSingle<T> of(T first) {
-			return new MutCompSingle(first);
+		public static <T extends Comparable<T>> MutCompSingle<T> of(T a1) {
+			return new MutCompSingle(a1);
 		}
 
 		public static <T extends Comparable<T>> MutCompSingle<T> copyOf(LSingle<T> tuple) {
@@ -229,12 +229,12 @@ public interface LSingle<T> extends LTuple<Object> {
 
 		private final T first;
 
-		public ImmSingle(T first) {
-			this.first = first;
+		public ImmSingle(T a1) {
+			this.first = a1;
 		}
 
-		public static <T> ImmSingle<T> of(T first) {
-			return new ImmSingle(first);
+		public static <T> ImmSingle<T> of(T a1) {
+			return new ImmSingle(a1);
 		}
 
 		public static <T> ImmSingle<T> copyOf(LSingle<T> tuple) {
@@ -255,12 +255,12 @@ public interface LSingle<T> extends LTuple<Object> {
 
 		private final T first;
 
-		public ImmCompSingle(T first) {
-			this.first = first;
+		public ImmCompSingle(T a1) {
+			this.first = a1;
 		}
 
-		public static <T extends Comparable<T>> ImmCompSingle<T> of(T first) {
-			return new ImmCompSingle(first);
+		public static <T extends Comparable<T>> ImmCompSingle<T> of(T a1) {
+			return new ImmCompSingle(a1);
 		}
 
 		public static <T extends Comparable<T>> ImmCompSingle<T> copyOf(LSingle<T> tuple) {

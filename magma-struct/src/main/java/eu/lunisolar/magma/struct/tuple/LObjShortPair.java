@@ -61,18 +61,18 @@ public interface LObjShortPair<T> extends LTuple<Object> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjShortPair and calculates hash from it. */
-	static <T> int argHashCode(T first, short second) {
+	static <T> int argHashCode(T a1, short a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + Short.hashCode(second);
+		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + Short.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LObjShortPair and checks if all values are equal. */
-	static <T> boolean argEquals(T first, short second, T firstOfOther, short secondOfOther) {
-		return Null.equals(first, firstOfOther) && //
-				second == secondOfOther; //
+	static <T> boolean argEquals(T a1, short a2, T b1, short b2) {
+		return Null.equals(a1, b1) && //
+				a2 == b2; //
 	}
 
 	/**
@@ -80,7 +80,7 @@ public interface LObjShortPair<T> extends LTuple<Object> {
 	 *
 	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
 	 */
-	static <T> boolean argEquals(LObjShortPair the, Object that) {
+	static boolean argEquals(LObjShortPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			// Intentionally all implementations of LObjShortPair are allowed.
 				if (!(two instanceof LObjShortPair)) {
@@ -168,13 +168,13 @@ public interface LObjShortPair<T> extends LTuple<Object> {
 		private T first;
 		private short second;
 
-		public MutObjShortPair(T first, short second) {
-			this.first = first;
-			this.second = second;
+		public MutObjShortPair(T a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> MutObjShortPair<T> of(T first, short second) {
-			return new MutObjShortPair(first, second);
+		public static <T> MutObjShortPair<T> of(T a1, short a2) {
+			return new MutObjShortPair(a1, a2);
 		}
 
 		public static <T> MutObjShortPair<T> copyOf(LObjShortPair<T> tuple) {
@@ -221,13 +221,13 @@ public interface LObjShortPair<T> extends LTuple<Object> {
 		private T first;
 		private short second;
 
-		public MutCompObjShortPair(T first, short second) {
-			this.first = first;
-			this.second = second;
+		public MutCompObjShortPair(T a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjShortPair<T> of(T first, short second) {
-			return new MutCompObjShortPair(first, second);
+		public static <T extends Comparable<T>> MutCompObjShortPair<T> of(T a1, short a2) {
+			return new MutCompObjShortPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> MutCompObjShortPair<T> copyOf(LObjShortPair<T> tuple) {
@@ -275,13 +275,13 @@ public interface LObjShortPair<T> extends LTuple<Object> {
 		private final T first;
 		private final short second;
 
-		public ImmObjShortPair(T first, short second) {
-			this.first = first;
-			this.second = second;
+		public ImmObjShortPair(T a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T> ImmObjShortPair<T> of(T first, short second) {
-			return new ImmObjShortPair(first, second);
+		public static <T> ImmObjShortPair<T> of(T a1, short a2) {
+			return new ImmObjShortPair(a1, a2);
 		}
 
 		public static <T> ImmObjShortPair<T> copyOf(LObjShortPair<T> tuple) {
@@ -307,13 +307,13 @@ public interface LObjShortPair<T> extends LTuple<Object> {
 		private final T first;
 		private final short second;
 
-		public ImmCompObjShortPair(T first, short second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompObjShortPair(T a1, short a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjShortPair<T> of(T first, short second) {
-			return new ImmCompObjShortPair(first, second);
+		public static <T extends Comparable<T>> ImmCompObjShortPair<T> of(T a1, short a2) {
+			return new ImmCompObjShortPair(a1, a2);
 		}
 
 		public static <T extends Comparable<T>> ImmCompObjShortPair<T> copyOf(LObjShortPair<T> tuple) {

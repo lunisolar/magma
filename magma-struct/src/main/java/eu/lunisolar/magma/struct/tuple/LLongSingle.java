@@ -62,16 +62,16 @@ public interface LLongSingle extends LTuple<Long> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongSingle and calculates hash from it. */
-	static int argHashCode(long first) {
+	static int argHashCode(long a1) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Long.hashCode(first);
+		result = prime * result + Long.hashCode(a1);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LLongSingle and checks if all values are equal. */
-	static boolean argEquals(long first, long firstOfOther) {
-		return first == firstOfOther; //
+	static boolean argEquals(long a1, long b1) {
+		return a1 == b1; //
 	}
 
 	/**
@@ -225,7 +225,7 @@ public interface LLongSingle extends LTuple<Long> {
 
 		@Override
 		public long longValue() {
-			return first();
+			return (long) first();
 		}
 
 		@Override
@@ -246,12 +246,12 @@ public interface LLongSingle extends LTuple<Long> {
 
 		private long first;
 
-		public MutLongSingle(long first) {
-			this.first = first;
+		public MutLongSingle(long a1) {
+			this.first = a1;
 		}
 
-		public static MutLongSingle of(long first) {
-			return new MutLongSingle(first);
+		public static MutLongSingle of(long a1) {
+			return new MutLongSingle(a1);
 		}
 
 		public static MutLongSingle copyOf(LLongSingle tuple) {
@@ -283,12 +283,12 @@ public interface LLongSingle extends LTuple<Long> {
 
 		private long first;
 
-		public MutCompLongSingle(long first) {
-			this.first = first;
+		public MutCompLongSingle(long a1) {
+			this.first = a1;
 		}
 
-		public static MutCompLongSingle of(long first) {
-			return new MutCompLongSingle(first);
+		public static MutCompLongSingle of(long a1) {
+			return new MutCompLongSingle(a1);
 		}
 
 		public static MutCompLongSingle copyOf(LLongSingle tuple) {
@@ -321,12 +321,12 @@ public interface LLongSingle extends LTuple<Long> {
 
 		private final long first;
 
-		public ImmLongSingle(long first) {
-			this.first = first;
+		public ImmLongSingle(long a1) {
+			this.first = a1;
 		}
 
-		public static ImmLongSingle of(long first) {
-			return new ImmLongSingle(first);
+		public static ImmLongSingle of(long a1) {
+			return new ImmLongSingle(a1);
 		}
 
 		public static ImmLongSingle copyOf(LLongSingle tuple) {
@@ -347,12 +347,12 @@ public interface LLongSingle extends LTuple<Long> {
 
 		private final long first;
 
-		public ImmCompLongSingle(long first) {
-			this.first = first;
+		public ImmCompLongSingle(long a1) {
+			this.first = a1;
 		}
 
-		public static ImmCompLongSingle of(long first) {
-			return new ImmCompLongSingle(first);
+		public static ImmCompLongSingle of(long a1) {
+			return new ImmCompLongSingle(a1);
 		}
 
 		public static ImmCompLongSingle copyOf(LLongSingle tuple) {

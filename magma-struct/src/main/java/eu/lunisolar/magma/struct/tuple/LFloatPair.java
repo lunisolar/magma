@@ -72,18 +72,18 @@ public interface LFloatPair extends LTuple<Float> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFloatPair and calculates hash from it. */
-	static int argHashCode(float first, float second) {
+	static int argHashCode(float a1, float a2) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Float.hashCode(first);
-		result = prime * result + Float.hashCode(second);
+		result = prime * result + Float.hashCode(a1);
+		result = prime * result + Float.hashCode(a2);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LFloatPair and checks if all values are equal. */
-	static boolean argEquals(float first, float second, float firstOfOther, float secondOfOther) {
-		return first == firstOfOther && //
-				second == secondOfOther; //
+	static boolean argEquals(float a1, float a2, float b1, float b2) {
+		return a1 == b1 && //
+				a2 == b2; //
 	}
 
 	/**
@@ -237,13 +237,13 @@ public interface LFloatPair extends LTuple<Float> {
 		private float first;
 		private float second;
 
-		public MutFloatPair(float first, float second) {
-			this.first = first;
-			this.second = second;
+		public MutFloatPair(float a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutFloatPair of(float first, float second) {
-			return new MutFloatPair(first, second);
+		public static MutFloatPair of(float a1, float a2) {
+			return new MutFloatPair(a1, a2);
 		}
 
 		public static MutFloatPair copyOf(LFloatPair tuple) {
@@ -290,13 +290,13 @@ public interface LFloatPair extends LTuple<Float> {
 		private float first;
 		private float second;
 
-		public MutCompFloatPair(float first, float second) {
-			this.first = first;
-			this.second = second;
+		public MutCompFloatPair(float a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static MutCompFloatPair of(float first, float second) {
-			return new MutCompFloatPair(first, second);
+		public static MutCompFloatPair of(float a1, float a2) {
+			return new MutCompFloatPair(a1, a2);
 		}
 
 		public static MutCompFloatPair copyOf(LFloatPair tuple) {
@@ -344,13 +344,13 @@ public interface LFloatPair extends LTuple<Float> {
 		private final float first;
 		private final float second;
 
-		public ImmFloatPair(float first, float second) {
-			this.first = first;
-			this.second = second;
+		public ImmFloatPair(float a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmFloatPair of(float first, float second) {
-			return new ImmFloatPair(first, second);
+		public static ImmFloatPair of(float a1, float a2) {
+			return new ImmFloatPair(a1, a2);
 		}
 
 		public static ImmFloatPair copyOf(LFloatPair tuple) {
@@ -376,13 +376,13 @@ public interface LFloatPair extends LTuple<Float> {
 		private final float first;
 		private final float second;
 
-		public ImmCompFloatPair(float first, float second) {
-			this.first = first;
-			this.second = second;
+		public ImmCompFloatPair(float a1, float a2) {
+			this.first = a1;
+			this.second = a2;
 		}
 
-		public static ImmCompFloatPair of(float first, float second) {
-			return new ImmCompFloatPair(first, second);
+		public static ImmCompFloatPair of(float a1, float a2) {
+			return new ImmCompFloatPair(a1, a2);
 		}
 
 		public static ImmCompFloatPair copyOf(LFloatPair tuple) {

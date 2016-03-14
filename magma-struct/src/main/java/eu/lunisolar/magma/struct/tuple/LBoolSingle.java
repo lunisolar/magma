@@ -62,16 +62,16 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolSingle and calculates hash from it. */
-	static int argHashCode(boolean first) {
+	static int argHashCode(boolean a1) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Boolean.hashCode(first);
+		result = prime * result + Boolean.hashCode(a1);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolSingle and checks if all values are equal. */
-	static boolean argEquals(boolean first, boolean firstOfOther) {
-		return first == firstOfOther; //
+	static boolean argEquals(boolean a1, boolean b1) {
+		return a1 == b1; //
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		return toVoArray(array);
 	}
 
-	default boolean[] toBoolArray(boolean[] array, int startingIndex) {
+	default boolean[] toBooleanArray(boolean[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -136,14 +136,14 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		return array;
 	}
 
-	default boolean[] toBoolArray(boolean[] array) {
-		return toBoolArray(array, 0);
+	default boolean[] toBooleanArray(boolean[] array) {
+		return toBooleanArray(array, 0);
 	}
 
-	default boolean[] toBoolArray() {
+	default boolean[] toBooleanArray() {
 		boolean[] array = new boolean[size()];
 
-		return toBoolArray(array);
+		return toBooleanArray(array);
 	}
 
 	@Override
@@ -199,12 +199,12 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 		private boolean first;
 
-		public MutBoolSingle(boolean first) {
-			this.first = first;
+		public MutBoolSingle(boolean a1) {
+			this.first = a1;
 		}
 
-		public static MutBoolSingle of(boolean first) {
-			return new MutBoolSingle(first);
+		public static MutBoolSingle of(boolean a1) {
+			return new MutBoolSingle(a1);
 		}
 
 		public static MutBoolSingle copyOf(LBoolSingle tuple) {
@@ -236,12 +236,12 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 		private boolean first;
 
-		public MutCompBoolSingle(boolean first) {
-			this.first = first;
+		public MutCompBoolSingle(boolean a1) {
+			this.first = a1;
 		}
 
-		public static MutCompBoolSingle of(boolean first) {
-			return new MutCompBoolSingle(first);
+		public static MutCompBoolSingle of(boolean a1) {
+			return new MutCompBoolSingle(a1);
 		}
 
 		public static MutCompBoolSingle copyOf(LBoolSingle tuple) {
@@ -274,12 +274,12 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 		private final boolean first;
 
-		public ImmBoolSingle(boolean first) {
-			this.first = first;
+		public ImmBoolSingle(boolean a1) {
+			this.first = a1;
 		}
 
-		public static ImmBoolSingle of(boolean first) {
-			return new ImmBoolSingle(first);
+		public static ImmBoolSingle of(boolean a1) {
+			return new ImmBoolSingle(a1);
 		}
 
 		public static ImmBoolSingle copyOf(LBoolSingle tuple) {
@@ -300,12 +300,12 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 		private final boolean first;
 
-		public ImmCompBoolSingle(boolean first) {
-			this.first = first;
+		public ImmCompBoolSingle(boolean a1) {
+			this.first = a1;
 		}
 
-		public static ImmCompBoolSingle of(boolean first) {
-			return new ImmCompBoolSingle(first);
+		public static ImmCompBoolSingle of(boolean a1) {
+			return new ImmCompBoolSingle(a1);
 		}
 
 		public static ImmCompBoolSingle copyOf(LBoolSingle tuple) {
