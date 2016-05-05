@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
 /**
  * LAction is a replacement for Runnable.
@@ -156,7 +157,7 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 
 	// <editor-fold desc="andThen (consumer/action)">
 
-	/** Combines two actions together in a order. */
+	/** Combines two LAction together in a order. */
 	@Nonnull
 	default LAction andThen(@Nonnull LAction after) {
 		Null.nonNullArg(after, "after");

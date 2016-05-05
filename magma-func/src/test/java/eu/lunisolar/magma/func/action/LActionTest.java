@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LActionTest<X extends ParseException> {
@@ -67,8 +68,8 @@ public class LActionTest<X extends ParseException> {
         }
     };
 
-    private LActionX<X> opposite = new LActionX(){
-        public  void doExecute() throws ParseException {
+    private LActionX<X> opposite = new LActionX<X>(){
+        public  void doExecute()  throws X {
             Function4U.doNothing();
         }
     };
@@ -78,7 +79,7 @@ public class LActionTest<X extends ParseException> {
 
 
 
-    private LAction sutAlwaysThrowingUnckeck = LAction.l(() -> {
+    private LActionX<RuntimeException> sutAlwaysThrowingUnchecked = LAction.l(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -96,11 +97,11 @@ public class LActionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoExecuteUnckeck() throws X {
+    public void testNestingDoExecuteUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoExecute();
+            sutAlwaysThrowingUnchecked.nestingDoExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -111,11 +112,11 @@ public class LActionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoExecuteUnckeck() throws X {
+    public void testShovingDoExecuteUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoExecute();
+            sutAlwaysThrowingUnchecked.shovingDoExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -134,7 +135,7 @@ public class LActionTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LAction.l(() -> Function4U.doNothing() ))
+        assertThat(LAction.l(Function4U::doNothing))
             .isInstanceOf(LAction.class);
     }
 
@@ -196,7 +197,7 @@ public class LActionTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoExecuteMethodWrapsTheException() throws X {
 
         // given
         LAction sutThrowing = LAction.l(() -> {
@@ -220,7 +221,7 @@ public class LActionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleActMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LAction sutThrowing = LAction.l(() -> {
@@ -244,7 +245,7 @@ public class LActionTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleActMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LAction sutThrowing = LAction.l(() -> {
@@ -269,7 +270,7 @@ public class LActionTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleActMishandlingExceptionIsAllowed() throws X {
 
         // given
         LAction sutThrowing = LAction.l(() -> {
