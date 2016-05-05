@@ -104,7 +104,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	}
 
 	/** For convenience, boolean operator is also special case of predicate. */
-	default boolean test(boolean a1) throws X {
+	default boolean doTest(boolean a1) throws X {
 		return doApply(a1);
 	}
 

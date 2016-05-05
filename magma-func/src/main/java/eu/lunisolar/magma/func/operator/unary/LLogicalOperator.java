@@ -88,7 +88,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/** For convenience, boolean operator is also special case of predicate. */
-	default boolean test(boolean a1) {
+	default boolean doTest(boolean a1) {
 		return doApply(a1);
 	}
 
