@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.predicate;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiBytePredicate for Java 8.
@@ -68,7 +68,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 
 	boolean doTest(byte a1, byte a2);
 
-	default Boolean tupleTest(LBytePair args) {
+	default boolean tupleTest(LBytePair args) {
 		return doTest(args.first(), args.second());
 	}
 
@@ -156,7 +156,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::alwaysFalse). */
 	@Nonnull
 	static LBiBytePredicate safe() {
 		return Function4U::alwaysFalse;
@@ -236,8 +236,8 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LBiBytePredicate isEqual(final byte v1, final byte v2) {
-		return (a1, a2) -> (a1 == v1) && (a2 == v2);
+	static LBiBytePredicate isEqual(byte v1, byte v2) {
+		return (byte a1, byte a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
@@ -249,7 +249,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	default LBiBytePredicate biBytePredComposeByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final byte v1, final byte v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (byte v1, byte v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -264,7 +264,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LBiByteFunction<V> boolToBiByteFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
@@ -305,11 +305,11 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	@FunctionalInterface
 	interface V1 extends LBiBytePredicate {
 
-		boolean apply1(byte a2, byte a1);
+		boolean doTestV1(byte a2, byte a1);
 
 		@Override
 		default boolean doTest(byte a1, byte a2) {
-			return this.apply1(a2, a1);
+			return this.doTestV1(a2, a1);
 		}
 	}
 

@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.predicate;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiObjBoolPredicate for Java 8.
@@ -68,7 +68,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 
 	boolean doTest(T1 a1, T2 a2, boolean a3);
 
-	default Boolean tupleTest(LBiObjBoolTriple<T1, T2> args) {
+	default boolean tupleTest(LBiObjBoolTriple<T1, T2> args) {
 		return doTest(args.first(), args.second(), args.third());
 	}
 
@@ -190,7 +190,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::alwaysFalse). */
 	@Nonnull
 	static <T1, T2> LBiObjBoolPredicate<T1, T2> safe() {
 		return Function4U::alwaysFalse;
@@ -270,8 +270,8 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static <T1, T2> LBiObjBoolPredicate<T1, T2> isEqual(final T1 v1, final T2 v2, final boolean v3) {
-		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
+	static <T1, T2> LBiObjBoolPredicate<T1, T2> isEqual(T1 v1, T2 v2, boolean v3) {
+		return (T1 a1, T2 a2, boolean a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
 	}
 
 	// </editor-fold>
@@ -280,11 +280,11 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjBoolPredicate<V1, V2> biObjBoolPredComposeBoolean(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLogicalOperator before3) {
+	default <V1, V2> LBiObjBoolPredicate<V1, V2> biObjBoolPredComposeBool(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLogicalOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final boolean v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (V1 v1, V2 v2, boolean v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -300,7 +300,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LBiObjBoolFunction<T1, T2, V> boolToBiObjBoolFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
@@ -341,35 +341,35 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 	@FunctionalInterface
 	interface V1<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean apply1(T1 a1, boolean a3, T2 a2);
+		boolean doTestV1(T1 a1, boolean a3, T2 a2);
 
 		@Override
 		default boolean doTest(T1 a1, T2 a2, boolean a3) {
-			return this.apply1(a1, a3, a2);
+			return this.doTestV1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface V2<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
+	interface V2<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean apply2(T2 a2, T1 a1, boolean a3);
+		boolean doTestV2(T2 a2, T1 a1, boolean a3);
 
 		@Override
 		default boolean doTest(T1 a1, T2 a2, boolean a3) {
-			return this.apply2(a2, a1, a3);
+			return this.doTestV2(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface V3<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
+	interface V3<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean apply3(T2 a2, boolean a3, T1 a1);
+		boolean doTestV3(T2 a2, boolean a3, T1 a1);
 
 		@Override
 		default boolean doTest(T1 a1, T2 a2, boolean a3) {
-			return this.apply3(a2, a3, a1);
+			return this.doTestV3(a2, a3, a1);
 		}
 	}
 
@@ -377,23 +377,23 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 	@FunctionalInterface
 	interface V4<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean apply4(boolean a3, T1 a1, T2 a2);
+		boolean doTestV4(boolean a3, T1 a1, T2 a2);
 
 		@Override
 		default boolean doTest(T1 a1, T2 a2, boolean a3) {
-			return this.apply4(a3, a1, a2);
+			return this.doTestV4(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface V5<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
+	interface V5<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean apply5(boolean a3, T2 a2, T1 a1);
+		boolean doTestV5(boolean a3, T2 a2, T1 a1);
 
 		@Override
 		default boolean doTest(T1 a1, T2 a2, boolean a3) {
-			return this.apply5(a3, a2, a1);
+			return this.doTestV5(a3, a2, a1);
 		}
 	}
 

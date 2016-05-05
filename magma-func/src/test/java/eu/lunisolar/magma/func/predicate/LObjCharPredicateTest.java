@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LObjCharPredicateTest<T,X extends ParseException> {
@@ -63,14 +64,14 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
 
 
-    private LObjCharPredicate<T> sut = new LObjCharPredicate(){
-        public  boolean doTest(Object a1,char a2)  {
+    private LObjCharPredicate<Integer> sut = new LObjCharPredicate<Integer>(){
+        public  boolean doTest(Integer a1,char a2)  {
             return testValue;
         }
     };
 
-    private LObjCharPredicateX<T,X> opposite = new LObjCharPredicateX(){
-        public  boolean doTest(Object a1,char a2) throws ParseException {
+    private LObjCharPredicateX<Integer,X> opposite = new LObjCharPredicateX<Integer,X>(){
+        public  boolean doTest(Integer a1,char a2)  throws X {
             return testValue;
         }
     };
@@ -78,21 +79,21 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
 
 
-    private LObjCharPredicate<T> sutAlwaysThrowingUnckeck = LObjCharPredicate.l((T a1,char a2) -> {
+    private LObjCharPredicateX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LObjCharPredicate.l((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doTest((T)Integer.valueOf(100),(char)100))
+        assertThat(sut.doTest(100,'\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LObjCharPair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(char)100);
+        LObjCharPair<Integer> domainObject = Tuple4U.lObjCharPair(100,'\u0100');
 
         Object result = sut.tupleTest(domainObject);
 
@@ -102,16 +103,16 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
     @Test
     public void testNonNullDoTest() throws X {
-        assertThat(sut.nonNullDoTest((T)Integer.valueOf(100),(char)100))
+        assertThat(sut.nonNullDoTest(100,'\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnckeck() throws X {
+    public void testNestingDoTestUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoTest((T)Integer.valueOf(100),(char)100);
+            sutAlwaysThrowingUnchecked.nestingDoTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -122,11 +123,11 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTestUnckeck() throws X {
+    public void testShovingDoTestUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoTest((T)Integer.valueOf(100),(char)100);
+            sutAlwaysThrowingUnchecked.shovingDoTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -138,7 +139,7 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
-        assertThat(sut.doApplyAsBoolean((T)Integer.valueOf(100),(char)100))
+        assertThat(sut.doApplyAsBoolean(100,'\u0100'))
             .isEqualTo(testValue);
 
     }
@@ -152,7 +153,7 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LObjCharPredicate.l((Object a1,char a2) -> testValue ))
+        assertThat(LObjCharPredicate.l((a1,a2) -> testValue ))
             .isInstanceOf(LObjCharPredicate.class);
     }
 
@@ -165,16 +166,16 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LObjCharPredicateX<T,X> sutThrowing = LObjCharPredicateX.lX((T a1,char a2) -> {
+        LObjCharPredicateX<Integer,X> sutThrowing = LObjCharPredicateX.lX((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LObjCharPredicate<T> wrapped = LObjCharPredicate.wrap(sutThrowing);
+        LObjCharPredicate<Integer> wrapped = LObjCharPredicate.wrap(sutThrowing);
 
         // then
         try {
-            wrapped.doTest((T)Integer.valueOf(100),(char)100);
+            wrapped.doTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -187,16 +188,16 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LObjCharPredicateX<T,ParseException> sutThrowing = LObjCharPredicateX.lX((T a1,char a2) -> {
+        LObjCharPredicateX<Integer,ParseException> sutThrowing = LObjCharPredicateX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LObjCharPredicate<T> wrapped = LObjCharPredicate.wrap(sutThrowing);
+        LObjCharPredicate<Integer> wrapped = LObjCharPredicate.wrap(sutThrowing);
 
         // then
         try {
-            wrapped.doTest((T)Integer.valueOf(100),(char)100);
+            wrapped.doTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -208,20 +209,20 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoTestMethodWrapsTheException() throws X {
 
         // given
-        LObjCharPredicate<T> sutThrowing = LObjCharPredicate.l((T a1,char a2) -> {
+        LObjCharPredicate<Integer> sutThrowing = LObjCharPredicate.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LObjCharPredicate<T> wrapped = sutThrowing.handleObjCharPred(handler -> handler
+        LObjCharPredicate<Integer> wrapped = sutThrowing.handleObjCharPred(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doTest((T)Integer.valueOf(100),(char)100);
+            wrapped.doTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -232,21 +233,21 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleObjCharPredMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LObjCharPredicate<T> sutThrowing = LObjCharPredicate.l((T a1,char a2) -> {
+        LObjCharPredicate<Integer> sutThrowing = LObjCharPredicate.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjCharPredicate<T> wrapped = sutThrowing.handleObjCharPred(handler -> handler
+        LObjCharPredicate<Integer> wrapped = sutThrowing.handleObjCharPred(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doTest((T)Integer.valueOf(100),(char)100);
+            wrapped.doTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -256,21 +257,21 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleObjCharPredMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LObjCharPredicate<T> sutThrowing = LObjCharPredicate.l((T a1,char a2) -> {
+        LObjCharPredicate<Integer> sutThrowing = LObjCharPredicate.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjCharPredicate<T> wrapped = sutThrowing.handleObjCharPred(handler -> handler
+        LObjCharPredicate<Integer> wrapped = sutThrowing.handleObjCharPred(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doTest((T)Integer.valueOf(100),(char)100);
+            wrapped.doTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -281,19 +282,19 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleObjCharPredMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LObjCharPredicate<T> sutThrowing = LObjCharPredicate.l((T a1,char a2) -> {
+        LObjCharPredicate<Integer> sutThrowing = LObjCharPredicate.l((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LObjCharPredicate<T> wrapped = sutThrowing.handleObjCharPred(h -> Function4U.doNothing());
+        LObjCharPredicate<Integer> wrapped = sutThrowing.handleObjCharPred(h -> Function4U.doNothing());
 
         // then
         try {
-            wrapped.doTest((T)Integer.valueOf(100),(char)100);
+            wrapped.doTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -305,7 +306,7 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
     @Test
     public void testnegate() throws X {
-        assertThat(sut.negate().doTest((T)Integer.valueOf(100),(char)100))
+        assertThat(sut.negate().doTest(100,'\u0100'))
             .isEqualTo(!testValue);
     }
 
@@ -324,35 +325,35 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LObjCharPredicate<T> fun1 = LObjCharPredicate.l((T a1,char a2) -> f1Result);
-        LObjCharPredicate<T> fun2 = LObjCharPredicate.l((T a1,char a2) -> f2Result);
+        LObjCharPredicate<Integer> fun1 = LObjCharPredicate.l((a1,a2) -> f1Result);
+        LObjCharPredicate<Integer> fun2 = LObjCharPredicate.l((a1,a2) -> f2Result);
 
         //when
-        LObjCharPredicate<T> andFunction = fun1.and(fun2);
-        LObjCharPredicate<T> orFunction = fun1.or(fun2);
-        LObjCharPredicate<T> xorFunction = fun1.xor(fun2);
+        LObjCharPredicate<Integer> andFunction = fun1.and(fun2);
+        LObjCharPredicate<Integer> orFunction = fun1.or(fun2);
+        LObjCharPredicate<Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest((T)Integer.valueOf(100),(char)100))
+        assertThat(andFunction.doTest(100,'\u0100'))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest((T)Integer.valueOf(100),(char)100))
+        assertThat(orFunction.doTest(100,'\u0100'))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest((T)Integer.valueOf(100),(char)100))
+        assertThat(xorFunction.doTest(100,'\u0100'))
                 .isEqualTo(xorResult);
     }
 
     @Test
-    public void isEqual() throws X  {
+    public void testIsEqual() throws X  {
         //when
-        LObjCharPredicate<T> equals = LObjCharPredicate.isEqual((T)Integer.valueOf(100),(char)100);
+        LObjCharPredicate<Integer> equals = LObjCharPredicate.isEqual(1,'\u0001');
 
         //then
-        assertThat(equals.doTest((T)Integer.valueOf(100),(char)100))
+        assertThat(equals.doTest(1,'\u0001'))
                 .isTrue();
 
-        assertThat(equals.doTest((T)Integer.valueOf(0),(char)0))
+        assertThat(equals.doTest(0,'\u0000'))
                 .isFalse();
     }
 
@@ -361,33 +362,33 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjCharPredComposeChar() throws X {
+    public void testObjCharPredComposeChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjCharPredicate<Integer > sutO = (Integer a1,char a2) -> {
+        LObjCharPredicate<Integer> sutO = (Integer a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((char)91);
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo('\u0091');
                 return true;
         };
 
-        LFunction<Integer ,Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo((T)Integer.valueOf(80));
+        LFunction<Integer,Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LCharUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((char)81);
+            assertThat(p1).isEqualTo('\u0081');
             beforeCalls.incrementAndGet();
-            return (char)91;
+            return '\u0091';
         };
 
         //when
-        LObjCharPredicate<Integer > function = sutO.objCharPredComposeChar(before1,before2);
-        function.doTest((Integer )Integer.valueOf(80),(char)81);
+        LObjCharPredicate<Integer> function = sutO.objCharPredComposeChar(before1,before2);
+        function.doTest(80,'\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -396,33 +397,33 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjCharPredCompose() throws X {
+    public void testObjCharPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjCharPredicate<Integer > sutO = (Integer a1,char a2) -> {
+        LObjCharPredicate<Integer> sutO = (Integer a1,char a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((char)91);
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo('\u0091');
                 return true;
         };
 
-        LFunction<Integer ,Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LFunction<Integer,Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LToCharFunction<Integer > before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LToCharFunction<Integer> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
-            return (char)91;
+            return '\u0091';
         };
 
         //when
-        LBiPredicate<Integer ,Integer > function = sutO.objCharPredCompose(before1,before2);
-        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiPredicate<Integer,Integer> function = sutO.objCharPredCompose(before1,before2);
+        function.doTest(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -432,37 +433,37 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     // </editor-fold>
 
 
+
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testBoolToObjCharFunction0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LObjCharPredicate<Integer > sutO = (Integer a1,char a2) -> {
+        LObjCharPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((char)81);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo('\u0081');
                 return true;
         };
 
-        LBoolFunction<Integer > thenFunction = p -> {
+        LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                return 100;
         };
 
         //when
-        LObjCharFunction<Integer ,Integer > function = sutO.boolToObjCharFunction(thenFunction);
-        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(char)81);
+        LObjCharFunction<Integer,Integer> function = sutO.boolToObjCharFunction(thenFunction);
+        Integer finalValue = function.doApply(80,'\u0081');
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -504,30 +505,30 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LObjCharPredicate<T> sutThrowing = LObjCharPredicate.l((T a1,char a2) -> {
+        LObjCharPredicate<Integer> sutThrowing = LObjCharPredicate.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingObjCharPred().doTest((T)Integer.valueOf(100),(char)100);
+        sutThrowing.shovingObjCharPred().doTest(100,'\u0100');
     }
 
     @Test
     public void testHandleObjCharPred() throws X {
 
         // given
-        LObjCharPredicate<T> sutThrowing = LObjCharPredicate.l((T a1,char a2) -> {
+        LObjCharPredicate<Integer> sutThrowing = LObjCharPredicate.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LObjCharPredicate<T> wrapped = sutThrowing.handleObjCharPred(h -> {
+        LObjCharPredicate<Integer> wrapped = sutThrowing.handleObjCharPred(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
         try {
-            wrapped.doTest((T)Integer.valueOf(100),(char)100);
+            wrapped.doTest(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -558,13 +559,13 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variant1(char a2,T a1) {
+    private boolean variantV1(char a2,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LObjCharPredicate lambda = LObjCharPredicate./*<T>*/l1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LObjCharPredicate lambda = LObjCharPredicate./*<T>*/l1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LObjCharPredicate.V1.class);
     }
@@ -588,7 +589,7 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     }
 
     @Test  void safeSupplierPropagates() {
-        LSupplier<LObjCharPredicate<T>> supplier = ()->sut;
+        LSupplier<LObjCharPredicate<Integer>> supplier = ()->sut;
         Object result = LObjCharPredicate.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -599,7 +600,7 @@ public class LObjCharPredicateTest<T,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LObjCharPredicate<T>> r1 = LObjCharPredicate.safeSupplier(()->sut);  //NOSONAR
+        LSupplier<LObjCharPredicate<Integer>> r1 = LObjCharPredicate.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

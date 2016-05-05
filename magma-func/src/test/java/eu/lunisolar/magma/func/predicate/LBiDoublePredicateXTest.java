@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBiDoublePredicateXTest<X extends ParseException> {
@@ -63,8 +64,8 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
 
-    private LBiDoublePredicateX<X> sut = new LBiDoublePredicateX(){
-        public  boolean doTest(double a1,double a2) throws ParseException {
+    private LBiDoublePredicateX<X> sut = new LBiDoublePredicateX<X>(){
+        public  boolean doTest(double a1,double a2)  throws X {
             return testValue;
         }
     };
@@ -77,25 +78,25 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
 
-    private LBiDoublePredicateX<ParseException> sutAlwaysThrowing = LBiDoublePredicateX.lX((double a1,double a2) -> {
+    private LBiDoublePredicateX<ParseException> sutAlwaysThrowing = LBiDoublePredicateX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBiDoublePredicateX<RuntimeException> sutAlwaysThrowingUnckeck = LBiDoublePredicateX.lX((double a1,double a2) -> {
+    private LBiDoublePredicateX<RuntimeException> sutAlwaysThrowingUnchecked = LBiDoublePredicateX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doTest((double)100,(double)100))
+        assertThat(sut.doTest(100d,100d))
             .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LDoublePair domainObject = Tuple4U.tuple((double)100,(double)100);
+        LDoublePair domainObject = Tuple4U.lDoublePair(100d,100d);
 
         Object result = sut.tupleTest(domainObject);
 
@@ -105,7 +106,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
     @Test
     public void testNonNullDoTest() throws X {
-        assertThat(sut.nonNullDoTest((double)100,(double)100))
+        assertThat(sut.nonNullDoTest(100d,100d))
             .isEqualTo(testValue);
     }
 
@@ -114,7 +115,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoTest((double)100,(double)100);
+            sutAlwaysThrowing.nestingDoTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -125,11 +126,11 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTestUnckeck() throws X {
+    public void testNestingDoTestUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoTest((double)100,(double)100);
+            sutAlwaysThrowingUnchecked.nestingDoTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -144,7 +145,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoTest((double)100,(double)100);
+            sutAlwaysThrowing.shovingDoTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -155,11 +156,11 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTestUnckeck() throws X {
+    public void testShovingDoTestUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoTest((double)100,(double)100);
+            sutAlwaysThrowingUnchecked.shovingDoTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -171,7 +172,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
-        assertThat(sut.doApplyAsBoolean((double)100,(double)100))
+        assertThat(sut.doApplyAsBoolean(100d,100d))
             .isEqualTo(testValue);
 
     }
@@ -185,7 +186,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBiDoublePredicateX.lX((double a1,double a2) -> testValue ))
+        assertThat(LBiDoublePredicateX.lX((a1,a2) -> testValue ))
             .isInstanceOf(LBiDoublePredicateX.class);
     }
 
@@ -197,20 +198,20 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoTestMethodWrapsTheException() throws X {
 
         // given
-        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBiDoublePredicateX<X> wrapped = sutThrowing.handleBiDoublePredX(handler -> handler
+        LBiDoublePredicateX<RuntimeException> wrapped = sutThrowing.handleBiDoublePredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doTest((double)100,(double)100);
+            wrapped.doTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -221,10 +222,10 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBiDoublePredXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -235,7 +236,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doTest((double)100,(double)100);
+            wrapped.doTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -245,10 +246,10 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBiDoublePredXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -259,7 +260,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doTest((double)100,(double)100);
+            wrapped.doTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -270,10 +271,10 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBiDoublePredXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((a1,a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -282,7 +283,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doTest((double)100,(double)100);
+            wrapped.doTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -294,7 +295,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
     @Test
     public void testnegate() throws X {
-        assertThat(sut.negate().doTest((double)100,(double)100))
+        assertThat(sut.negate().doTest(100d,100d))
             .isEqualTo(!testValue);
     }
 
@@ -313,8 +314,8 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LBiDoublePredicateX<X> fun1 = LBiDoublePredicateX.lX((double a1,double a2) -> f1Result);
-        LBiDoublePredicateX<X> fun2 = LBiDoublePredicateX.lX((double a1,double a2) -> f2Result);
+        LBiDoublePredicateX<X> fun1 = LBiDoublePredicateX.lX((a1,a2) -> f1Result);
+        LBiDoublePredicateX<X> fun2 = LBiDoublePredicateX.lX((a1,a2) -> f2Result);
 
         //when
         LBiDoublePredicateX<X> andFunction = fun1.and(fun2);
@@ -322,26 +323,26 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
         LBiDoublePredicateX<X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest((double)100,(double)100))
+        assertThat(andFunction.doTest(100d,100d))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest((double)100,(double)100))
+        assertThat(orFunction.doTest(100d,100d))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest((double)100,(double)100))
+        assertThat(xorFunction.doTest(100d,100d))
                 .isEqualTo(xorResult);
     }
 
     @Test
-    public void isEqual() throws X  {
+    public void testIsEqual() throws X  {
         //when
-        LBiDoublePredicateX<X> equals = LBiDoublePredicateX.isEqual((double)100,(double)100);
+        LBiDoublePredicateX<X> equals = LBiDoublePredicateX.isEqual(1d,1d);
 
         //then
-        assertThat(equals.doTest((double)100,(double)100))
+        assertThat(equals.doTest(1d,1d))
                 .isTrue();
 
-        assertThat(equals.doTest((double)0,(double)0))
+        assertThat(equals.doTest(0d,0d))
                 .isFalse();
     }
 
@@ -350,7 +351,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiDoublePredComposeDouble() throws X {
+    public void testBiDoublePredComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -358,25 +359,25 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
         //given (+ some assertions)
         LBiDoublePredicateX<X> sutO = (double a1,double a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)90);
-                assertThat(a2).isEqualTo((double)91);
+                assertThat(a1).isEqualTo(90d);
+                assertThat(a2).isEqualTo(91d);
                 return true;
         };
 
         LDoubleUnaryOperatorX<X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((double)80);
+            assertThat(p0).isEqualTo(80d);
             beforeCalls.incrementAndGet();
-            return (double)90;
+            return 90d;
         };
         LDoubleUnaryOperatorX<X> before2 = p1 -> {
-            assertThat(p1).isEqualTo((double)81);
+            assertThat(p1).isEqualTo(81d);
             beforeCalls.incrementAndGet();
-            return (double)91;
+            return 91d;
         };
 
         //when
         LBiDoublePredicateX<X> function = sutO.biDoublePredComposeDouble(before1,before2);
-        function.doTest((double)80,(double)81);
+        function.doTest(80d,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -385,7 +386,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testbiDoublePredCompose() throws X {
+    public void testBiDoublePredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -393,25 +394,25 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
         //given (+ some assertions)
         LBiDoublePredicateX<X> sutO = (double a1,double a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)90);
-                assertThat(a2).isEqualTo((double)91);
+                assertThat(a1).isEqualTo(90d);
+                assertThat(a2).isEqualTo(91d);
                 return true;
         };
 
-        LToDoubleFunctionX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToDoubleFunctionX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (double)90;
+            return 90d;
         };
-        LToDoubleFunctionX<Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LToDoubleFunctionX<Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
-            return (double)91;
+            return 91d;
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.biDoublePredCompose(before1,before2);
-        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiPredicateX<Integer,Integer,X> function = sutO.biDoublePredCompose(before1,before2);
+        function.doTest(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -421,37 +422,37 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     // </editor-fold>
 
 
+
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testBoolToBiDoubleFunction0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LBiDoublePredicateX<X> sutO = (double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)80);
-                assertThat(a2).isEqualTo((double)81);
+                assertThat(a1).isEqualTo(80d);
+                assertThat(a2).isEqualTo(81d);
                 return true;
         };
 
-        LBoolFunctionX<Integer ,X> thenFunction = p -> {
+        LBoolFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                return 100;
         };
 
         //when
-        LBiDoubleFunctionX<Integer ,X> function = sutO.boolToBiDoubleFunction(thenFunction);
-        Integer  finalValue = function.doApply((double)80,(double)81);
+        LBiDoubleFunctionX<Integer,X> function = sutO.boolToBiDoubleFunction(thenFunction);
+        Integer finalValue = function.doApply(80d,81d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -489,19 +490,19 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingBiDoublePred().doTest((double)100,(double)100);
+        sutThrowing.shovingBiDoublePred().doTest(100d,100d);
     }
 
     @Test
     public void testHandleBiDoublePred() throws X {
 
         // given
-        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -512,7 +513,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doTest((double)100,(double)100);
+            wrapped.doTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -543,13 +544,13 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variant1(double a2,double a1) {
+    private boolean variantV1(double a2,double a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LBiDoublePredicateX lambda = LBiDoublePredicateX./*<X>*/lX1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LBiDoublePredicateX lambda = LBiDoublePredicateX./*<X>*/lX1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LBiDoublePredicateX.V1.class);
     }

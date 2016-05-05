@@ -49,7 +49,7 @@
         <!-- test -->
         <testNg-version>[6.9.6,7.0)</testNg-version>
         <jmockit.version>[1.14, 2.0)</jmockit.version>
-        <assertj-core.version>[3.0.0,]</assertj-core.version>
+        <assertj-core.version>[3.3.0,]</assertj-core.version>
 
     </properties>
 

@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBiPredicateXTest<T1,T2,X extends ParseException> {
@@ -63,41 +64,41 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
 
 
-    private LBiPredicateX<T1,T2,X> sut = new LBiPredicateX(){
-        public  boolean doTest(Object a1,Object a2) throws ParseException {
+    private LBiPredicateX<Integer,Integer,X> sut = new LBiPredicateX<Integer,Integer,X>(){
+        public  boolean doTest(Integer a1,Integer a2)  throws X {
             return testValue;
         }
     };
 
-    private LBiPredicate<T1,T2> opposite = new LBiPredicate(){
-        public  boolean doTest(Object a1,Object a2)  {
+    private LBiPredicate<Integer,Integer> opposite = new LBiPredicate<Integer,Integer>(){
+        public  boolean doTest(Integer a1,Integer a2)  {
             return testValue;
         }
     };
 
 
-    private BiPredicate jre = (Object a1,Object a2) -> testValue;
+    private BiPredicate<Integer,Integer> jre = (a1,a2) -> testValue;
 
 
-    private LBiPredicateX<T1,T2,ParseException> sutAlwaysThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+    private LBiPredicateX<Integer,Integer,ParseException> sutAlwaysThrowing = LBiPredicateX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBiPredicateX<T1,T2,RuntimeException> sutAlwaysThrowingUnckeck = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+    private LBiPredicateX<Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LBiPredicateX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doTest(100,100))
             .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LPair<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        LPair<Integer,Integer> domainObject = Tuple4U.lPair(100,100);
 
         Object result = sut.tupleTest(domainObject);
 
@@ -107,7 +108,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testNonNullDoTest() throws X {
-        assertThat(sut.nonNullDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.nonNullDoTest(100,100))
             .isEqualTo(testValue);
     }
 
@@ -116,7 +117,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            sutAlwaysThrowing.nestingDoTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +128,11 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTestUnckeck() throws X {
+    public void testNestingDoTestUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            sutAlwaysThrowingUnchecked.nestingDoTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +147,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            sutAlwaysThrowing.shovingDoTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,11 +158,11 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTestUnckeck() throws X {
+    public void testShovingDoTestUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            sutAlwaysThrowingUnchecked.shovingDoTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -173,7 +174,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
-        assertThat(sut.doApplyAsBoolean((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsBoolean(100,100))
             .isEqualTo(testValue);
 
     }
@@ -187,7 +188,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBiPredicateX.lX((Object a1,Object a2) -> testValue ))
+        assertThat(LBiPredicateX.lX((a1,a2) -> testValue ))
             .isInstanceOf(LBiPredicateX.class);
     }
 
@@ -205,20 +206,20 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoTestMethodWrapsTheException() throws X {
 
         // given
-        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutThrowing = LBiPredicateX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBiPredicateX<T1,T2,X> wrapped = sutThrowing.handleBiPredX(handler -> handler
+        LBiPredicateX<Integer,Integer,RuntimeException> wrapped = sutThrowing.handleBiPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -229,21 +230,21 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBiPredXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutThrowing = LBiPredicateX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LBiPredicateX<T1,T2,X> wrapped = sutThrowing.handleBiPredX(handler -> handler
+        LBiPredicateX<Integer,Integer,X> wrapped = sutThrowing.handleBiPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -253,21 +254,21 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBiPredXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutThrowing = LBiPredicateX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LBiPredicateX<T1,T2,X> wrapped = sutThrowing.handleBiPredX(handler -> handler
+        LBiPredicateX<Integer,Integer,X> wrapped = sutThrowing.handleBiPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -278,19 +279,19 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBiPredXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutThrowing = LBiPredicateX.lX((a1,a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LBiPredicateX<T1,T2,X> wrapped = sutThrowing.handleBiPredX(h -> Function4U.doNothing());
+        LBiPredicateX<Integer,Integer,X> wrapped = sutThrowing.handleBiPredX(h -> Function4U.doNothing());
 
         // then
         try {
-            wrapped.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -302,7 +303,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testnegate() throws X {
-        assertThat(sut.negate().doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.negate().doTest(100,100))
             .isEqualTo(!testValue);
     }
 
@@ -321,35 +322,35 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LBiPredicateX<T1,T2,X> fun1 = LBiPredicateX.lX((T1 a1,T2 a2) -> f1Result);
-        LBiPredicateX<T1,T2,X> fun2 = LBiPredicateX.lX((T1 a1,T2 a2) -> f2Result);
+        LBiPredicateX<Integer,Integer,X> fun1 = LBiPredicateX.lX((a1,a2) -> f1Result);
+        LBiPredicateX<Integer,Integer,X> fun2 = LBiPredicateX.lX((a1,a2) -> f2Result);
 
         //when
-        LBiPredicateX<T1,T2,X> andFunction = fun1.and(fun2);
-        LBiPredicateX<T1,T2,X> orFunction = fun1.or(fun2);
-        LBiPredicateX<T1,T2,X> xorFunction = fun1.xor(fun2);
+        LBiPredicateX<Integer,Integer,X> andFunction = fun1.and(fun2);
+        LBiPredicateX<Integer,Integer,X> orFunction = fun1.or(fun2);
+        LBiPredicateX<Integer,Integer,X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(andFunction.doTest(100,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(orFunction.doTest(100,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(xorFunction.doTest(100,100))
                 .isEqualTo(xorResult);
     }
 
     @Test
-    public void isEqual() throws X  {
+    public void testIsEqual() throws X  {
         //when
-        LBiPredicateX<T1,T2,X> equals = LBiPredicateX.isEqual((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        LBiPredicateX<Integer,Integer,X> equals = LBiPredicateX.isEqual(1,1);
 
         //then
-        assertThat(equals.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(equals.doTest(1,1))
                 .isTrue();
 
-        assertThat(equals.doTest((T1)Integer.valueOf(0),(T2)Integer.valueOf(0)))
+        assertThat(equals.doTest(0,0))
                 .isFalse();
     }
 
@@ -358,33 +359,33 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiPredCompose() throws X {
+    public void testBiPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiPredicateX<Integer ,Integer ,X> sutO = (Integer a1,Integer a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutO = (Integer a1,Integer a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91);
                 return true;
         };
 
-        LFunctionX<Integer ,Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((T1)Integer.valueOf(80));
+        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LFunctionX<Integer ,Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo((T2)Integer.valueOf(81));
+        LFunctionX<Integer,Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return 91;
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.biPredCompose(before1,before2);
-        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiPredicateX<Integer,Integer,X> function = sutO.biPredCompose(before1,before2);
+        function.doTest(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -394,37 +395,37 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     // </editor-fold>
 
 
+
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testBoolToBiFunction0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LBiPredicateX<Integer ,Integer ,X> sutO = (Integer a1,Integer a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
                 return true;
         };
 
-        LBoolFunctionX<Integer ,X> thenFunction = p -> {
+        LBoolFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                return 100;
         };
 
         //when
-        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.boolToBiFunction(thenFunction);
-        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiFunctionX<Integer,Integer,Integer,X> function = sutO.boolToBiFunction(thenFunction);
+        Integer finalValue = function.doApply(80,81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -462,30 +463,30 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutThrowing = LBiPredicateX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingBiPred().doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shovingBiPred().doTest(100,100);
     }
 
     @Test
     public void testHandleBiPred() throws X {
 
         // given
-        LBiPredicateX<T1,T2,X> sutThrowing = LBiPredicateX.lX((T1 a1,T2 a2) -> {
+        LBiPredicateX<Integer,Integer,X> sutThrowing = LBiPredicateX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBiPredicateX<T1,T2,X> wrapped = sutThrowing.handleBiPredX(h -> {
+        LBiPredicateX<Integer,Integer,X> wrapped = sutThrowing.handleBiPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
         try {
-            wrapped.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -516,13 +517,13 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variant1(T2 a2,T1 a1) {
+    private boolean variantV1(Integer a2,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LBiPredicateX lambda = LBiPredicateX./*<T1,T2,X>*/lX1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LBiPredicateX lambda = LBiPredicateX./*<T1,T2,X>*/lX1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LBiPredicateX.V1.class);
     }
@@ -546,7 +547,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierPropagates() {
-        LSupplierX<LBiPredicateX<T1,T2,X>,Y> supplier = ()->sut;
+        LSupplierX<LBiPredicateX<Integer,Integer,X>,Y> supplier = ()->sut;
         Object result = LBiPredicateX.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -557,8 +558,8 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBiPredicateX<T1,T2,X>,Y> r1 = LBiPredicateX.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LBiPredicateX<T1,T2,X>> r2 = LBiPredicateX.safeSupplier(()->sut); //NOSONAR
+        LSupplierX<LBiPredicateX<Integer,Integer,X>,Y> r1 = LBiPredicateX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LBiPredicateX<Integer,Integer,X>> r2 = LBiPredicateX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

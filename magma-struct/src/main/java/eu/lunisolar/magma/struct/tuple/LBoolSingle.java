@@ -128,7 +128,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		return toVoArray(array);
 	}
 
-	default boolean[] toBooleanArray(boolean[] array, int startingIndex) {
+	default boolean[] toBoolArray(boolean[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -136,14 +136,14 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		return array;
 	}
 
-	default boolean[] toBooleanArray(boolean[] array) {
-		return toBooleanArray(array, 0);
+	default boolean[] toBoolArray(boolean[] array) {
+		return toBoolArray(array, 0);
 	}
 
-	default boolean[] toBooleanArray() {
+	default boolean[] toBoolArray() {
 		boolean[] array = new boolean[size()];
 
-		return toBooleanArray(array);
+		return toBoolArray(array);
 	}
 
 	@Override

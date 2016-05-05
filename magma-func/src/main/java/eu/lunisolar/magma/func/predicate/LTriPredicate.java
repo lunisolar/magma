@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.predicate;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LTriPredicate for Java 8.
@@ -68,7 +68,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	boolean doTest(T1 a1, T2 a2, T3 a3);
 
-	default Boolean tupleTest(LTriple<T1, T2, T3> args) {
+	default boolean tupleTest(LTriple<T1, T2, T3> args) {
 		return doTest(args.first(), args.second(), args.third());
 	}
 
@@ -134,6 +134,45 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T3, T2> V1<T1, T3, T2> l1(final @Nonnull V1<T1, T3, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, T3> V2<T2, T1, T3> l2(final @Nonnull V2<T2, T1, T3> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T3, T1> V3<T2, T3, T1> l3(final @Nonnull V3<T2, T3, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T3, T1, T2> V4<T3, T1, T2> l4(final @Nonnull V4<T3, T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T3, T2, T1> V5<T3, T2, T1> l5(final @Nonnull V5<T3, T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2, T3> boolean call(T1 a1, T2 a2, T3 a3, final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doTest(a1, a2, a3);
@@ -151,7 +190,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::alwaysFalse). */
 	@Nonnull
 	static <T1, T2, T3> LTriPredicate<T1, T2, T3> safe() {
 		return Function4U::alwaysFalse;
@@ -231,8 +270,8 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static <T1, T2, T3> LTriPredicate<T1, T2, T3> isEqual(final T1 v1, final T2 v2, final T3 v3) {
-		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == null ? v3 == null : a3.equals(v3));
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> isEqual(T1 v1, T2 v2, T3 v3) {
+		return (T1 a1, T2 a2, T3 a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == null ? v3 == null : a3.equals(v3));
 	}
 
 	// </editor-fold>
@@ -245,14 +284,14 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LTriFunction<T1, T2, T3, V> boolToTriFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
@@ -283,6 +322,70 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriPredicateX<T1, T2, T3, RuntimeException> shovingTriPredX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LTriPredicate for method references. */
+	@FunctionalInterface
+	interface V1<T1, T3, T2> extends LTriPredicate<T1, T2, T3> {
+
+		boolean doTestV1(T1 a1, T3 a3, T2 a2);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, T3 a3) {
+			return this.doTestV1(a1, a3, a2);
+		}
+	}
+
+	/** Permutation of LTriPredicate for method references. */
+	@FunctionalInterface
+	interface V2<T2, T1, T3> extends LTriPredicate<T1, T2, T3> {
+
+		boolean doTestV2(T2 a2, T1 a1, T3 a3);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, T3 a3) {
+			return this.doTestV2(a2, a1, a3);
+		}
+	}
+
+	/** Permutation of LTriPredicate for method references. */
+	@FunctionalInterface
+	interface V3<T2, T3, T1> extends LTriPredicate<T1, T2, T3> {
+
+		boolean doTestV3(T2 a2, T3 a3, T1 a1);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, T3 a3) {
+			return this.doTestV3(a2, a3, a1);
+		}
+	}
+
+	/** Permutation of LTriPredicate for method references. */
+	@FunctionalInterface
+	interface V4<T3, T1, T2> extends LTriPredicate<T1, T2, T3> {
+
+		boolean doTestV4(T3 a3, T1 a1, T2 a2);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, T3 a3) {
+			return this.doTestV4(a3, a1, a2);
+		}
+	}
+
+	/** Permutation of LTriPredicate for method references. */
+	@FunctionalInterface
+	interface V5<T3, T2, T1> extends LTriPredicate<T1, T2, T3> {
+
+		boolean doTestV5(T3 a3, T2 a2, T1 a1);
+
+		@Override
+		default boolean doTest(T1 a1, T2 a2, T3 a3) {
+			return this.doTestV5(a3, a2, a1);
+		}
 	}
 
 	// </editor-fold>

@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.predicate;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBytePredicateX for Java 8.
@@ -68,7 +68,7 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Met
 
 	boolean doTest(byte a1) throws X;
 
-	default Boolean tupleTest(LByteSingle args) throws X {
+	default boolean tupleTest(LByteSingle args) throws X {
 		return doTest(args.first());
 	}
 
@@ -171,7 +171,7 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::alwaysFalse). */
 	@Nonnull
 	static <X extends Throwable> LBytePredicateX<X> safe() {
 		return Function4U::alwaysFalse;
@@ -251,8 +251,8 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Met
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static <X extends Throwable> LBytePredicateX<X> isEqual(byte target) {
-		return a1 -> a1 == target;
+	static <X extends Throwable> LBytePredicateX<X> isEqual(byte target1) {
+		return a1 -> a1 == target1;
 	}
 
 	// </editor-fold>
@@ -277,63 +277,63 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Met
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LByteFunctionX<V, X> boolToByteFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApply(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperatorX<X> boolToByteUnaryOperator(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsByte(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunctionX<X> boolToByteToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsShort(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunctionX<X> boolToByteToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsInt(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunctionX<X> boolToByteToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsLong(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunctionX<X> boolToByteToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsFloat(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunctionX<X> boolToByteToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsDouble(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunctionX<X> boolToByteToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsChar(this.doTest(a1));
 	}
 
-	/** Combines two predicates together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicateX<X> boolToBytePredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");

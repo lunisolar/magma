@@ -144,7 +144,7 @@ public interface LCharPair extends LTuple<Character> {
 		return toVoArray(array);
 	}
 
-	default char[] toCharacterArray(char[] array, int startingIndex) {
+	default char[] toCharArray(char[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -154,14 +154,14 @@ public interface LCharPair extends LTuple<Character> {
 		return array;
 	}
 
-	default char[] toCharacterArray(char[] array) {
-		return toCharacterArray(array, 0);
+	default char[] toCharArray(char[] array) {
+		return toCharArray(array, 0);
 	}
 
-	default char[] toCharacterArray() {
+	default char[] toCharArray() {
 		char[] array = new char[size()];
 
-		return toCharacterArray(array);
+		return toCharArray(array);
 	}
 
 	@Override

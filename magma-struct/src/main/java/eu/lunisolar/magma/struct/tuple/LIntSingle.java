@@ -128,7 +128,7 @@ public interface LIntSingle extends LTuple<Integer> {
 		return toVoArray(array);
 	}
 
-	default int[] toIntegerArray(int[] array, int startingIndex) {
+	default int[] toIntArray(int[] array, int startingIndex) {
 		int i = startingIndex;
 
 		array[i] = first();
@@ -136,14 +136,14 @@ public interface LIntSingle extends LTuple<Integer> {
 		return array;
 	}
 
-	default int[] toIntegerArray(int[] array) {
-		return toIntegerArray(array, 0);
+	default int[] toIntArray(int[] array) {
+		return toIntArray(array, 0);
 	}
 
-	default int[] toIntegerArray() {
+	default int[] toIntArray() {
 		int[] array = new int[size()];
 
-		return toIntegerArray(array);
+		return toIntArray(array);
 	}
 
 	@Override
