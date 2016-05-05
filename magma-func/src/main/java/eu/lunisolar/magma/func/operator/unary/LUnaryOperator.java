@@ -62,22 +62,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing, LFunction<T, T> { // NOSONAR
 
 	String DESCRIPTION = "LUnaryOperator: T doApply(T a1)";
-
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LUnaryOperator interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
-	default T apply(T a1) {
-		return this.nestingDoApply(a1);
-	}
-
-	@Nullable
-	T doApply(T a1);
 
 	default T tupleApply(LSingle<T> args) {
 		return doApply(args.first());

@@ -62,12 +62,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing, LTriFunction<T, T, T, T> { // NOSONAR
 
 	String DESCRIPTION = "LTernaryOperator: T doApply(T a1,T a2,T a3)";
-
-	@Nullable
-	T doApply(T a1, T a2, T a3);
 
 	default T tupleApply(LTriple<T, T, T> args) {
 		return doApply(args.first(), args.second(), args.third());

@@ -62,22 +62,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBinaryOperatorX<T, X extends Throwable> extends BinaryOperator<T>, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
+public interface LBinaryOperatorX<T, X extends Throwable> extends BinaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LBiFunctionX<T, T, T, X> { // NOSONAR
 
 	String DESCRIPTION = "LBinaryOperatorX: T doApply(T a1,T a2) throws X";
-
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LBinaryOperatorX interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
-	default T apply(T a1, T a2) {
-		return this.nestingDoApply(a1, a2);
-	}
-
-	@Nullable
-	T doApply(T a1, T a2) throws X;
 
 	default T tupleApply(LPair<T, T> args) throws X {
 		return doApply(args.first(), args.second());
