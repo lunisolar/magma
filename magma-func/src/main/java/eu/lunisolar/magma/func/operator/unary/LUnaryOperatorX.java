@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.operator.unary;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LUnaryOperatorX for Java 8.
@@ -62,9 +62,22 @@ import java.util.function.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LFunctionX<T, T, X> { // NOSONAR
+public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
 	String DESCRIPTION = "LUnaryOperatorX: T doApply(T a1) throws X";
+
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LUnaryOperatorX interface should be discouraged.
+	 */
+	@Override
+	@Deprecated
+	default T apply(T a1) {
+		return this.nestingDoApply(a1);
+	}
+
+	@Nullable
+	T doApply(T a1) throws X;
 
 	default T tupleApply(LSingle<T> args) throws X {
 		return doApply(args.first());
@@ -172,7 +185,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produce). */
 	@Nonnull
 	static <T, X extends Throwable> LUnaryOperatorX<T, X> safe() {
 		return Function4U::produce;
@@ -208,63 +221,63 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends UnaryOperator<T
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApply(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LToByteFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsByte(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LToShortFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsShort(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LToIntFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsInt(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LToLongFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsLong(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LToFloatFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsFloat(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LToDoubleFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsDouble(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LToCharFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsChar(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBool(@Nonnull LPredicateX<? super T, X> after) {
 		Null.nonNullArg(after, "after");

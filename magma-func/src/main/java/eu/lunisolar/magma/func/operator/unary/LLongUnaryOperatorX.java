@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.operator.unary;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LLongUnaryOperatorX for Java 8.
@@ -78,7 +78,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 
 	long doApplyAsLong(long a1) throws X;
 
-	default Long tupleApplyAsLong(LLongSingle args) throws X {
+	default long tupleApplyAsLong(LLongSingle args) throws X {
 		return doApplyAsLong(args.first());
 	}
 
@@ -181,7 +181,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produceLong). */
 	@Nonnull
 	static <X extends Throwable> LLongUnaryOperatorX<X> safe() {
 		return Function4U::produceLong;
@@ -235,63 +235,63 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LLongFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApply(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsByte(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsShort(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsInt(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsLong(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsFloat(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsDouble(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsChar(this.doApplyAsLong(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> thenToBool(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");

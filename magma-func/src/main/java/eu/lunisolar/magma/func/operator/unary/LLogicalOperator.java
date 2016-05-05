@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.operator.unary;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LLogicalOperator for Java 8.
@@ -68,7 +68,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	boolean doApply(boolean a1);
 
-	default Boolean tupleApply(LBoolSingle args) {
+	default boolean tupleApply(LBoolSingle args) {
 		return doApply(args.first());
 	}
 
@@ -88,7 +88,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/** For convenience, boolean operator is also special case of predicate. */
-	default boolean doTest(boolean a1) {
+	default boolean test(boolean a1) {
 		return doApply(a1);
 	}
 
@@ -132,7 +132,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produceBoolean). */
 	@Nonnull
 	static LLogicalOperator safe() {
 		return Function4U::produceBoolean;
@@ -212,8 +212,8 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LLogicalOperator isEqual(boolean target) {
-		return a1 -> a1 == target;
+	static LLogicalOperator isEqual(boolean target1) {
+		return a1 -> a1 == target1;
 	}
 
 	// </editor-fold>
@@ -222,7 +222,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalOperator logicalOpComposeBoolean(@Nonnull final LLogicalOperator before1) {
+	default LLogicalOperator logicalOpComposeBool(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
@@ -238,63 +238,63 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApply(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToByteFunction thenToByte(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsByte(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToShortFunction thenToShort(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsShort(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToIntFunction thenToInt(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsInt(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToLongFunction thenToLong(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsLong(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToFloatFunction thenToFloat(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsFloat(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToDoubleFunction thenToDouble(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsDouble(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToCharFunction thenToChar(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return a1 -> after.doApplyAsChar(this.doApply(a1));
 	}
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLogicalOperator thenToBool(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
@@ -302,6 +302,12 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	// </editor-fold>
+
+	/** Returns a function that always returns its input argument. */
+	@Nonnull
+	static LLogicalOperator identity() {
+		return t -> t;
+	}
 
 	// <editor-fold desc="variant conversions">
 

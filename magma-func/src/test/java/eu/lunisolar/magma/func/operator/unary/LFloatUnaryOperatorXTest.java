@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LFloatUnaryOperatorXTest<X extends ParseException> {
@@ -59,12 +60,12 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
-    private float testValue = (float)100;
+    private float testValue = 100f;
 
 
 
-    private LFloatUnaryOperatorX<X> sut = new LFloatUnaryOperatorX(){
-        public  float doApplyAsFloat(float a1) throws ParseException {
+    private LFloatUnaryOperatorX<X> sut = new LFloatUnaryOperatorX<X>(){
+        public  float doApplyAsFloat(float a1)  throws X {
             return testValue;
         }
     };
@@ -81,21 +82,21 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LFloatUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LFloatUnaryOperatorX.lX(a1 -> {
+    private LFloatUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LFloatUnaryOperatorX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doApplyAsFloat((float)100))
+        assertThat(sut.doApplyAsFloat(100f))
             .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LFloatSingle domainObject = Tuple4U.tuple((float)100);
+        LFloatSingle domainObject = Tuple4U.lFloatSingle(100f);
 
         Object result = sut.tupleApplyAsFloat(domainObject);
 
@@ -105,7 +106,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNonNullDoApplyAsFloat() throws X {
-        assertThat(sut.nonNullDoApplyAsFloat((float)100))
+        assertThat(sut.nonNullDoApplyAsFloat(100f))
             .isEqualTo(testValue);
     }
 
@@ -114,7 +115,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoApplyAsFloat((float)100);
+            sutAlwaysThrowing.nestingDoApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -125,11 +126,11 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsFloatUnckeck() throws X {
+    public void testNestingDoApplyAsFloatUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoApplyAsFloat((float)100);
+            sutAlwaysThrowingUnchecked.nestingDoApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -144,7 +145,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoApplyAsFloat((float)100);
+            sutAlwaysThrowing.shovingDoApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -155,11 +156,11 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsFloatUnckeck() throws X {
+    public void testShovingDoApplyAsFloatUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoApplyAsFloat((float)100);
+            sutAlwaysThrowingUnchecked.shovingDoApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +191,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoApplyAsFloatMethodWrapsTheException() throws X {
 
         // given
         LFloatUnaryOperatorX<X> sutThrowing = LFloatUnaryOperatorX.lX(a1 -> {
@@ -198,12 +199,12 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LFloatUnaryOperatorX<X> wrapped = sutThrowing.handleFloatUnaryOpX(handler -> handler
+        LFloatUnaryOperatorX<RuntimeException> wrapped = sutThrowing.handleFloatUnaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100);
+            wrapped.doApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +215,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleFloatUnaryOpXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LFloatUnaryOperatorX<X> sutThrowing = LFloatUnaryOperatorX.lX(a1 -> {
@@ -228,7 +229,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100);
+            wrapped.doApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -238,7 +239,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleFloatUnaryOpXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LFloatUnaryOperatorX<X> sutThrowing = LFloatUnaryOperatorX.lX(a1 -> {
@@ -252,7 +253,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100);
+            wrapped.doApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -263,7 +264,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleFloatUnaryOpXMishandlingExceptionIsAllowed() throws X {
 
         // given
         LFloatUnaryOperatorX<X> sutThrowing = LFloatUnaryOperatorX.lX(a1 -> {
@@ -275,7 +276,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100);
+            wrapped.doApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -290,7 +291,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfloatUnaryOpComposeFloat() throws X {
+    public void testFloatUnaryOpComposeFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -298,19 +299,19 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)90);
-                return (float)100;
+                assertThat(a1).isEqualTo(90f);
+                return 100f;
         };
 
         LFloatUnaryOperatorX<X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((float)80);
+            assertThat(p0).isEqualTo(80f);
             beforeCalls.incrementAndGet();
-            return (float)90;
+            return 90f;
         };
 
         //when
         LFloatUnaryOperatorX<X> function = sutO.floatUnaryOpComposeFloat(before1);
-        function.doApplyAsFloat((float)80);
+        function.doApplyAsFloat(80f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -319,7 +320,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfloatUnaryOpCompose() throws X {
+    public void testFloatUnaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -327,19 +328,19 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)90);
-                return (float)100;
+                assertThat(a1).isEqualTo(90f);
+                return 100f;
         };
 
-        LToFloatFunctionX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToFloatFunctionX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (float)90;
+            return 90f;
         };
 
         //when
-        LToFloatFunctionX<Integer ,X> function = sutO.floatUnaryOpCompose(before1);
-        function.doApplyAsFloat((Integer )Integer.valueOf(80));
+        LToFloatFunctionX<Integer,X> function = sutO.floatUnaryOpCompose(before1);
+        function.doApplyAsFloat(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -347,6 +348,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     }
 
     // </editor-fold>
+
 
 
     // <editor-fold desc="then (functional)">
@@ -357,28 +359,27 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
-        LFloatFunctionX<Integer ,X> thenFunction = p -> {
+        LFloatFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
-                // V
-                return Integer.valueOf(100);
+                // float
+                assertThat(p).isEqualTo(90f);
+                // Integer
+                return 100;
         };
 
         //when
-        LFloatFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.doApply((float)80);
+        LFloatFunctionX<Integer,X> function = sutO.then(thenFunction);
+        Integer finalValue = function.doApply(80f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -387,30 +388,29 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen1ToByte() throws X  {
+    public void testThenToByte1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatToByteFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
+                // float
+                assertThat(p).isEqualTo(90f);
                 // byte
                 return (byte)100;
         };
 
         //when
         LFloatToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((float)80);
+        byte finalValue = function.doApplyAsByte(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -422,30 +422,29 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen2ToShort() throws X  {
+    public void testThenToShort2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatToShortFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
+                // float
+                assertThat(p).isEqualTo(90f);
                 // short
                 return (short)100;
         };
 
         //when
         LFloatToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.doApplyAsShort((float)80);
+        short finalValue = function.doApplyAsShort(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -457,33 +456,32 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen3ToInt() throws X  {
+    public void testThenToInt3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatToIntFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
+                // float
+                assertThat(p).isEqualTo(90f);
                 // int
-                return (int)100;
+                return 100;
         };
 
         //when
         LFloatToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((float)80);
+        int finalValue = function.doApplyAsInt(80f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((int)100);
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -492,33 +490,32 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen4ToLong() throws X  {
+    public void testThenToLong4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatToLongFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
+                // float
+                assertThat(p).isEqualTo(90f);
                 // long
-                return (long)100;
+                return 100L;
         };
 
         //when
         LFloatToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((float)80);
+        long finalValue = function.doApplyAsLong(80f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((long)100);
+        assertThat(finalValue).isEqualTo(100L);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -527,33 +524,32 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen5ToFloat() throws X  {
+    public void testThenToFloat5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatUnaryOperatorX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
                 // float
-                return (float)100;
+                assertThat(p).isEqualTo(90f);
+                // float
+                return 100f;
         };
 
         //when
         LFloatUnaryOperatorX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.doApplyAsFloat((float)80);
+        float finalValue = function.doApplyAsFloat(80f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((float)100);
+        assertThat(finalValue).isEqualTo(100f);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -562,33 +558,32 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen6ToDouble() throws X  {
+    public void testThenToDouble6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatToDoubleFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
+                // float
+                assertThat(p).isEqualTo(90f);
                 // double
-                return (double)100;
+                return 100d;
         };
 
         //when
         LFloatToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.doApplyAsDouble((float)80);
+        double finalValue = function.doApplyAsDouble(80f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((double)100);
+        assertThat(finalValue).isEqualTo(100d);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -597,33 +592,32 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen7ToChar() throws X  {
+    public void testThenToChar7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatToCharFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
+                // float
+                assertThat(p).isEqualTo(90f);
                 // char
-                return (char)100;
+                return '\u0100';
         };
 
         //when
         LFloatToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((float)80);
+        char finalValue = function.doApplyAsChar(80f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((char)100);
+        assertThat(finalValue).isEqualTo('\u0100');
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -632,30 +626,29 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBool() throws X  {
+    public void testThenToBool8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LFloatUnaryOperatorX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                return 90f;
         };
 
         LFloatPredicateX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
+                // float
+                assertThat(p).isEqualTo(90f);
                 // boolean
                 return true;
         };
 
         //when
         LFloatPredicateX<X> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((float)80);
+        boolean finalValue = function.doTest(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -671,7 +664,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
     public void identity() throws X {
         LFloatUnaryOperatorX<X> identityFunction = LFloatUnaryOperatorX.identity();
 
-        assertThat(identityFunction.doApplyAsFloat((float)80)).isEqualTo((float)80);
+        assertThat(identityFunction.doApplyAsFloat(8f)).isEqualTo(8f);
     }
 
 
@@ -708,7 +701,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingFloatUnaryOp().doApplyAsFloat((float)100);
+        sutThrowing.shovingFloatUnaryOp().doApplyAsFloat(100f);
     }
 
     @Test
@@ -726,7 +719,7 @@ public class LFloatUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100);
+            wrapped.doApplyAsFloat(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
