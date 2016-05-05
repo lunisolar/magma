@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
@@ -61,25 +62,25 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
 
 
-    private LBiObjDoubleConsumerX<T1,T2,X> sut = new LBiObjDoubleConsumerX(){
-        public  void doAccept(Object a1,Object a2,double a3) throws ParseException {
+    private LBiObjDoubleConsumerX<Integer,Integer,X> sut = new LBiObjDoubleConsumerX<Integer,Integer,X>(){
+        public  void doAccept(Integer a1,Integer a2,double a3)  throws X {
             Function4U.doNothing();
         }
     };
 
-    private LBiObjDoubleConsumer<T1,T2> opposite = new LBiObjDoubleConsumer(){
-        public  void doAccept(Object a1,Object a2,double a3)  {
+    private LBiObjDoubleConsumer<Integer,Integer> opposite = new LBiObjDoubleConsumer<Integer,Integer>(){
+        public  void doAccept(Integer a1,Integer a2,double a3)  {
             Function4U.doNothing();
         }
     };
 
 
 
-    private LBiObjDoubleConsumerX<T1,T2,ParseException> sutAlwaysThrowing = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+    private LBiObjDoubleConsumerX<Integer,Integer,ParseException> sutAlwaysThrowing = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBiObjDoubleConsumerX<T1,T2,RuntimeException> sutAlwaysThrowingUnckeck = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+    private LBiObjDoubleConsumerX<Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -88,7 +89,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBiObjDoubleTriple<T1,T2> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+        LBiObjDoubleTriple<Integer,Integer> domainObject = Tuple4U.biObjDoubleTriple(100,100,100d);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -101,7 +102,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowing.nestingDoAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -112,11 +113,11 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -131,7 +132,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowing.shovingDoAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -142,11 +143,11 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +166,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBiObjDoubleConsumerX.lX((Object a1,Object a2,double a3) -> Function4U.doNothing() ))
+        assertThat(LBiObjDoubleConsumerX.lX(Function4U::doNothing))
             .isInstanceOf(LBiObjDoubleConsumerX.class);
     }
 
@@ -177,20 +178,20 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LBiObjDoubleConsumerX<T1,T2,X> sutThrowing = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutThrowing = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBiObjDoubleConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjDoubleConsX(handler -> handler
+        LBiObjDoubleConsumerX<Integer,Integer,RuntimeException> wrapped = sutThrowing.handleBiObjDoubleConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            wrapped.doAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,21 +202,21 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBiObjDoubleConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiObjDoubleConsumerX<T1,T2,X> sutThrowing = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutThrowing = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LBiObjDoubleConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjDoubleConsX(handler -> handler
+        LBiObjDoubleConsumerX<Integer,Integer,X> wrapped = sutThrowing.handleBiObjDoubleConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            wrapped.doAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,21 +226,21 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBiObjDoubleConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiObjDoubleConsumerX<T1,T2,X> sutThrowing = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutThrowing = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LBiObjDoubleConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjDoubleConsX(handler -> handler
+        LBiObjDoubleConsumerX<Integer,Integer,X> wrapped = sutThrowing.handleBiObjDoubleConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            wrapped.doAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -250,19 +251,19 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBiObjDoubleConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiObjDoubleConsumerX<T1,T2,X> sutThrowing = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutThrowing = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LBiObjDoubleConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjDoubleConsX(h -> Function4U.doNothing());
+        LBiObjDoubleConsumerX<Integer,Integer,X> wrapped = sutThrowing.handleBiObjDoubleConsX(h -> Function4U.doNothing());
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            wrapped.doAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -277,38 +278,38 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiObjDoubleConsComposeDouble() throws X {
+    public void testBiObjDoubleConsComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjDoubleConsumerX<Integer ,Integer ,X> sutO = (Integer a1,Integer a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutO = (Integer a1,Integer a2,double a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
-                assertThat(a3).isEqualTo((double)92);
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91);
+                assertThat(a3).isEqualTo(92d);
         };
 
-        LFunctionX<Integer ,Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((T1)Integer.valueOf(80));
+        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LFunctionX<Integer ,Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo((T2)Integer.valueOf(81));
+        LFunctionX<Integer,Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LDoubleUnaryOperatorX<X> before3 = p2 -> {
-            assertThat(p2).isEqualTo((double)82);
+            assertThat(p2).isEqualTo(82d);
             beforeCalls.incrementAndGet();
-            return (double)92;
+            return 92d;
         };
 
         //when
-        LBiObjDoubleConsumerX<Integer ,Integer ,X> function = sutO.biObjDoubleConsComposeDouble(before1,before2,before3);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(double)82);
+        LBiObjDoubleConsumerX<Integer,Integer,X> function = sutO.biObjDoubleConsComposeDouble(before1,before2,before3);
+        function.doAccept(80,81,82d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,38 +318,38 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testbiObjDoubleConsCompose() throws X {
+    public void testBiObjDoubleConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjDoubleConsumerX<Integer ,Integer ,X> sutO = (Integer a1,Integer a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutO = (Integer a1,Integer a2,double a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
-                assertThat(a3).isEqualTo((double)92);
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91);
+                assertThat(a3).isEqualTo(92d);
         };
 
-        LFunctionX<Integer ,Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LFunctionX<Integer ,Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LFunctionX<Integer,Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return 91;
         };
-        LToDoubleFunctionX<Integer ,X> before3 = p2 -> {
-            assertThat(p2).isEqualTo(Integer.valueOf(82));
+        LToDoubleFunctionX<Integer,X> before3 = p2 -> {
+            assertThat(p2).isEqualTo(82);
             beforeCalls.incrementAndGet();
-            return (double)92;
+            return 92d;
         };
 
         //when
-        LTriConsumerX<Integer ,Integer ,Integer ,X> function = sutO.biObjDoubleConsCompose(before1,before2,before3);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        LTriConsumerX<Integer,Integer,Integer,X> function = sutO.biObjDoubleConsCompose(before1,before2,before3);
+        function.doAccept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -364,23 +365,23 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBiObjDoubleConsumerX<Integer ,Integer ,X> sutO = (Integer a1,Integer a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat(a3).isEqualTo((double)82);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82d);
         };
 
-        LBiObjDoubleConsumerX<Integer ,Integer ,X> thenFunction = (Integer a1,Integer a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> thenFunction = (a1,a2,a3) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat(a3).isEqualTo((double)82);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82d);
         };
 
         //when
-        LBiObjDoubleConsumerX<Integer ,Integer ,X> function = sutO.andThen(thenFunction);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(double)82);
+        LBiObjDoubleConsumerX<Integer,Integer,X> function = sutO.andThen(thenFunction);
+        function.doAccept(80,81,82d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -416,30 +417,30 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiObjDoubleConsumerX<T1,T2,X> sutThrowing = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutThrowing = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingBiObjDoubleCons().doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+        sutThrowing.shovingBiObjDoubleCons().doAccept(100,100,100d);
     }
 
     @Test
     public void testHandleBiObjDoubleCons() throws X {
 
         // given
-        LBiObjDoubleConsumerX<T1,T2,X> sutThrowing = LBiObjDoubleConsumerX.lX((T1 a1,T2 a2,double a3) -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> sutThrowing = LBiObjDoubleConsumerX.lX((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBiObjDoubleConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjDoubleConsX(h -> {
+        LBiObjDoubleConsumerX<Integer,Integer,X> wrapped = sutThrowing.handleBiObjDoubleConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            wrapped.doAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -470,56 +471,56 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private void variant1(T1 a1,double a3,T2 a2) {
+    private void variantV1(Integer a1,double a3,Integer a2) {
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LBiObjDoubleConsumerX.V1.class);
     }
 
 
-    private void variant2(T2 a2,T1 a1,double a3) {
+    private void variantV2(Integer a2,Integer a1,double a3) {
     }
 
     @Test
-    public void compilerSubstituteVariant2() {
-        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX2(this::variant2);
+    public void compilerSubstituteVariantV2() {
+        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX2(this::variantV2);
 
         assertThat(lambda).isInstanceOf(LBiObjDoubleConsumerX.V2.class);
     }
 
 
-    private void variant3(T2 a2,double a3,T1 a1) {
+    private void variantV3(Integer a2,double a3,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariant3() {
-        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX3(this::variant3);
+    public void compilerSubstituteVariantV3() {
+        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX3(this::variantV3);
 
         assertThat(lambda).isInstanceOf(LBiObjDoubleConsumerX.V3.class);
     }
 
 
-    private void variant4(double a3,T1 a1,T2 a2) {
+    private void variantV4(double a3,Integer a1,Integer a2) {
     }
 
     @Test
-    public void compilerSubstituteVariant4() {
-        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX4(this::variant4);
+    public void compilerSubstituteVariantV4() {
+        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX4(this::variantV4);
 
         assertThat(lambda).isInstanceOf(LBiObjDoubleConsumerX.V4.class);
     }
 
 
-    private void variant5(double a3,T2 a2,T1 a1) {
+    private void variantV5(double a3,Integer a2,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariant5() {
-        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX5(this::variant5);
+    public void compilerSubstituteVariantV5() {
+        LBiObjDoubleConsumerX lambda = LBiObjDoubleConsumerX./*<T1,T2,X>*/lX5(this::variantV5);
 
         assertThat(lambda).isInstanceOf(LBiObjDoubleConsumerX.V5.class);
     }
@@ -542,7 +543,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierPropagates() {
-        LSupplierX<LBiObjDoubleConsumerX<T1,T2,X>,Y> supplier = ()->sut;
+        LSupplierX<LBiObjDoubleConsumerX<Integer,Integer,X>,Y> supplier = ()->sut;
         Object result = LBiObjDoubleConsumerX.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -553,7 +554,7 @@ public class LBiObjDoubleConsumerXTest<T1,T2,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LBiObjDoubleConsumerX<T1,T2,X>,Y> r1 = LBiObjDoubleConsumerX.safeSupplier(()->sut);  //NOSONAR
+        LSupplierX<LBiObjDoubleConsumerX<Integer,Integer,X>,Y> r1 = LBiObjDoubleConsumerX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

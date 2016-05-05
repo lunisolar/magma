@@ -98,7 +98,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LPair<Integer,Integer> domainObject = Tuple4U.lPair(100,100);
+        LPair<Integer,Integer> domainObject = Tuple4U.pair(100,100);
 
         Object result = sut.tupleTest(domainObject);
 

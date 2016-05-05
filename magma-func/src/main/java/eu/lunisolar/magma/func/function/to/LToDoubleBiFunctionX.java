@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.function.to;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LToDoubleBiFunctionX for Java 8.
@@ -78,7 +78,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends ToDou
 
 	double doApplyAsDouble(T1 a1, T2 a2) throws X;
 
-	default Double tupleApplyAsDouble(LPair<T1, T2> args) throws X {
+	default double tupleApplyAsDouble(LPair<T1, T2> args) throws X {
 		return doApplyAsDouble(args.first(), args.second());
 	}
 
@@ -211,7 +211,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends ToDou
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produceDouble). */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToDoubleBiFunctionX<T1, T2, X> safe() {
 		return Function4U::produceDouble;
@@ -252,7 +252,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends ToDou
 	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> toDoubleBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final V1 v1, final V2 v2) -> this.doApplyAsDouble(before1.doApply(v1), before2.doApply(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -314,13 +314,13 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends ToDou
 
 	/** Permutation of LToDoubleBiFunctionX for method references. */
 	@FunctionalInterface
-	interface V1<T1, T2, X extends Throwable> extends LToDoubleBiFunctionX<T1, T2, X> {
+	interface V1<T2, T1, X extends Throwable> extends LToDoubleBiFunctionX<T1, T2, X> {
 
-		double apply1(T2 a2, T1 a1) throws X;
+		double doApplyAsDoubleV1(T2 a2, T1 a1) throws X;
 
 		@Override
 		default double doApplyAsDouble(T1 a1, T2 a2) throws X {
-			return this.apply1(a2, a1);
+			return this.doApplyAsDoubleV1(a2, a1);
 		}
 	}
 

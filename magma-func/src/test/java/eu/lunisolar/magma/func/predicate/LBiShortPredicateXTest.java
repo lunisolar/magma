@@ -96,7 +96,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LShortPair domainObject = Tuple4U.lShortPair((short)100,(short)100);
+        LShortPair domainObject = Tuple4U.shortPair((short)100,(short)100);
 
         Object result = sut.tupleTest(domainObject);
 

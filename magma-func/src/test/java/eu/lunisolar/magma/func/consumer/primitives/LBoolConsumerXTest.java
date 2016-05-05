@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBoolConsumerXTest<X extends ParseException> {
@@ -61,8 +62,8 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
 
 
-    private LBoolConsumerX<X> sut = new LBoolConsumerX(){
-        public  void doAccept(boolean a1) throws ParseException {
+    private LBoolConsumerX<X> sut = new LBoolConsumerX<X>(){
+        public  void doAccept(boolean a1)  throws X {
             Function4U.doNothing();
         }
     };
@@ -79,7 +80,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBoolConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LBoolConsumerX.lX(a1 -> {
+    private LBoolConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolConsumerX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -88,7 +89,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBoolSingle domainObject = Tuple4U.tuple(true);
+        LBoolSingle domainObject = Tuple4U.boolSingle(true);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -112,11 +113,11 @@ public class LBoolConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept(true);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -142,11 +143,11 @@ public class LBoolConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept(true);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +166,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBoolConsumerX.lX(a1 -> Function4U.doNothing() ))
+        assertThat(LBoolConsumerX.lX(Function4U::doNothing))
             .isInstanceOf(LBoolConsumerX.class);
     }
 
@@ -177,7 +178,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
         LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
@@ -185,7 +186,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LBoolConsumerX<X> wrapped = sutThrowing.handleBoolConsX(handler -> handler
+        LBoolConsumerX<RuntimeException> wrapped = sutThrowing.handleBoolConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -201,7 +202,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBoolConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
@@ -225,7 +226,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBoolConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
@@ -250,7 +251,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBoolConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
         LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
@@ -277,7 +278,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testboolConsComposeBoolean() throws X {
+    public void testBoolConsComposeBool() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +296,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LBoolConsumerX<X> function = sutO.boolConsComposeBoolean(before1);
+        LBoolConsumerX<X> function = sutO.boolConsComposeBool(before1);
         function.doAccept(true);
 
         //then - finals
@@ -305,7 +306,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testboolConsCompose() throws X {
+    public void testBoolConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -316,15 +317,15 @@ public class LBoolConsumerXTest<X extends ParseException> {
                 assertThat(a1).isEqualTo(true);
         };
 
-        LPredicateX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LPredicateX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.boolConsCompose(before1);
-        function.doAccept((Integer )Integer.valueOf(80));
+        LConsumerX<Integer,X> function = sutO.boolConsCompose(before1);
+        function.doAccept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -345,7 +346,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
                 assertThat(a1).isEqualTo(true);
         };
 
-        LBoolConsumerX<X> thenFunction = (boolean a1) -> {
+        LBoolConsumerX<X> thenFunction = a1 -> {
                 thenFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
         };

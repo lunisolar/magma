@@ -30,24 +30,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LSupplier for Java 8.
@@ -56,15 +55,15 @@ import java.util.function.*; // NOSONAR
  *
  * Domain (lvl: 0): none
  *
- * Co-domain: R
+ * Co-domain: T
  *
  * @see LSupplierX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSupplier, MetaInterface.NonThrowing {
+public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LSupplier: R doGet()";
+	String DESCRIPTION = "LSupplier: T doGet()";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,24 +71,24 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	 */
 	@Override
 	@Deprecated
-	default R get() {
+	default T get() {
 		return this.nestingDoGet();
 	}
 
 	@Nullable
-	R doGet();
+	T doGet();
 
-	default R tupleGet(LTuple.Void args) {
+	default T tupleGet(LTuple.Void args) {
 		return doGet();
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoGet() {
+	default T nestingDoGet() {
 		return this.doGet();
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoGet() {
+	default T shovingDoGet() {
 		return this.doGet();
 	}
 
@@ -97,7 +96,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoGet() {
+	default T nonNullDoGet() {
 		return Null.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
@@ -108,18 +107,18 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	}
 
 	/** Creates function that always returns the same value. */
-	static <R> LSupplier<R> of(R r) {
+	static <T> LSupplier<T> of(T r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <R> LSupplier<R> l(final @Nonnull LSupplier<R> lambda) {
+	static <T> LSupplier<T> l(final @Nonnull LSupplier<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
-	static <R> R call(final @Nonnull LSupplier<R> lambda) {
+	static <T> T call(final @Nonnull LSupplier<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.doGet();
 	}
@@ -128,13 +127,13 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	static <R> LSupplier<R> wrap(final Supplier<R> other) {
+	static <T> LSupplier<T> wrap(final Supplier<T> other) {
 		return other::get;
 	}
 
 	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
-	static <R, X extends Throwable> LSupplier<R> wrap(final @Nonnull LSupplierX<R, X> other) {
+	static <T, X extends Throwable> LSupplier<T> wrap(final @Nonnull LSupplierX<T, X> other) {
 		return other::nestingDoGet;
 	}
 
@@ -142,21 +141,21 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produce). */
 	@Nonnull
-	static <R> LSupplier<R> safe() {
+	static <T> LSupplier<T> safe() {
 		return Function4U::produce;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
 	@Nonnull
-	static <R> LSupplier<LSupplier<R>> safeSupplier() {
+	static <T> LSupplier<LSupplier<T>> safeSupplier() {
 		return () -> safe();
 	}
 
 	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
 	@Nonnull
-	static <R> LSupplier<R> safe(final @Nullable LSupplier<R> other) {
+	static <T> LSupplier<T> safe(final @Nullable LSupplier<T> other) {
 		if (other == null) {
 			return safe();
 		} else {
@@ -166,7 +165,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
 	@Nonnull
-	static <R> LSupplier<LSupplier<R>> safeSupplier(final @Nullable LSupplier<LSupplier<R>> supplier) {
+	static <T> LSupplier<LSupplier<T>> safeSupplier(final @Nullable LSupplier<LSupplier<T>> supplier) {
 		if (supplier == null) {
 			return safeSupplier();
 		} else {
@@ -178,72 +177,72 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> toSupplier(@Nonnull LFunction<? super R, ? extends V> after) {
+	default <V> LSupplier<V> toSupplier(@Nonnull LFunction<? super T, ? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LAction toAction(@Nonnull LConsumer<? super R> after) {
+	default LAction toAction(@Nonnull LConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doAccept(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteSupplier toByteSupplier(@Nonnull LToByteFunction<? super R> after) {
+	default LByteSupplier toByteSupplier(@Nonnull LToByteFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplier toShortSupplier(@Nonnull LToShortFunction<? super R> after) {
+	default LShortSupplier toShortSupplier(@Nonnull LToShortFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntSupplier toIntSupplier(@Nonnull LToIntFunction<? super R> after) {
+	default LIntSupplier toIntSupplier(@Nonnull LToIntFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongSupplier toLongSupplier(@Nonnull LToLongFunction<? super R> after) {
+	default LLongSupplier toLongSupplier(@Nonnull LToLongFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplier toFloatSupplier(@Nonnull LToFloatFunction<? super R> after) {
+	default LFloatSupplier toFloatSupplier(@Nonnull LToFloatFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplier toDoubleSupplier(@Nonnull LToDoubleFunction<? super R> after) {
+	default LDoubleSupplier toDoubleSupplier(@Nonnull LToDoubleFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharSupplier toCharSupplier(@Nonnull LToCharFunction<? super R> after) {
+	default LCharSupplier toCharSupplier(@Nonnull LToCharFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGet());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolSupplier toBoolSupplier(@Nonnull LPredicate<? super R> after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LPredicate<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGet());
 	}
@@ -254,23 +253,23 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LSupplier<R> nestingSup() {
+	default LSupplier<T> nestingSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LSupplierX<R, RuntimeException> nestingSupX() {
+	default LSupplierX<T, RuntimeException> nestingSupX() {
 		return this;
 	}
 
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSupplier<R> shovingSup() {
+	default LSupplier<T> shovingSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSupplierX<R, RuntimeException> shovingSupX() {
+	default LSupplierX<T, RuntimeException> shovingSupX() {
 		return this;
 	}
 
@@ -278,7 +277,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LSupplier<R> nonNullSup() {
+	default LSupplier<T> nonNullSup() {
 		return this::nonNullDoGet;
 	}
 

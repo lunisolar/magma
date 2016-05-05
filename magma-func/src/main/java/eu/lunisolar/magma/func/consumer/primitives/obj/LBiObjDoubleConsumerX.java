@@ -31,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiObjDoubleConsumerX for Java 8.
@@ -292,7 +291,7 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final double v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
+		return (V1 v1, V2 v2, double v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -309,7 +308,7 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 
 	// <editor-fold desc="andThen (consumer/action)">
 
-	/** Combines two consumers together in a order. */
+	/** Combines two LBiObjDoubleConsumerX<T1,T2,X> together in a order. */
 	@Nonnull
 	default LBiObjDoubleConsumerX<T1, T2, X> andThen(@Nonnull LBiObjDoubleConsumerX<? super T1, ? super T2, X> after) {
 		Null.nonNullArg(after, "after");
@@ -369,35 +368,35 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 	@FunctionalInterface
 	interface V1<T1, T2, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
 
-		void apply1(T1 a1, double a3, T2 a2) throws X;
+		void doAcceptV1(T1 a1, double a3, T2 a2) throws X;
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, double a3) throws X {
-			this.apply1(a1, a3, a2);
+			this.doAcceptV1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LBiObjDoubleConsumerX for method references. */
 	@FunctionalInterface
-	interface V2<T1, T2, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
+	interface V2<T2, T1, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
 
-		void apply2(T2 a2, T1 a1, double a3) throws X;
+		void doAcceptV2(T2 a2, T1 a1, double a3) throws X;
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, double a3) throws X {
-			this.apply2(a2, a1, a3);
+			this.doAcceptV2(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LBiObjDoubleConsumerX for method references. */
 	@FunctionalInterface
-	interface V3<T1, T2, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
+	interface V3<T2, T1, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
 
-		void apply3(T2 a2, double a3, T1 a1) throws X;
+		void doAcceptV3(T2 a2, double a3, T1 a1) throws X;
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, double a3) throws X {
-			this.apply3(a2, a3, a1);
+			this.doAcceptV3(a2, a3, a1);
 		}
 	}
 
@@ -405,23 +404,23 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 	@FunctionalInterface
 	interface V4<T1, T2, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
 
-		void apply4(double a3, T1 a1, T2 a2) throws X;
+		void doAcceptV4(double a3, T1 a1, T2 a2) throws X;
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, double a3) throws X {
-			this.apply4(a3, a1, a2);
+			this.doAcceptV4(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LBiObjDoubleConsumerX for method references. */
 	@FunctionalInterface
-	interface V5<T1, T2, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
+	interface V5<T2, T1, X extends Throwable> extends LBiObjDoubleConsumerX<T1, T2, X> {
 
-		void apply5(double a3, T2 a2, T1 a1) throws X;
+		void doAcceptV5(double a3, T2 a2, T1 a1) throws X;
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, double a3) throws X {
-			this.apply5(a3, a2, a1);
+			this.doAcceptV5(a3, a2, a1);
 		}
 	}
 

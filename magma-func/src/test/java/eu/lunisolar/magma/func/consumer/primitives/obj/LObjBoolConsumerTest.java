@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LObjBoolConsumerTest<T,X extends ParseException> {
@@ -61,14 +62,14 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
 
 
 
-    private LObjBoolConsumer<T> sut = new LObjBoolConsumer(){
-        public  void doAccept(Object a1,boolean a2)  {
+    private LObjBoolConsumer<Integer> sut = new LObjBoolConsumer<Integer>(){
+        public  void doAccept(Integer a1,boolean a2)  {
             Function4U.doNothing();
         }
     };
 
-    private LObjBoolConsumerX<T,X> opposite = new LObjBoolConsumerX(){
-        public  void doAccept(Object a1,boolean a2) throws ParseException {
+    private LObjBoolConsumerX<Integer,X> opposite = new LObjBoolConsumerX<Integer,X>(){
+        public  void doAccept(Integer a1,boolean a2)  throws X {
             Function4U.doNothing();
         }
     };
@@ -76,7 +77,7 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
 
 
 
-    private LObjBoolConsumer<T> sutAlwaysThrowingUnckeck = LObjBoolConsumer.l((T a1,boolean a2) -> {
+    private LObjBoolConsumerX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LObjBoolConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -85,7 +86,7 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LObjBoolPair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),true);
+        LObjBoolPair<Integer> domainObject = Tuple4U.objBoolPair(100,true);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -94,11 +95,11 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((T)Integer.valueOf(100),true);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -109,11 +110,11 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((T)Integer.valueOf(100),true);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -132,7 +133,7 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LObjBoolConsumer.l((Object a1,boolean a2) -> Function4U.doNothing() ))
+        assertThat(LObjBoolConsumer.l(Function4U::doNothing))
             .isInstanceOf(LObjBoolConsumer.class);
     }
 
@@ -145,16 +146,16 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LObjBoolConsumerX<T,X> sutThrowing = LObjBoolConsumerX.lX((T a1,boolean a2) -> {
+        LObjBoolConsumerX<Integer,X> sutThrowing = LObjBoolConsumerX.lX((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LObjBoolConsumer<T> wrapped = LObjBoolConsumer.wrap(sutThrowing);
+        LObjBoolConsumer<Integer> wrapped = LObjBoolConsumer.wrap(sutThrowing);
 
         // then
         try {
-            wrapped.doAccept((T)Integer.valueOf(100),true);
+            wrapped.doAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -167,16 +168,16 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LObjBoolConsumerX<T,ParseException> sutThrowing = LObjBoolConsumerX.lX((T a1,boolean a2) -> {
+        LObjBoolConsumerX<Integer,ParseException> sutThrowing = LObjBoolConsumerX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LObjBoolConsumer<T> wrapped = LObjBoolConsumer.wrap(sutThrowing);
+        LObjBoolConsumer<Integer> wrapped = LObjBoolConsumer.wrap(sutThrowing);
 
         // then
         try {
-            wrapped.doAccept((T)Integer.valueOf(100),true);
+            wrapped.doAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -188,20 +189,20 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LObjBoolConsumer<T> sutThrowing = LObjBoolConsumer.l((T a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutThrowing = LObjBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LObjBoolConsumer<T> wrapped = sutThrowing.handleObjBoolCons(handler -> handler
+        LObjBoolConsumer<Integer> wrapped = sutThrowing.handleObjBoolCons(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doAccept((T)Integer.valueOf(100),true);
+            wrapped.doAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -212,21 +213,21 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleObjBoolConsMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LObjBoolConsumer<T> sutThrowing = LObjBoolConsumer.l((T a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutThrowing = LObjBoolConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjBoolConsumer<T> wrapped = sutThrowing.handleObjBoolCons(handler -> handler
+        LObjBoolConsumer<Integer> wrapped = sutThrowing.handleObjBoolCons(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doAccept((T)Integer.valueOf(100),true);
+            wrapped.doAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -236,21 +237,21 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleObjBoolConsMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LObjBoolConsumer<T> sutThrowing = LObjBoolConsumer.l((T a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutThrowing = LObjBoolConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjBoolConsumer<T> wrapped = sutThrowing.handleObjBoolCons(handler -> handler
+        LObjBoolConsumer<Integer> wrapped = sutThrowing.handleObjBoolCons(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doAccept((T)Integer.valueOf(100),true);
+            wrapped.doAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -261,19 +262,19 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleObjBoolConsMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LObjBoolConsumer<T> sutThrowing = LObjBoolConsumer.l((T a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutThrowing = LObjBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LObjBoolConsumer<T> wrapped = sutThrowing.handleObjBoolCons(h -> Function4U.doNothing());
+        LObjBoolConsumer<Integer> wrapped = sutThrowing.handleObjBoolCons(h -> Function4U.doNothing());
 
         // then
         try {
-            wrapped.doAccept((T)Integer.valueOf(100),true);
+            wrapped.doAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -288,20 +289,20 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjBoolConsComposeBoolean() throws X {
+    public void testObjBoolConsComposeBool() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjBoolConsumer<Integer > sutO = (Integer a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutO = (Integer a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
+                assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(true);
         };
 
-        LFunction<Integer ,Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo((T)Integer.valueOf(80));
+        LFunction<Integer,Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
@@ -312,8 +313,8 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
         };
 
         //when
-        LObjBoolConsumer<Integer > function = sutO.objBoolConsComposeBoolean(before1,before2);
-        function.doAccept((Integer )Integer.valueOf(80),true);
+        LObjBoolConsumer<Integer> function = sutO.objBoolConsComposeBool(before1,before2);
+        function.doAccept(80,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -322,32 +323,32 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjBoolConsCompose() throws X {
+    public void testObjBoolConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjBoolConsumer<Integer > sutO = (Integer a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutO = (Integer a1,boolean a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
+                assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(true);
         };
 
-        LFunction<Integer ,Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LFunction<Integer,Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LPredicate<Integer > before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LPredicate<Integer> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBiConsumer<Integer ,Integer > function = sutO.objBoolConsCompose(before1,before2);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiConsumer<Integer,Integer> function = sutO.objBoolConsCompose(before1,before2);
+        function.doAccept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -363,21 +364,21 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LObjBoolConsumer<Integer > sutO = (Integer a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo(80);
                 assertThat(a2).isEqualTo(true);
         };
 
-        LObjBoolConsumer<Integer > thenFunction = (Integer a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> thenFunction = (a1,a2) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
+                assertThat(a1).isEqualTo(80);
                 assertThat(a2).isEqualTo(true);
         };
 
         //when
-        LObjBoolConsumer<Integer > function = sutO.andThen(thenFunction);
-        function.doAccept((Integer )Integer.valueOf(80),true);
+        LObjBoolConsumer<Integer> function = sutO.andThen(thenFunction);
+        function.doAccept(80,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -417,30 +418,30 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LObjBoolConsumer<T> sutThrowing = LObjBoolConsumer.l((T a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutThrowing = LObjBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingObjBoolCons().doAccept((T)Integer.valueOf(100),true);
+        sutThrowing.shovingObjBoolCons().doAccept(100,true);
     }
 
     @Test
     public void testHandleObjBoolCons() throws X {
 
         // given
-        LObjBoolConsumer<T> sutThrowing = LObjBoolConsumer.l((T a1,boolean a2) -> {
+        LObjBoolConsumer<Integer> sutThrowing = LObjBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LObjBoolConsumer<T> wrapped = sutThrowing.handleObjBoolCons(h -> {
+        LObjBoolConsumer<Integer> wrapped = sutThrowing.handleObjBoolCons(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
         try {
-            wrapped.doAccept((T)Integer.valueOf(100),true);
+            wrapped.doAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -471,12 +472,12 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private void variant1(boolean a2,T a1) {
+    private void variantV1(boolean a2,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LObjBoolConsumer lambda = LObjBoolConsumer./*<T>*/l1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LObjBoolConsumer lambda = LObjBoolConsumer./*<T>*/l1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LObjBoolConsumer.V1.class);
     }
@@ -500,7 +501,7 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     }
 
     @Test  void safeSupplierPropagates() {
-        LSupplier<LObjBoolConsumer<T>> supplier = ()->sut;
+        LSupplier<LObjBoolConsumer<Integer>> supplier = ()->sut;
         Object result = LObjBoolConsumer.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -511,7 +512,7 @@ public class LObjBoolConsumerTest<T,X extends ParseException> {
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LObjBoolConsumer<T>> r1 = LObjBoolConsumer.safeSupplier(()->sut);  //NOSONAR
+        LSupplier<LObjBoolConsumer<Integer>> r1 = LObjBoolConsumer.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

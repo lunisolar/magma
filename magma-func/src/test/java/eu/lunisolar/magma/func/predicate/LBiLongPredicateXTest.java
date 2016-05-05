@@ -96,7 +96,7 @@ public class LBiLongPredicateXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LLongPair domainObject = Tuple4U.lLongPair(100L,100L);
+        LLongPair domainObject = Tuple4U.longPair(100L,100L);
 
         Object result = sut.tupleTest(domainObject);
 

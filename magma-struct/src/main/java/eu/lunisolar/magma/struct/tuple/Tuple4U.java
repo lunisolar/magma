@@ -27,7 +27,7 @@ public final class Tuple4U {
 		return LPair.MutPair.of(a1, a2);
 	}
 
-	public static <T1, T2> LPair.MutPair<T1, T2> lPair(T1 a1, T2 a2) {
+	public static <T1, T2> LPair.MutPair<T1, T2> pair(T1 a1, T2 a2) {
 		return LPair.MutPair.of(a1, a2);
 	}
 
@@ -47,7 +47,7 @@ public final class Tuple4U {
 		return LSingle.MutSingle.of(a1);
 	}
 
-	public static <T> LSingle.MutSingle<T> lSingle(T a1) {
+	public static <T> LSingle.MutSingle<T> single(T a1) {
 		return LSingle.MutSingle.of(a1);
 	}
 
@@ -67,7 +67,7 @@ public final class Tuple4U {
 		return LTriple.MutTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2, T3> LTriple.MutTriple<T1, T2, T3> lTriple(T1 a1, T2 a2, T3 a3) {
+	public static <T1, T2, T3> LTriple.MutTriple<T1, T2, T3> triple(T1 a1, T2 a2, T3 a3) {
 		return LTriple.MutTriple.of(a1, a2, a3);
 	}
 
@@ -87,7 +87,7 @@ public final class Tuple4U {
 		return LBoolSingle.MutBoolSingle.of(a1);
 	}
 
-	public static LBoolSingle.MutBoolSingle lBoolSingle(boolean a1) {
+	public static LBoolSingle.MutBoolSingle boolSingle(boolean a1) {
 		return LBoolSingle.MutBoolSingle.of(a1);
 	}
 
@@ -107,7 +107,7 @@ public final class Tuple4U {
 		return LByteSingle.MutByteSingle.of(a1);
 	}
 
-	public static LByteSingle.MutByteSingle lByteSingle(byte a1) {
+	public static LByteSingle.MutByteSingle byteSingle(byte a1) {
 		return LByteSingle.MutByteSingle.of(a1);
 	}
 
@@ -127,7 +127,7 @@ public final class Tuple4U {
 		return LCharSingle.MutCharSingle.of(a1);
 	}
 
-	public static LCharSingle.MutCharSingle lCharSingle(char a1) {
+	public static LCharSingle.MutCharSingle charSingle(char a1) {
 		return LCharSingle.MutCharSingle.of(a1);
 	}
 
@@ -147,7 +147,7 @@ public final class Tuple4U {
 		return LDoubleSingle.MutDoubleSingle.of(a1);
 	}
 
-	public static LDoubleSingle.MutDoubleSingle lDoubleSingle(double a1) {
+	public static LDoubleSingle.MutDoubleSingle doubleSingle(double a1) {
 		return LDoubleSingle.MutDoubleSingle.of(a1);
 	}
 
@@ -167,7 +167,7 @@ public final class Tuple4U {
 		return LFloatSingle.MutFloatSingle.of(a1);
 	}
 
-	public static LFloatSingle.MutFloatSingle lFloatSingle(float a1) {
+	public static LFloatSingle.MutFloatSingle floatSingle(float a1) {
 		return LFloatSingle.MutFloatSingle.of(a1);
 	}
 
@@ -187,7 +187,7 @@ public final class Tuple4U {
 		return LIntSingle.MutIntSingle.of(a1);
 	}
 
-	public static LIntSingle.MutIntSingle lIntSingle(int a1) {
+	public static LIntSingle.MutIntSingle intSingle(int a1) {
 		return LIntSingle.MutIntSingle.of(a1);
 	}
 
@@ -207,7 +207,7 @@ public final class Tuple4U {
 		return LLongSingle.MutLongSingle.of(a1);
 	}
 
-	public static LLongSingle.MutLongSingle lLongSingle(long a1) {
+	public static LLongSingle.MutLongSingle longSingle(long a1) {
 		return LLongSingle.MutLongSingle.of(a1);
 	}
 
@@ -227,7 +227,7 @@ public final class Tuple4U {
 		return LShortSingle.MutShortSingle.of(a1);
 	}
 
-	public static LShortSingle.MutShortSingle lShortSingle(short a1) {
+	public static LShortSingle.MutShortSingle shortSingle(short a1) {
 		return LShortSingle.MutShortSingle.of(a1);
 	}
 
@@ -247,7 +247,7 @@ public final class Tuple4U {
 		return LBoolPair.MutBoolPair.of(a1, a2);
 	}
 
-	public static LBoolPair.MutBoolPair lBoolPair(boolean a1, boolean a2) {
+	public static LBoolPair.MutBoolPair boolPair(boolean a1, boolean a2) {
 		return LBoolPair.MutBoolPair.of(a1, a2);
 	}
 
@@ -267,7 +267,7 @@ public final class Tuple4U {
 		return LBytePair.MutBytePair.of(a1, a2);
 	}
 
-	public static LBytePair.MutBytePair lBytePair(byte a1, byte a2) {
+	public static LBytePair.MutBytePair bytePair(byte a1, byte a2) {
 		return LBytePair.MutBytePair.of(a1, a2);
 	}
 
@@ -287,7 +287,7 @@ public final class Tuple4U {
 		return LCharPair.MutCharPair.of(a1, a2);
 	}
 
-	public static LCharPair.MutCharPair lCharPair(char a1, char a2) {
+	public static LCharPair.MutCharPair charPair(char a1, char a2) {
 		return LCharPair.MutCharPair.of(a1, a2);
 	}
 
@@ -307,7 +307,7 @@ public final class Tuple4U {
 		return LDoublePair.MutDoublePair.of(a1, a2);
 	}
 
-	public static LDoublePair.MutDoublePair lDoublePair(double a1, double a2) {
+	public static LDoublePair.MutDoublePair doublePair(double a1, double a2) {
 		return LDoublePair.MutDoublePair.of(a1, a2);
 	}
 
@@ -327,7 +327,7 @@ public final class Tuple4U {
 		return LFloatPair.MutFloatPair.of(a1, a2);
 	}
 
-	public static LFloatPair.MutFloatPair lFloatPair(float a1, float a2) {
+	public static LFloatPair.MutFloatPair floatPair(float a1, float a2) {
 		return LFloatPair.MutFloatPair.of(a1, a2);
 	}
 
@@ -347,7 +347,7 @@ public final class Tuple4U {
 		return LIntPair.MutIntPair.of(a1, a2);
 	}
 
-	public static LIntPair.MutIntPair lIntPair(int a1, int a2) {
+	public static LIntPair.MutIntPair intPair(int a1, int a2) {
 		return LIntPair.MutIntPair.of(a1, a2);
 	}
 
@@ -367,7 +367,7 @@ public final class Tuple4U {
 		return LLongPair.MutLongPair.of(a1, a2);
 	}
 
-	public static LLongPair.MutLongPair lLongPair(long a1, long a2) {
+	public static LLongPair.MutLongPair longPair(long a1, long a2) {
 		return LLongPair.MutLongPair.of(a1, a2);
 	}
 
@@ -387,7 +387,7 @@ public final class Tuple4U {
 		return LShortPair.MutShortPair.of(a1, a2);
 	}
 
-	public static LShortPair.MutShortPair lShortPair(short a1, short a2) {
+	public static LShortPair.MutShortPair shortPair(short a1, short a2) {
 		return LShortPair.MutShortPair.of(a1, a2);
 	}
 
@@ -407,7 +407,7 @@ public final class Tuple4U {
 		return LBiObjBoolTriple.MutBiObjBoolTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjBoolTriple.MutBiObjBoolTriple<T1, T2> lBiObjBoolTriple(T1 a1, T2 a2, boolean a3) {
+	public static <T1, T2> LBiObjBoolTriple.MutBiObjBoolTriple<T1, T2> biObjBoolTriple(T1 a1, T2 a2, boolean a3) {
 		return LBiObjBoolTriple.MutBiObjBoolTriple.of(a1, a2, a3);
 	}
 
@@ -427,7 +427,7 @@ public final class Tuple4U {
 		return LBiObjByteTriple.MutBiObjByteTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjByteTriple.MutBiObjByteTriple<T1, T2> lBiObjByteTriple(T1 a1, T2 a2, byte a3) {
+	public static <T1, T2> LBiObjByteTriple.MutBiObjByteTriple<T1, T2> biObjByteTriple(T1 a1, T2 a2, byte a3) {
 		return LBiObjByteTriple.MutBiObjByteTriple.of(a1, a2, a3);
 	}
 
@@ -447,7 +447,7 @@ public final class Tuple4U {
 		return LBiObjCharTriple.MutBiObjCharTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjCharTriple.MutBiObjCharTriple<T1, T2> lBiObjCharTriple(T1 a1, T2 a2, char a3) {
+	public static <T1, T2> LBiObjCharTriple.MutBiObjCharTriple<T1, T2> biObjCharTriple(T1 a1, T2 a2, char a3) {
 		return LBiObjCharTriple.MutBiObjCharTriple.of(a1, a2, a3);
 	}
 
@@ -467,7 +467,7 @@ public final class Tuple4U {
 		return LBiObjDoubleTriple.MutBiObjDoubleTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjDoubleTriple.MutBiObjDoubleTriple<T1, T2> lBiObjDoubleTriple(T1 a1, T2 a2, double a3) {
+	public static <T1, T2> LBiObjDoubleTriple.MutBiObjDoubleTriple<T1, T2> biObjDoubleTriple(T1 a1, T2 a2, double a3) {
 		return LBiObjDoubleTriple.MutBiObjDoubleTriple.of(a1, a2, a3);
 	}
 
@@ -487,7 +487,7 @@ public final class Tuple4U {
 		return LBiObjFloatTriple.MutBiObjFloatTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjFloatTriple.MutBiObjFloatTriple<T1, T2> lBiObjFloatTriple(T1 a1, T2 a2, float a3) {
+	public static <T1, T2> LBiObjFloatTriple.MutBiObjFloatTriple<T1, T2> biObjFloatTriple(T1 a1, T2 a2, float a3) {
 		return LBiObjFloatTriple.MutBiObjFloatTriple.of(a1, a2, a3);
 	}
 
@@ -507,7 +507,7 @@ public final class Tuple4U {
 		return LBiObjIntTriple.MutBiObjIntTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjIntTriple.MutBiObjIntTriple<T1, T2> lBiObjIntTriple(T1 a1, T2 a2, int a3) {
+	public static <T1, T2> LBiObjIntTriple.MutBiObjIntTriple<T1, T2> biObjIntTriple(T1 a1, T2 a2, int a3) {
 		return LBiObjIntTriple.MutBiObjIntTriple.of(a1, a2, a3);
 	}
 
@@ -527,7 +527,7 @@ public final class Tuple4U {
 		return LBiObjLongTriple.MutBiObjLongTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjLongTriple.MutBiObjLongTriple<T1, T2> lBiObjLongTriple(T1 a1, T2 a2, long a3) {
+	public static <T1, T2> LBiObjLongTriple.MutBiObjLongTriple<T1, T2> biObjLongTriple(T1 a1, T2 a2, long a3) {
 		return LBiObjLongTriple.MutBiObjLongTriple.of(a1, a2, a3);
 	}
 
@@ -547,7 +547,7 @@ public final class Tuple4U {
 		return LBiObjShortTriple.MutBiObjShortTriple.of(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiObjShortTriple.MutBiObjShortTriple<T1, T2> lBiObjShortTriple(T1 a1, T2 a2, short a3) {
+	public static <T1, T2> LBiObjShortTriple.MutBiObjShortTriple<T1, T2> biObjShortTriple(T1 a1, T2 a2, short a3) {
 		return LBiObjShortTriple.MutBiObjShortTriple.of(a1, a2, a3);
 	}
 
@@ -567,7 +567,7 @@ public final class Tuple4U {
 		return LObjBoolPair.MutObjBoolPair.of(a1, a2);
 	}
 
-	public static <T> LObjBoolPair.MutObjBoolPair<T> lObjBoolPair(T a1, boolean a2) {
+	public static <T> LObjBoolPair.MutObjBoolPair<T> objBoolPair(T a1, boolean a2) {
 		return LObjBoolPair.MutObjBoolPair.of(a1, a2);
 	}
 
@@ -587,7 +587,7 @@ public final class Tuple4U {
 		return LObjBytePair.MutObjBytePair.of(a1, a2);
 	}
 
-	public static <T> LObjBytePair.MutObjBytePair<T> lObjBytePair(T a1, byte a2) {
+	public static <T> LObjBytePair.MutObjBytePair<T> objBytePair(T a1, byte a2) {
 		return LObjBytePair.MutObjBytePair.of(a1, a2);
 	}
 
@@ -607,7 +607,7 @@ public final class Tuple4U {
 		return LObjCharPair.MutObjCharPair.of(a1, a2);
 	}
 
-	public static <T> LObjCharPair.MutObjCharPair<T> lObjCharPair(T a1, char a2) {
+	public static <T> LObjCharPair.MutObjCharPair<T> objCharPair(T a1, char a2) {
 		return LObjCharPair.MutObjCharPair.of(a1, a2);
 	}
 
@@ -627,7 +627,7 @@ public final class Tuple4U {
 		return LObjDoublePair.MutObjDoublePair.of(a1, a2);
 	}
 
-	public static <T> LObjDoublePair.MutObjDoublePair<T> lObjDoublePair(T a1, double a2) {
+	public static <T> LObjDoublePair.MutObjDoublePair<T> objDoublePair(T a1, double a2) {
 		return LObjDoublePair.MutObjDoublePair.of(a1, a2);
 	}
 
@@ -647,7 +647,7 @@ public final class Tuple4U {
 		return LObjFloatPair.MutObjFloatPair.of(a1, a2);
 	}
 
-	public static <T> LObjFloatPair.MutObjFloatPair<T> lObjFloatPair(T a1, float a2) {
+	public static <T> LObjFloatPair.MutObjFloatPair<T> objFloatPair(T a1, float a2) {
 		return LObjFloatPair.MutObjFloatPair.of(a1, a2);
 	}
 
@@ -667,7 +667,7 @@ public final class Tuple4U {
 		return LObjIntPair.MutObjIntPair.of(a1, a2);
 	}
 
-	public static <T> LObjIntPair.MutObjIntPair<T> lObjIntPair(T a1, int a2) {
+	public static <T> LObjIntPair.MutObjIntPair<T> objIntPair(T a1, int a2) {
 		return LObjIntPair.MutObjIntPair.of(a1, a2);
 	}
 
@@ -687,7 +687,7 @@ public final class Tuple4U {
 		return LObjLongPair.MutObjLongPair.of(a1, a2);
 	}
 
-	public static <T> LObjLongPair.MutObjLongPair<T> lObjLongPair(T a1, long a2) {
+	public static <T> LObjLongPair.MutObjLongPair<T> objLongPair(T a1, long a2) {
 		return LObjLongPair.MutObjLongPair.of(a1, a2);
 	}
 
@@ -707,7 +707,7 @@ public final class Tuple4U {
 		return LObjShortPair.MutObjShortPair.of(a1, a2);
 	}
 
-	public static <T> LObjShortPair.MutObjShortPair<T> lObjShortPair(T a1, short a2) {
+	public static <T> LObjShortPair.MutObjShortPair<T> objShortPair(T a1, short a2) {
 		return LObjShortPair.MutObjShortPair.of(a1, a2);
 	}
 
@@ -727,7 +727,7 @@ public final class Tuple4U {
 		return LBoolTriple.MutBoolTriple.of(a1, a2, a3);
 	}
 
-	public static LBoolTriple.MutBoolTriple lBoolTriple(boolean a1, boolean a2, boolean a3) {
+	public static LBoolTriple.MutBoolTriple boolTriple(boolean a1, boolean a2, boolean a3) {
 		return LBoolTriple.MutBoolTriple.of(a1, a2, a3);
 	}
 

@@ -96,7 +96,7 @@ public class LCharUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LCharSingle domainObject = Tuple4U.lCharSingle('\u0100');
+        LCharSingle domainObject = Tuple4U.charSingle('\u0100');
 
         Object result = sut.tupleApplyAsChar(domainObject);
 

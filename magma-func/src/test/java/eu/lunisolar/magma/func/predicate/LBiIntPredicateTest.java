@@ -93,7 +93,7 @@ public class LBiIntPredicateTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LIntPair domainObject = Tuple4U.lIntPair(100,100);
+        LIntPair domainObject = Tuple4U.intPair(100,100);
 
         Object result = sut.tupleTest(domainObject);
 

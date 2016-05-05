@@ -30,24 +30,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LIntSupplier for Java 8.
@@ -62,7 +61,7 @@ import java.util.function.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSupplier, MetaInterface.NonThrowing {
+public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LIntSupplier: int doGetAsInt()";
 
@@ -78,7 +77,7 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	int doGetAsInt();
 
-	default Integer tupleGetAsInt(LTuple.Void args) {
+	default int tupleGetAsInt(LTuple.Void args) {
 		return doGetAsInt();
 	}
 
@@ -138,7 +137,7 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produceInt). */
 	@Nonnull
 	static LIntSupplier safe() {
 		return Function4U::produceInt;
@@ -174,63 +173,63 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LSupplier<V> toSupplier(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteSupplier toByteSupplier(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortSupplier toShortSupplier(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntSupplier toIntSupplier(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongSupplier toLongSupplier(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatSupplier toFloatSupplier(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleSupplier toDoubleSupplier(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharSupplier toCharSupplier(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsInt());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolSupplier toBoolSupplier(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");

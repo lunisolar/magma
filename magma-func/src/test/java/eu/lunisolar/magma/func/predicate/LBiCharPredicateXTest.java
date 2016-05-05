@@ -96,7 +96,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LCharPair domainObject = Tuple4U.lCharPair('\u0100','\u0100');
+        LCharPair domainObject = Tuple4U.charPair('\u0100','\u0100');
 
         Object result = sut.tupleTest(domainObject);
 

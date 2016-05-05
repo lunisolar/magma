@@ -93,7 +93,7 @@ public class LShortPredicateTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LShortSingle domainObject = Tuple4U.lShortSingle((short)100);
+        LShortSingle domainObject = Tuple4U.shortSingle((short)100);
 
         Object result = sut.tupleTest(domainObject);
 

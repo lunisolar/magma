@@ -30,24 +30,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBoolSupplier for Java 8.
@@ -62,7 +61,7 @@ import java.util.function.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolSupplier extends LBoolSupplierX<RuntimeException>, MetaSupplier, MetaInterface.NonThrowing {
+public interface LBoolSupplier extends LBoolSupplierX<RuntimeException>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LBoolSupplier: boolean doGetAsBool()";
 
@@ -78,7 +77,7 @@ public interface LBoolSupplier extends LBoolSupplierX<RuntimeException>, MetaSup
 
 	boolean doGetAsBool();
 
-	default Boolean tupleGetAsBool(LTuple.Void args) {
+	default boolean tupleGetAsBool(LTuple.Void args) {
 		return doGetAsBool();
 	}
 
@@ -138,7 +137,7 @@ public interface LBoolSupplier extends LBoolSupplierX<RuntimeException>, MetaSup
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produceBoolean). */
 	@Nonnull
 	static LBoolSupplier safe() {
 		return Function4U::produceBoolean;
@@ -174,63 +173,63 @@ public interface LBoolSupplier extends LBoolSupplierX<RuntimeException>, MetaSup
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LSupplier<V> toSupplier(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteSupplier toByteSupplier(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortSupplier toShortSupplier(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntSupplier toIntSupplier(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongSupplier toLongSupplier(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatSupplier toFloatSupplier(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleSupplier toDoubleSupplier(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharSupplier toCharSupplier(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsBool());
 	}
 
-	/** Combines two suppliers together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolSupplier toBoolSupplier(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");

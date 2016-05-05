@@ -98,7 +98,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LDoubleSingle domainObject = Tuple4U.lDoubleSingle(100d);
+        LDoubleSingle domainObject = Tuple4U.doubleSingle(100d);
 
         Object result = sut.tupleApplyAsDouble(domainObject);
 

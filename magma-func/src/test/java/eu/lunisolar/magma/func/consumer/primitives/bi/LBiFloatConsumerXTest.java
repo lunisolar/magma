@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBiFloatConsumerXTest<X extends ParseException> {
@@ -61,8 +62,8 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
 
 
-    private LBiFloatConsumerX<X> sut = new LBiFloatConsumerX(){
-        public  void doAccept(float a1,float a2) throws ParseException {
+    private LBiFloatConsumerX<X> sut = new LBiFloatConsumerX<X>(){
+        public  void doAccept(float a1,float a2)  throws X {
             Function4U.doNothing();
         }
     };
@@ -75,11 +76,11 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
 
 
-    private LBiFloatConsumerX<ParseException> sutAlwaysThrowing = LBiFloatConsumerX.lX((float a1,float a2) -> {
+    private LBiFloatConsumerX<ParseException> sutAlwaysThrowing = LBiFloatConsumerX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBiFloatConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LBiFloatConsumerX.lX((float a1,float a2) -> {
+    private LBiFloatConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBiFloatConsumerX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -88,7 +89,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LFloatPair domainObject = Tuple4U.tuple((float)100,(float)100);
+        LFloatPair domainObject = Tuple4U.floatPair(100f,100f);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -101,7 +102,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoAccept((float)100,(float)100);
+            sutAlwaysThrowing.nestingDoAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -112,11 +113,11 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((float)100,(float)100);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -131,7 +132,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoAccept((float)100,(float)100);
+            sutAlwaysThrowing.shovingDoAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -142,11 +143,11 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((float)100,(float)100);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +166,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBiFloatConsumerX.lX((float a1,float a2) -> Function4U.doNothing() ))
+        assertThat(LBiFloatConsumerX.lX(Function4U::doNothing))
             .isInstanceOf(LBiFloatConsumerX.class);
     }
 
@@ -177,20 +178,20 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((float a1,float a2) -> {
+        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBiFloatConsumerX<X> wrapped = sutThrowing.handleBiFloatConsX(handler -> handler
+        LBiFloatConsumerX<RuntimeException> wrapped = sutThrowing.handleBiFloatConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doAccept((float)100,(float)100);
+            wrapped.doAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,10 +202,10 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBiFloatConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((float a1,float a2) -> {
+        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -215,7 +216,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((float)100,(float)100);
+            wrapped.doAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,10 +226,10 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBiFloatConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((float a1,float a2) -> {
+        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -239,7 +240,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((float)100,(float)100);
+            wrapped.doAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -250,10 +251,10 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBiFloatConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((float a1,float a2) -> {
+        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((a1,a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -262,7 +263,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((float)100,(float)100);
+            wrapped.doAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -277,7 +278,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiFloatConsComposeFloat() throws X {
+    public void testBiFloatConsComposeFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -285,24 +286,24 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
         //given (+ some assertions)
         LBiFloatConsumerX<X> sutO = (float a1,float a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)90);
-                assertThat(a2).isEqualTo((float)91);
+                assertThat(a1).isEqualTo(90f);
+                assertThat(a2).isEqualTo(91f);
         };
 
         LFloatUnaryOperatorX<X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((float)80);
+            assertThat(p0).isEqualTo(80f);
             beforeCalls.incrementAndGet();
-            return (float)90;
+            return 90f;
         };
         LFloatUnaryOperatorX<X> before2 = p1 -> {
-            assertThat(p1).isEqualTo((float)81);
+            assertThat(p1).isEqualTo(81f);
             beforeCalls.incrementAndGet();
-            return (float)91;
+            return 91f;
         };
 
         //when
         LBiFloatConsumerX<X> function = sutO.biFloatConsComposeFloat(before1,before2);
-        function.doAccept((float)80,(float)81);
+        function.doAccept(80f,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -311,7 +312,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testbiFloatConsCompose() throws X {
+    public void testBiFloatConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -319,24 +320,24 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
         //given (+ some assertions)
         LBiFloatConsumerX<X> sutO = (float a1,float a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)90);
-                assertThat(a2).isEqualTo((float)91);
+                assertThat(a1).isEqualTo(90f);
+                assertThat(a2).isEqualTo(91f);
         };
 
-        LToFloatFunctionX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToFloatFunctionX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (float)90;
+            return 90f;
         };
-        LToFloatFunctionX<Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LToFloatFunctionX<Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
-            return (float)91;
+            return 91f;
         };
 
         //when
-        LBiConsumerX<Integer ,Integer ,X> function = sutO.biFloatConsCompose(before1,before2);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiConsumerX<Integer,Integer,X> function = sutO.biFloatConsCompose(before1,before2);
+        function.doAccept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -352,21 +353,21 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBiFloatConsumerX<X> sutO = (float a1,float a2) -> {
+        LBiFloatConsumerX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                assertThat(a2).isEqualTo((float)81);
+                assertThat(a1).isEqualTo(80f);
+                assertThat(a2).isEqualTo(81f);
         };
 
-        LBiFloatConsumerX<X> thenFunction = (float a1,float a2) -> {
+        LBiFloatConsumerX<X> thenFunction = (a1,a2) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                assertThat(a2).isEqualTo((float)81);
+                assertThat(a1).isEqualTo(80f);
+                assertThat(a2).isEqualTo(81f);
         };
 
         //when
         LBiFloatConsumerX<X> function = sutO.andThen(thenFunction);
-        function.doAccept((float)80,(float)81);
+        function.doAccept(80f,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -402,19 +403,19 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((float a1,float a2) -> {
+        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingBiFloatCons().doAccept((float)100,(float)100);
+        sutThrowing.shovingBiFloatCons().doAccept(100f,100f);
     }
 
     @Test
     public void testHandleBiFloatCons() throws X {
 
         // given
-        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((float a1,float a2) -> {
+        LBiFloatConsumerX<X> sutThrowing = LBiFloatConsumerX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -425,7 +426,7 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((float)100,(float)100);
+            wrapped.doAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -456,12 +457,12 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private void variant1(float a2,float a1) {
+    private void variantV1(float a2,float a1) {
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LBiFloatConsumerX lambda = LBiFloatConsumerX./*<X>*/lX1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LBiFloatConsumerX lambda = LBiFloatConsumerX./*<X>*/lX1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LBiFloatConsumerX.V1.class);
     }

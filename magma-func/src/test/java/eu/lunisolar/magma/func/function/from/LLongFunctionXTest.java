@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LLongFunctionXTest<R,X extends ParseException> {
@@ -59,61 +60,61 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
-    private Object  testValue = (R)Integer.valueOf(100);
+    private Integer testValue = 100;
 
 
 
-    private LLongFunctionX<R,X> sut = new LLongFunctionX(){
-        public @Nullable Object  doApply(long a1) throws ParseException {
+    private LLongFunctionX<Integer,X> sut = new LLongFunctionX<Integer,X>(){
+        public @Nullable Integer doApply(long a1)  throws X {
             return testValue;
         }
     };
 
-    private LLongFunction<R> opposite = new LLongFunction(){
-        public @Nullable Object  doApply(long a1)  {
+    private LLongFunction<Integer> opposite = new LLongFunction<Integer>(){
+        public @Nullable Integer doApply(long a1)  {
             return testValue;
         }
     };
 
-    private LLongFunctionX<R,X> sutNull = new LLongFunctionX(){
-        public @Nullable Object  doApply(long a1) throws ParseException {
+    private LLongFunctionX<Integer,X> sutNull = new LLongFunctionX<Integer,X>(){
+        public @Nullable Integer doApply(long a1)  throws X {
             return null;
         }
     };
 
 
-    private LongFunction jre = a1 -> testValue;
+    private LongFunction<Integer> jre = a1 -> testValue;
 
 
-    private LLongFunctionX<R,ParseException> sutAlwaysThrowing = LLongFunctionX.lX(a1 -> {
+    private LLongFunctionX<Integer,ParseException> sutAlwaysThrowing = LLongFunctionX.lX(a1 -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LLongFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LLongFunctionX.lX(a1 -> {
+    private LLongFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LLongFunctionX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doApply((long)100))
-            .isSameAs(testValue);
+        assertThat(sut.doApply(100L))
+            .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LLongSingle domainObject = Tuple4U.tuple((long)100);
+        LLongSingle domainObject = Tuple4U.longSingle(100L);
 
         Object result = sut.tupleApply(domainObject);
 
         assertThat(result)
-            .isSameAs(testValue);
+            .isEqualTo(testValue);
     }
 
     @Test
     public void testNonNullDoApply() throws X {
-        assertThat(sut.nonNullDoApply((long)100))
+        assertThat(sut.nonNullDoApply(100L))
             .isSameAs(testValue);
     }
 
@@ -122,7 +123,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoApply((long)100);
+            sutAlwaysThrowing.nestingDoApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,11 +134,11 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyUnckeck() throws X {
+    public void testNestingDoApplyUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoApply((long)100);
+            sutAlwaysThrowingUnchecked.nestingDoApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +153,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoApply((long)100);
+            sutAlwaysThrowing.shovingDoApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -163,11 +164,11 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnckeck() throws X {
+    public void testShovingDoApplyUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoApply((long)100);
+            sutAlwaysThrowingUnchecked.shovingDoApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -179,7 +180,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LLongFunctionX: R doApply(long a1) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
-        sutNull.nonNullDoApply((long)100);
+        sutNull.nonNullDoApply(100L);
     }
 
 
@@ -209,20 +210,20 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoApplyMethodWrapsTheException() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(a1 -> {
+        LLongFunctionX<Integer,X> sutThrowing = LLongFunctionX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LLongFunctionX<R,X> wrapped = sutThrowing.handleLongFuncX(handler -> handler
+        LLongFunctionX<Integer,RuntimeException> wrapped = sutThrowing.handleLongFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doApply((long)100);
+            wrapped.doApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -233,21 +234,21 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleLongFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(a1 -> {
+        LLongFunctionX<Integer,X> sutThrowing = LLongFunctionX.lX(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LLongFunctionX<R,X> wrapped = sutThrowing.handleLongFuncX(handler -> handler
+        LLongFunctionX<Integer,X> wrapped = sutThrowing.handleLongFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doApply((long)100);
+            wrapped.doApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -257,21 +258,21 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleLongFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(a1 -> {
+        LLongFunctionX<Integer,X> sutThrowing = LLongFunctionX.lX(a1 -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LLongFunctionX<R,X> wrapped = sutThrowing.handleLongFuncX(handler -> handler
+        LLongFunctionX<Integer,X> wrapped = sutThrowing.handleLongFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doApply((long)100);
+            wrapped.doApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -282,19 +283,19 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleLongFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(a1 -> {
+        LLongFunctionX<Integer,X> sutThrowing = LLongFunctionX.lX(a1 -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LLongFunctionX<R,X> wrapped = sutThrowing.handleLongFuncX(h -> Function4U.doNothing());
+        LLongFunctionX<Integer,X> wrapped = sutThrowing.handleLongFuncX(h -> Function4U.doNothing());
 
         // then
         try {
-            wrapped.doApply((long)100);
+            wrapped.doApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -309,27 +310,27 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongFuncComposeLong() throws X {
+    public void testLongFuncComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)90);
-                return 9;
+                assertThat(a1).isEqualTo(90L);
+                return 100;
         };
 
         LLongUnaryOperatorX<X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((long)80);
+            assertThat(p0).isEqualTo(80L);
             beforeCalls.incrementAndGet();
-            return (long)90;
+            return 90L;
         };
 
         //when
-        LLongFunctionX<Integer ,X> function = sutO.longFuncComposeLong(before1);
-        function.doApply((long)80);
+        LLongFunctionX<Integer,X> function = sutO.longFuncComposeLong(before1);
+        function.doApply(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,27 +339,27 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testlongFuncCompose() throws X {
+    public void testLongFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)90);
-                return 9;
+                assertThat(a1).isEqualTo(90L);
+                return 100;
         };
 
-        LToLongFunctionX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToLongFunctionX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (long)90;
+            return 90L;
         };
 
         //when
-        LFunctionX<Integer ,Integer ,X> function = sutO.longFuncCompose(before1);
-        function.doApply((Integer )Integer.valueOf(80));
+        LFunctionX<Integer,Integer,X> function = sutO.longFuncCompose(before1);
+        function.doApply(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -366,6 +367,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     // </editor-fold>
+
 
 
     // <editor-fold desc="then (functional)">
@@ -376,28 +378,27 @@ public class LLongFunctionXTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LFunctionX<Integer ,Integer ,X> thenFunction = p -> {
+        LFunctionX<Integer,Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // Integer
+                return 100;
         };
 
         //when
-        LLongFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.doApply((long)80);
+        LLongFunctionX<Integer,X> function = sutO.then(thenFunction);
+        Integer finalValue = function.doApply(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -411,23 +412,22 @@ public class LLongFunctionXTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LConsumerX<Integer ,X> thenFunction = p -> {
+        LConsumerX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
         };
 
         //when
         LLongConsumerX<X> function = sutO.then(thenFunction);
-        function.doAccept((long)80);
+        function.doAccept(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -438,30 +438,29 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen2ToByte() throws X  {
+    public void testThenToByte2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LToByteFunctionX<Integer ,X> thenFunction = p -> {
+        LToByteFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // byte
                 return (byte)100;
         };
 
         //when
         LLongToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((long)80);
+        byte finalValue = function.doApplyAsByte(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -473,30 +472,29 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen3ToShort() throws X  {
+    public void testThenToShort3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LToShortFunctionX<Integer ,X> thenFunction = p -> {
+        LToShortFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // short
                 return (short)100;
         };
 
         //when
         LLongToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.doApplyAsShort((long)80);
+        short finalValue = function.doApplyAsShort(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -508,33 +506,32 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen4ToInt() throws X  {
+    public void testThenToInt4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LToIntFunctionX<Integer ,X> thenFunction = p -> {
+        LToIntFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // int
-                return (int)100;
+                return 100;
         };
 
         //when
         LLongToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((long)80);
+        int finalValue = function.doApplyAsInt(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((int)100);
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -543,33 +540,32 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen5ToLong() throws X  {
+    public void testThenToLong5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LToLongFunctionX<Integer ,X> thenFunction = p -> {
+        LToLongFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // long
-                return (long)100;
+                return 100L;
         };
 
         //when
         LLongUnaryOperatorX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((long)80);
+        long finalValue = function.doApplyAsLong(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((long)100);
+        assertThat(finalValue).isEqualTo(100L);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -578,33 +574,32 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen6ToFloat() throws X  {
+    public void testThenToFloat6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LToFloatFunctionX<Integer ,X> thenFunction = p -> {
+        LToFloatFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // float
-                return (float)100;
+                return 100f;
         };
 
         //when
         LLongToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.doApplyAsFloat((long)80);
+        float finalValue = function.doApplyAsFloat(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((float)100);
+        assertThat(finalValue).isEqualTo(100f);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -613,33 +608,32 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen7ToDouble() throws X  {
+    public void testThenToDouble7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LToDoubleFunctionX<Integer ,X> thenFunction = p -> {
+        LToDoubleFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // double
-                return (double)100;
+                return 100d;
         };
 
         //when
         LLongToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.doApplyAsDouble((long)80);
+        double finalValue = function.doApplyAsDouble(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((double)100);
+        assertThat(finalValue).isEqualTo(100d);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -648,33 +642,32 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen8ToChar() throws X  {
+    public void testThenToChar8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LToCharFunctionX<Integer ,X> thenFunction = p -> {
+        LToCharFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // char
-                return (char)100;
+                return '\u0100';
         };
 
         //when
         LLongToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((long)80);
+        char finalValue = function.doApplyAsChar(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((char)100);
+        assertThat(finalValue).isEqualTo('\u0100');
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -683,30 +676,29 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen9ToBool() throws X  {
+    public void testThenToBool9() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = a1 -> {
+        LLongFunctionX<Integer,X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80L);
+                return 90;
         };
 
-        LPredicateX<Integer ,X> thenFunction = p -> {
+        LPredicateX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // boolean
                 return true;
         };
 
         //when
         LLongPredicateX<X> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((long)80);
+        boolean finalValue = function.doTest(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -747,30 +739,30 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(a1 -> {
+        LLongFunctionX<Integer,X> sutThrowing = LLongFunctionX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingLongFunc().doApply((long)100);
+        sutThrowing.shovingLongFunc().doApply(100L);
     }
 
     @Test
     public void testHandleLongFunc() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(a1 -> {
+        LLongFunctionX<Integer,X> sutThrowing = LLongFunctionX.lX(a1 -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LLongFunctionX<R,X> wrapped = sutThrowing.handleLongFuncX(h -> {
+        LLongFunctionX<Integer,X> wrapped = sutThrowing.handleLongFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
         try {
-            wrapped.doApply((long)100);
+            wrapped.doApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -815,7 +807,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierPropagates() {
-        LSupplierX<LLongFunctionX<R,X>,Y> supplier = ()->sut;
+        LSupplierX<LLongFunctionX<Integer,X>,Y> supplier = ()->sut;
         Object result = LLongFunctionX.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -826,8 +818,8 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LLongFunctionX<R,X>,Y> r1 = LLongFunctionX.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LLongFunctionX<R,X>> r2 = LLongFunctionX.safeSupplier(()->sut); //NOSONAR
+        LSupplierX<LLongFunctionX<Integer,X>,Y> r1 = LLongFunctionX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LLongFunctionX<Integer,X>> r2 = LLongFunctionX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

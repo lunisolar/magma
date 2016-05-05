@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LDoubleConsumerXTest<X extends ParseException> {
@@ -61,8 +62,8 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
 
 
-    private LDoubleConsumerX<X> sut = new LDoubleConsumerX(){
-        public  void doAccept(double a1) throws ParseException {
+    private LDoubleConsumerX<X> sut = new LDoubleConsumerX<X>(){
+        public  void doAccept(double a1)  throws X {
             Function4U.doNothing();
         }
     };
@@ -81,7 +82,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LDoubleConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleConsumerX.lX(a1 -> {
+    private LDoubleConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LDoubleConsumerX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -90,7 +91,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LDoubleSingle domainObject = Tuple4U.tuple((double)100);
+        LDoubleSingle domainObject = Tuple4U.doubleSingle(100d);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -103,7 +104,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoAccept((double)100);
+            sutAlwaysThrowing.nestingDoAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -114,11 +115,11 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((double)100);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +134,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoAccept((double)100);
+            sutAlwaysThrowing.shovingDoAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -144,11 +145,11 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((double)100);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -167,7 +168,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LDoubleConsumerX.lX(a1 -> Function4U.doNothing() ))
+        assertThat(LDoubleConsumerX.lX(Function4U::doNothing))
             .isInstanceOf(LDoubleConsumerX.class);
     }
 
@@ -185,7 +186,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
         LDoubleConsumerX<X> sutThrowing = LDoubleConsumerX.lX(a1 -> {
@@ -193,12 +194,12 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleConsumerX<X> wrapped = sutThrowing.handleDoubleConsX(handler -> handler
+        LDoubleConsumerX<RuntimeException> wrapped = sutThrowing.handleDoubleConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doAccept((double)100);
+            wrapped.doAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -209,7 +210,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleDoubleConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LDoubleConsumerX<X> sutThrowing = LDoubleConsumerX.lX(a1 -> {
@@ -223,7 +224,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((double)100);
+            wrapped.doAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -233,7 +234,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleDoubleConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LDoubleConsumerX<X> sutThrowing = LDoubleConsumerX.lX(a1 -> {
@@ -247,7 +248,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((double)100);
+            wrapped.doAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -258,7 +259,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleDoubleConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
         LDoubleConsumerX<X> sutThrowing = LDoubleConsumerX.lX(a1 -> {
@@ -270,7 +271,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((double)100);
+            wrapped.doAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -285,7 +286,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testdoubleConsComposeDouble() throws X {
+    public void testDoubleConsComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -293,18 +294,18 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         //given (+ some assertions)
         LDoubleConsumerX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)90);
+                assertThat(a1).isEqualTo(90d);
         };
 
         LDoubleUnaryOperatorX<X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((double)80);
+            assertThat(p0).isEqualTo(80d);
             beforeCalls.incrementAndGet();
-            return (double)90;
+            return 90d;
         };
 
         //when
         LDoubleConsumerX<X> function = sutO.doubleConsComposeDouble(before1);
-        function.doAccept((double)80);
+        function.doAccept(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -313,7 +314,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testdoubleConsCompose() throws X {
+    public void testDoubleConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -321,18 +322,18 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         //given (+ some assertions)
         LDoubleConsumerX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)90);
+                assertThat(a1).isEqualTo(90d);
         };
 
-        LToDoubleFunctionX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToDoubleFunctionX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (double)90;
+            return 90d;
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.doubleConsCompose(before1);
-        function.doAccept((Integer )Integer.valueOf(80));
+        LConsumerX<Integer,X> function = sutO.doubleConsCompose(before1);
+        function.doAccept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -350,17 +351,17 @@ public class LDoubleConsumerXTest<X extends ParseException> {
          //given (+ some assertions)
         LDoubleConsumerX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)80);
+                assertThat(a1).isEqualTo(80d);
         };
 
-        LDoubleConsumerX<X> thenFunction = (double a1) -> {
+        LDoubleConsumerX<X> thenFunction = a1 -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)80);
+                assertThat(a1).isEqualTo(80d);
         };
 
         //when
         LDoubleConsumerX<X> function = sutO.andThen(thenFunction);
-        function.doAccept((double)80);
+        function.doAccept(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -401,7 +402,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingDoubleCons().doAccept((double)100);
+        sutThrowing.shovingDoubleCons().doAccept(100d);
     }
 
     @Test
@@ -419,7 +420,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((double)100);
+            wrapped.doAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)

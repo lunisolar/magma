@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LLongConsumerTest<X extends ParseException> {
@@ -67,8 +68,8 @@ public class LLongConsumerTest<X extends ParseException> {
         }
     };
 
-    private LLongConsumerX<X> opposite = new LLongConsumerX(){
-        public  void doAccept(long a1) throws ParseException {
+    private LLongConsumerX<X> opposite = new LLongConsumerX<X>(){
+        public  void doAccept(long a1)  throws X {
             Function4U.doNothing();
         }
     };
@@ -78,7 +79,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
 
 
-    private LLongConsumer sutAlwaysThrowingUnckeck = LLongConsumer.l(a1 -> {
+    private LLongConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LLongConsumer.l(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -87,7 +88,7 @@ public class LLongConsumerTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LLongSingle domainObject = Tuple4U.tuple((long)100);
+        LLongSingle domainObject = Tuple4U.longSingle(100L);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -96,11 +97,11 @@ public class LLongConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((long)100);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -111,11 +112,11 @@ public class LLongConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((long)100);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -134,7 +135,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LLongConsumer.l(a1 -> Function4U.doNothing() ))
+        assertThat(LLongConsumer.l(Function4U::doNothing))
             .isInstanceOf(LLongConsumer.class);
     }
 
@@ -162,7 +163,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((long)100);
+            wrapped.doAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -184,7 +185,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((long)100);
+            wrapped.doAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -196,7 +197,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
         LLongConsumer sutThrowing = LLongConsumer.l(a1 -> {
@@ -209,7 +210,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((long)100);
+            wrapped.doAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -220,7 +221,7 @@ public class LLongConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleLongConsMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LLongConsumer sutThrowing = LLongConsumer.l(a1 -> {
@@ -234,7 +235,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((long)100);
+            wrapped.doAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -244,7 +245,7 @@ public class LLongConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleLongConsMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LLongConsumer sutThrowing = LLongConsumer.l(a1 -> {
@@ -258,7 +259,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((long)100);
+            wrapped.doAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -269,7 +270,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleLongConsMishandlingExceptionIsAllowed() throws X {
 
         // given
         LLongConsumer sutThrowing = LLongConsumer.l(a1 -> {
@@ -281,7 +282,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((long)100);
+            wrapped.doAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -296,7 +297,7 @@ public class LLongConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongConsComposeLong() throws X {
+    public void testLongConsComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -304,18 +305,18 @@ public class LLongConsumerTest<X extends ParseException> {
         //given (+ some assertions)
         LLongConsumer sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)90);
+                assertThat(a1).isEqualTo(90L);
         };
 
         LLongUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((long)80);
+            assertThat(p0).isEqualTo(80L);
             beforeCalls.incrementAndGet();
-            return (long)90;
+            return 90L;
         };
 
         //when
         LLongConsumer function = sutO.longConsComposeLong(before1);
-        function.doAccept((long)80);
+        function.doAccept(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -324,7 +325,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testlongConsCompose() throws X {
+    public void testLongConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,18 +333,18 @@ public class LLongConsumerTest<X extends ParseException> {
         //given (+ some assertions)
         LLongConsumer sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)90);
+                assertThat(a1).isEqualTo(90L);
         };
 
-        LToLongFunction<Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToLongFunction<Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (long)90;
+            return 90L;
         };
 
         //when
-        LConsumer<Integer > function = sutO.longConsCompose(before1);
-        function.doAccept((Integer )Integer.valueOf(80));
+        LConsumer<Integer> function = sutO.longConsCompose(before1);
+        function.doAccept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -361,17 +362,17 @@ public class LLongConsumerTest<X extends ParseException> {
          //given (+ some assertions)
         LLongConsumer sutO = a1 -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
+                assertThat(a1).isEqualTo(80L);
         };
 
-        LLongConsumer thenFunction = (long a1) -> {
+        LLongConsumer thenFunction = a1 -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((long)80);
+                assertThat(a1).isEqualTo(80L);
         };
 
         //when
         LLongConsumer function = sutO.andThen(thenFunction);
-        function.doAccept((long)80);
+        function.doAccept(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -416,7 +417,7 @@ public class LLongConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingLongCons().doAccept((long)100);
+        sutThrowing.shovingLongCons().doAccept(100L);
     }
 
     @Test
@@ -434,7 +435,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doAccept((long)100);
+            wrapped.doAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)

@@ -98,7 +98,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LIntSingle domainObject = Tuple4U.lIntSingle(100);
+        LIntSingle domainObject = Tuple4U.intSingle(100);
 
         Object result = sut.tupleApplyAsInt(domainObject);
 

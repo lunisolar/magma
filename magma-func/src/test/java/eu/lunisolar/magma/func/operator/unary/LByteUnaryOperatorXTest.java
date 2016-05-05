@@ -96,7 +96,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LByteSingle domainObject = Tuple4U.lByteSingle((byte)100);
+        LByteSingle domainObject = Tuple4U.byteSingle((byte)100);
 
         Object result = sut.tupleApplyAsByte(domainObject);
 

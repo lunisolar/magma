@@ -95,7 +95,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LLongSingle domainObject = Tuple4U.lLongSingle(100L);
+        LLongSingle domainObject = Tuple4U.longSingle(100L);
 
         Object result = sut.tupleApplyAsLong(domainObject);
 

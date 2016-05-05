@@ -93,7 +93,7 @@ public class LBiObjFloatPredicateTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBiObjFloatTriple<Integer,Integer> domainObject = Tuple4U.lBiObjFloatTriple(100,100,100f);
+        LBiObjFloatTriple<Integer,Integer> domainObject = Tuple4U.biObjFloatTriple(100,100,100f);
 
         Object result = sut.tupleTest(domainObject);
 

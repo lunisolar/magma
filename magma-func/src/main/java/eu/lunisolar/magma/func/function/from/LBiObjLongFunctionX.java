@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.function.from;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiObjLongFunctionX for Java 8.
@@ -261,7 +261,7 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produce). */
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiObjLongFunctionX<T1, T2, R, X> safe() {
 		return Function4U::produce;
@@ -303,7 +303,7 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final long v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
+		return (V1 v1, V2 v2, long v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -390,35 +390,35 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 	@FunctionalInterface
 	interface V1<T1, T2, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
 		@Nullable
-		R apply1(T1 a1, long a3, T2 a2) throws X;
+		R doApplyV1(T1 a1, long a3, T2 a2) throws X;
 
 		@Override
 		default R doApply(T1 a1, T2 a2, long a3) throws X {
-			return this.apply1(a1, a3, a2);
+			return this.doApplyV1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LBiObjLongFunctionX for method references. */
 	@FunctionalInterface
-	interface V2<T1, T2, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
+	interface V2<T2, T1, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
 		@Nullable
-		R apply2(T2 a2, T1 a1, long a3) throws X;
+		R doApplyV2(T2 a2, T1 a1, long a3) throws X;
 
 		@Override
 		default R doApply(T1 a1, T2 a2, long a3) throws X {
-			return this.apply2(a2, a1, a3);
+			return this.doApplyV2(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LBiObjLongFunctionX for method references. */
 	@FunctionalInterface
-	interface V3<T1, T2, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
+	interface V3<T2, T1, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
 		@Nullable
-		R apply3(T2 a2, long a3, T1 a1) throws X;
+		R doApplyV3(T2 a2, long a3, T1 a1) throws X;
 
 		@Override
 		default R doApply(T1 a1, T2 a2, long a3) throws X {
-			return this.apply3(a2, a3, a1);
+			return this.doApplyV3(a2, a3, a1);
 		}
 	}
 
@@ -426,23 +426,23 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 	@FunctionalInterface
 	interface V4<T1, T2, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
 		@Nullable
-		R apply4(long a3, T1 a1, T2 a2) throws X;
+		R doApplyV4(long a3, T1 a1, T2 a2) throws X;
 
 		@Override
 		default R doApply(T1 a1, T2 a2, long a3) throws X {
-			return this.apply4(a3, a1, a2);
+			return this.doApplyV4(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LBiObjLongFunctionX for method references. */
 	@FunctionalInterface
-	interface V5<T1, T2, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
+	interface V5<T2, T1, R, X extends Throwable> extends LBiObjLongFunctionX<T1, T2, R, X> {
 		@Nullable
-		R apply5(long a3, T2 a2, T1 a1) throws X;
+		R doApplyV5(long a3, T2 a2, T1 a1) throws X;
 
 		@Override
 		default R doApply(T1 a1, T2 a2, long a3) throws X {
-			return this.apply5(a3, a2, a1);
+			return this.doApplyV5(a3, a2, a1);
 		}
 	}
 

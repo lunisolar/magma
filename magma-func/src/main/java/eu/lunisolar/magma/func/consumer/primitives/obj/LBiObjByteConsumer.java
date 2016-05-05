@@ -31,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBiObjByteConsumer for Java 8.
@@ -218,7 +217,7 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final byte v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
+		return (V1 v1, V2 v2, byte v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -234,7 +233,7 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 
 	// <editor-fold desc="andThen (consumer/action)">
 
-	/** Combines two consumers together in a order. */
+	/** Combines two LBiObjByteConsumer<T1,T2> together in a order. */
 	@Nonnull
 	default LBiObjByteConsumer<T1, T2> andThen(@Nonnull LBiObjByteConsumer<? super T1, ? super T2> after) {
 		Null.nonNullArg(after, "after");
@@ -278,35 +277,35 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 	@FunctionalInterface
 	interface V1<T1, T2> extends LBiObjByteConsumer<T1, T2> {
 
-		void apply1(T1 a1, byte a3, T2 a2);
+		void doAcceptV1(T1 a1, byte a3, T2 a2);
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.apply1(a1, a3, a2);
+			this.doAcceptV1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V2<T1, T2> extends LBiObjByteConsumer<T1, T2> {
+	interface V2<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void apply2(T2 a2, T1 a1, byte a3);
+		void doAcceptV2(T2 a2, T1 a1, byte a3);
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.apply2(a2, a1, a3);
+			this.doAcceptV2(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V3<T1, T2> extends LBiObjByteConsumer<T1, T2> {
+	interface V3<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void apply3(T2 a2, byte a3, T1 a1);
+		void doAcceptV3(T2 a2, byte a3, T1 a1);
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.apply3(a2, a3, a1);
+			this.doAcceptV3(a2, a3, a1);
 		}
 	}
 
@@ -314,23 +313,23 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 	@FunctionalInterface
 	interface V4<T1, T2> extends LBiObjByteConsumer<T1, T2> {
 
-		void apply4(byte a3, T1 a1, T2 a2);
+		void doAcceptV4(byte a3, T1 a1, T2 a2);
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.apply4(a3, a1, a2);
+			this.doAcceptV4(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V5<T1, T2> extends LBiObjByteConsumer<T1, T2> {
+	interface V5<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void apply5(byte a3, T2 a2, T1 a1);
+		void doAcceptV5(byte a3, T2 a2, T1 a1);
 
 		@Override
 		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.apply5(a3, a2, a1);
+			this.doAcceptV5(a3, a2, a1);
 		}
 	}
 

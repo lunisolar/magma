@@ -96,7 +96,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LObjIntPair<Integer> domainObject = Tuple4U.lObjIntPair(100,100);
+        LObjIntPair<Integer> domainObject = Tuple4U.objIntPair(100,100);
 
         Object result = sut.tupleTest(domainObject);
 

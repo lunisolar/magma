@@ -96,7 +96,7 @@ public class LLogicalOperatorXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBoolSingle domainObject = Tuple4U.lBoolSingle(true);
+        LBoolSingle domainObject = Tuple4U.boolSingle(true);
 
         Object result = sut.tupleApply(domainObject);
 

@@ -93,7 +93,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LFloatSingle domainObject = Tuple4U.lFloatSingle(100f);
+        LFloatSingle domainObject = Tuple4U.floatSingle(100f);
 
         Object result = sut.tupleTest(domainObject);
 

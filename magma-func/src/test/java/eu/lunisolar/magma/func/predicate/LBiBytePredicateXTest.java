@@ -96,7 +96,7 @@ public class LBiBytePredicateXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBytePair domainObject = Tuple4U.lBytePair((byte)100,(byte)100);
+        LBytePair domainObject = Tuple4U.bytePair((byte)100,(byte)100);
 
         Object result = sut.tupleTest(domainObject);
 

@@ -93,7 +93,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LTriple<Integer,Integer,Integer> domainObject = Tuple4U.lTriple(100,100,100);
+        LTriple<Integer,Integer,Integer> domainObject = Tuple4U.triple(100,100,100);
 
         Object result = sut.tupleTest(domainObject);
 

@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LByteConsumerXTest<X extends ParseException> {
@@ -61,8 +62,8 @@ public class LByteConsumerXTest<X extends ParseException> {
 
 
 
-    private LByteConsumerX<X> sut = new LByteConsumerX(){
-        public  void doAccept(byte a1) throws ParseException {
+    private LByteConsumerX<X> sut = new LByteConsumerX<X>(){
+        public  void doAccept(byte a1)  throws X {
             Function4U.doNothing();
         }
     };
@@ -79,7 +80,7 @@ public class LByteConsumerXTest<X extends ParseException> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LByteConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LByteConsumerX.lX(a1 -> {
+    private LByteConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LByteConsumerX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -88,7 +89,7 @@ public class LByteConsumerXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LByteSingle domainObject = Tuple4U.tuple((byte)100);
+        LByteSingle domainObject = Tuple4U.byteSingle((byte)100);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -112,11 +113,11 @@ public class LByteConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((byte)100);
+            sutAlwaysThrowingUnchecked.nestingDoAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -142,11 +143,11 @@ public class LByteConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((byte)100);
+            sutAlwaysThrowingUnchecked.shovingDoAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +166,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LByteConsumerX.lX(a1 -> Function4U.doNothing() ))
+        assertThat(LByteConsumerX.lX(Function4U::doNothing))
             .isInstanceOf(LByteConsumerX.class);
     }
 
@@ -177,7 +178,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
         LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(a1 -> {
@@ -185,7 +186,7 @@ public class LByteConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LByteConsumerX<X> wrapped = sutThrowing.handleByteConsX(handler -> handler
+        LByteConsumerX<RuntimeException> wrapped = sutThrowing.handleByteConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -201,7 +202,7 @@ public class LByteConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleByteConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(a1 -> {
@@ -225,7 +226,7 @@ public class LByteConsumerXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleByteConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(a1 -> {
@@ -250,7 +251,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleByteConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
         LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(a1 -> {
@@ -277,7 +278,7 @@ public class LByteConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbyteConsComposeByte() throws X {
+    public void testByteConsComposeByte() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -305,7 +306,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testbyteConsCompose() throws X {
+    public void testByteConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -316,15 +317,15 @@ public class LByteConsumerXTest<X extends ParseException> {
                 assertThat(a1).isEqualTo((byte)90);
         };
 
-        LToByteFunctionX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToByteFunctionX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.byteConsCompose(before1);
-        function.doAccept((Integer )Integer.valueOf(80));
+        LConsumerX<Integer,X> function = sutO.byteConsCompose(before1);
+        function.doAccept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -345,7 +346,7 @@ public class LByteConsumerXTest<X extends ParseException> {
                 assertThat(a1).isEqualTo((byte)80);
         };
 
-        LByteConsumerX<X> thenFunction = (byte a1) -> {
+        LByteConsumerX<X> thenFunction = a1 -> {
                 thenFunctionCalled.set(true);
                 assertThat(a1).isEqualTo((byte)80);
         };

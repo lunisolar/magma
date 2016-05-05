@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LLongSupplierTest<X extends ParseException> {
@@ -59,7 +60,7 @@ public class LLongSupplierTest<X extends ParseException> {
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
-    private long testValue = (long)100;
+    private long testValue = 100L;
 
 
 
@@ -69,8 +70,8 @@ public class LLongSupplierTest<X extends ParseException> {
         }
     };
 
-    private LLongSupplierX<X> opposite = new LLongSupplierX(){
-        public  long doGetAsLong() throws ParseException {
+    private LLongSupplierX<X> opposite = new LLongSupplierX<X>(){
+        public  long doGetAsLong()  throws X {
             return testValue;
         }
     };
@@ -80,7 +81,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
 
-    private LLongSupplier sutAlwaysThrowingUnckeck = LLongSupplier.l(() -> {
+    private LLongSupplierX<RuntimeException> sutAlwaysThrowingUnchecked = LLongSupplier.l(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -109,11 +110,11 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsLongUnckeck() throws X {
+    public void testNestingDoGetAsLongUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoGetAsLong();
+            sutAlwaysThrowingUnchecked.nestingDoGetAsLong();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -124,11 +125,11 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsLongUnckeck() throws X {
+    public void testShovingDoGetAsLongUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoGetAsLong();
+            sutAlwaysThrowingUnchecked.shovingDoGetAsLong();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -209,7 +210,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoGetAsLongMethodWrapsTheException() throws X {
 
         // given
         LLongSupplier sutThrowing = LLongSupplier.l(() -> {
@@ -233,7 +234,7 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleLongSupMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LLongSupplier sutThrowing = LLongSupplier.l(() -> {
@@ -257,7 +258,7 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleLongSupMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LLongSupplier sutThrowing = LLongSupplier.l(() -> {
@@ -282,7 +283,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleLongSupMishandlingExceptionIsAllowed() throws X {
 
         // given
         LLongSupplier sutThrowing = LLongSupplier.l(() -> {
@@ -306,35 +307,35 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
 
+
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testToSupplier0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
-        LLongFunction<Integer > thenFunction = p -> {
+        LLongFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
-                // V
-                return Integer.valueOf(100);
+                // long
+                assertThat(p).isEqualTo(90L);
+                // Integer
+                return 100;
         };
 
         //when
-        LSupplier<Integer > function = sutO.toSupplier(thenFunction);
-        Integer  finalValue = function.doGet();
+        LSupplier<Integer> function = sutO.toSupplier(thenFunction);
+        Integer finalValue = function.doGet();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -343,22 +344,21 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen1ToByte() throws X  {
+    public void testToByteSupplier1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
+                // long
+                assertThat(p).isEqualTo(90L);
                 // byte
                 return (byte)100;
         };
@@ -377,22 +377,21 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen2ToShort() throws X  {
+    public void testToShortSupplier2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongToShortFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
+                // long
+                assertThat(p).isEqualTo(90L);
                 // short
                 return (short)100;
         };
@@ -411,24 +410,23 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen3ToInt() throws X  {
+    public void testToIntSupplier3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
+                // long
+                assertThat(p).isEqualTo(90L);
                 // int
-                return (int)100;
+                return 100;
         };
 
         //when
@@ -436,7 +434,7 @@ public class LLongSupplierTest<X extends ParseException> {
         int finalValue = function.doGetAsInt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((int)100);
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -445,24 +443,23 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen4ToLong() throws X  {
+    public void testToLongSupplier4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
                 // long
-                return (long)100;
+                assertThat(p).isEqualTo(90L);
+                // long
+                return 100L;
         };
 
         //when
@@ -470,7 +467,7 @@ public class LLongSupplierTest<X extends ParseException> {
         long finalValue = function.doGetAsLong();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((long)100);
+        assertThat(finalValue).isEqualTo(100L);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -479,24 +476,23 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen5ToFloat() throws X  {
+    public void testToFloatSupplier5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongToFloatFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
+                // long
+                assertThat(p).isEqualTo(90L);
                 // float
-                return (float)100;
+                return 100f;
         };
 
         //when
@@ -504,7 +500,7 @@ public class LLongSupplierTest<X extends ParseException> {
         float finalValue = function.doGetAsFloat();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((float)100);
+        assertThat(finalValue).isEqualTo(100f);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -513,24 +509,23 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen6ToDouble() throws X  {
+    public void testToDoubleSupplier6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongToDoubleFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
+                // long
+                assertThat(p).isEqualTo(90L);
                 // double
-                return (double)100;
+                return 100d;
         };
 
         //when
@@ -538,7 +533,7 @@ public class LLongSupplierTest<X extends ParseException> {
         double finalValue = function.doGetAsDouble();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((double)100);
+        assertThat(finalValue).isEqualTo(100d);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -547,24 +542,23 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen7ToChar() throws X  {
+    public void testToCharSupplier7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
+                // long
+                assertThat(p).isEqualTo(90L);
                 // char
-                return (char)100;
+                return '\u0100';
         };
 
         //when
@@ -572,7 +566,7 @@ public class LLongSupplierTest<X extends ParseException> {
         char finalValue = function.doGetAsChar();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((char)100);
+        assertThat(finalValue).isEqualTo('\u0100');
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -581,22 +575,21 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBool() throws X  {
+    public void testToBoolSupplier8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LLongSupplier sutO = () -> {
                 mainFunctionCalled.set(true);
-                return (long)90;
+                return 90L;
         };
 
         LLongPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((long)90);
+                // long
+                assertThat(p).isEqualTo(90L);
                 // boolean
                 return true;
         };

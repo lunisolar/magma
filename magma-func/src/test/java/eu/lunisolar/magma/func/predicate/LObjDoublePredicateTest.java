@@ -93,7 +93,7 @@ public class LObjDoublePredicateTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LObjDoublePair<Integer> domainObject = Tuple4U.lObjDoublePair(100,100d);
+        LObjDoublePair<Integer> domainObject = Tuple4U.objDoublePair(100,100d);
 
         Object result = sut.tupleTest(domainObject);
 

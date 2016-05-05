@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBiShortConsumerTest<X extends ParseException> {
@@ -67,8 +68,8 @@ public class LBiShortConsumerTest<X extends ParseException> {
         }
     };
 
-    private LBiShortConsumerX<X> opposite = new LBiShortConsumerX(){
-        public  void doAccept(short a1,short a2) throws ParseException {
+    private LBiShortConsumerX<X> opposite = new LBiShortConsumerX<X>(){
+        public  void doAccept(short a1,short a2)  throws X {
             Function4U.doNothing();
         }
     };
@@ -76,7 +77,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
 
 
 
-    private LBiShortConsumer sutAlwaysThrowingUnckeck = LBiShortConsumer.l((short a1,short a2) -> {
+    private LBiShortConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBiShortConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -85,7 +86,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LShortPair domainObject = Tuple4U.tuple((short)100,(short)100);
+        LShortPair domainObject = Tuple4U.shortPair((short)100,(short)100);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -94,11 +95,11 @@ public class LBiShortConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.nestingDoAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -109,11 +110,11 @@ public class LBiShortConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.shovingDoAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -132,7 +133,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBiShortConsumer.l((short a1,short a2) -> Function4U.doNothing() ))
+        assertThat(LBiShortConsumer.l(Function4U::doNothing))
             .isInstanceOf(LBiShortConsumer.class);
     }
 
@@ -145,7 +146,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBiShortConsumerX<X> sutThrowing = LBiShortConsumerX.lX((short a1,short a2) -> {
+        LBiShortConsumerX<X> sutThrowing = LBiShortConsumerX.lX((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +168,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBiShortConsumerX<ParseException> sutThrowing = LBiShortConsumerX.lX((short a1,short a2) -> {
+        LBiShortConsumerX<ParseException> sutThrowing = LBiShortConsumerX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -188,10 +189,10 @@ public class LBiShortConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LBiShortConsumer sutThrowing = LBiShortConsumer.l((short a1,short a2) -> {
+        LBiShortConsumer sutThrowing = LBiShortConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -212,10 +213,10 @@ public class LBiShortConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBiShortConsMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiShortConsumer sutThrowing = LBiShortConsumer.l((short a1,short a2) -> {
+        LBiShortConsumer sutThrowing = LBiShortConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -236,10 +237,10 @@ public class LBiShortConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBiShortConsMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiShortConsumer sutThrowing = LBiShortConsumer.l((short a1,short a2) -> {
+        LBiShortConsumer sutThrowing = LBiShortConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -261,10 +262,10 @@ public class LBiShortConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBiShortConsMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiShortConsumer sutThrowing = LBiShortConsumer.l((short a1,short a2) -> {
+        LBiShortConsumer sutThrowing = LBiShortConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -288,7 +289,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiShortConsComposeShort() throws X {
+    public void testBiShortConsComposeShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -322,7 +323,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testbiShortConsCompose() throws X {
+    public void testBiShortConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -334,20 +335,20 @@ public class LBiShortConsumerTest<X extends ParseException> {
                 assertThat(a2).isEqualTo((short)91);
         };
 
-        LToShortFunction<Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToShortFunction<Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
-        LToShortFunction<Integer > before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LToShortFunction<Integer> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
 
         //when
-        LBiConsumer<Integer ,Integer > function = sutO.biShortConsCompose(before1,before2);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiConsumer<Integer,Integer> function = sutO.biShortConsCompose(before1,before2);
+        function.doAccept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -363,13 +364,13 @@ public class LBiShortConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBiShortConsumer sutO = (short a1,short a2) -> {
+        LBiShortConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo((short)80);
                 assertThat(a2).isEqualTo((short)81);
         };
 
-        LBiShortConsumer thenFunction = (short a1,short a2) -> {
+        LBiShortConsumer thenFunction = (a1,a2) -> {
                 thenFunctionCalled.set(true);
                 assertThat(a1).isEqualTo((short)80);
                 assertThat(a2).isEqualTo((short)81);
@@ -417,7 +418,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiShortConsumer sutThrowing = LBiShortConsumer.l((short a1,short a2) -> {
+        LBiShortConsumer sutThrowing = LBiShortConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -429,7 +430,7 @@ public class LBiShortConsumerTest<X extends ParseException> {
     public void testHandleBiShortCons() throws X {
 
         // given
-        LBiShortConsumer sutThrowing = LBiShortConsumer.l((short a1,short a2) -> {
+        LBiShortConsumer sutThrowing = LBiShortConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -471,12 +472,12 @@ public class LBiShortConsumerTest<X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private void variant1(short a2,short a1) {
+    private void variantV1(short a2,short a1) {
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LBiShortConsumer lambda = LBiShortConsumer./**/l1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LBiShortConsumer lambda = LBiShortConsumer./**/l1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LBiShortConsumer.V1.class);
     }

@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.operator.ternary;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LLogicalTernaryOperator for Java 8.
@@ -68,7 +68,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 
 	boolean doApply(boolean a1, boolean a2, boolean a3);
 
-	default Boolean tupleApply(LBoolTriple args) {
+	default boolean tupleApply(LBoolTriple args) {
 		return doApply(args.first(), args.second(), args.third());
 	}
 
@@ -150,7 +150,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produceBoolean). */
 	@Nonnull
 	static LLogicalTernaryOperator safe() {
 		return Function4U::produceBoolean;
@@ -230,8 +230,8 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LLogicalTernaryOperator isEqual(final boolean v1, final boolean v2, final boolean v3) {
-		return (a1, a2, a3) -> (a1 == v1) && (a2 == v2) && (a3 == v3);
+	static LLogicalTernaryOperator isEqual(boolean v1, boolean v2, boolean v3) {
+		return (boolean a1, boolean a2, boolean a3) -> (a1 == v1) && (a2 == v2) && (a3 == v3);
 	}
 
 	// </editor-fold>
@@ -241,7 +241,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	static LLogicalTernaryOperator and() {
-		return (a1, a2, a3) -> a1 && a2 && a3;
+		return (boolean a1, boolean a2, boolean a3) -> a1 && a2 && a3;
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	static LLogicalTernaryOperator or() {
-		return (a1, a2, a3) -> a1 || a2 || a3;
+		return (boolean a1, boolean a2, boolean a3) -> a1 || a2 || a3;
 	}
 
 	/**
@@ -257,18 +257,18 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	static LLogicalTernaryOperator xor() {
-		return (a1, a2, a3) -> a1 ^ a2 ^ a3;
+		return (boolean a1, boolean a2, boolean a3) -> a1 ^ a2 ^ a3;
 	}
 
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalTernaryOperator logicalTernaryOpComposeBoolean(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, @Nonnull final LLogicalOperator before3) {
+	default LLogicalTernaryOperator logicalTernaryOpComposeBool(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, @Nonnull final LLogicalOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (boolean v1, boolean v2, boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -284,7 +284,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LTriBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");

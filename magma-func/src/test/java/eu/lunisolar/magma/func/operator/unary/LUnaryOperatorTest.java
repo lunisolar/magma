@@ -101,7 +101,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LSingle<Integer> domainObject = Tuple4U.lSingle(100);
+        LSingle<Integer> domainObject = Tuple4U.single(100);
 
         Object result = sut.tupleApply(domainObject);
 

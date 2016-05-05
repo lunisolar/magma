@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LDoubleBinaryOperatorXTest<X extends ParseException> {
@@ -59,12 +60,12 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
-    private double testValue = (double)100;
+    private double testValue = 100d;
 
 
 
-    private LDoubleBinaryOperatorX<X> sut = new LDoubleBinaryOperatorX(){
-        public  double doApplyAsDouble(double a1,double a2) throws ParseException {
+    private LDoubleBinaryOperatorX<X> sut = new LDoubleBinaryOperatorX<X>(){
+        public  double doApplyAsDouble(double a1,double a2)  throws X {
             return testValue;
         }
     };
@@ -76,28 +77,28 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     };
 
 
-    private DoubleBinaryOperator jre = (double a1,double a2) -> testValue;
+    private DoubleBinaryOperator jre = (a1,a2) -> testValue;
 
 
-    private LDoubleBinaryOperatorX<ParseException> sutAlwaysThrowing = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+    private LDoubleBinaryOperatorX<ParseException> sutAlwaysThrowing = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LDoubleBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+    private LDoubleBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doApplyAsDouble((double)100,(double)100))
+        assertThat(sut.doApplyAsDouble(100d,100d))
             .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LDoublePair domainObject = Tuple4U.tuple((double)100,(double)100);
+        LDoublePair domainObject = Tuple4U.doublePair(100d,100d);
 
         Object result = sut.tupleApplyAsDouble(domainObject);
 
@@ -107,7 +108,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNonNullDoApplyAsDouble() throws X {
-        assertThat(sut.nonNullDoApplyAsDouble((double)100,(double)100))
+        assertThat(sut.nonNullDoApplyAsDouble(100d,100d))
             .isEqualTo(testValue);
     }
 
@@ -116,7 +117,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoApplyAsDouble((double)100,(double)100);
+            sutAlwaysThrowing.nestingDoApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +128,11 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDoubleUnckeck() throws X {
+    public void testNestingDoApplyAsDoubleUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoApplyAsDouble((double)100,(double)100);
+            sutAlwaysThrowingUnchecked.nestingDoApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +147,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoApplyAsDouble((double)100,(double)100);
+            sutAlwaysThrowing.shovingDoApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,11 +158,11 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDoubleUnckeck() throws X {
+    public void testShovingDoApplyAsDoubleUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoApplyAsDouble((double)100,(double)100);
+            sutAlwaysThrowingUnchecked.shovingDoApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -180,7 +181,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LDoubleBinaryOperatorX.lX((double a1,double a2) -> testValue ))
+        assertThat(LDoubleBinaryOperatorX.lX((a1,a2) -> testValue ))
             .isInstanceOf(LDoubleBinaryOperatorX.class);
     }
 
@@ -198,20 +199,20 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoApplyAsDoubleMethodWrapsTheException() throws X {
 
         // given
-        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleDoubleBinaryOpX(handler -> handler
+        LDoubleBinaryOperatorX<RuntimeException> wrapped = sutThrowing.handleDoubleBinaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doApplyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,10 +223,10 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleDoubleBinaryOpXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -236,7 +237,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -246,10 +247,10 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleDoubleBinaryOpXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -260,7 +261,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -271,10 +272,10 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleDoubleBinaryOpXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -283,7 +284,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -295,10 +296,36 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
+    public void minBy() throws X  {
+        //when
+        LDoubleBinaryOperatorX<X> min =  LDoubleBinaryOperatorX.minBy(Double::compare);
+
+        //then
+        assertThat(min.doApplyAsDouble(0d, 56d))
+                .isEqualTo(0d);
+        assertThat(min.doApplyAsDouble(56d, 0d))
+                       .isEqualTo(0d);
+
+    }
+
+    @Test
+    public void maxBy() throws X  {
+        //when
+        LDoubleBinaryOperatorX<X> max =  LDoubleBinaryOperatorX.maxBy(Double::compare);
+
+        //then
+        assertThat(max.doApplyAsDouble(0d, 56d))
+                .isEqualTo(56d);
+        assertThat(max.doApplyAsDouble(56d, 0d))
+                        .isEqualTo(56d);
+    }
+
+
+    @Test
     public void testMin() throws X {
         //given
-        double valueSmall = (double)100;
-        double valueBig = (double)(valueSmall+10);
+        double valueSmall = 10d;
+        double valueBig = 100d;
 
         //when
         LDoubleBinaryOperatorX<X> min = LDoubleBinaryOperatorX.min();
@@ -314,8 +341,8 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     @Test
     public void testMax() throws X {
         //given
-        double valueSmall = (double)100;
-        double valueBig = (double)(valueSmall+10);
+        double valueSmall = 10d;
+        double valueBig = 100d;
 
         //when
         LDoubleBinaryOperatorX<X> max = LDoubleBinaryOperatorX.max();
@@ -332,7 +359,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testdoubleBinaryOpComposeDouble() throws X {
+    public void testDoubleBinaryOpComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -340,25 +367,25 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         //given (+ some assertions)
         LDoubleBinaryOperatorX<X> sutO = (double a1,double a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)90);
-                assertThat(a2).isEqualTo((double)91);
-                return (double)100;
+                assertThat(a1).isEqualTo(90d);
+                assertThat(a2).isEqualTo(91d);
+                return 100d;
         };
 
         LDoubleUnaryOperatorX<X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((double)80);
+            assertThat(p0).isEqualTo(80d);
             beforeCalls.incrementAndGet();
-            return (double)90;
+            return 90d;
         };
         LDoubleUnaryOperatorX<X> before2 = p1 -> {
-            assertThat(p1).isEqualTo((double)81);
+            assertThat(p1).isEqualTo(81d);
             beforeCalls.incrementAndGet();
-            return (double)91;
+            return 91d;
         };
 
         //when
         LDoubleBinaryOperatorX<X> function = sutO.doubleBinaryOpComposeDouble(before1,before2);
-        function.doApplyAsDouble((double)80,(double)81);
+        function.doApplyAsDouble(80d,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -367,7 +394,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testdoubleBinaryOpCompose() throws X {
+    public void testDoubleBinaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -375,25 +402,25 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         //given (+ some assertions)
         LDoubleBinaryOperatorX<X> sutO = (double a1,double a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)90);
-                assertThat(a2).isEqualTo((double)91);
-                return (double)100;
+                assertThat(a1).isEqualTo(90d);
+                assertThat(a2).isEqualTo(91d);
+                return 100d;
         };
 
-        LToDoubleFunctionX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToDoubleFunctionX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (double)90;
+            return 90d;
         };
-        LToDoubleFunctionX<Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LToDoubleFunctionX<Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
-            return (double)91;
+            return 91d;
         };
 
         //when
-        LToDoubleBiFunctionX<Integer ,Integer ,X> function = sutO.doubleBinaryOpCompose(before1,before2);
-        function.doApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LToDoubleBiFunctionX<Integer,Integer,X> function = sutO.doubleBinaryOpCompose(before1,before2);
+        function.doApplyAsDouble(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -401,6 +428,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     }
 
     // </editor-fold>
+
 
 
     // <editor-fold desc="then (functional)">
@@ -411,29 +439,28 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LDoubleBinaryOperatorX<X> sutO = (double a1,double a2) -> {
+        LDoubleBinaryOperatorX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((double)80);
-                assertThat(a2).isEqualTo((double)81);
-                return (double)90;
+                assertThat(a1).isEqualTo(80d);
+                assertThat(a2).isEqualTo(81d);
+                return 90d;
         };
 
-        LDoubleFunctionX<Integer ,X> thenFunction = p -> {
+        LDoubleFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((double)90);
-                // V
-                return Integer.valueOf(100);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // Integer
+                return 100;
         };
 
         //when
-        LBiDoubleFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.doApply((double)80,(double)81);
+        LBiDoubleFunctionX<Integer,X> function = sutO.then(thenFunction);
+        Integer finalValue = function.doApply(80d,81d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -471,19 +498,19 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingDoubleBinaryOp().doApplyAsDouble((double)100,(double)100);
+        sutThrowing.shovingDoubleBinaryOp().doApplyAsDouble(100d,100d);
     }
 
     @Test
     public void testHandleDoubleBinaryOp() throws X {
 
         // given
-        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((double a1,double a2) -> {
+        LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -494,7 +521,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)

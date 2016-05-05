@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBoolSupplierXTest<X extends ParseException> {
@@ -63,8 +64,8 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
 
-    private LBoolSupplierX<X> sut = new LBoolSupplierX(){
-        public  boolean doGetAsBool() throws ParseException {
+    private LBoolSupplierX<X> sut = new LBoolSupplierX<X>(){
+        public  boolean doGetAsBool()  throws X {
             return testValue;
         }
     };
@@ -83,7 +84,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBoolSupplierX<RuntimeException> sutAlwaysThrowingUnckeck = LBoolSupplierX.lX(() -> {
+    private LBoolSupplierX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolSupplierX.lX(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -127,11 +128,11 @@ public class LBoolSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsBoolUnckeck() throws X {
+    public void testNestingDoGetAsBoolUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoGetAsBool();
+            sutAlwaysThrowingUnchecked.nestingDoGetAsBool();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,11 +158,11 @@ public class LBoolSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsBoolUnckeck() throws X {
+    public void testShovingDoGetAsBoolUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoGetAsBool();
+            sutAlwaysThrowingUnchecked.shovingDoGetAsBool();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -198,7 +199,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoGetAsBoolMethodWrapsTheException() throws X {
 
         // given
         LBoolSupplierX<X> sutThrowing = LBoolSupplierX.lX(() -> {
@@ -206,7 +207,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LBoolSupplierX<X> wrapped = sutThrowing.handleBoolSupX(handler -> handler
+        LBoolSupplierX<RuntimeException> wrapped = sutThrowing.handleBoolSupX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -222,7 +223,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBoolSupXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBoolSupplierX<X> sutThrowing = LBoolSupplierX.lX(() -> {
@@ -246,7 +247,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBoolSupXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBoolSupplierX<X> sutThrowing = LBoolSupplierX.lX(() -> {
@@ -271,7 +272,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBoolSupXMishandlingExceptionIsAllowed() throws X {
 
         // given
         LBoolSupplierX<X> sutThrowing = LBoolSupplierX.lX(() -> {
@@ -295,14 +296,14 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
 
+
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testToSupplier0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -310,20 +311,20 @@ public class LBoolSupplierXTest<X extends ParseException> {
                 return true;
         };
 
-        LBoolFunctionX<Integer ,X> thenFunction = p -> {
+        LBoolFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                return 100;
         };
 
         //when
-        LSupplierX<Integer ,X> function = sutO.toSupplier(thenFunction);
-        Integer  finalValue = function.doGet();
+        LSupplierX<Integer,X> function = sutO.toSupplier(thenFunction);
+        Integer finalValue = function.doGet();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -332,11 +333,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen1ToByte() throws X  {
+    public void testToByteSupplier1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -346,7 +346,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LBoolToByteFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // byte
                 return (byte)100;
@@ -366,11 +366,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen2ToShort() throws X  {
+    public void testToShortSupplier2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -380,7 +379,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LBoolToShortFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // short
                 return (short)100;
@@ -400,11 +399,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen3ToInt() throws X  {
+    public void testToIntSupplier3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -414,10 +412,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LBoolToIntFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // int
-                return (int)100;
+                return 100;
         };
 
         //when
@@ -425,7 +423,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
         int finalValue = function.doGetAsInt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((int)100);
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -434,11 +432,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen4ToLong() throws X  {
+    public void testToLongSupplier4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -448,10 +445,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LBoolToLongFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // long
-                return (long)100;
+                return 100L;
         };
 
         //when
@@ -459,7 +456,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
         long finalValue = function.doGetAsLong();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((long)100);
+        assertThat(finalValue).isEqualTo(100L);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -468,11 +465,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen5ToFloat() throws X  {
+    public void testToFloatSupplier5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -482,10 +478,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LBoolToFloatFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // float
-                return (float)100;
+                return 100f;
         };
 
         //when
@@ -493,7 +489,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
         float finalValue = function.doGetAsFloat();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((float)100);
+        assertThat(finalValue).isEqualTo(100f);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -502,11 +498,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen6ToDouble() throws X  {
+    public void testToDoubleSupplier6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -516,10 +511,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LBoolToDoubleFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // double
-                return (double)100;
+                return 100d;
         };
 
         //when
@@ -527,7 +522,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
         double finalValue = function.doGetAsDouble();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((double)100);
+        assertThat(finalValue).isEqualTo(100d);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -536,11 +531,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen7ToChar() throws X  {
+    public void testToCharSupplier7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -550,10 +544,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LBoolToCharFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // char
-                return (char)100;
+                return '\u0100';
         };
 
         //when
@@ -561,7 +555,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
         char finalValue = function.doGetAsChar();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((char)100);
+        assertThat(finalValue).isEqualTo('\u0100');
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -570,11 +564,10 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBool() throws X  {
+    public void testToBoolSupplier8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolSupplierX<X> sutO = () -> {
@@ -584,7 +577,7 @@ public class LBoolSupplierXTest<X extends ParseException> {
 
         LLogicalOperatorX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // boolean
                 assertThat(p).isEqualTo(true);
                 // boolean
                 return true;

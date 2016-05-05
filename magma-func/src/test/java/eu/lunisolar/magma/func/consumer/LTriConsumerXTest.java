@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
@@ -61,25 +62,25 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
 
 
-    private LTriConsumerX<T1,T2,T3,X> sut = new LTriConsumerX(){
-        public  void doAccept(Object a1,Object a2,Object a3) throws ParseException {
+    private LTriConsumerX<Integer,Integer,Integer,X> sut = new LTriConsumerX<Integer,Integer,Integer,X>(){
+        public  void doAccept(Integer a1,Integer a2,Integer a3)  throws X {
             Function4U.doNothing();
         }
     };
 
-    private LTriConsumer<T1,T2,T3> opposite = new LTriConsumer(){
-        public  void doAccept(Object a1,Object a2,Object a3)  {
+    private LTriConsumer<Integer,Integer,Integer> opposite = new LTriConsumer<Integer,Integer,Integer>(){
+        public  void doAccept(Integer a1,Integer a2,Integer a3)  {
             Function4U.doNothing();
         }
     };
 
 
 
-    private LTriConsumerX<T1,T2,T3,ParseException> sutAlwaysThrowing = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+    private LTriConsumerX<Integer,Integer,Integer,ParseException> sutAlwaysThrowing = LTriConsumerX.lX((a1,a2,a3) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LTriConsumerX<T1,T2,T3,RuntimeException> sutAlwaysThrowingUnckeck = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+    private LTriConsumerX<Integer,Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LTriConsumerX.lX((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -88,7 +89,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LTriple<T1,T2,T3> domainObject = Tuple4U.tuple((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+        LTriple<Integer,Integer,Integer> domainObject = Tuple4U.triple(100,100,100);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -101,7 +102,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            sutAlwaysThrowing.nestingDoAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -112,11 +113,11 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -131,7 +132,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            sutAlwaysThrowing.shovingDoAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -142,11 +143,11 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +166,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LTriConsumerX.lX((Object a1,Object a2,Object a3) -> Function4U.doNothing() ))
+        assertThat(LTriConsumerX.lX(Function4U::doNothing))
             .isInstanceOf(LTriConsumerX.class);
     }
 
@@ -177,20 +178,20 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutThrowing = LTriConsumerX.lX((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleTriConsX(handler -> handler
+        LTriConsumerX<Integer,Integer,Integer,RuntimeException> wrapped = sutThrowing.handleTriConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,21 +202,21 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleTriConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutThrowing = LTriConsumerX.lX((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleTriConsX(handler -> handler
+        LTriConsumerX<Integer,Integer,Integer,X> wrapped = sutThrowing.handleTriConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,21 +226,21 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleTriConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutThrowing = LTriConsumerX.lX((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleTriConsX(handler -> handler
+        LTriConsumerX<Integer,Integer,Integer,X> wrapped = sutThrowing.handleTriConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -250,19 +251,19 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleTriConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutThrowing = LTriConsumerX.lX((a1,a2,a3) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleTriConsX(h -> Function4U.doNothing());
+        LTriConsumerX<Integer,Integer,Integer,X> wrapped = sutThrowing.handleTriConsX(h -> Function4U.doNothing());
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -277,38 +278,38 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtriConsCompose() throws X {
+    public void testTriConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriConsumerX<Integer ,Integer ,Integer ,X> sutO = (Integer a1,Integer a2,Integer a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutO = (Integer a1,Integer a2,Integer a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(91));
-                assertThat(a3).isEqualTo((T3)Integer.valueOf(92));
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91);
+                assertThat(a3).isEqualTo(92);
         };
 
-        LFunctionX<Integer ,Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((T1)Integer.valueOf(80));
+        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LFunctionX<Integer ,Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo((T2)Integer.valueOf(81));
+        LFunctionX<Integer,Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return 91;
         };
-        LFunctionX<Integer ,Integer ,X> before3 = p2 -> {
-            assertThat(p2).isEqualTo((T3)Integer.valueOf(82));
+        LFunctionX<Integer,Integer,X> before3 = p2 -> {
+            assertThat(p2).isEqualTo(82);
             beforeCalls.incrementAndGet();
             return 92;
         };
 
         //when
-        LTriConsumerX<Integer ,Integer ,Integer ,X> function = sutO.triConsCompose(before1,before2,before3);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        LTriConsumerX<Integer,Integer,Integer,X> function = sutO.triConsCompose(before1,before2,before3);
+        function.doAccept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -324,23 +325,23 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LTriConsumerX<Integer ,Integer ,Integer ,X> sutO = (Integer a1,Integer a2,Integer a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat(a3).isEqualTo((T3)Integer.valueOf(82));
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82);
         };
 
-        LTriConsumerX<Integer ,Integer ,Integer ,X> thenFunction = (Integer a1,Integer a2,Integer a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> thenFunction = (a1,a2,a3) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T1)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((T2)Integer.valueOf(81));
-                assertThat(a3).isEqualTo((T3)Integer.valueOf(82));
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82);
         };
 
         //when
-        LTriConsumerX<Integer ,Integer ,Integer ,X> function = sutO.andThen(thenFunction);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        LTriConsumerX<Integer,Integer,Integer,X> function = sutO.andThen(thenFunction);
+        function.doAccept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -376,30 +377,30 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     public void testShove() {
 
         // given
-        LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutThrowing = LTriConsumerX.lX((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingTriCons().doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+        sutThrowing.shovingTriCons().doAccept(100,100,100);
     }
 
     @Test
     public void testHandleTriCons() throws X {
 
         // given
-        LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 a1,T2 a2,T3 a3) -> {
+        LTriConsumerX<Integer,Integer,Integer,X> sutThrowing = LTriConsumerX.lX((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleTriConsX(h -> {
+        LTriConsumerX<Integer,Integer,Integer,X> wrapped = sutThrowing.handleTriConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
         try {
-            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -428,6 +429,65 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
             .isTrue();
     }
 
+    //<editor-fold desc="Variants">
+
+    private void variantV1(Integer a1,Integer a3,Integer a2) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantV1() {
+        LTriConsumerX lambda = LTriConsumerX./*<T1,T2,T3,X>*/lX1(this::variantV1);
+
+        assertThat(lambda).isInstanceOf(LTriConsumerX.V1.class);
+    }
+
+
+    private void variantV2(Integer a2,Integer a1,Integer a3) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantV2() {
+        LTriConsumerX lambda = LTriConsumerX./*<T1,T2,T3,X>*/lX2(this::variantV2);
+
+        assertThat(lambda).isInstanceOf(LTriConsumerX.V2.class);
+    }
+
+
+    private void variantV3(Integer a2,Integer a3,Integer a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantV3() {
+        LTriConsumerX lambda = LTriConsumerX./*<T1,T2,T3,X>*/lX3(this::variantV3);
+
+        assertThat(lambda).isInstanceOf(LTriConsumerX.V3.class);
+    }
+
+
+    private void variantV4(Integer a3,Integer a1,Integer a2) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantV4() {
+        LTriConsumerX lambda = LTriConsumerX./*<T1,T2,T3,X>*/lX4(this::variantV4);
+
+        assertThat(lambda).isInstanceOf(LTriConsumerX.V4.class);
+    }
+
+
+    private void variantV5(Integer a3,Integer a2,Integer a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantV5() {
+        LTriConsumerX lambda = LTriConsumerX./*<T1,T2,T3,X>*/lX5(this::variantV5);
+
+        assertThat(lambda).isInstanceOf(LTriConsumerX.V5.class);
+    }
+
+    //</editor-fold>
+
+
     @Test void safeCompiles() {
         LTriConsumerX r1 = LTriConsumerX.safe(sut); //NOSONAR
     }
@@ -443,7 +503,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierPropagates() {
-        LSupplierX<LTriConsumerX<T1,T2,T3,X>,Y> supplier = ()->sut;
+        LSupplierX<LTriConsumerX<Integer,Integer,Integer,X>,Y> supplier = ()->sut;
         Object result = LTriConsumerX.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -454,7 +514,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LTriConsumerX<T1,T2,T3,X>,Y> r1 = LTriConsumerX.safeSupplier(()->sut);  //NOSONAR
+        LSupplierX<LTriConsumerX<Integer,Integer,Integer,X>,Y> r1 = LTriConsumerX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,44 +52,45 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LSupplierXTest<R,X extends ParseException> {
+public class LSupplierXTest<T,X extends ParseException> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
-    private Object  testValue = (R)Integer.valueOf(100);
+    private Integer testValue = 100;
 
 
 
-    private LSupplierX<R,X> sut = new LSupplierX(){
-        public @Nullable Object  doGet() throws ParseException {
+    private LSupplierX<Integer,X> sut = new LSupplierX<Integer,X>(){
+        public @Nullable Integer doGet()  throws X {
             return testValue;
         }
     };
 
-    private LSupplier<R> opposite = new LSupplier(){
-        public @Nullable Object  doGet()  {
+    private LSupplier<Integer> opposite = new LSupplier<Integer>(){
+        public @Nullable Integer doGet()  {
             return testValue;
         }
     };
 
-    private LSupplierX<R,X> sutNull = new LSupplierX(){
-        public @Nullable Object  doGet() throws ParseException {
+    private LSupplierX<Integer,X> sutNull = new LSupplierX<Integer,X>(){
+        public @Nullable Integer doGet()  throws X {
             return null;
         }
     };
 
 
-    private Supplier jre = () -> testValue;
+    private Supplier<Integer> jre = () -> testValue;
 
 
-    private LSupplierX<R,ParseException> sutAlwaysThrowing = LSupplierX.lX(() -> {
+    private LSupplierX<Integer,ParseException> sutAlwaysThrowing = LSupplierX.lX(() -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LSupplierX<R,RuntimeException> sutAlwaysThrowingUnckeck = LSupplierX.lX(() -> {
+    private LSupplierX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LSupplierX.lX(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -97,7 +98,7 @@ public class LSupplierXTest<R,X extends ParseException> {
     @Test
     public void testTheResult() throws X {
         assertThat(sut.doGet())
-            .isSameAs(testValue);
+            .isEqualTo(testValue);
     }
 
     @Test
@@ -108,7 +109,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         Object result = sut.tupleGet(domainObject);
 
         assertThat(result)
-            .isSameAs(testValue);
+            .isEqualTo(testValue);
     }
 
     @Test
@@ -133,11 +134,11 @@ public class LSupplierXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetUnckeck() throws X {
+    public void testNestingDoGetUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoGet();
+            sutAlwaysThrowingUnchecked.nestingDoGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -163,11 +164,11 @@ public class LSupplierXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetUnckeck() throws X {
+    public void testShovingDoGetUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoGet();
+            sutAlwaysThrowingUnchecked.shovingDoGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +178,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoGet() method cannot be null (LSupplierX: R doGet() throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoGet() method cannot be null (LSupplierX: T doGet() throws X).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoGet();
     }
@@ -186,7 +187,7 @@ public class LSupplierXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSupplierX: R doGet() throws X");
+            .isEqualTo("LSupplierX: T doGet() throws X");
     }
 
     @Test
@@ -209,15 +210,15 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoGetMethodWrapsTheException() throws X {
 
         // given
-        LSupplierX<R,X> sutThrowing = LSupplierX.lX(() -> {
+        LSupplierX<Integer,X> sutThrowing = LSupplierX.lX(() -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LSupplierX<R,X> wrapped = sutThrowing.handleSupX(handler -> handler
+        LSupplierX<Integer,RuntimeException> wrapped = sutThrowing.handleSupX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -233,15 +234,15 @@ public class LSupplierXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleSupXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LSupplierX<R,X> sutThrowing = LSupplierX.lX(() -> {
+        LSupplierX<Integer,X> sutThrowing = LSupplierX.lX(() -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LSupplierX<R,X> wrapped = sutThrowing.handleSupX(handler -> handler
+        LSupplierX<Integer,X> wrapped = sutThrowing.handleSupX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,15 +258,15 @@ public class LSupplierXTest<R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleSupXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LSupplierX<R,X> sutThrowing = LSupplierX.lX(() -> {
+        LSupplierX<Integer,X> sutThrowing = LSupplierX.lX(() -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LSupplierX<R,X> wrapped = sutThrowing.handleSupX(handler -> handler
+        LSupplierX<Integer,X> wrapped = sutThrowing.handleSupX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -282,15 +283,15 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleSupXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LSupplierX<R,X> sutThrowing = LSupplierX.lX(() -> {
+        LSupplierX<Integer,X> sutThrowing = LSupplierX.lX(() -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LSupplierX<R,X> wrapped = sutThrowing.handleSupX(h -> Function4U.doNothing());
+        LSupplierX<Integer,X> wrapped = sutThrowing.handleSupX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -306,35 +307,35 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
 
+
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testToSupplier0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LFunctionX<Integer ,Integer ,X> thenFunction = p -> {
+        LFunctionX<Integer,Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // Integer
+                return 100;
         };
 
         //when
-        LSupplierX<Integer ,X> function = sutO.toSupplier(thenFunction);
-        Integer  finalValue = function.doGet();
+        LSupplierX<Integer,X> function = sutO.toSupplier(thenFunction);
+        Integer finalValue = function.doGet();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -343,22 +344,21 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws X  {
+    public void testToAction1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LConsumerX<Integer ,X> thenFunction = p -> {
+        LConsumerX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
         };
 
         //when
@@ -374,22 +374,21 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen2ToByte() throws X  {
+    public void testToByteSupplier2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LToByteFunctionX<Integer ,X> thenFunction = p -> {
+        LToByteFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // byte
                 return (byte)100;
         };
@@ -408,22 +407,21 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen3ToShort() throws X  {
+    public void testToShortSupplier3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LToShortFunctionX<Integer ,X> thenFunction = p -> {
+        LToShortFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // short
                 return (short)100;
         };
@@ -442,24 +440,23 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen4ToInt() throws X  {
+    public void testToIntSupplier4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LToIntFunctionX<Integer ,X> thenFunction = p -> {
+        LToIntFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // int
-                return (int)100;
+                return 100;
         };
 
         //when
@@ -467,7 +464,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         int finalValue = function.doGetAsInt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((int)100);
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -476,24 +473,23 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen5ToLong() throws X  {
+    public void testToLongSupplier5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LToLongFunctionX<Integer ,X> thenFunction = p -> {
+        LToLongFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // long
-                return (long)100;
+                return 100L;
         };
 
         //when
@@ -501,7 +497,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         long finalValue = function.doGetAsLong();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((long)100);
+        assertThat(finalValue).isEqualTo(100L);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -510,24 +506,23 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen6ToFloat() throws X  {
+    public void testToFloatSupplier6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LToFloatFunctionX<Integer ,X> thenFunction = p -> {
+        LToFloatFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // float
-                return (float)100;
+                return 100f;
         };
 
         //when
@@ -535,7 +530,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         float finalValue = function.doGetAsFloat();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((float)100);
+        assertThat(finalValue).isEqualTo(100f);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -544,24 +539,23 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen7ToDouble() throws X  {
+    public void testToDoubleSupplier7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LToDoubleFunctionX<Integer ,X> thenFunction = p -> {
+        LToDoubleFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // double
-                return (double)100;
+                return 100d;
         };
 
         //when
@@ -569,7 +563,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         double finalValue = function.doGetAsDouble();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((double)100);
+        assertThat(finalValue).isEqualTo(100d);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -578,24 +572,23 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen8ToChar() throws X  {
+    public void testToCharSupplier8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LToCharFunctionX<Integer ,X> thenFunction = p -> {
+        LToCharFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // char
-                return (char)100;
+                return '\u0100';
         };
 
         //when
@@ -603,7 +596,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         char finalValue = function.doGetAsChar();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((char)100);
+        assertThat(finalValue).isEqualTo('\u0100');
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -612,22 +605,21 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen9ToBool() throws X  {
+    public void testToBoolSupplier9() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LSupplierX<Integer ,X> sutO = () -> {
+        LSupplierX<Integer,X> sutO = () -> {
                 mainFunctionCalled.set(true);
-                return Integer.valueOf(90);
+                return 90;
         };
 
-        LPredicateX<Integer ,X> thenFunction = p -> {
+        LPredicateX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
                 // boolean
                 return true;
         };
@@ -675,7 +667,7 @@ public class LSupplierXTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LSupplierX<R,X> sutThrowing = LSupplierX.lX(() -> {
+        LSupplierX<Integer,X> sutThrowing = LSupplierX.lX(() -> {
             throw new UnsupportedOperationException();
         });
 
@@ -687,12 +679,12 @@ public class LSupplierXTest<R,X extends ParseException> {
     public void testHandleSup() throws X {
 
         // given
-        LSupplierX<R,X> sutThrowing = LSupplierX.lX(() -> {
+        LSupplierX<Integer,X> sutThrowing = LSupplierX.lX(() -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LSupplierX<R,X> wrapped = sutThrowing.handleSupX(h -> {
+        LSupplierX<Integer,X> wrapped = sutThrowing.handleSupX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -717,7 +709,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSupplierX: R doGet() throws X");
+                .contains("LSupplierX: T doGet() throws X");
     }
 
 
@@ -743,7 +735,7 @@ public class LSupplierXTest<R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierPropagates() {
-        LSupplierX<LSupplierX<R,X>,Y> supplier = ()->sut;
+        LSupplierX<LSupplierX<Integer,X>,Y> supplier = ()->sut;
         Object result = LSupplierX.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -754,8 +746,8 @@ public class LSupplierXTest<R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LSupplierX<R,X>,Y> r1 = LSupplierX.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LSupplierX<R,X>> r2 = LSupplierX.safeSupplier(()->sut); //NOSONAR
+        LSupplierX<LSupplierX<Integer,X>,Y> r1 = LSupplierX.safeSupplier(()->sut);  //NOSONAR
+        Supplier<LSupplierX<Integer,X>> r2 = LSupplierX.safeSupplier(()->sut); //NOSONAR
     }
 
 }

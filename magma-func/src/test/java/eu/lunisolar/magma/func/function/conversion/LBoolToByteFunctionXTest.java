@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBoolToByteFunctionXTest<X extends ParseException> {
@@ -63,8 +64,8 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
 
-    private LBoolToByteFunctionX<X> sut = new LBoolToByteFunctionX(){
-        public  byte doApplyAsByte(boolean a1) throws ParseException {
+    private LBoolToByteFunctionX<X> sut = new LBoolToByteFunctionX<X>(){
+        public  byte doApplyAsByte(boolean a1)  throws X {
             return testValue;
         }
     };
@@ -81,7 +82,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBoolToByteFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LBoolToByteFunctionX.lX(a1 -> {
+    private LBoolToByteFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolToByteFunctionX.lX(a1 -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -95,7 +96,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBoolSingle domainObject = Tuple4U.tuple(true);
+        LBoolSingle domainObject = Tuple4U.boolSingle(true);
 
         Object result = sut.tupleApplyAsByte(domainObject);
 
@@ -125,11 +126,11 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsByteUnckeck() throws X {
+    public void testNestingDoApplyAsByteUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoApplyAsByte(true);
+            sutAlwaysThrowingUnchecked.nestingDoApplyAsByte(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -155,11 +156,11 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsByteUnckeck() throws X {
+    public void testShovingDoApplyAsByteUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoApplyAsByte(true);
+            sutAlwaysThrowingUnchecked.shovingDoApplyAsByte(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +191,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoApplyAsByteMethodWrapsTheException() throws X {
 
         // given
         LBoolToByteFunctionX<X> sutThrowing = LBoolToByteFunctionX.lX(a1 -> {
@@ -198,7 +199,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBoolToByteFunctionX<X> wrapped = sutThrowing.handleBoolToByteFuncX(handler -> handler
+        LBoolToByteFunctionX<RuntimeException> wrapped = sutThrowing.handleBoolToByteFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -214,7 +215,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBoolToByteFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBoolToByteFunctionX<X> sutThrowing = LBoolToByteFunctionX.lX(a1 -> {
@@ -238,7 +239,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBoolToByteFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBoolToByteFunctionX<X> sutThrowing = LBoolToByteFunctionX.lX(a1 -> {
@@ -263,7 +264,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBoolToByteFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
         LBoolToByteFunctionX<X> sutThrowing = LBoolToByteFunctionX.lX(a1 -> {
@@ -290,7 +291,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testboolToByteFuncComposeBoolean() throws X {
+    public void testBoolToByteFuncComposeBool() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -309,7 +310,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LBoolToByteFunctionX<X> function = sutO.boolToByteFuncComposeBoolean(before1);
+        LBoolToByteFunctionX<X> function = sutO.boolToByteFuncComposeBool(before1);
         function.doApplyAsByte(true);
 
         //then - finals
@@ -319,7 +320,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testboolToByteFuncCompose() throws X {
+    public void testBoolToByteFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -331,15 +332,15 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
                 return (byte)100;
         };
 
-        LPredicateX<Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LPredicateX<Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LToByteFunctionX<Integer ,X> function = sutO.boolToByteFuncCompose(before1);
-        function.doApplyAsByte((Integer )Integer.valueOf(80));
+        LToByteFunctionX<Integer,X> function = sutO.boolToByteFuncCompose(before1);
+        function.doApplyAsByte(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -347,6 +348,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
     }
 
     // </editor-fold>
+
 
 
     // <editor-fold desc="then (functional)">
@@ -357,7 +359,6 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
                 mainFunctionCalled.set(true);
@@ -365,20 +366,20 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
                 return (byte)90;
         };
 
-        LByteFunctionX<Integer ,X> thenFunction = p -> {
+        LByteFunctionX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                return 100;
         };
 
         //when
-        LBoolFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.doApply(true);
+        LBoolFunctionX<Integer,X> function = sutO.then(thenFunction);
+        Integer finalValue = function.doApply(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -387,11 +388,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen1ToByte() throws X  {
+    public void testThenToByte1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -402,7 +402,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LByteUnaryOperatorX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // byte
                 return (byte)100;
@@ -422,11 +422,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen2ToShort() throws X  {
+    public void testThenToShort2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -437,7 +436,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LByteToShortFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // short
                 return (short)100;
@@ -457,11 +456,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen3ToInt() throws X  {
+    public void testThenToInt3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -472,10 +470,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LByteToIntFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // int
-                return (int)100;
+                return 100;
         };
 
         //when
@@ -483,7 +481,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         int finalValue = function.doApplyAsInt(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((int)100);
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -492,11 +490,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen4ToLong() throws X  {
+    public void testThenToLong4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -507,10 +504,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LByteToLongFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // long
-                return (long)100;
+                return 100L;
         };
 
         //when
@@ -518,7 +515,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         long finalValue = function.doApplyAsLong(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((long)100);
+        assertThat(finalValue).isEqualTo(100L);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -527,11 +524,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen5ToFloat() throws X  {
+    public void testThenToFloat5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -542,10 +538,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LByteToFloatFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // float
-                return (float)100;
+                return 100f;
         };
 
         //when
@@ -553,7 +549,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         float finalValue = function.doApplyAsFloat(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((float)100);
+        assertThat(finalValue).isEqualTo(100f);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -562,11 +558,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen6ToDouble() throws X  {
+    public void testThenToDouble6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -577,10 +572,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LByteToDoubleFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // double
-                return (double)100;
+                return 100d;
         };
 
         //when
@@ -588,7 +583,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         double finalValue = function.doApplyAsDouble(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((double)100);
+        assertThat(finalValue).isEqualTo(100d);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -597,11 +592,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen7ToChar() throws X  {
+    public void testThenToChar7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -612,10 +606,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LByteToCharFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // char
-                return (char)100;
+                return '\u0100';
         };
 
         //when
@@ -623,7 +617,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
         char finalValue = function.doApplyAsChar(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((char)100);
+        assertThat(finalValue).isEqualTo('\u0100');
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -632,11 +626,10 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBool() throws X  {
+    public void testThenToBool8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
-
 
         //given (+ some assertions)
         LBoolToByteFunctionX<X> sutO = a1 -> {
@@ -647,7 +640,7 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
         LBytePredicateX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
+                // byte
                 assertThat(p).isEqualTo((byte)90);
                 // boolean
                 return true;

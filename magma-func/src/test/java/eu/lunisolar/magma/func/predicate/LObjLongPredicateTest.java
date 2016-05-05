@@ -93,7 +93,7 @@ public class LObjLongPredicateTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LObjLongPair<Integer> domainObject = Tuple4U.lObjLongPair(100,100L);
+        LObjLongPair<Integer> domainObject = Tuple4U.objLongPair(100,100L);
 
         Object result = sut.tupleTest(domainObject);
 

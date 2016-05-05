@@ -96,7 +96,7 @@ public class LObjCharPredicateXTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LObjCharPair<Integer> domainObject = Tuple4U.lObjCharPair(100,'\u0100');
+        LObjCharPair<Integer> domainObject = Tuple4U.objCharPair(100,'\u0100');
 
         Object result = sut.tupleTest(domainObject);
 

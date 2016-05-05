@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LFloatBinaryOperatorTest<X extends ParseException> {
@@ -59,7 +60,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
-    private float testValue = (float)100;
+    private float testValue = 100f;
 
 
 
@@ -69,8 +70,8 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         }
     };
 
-    private LFloatBinaryOperatorX<X> opposite = new LFloatBinaryOperatorX(){
-        public  float doApplyAsFloat(float a1,float a2) throws ParseException {
+    private LFloatBinaryOperatorX<X> opposite = new LFloatBinaryOperatorX<X>(){
+        public  float doApplyAsFloat(float a1,float a2)  throws X {
             return testValue;
         }
     };
@@ -78,21 +79,21 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
 
 
-    private LFloatBinaryOperator sutAlwaysThrowingUnckeck = LFloatBinaryOperator.l((float a1,float a2) -> {
+    private LFloatBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LFloatBinaryOperator.l((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doApplyAsFloat((float)100,(float)100))
+        assertThat(sut.doApplyAsFloat(100f,100f))
             .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LFloatPair domainObject = Tuple4U.tuple((float)100,(float)100);
+        LFloatPair domainObject = Tuple4U.floatPair(100f,100f);
 
         Object result = sut.tupleApplyAsFloat(domainObject);
 
@@ -102,16 +103,16 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNonNullDoApplyAsFloat() throws X {
-        assertThat(sut.nonNullDoApplyAsFloat((float)100,(float)100))
+        assertThat(sut.nonNullDoApplyAsFloat(100f,100f))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsFloatUnckeck() throws X {
+    public void testNestingDoApplyAsFloatUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoApplyAsFloat((float)100,(float)100);
+            sutAlwaysThrowingUnchecked.nestingDoApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -122,11 +123,11 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsFloatUnckeck() throws X {
+    public void testShovingDoApplyAsFloatUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoApplyAsFloat((float)100,(float)100);
+            sutAlwaysThrowingUnchecked.shovingDoApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -145,7 +146,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LFloatBinaryOperator.l((float a1,float a2) -> testValue ))
+        assertThat(LFloatBinaryOperator.l((a1,a2) -> testValue ))
             .isInstanceOf(LFloatBinaryOperator.class);
     }
 
@@ -158,7 +159,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LFloatBinaryOperatorX<X> sutThrowing = LFloatBinaryOperatorX.lX((float a1,float a2) -> {
+        LFloatBinaryOperatorX<X> sutThrowing = LFloatBinaryOperatorX.lX((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +168,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -180,7 +181,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LFloatBinaryOperatorX<ParseException> sutThrowing = LFloatBinaryOperatorX.lX((float a1,float a2) -> {
+        LFloatBinaryOperatorX<ParseException> sutThrowing = LFloatBinaryOperatorX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -189,7 +190,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,10 +202,10 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoApplyAsFloatMethodWrapsTheException() throws X {
 
         // given
-        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float a1,float a2) -> {
+        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -214,7 +215,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,10 +226,10 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleFloatBinaryOpMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float a1,float a2) -> {
+        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -239,7 +240,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,10 +250,10 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleFloatBinaryOpMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float a1,float a2) -> {
+        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -263,7 +264,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -274,10 +275,10 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleFloatBinaryOpMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float a1,float a2) -> {
+        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -286,7 +287,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -298,10 +299,36 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
+    public void minBy() throws X  {
+        //when
+        LFloatBinaryOperator min =  LFloatBinaryOperator.minBy(Float::compare);
+
+        //then
+        assertThat(min.doApplyAsFloat(0f, 56f))
+                .isEqualTo(0f);
+        assertThat(min.doApplyAsFloat(56f, 0f))
+                       .isEqualTo(0f);
+
+    }
+
+    @Test
+    public void maxBy() throws X  {
+        //when
+        LFloatBinaryOperator max =  LFloatBinaryOperator.maxBy(Float::compare);
+
+        //then
+        assertThat(max.doApplyAsFloat(0f, 56f))
+                .isEqualTo(56f);
+        assertThat(max.doApplyAsFloat(56f, 0f))
+                        .isEqualTo(56f);
+    }
+
+
+    @Test
     public void testMin() throws X {
         //given
-        float valueSmall = (float)100;
-        float valueBig = (float)(valueSmall+10);
+        float valueSmall = 10f;
+        float valueBig = 100f;
 
         //when
         LFloatBinaryOperator min = LFloatBinaryOperator.min();
@@ -317,8 +344,8 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testMax() throws X {
         //given
-        float valueSmall = (float)100;
-        float valueBig = (float)(valueSmall+10);
+        float valueSmall = 10f;
+        float valueBig = 100f;
 
         //when
         LFloatBinaryOperator max = LFloatBinaryOperator.max();
@@ -335,7 +362,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfloatBinaryOpComposeFloat() throws X {
+    public void testFloatBinaryOpComposeFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -343,25 +370,25 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         //given (+ some assertions)
         LFloatBinaryOperator sutO = (float a1,float a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)90);
-                assertThat(a2).isEqualTo((float)91);
-                return (float)100;
+                assertThat(a1).isEqualTo(90f);
+                assertThat(a2).isEqualTo(91f);
+                return 100f;
         };
 
         LFloatUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((float)80);
+            assertThat(p0).isEqualTo(80f);
             beforeCalls.incrementAndGet();
-            return (float)90;
+            return 90f;
         };
         LFloatUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((float)81);
+            assertThat(p1).isEqualTo(81f);
             beforeCalls.incrementAndGet();
-            return (float)91;
+            return 91f;
         };
 
         //when
         LFloatBinaryOperator function = sutO.floatBinaryOpComposeFloat(before1,before2);
-        function.doApplyAsFloat((float)80,(float)81);
+        function.doApplyAsFloat(80f,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -370,7 +397,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testfloatBinaryOpCompose() throws X {
+    public void testFloatBinaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -378,25 +405,25 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         //given (+ some assertions)
         LFloatBinaryOperator sutO = (float a1,float a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)90);
-                assertThat(a2).isEqualTo((float)91);
-                return (float)100;
+                assertThat(a1).isEqualTo(90f);
+                assertThat(a2).isEqualTo(91f);
+                return 100f;
         };
 
-        LToFloatFunction<Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LToFloatFunction<Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
-            return (float)90;
+            return 90f;
         };
-        LToFloatFunction<Integer > before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LToFloatFunction<Integer> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
-            return (float)91;
+            return 91f;
         };
 
         //when
-        LToFloatBiFunction<Integer ,Integer > function = sutO.floatBinaryOpCompose(before1,before2);
-        function.doApplyAsFloat((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LToFloatBiFunction<Integer,Integer> function = sutO.floatBinaryOpCompose(before1,before2);
+        function.doApplyAsFloat(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -404,6 +431,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     // </editor-fold>
+
 
 
     // <editor-fold desc="then (functional)">
@@ -414,29 +442,28 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LFloatBinaryOperator sutO = (float a1,float a2) -> {
+        LFloatBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((float)80);
-                assertThat(a2).isEqualTo((float)81);
-                return (float)90;
+                assertThat(a1).isEqualTo(80f);
+                assertThat(a2).isEqualTo(81f);
+                return 90f;
         };
 
-        LFloatFunction<Integer > thenFunction = p -> {
+        LFloatFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // 
-                assertThat(p).isEqualTo((float)90);
-                // V
-                return Integer.valueOf(100);
+                // float
+                assertThat(p).isEqualTo(90f);
+                // Integer
+                return 100;
         };
 
         //when
-        LBiFloatFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.doApply((float)80,(float)81);
+        LBiFloatFunction<Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.doApply(80f,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -478,19 +505,19 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float a1,float a2) -> {
+        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingFloatBinaryOp().doApplyAsFloat((float)100,(float)100);
+        sutThrowing.shovingFloatBinaryOp().doApplyAsFloat(100f,100f);
     }
 
     @Test
     public void testHandleFloatBinaryOp() throws X {
 
         // given
-        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float a1,float a2) -> {
+        LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -501,7 +528,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.doApplyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)

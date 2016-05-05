@@ -93,7 +93,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBiObjLongTriple<Integer,Integer> domainObject = Tuple4U.lBiObjLongTriple(100,100,100L);
+        LBiObjLongTriple<Integer,Integer> domainObject = Tuple4U.biObjLongTriple(100,100,100L);
 
         Object result = sut.tupleTest(domainObject);
 

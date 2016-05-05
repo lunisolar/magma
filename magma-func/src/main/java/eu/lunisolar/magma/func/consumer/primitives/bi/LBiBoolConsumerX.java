@@ -31,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Throwing functional interface (lambda) LBiBoolConsumerX for Java 8.
@@ -225,10 +224,10 @@ public interface LBiBoolConsumerX<X extends Throwable> extends MetaConsumer, Met
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiBoolConsumerX<X> biBoolConsComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
+	default LBiBoolConsumerX<X> biBoolConsComposeBool(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final boolean v1, final boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
+		return (boolean v1, boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -243,7 +242,7 @@ public interface LBiBoolConsumerX<X extends Throwable> extends MetaConsumer, Met
 
 	// <editor-fold desc="andThen (consumer/action)">
 
-	/** Combines two consumers together in a order. */
+	/** Combines two LBiBoolConsumerX<X> together in a order. */
 	@Nonnull
 	default LBiBoolConsumerX<X> andThen(@Nonnull LBiBoolConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
@@ -303,11 +302,11 @@ public interface LBiBoolConsumerX<X extends Throwable> extends MetaConsumer, Met
 	@FunctionalInterface
 	interface V1<X extends Throwable> extends LBiBoolConsumerX<X> {
 
-		void apply1(boolean a2, boolean a1) throws X;
+		void doAcceptV1(boolean a2, boolean a1) throws X;
 
 		@Override
 		default void doAccept(boolean a1, boolean a2) throws X {
-			this.apply1(a2, a1);
+			this.doAcceptV1(a2, a1);
 		}
 	}
 

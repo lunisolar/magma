@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LBiBoolConsumerTest<X extends ParseException> {
@@ -67,8 +68,8 @@ public class LBiBoolConsumerTest<X extends ParseException> {
         }
     };
 
-    private LBiBoolConsumerX<X> opposite = new LBiBoolConsumerX(){
-        public  void doAccept(boolean a1,boolean a2) throws ParseException {
+    private LBiBoolConsumerX<X> opposite = new LBiBoolConsumerX<X>(){
+        public  void doAccept(boolean a1,boolean a2)  throws X {
             Function4U.doNothing();
         }
     };
@@ -76,7 +77,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
 
 
 
-    private LBiBoolConsumer sutAlwaysThrowingUnckeck = LBiBoolConsumer.l((boolean a1,boolean a2) -> {
+    private LBiBoolConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBiBoolConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -85,7 +86,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBoolPair domainObject = Tuple4U.tuple(true,true);
+        LBoolPair domainObject = Tuple4U.boolPair(true,true);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -94,11 +95,11 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept(true,true);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -109,11 +110,11 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept(true,true);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -132,7 +133,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBiBoolConsumer.l((boolean a1,boolean a2) -> Function4U.doNothing() ))
+        assertThat(LBiBoolConsumer.l(Function4U::doNothing))
             .isInstanceOf(LBiBoolConsumer.class);
     }
 
@@ -145,7 +146,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBiBoolConsumerX<X> sutThrowing = LBiBoolConsumerX.lX((boolean a1,boolean a2) -> {
+        LBiBoolConsumerX<X> sutThrowing = LBiBoolConsumerX.lX((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +168,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBiBoolConsumerX<ParseException> sutThrowing = LBiBoolConsumerX.lX((boolean a1,boolean a2) -> {
+        LBiBoolConsumerX<ParseException> sutThrowing = LBiBoolConsumerX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -188,10 +189,10 @@ public class LBiBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((boolean a1,boolean a2) -> {
+        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -212,10 +213,10 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleBiBoolConsMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((boolean a1,boolean a2) -> {
+        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -236,10 +237,10 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleBiBoolConsMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((boolean a1,boolean a2) -> {
+        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -261,10 +262,10 @@ public class LBiBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleBiBoolConsMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((boolean a1,boolean a2) -> {
+        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -288,7 +289,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiBoolConsComposeBoolean() throws X {
+    public void testBiBoolConsComposeBool() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -312,7 +313,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
         };
 
         //when
-        LBiBoolConsumer function = sutO.biBoolConsComposeBoolean(before1,before2);
+        LBiBoolConsumer function = sutO.biBoolConsComposeBool(before1,before2);
         function.doAccept(true,true);
 
         //then - finals
@@ -322,7 +323,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testbiBoolConsCompose() throws X {
+    public void testBiBoolConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -334,20 +335,20 @@ public class LBiBoolConsumerTest<X extends ParseException> {
                 assertThat(a2).isEqualTo(true);
         };
 
-        LPredicate<Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LPredicate<Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
-        LPredicate<Integer > before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LPredicate<Integer> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBiConsumer<Integer ,Integer > function = sutO.biBoolConsCompose(before1,before2);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiConsumer<Integer,Integer> function = sutO.biBoolConsCompose(before1,before2);
+        function.doAccept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -363,13 +364,13 @@ public class LBiBoolConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBiBoolConsumer sutO = (boolean a1,boolean a2) -> {
+        LBiBoolConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
         };
 
-        LBiBoolConsumer thenFunction = (boolean a1,boolean a2) -> {
+        LBiBoolConsumer thenFunction = (a1,a2) -> {
                 thenFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
@@ -417,7 +418,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((boolean a1,boolean a2) -> {
+        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -429,7 +430,7 @@ public class LBiBoolConsumerTest<X extends ParseException> {
     public void testHandleBiBoolCons() throws X {
 
         // given
-        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((boolean a1,boolean a2) -> {
+        LBiBoolConsumer sutThrowing = LBiBoolConsumer.l((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -471,12 +472,12 @@ public class LBiBoolConsumerTest<X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private void variant1(boolean a2,boolean a1) {
+    private void variantV1(boolean a2,boolean a1) {
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LBiBoolConsumer lambda = LBiBoolConsumer./**/l1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LBiBoolConsumer lambda = LBiBoolConsumer./**/l1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LBiBoolConsumer.V1.class);
     }

@@ -96,7 +96,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LDoublePair domainObject = Tuple4U.lDoublePair(100d,100d);
+        LDoublePair domainObject = Tuple4U.doublePair(100d,100d);
 
         Object result = sut.tupleTest(domainObject);
 

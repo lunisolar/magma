@@ -31,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LTriConsumer for Java 8.
@@ -120,6 +119,45 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 		return lambda;
 	}
 
+	// <editor-fold desc="wrap variants">
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T1, T3, T2> V1<T1, T3, T2> l1(final @Nonnull V1<T1, T3, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T1, T3> V2<T2, T1, T3> l2(final @Nonnull V2<T2, T1, T3> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T2, T3, T1> V3<T2, T3, T1> l3(final @Nonnull V3<T2, T3, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T3, T1, T2> V4<T3, T1, T2> l4(final @Nonnull V4<T3, T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	static <T3, T2, T1> V5<T3, T2, T1> l5(final @Nonnull V5<T3, T2, T1> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	// </editor-fold>
+
 	static <T1, T2, T3> void call(T1 a1, T2 a2, T3 a3, final @Nonnull LTriConsumer<T1, T2, T3> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.doAccept(a1, a2, a3);
@@ -179,14 +217,14 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="andThen (consumer/action)">
 
-	/** Combines two consumers together in a order. */
+	/** Combines two LTriConsumer<T1,T2,T3> together in a order. */
 	@Nonnull
 	default LTriConsumer<T1, T2, T3> andThen(@Nonnull LTriConsumer<? super T1, ? super T2, ? super T3> after) {
 		Null.nonNullArg(after, "after");
@@ -220,6 +258,70 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriConsumerX<T1, T2, T3, RuntimeException> shovingTriConsX() {
 		return this;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="interface variants">
+
+	/** Permutation of LTriConsumer for method references. */
+	@FunctionalInterface
+	interface V1<T1, T3, T2> extends LTriConsumer<T1, T2, T3> {
+
+		void doAcceptV1(T1 a1, T3 a3, T2 a2);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, T3 a3) {
+			this.doAcceptV1(a1, a3, a2);
+		}
+	}
+
+	/** Permutation of LTriConsumer for method references. */
+	@FunctionalInterface
+	interface V2<T2, T1, T3> extends LTriConsumer<T1, T2, T3> {
+
+		void doAcceptV2(T2 a2, T1 a1, T3 a3);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, T3 a3) {
+			this.doAcceptV2(a2, a1, a3);
+		}
+	}
+
+	/** Permutation of LTriConsumer for method references. */
+	@FunctionalInterface
+	interface V3<T2, T3, T1> extends LTriConsumer<T1, T2, T3> {
+
+		void doAcceptV3(T2 a2, T3 a3, T1 a1);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, T3 a3) {
+			this.doAcceptV3(a2, a3, a1);
+		}
+	}
+
+	/** Permutation of LTriConsumer for method references. */
+	@FunctionalInterface
+	interface V4<T3, T1, T2> extends LTriConsumer<T1, T2, T3> {
+
+		void doAcceptV4(T3 a3, T1 a1, T2 a2);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, T3 a3) {
+			this.doAcceptV4(a3, a1, a2);
+		}
+	}
+
+	/** Permutation of LTriConsumer for method references. */
+	@FunctionalInterface
+	interface V5<T3, T2, T1> extends LTriConsumer<T1, T2, T3> {
+
+		void doAcceptV5(T3 a3, T2 a2, T1 a1);
+
+		@Override
+		default void doAccept(T1 a1, T2 a2, T3 a3) {
+			this.doAcceptV5(a3, a2, a1);
+		}
 	}
 
 	// </editor-fold>

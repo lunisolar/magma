@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
@@ -59,59 +60,59 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
-    private Object  testValue = (R)Integer.valueOf(100);
+    private Integer testValue = 100;
 
 
 
-    private LObjDoubleFunctionX<T,R,X> sut = new LObjDoubleFunctionX(){
-        public @Nullable Object  doApply(Object a1,double a2) throws ParseException {
+    private LObjDoubleFunctionX<Integer,Integer,X> sut = new LObjDoubleFunctionX<Integer,Integer,X>(){
+        public @Nullable Integer doApply(Integer a1,double a2)  throws X {
             return testValue;
         }
     };
 
-    private LObjDoubleFunction<T,R> opposite = new LObjDoubleFunction(){
-        public @Nullable Object  doApply(Object a1,double a2)  {
+    private LObjDoubleFunction<Integer,Integer> opposite = new LObjDoubleFunction<Integer,Integer>(){
+        public @Nullable Integer doApply(Integer a1,double a2)  {
             return testValue;
         }
     };
 
-    private LObjDoubleFunctionX<T,R,X> sutNull = new LObjDoubleFunctionX(){
-        public @Nullable Object  doApply(Object a1,double a2) throws ParseException {
+    private LObjDoubleFunctionX<Integer,Integer,X> sutNull = new LObjDoubleFunctionX<Integer,Integer,X>(){
+        public @Nullable Integer doApply(Integer a1,double a2)  throws X {
             return null;
         }
     };
 
 
 
-    private LObjDoubleFunctionX<T,R,ParseException> sutAlwaysThrowing = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+    private LObjDoubleFunctionX<Integer,Integer,ParseException> sutAlwaysThrowing = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LObjDoubleFunctionX<T,R,RuntimeException> sutAlwaysThrowingUnckeck = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+    private LObjDoubleFunctionX<Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
     public void testTheResult() throws X {
-        assertThat(sut.doApply((T)Integer.valueOf(100),(double)100))
-            .isSameAs(testValue);
+        assertThat(sut.doApply(100,100d))
+            .isEqualTo(testValue);
     }
 
     @Test
     public void testTupleCall() throws X {
 
-        LObjDoublePair<T> domainObject = Tuple4U.tuple((T)Integer.valueOf(100),(double)100);
+        LObjDoublePair<Integer> domainObject = Tuple4U.objDoublePair(100,100d);
 
         Object result = sut.tupleApply(domainObject);
 
         assertThat(result)
-            .isSameAs(testValue);
+            .isEqualTo(testValue);
     }
 
     @Test
     public void testNonNullDoApply() throws X {
-        assertThat(sut.nonNullDoApply((T)Integer.valueOf(100),(double)100))
+        assertThat(sut.nonNullDoApply(100,100d))
             .isSameAs(testValue);
     }
 
@@ -120,7 +121,7 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.nestingDoApply((T)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowing.nestingDoApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -131,11 +132,11 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyUnckeck() throws X {
+    public void testNestingDoApplyUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoApply((T)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowingUnchecked.nestingDoApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +151,7 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            sutAlwaysThrowing.shovingDoApply((T)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowing.shovingDoApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -161,11 +162,11 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnckeck() throws X {
+    public void testShovingDoApplyUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoApply((T)Integer.valueOf(100),(double)100);
+            sutAlwaysThrowingUnchecked.shovingDoApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +178,7 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjDoubleFunctionX: R doApply(T a1,double a2) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
-        sutNull.nonNullDoApply((T)Integer.valueOf(100),(double)100);
+        sutNull.nonNullDoApply(100,100d);
     }
 
 
@@ -189,7 +190,7 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LObjDoubleFunctionX.lX((Object a1,double a2) -> testValue ))
+        assertThat(LObjDoubleFunctionX.lX((a1,a2) -> testValue ))
             .isInstanceOf(LObjDoubleFunctionX.class);
     }
 
@@ -201,20 +202,20 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoApplyMethodWrapsTheException() throws X {
 
         // given
-        LObjDoubleFunctionX<T,R,X> sutThrowing = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutThrowing = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LObjDoubleFunctionX<T,R,X> wrapped = sutThrowing.handleObjDoubleFuncX(handler -> handler
+        LObjDoubleFunctionX<Integer,Integer,RuntimeException> wrapped = sutThrowing.handleObjDoubleFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
-            wrapped.doApply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,21 +226,21 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleObjDoubleFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LObjDoubleFunctionX<T,R,X> sutThrowing = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutThrowing = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjDoubleFunctionX<T,R,X> wrapped = sutThrowing.handleObjDoubleFuncX(handler -> handler
+        LObjDoubleFunctionX<Integer,Integer,X> wrapped = sutThrowing.handleObjDoubleFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doApply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,21 +250,21 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleObjDoubleFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LObjDoubleFunctionX<T,R,X> sutThrowing = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutThrowing = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjDoubleFunctionX<T,R,X> wrapped = sutThrowing.handleObjDoubleFuncX(handler -> handler
+        LObjDoubleFunctionX<Integer,Integer,X> wrapped = sutThrowing.handleObjDoubleFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
-            wrapped.doApply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -274,19 +275,19 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleObjDoubleFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LObjDoubleFunctionX<T,R,X> sutThrowing = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutThrowing = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LObjDoubleFunctionX<T,R,X> wrapped = sutThrowing.handleObjDoubleFuncX(h -> Function4U.doNothing());
+        LObjDoubleFunctionX<Integer,Integer,X> wrapped = sutThrowing.handleObjDoubleFuncX(h -> Function4U.doNothing());
 
         // then
         try {
-            wrapped.doApply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -301,33 +302,33 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjDoubleFuncComposeDouble() throws X {
+    public void testObjDoubleFuncComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjDoubleFunctionX<Integer ,Integer ,X> sutO = (Integer a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutO = (Integer a1,double a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((double)91);
-                return 9;
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91d);
+                return 100;
         };
 
-        LFunctionX<Integer ,Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo((T)Integer.valueOf(80));
+        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LDoubleUnaryOperatorX<X> before2 = p1 -> {
-            assertThat(p1).isEqualTo((double)81);
+            assertThat(p1).isEqualTo(81d);
             beforeCalls.incrementAndGet();
-            return (double)91;
+            return 91d;
         };
 
         //when
-        LObjDoubleFunctionX<Integer ,Integer ,X> function = sutO.objDoubleFuncComposeDouble(before1,before2);
-        function.doApply((Integer )Integer.valueOf(80),(double)81);
+        LObjDoubleFunctionX<Integer,Integer,X> function = sutO.objDoubleFuncComposeDouble(before1,before2);
+        function.doApply(80,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -336,33 +337,33 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testobjDoubleFuncCompose() throws X {
+    public void testObjDoubleFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjDoubleFunctionX<Integer ,Integer ,X> sutO = (Integer a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutO = (Integer a1,double a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(90));
-                assertThat(a2).isEqualTo((double)91);
-                return 9;
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91d);
+                return 100;
         };
 
-        LFunctionX<Integer ,Integer ,X> before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LToDoubleFunctionX<Integer ,X> before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LToDoubleFunctionX<Integer,X> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
-            return (double)91;
+            return 91d;
         };
 
         //when
-        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.objDoubleFuncCompose(before1,before2);
-        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        LBiFunctionX<Integer,Integer,Integer,X> function = sutO.objDoubleFuncCompose(before1,before2);
+        function.doApply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -370,6 +371,7 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
     // </editor-fold>
+
 
 
     // <editor-fold desc="then (functional)">
@@ -380,29 +382,28 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LObjDoubleFunctionX<Integer ,Integer ,X> sutO = (Integer a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((double)81);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81d);
+                return 90;
         };
 
-        LFunctionX<Integer ,Integer ,X> thenFunction = p -> {
+        LFunctionX<Integer,Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
-                // V
-                return Integer.valueOf(100);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // Integer
+                return 100;
         };
 
         //when
-        LObjDoubleFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(double)81);
+        LObjDoubleFunctionX<Integer,Integer,X> function = sutO.then(thenFunction);
+        Integer finalValue = function.doApply(80,81d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(Integer.valueOf(100));
+        assertThat(finalValue).isEqualTo(100);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -416,24 +417,23 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-
         //given (+ some assertions)
-        LObjDoubleFunctionX<Integer ,Integer ,X> sutO = (Integer a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((T)Integer.valueOf(80));
-                assertThat(a2).isEqualTo((double)81);
-                return Integer.valueOf(90);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81d);
+                return 90;
         };
 
-        LConsumerX<Integer ,X> thenFunction = p -> {
+        LConsumerX<Integer,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
-                // R
-                assertThat(p).isEqualTo(Integer.valueOf(90));
+                // Integer
+                assertThat(p).isEqualTo(90);
         };
 
         //when
-        LObjDoubleConsumerX<Integer ,X> function = sutO.then(thenFunction);
-        function.doAccept((Integer )Integer.valueOf(80),(double)81);
+        LObjDoubleConsumerX<Integer,X> function = sutO.then(thenFunction);
+        function.doAccept(80,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -473,30 +473,30 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LObjDoubleFunctionX<T,R,X> sutThrowing = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutThrowing = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingObjDoubleFunc().doApply((T)Integer.valueOf(100),(double)100);
+        sutThrowing.shovingObjDoubleFunc().doApply(100,100d);
     }
 
     @Test
     public void testHandleObjDoubleFunc() throws X {
 
         // given
-        LObjDoubleFunctionX<T,R,X> sutThrowing = LObjDoubleFunctionX.lX((T a1,double a2) -> {
+        LObjDoubleFunctionX<Integer,Integer,X> sutThrowing = LObjDoubleFunctionX.lX((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LObjDoubleFunctionX<T,R,X> wrapped = sutThrowing.handleObjDoubleFuncX(h -> {
+        LObjDoubleFunctionX<Integer,Integer,X> wrapped = sutThrowing.handleObjDoubleFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
         try {
-            wrapped.doApply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -527,13 +527,13 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private R variant1(double a2,T a1) {
-        return (R)Integer.valueOf(100);
+    private Integer variantV1(double a2,Integer a1) {
+        return 100;
     }
 
     @Test
-    public void compilerSubstituteVariant1() {
-        LObjDoubleFunctionX lambda = LObjDoubleFunctionX./*<T,R,X>*/lX1(this::variant1);
+    public void compilerSubstituteVariantV1() {
+        LObjDoubleFunctionX lambda = LObjDoubleFunctionX./*<T,R,X>*/lX1(this::variantV1);
 
         assertThat(lambda).isInstanceOf(LObjDoubleFunctionX.V1.class);
     }
@@ -556,7 +556,7 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierPropagates() {
-        LSupplierX<LObjDoubleFunctionX<T,R,X>,Y> supplier = ()->sut;
+        LSupplierX<LObjDoubleFunctionX<Integer,Integer,X>,Y> supplier = ()->sut;
         Object result = LObjDoubleFunctionX.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
@@ -567,7 +567,7 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test <Y extends Throwable> void safeSupplierCompiles() {
-        LSupplierX<LObjDoubleFunctionX<T,R,X>,Y> r1 = LObjDoubleFunctionX.safeSupplier(()->sut);  //NOSONAR
+        LSupplierX<LObjDoubleFunctionX<Integer,Integer,X>,Y> r1 = LObjDoubleFunctionX.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

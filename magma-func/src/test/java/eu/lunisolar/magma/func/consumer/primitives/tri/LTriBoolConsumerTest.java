@@ -26,23 +26,23 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
@@ -52,6 +52,7 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
 public class LTriBoolConsumerTest<X extends ParseException> {
@@ -67,8 +68,8 @@ public class LTriBoolConsumerTest<X extends ParseException> {
         }
     };
 
-    private LTriBoolConsumerX<X> opposite = new LTriBoolConsumerX(){
-        public  void doAccept(boolean a1,boolean a2,boolean a3) throws ParseException {
+    private LTriBoolConsumerX<X> opposite = new LTriBoolConsumerX<X>(){
+        public  void doAccept(boolean a1,boolean a2,boolean a3)  throws X {
             Function4U.doNothing();
         }
     };
@@ -76,7 +77,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
 
-    private LTriBoolConsumer sutAlwaysThrowingUnckeck = LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> {
+    private LTriBoolConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LTriBoolConsumer.l((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -85,7 +86,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LBoolTriple domainObject = Tuple4U.tuple(true,true,true);
+        LBoolTriple domainObject = Tuple4U.boolTriple(true,true,true);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -94,11 +95,11 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnckeck() throws X {
+    public void testNestingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.nestingDoAccept(true,true,true);
+            sutAlwaysThrowingUnchecked.nestingDoAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -109,11 +110,11 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnckeck() throws X {
+    public void testShovingDoAcceptUnchecked() throws X {
 
         // then
         try {
-            sutAlwaysThrowingUnckeck.shovingDoAccept(true,true,true);
+            sutAlwaysThrowingUnchecked.shovingDoAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -132,7 +133,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> Function4U.doNothing() ))
+        assertThat(LTriBoolConsumer.l(Function4U::doNothing))
             .isInstanceOf(LTriBoolConsumer.class);
     }
 
@@ -145,7 +146,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LTriBoolConsumerX<X> sutThrowing = LTriBoolConsumerX.lX((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumerX<X> sutThrowing = LTriBoolConsumerX.lX((a1,a2,a3) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +168,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LTriBoolConsumerX<ParseException> sutThrowing = LTriBoolConsumerX.lX((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumerX<ParseException> sutThrowing = LTriBoolConsumerX.lX((a1,a2,a3) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -188,10 +189,10 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws X {
+    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -212,10 +213,10 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
+    public void testHandleTriBoolConsMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -236,10 +237,10 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
+    public void testHandleTriBoolConsMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -261,10 +262,10 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+    public void testHandleTriBoolConsMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -288,7 +289,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtriBoolConsComposeBoolean() throws X {
+    public void testTriBoolConsComposeBool() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -318,7 +319,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
         };
 
         //when
-        LTriBoolConsumer function = sutO.triBoolConsComposeBoolean(before1,before2,before3);
+        LTriBoolConsumer function = sutO.triBoolConsComposeBool(before1,before2,before3);
         function.doAccept(true,true,true);
 
         //then - finals
@@ -328,7 +329,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testtriBoolConsCompose() throws X {
+    public void testTriBoolConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -341,25 +342,25 @@ public class LTriBoolConsumerTest<X extends ParseException> {
                 assertThat(a3).isEqualTo(true);
         };
 
-        LPredicate<Integer > before1 = p0 -> {
-            assertThat(p0).isEqualTo(Integer.valueOf(80));
+        LPredicate<Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
-        LPredicate<Integer > before2 = p1 -> {
-            assertThat(p1).isEqualTo(Integer.valueOf(81));
+        LPredicate<Integer> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
             beforeCalls.incrementAndGet();
             return true;
         };
-        LPredicate<Integer > before3 = p2 -> {
-            assertThat(p2).isEqualTo(Integer.valueOf(82));
+        LPredicate<Integer> before3 = p2 -> {
+            assertThat(p2).isEqualTo(82);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LTriConsumer<Integer ,Integer ,Integer > function = sutO.triBoolConsCompose(before1,before2,before3);
-        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        LTriConsumer<Integer,Integer,Integer> function = sutO.triBoolConsCompose(before1,before2,before3);
+        function.doAccept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -375,14 +376,14 @@ public class LTriBoolConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LTriBoolConsumer sutO = (boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
                 assertThat(a3).isEqualTo(true);
         };
 
-        LTriBoolConsumer thenFunction = (boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer thenFunction = (a1,a2,a3) -> {
                 thenFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
@@ -431,7 +432,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -443,7 +444,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     public void testHandleTriBoolCons() throws X {
 
         // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 

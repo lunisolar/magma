@@ -17,6 +17,7 @@
  */
 
 package eu.lunisolar.magma.func.operator.binary;
+
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
@@ -30,24 +31,23 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import java.util.function.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Non-throwing functional interface (lambda) LBinaryOperator for Java 8.
@@ -62,9 +62,22 @@ import java.util.function.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing, LBiFunction<T, T, T> { // NOSONAR
+public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LBinaryOperator: T doApply(T a1,T a2)";
+
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LBinaryOperator interface should be discouraged.
+	 */
+	@Override
+	@Deprecated
+	default T apply(T a1, T a2) {
+		return this.nestingDoApply(a1, a2);
+	}
+
+	@Nullable
+	T doApply(T a1, T a2);
 
 	default T tupleApply(LPair<T, T> args) {
 		return doApply(args.first(), args.second());
@@ -146,7 +159,7 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::static_doNothing_method_name). */
+	/** Safe instance. That always returns the same value (as Function4U::produce). */
 	@Nonnull
 	static <T> LBinaryOperator<T> safe() {
 		return Function4U::produce;
@@ -185,7 +198,7 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
-	static <T> LBinaryOperator<T> minBy(@Nonnull Comparator<? super T> comparator) {
+	static <T> LBinaryOperator<T> minBy(@Nonnull Comparator<T> comparator) {
 		Null.nonNullArg(comparator, "comparator");
 		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
 	}
@@ -195,14 +208,14 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
-	static <T> LBinaryOperator<T> maxBy(@Nonnull Comparator<? super T> comparator) {
+	static <T> LBinaryOperator<T> maxBy(@Nonnull Comparator<T> comparator) {
 		Null.nonNullArg(comparator, "comparator");
 		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
 	}
 
 	// <editor-fold desc="then (functional)">
 
-	/** Combines two operators together in a order. */
+	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LBiFunction<T, T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Null.nonNullArg(after, "after");

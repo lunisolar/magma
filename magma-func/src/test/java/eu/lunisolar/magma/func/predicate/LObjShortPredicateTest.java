@@ -93,7 +93,7 @@ public class LObjShortPredicateTest<T,X extends ParseException> {
     @Test
     public void testTupleCall() throws X {
 
-        LObjShortPair<Integer> domainObject = Tuple4U.lObjShortPair(100,(short)100);
+        LObjShortPair<Integer> domainObject = Tuple4U.objShortPair(100,(short)100);
 
         Object result = sut.tupleTest(domainObject);
 
