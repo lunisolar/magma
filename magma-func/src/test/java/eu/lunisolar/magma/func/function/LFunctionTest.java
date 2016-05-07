@@ -692,6 +692,13 @@ public class LFunctionTest<T,R,X extends ParseException> {
 
 
     // </editor-fold>
+    @Test
+    public void identity() throws X {
+        LFunction<Integer,Integer> identityFunction = LFunction.identity();
+
+        assertThat(identityFunction.doApply(8)).isEqualTo(8);
+    }
+
 
     @Test
     public void testNesting() {
