@@ -24,20 +24,22 @@ import org.assertj.core.api.Assert;
 import javax.annotation.Nonnull;
 import java.util.function.*;
 
-public interface FullFunctionalAssert<S extends FullFunctionalAssert<S, PC, A, RS, R, X>, PC, A, RS extends Assert<RS, R>, R, X extends Exception>
-        extends FunctionalAssert<S, PC, A, Consumer<RS>, X>, Assert<S, A>, Fluent<S> {
+import static javafx.scene.input.KeyCode.X;
+
+public interface FullFunctionalAssert<S extends FullFunctionalAssert<S, PC, A, RS, R>, PC, A, RS extends Assert<RS, R>, R>
+        extends FunctionalAssert<S, PC, A, Consumer<RS>>, Assert<S, A>, Fluent<S> {
 
     @SuppressWarnings("unchecked")
-    abstract class Base<S extends Base<S, PC, A, RS, R, X>, PC, A, RS extends Assert<RS, R>, R, X extends Exception>
+    abstract class Base<S extends Base<S, PC, A, RS, R>, PC, A, RS extends Assert<RS, R>, R>
             extends RecurringAsserts.Base<S, A, Consumer<RS>>
-            implements FullFunctionalAssert<S, PC, A, RS, R, X>, Fluent<S> {
+            implements FullFunctionalAssert<S, PC, A, RS, R>, Fluent<S> {
 
         public Base(A actual, Class<?> selfType) {
             super(actual, selfType);
         }
 
         @Nonnull
-        protected Evaluation<S, PC, A, RS, R, X> evaluation(AssertionFunction<PC, RS> assertFunction) {
+        protected Evaluation<S, PC, A, RS, R> evaluation(AssertionFunction<PC, RS> assertFunction) {
             return new Evaluation<>(self(), (PC pc) -> {
                 isNotNull();
                 return assertFunction.applyAndCreateResultAssert(pc);

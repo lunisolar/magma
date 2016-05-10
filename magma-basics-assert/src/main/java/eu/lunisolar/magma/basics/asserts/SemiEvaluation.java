@@ -18,8 +18,6 @@
 
 package eu.lunisolar.magma.basics.asserts;
 
-import org.assertj.core.api.ThrowableAssert;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
@@ -31,8 +29,8 @@ import javax.annotation.concurrent.ThreadSafe;
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unchecked")
-public final class SemiEvaluation<CTX extends FunctionalAssert.Simple<CTX, PC, A, X>, PC, A, X extends Exception>
-        extends AbstractEvaluation<SemiEvaluation<CTX, PC, A, X>, CTX, PC, A, X> {
+public final class SemiEvaluation<CTX extends FunctionalAssert.Simple<CTX, PC, A>, PC, A>
+        extends AbstractEvaluation<SemiEvaluation<CTX, PC, A>, CTX, PC, A> {
 
     public SemiEvaluation(
             @Nonnull CTX context,

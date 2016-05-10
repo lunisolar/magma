@@ -25,14 +25,16 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
+import static javafx.scene.input.KeyCode.X;
+
 /**
  * Fluent sub-context for functional interface assertions.
  */
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unchecked")
-public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R, X>, PC, A, RS extends Assert<RS, R>, R, X extends Exception>
-        extends AbstractEvaluation<Evaluation<CTX, PC, A, RS, R, X>, CTX, PC, RS, X> {
+public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R>, PC, A, RS extends Assert<RS, R>, R>
+        extends AbstractEvaluation<Evaluation<CTX, PC, A, RS, R>, CTX, PC, RS> {
 
     public Evaluation(
             @Nonnull CTX context,

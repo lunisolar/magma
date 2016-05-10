@@ -40,7 +40,7 @@ import static org.assertj.core.api.Fail.fail;
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unchecked")
-public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, PC, A, X>, CTX extends Fluent<CTX>, PC, A, X extends Exception>
+public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, PC, A>, CTX extends Fluent<CTX>, PC, A>
         implements FluentSubcontext<SELF, CTX> {
 
     protected @Nullable       PC                       preconditioner;
@@ -87,7 +87,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
         return context.self();
     }
 
-    protected static <PC, A, X extends Exception> void normalCheck(
+    protected static <PC, A, X extends Throwable> void normalCheck(
             @Nullable PC preconditioner,
             @Nonnull AssertionFunction<PC, A> assertFunction,
             @Nullable Consumer<A> assertPreConsumer,
@@ -112,7 +112,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
         }
     }
 
-    protected static <PC, A, X extends Exception> void exceptionCheck(
+    protected static <PC, A, X extends Throwable> void exceptionCheck(
             @Nullable PC preconditioner,
             @Nonnull AssertionFunction<PC, A> assertFunction,
             @Nonnull Consumer<AbstractThrowableAssert<?, ? extends Throwable>> assertConsumer

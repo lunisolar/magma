@@ -40,7 +40,7 @@ public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
     }
 
     @Nonnull
-    default AbstractBooleanAssert assertThatBoolean(Boolean actual) {
+    default AbstractBooleanAssert assertThatBool(Boolean actual) {
         return Assertions.assertThat(actual);
     }
 
