@@ -1524,352 +1524,22 @@ public final class Function4U {
 	// <editor-fold desc="wrapper for lambda- JRE">
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> UnaryOperator l(final UnaryOperator<T> lambda) {
+	public static Runnable l(final Runnable lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> UnaryOperator unaryOperator(final UnaryOperator<T> lambda) {
+	public static Runnable runnable(final Runnable lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> BinaryOperator l(final BinaryOperator<T> lambda) {
+	public static <T1, T2> BiConsumer l(final BiConsumer<T1, T2> lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> BinaryOperator binaryOperator(final BinaryOperator<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntUnaryOperator l(final IntUnaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntUnaryOperator intUnaryOperator(final IntUnaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongUnaryOperator l(final LongUnaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongUnaryOperator longUnaryOperator(final LongUnaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleUnaryOperator l(final DoubleUnaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleUnaryOperator doubleUnaryOperator(final DoubleUnaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntBinaryOperator l(final IntBinaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntBinaryOperator intBinaryOperator(final IntBinaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongBinaryOperator l(final LongBinaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongBinaryOperator longBinaryOperator(final LongBinaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleBinaryOperator l(final DoubleBinaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleBinaryOperator doubleBinaryOperator(final DoubleBinaryOperator lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T, R> Function l(final Function<T, R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T, R> Function function(final Function<T, R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2, R> BiFunction l(final BiFunction<T1, T2, R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2, R> BiFunction biFunction(final BiFunction<T1, T2, R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <R> IntFunction l(final IntFunction<R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <R> IntFunction intFunction(final IntFunction<R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <R> LongFunction l(final LongFunction<R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <R> LongFunction longFunction(final LongFunction<R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <R> DoubleFunction l(final DoubleFunction<R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <R> DoubleFunction doubleFunction(final DoubleFunction<R> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ToIntFunction l(final ToIntFunction<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ToIntFunction toIntFunction(final ToIntFunction<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ToLongFunction l(final ToLongFunction<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ToLongFunction toLongFunction(final ToLongFunction<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ToDoubleFunction l(final ToDoubleFunction<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ToDoubleFunction toDoubleFunction(final ToDoubleFunction<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> ToIntBiFunction l(final ToIntBiFunction<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> ToIntBiFunction toIntBiFunction(final ToIntBiFunction<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> ToLongBiFunction l(final ToLongBiFunction<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> ToLongBiFunction toLongBiFunction(final ToLongBiFunction<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> ToDoubleBiFunction l(final ToDoubleBiFunction<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> ToDoubleBiFunction toDoubleBiFunction(final ToDoubleBiFunction<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntToLongFunction l(final IntToLongFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntToLongFunction intToLongFunction(final IntToLongFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntToDoubleFunction l(final IntToDoubleFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntToDoubleFunction intToDoubleFunction(final IntToDoubleFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongToIntFunction l(final LongToIntFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongToIntFunction longToIntFunction(final LongToIntFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongToDoubleFunction l(final LongToDoubleFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongToDoubleFunction longToDoubleFunction(final LongToDoubleFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleToIntFunction l(final DoubleToIntFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleToIntFunction doubleToIntFunction(final DoubleToIntFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleToLongFunction l(final DoubleToLongFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleToLongFunction doubleToLongFunction(final DoubleToLongFunction lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> Predicate l(final Predicate<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> Predicate predicate(final Predicate<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> BiPredicate l(final BiPredicate<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> BiPredicate biPredicate(final BiPredicate<T1, T2> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntPredicate l(final IntPredicate lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntPredicate intPredicate(final IntPredicate lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongPredicate l(final LongPredicate lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongPredicate longPredicate(final LongPredicate lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoublePredicate l(final DoublePredicate lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoublePredicate doublePredicate(final DoublePredicate lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> Supplier l(final Supplier<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> Supplier supplier(final Supplier<T> lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntSupplier l(final IntSupplier lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static IntSupplier intSupplier(final IntSupplier lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongSupplier l(final LongSupplier lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static LongSupplier longSupplier(final LongSupplier lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleSupplier l(final DoubleSupplier lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleSupplier doubleSupplier(final DoubleSupplier lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static BooleanSupplier l(final BooleanSupplier lambda) {
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static BooleanSupplier booleanSupplier(final BooleanSupplier lambda) {
+	public static <T1, T2> BiConsumer biConsumer(final BiConsumer<T1, T2> lambda) {
 		return lambda;
 	}
 
@@ -1884,12 +1554,12 @@ public final class Function4U {
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> BiConsumer l(final BiConsumer<T1, T2> lambda) {
+	public static DoubleConsumer l(final DoubleConsumer lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T1, T2> BiConsumer biConsumer(final BiConsumer<T1, T2> lambda) {
+	public static DoubleConsumer doubleConsumer(final DoubleConsumer lambda) {
 		return lambda;
 	}
 
@@ -1914,12 +1584,12 @@ public final class Function4U {
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleConsumer l(final DoubleConsumer lambda) {
+	public static <T> ObjDoubleConsumer l(final ObjDoubleConsumer<T> lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static DoubleConsumer doubleConsumer(final DoubleConsumer lambda) {
+	public static <T> ObjDoubleConsumer objDoubleConsumer(final ObjDoubleConsumer<T> lambda) {
 		return lambda;
 	}
 
@@ -1944,22 +1614,352 @@ public final class Function4U {
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ObjDoubleConsumer l(final ObjDoubleConsumer<T> lambda) {
+	public static <T> BinaryOperator l(final BinaryOperator<T> lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static <T> ObjDoubleConsumer objDoubleConsumer(final ObjDoubleConsumer<T> lambda) {
+	public static <T> BinaryOperator binaryOperator(final BinaryOperator<T> lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static Runnable l(final Runnable lambda) {
+	public static DoubleBinaryOperator l(final DoubleBinaryOperator lambda) {
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler. */
-	public static Runnable runnable(final Runnable lambda) {
+	public static DoubleBinaryOperator doubleBinaryOperator(final DoubleBinaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleUnaryOperator l(final DoubleUnaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleUnaryOperator doubleUnaryOperator(final DoubleUnaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntBinaryOperator l(final IntBinaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntBinaryOperator intBinaryOperator(final IntBinaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntUnaryOperator l(final IntUnaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntUnaryOperator intUnaryOperator(final IntUnaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongBinaryOperator l(final LongBinaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongBinaryOperator longBinaryOperator(final LongBinaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongUnaryOperator l(final LongUnaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongUnaryOperator longUnaryOperator(final LongUnaryOperator lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> UnaryOperator l(final UnaryOperator<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> UnaryOperator unaryOperator(final UnaryOperator<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2, R> BiFunction l(final BiFunction<T1, T2, R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2, R> BiFunction biFunction(final BiFunction<T1, T2, R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <R> DoubleFunction l(final DoubleFunction<R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <R> DoubleFunction doubleFunction(final DoubleFunction<R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleToIntFunction l(final DoubleToIntFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleToIntFunction doubleToIntFunction(final DoubleToIntFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleToLongFunction l(final DoubleToLongFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleToLongFunction doubleToLongFunction(final DoubleToLongFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T, R> Function l(final Function<T, R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T, R> Function function(final Function<T, R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <R> IntFunction l(final IntFunction<R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <R> IntFunction intFunction(final IntFunction<R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntToDoubleFunction l(final IntToDoubleFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntToDoubleFunction intToDoubleFunction(final IntToDoubleFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntToLongFunction l(final IntToLongFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntToLongFunction intToLongFunction(final IntToLongFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <R> LongFunction l(final LongFunction<R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <R> LongFunction longFunction(final LongFunction<R> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongToDoubleFunction l(final LongToDoubleFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongToDoubleFunction longToDoubleFunction(final LongToDoubleFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongToIntFunction l(final LongToIntFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongToIntFunction longToIntFunction(final LongToIntFunction lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> ToDoubleBiFunction l(final ToDoubleBiFunction<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> ToDoubleBiFunction toDoubleBiFunction(final ToDoubleBiFunction<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> ToDoubleFunction l(final ToDoubleFunction<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> ToDoubleFunction toDoubleFunction(final ToDoubleFunction<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> ToIntBiFunction l(final ToIntBiFunction<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> ToIntBiFunction toIntBiFunction(final ToIntBiFunction<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> ToIntFunction l(final ToIntFunction<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> ToIntFunction toIntFunction(final ToIntFunction<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> ToLongBiFunction l(final ToLongBiFunction<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> ToLongBiFunction toLongBiFunction(final ToLongBiFunction<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> ToLongFunction l(final ToLongFunction<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> ToLongFunction toLongFunction(final ToLongFunction<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> BiPredicate l(final BiPredicate<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T1, T2> BiPredicate biPredicate(final BiPredicate<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoublePredicate l(final DoublePredicate lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoublePredicate doublePredicate(final DoublePredicate lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntPredicate l(final IntPredicate lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntPredicate intPredicate(final IntPredicate lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongPredicate l(final LongPredicate lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongPredicate longPredicate(final LongPredicate lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> Predicate l(final Predicate<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> Predicate predicate(final Predicate<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static BooleanSupplier l(final BooleanSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static BooleanSupplier booleanSupplier(final BooleanSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleSupplier l(final DoubleSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static DoubleSupplier doubleSupplier(final DoubleSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntSupplier l(final IntSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static IntSupplier intSupplier(final IntSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongSupplier l(final LongSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static LongSupplier longSupplier(final LongSupplier lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> Supplier l(final Supplier<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler. */
+	public static <T> Supplier supplier(final Supplier<T> lambda) {
 		return lambda;
 	}
 
