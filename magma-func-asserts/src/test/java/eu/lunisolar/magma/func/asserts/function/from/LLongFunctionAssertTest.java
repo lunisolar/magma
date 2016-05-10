@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.function.from;
 
-import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.LLongFunction;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,28 +36,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LLongFunctionAssertTest<R,X extends Throwable> {
+public class LLongFunctionAssertTest<R,X extends ParseException> {
 
-    private R testValue = (R)Integer.valueOf(100);
+    private Integer testValue = 100;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLongFunction<Integer > function = LLongFunction.l(a1 ->
-            (Integer ) testValue
-    );
+    private LLongFunction<Integer> function = a1 ->
+            testValue;
 
-    private LLongFunction<Integer > functionThrowing = LLongFunction.l(a1 -> {
+
+    private LLongFunction<Integer> functionThrowing = a1 -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesApply((long)80)
+         .doesApply(100L)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class LLongFunctionAssertTest<R,X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesApply((long)80)
+         .doesApply(100L)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class LLongFunctionAssertTest<R,X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApply((long)80)
+         .doesApply(100L)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class LLongFunctionAssertTest<R,X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApply((long)80).withException(a -> a
+         .doesApply(100L).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class LLongFunctionAssertTest<R,X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApply((long)80)
+         .doesApply(100L)
             .to(a -> a.isEqualTo(testValue))
-         .doesApply((long)80)
+         .doesApply(100L)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class LLongFunctionAssertTest<R,X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesApply((long)80)
+         .doesApply(100L)
             .to(a -> a.isEqualTo(testValue))
-         .doesApply((long)80)
+         .doesApply(100L)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

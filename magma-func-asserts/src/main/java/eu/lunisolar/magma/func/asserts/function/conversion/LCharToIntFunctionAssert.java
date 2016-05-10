@@ -28,53 +28,60 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LCharToIntFunction. */
-public interface LCharToIntFunctionAssert<S extends LCharToIntFunctionAssert<S, A, RS>, A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>>
-		extends
-			Assert<S, A>,
-			FullFunctionalAssert<S, LCharConsumerX<Exception>, A, RS, Integer, Exception> {
+public interface LCharToIntFunctionAssert<S extends LCharToIntFunctionAssert<S, A, RS>, A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumer, A, RS, Integer> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(char a1);
+	Evaluation<S, LCharConsumer, A, RS, Integer> doesApplyAsInt(char a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
+	final class The<A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+		public The(A actual, LIntFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, LCharConsumerX<Exception>, A, RS, Integer, Exception>
-			implements
-				LCharToIntFunctionAssert<S, A, RS> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS>, A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, LCharConsumer, A, RS, Integer> implements LCharToIntFunctionAssert<S, A, RS> {
 
-		protected final java.util.function.Function<Integer, RS> assertFactory;
+		protected final LIntFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<Integer, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LIntFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(char a1) {
+		public Evaluation<S, LCharConsumer, A, RS, Integer> doesApplyAsInt(char a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Integer) actual.doApplyAsInt(a1));
+				return assertFactory.doApply(actual.doApplyAsInt(a1));
 			});
 
 		}

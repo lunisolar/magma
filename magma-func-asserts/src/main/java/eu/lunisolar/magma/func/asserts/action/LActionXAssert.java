@@ -28,39 +28,51 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.action.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LActionX. */
-public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LActionX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LActionX<Exception>, A, Exception> {
+public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LActionX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LActionX<X>, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LActionX<Exception>, A, Exception> doesExecute();
+	SemiEvaluation<S, LActionX<X>, A> doesExecute();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LActionX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
+	final class The<A extends LActionX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
 
 		public The(A actual) {
 			super(actual, The.class);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, X>, A extends LActionX<X>, X extends Throwable> extends FunctionalAssert.Simple.Base<S, LActionX<Exception>, A, Exception> implements LActionXAssert<S, A, X> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, X>, A extends LActionX<X>, X extends Throwable> extends FunctionalAssert.Simple.Base<S, LActionX<X>, A> implements LActionXAssert<S, A, X> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LActionX<Exception>, A, Exception> doesExecute() {
+		public SemiEvaluation<S, LActionX<X>, A> doesExecute() {
 
 			return evaluation(pc -> {
 				if (pc != null) {

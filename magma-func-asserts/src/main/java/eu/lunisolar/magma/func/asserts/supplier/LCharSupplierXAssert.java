@@ -28,53 +28,60 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.supplier.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LCharSupplierX. */
-public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable>
-		extends
-			Assert<S, A>,
-			FullFunctionalAssert<S, LActionX<Exception>, A, RS, Character, Exception> {
+public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, LActionX<X>, A, RS, Character> {
 
 	@Nonnull
-	Evaluation<S, LActionX<Exception>, A, RS, Character, Exception> doesGetAsChar();
+	Evaluation<S, LActionX<X>, A, RS, Character> doesGetAsChar();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
+	final class The<A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public The(A actual, java.util.function.Function<Character, RS> assertFactory) {
+		public The(A actual, LCharFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LActionX<Exception>, A, RS, Character, Exception>
-			implements
-				LCharSupplierXAssert<S, A, RS, X> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LActionX<X>, A, RS, Character> implements LCharSupplierXAssert<S, A, RS, X> {
 
-		protected final java.util.function.Function<Character, RS> assertFactory;
+		protected final LCharFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<Character, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LCharFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LActionX<Exception>, A, RS, Character, Exception> doesGetAsChar() {
+		public Evaluation<S, LActionX<X>, A, RS, Character> doesGetAsChar() {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doExecute();
 				}
-				return assertFactory.apply((Character) actual.doGetAsChar());
+				return assertFactory.doApply(actual.doGetAsChar());
 			});
 
 		}

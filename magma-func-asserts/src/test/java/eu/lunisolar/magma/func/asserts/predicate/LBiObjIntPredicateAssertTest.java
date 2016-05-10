@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.predicate;
 
-import eu.lunisolar.magma.func.predicate.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.LBiObjIntPredicate;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,28 +36,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LBiObjIntPredicateAssertTest<T1,T2,X extends Throwable> {
+public class LBiObjIntPredicateAssertTest<T1,T2,X extends ParseException> {
 
     private boolean testValue = true;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjIntPredicate<Integer ,Integer > function = LBiObjIntPredicate.l((a1,a2,a3) ->
-            testValue
-    );
+    private LBiObjIntPredicate<Integer,Integer> function = (Integer a1,Integer a2,int a3) ->
+            testValue;
 
-    private LBiObjIntPredicate<Integer ,Integer > functionThrowing = LBiObjIntPredicate.l((a1,a2,a3) -> {
+
+    private LBiObjIntPredicate<Integer,Integer> functionThrowing = (Integer a1,Integer a2,int a3) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82)
+         .doesTest(100,100,100)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class LBiObjIntPredicateAssertTest<T1,T2,X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82)
+         .doesTest(100,100,100)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class LBiObjIntPredicateAssertTest<T1,T2,X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82)
+         .doesTest(100,100,100)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class LBiObjIntPredicateAssertTest<T1,T2,X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82).withException(a -> a
+         .doesTest(100,100,100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class LBiObjIntPredicateAssertTest<T1,T2,X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82)
+         .doesTest(100,100,100)
             .to(a -> a.isEqualTo(testValue))
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82)
+         .doesTest(100,100,100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class LBiObjIntPredicateAssertTest<T1,T2,X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82)
+         .doesTest(100,100,100)
             .to(a -> a.isEqualTo(testValue))
-         .doesTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82)
+         .doesTest(100,100,100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

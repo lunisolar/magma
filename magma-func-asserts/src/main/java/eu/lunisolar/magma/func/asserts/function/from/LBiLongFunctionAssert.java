@@ -28,48 +28,60 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.function.from.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LBiLongFunction. */
-public interface LBiLongFunctionAssert<S extends LBiLongFunctionAssert<S, A, RS, R>, A extends LBiLongFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiLongConsumerX<Exception>, A, RS, R, Exception> {
+public interface LBiLongFunctionAssert<S extends LBiLongFunctionAssert<S, A, RS, R>, A extends LBiLongFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiLongConsumer, A, RS, R> {
 
 	@Nonnull
-	Evaluation<S, LBiLongConsumerX<Exception>, A, RS, R, Exception> doesApply(long a1, long a2);
+	Evaluation<S, LBiLongConsumer, A, RS, R> doesApply(long a1, long a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LBiLongFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
+	final class The<A extends LBiLongFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
 
-		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+		public The(A actual, LFunction<R, RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, R>, A extends LBiLongFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LBiLongConsumerX<Exception>, A, RS, R, Exception> implements LBiLongFunctionAssert<S, A, RS, R> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS, R>, A extends LBiLongFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LBiLongConsumer, A, RS, R> implements LBiLongFunctionAssert<S, A, RS, R> {
 
-		protected final java.util.function.Function<R, RS> assertFactory;
+		protected final LFunction<R, RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<R, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LFunction<R, RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiLongConsumerX<Exception>, A, RS, R, Exception> doesApply(long a1, long a2) {
+		public Evaluation<S, LBiLongConsumer, A, RS, R> doesApply(long a1, long a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((R) actual.doApply(a1, a2));
+				return assertFactory.doApply(actual.doApply(a1, a2));
 			});
 
 		}

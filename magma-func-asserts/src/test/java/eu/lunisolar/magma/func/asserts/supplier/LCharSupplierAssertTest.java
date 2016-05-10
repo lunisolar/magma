@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.supplier;
 
-import eu.lunisolar.magma.func.supplier.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.LCharSupplier;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,22 +36,23 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LCharSupplierAssertTest<X extends Throwable> {
+public class LCharSupplierAssertTest<X extends ParseException> {
 
-    private char testValue = (char)100;
+    private char testValue = '\u0100';
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharSupplier function = LCharSupplier.l(() ->
-            testValue
-    );
+    private LCharSupplier function = () ->
+            testValue;
 
-    private LCharSupplier functionThrowing = LCharSupplier.l(() -> {
+
+    private LCharSupplier functionThrowing = () -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {

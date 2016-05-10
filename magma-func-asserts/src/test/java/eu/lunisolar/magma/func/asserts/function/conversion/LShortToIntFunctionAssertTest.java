@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.function.conversion;
 
-import eu.lunisolar.magma.func.function.conversion.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.LShortToIntFunction;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,28 +36,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LShortToIntFunctionAssertTest<X extends Throwable> {
+public class LShortToIntFunctionAssertTest<X extends ParseException> {
 
-    private int testValue = (int)100;
+    private int testValue = 100;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LShortToIntFunction function = LShortToIntFunction.l(a1 ->
-            testValue
-    );
+    private LShortToIntFunction function = a1 ->
+            testValue;
 
-    private LShortToIntFunction functionThrowing = LShortToIntFunction.l(a1 -> {
+
+    private LShortToIntFunction functionThrowing = a1 -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsInt((short)80)
+         .doesApplyAsInt((short)100)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class LShortToIntFunctionAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsInt((short)80)
+         .doesApplyAsInt((short)100)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class LShortToIntFunctionAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsInt((short)80)
+         .doesApplyAsInt((short)100)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class LShortToIntFunctionAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsInt((short)80).withException(a -> a
+         .doesApplyAsInt((short)100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class LShortToIntFunctionAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApplyAsInt((short)80)
+         .doesApplyAsInt((short)100)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsInt((short)80)
+         .doesApplyAsInt((short)100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class LShortToIntFunctionAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesApplyAsInt((short)80)
+         .doesApplyAsInt((short)100)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsInt((short)80)
+         .doesApplyAsInt((short)100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

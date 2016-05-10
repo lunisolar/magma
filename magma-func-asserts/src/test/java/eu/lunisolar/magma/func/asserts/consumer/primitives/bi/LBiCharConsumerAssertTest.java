@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.consumer.primitives.bi;
 
-import eu.lunisolar.magma.func.consumer.primitives.bi.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.LBiCharConsumer;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,9 +36,10 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LBiCharConsumerAssertTest<X extends Throwable> {
+public class LBiCharConsumerAssertTest<X extends ParseException> {
 
     private Integer testValue = 100;
     private AtomicReference<Object> externalEffect = new AtomicReference(null);
@@ -48,19 +47,19 @@ public class LBiCharConsumerAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiCharConsumer function = LBiCharConsumer.l((a1,a2) ->
-            externalEffect.set(testValue)
-    );
+    private LBiCharConsumer function = (char a1,char a2) ->
+            externalEffect.set(testValue);
 
-    private LBiCharConsumer functionThrowing = LBiCharConsumer.l((a1,a2) -> {
+
+    private LBiCharConsumer functionThrowing = (char a1,char a2) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesAccept((char)80,(char)81)
+         .doesAccept('\u0100','\u0100')
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
     }
@@ -69,7 +68,7 @@ public class LBiCharConsumerAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesAccept((char)80,(char)81)
+         .doesAccept('\u0100','\u0100')
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
     }
@@ -78,7 +77,7 @@ public class LBiCharConsumerAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesAccept((char)80,(char)81)
+         .doesAccept('\u0100','\u0100')
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
 
@@ -86,7 +85,7 @@ public class LBiCharConsumerAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesAccept((char)80,(char)81).withException(a -> a
+         .doesAccept('\u0100','\u0100').withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -102,9 +101,9 @@ public class LBiCharConsumerAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
          })
-         .doesAccept((char)80,(char)81)
+         .doesAccept('\u0100','\u0100')
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .doesAccept((char)80,(char)81)
+         .doesAccept('\u0100','\u0100')
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -122,9 +121,9 @@ public class LBiCharConsumerAssertTest<X extends Throwable> {
                 assertThat(externalEffect.get()).isEqualTo(0);
             }
          })
-         .doesAccept((char)80,(char)81)
+         .doesAccept('\u0100','\u0100')
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .doesAccept((char)80,(char)81)
+         .doesAccept('\u0100','\u0100')
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

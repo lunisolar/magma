@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.operator.ternary;
 
-import eu.lunisolar.magma.func.operator.ternary.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.LLogicalTernaryOperatorX;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,22 +36,23 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LLogicalTernaryOperatorXAssertTest<X extends Throwable> {
+public class LLogicalTernaryOperatorXAssertTest<X extends ParseException> {
 
     private boolean testValue = true;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLogicalTernaryOperatorX<X> function = LLogicalTernaryOperatorX.lX((a1,a2,a3) ->
-            testValue
-    );
+    private LLogicalTernaryOperatorX<X> function = (boolean a1,boolean a2,boolean a3) ->
+            testValue;
 
-    private LLogicalTernaryOperatorX<X> functionThrowing = LLogicalTernaryOperatorX.lX((a1,a2,a3) -> {
+
+    private LLogicalTernaryOperatorX<X> functionThrowing = (boolean a1,boolean a2,boolean a3) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {

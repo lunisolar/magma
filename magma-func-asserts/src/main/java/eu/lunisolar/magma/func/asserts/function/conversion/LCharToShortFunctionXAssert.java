@@ -28,13 +28,25 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.function.conversion.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -42,39 +54,39 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharToShortFunctionXAssert<S extends LCharToShortFunctionXAssert<S, A, RS, X>, A extends LCharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LCharConsumerX<Exception>, A, RS, Short, Exception> {
+			FullFunctionalAssert<S, LCharConsumerX<X>, A, RS, Short> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(char a1);
+	Evaluation<S, LCharConsumerX<X>, A, RS, Short> doesApplyAsShort(char a1);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LCharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
+	final class The<A extends LCharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public The(A actual, java.util.function.Function<Short, RS> assertFactory) {
+		public The(A actual, LShortFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LCharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LCharConsumerX<Exception>, A, RS, Short, Exception>
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS, X>, A extends LCharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LCharConsumerX<X>, A, RS, Short>
 			implements
 				LCharToShortFunctionXAssert<S, A, RS, X> {
 
-		protected final java.util.function.Function<Short, RS> assertFactory;
+		protected final LShortFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<Short, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LShortFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(char a1) {
+		public Evaluation<S, LCharConsumerX<X>, A, RS, Short> doesApplyAsShort(char a1) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(a1);
 				}
-				return assertFactory.apply((Short) actual.doApplyAsShort(a1));
+				return assertFactory.doApply(actual.doApplyAsShort(a1));
 			});
 
 		}

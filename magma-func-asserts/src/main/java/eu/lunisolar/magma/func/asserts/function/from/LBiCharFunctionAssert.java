@@ -28,48 +28,60 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.function.from.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LBiCharFunction. */
-public interface LBiCharFunctionAssert<S extends LBiCharFunctionAssert<S, A, RS, R>, A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> {
+public interface LBiCharFunctionAssert<S extends LBiCharFunctionAssert<S, A, RS, R>, A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiCharConsumer, A, RS, R> {
 
 	@Nonnull
-	Evaluation<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char a1, char a2);
+	Evaluation<S, LBiCharConsumer, A, RS, R> doesApply(char a1, char a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
+	final class The<A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
 
-		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+		public The(A actual, LFunction<R, RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, R>, A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> implements LBiCharFunctionAssert<S, A, RS, R> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS, R>, A extends LBiCharFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LBiCharConsumer, A, RS, R> implements LBiCharFunctionAssert<S, A, RS, R> {
 
-		protected final java.util.function.Function<R, RS> assertFactory;
+		protected final LFunction<R, RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<R, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LFunction<R, RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char a1, char a2) {
+		public Evaluation<S, LBiCharConsumer, A, RS, R> doesApply(char a1, char a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((R) actual.doApply(a1, a2));
+				return assertFactory.doApply(actual.doApply(a1, a2));
 			});
 
 		}

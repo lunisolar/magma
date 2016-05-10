@@ -27,8 +27,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -37,28 +35,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LongBinaryOperatorAssertTest<X extends Throwable> {
+public class LongBinaryOperatorAssertTest {
 
-    private long testValue = (long)100;
+    private long testValue = 100L;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.LongBinaryOperator function = ((a1,a2) ->
-            testValue
-    );
+    private LongBinaryOperator function = (long a1,long a2) ->
+            testValue;
 
-    private java.util.function.LongBinaryOperator functionThrowing = ((a1,a2) -> {
+
+    private LongBinaryOperator functionThrowing = (long a1,long a2) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsLong((long)80,(long)81)
+         .doesApplyAsLong(100L,100L)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -67,7 +66,7 @@ public class LongBinaryOperatorAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsLong((long)80,(long)81)
+         .doesApplyAsLong(100L,100L)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -76,7 +75,7 @@ public class LongBinaryOperatorAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsLong((long)80,(long)81)
+         .doesApplyAsLong(100L,100L)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -84,7 +83,7 @@ public class LongBinaryOperatorAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsLong((long)80,(long)81).withException(a -> a
+         .doesApplyAsLong(100L,100L).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -100,9 +99,9 @@ public class LongBinaryOperatorAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApplyAsLong((long)80,(long)81)
+         .doesApplyAsLong(100L,100L)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsLong((long)80,(long)81)
+         .doesApplyAsLong(100L,100L)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -120,9 +119,9 @@ public class LongBinaryOperatorAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesApplyAsLong((long)80,(long)81)
+         .doesApplyAsLong(100L,100L)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsLong((long)80,(long)81)
+         .doesApplyAsLong(100L,100L)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

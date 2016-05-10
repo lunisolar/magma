@@ -28,38 +28,49 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert class for java.util.function.BiConsumer. */
-public interface BiConsumerAssert<S extends BiConsumerAssert<S, A, T1, T2>, A extends java.util.function.BiConsumer<T1, T2>, T1, T2> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiConsumerX<T1, T2, Exception>, A, Exception> {
+/** Assert class for BiConsumer. */
+public interface BiConsumerAssert<S extends BiConsumerAssert<S, A, T1, T2>, A extends BiConsumer<T1, T2>, T1, T2> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiConsumer<T1, T2>, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LBiConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 a1, T2 a2);
+	SemiEvaluation<S, LBiConsumer<T1, T2>, A> doesAccept(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends java.util.function.BiConsumer<T1, T2>, T1, T2> extends Base<The<A, T1, T2>, A, T1, T2> {
+	final class The<A extends BiConsumer<T1, T2>, T1, T2> extends Base<The<A, T1, T2>, A, T1, T2> {
 
 		public The(A actual) {
 			super(actual, The.class);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, T1, T2>, A extends java.util.function.BiConsumer<T1, T2>, T1, T2> extends FunctionalAssert.Simple.Base<S, LBiConsumerX<T1, T2, Exception>, A, Exception> implements BiConsumerAssert<S, A, T1, T2> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, T1, T2>, A extends BiConsumer<T1, T2>, T1, T2> extends FunctionalAssert.Simple.Base<S, LBiConsumer<T1, T2>, A> implements BiConsumerAssert<S, A, T1, T2> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LBiConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 a1, T2 a2) {
+		public SemiEvaluation<S, LBiConsumer<T1, T2>, A> doesAccept(T1 a1, T2 a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.consumer.primitives.obj;
 
-import eu.lunisolar.magma.func.consumer.primitives.obj.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjByteConsumer;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,9 +36,10 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LBiObjByteConsumerAssertTest<T1,T2,X extends Throwable> {
+public class LBiObjByteConsumerAssertTest<T1,T2,X extends ParseException> {
 
     private Integer testValue = 100;
     private AtomicReference<Object> externalEffect = new AtomicReference(null);
@@ -48,19 +47,19 @@ public class LBiObjByteConsumerAssertTest<T1,T2,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjByteConsumer<Integer ,Integer > function = LBiObjByteConsumer.l((a1,a2,a3) ->
-            externalEffect.set(testValue)
-    );
+    private LBiObjByteConsumer<Integer,Integer> function = (Integer a1,Integer a2,byte a3) ->
+            externalEffect.set(testValue);
 
-    private LBiObjByteConsumer<Integer ,Integer > functionThrowing = LBiObjByteConsumer.l((a1,a2,a3) -> {
+
+    private LBiObjByteConsumer<Integer,Integer> functionThrowing = (Integer a1,Integer a2,byte a3) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82)
+         .doesAccept(100,100,(byte)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
     }
@@ -69,7 +68,7 @@ public class LBiObjByteConsumerAssertTest<T1,T2,X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82)
+         .doesAccept(100,100,(byte)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
     }
@@ -78,7 +77,7 @@ public class LBiObjByteConsumerAssertTest<T1,T2,X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82)
+         .doesAccept(100,100,(byte)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
 
@@ -86,7 +85,7 @@ public class LBiObjByteConsumerAssertTest<T1,T2,X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82).withException(a -> a
+         .doesAccept(100,100,(byte)100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -102,9 +101,9 @@ public class LBiObjByteConsumerAssertTest<T1,T2,X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
          })
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82)
+         .doesAccept(100,100,(byte)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82)
+         .doesAccept(100,100,(byte)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -122,9 +121,9 @@ public class LBiObjByteConsumerAssertTest<T1,T2,X extends Throwable> {
                 assertThat(externalEffect.get()).isEqualTo(0);
             }
          })
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82)
+         .doesAccept(100,100,(byte)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .doesAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(byte)82)
+         .doesAccept(100,100,(byte)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

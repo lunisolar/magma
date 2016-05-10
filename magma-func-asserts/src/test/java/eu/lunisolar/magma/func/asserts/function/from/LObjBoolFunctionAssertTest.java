@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.function.from;
 
-import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.LObjBoolFunction;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,28 +36,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LObjBoolFunctionAssertTest<T,R,X extends Throwable> {
+public class LObjBoolFunctionAssertTest<T,R,X extends ParseException> {
 
-    private R testValue = (R)Integer.valueOf(100);
+    private Integer testValue = 100;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LObjBoolFunction<Integer ,Integer > function = LObjBoolFunction.l((a1,a2) ->
-            (Integer ) testValue
-    );
+    private LObjBoolFunction<Integer,Integer> function = (Integer a1,boolean a2) ->
+            testValue;
 
-    private LObjBoolFunction<Integer ,Integer > functionThrowing = LObjBoolFunction.l((a1,a2) -> {
+
+    private LObjBoolFunction<Integer,Integer> functionThrowing = (Integer a1,boolean a2) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesApply((Integer )Integer.valueOf(80),true)
+         .doesApply(100,true)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class LObjBoolFunctionAssertTest<T,R,X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesApply((Integer )Integer.valueOf(80),true)
+         .doesApply(100,true)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class LObjBoolFunctionAssertTest<T,R,X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApply((Integer )Integer.valueOf(80),true)
+         .doesApply(100,true)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class LObjBoolFunctionAssertTest<T,R,X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApply((Integer )Integer.valueOf(80),true).withException(a -> a
+         .doesApply(100,true).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class LObjBoolFunctionAssertTest<T,R,X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApply((Integer )Integer.valueOf(80),true)
+         .doesApply(100,true)
             .to(a -> a.isEqualTo(testValue))
-         .doesApply((Integer )Integer.valueOf(80),true)
+         .doesApply(100,true)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class LObjBoolFunctionAssertTest<T,R,X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesApply((Integer )Integer.valueOf(80),true)
+         .doesApply(100,true)
             .to(a -> a.isEqualTo(testValue))
-         .doesApply((Integer )Integer.valueOf(80),true)
+         .doesApply(100,true)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

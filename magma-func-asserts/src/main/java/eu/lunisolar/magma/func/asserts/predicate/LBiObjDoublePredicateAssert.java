@@ -28,13 +28,25 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.predicate.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -42,39 +54,39 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiObjDoublePredicateAssert<S extends LBiObjDoublePredicateAssert<S, A, RS, T1, T2>, A extends LBiObjDoublePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LBiObjDoubleConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiObjDoubleConsumer<T1, T2>, A, RS, Boolean> {
 
 	@Nonnull
-	Evaluation<S, LBiObjDoubleConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 a1, T2 a2, double a3);
+	Evaluation<S, LBiObjDoubleConsumer<T1, T2>, A, RS, Boolean> doesTest(T1 a1, T2 a2, double a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LBiObjDoublePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
+	final class The<A extends LBiObjDoublePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
 
-		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+		public The(A actual, LBoolFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2>, A extends LBiObjDoublePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2>
-			extends
-				FullFunctionalAssert.Base<S, LBiObjDoubleConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> implements LBiObjDoublePredicateAssert<S, A, RS, T1, T2> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS, T1, T2>, A extends LBiObjDoublePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends FullFunctionalAssert.Base<S, LBiObjDoubleConsumer<T1, T2>, A, RS, Boolean>
+			implements
+				LBiObjDoublePredicateAssert<S, A, RS, T1, T2> {
 
-		protected final java.util.function.Function<Boolean, RS> assertFactory;
+		protected final LBoolFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<Boolean, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LBoolFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiObjDoubleConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 a1, T2 a2, double a3) {
+		public Evaluation<S, LBiObjDoubleConsumer<T1, T2>, A, RS, Boolean> doesTest(T1 a1, T2 a2, double a3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(a1, a2, a3);
 				}
-				return assertFactory.apply((Boolean) actual.doTest(a1, a2, a3));
+				return assertFactory.doApply(actual.doTest(a1, a2, a3));
 			});
 
 		}

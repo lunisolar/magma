@@ -28,49 +28,43 @@ import java.nio.file.*;
 import java.util.function.*;
 import org.assertj.core.api.*; // NOSONAR
 import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.operator.ternary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.function.*; // NOSONAR
-import eu.lunisolar.magma.func.function.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.function.from.*; // NOSONAR
-import eu.lunisolar.magma.func.function.from.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.function.conversion.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.predicate.*; // NOSONAR
-import eu.lunisolar.magma.func.predicate.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.action.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.std.*; // NOSONAR
-import org.testng.annotations.Test;
+import eu.lunisolar.magma.func.asserts.action.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.function.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.asserts.supplier.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
+//import eu.lunisolar.magma.func.asserts.std.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
-/**
- * Default implementation of assertion factories. Always use with/by provided type argument OS otherwise compiler will not be able to infer the type of
- * assertion class.
- *
- * @param OS required base class for object assertions. It need to be provided in the usecase otherwise compiler will not be able to infer the type.
- */
+import org.testng.annotations.Test;
+
 @SuppressWarnings("ALL")
 public class DefaultFunctionalAssertionsTest {
 

@@ -27,8 +27,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -37,9 +35,10 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class RunnableAssertTest<X extends Throwable> {
+public class RunnableAssertTest {
 
     private Integer testValue = 100;
     private AtomicReference<Object> externalEffect = new AtomicReference(null);
@@ -47,19 +46,19 @@ public class RunnableAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.lang.Runnable function = (() ->
-            externalEffect.set(testValue)
-    );
+    private Runnable function = () ->
+            externalEffect.set(testValue);
 
-    private java.lang.Runnable functionThrowing = (() -> {
+
+    private Runnable functionThrowing = () -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .run()
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class RunnableAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .run()
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class RunnableAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .run()
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class RunnableAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .run().withException(a -> a
+         .doesExecute().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class RunnableAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
          })
-         .run()
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .run()
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class RunnableAssertTest<X extends Throwable> {
                 assertThat(externalEffect.get()).isEqualTo(0);
             }
          })
-         .run()
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .run()
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

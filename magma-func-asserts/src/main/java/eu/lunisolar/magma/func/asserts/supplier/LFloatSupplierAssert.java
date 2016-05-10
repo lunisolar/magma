@@ -28,48 +28,60 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.supplier.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LFloatSupplier. */
-public interface LFloatSupplierAssert<S extends LFloatSupplierAssert<S, A, RS>, A extends LFloatSupplier, RS extends AbstractFloatAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LActionX<Exception>, A, RS, Float, Exception> {
+public interface LFloatSupplierAssert<S extends LFloatSupplierAssert<S, A, RS>, A extends LFloatSupplier, RS extends AbstractFloatAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LAction, A, RS, Float> {
 
 	@Nonnull
-	Evaluation<S, LActionX<Exception>, A, RS, Float, Exception> doesGetAsFloat();
+	Evaluation<S, LAction, A, RS, Float> doesGetAsFloat();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LFloatSupplier, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
+	final class The<A extends LFloatSupplier, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public The(A actual, java.util.function.Function<Float, RS> assertFactory) {
+		public The(A actual, LFloatFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LFloatSupplier, RS extends AbstractFloatAssert<RS>> extends FullFunctionalAssert.Base<S, LActionX<Exception>, A, RS, Float, Exception> implements LFloatSupplierAssert<S, A, RS> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS>, A extends LFloatSupplier, RS extends AbstractFloatAssert<RS>> extends FullFunctionalAssert.Base<S, LAction, A, RS, Float> implements LFloatSupplierAssert<S, A, RS> {
 
-		protected final java.util.function.Function<Float, RS> assertFactory;
+		protected final LFloatFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<Float, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LFloatFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LActionX<Exception>, A, RS, Float, Exception> doesGetAsFloat() {
+		public Evaluation<S, LAction, A, RS, Float> doesGetAsFloat() {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doExecute();
 				}
-				return assertFactory.apply((Float) actual.doGetAsFloat());
+				return assertFactory.doApply(actual.doGetAsFloat());
 			});
 
 		}

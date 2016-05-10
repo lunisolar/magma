@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.function.conversion;
 
-import eu.lunisolar.magma.func.function.conversion.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.LByteToFloatFunctionX;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,28 +36,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LByteToFloatFunctionXAssertTest<X extends Throwable> {
+public class LByteToFloatFunctionXAssertTest<X extends ParseException> {
 
-    private float testValue = (float)100;
+    private float testValue = 100f;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LByteToFloatFunctionX<X> function = LByteToFloatFunctionX.lX(a1 ->
-            testValue
-    );
+    private LByteToFloatFunctionX<X> function = a1 ->
+            testValue;
 
-    private LByteToFloatFunctionX<X> functionThrowing = LByteToFloatFunctionX.lX(a1 -> {
+
+    private LByteToFloatFunctionX<X> functionThrowing = a1 -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsFloat((byte)80)
+         .doesApplyAsFloat((byte)100)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class LByteToFloatFunctionXAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsFloat((byte)80)
+         .doesApplyAsFloat((byte)100)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class LByteToFloatFunctionXAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsFloat((byte)80)
+         .doesApplyAsFloat((byte)100)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class LByteToFloatFunctionXAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsFloat((byte)80).withException(a -> a
+         .doesApplyAsFloat((byte)100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class LByteToFloatFunctionXAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApplyAsFloat((byte)80)
+         .doesApplyAsFloat((byte)100)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsFloat((byte)80)
+         .doesApplyAsFloat((byte)100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class LByteToFloatFunctionXAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesApplyAsFloat((byte)80)
+         .doesApplyAsFloat((byte)100)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsFloat((byte)80)
+         .doesApplyAsFloat((byte)100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.operator.binary;
 
-import eu.lunisolar.magma.func.operator.binary.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.LFloatBinaryOperator;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,28 +36,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LFloatBinaryOperatorAssertTest<X extends Throwable> {
+public class LFloatBinaryOperatorAssertTest<X extends ParseException> {
 
-    private float testValue = (float)100;
+    private float testValue = 100f;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatBinaryOperator function = LFloatBinaryOperator.l((a1,a2) ->
-            testValue
-    );
+    private LFloatBinaryOperator function = (float a1,float a2) ->
+            testValue;
 
-    private LFloatBinaryOperator functionThrowing = LFloatBinaryOperator.l((a1,a2) -> {
+
+    private LFloatBinaryOperator functionThrowing = (float a1,float a2) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsFloat((float)80,(float)81)
+         .doesApplyAsFloat(100f,100f)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class LFloatBinaryOperatorAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsFloat((float)80,(float)81)
+         .doesApplyAsFloat(100f,100f)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class LFloatBinaryOperatorAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsFloat((float)80,(float)81)
+         .doesApplyAsFloat(100f,100f)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class LFloatBinaryOperatorAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsFloat((float)80,(float)81).withException(a -> a
+         .doesApplyAsFloat(100f,100f).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class LFloatBinaryOperatorAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApplyAsFloat((float)80,(float)81)
+         .doesApplyAsFloat(100f,100f)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsFloat((float)80,(float)81)
+         .doesApplyAsFloat(100f,100f)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class LFloatBinaryOperatorAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesApplyAsFloat((float)80,(float)81)
+         .doesApplyAsFloat(100f,100f)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsFloat((float)80,(float)81)
+         .doesApplyAsFloat(100f,100f)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

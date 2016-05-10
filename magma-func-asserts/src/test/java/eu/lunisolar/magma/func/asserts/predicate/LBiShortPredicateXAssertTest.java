@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.asserts.predicate;
 
-import eu.lunisolar.magma.func.predicate.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -28,8 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-
-import java.util.function.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.LBiShortPredicateX;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -38,28 +36,29 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LBiShortPredicateXAssertTest<X extends Throwable> {
+public class LBiShortPredicateXAssertTest<X extends ParseException> {
 
     private boolean testValue = true;
 
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiShortPredicateX<X> function = LBiShortPredicateX.lX((a1,a2) ->
-            testValue
-    );
+    private LBiShortPredicateX<X> function = (short a1,short a2) ->
+            testValue;
 
-    private LBiShortPredicateX<X> functionThrowing = LBiShortPredicateX.lX((a1,a2) -> {
+
+    private LBiShortPredicateX<X> functionThrowing = (short a1,short a2) -> {
         throw new UnsupportedOperationException();
-    });
+    };
 
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesTest((short)80,(short)81)
+         .doesTest((short)100,(short)100)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -68,7 +67,7 @@ public class LBiShortPredicateXAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesTest((short)80,(short)81)
+         .doesTest((short)100,(short)100)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -77,7 +76,7 @@ public class LBiShortPredicateXAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesTest((short)80,(short)81)
+         .doesTest((short)100,(short)100)
             .to( a -> a.isEqualTo(1));
     }
 
@@ -85,7 +84,7 @@ public class LBiShortPredicateXAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesTest((short)80,(short)81).withException(a -> a
+         .doesTest((short)100,(short)100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -101,9 +100,9 @@ public class LBiShortPredicateXAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesTest((short)80,(short)81)
+         .doesTest((short)100,(short)100)
             .to(a -> a.isEqualTo(testValue))
-         .doesTest((short)80,(short)81)
+         .doesTest((short)100,(short)100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -121,9 +120,9 @@ public class LBiShortPredicateXAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesTest((short)80,(short)81)
+         .doesTest((short)100,(short)100)
             .to(a -> a.isEqualTo(testValue))
-         .doesTest((short)80,(short)81)
+         .doesTest((short)100,(short)100)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

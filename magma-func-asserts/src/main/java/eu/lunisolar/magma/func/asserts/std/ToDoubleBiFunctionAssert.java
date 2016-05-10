@@ -28,52 +28,63 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assert class for java.util.function.ToDoubleBiFunction. */
-public interface ToDoubleBiFunctionAssert<S extends ToDoubleBiFunctionAssert<S, A, RS, T1, T2>, A extends java.util.function.ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2>
+/** Assert class for ToDoubleBiFunction. */
+public interface ToDoubleBiFunctionAssert<S extends ToDoubleBiFunctionAssert<S, A, RS, T1, T2>, A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> {
+			FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T1 a1, T2 a2);
+	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Double> doesApplyAsDouble(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends java.util.function.ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
+	final class The<A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
 
-		public The(A actual, java.util.function.Function<Double, RS> assertFactory) {
+		public The(A actual, LDoubleFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2>, A extends java.util.function.ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2>
-			extends
-				FullFunctionalAssert.Base<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> implements ToDoubleBiFunctionAssert<S, A, RS, T1, T2> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, RS, T1, T2>, A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> extends FullFunctionalAssert.Base<S, LBiConsumer<T1, T2>, A, RS, Double>
+			implements
+				ToDoubleBiFunctionAssert<S, A, RS, T1, T2> {
 
-		protected final java.util.function.Function<Double, RS> assertFactory;
+		protected final LDoubleFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, java.util.function.Function<Double, RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LDoubleFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T1 a1, T2 a2) {
+		public Evaluation<S, LBiConsumer<T1, T2>, A, RS, Double> doesApplyAsDouble(T1 a1, T2 a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(a1, a2);
 				}
-				return assertFactory.apply((Double) actual.applyAsDouble(a1, a2));
+				return assertFactory.doApply(actual.applyAsDouble(a1, a2));
 			});
 
 		}

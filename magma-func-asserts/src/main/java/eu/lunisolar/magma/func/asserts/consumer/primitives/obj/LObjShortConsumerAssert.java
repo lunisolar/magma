@@ -28,39 +28,51 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+import java.util.function.*;
+
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
-import eu.lunisolar.magma.func.action.LAction;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LObjShortConsumer. */
-public interface LObjShortConsumerAssert<S extends LObjShortConsumerAssert<S, A, T>, A extends LObjShortConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjShortConsumerX<T, Exception>, A, Exception> {
+public interface LObjShortConsumerAssert<S extends LObjShortConsumerAssert<S, A, T>, A extends LObjShortConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjShortConsumer<T>, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LObjShortConsumerX<T, Exception>, A, Exception> doesAccept(T a1, short a2);
+	SemiEvaluation<S, LObjShortConsumer<T>, A> doesAccept(T a1, short a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class The<A extends LObjShortConsumer<T>, T> extends Base<The<A, T>, A, T> {
+	final class The<A extends LObjShortConsumer<T>, T> extends Base<The<A, T>, A, T> {
 
 		public The(A actual) {
 			super(actual, The.class);
 		}
 	}
 
-	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, T>, A extends LObjShortConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, LObjShortConsumerX<T, Exception>, A, Exception> implements LObjShortConsumerAssert<S, A, T> {
+	/** Base implementation. For potential extending (requires to define all generic parameters). */
+	class Base<S extends Base<S, A, T>, A extends LObjShortConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, LObjShortConsumer<T>, A> implements LObjShortConsumerAssert<S, A, T> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LObjShortConsumerX<T, Exception>, A, Exception> doesAccept(T a1, short a2) {
+		public SemiEvaluation<S, LObjShortConsumer<T>, A> doesAccept(T a1, short a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
