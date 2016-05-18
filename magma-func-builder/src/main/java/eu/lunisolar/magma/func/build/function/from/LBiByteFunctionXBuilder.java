@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.function.from;
 
-import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LBiByteFunctionX. */
 public final class LBiByteFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBiByteFunctionXBuilder<R, X>, LBiBytePredicateX<X>, LBiByteFunctionX<R, X>, R> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBiByteFunctionX<R, X>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiByteFunctionX EVENTUALLY_THROW = LBiByteFunctionX.lX((byte a1, byte a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiByteFunctionX.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LBiByteFunctionX EVENTUALLY_THROW = LBiByteFunctionX.lX((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LBiByteFunctionXBuilder(@Nullable Consumer<LBiByteFunctionX<R, X>> consumer) {
 		super(EVENTUALLY_THROW, LBiByteFunctionX::constant, () -> new LBiByteFunctionXBuilder(null));
@@ -82,6 +74,12 @@ public final class LBiByteFunctionXBuilder<R, X extends Throwable> extends PerCa
 	@Nonnull
 	public static <R, X extends Throwable> LBiByteFunctionXBuilder<R, X> biByteFunctionX() {
 		return new LBiByteFunctionXBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <R, X extends Throwable> LBiByteFunctionX<R, X> biByteFunctionXFrom(Function<LBiByteFunctionXBuilder<R, X>, LBiByteFunctionX<R, X>> buildingFunction) {
+		return buildingFunction.apply(new LBiByteFunctionXBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -110,7 +108,7 @@ public final class LBiByteFunctionXBuilder<R, X extends Throwable> extends PerCa
 		LBiByteFunctionX<R, X> retval;
 
 		final Case<LBiBytePredicateX<X>, LBiByteFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiByteFunctionX.<R, X> lX((byte a1, byte a2) -> {
+		retval = LBiByteFunctionX.<R, X> lX((a1, a2) -> {
 			try {
 				for (Case<LBiBytePredicateX<X>, LBiByteFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

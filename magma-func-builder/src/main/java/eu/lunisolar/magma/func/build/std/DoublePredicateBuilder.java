@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for DoublePredicate. */
+public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.Base<DoublePredicateBuilder, LDoublePredicate, DoublePredicate> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.DoublePredicate. */
-public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<DoublePredicateBuilder, LDoublePredicate, java.util.function.DoublePredicate> {
-
-	private Consumer<java.util.function.DoublePredicate> consumer;
+	private Consumer<DoublePredicate> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.DoublePredicate EVENTUALLY_THROW = Function4U.doublePredicate((double a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.DoublePredicate: boolean test(double a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final DoublePredicate EVENTUALLY_THROW = Function4U.doublePredicate(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public DoublePredicateBuilder(@Nullable Consumer<java.util.function.DoublePredicate> consumer) {
+	public DoublePredicateBuilder(@Nullable Consumer<DoublePredicate> consumer) {
 		super(EVENTUALLY_THROW, LDoublePredicate::constant, () -> new DoublePredicateBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProdu
 		return new DoublePredicateBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static DoublePredicate doublePredicateFrom(Function<DoublePredicateBuilder, DoublePredicate> buildingFunction) {
+		return buildingFunction.apply(new DoublePredicateBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoublePredicateBuilder doublePredicate(Consumer<java.util.function.DoublePredicate> consumer) {
+	public static DoublePredicateBuilder doublePredicate(Consumer<DoublePredicate> consumer) {
 		return new DoublePredicateBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProdu
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.DoublePredicate build() {
+	public final DoublePredicate build() {
 
-		final java.util.function.DoublePredicate eventuallyFinal = this.eventually;
+		final DoublePredicate eventuallyFinal = this.eventually;
 
-		java.util.function.DoublePredicate retval;
+		DoublePredicate retval;
 
-		final Case<LDoublePredicate, java.util.function.DoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LDoublePredicate, DoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.doublePredicate(a1 -> {
 			try {
-				for (Case<LDoublePredicate, java.util.function.DoublePredicate> aCase : casesArray) {
+				for (Case<LDoublePredicate, DoublePredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().test(a1);
 					}
@@ -131,7 +130,7 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProdu
 		return retval;
 	}
 
-	public final java.util.function.DoublePredicate build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final DoublePredicate build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

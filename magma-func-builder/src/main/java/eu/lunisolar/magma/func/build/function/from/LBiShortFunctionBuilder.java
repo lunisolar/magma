@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.function.from;
 
-import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LBiShortFunction. */
 public final class LBiShortFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBiShortFunctionBuilder<R>, LBiShortPredicate, LBiShortFunction<R>, R> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBiShortFunction<R>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiShortFunction EVENTUALLY_THROW = LBiShortFunction.l((short a1, short a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiShortFunction.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LBiShortFunction EVENTUALLY_THROW = LBiShortFunction.l((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LBiShortFunctionBuilder(@Nullable Consumer<LBiShortFunction<R>> consumer) {
 		super(EVENTUALLY_THROW, LBiShortFunction::constant, () -> new LBiShortFunctionBuilder(null));
@@ -82,6 +74,12 @@ public final class LBiShortFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 	@Nonnull
 	public static <R> LBiShortFunctionBuilder<R> biShortFunction() {
 		return new LBiShortFunctionBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <R> LBiShortFunction<R> biShortFunctionFrom(Function<LBiShortFunctionBuilder<R>, LBiShortFunction<R>> buildingFunction) {
+		return buildingFunction.apply(new LBiShortFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -110,7 +108,7 @@ public final class LBiShortFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 		LBiShortFunction<R> retval;
 
 		final Case<LBiShortPredicate, LBiShortFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiShortFunction.<R> l((short a1, short a2) -> {
+		retval = LBiShortFunction.<R> l((a1, a2) -> {
 			try {
 				for (Case<LBiShortPredicate, LBiShortFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

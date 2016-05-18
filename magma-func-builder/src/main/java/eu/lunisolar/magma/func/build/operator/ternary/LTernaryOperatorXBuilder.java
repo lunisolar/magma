@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.operator.ternary;
 
-import eu.lunisolar.magma.func.operator.ternary.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LTernaryOperatorX. */
 public final class LTernaryOperatorXBuilder<T, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LTernaryOperatorXBuilder<T, X>, LTriPredicateX<T, T, T, X>, LTernaryOperatorX<T, X>, T> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LTernaryOperatorX<T, X>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTernaryOperatorX EVENTUALLY_THROW = LTernaryOperatorX.lX((Object a1, Object a2, Object a3) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s ,%s  as function %s.", a1, a2, a3, LTernaryOperatorX.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LTernaryOperatorX EVENTUALLY_THROW = LTernaryOperatorX.lX((a1, a2, a3) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LTernaryOperatorXBuilder(@Nullable Consumer<LTernaryOperatorX<T, X>> consumer) {
 		super(EVENTUALLY_THROW, LTernaryOperatorX::constant, () -> new LTernaryOperatorXBuilder(null));
@@ -82,6 +74,12 @@ public final class LTernaryOperatorXBuilder<T, X extends Throwable> extends PerC
 	@Nonnull
 	public static <T, X extends Throwable> LTernaryOperatorXBuilder<T, X> ternaryOperatorX() {
 		return new LTernaryOperatorXBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T, X extends Throwable> LTernaryOperatorX<T, X> ternaryOperatorXFrom(Function<LTernaryOperatorXBuilder<T, X>, LTernaryOperatorX<T, X>> buildingFunction) {
+		return buildingFunction.apply(new LTernaryOperatorXBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -101,6 +99,24 @@ public final class LTernaryOperatorXBuilder<T, X extends Throwable> extends PerC
 		return self();
 	}
 
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <V extends T> LTernaryOperatorXBuilder<T, X> casesOf(Class<V> argC1, Class<V> argC2, Class<V> argC3, Consumer<LTernaryOperatorXBuilder<V, X>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> LTernaryOperatorXBuilder<T, X> aCase(Class<V> argC1, Class<V> argC2, Class<V> argC3, LTernaryOperatorX<V, X> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
+
+		pc.evaluate(function);
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LTernaryOperatorX<T, X> build() {
@@ -110,7 +126,7 @@ public final class LTernaryOperatorXBuilder<T, X extends Throwable> extends PerC
 		LTernaryOperatorX<T, X> retval;
 
 		final Case<LTriPredicateX<T, T, T, X>, LTernaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTernaryOperatorX.<T, X> lX((T a1, T a2, T a3) -> {
+		retval = LTernaryOperatorX.<T, X> lX((a1, a2, a3) -> {
 			try {
 				for (Case<LTriPredicateX<T, T, T, X>, LTernaryOperatorX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2, a3)) {

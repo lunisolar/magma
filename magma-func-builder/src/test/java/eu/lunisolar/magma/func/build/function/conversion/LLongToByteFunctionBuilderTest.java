@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LLongToByteFunctionBuilder.longToByteFunction;
+import static eu.lunisolar.magma.func.build.function.conversion.LLongToByteFunctionBuilder.longToByteFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LLongToByteFunctionBuilderTest<X extends Throwable>{
+public class LLongToByteFunctionBuilderTest<X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LLongToByteFunction function = LLongToByteFunctionBuilder.longToByteFunction()
-                .build();
+            LLongToByteFunction function = longToByteFunctionFrom(b-> b
+                .build()
+            );
 
-            function.doApplyAsByte((long)100);
+            function.doApplyAsByte(100L);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LLongToByteFunction.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LLongToByteFunction function = LLongToByteFunctionBuilder.longToByteFunction()
+            LLongToByteFunction function = longToByteFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LLongToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LLongToByteFunction function = LLongToByteFunctionBuilder.longToByteFunction()
+            LLongToByteFunction function = longToByteFunctionFrom(b -> b
                 .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doApplyAsByte((long)100);
+            function.doApplyAsByte(100L);
 
             fail("No exception were thrown.");
         })
@@ -114,22 +116,23 @@ public class LLongToByteFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
 
-        LLongToByteFunction function = longToByteFunction((LLongToByteFunction f)-> doNothing())
-            .aCase(ce -> ce.of(a1 -> a1 == (long)0)
+        LLongToByteFunction function = longToByteFunctionFrom( b -> b
+            .aCase(ce -> ce.of(a1 -> a1 == 0L)
                              .evaluate(a1 -> (byte)0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (byte)1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (byte)2)
+            .inCase(a1 -> a1 > 0L && a1 < 10L).evaluate(a1 -> (byte)1)
+            .inCase(a1 -> a1 > 10L && a1 < 20L).evaluate(a1 -> (byte)2)
             .eventually(a1 -> (byte)99)
-            .build();
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApplyAsByte((long)0).when(null).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte((long)5).when(null).to(a -> a.isEqualTo((byte)1))
-            .doesApplyAsByte((long)15).when(null).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((long)10).when(null).to(a -> a.isEqualTo((byte)99))
+            .doesApplyAsByte(0L).when(null).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte(5L).when(null).to(a -> a.isEqualTo((byte)1))
+            .doesApplyAsByte(15L).when(null).to(a -> a.isEqualTo((byte)2))
+            .doesApplyAsByte(10L).when(null).to(a -> a.isEqualTo((byte)99))
         ;
 
     }

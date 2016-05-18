@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for BinaryOperator. */
+public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<BinaryOperatorBuilder<T>, LBiPredicate<T, T>, BinaryOperator<T>, T> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.BinaryOperator. */
-public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<BinaryOperatorBuilder<T>, LBiPredicate<T, T>, java.util.function.BinaryOperator<T>, T> {
-
-	private Consumer<java.util.function.BinaryOperator<T>> consumer;
+	private Consumer<BinaryOperator<T>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.BinaryOperator EVENTUALLY_THROW = Function4U.binaryOperator((Object a1, Object a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.BinaryOperator: T apply(T a1,T a2)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final BinaryOperator EVENTUALLY_THROW = Function4U.binaryOperator((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public BinaryOperatorBuilder(@Nullable Consumer<java.util.function.BinaryOperator<T>> consumer) {
+	public BinaryOperatorBuilder(@Nullable Consumer<BinaryOperator<T>> consumer) {
 		super(EVENTUALLY_THROW, LBinaryOperator::constant, () -> new BinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		return new BinaryOperatorBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T> BinaryOperator<T> binaryOperatorFrom(Function<BinaryOperatorBuilder<T>, BinaryOperator<T>> buildingFunction) {
+		return buildingFunction.apply(new BinaryOperatorBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <T> BinaryOperatorBuilder<T> binaryOperator(Consumer<java.util.function.BinaryOperator<T>> consumer) {
+	public static <T> BinaryOperatorBuilder<T> binaryOperator(Consumer<BinaryOperator<T>> consumer) {
 		return new BinaryOperatorBuilder(consumer);
 	}
 
@@ -100,18 +99,36 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		return self();
 	}
 
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <V extends T> BinaryOperatorBuilder<T> casesOf(Class<V> argC1, Class<V> argC2, Consumer<BinaryOperatorBuilder<V>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> BinaryOperatorBuilder<T> aCase(Class<V> argC1, Class<V> argC2, BinaryOperator<V> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+
+		pc.evaluate(function);
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.BinaryOperator<T> build() {
+	public final BinaryOperator<T> build() {
 
-		final java.util.function.BinaryOperator<T> eventuallyFinal = this.eventually;
+		final BinaryOperator<T> eventuallyFinal = this.eventually;
 
-		java.util.function.BinaryOperator<T> retval;
+		BinaryOperator<T> retval;
 
-		final Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> binaryOperator((T a1, T a2) -> {
+		final Case<LBiPredicate<T, T>, BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.<T> binaryOperator((a1, a2) -> {
 			try {
-				for (Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>> aCase : casesArray) {
+				for (Case<LBiPredicate<T, T>, BinaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {
 						return aCase.caseFunction().apply(a1, a2);
 					}
@@ -131,7 +148,7 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		return retval;
 	}
 
-	public final java.util.function.BinaryOperator<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final BinaryOperator<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

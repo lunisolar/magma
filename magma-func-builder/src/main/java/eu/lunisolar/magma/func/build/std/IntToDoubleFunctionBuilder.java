@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for IntToDoubleFunction. */
+public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<IntToDoubleFunctionBuilder, LIntPredicate, IntToDoubleFunction> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.IntToDoubleFunction. */
-public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<IntToDoubleFunctionBuilder, LIntPredicate, java.util.function.IntToDoubleFunction> {
-
-	private Consumer<java.util.function.IntToDoubleFunction> consumer;
+	private Consumer<IntToDoubleFunction> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntToDoubleFunction EVENTUALLY_THROW = Function4U.intToDoubleFunction((int a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.IntToDoubleFunction: double applyAsDouble(int a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final IntToDoubleFunction EVENTUALLY_THROW = Function4U.intToDoubleFunction(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public IntToDoubleFunctionBuilder(@Nullable Consumer<java.util.function.IntToDoubleFunction> consumer) {
+	public IntToDoubleFunctionBuilder(@Nullable Consumer<IntToDoubleFunction> consumer) {
 		super(EVENTUALLY_THROW, LIntToDoubleFunction::constant, () -> new IntToDoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoublePr
 		return new IntToDoubleFunctionBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static IntToDoubleFunction intToDoubleFunctionFrom(Function<IntToDoubleFunctionBuilder, IntToDoubleFunction> buildingFunction) {
+		return buildingFunction.apply(new IntToDoubleFunctionBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static IntToDoubleFunctionBuilder intToDoubleFunction(Consumer<java.util.function.IntToDoubleFunction> consumer) {
+	public static IntToDoubleFunctionBuilder intToDoubleFunction(Consumer<IntToDoubleFunction> consumer) {
 		return new IntToDoubleFunctionBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoublePr
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.IntToDoubleFunction build() {
+	public final IntToDoubleFunction build() {
 
-		final java.util.function.IntToDoubleFunction eventuallyFinal = this.eventually;
+		final IntToDoubleFunction eventuallyFinal = this.eventually;
 
-		java.util.function.IntToDoubleFunction retval;
+		IntToDoubleFunction retval;
 
-		final Case<LIntPredicate, java.util.function.IntToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LIntPredicate, IntToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.intToDoubleFunction(a1 -> {
 			try {
-				for (Case<LIntPredicate, java.util.function.IntToDoubleFunction> aCase : casesArray) {
+				for (Case<LIntPredicate, IntToDoubleFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().applyAsDouble(a1);
 					}
@@ -131,7 +130,7 @@ public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoublePr
 		return retval;
 	}
 
-	public final java.util.function.IntToDoubleFunction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final IntToDoubleFunction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LIntToDoubleFunctionXBuilder.intToDoubleFunctionX;
+import static eu.lunisolar.magma.func.build.function.conversion.LIntToDoubleFunctionXBuilder.intToDoubleFunctionXFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LIntToDoubleFunctionXBuilderTest<X extends Throwable>{
+public class LIntToDoubleFunctionXBuilderTest<X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  throws X {
 
         assertThatThrownBy(() -> {
-            LIntToDoubleFunctionX function = LIntToDoubleFunctionXBuilder.intToDoubleFunctionX()
-                .build();
+            LIntToDoubleFunctionX<X> function = intToDoubleFunctionXFrom(b-> b
+                .build()
+            );
 
-            function.doApplyAsDouble((int)100);
+            function.doApplyAsDouble(100);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LIntToDoubleFunctionX.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  throws X {
 
 
         assertThatThrownBy(() -> {
-            LIntToDoubleFunctionX function = LIntToDoubleFunctionXBuilder.intToDoubleFunctionX()
+            LIntToDoubleFunctionX<X> function = intToDoubleFunctionXFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LIntToDoubleFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  throws X {
 
         assertThatThrownBy(() -> {
-            LIntToDoubleFunctionX function = LIntToDoubleFunctionXBuilder.intToDoubleFunctionX()
+            LIntToDoubleFunctionX<X> function = intToDoubleFunctionXFrom(b -> b
                 .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doApplyAsDouble((int)100);
+            function.doApplyAsDouble(100);
 
             fail("No exception were thrown.");
         })
@@ -114,22 +116,23 @@ public class LIntToDoubleFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  throws X {
 
-        LIntToDoubleFunctionX<ParseException> function = intToDoubleFunctionX((LIntToDoubleFunctionX<ParseException> f)-> doNothing())
-            .aCase(ce -> ce.of(a1 -> a1 == (int)0)
-                             .evaluate(a1 -> (double)0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (double)1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (double)2)
-            .eventually(a1 -> (double)99)
-            .build();
+        LIntToDoubleFunctionX<X> function = intToDoubleFunctionXFrom( b -> b
+            .aCase(ce -> ce.of(a1 -> a1 == 0)
+                             .evaluate(a1 -> 0d))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> 1d)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> 2d)
+            .eventually(a1 -> 99d)
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApplyAsDouble((int)0).when(null).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble((int)5).when(null).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble((int)15).when(null).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((int)10).when(null).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble(0).when(null).to(a -> a.isEqualTo(0d))
+            .doesApplyAsDouble(5).when(null).to(a -> a.isEqualTo(1d))
+            .doesApplyAsDouble(15).when(null).to(a -> a.isEqualTo(2d))
+            .doesApplyAsDouble(10).when(null).to(a -> a.isEqualTo(99d))
         ;
 
     }

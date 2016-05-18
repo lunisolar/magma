@@ -29,29 +29,27 @@ import java.util.function.*;
 
 import eu.lunisolar.magma.basics.builder.*;
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 @Immutable
 @ThreadSafe
-public class PartialCaseWithBooleanProduct<SELF extends PartialCaseWithBooleanProduct<SELF, PCB, P, F>, PCB extends PerCaseBuilderWithBooleanProduct<PCB, P, F, SELF>, P, F> extends PartialCase<SELF, PCB, P, F> {
+public class PartialCaseWithBoolProduct<SELF extends PartialCaseWithBoolProduct<SELF, PCB, P, F>, PCB extends PerCaseBuilderWithBoolProduct<PCB, P, F, SELF>, P, F> extends PartialCase<SELF, PCB, P, F> {
 
-	public PartialCaseWithBooleanProduct(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
+	public PartialCaseWithBoolProduct(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
 		super(superContext, casePredicate, subCasesFactory);
 	}
 
@@ -60,7 +58,7 @@ public class PartialCaseWithBooleanProduct<SELF extends PartialCaseWithBooleanPr
 		return this.evaluate(superContext().directToFunction.doApply(directValue));
 	}
 
-	public static final class The<PCB extends PerCaseBuilderWithBooleanProduct<PCB, P, F, The<PCB, P, F>>, P, F> extends PartialCaseWithBooleanProduct<The<PCB, P, F>, PCB, P, F> {
+	public static final class The<PCB extends PerCaseBuilderWithBoolProduct<PCB, P, F, The<PCB, P, F>>, P, F> extends PartialCaseWithBoolProduct<The<PCB, P, F>, PCB, P, F> {
 		public The(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
 			super(superContext, casePredicate, subCasesFactory);
 		}

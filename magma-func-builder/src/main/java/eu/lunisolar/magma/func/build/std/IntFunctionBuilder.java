@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for IntFunction. */
+public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<IntFunctionBuilder<R>, LIntPredicate, IntFunction<R>, R> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.IntFunction. */
-public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<IntFunctionBuilder<R>, LIntPredicate, java.util.function.IntFunction<R>, R> {
-
-	private Consumer<java.util.function.IntFunction<R>> consumer;
+	private Consumer<IntFunction<R>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntFunction EVENTUALLY_THROW = Function4U.intFunction((int a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.IntFunction: R apply(int a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final IntFunction EVENTUALLY_THROW = Function4U.intFunction(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public IntFunctionBuilder(@Nullable Consumer<java.util.function.IntFunction<R>> consumer) {
+	public IntFunctionBuilder(@Nullable Consumer<IntFunction<R>> consumer) {
 		super(EVENTUALLY_THROW, LIntFunction::constant, () -> new IntFunctionBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 		return new IntFunctionBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <R> IntFunction<R> intFunctionFrom(Function<IntFunctionBuilder<R>, IntFunction<R>> buildingFunction) {
+		return buildingFunction.apply(new IntFunctionBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <R> IntFunctionBuilder<R> intFunction(Consumer<java.util.function.IntFunction<R>> consumer) {
+	public static <R> IntFunctionBuilder<R> intFunction(Consumer<IntFunction<R>> consumer) {
 		return new IntFunctionBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.IntFunction<R> build() {
+	public final IntFunction<R> build() {
 
-		final java.util.function.IntFunction<R> eventuallyFinal = this.eventually;
+		final IntFunction<R> eventuallyFinal = this.eventually;
 
-		java.util.function.IntFunction<R> retval;
+		IntFunction<R> retval;
 
-		final Case<LIntPredicate, java.util.function.IntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LIntPredicate, IntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.<R> intFunction(a1 -> {
 			try {
-				for (Case<LIntPredicate, java.util.function.IntFunction<R>> aCase : casesArray) {
+				for (Case<LIntPredicate, IntFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().apply(a1);
 					}
@@ -131,7 +130,7 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 		return retval;
 	}
 
-	public final java.util.function.IntFunction<R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final IntFunction<R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.consumer.primitives.bi;
 
-import eu.lunisolar.magma.func.consumer.primitives.bi.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LBiIntConsumer. */
 public final class LBiIntConsumerBuilder extends PerCaseBuilder.Base<LBiIntConsumerBuilder, LBiIntPredicate, LBiIntConsumer> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBiIntConsumer> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiIntConsumer EVENTUALLY_THROW = LBiIntConsumer.l((int a1, int a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBiIntConsumer.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LBiIntConsumer EVENTUALLY_THROW = LBiIntConsumer.l((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LBiIntConsumerBuilder(@Nullable Consumer<LBiIntConsumer> consumer) {
 		super(EVENTUALLY_THROW, () -> new LBiIntConsumerBuilder(null));
@@ -82,6 +74,12 @@ public final class LBiIntConsumerBuilder extends PerCaseBuilder.Base<LBiIntConsu
 	@Nonnull
 	public static LBiIntConsumerBuilder biIntConsumer() {
 		return new LBiIntConsumerBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static LBiIntConsumer biIntConsumerFrom(Function<LBiIntConsumerBuilder, LBiIntConsumer> buildingFunction) {
+		return buildingFunction.apply(new LBiIntConsumerBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -110,7 +108,7 @@ public final class LBiIntConsumerBuilder extends PerCaseBuilder.Base<LBiIntConsu
 		LBiIntConsumer retval;
 
 		final Case<LBiIntPredicate, LBiIntConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiIntConsumer.l((int a1, int a2) -> {
+		retval = LBiIntConsumer.l((a1, a2) -> {
 			try {
 				for (Case<LBiIntPredicate, LBiIntConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

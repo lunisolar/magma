@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.from.LBiObjBoolFunctionBuilder.biObjBoolFunction;
+import static eu.lunisolar.magma.func.build.function.from.LBiObjBoolFunctionBuilder.biObjBoolFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiObjBoolFunctionBuilderTest<T1,T2,R,X extends Throwable>{
+public class LBiObjBoolFunctionBuilderTest<T1,T2,R,X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LBiObjBoolFunction function = LBiObjBoolFunctionBuilder.biObjBoolFunction()
-                .build();
+            LBiObjBoolFunction<Integer,Integer,Integer> function = biObjBoolFunctionFrom(b-> b
+                .build()
+            );
 
-            function.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+            function.doApply(100,100,true);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LBiObjBoolFunction.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LBiObjBoolFunction function = LBiObjBoolFunctionBuilder.biObjBoolFunction()
+            LBiObjBoolFunction<Integer,Integer,Integer> function = biObjBoolFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LBiObjBoolFunctionBuilderTest<T1,T2,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LBiObjBoolFunction function = LBiObjBoolFunctionBuilder.biObjBoolFunction()
+            LBiObjBoolFunction<Integer,Integer,Integer> function = biObjBoolFunctionFrom(b -> b
                 .eventually((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+            function.doApply(100,100,true);
 
             fail("No exception were thrown.");
         })
@@ -114,20 +116,23 @@ public class LBiObjBoolFunctionBuilderTest<T1,T2,R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
 
-        LBiObjBoolFunction<Integer ,Integer ,Integer > function = biObjBoolFunction((LBiObjBoolFunction<Integer ,Integer ,Integer > f)-> doNothing())
-            .aCase(ce -> ce.of((a1,a2,a3) -> a1 == Integer.valueOf(0))
-                             .evaluate((a1,a2,a3) -> Integer.valueOf(0)))
-            .inCase((a1,a2,a3) -> a1 > 0 && a1 < 10).evaluate((a1,a2,a3) -> Integer.valueOf(1))
-            .inCase((a1,a2,a3) -> a1 > 10 && a1 < 20).evaluate((a1,a2,a3) -> Integer.valueOf(2))
-            .eventually((a1,a2,a3) -> Integer.valueOf(99))
-            .build();
+        LBiObjBoolFunction<Integer,Integer,Integer> function = biObjBoolFunctionFrom( b -> b
+            .aCase(ce -> ce.of((a1,a2,a3) -> a1 == 0)
+                             .evaluate((a1,a2,a3) -> 0))
+            .inCase((a1,a2,a3) -> a1 > 0 && a1 < 10).evaluate((a1,a2,a3) -> 1)
+            .inCase((a1,a2,a3) -> a1 > 10 && a1 < 20).evaluate((a1,a2,a3) -> 2)
+            .eventually((a1,a2,a3) -> 99)
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApply(Integer.valueOf(0),Integer.valueOf(0),false).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply(Integer.valueOf(5),Integer.valueOf(5),true).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply(0,0,false).when(null).to(a -> a.isEqualTo(0))
+            .doesApply(5,5,true).when(null).to(a -> a.isEqualTo(1))
+            .doesApply(15,15,true).when(null).to(a -> a.isEqualTo(2))
+            .doesApply(10,10,true).when(null).to(a -> a.isEqualTo(99))
         ;
 
     }

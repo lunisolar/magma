@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.consumer.primitives;
 
-import eu.lunisolar.magma.func.consumer.primitives.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LCharConsumerX. */
 public final class LCharConsumerXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LCharConsumerXBuilder<X>, LCharPredicateX<X>, LCharConsumerX<X>> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LCharConsumerX<X>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharConsumerX EVENTUALLY_THROW = LCharConsumerX.lX((char a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, LCharConsumerX.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LCharConsumerX EVENTUALLY_THROW = LCharConsumerX.lX(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LCharConsumerXBuilder(@Nullable Consumer<LCharConsumerX<X>> consumer) {
 		super(EVENTUALLY_THROW, () -> new LCharConsumerXBuilder(null));
@@ -82,6 +74,12 @@ public final class LCharConsumerXBuilder<X extends Throwable> extends PerCaseBui
 	@Nonnull
 	public static <X extends Throwable> LCharConsumerXBuilder<X> charConsumerX() {
 		return new LCharConsumerXBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <X extends Throwable> LCharConsumerX<X> charConsumerXFrom(Function<LCharConsumerXBuilder<X>, LCharConsumerX<X>> buildingFunction) {
+		return buildingFunction.apply(new LCharConsumerXBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */

@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for IntUnaryOperator. */
+public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<IntUnaryOperatorBuilder, LIntPredicate, IntUnaryOperator> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.IntUnaryOperator. */
-public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<IntUnaryOperatorBuilder, LIntPredicate, java.util.function.IntUnaryOperator> {
-
-	private Consumer<java.util.function.IntUnaryOperator> consumer;
+	private Consumer<IntUnaryOperator> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntUnaryOperator EVENTUALLY_THROW = Function4U.intUnaryOperator((int a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.IntUnaryOperator: int applyAsInt(int a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final IntUnaryOperator EVENTUALLY_THROW = Function4U.intUnaryOperator(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public IntUnaryOperatorBuilder(@Nullable Consumer<java.util.function.IntUnaryOperator> consumer) {
+	public IntUnaryOperatorBuilder(@Nullable Consumer<IntUnaryOperator> consumer) {
 		super(EVENTUALLY_THROW, LIntUnaryOperator::constant, () -> new IntUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 		return new IntUnaryOperatorBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static IntUnaryOperator intUnaryOperatorFrom(Function<IntUnaryOperatorBuilder, IntUnaryOperator> buildingFunction) {
+		return buildingFunction.apply(new IntUnaryOperatorBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static IntUnaryOperatorBuilder intUnaryOperator(Consumer<java.util.function.IntUnaryOperator> consumer) {
+	public static IntUnaryOperatorBuilder intUnaryOperator(Consumer<IntUnaryOperator> consumer) {
 		return new IntUnaryOperatorBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.IntUnaryOperator build() {
+	public final IntUnaryOperator build() {
 
-		final java.util.function.IntUnaryOperator eventuallyFinal = this.eventually;
+		final IntUnaryOperator eventuallyFinal = this.eventually;
 
-		java.util.function.IntUnaryOperator retval;
+		IntUnaryOperator retval;
 
-		final Case<LIntPredicate, java.util.function.IntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LIntPredicate, IntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.intUnaryOperator(a1 -> {
 			try {
-				for (Case<LIntPredicate, java.util.function.IntUnaryOperator> aCase : casesArray) {
+				for (Case<LIntPredicate, IntUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().applyAsInt(a1);
 					}
@@ -131,7 +130,7 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 		return retval;
 	}
 
-	public final java.util.function.IntUnaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final IntUnaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

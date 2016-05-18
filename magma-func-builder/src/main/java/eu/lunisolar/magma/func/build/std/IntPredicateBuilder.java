@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for IntPredicate. */
+public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Base<IntPredicateBuilder, LIntPredicate, IntPredicate> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.IntPredicate. */
-public final class IntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<IntPredicateBuilder, LIntPredicate, java.util.function.IntPredicate> {
-
-	private Consumer<java.util.function.IntPredicate> consumer;
+	private Consumer<IntPredicate> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntPredicate EVENTUALLY_THROW = Function4U.intPredicate((int a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.IntPredicate: boolean test(int a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final IntPredicate EVENTUALLY_THROW = Function4U.intPredicate(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public IntPredicateBuilder(@Nullable Consumer<java.util.function.IntPredicate> consumer) {
+	public IntPredicateBuilder(@Nullable Consumer<IntPredicate> consumer) {
 		super(EVENTUALLY_THROW, LIntPredicate::constant, () -> new IntPredicateBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.
 		return new IntPredicateBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static IntPredicate intPredicateFrom(Function<IntPredicateBuilder, IntPredicate> buildingFunction) {
+		return buildingFunction.apply(new IntPredicateBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static IntPredicateBuilder intPredicate(Consumer<java.util.function.IntPredicate> consumer) {
+	public static IntPredicateBuilder intPredicate(Consumer<IntPredicate> consumer) {
 		return new IntPredicateBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.IntPredicate build() {
+	public final IntPredicate build() {
 
-		final java.util.function.IntPredicate eventuallyFinal = this.eventually;
+		final IntPredicate eventuallyFinal = this.eventually;
 
-		java.util.function.IntPredicate retval;
+		IntPredicate retval;
 
-		final Case<LIntPredicate, java.util.function.IntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LIntPredicate, IntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.intPredicate(a1 -> {
 			try {
-				for (Case<LIntPredicate, java.util.function.IntPredicate> aCase : casesArray) {
+				for (Case<LIntPredicate, IntPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().test(a1);
 					}
@@ -131,7 +130,7 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.
 		return retval;
 	}
 
-	public final java.util.function.IntPredicate build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final IntPredicate build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

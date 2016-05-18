@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for DoubleUnaryOperator. */
+public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleUnaryOperatorBuilder, LDoublePredicate, DoubleUnaryOperator> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.DoubleUnaryOperator. */
-public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleUnaryOperatorBuilder, LDoublePredicate, java.util.function.DoubleUnaryOperator> {
-
-	private Consumer<java.util.function.DoubleUnaryOperator> consumer;
+	private Consumer<DoubleUnaryOperator> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.DoubleUnaryOperator EVENTUALLY_THROW = Function4U.doubleUnaryOperator((double a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.DoubleUnaryOperator: double applyAsDouble(double a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final DoubleUnaryOperator EVENTUALLY_THROW = Function4U.doubleUnaryOperator(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public DoubleUnaryOperatorBuilder(@Nullable Consumer<java.util.function.DoubleUnaryOperator> consumer) {
+	public DoubleUnaryOperatorBuilder(@Nullable Consumer<DoubleUnaryOperator> consumer) {
 		super(EVENTUALLY_THROW, LDoubleUnaryOperator::constant, () -> new DoubleUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 		return new DoubleUnaryOperatorBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static DoubleUnaryOperator doubleUnaryOperatorFrom(Function<DoubleUnaryOperatorBuilder, DoubleUnaryOperator> buildingFunction) {
+		return buildingFunction.apply(new DoubleUnaryOperatorBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleUnaryOperatorBuilder doubleUnaryOperator(Consumer<java.util.function.DoubleUnaryOperator> consumer) {
+	public static DoubleUnaryOperatorBuilder doubleUnaryOperator(Consumer<DoubleUnaryOperator> consumer) {
 		return new DoubleUnaryOperatorBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.DoubleUnaryOperator build() {
+	public final DoubleUnaryOperator build() {
 
-		final java.util.function.DoubleUnaryOperator eventuallyFinal = this.eventually;
+		final DoubleUnaryOperator eventuallyFinal = this.eventually;
 
-		java.util.function.DoubleUnaryOperator retval;
+		DoubleUnaryOperator retval;
 
-		final Case<LDoublePredicate, java.util.function.DoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LDoublePredicate, DoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.doubleUnaryOperator(a1 -> {
 			try {
-				for (Case<LDoublePredicate, java.util.function.DoubleUnaryOperator> aCase : casesArray) {
+				for (Case<LDoublePredicate, DoubleUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().applyAsDouble(a1);
 					}
@@ -131,7 +130,7 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 		return retval;
 	}
 
-	public final java.util.function.DoubleUnaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final DoubleUnaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

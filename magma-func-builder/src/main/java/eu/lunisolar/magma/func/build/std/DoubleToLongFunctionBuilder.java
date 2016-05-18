@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for DoubleToLongFunction. */
+public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<DoubleToLongFunctionBuilder, LDoublePredicate, DoubleToLongFunction> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.DoubleToLongFunction. */
-public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<DoubleToLongFunctionBuilder, LDoublePredicate, java.util.function.DoubleToLongFunction> {
-
-	private Consumer<java.util.function.DoubleToLongFunction> consumer;
+	private Consumer<DoubleToLongFunction> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.DoubleToLongFunction EVENTUALLY_THROW = Function4U.doubleToLongFunction((double a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.DoubleToLongFunction: long applyAsLong(double a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final DoubleToLongFunction EVENTUALLY_THROW = Function4U.doubleToLongFunction(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public DoubleToLongFunctionBuilder(@Nullable Consumer<java.util.function.DoubleToLongFunction> consumer) {
+	public DoubleToLongFunctionBuilder(@Nullable Consumer<DoubleToLongFunction> consumer) {
 		super(EVENTUALLY_THROW, LDoubleToLongFunction::constant, () -> new DoubleToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		return new DoubleToLongFunctionBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static DoubleToLongFunction doubleToLongFunctionFrom(Function<DoubleToLongFunctionBuilder, DoubleToLongFunction> buildingFunction) {
+		return buildingFunction.apply(new DoubleToLongFunctionBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleToLongFunctionBuilder doubleToLongFunction(Consumer<java.util.function.DoubleToLongFunction> consumer) {
+	public static DoubleToLongFunctionBuilder doubleToLongFunction(Consumer<DoubleToLongFunction> consumer) {
 		return new DoubleToLongFunctionBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.DoubleToLongFunction build() {
+	public final DoubleToLongFunction build() {
 
-		final java.util.function.DoubleToLongFunction eventuallyFinal = this.eventually;
+		final DoubleToLongFunction eventuallyFinal = this.eventually;
 
-		java.util.function.DoubleToLongFunction retval;
+		DoubleToLongFunction retval;
 
-		final Case<LDoublePredicate, java.util.function.DoubleToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LDoublePredicate, DoubleToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.doubleToLongFunction(a1 -> {
 			try {
-				for (Case<LDoublePredicate, java.util.function.DoubleToLongFunction> aCase : casesArray) {
+				for (Case<LDoublePredicate, DoubleToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().applyAsLong(a1);
 					}
@@ -131,7 +130,7 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		return retval;
 	}
 
-	public final java.util.function.DoubleToLongFunction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final DoubleToLongFunction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

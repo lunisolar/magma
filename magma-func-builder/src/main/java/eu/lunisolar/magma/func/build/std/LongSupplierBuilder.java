@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for LongSupplier. */
+public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Base<LongSupplierBuilder, LBoolSupplier, LongSupplier> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.LongSupplier. */
-public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Base<LongSupplierBuilder, LBoolSupplier, java.util.function.LongSupplier> {
-
-	private Consumer<java.util.function.LongSupplier> consumer;
+	private Consumer<LongSupplier> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.LongSupplier EVENTUALLY_THROW = Function4U.longSupplier(() -> {
-		String message;
-		try {
-			message = String.format("No case specified for: no arg as function %s.", "java.util.function.LongSupplier: long getAsLong()");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final LongSupplier EVENTUALLY_THROW = Function4U.longSupplier(() -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public LongSupplierBuilder(@Nullable Consumer<java.util.function.LongSupplier> consumer) {
+	public LongSupplierBuilder(@Nullable Consumer<LongSupplier> consumer) {
 		super(EVENTUALLY_THROW, LLongSupplier::of, () -> new LongSupplierBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 		return new LongSupplierBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static LongSupplier longSupplierFrom(Function<LongSupplierBuilder, LongSupplier> buildingFunction) {
+		return buildingFunction.apply(new LongSupplierBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static LongSupplierBuilder longSupplier(Consumer<java.util.function.LongSupplier> consumer) {
+	public static LongSupplierBuilder longSupplier(Consumer<LongSupplier> consumer) {
 		return new LongSupplierBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.LongSupplier build() {
+	public final LongSupplier build() {
 
-		final java.util.function.LongSupplier eventuallyFinal = this.eventually;
+		final LongSupplier eventuallyFinal = this.eventually;
 
-		java.util.function.LongSupplier retval;
+		LongSupplier retval;
 
-		final Case<LBoolSupplier, java.util.function.LongSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplier, LongSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.longSupplier(() -> {
 			try {
-				for (Case<LBoolSupplier, java.util.function.LongSupplier> aCase : casesArray) {
+				for (Case<LBoolSupplier, LongSupplier> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().getAsLong();
 					}
@@ -131,7 +130,7 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 		return retval;
 	}
 
-	public final java.util.function.LongSupplier build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LongSupplier build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

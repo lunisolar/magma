@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.operator.binary.LShortBinaryOperatorBuilder.shortBinaryOperator;
+import static eu.lunisolar.magma.func.build.operator.binary.LShortBinaryOperatorBuilder.shortBinaryOperatorFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LShortBinaryOperatorBuilderTest<X extends Throwable>{
+public class LShortBinaryOperatorBuilderTest<X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LShortBinaryOperator function = LShortBinaryOperatorBuilder.shortBinaryOperator()
-                .build();
+            LShortBinaryOperator function = shortBinaryOperatorFrom(b-> b
+                .build()
+            );
 
             function.doApplyAsShort((short)100,(short)100);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LShortBinaryOperator.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LShortBinaryOperator function = LShortBinaryOperatorBuilder.shortBinaryOperator()
+            LShortBinaryOperator function = shortBinaryOperatorFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,14 +95,15 @@ public class LShortBinaryOperatorBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LShortBinaryOperator function = LShortBinaryOperatorBuilder.shortBinaryOperator()
+            LShortBinaryOperator function = shortBinaryOperatorFrom(b -> b
                 .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
             function.doApplyAsShort((short)100,(short)100);
 
@@ -114,15 +116,16 @@ public class LShortBinaryOperatorBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
 
-        LShortBinaryOperator function = shortBinaryOperator((LShortBinaryOperator f)-> doNothing())
+        LShortBinaryOperator function = shortBinaryOperatorFrom( b -> b
             .aCase(ce -> ce.of((a1,a2) -> a1 == (short)0)
                              .evaluate((a1,a2) -> (short)0))
-            .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> (short)1)
-            .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> (short)2)
+            .inCase((a1,a2) -> a1 > (short)0 && a1 < (short)10).evaluate((a1,a2) -> (short)1)
+            .inCase((a1,a2) -> a1 > (short)10 && a1 < (short)20).evaluate((a1,a2) -> (short)2)
             .eventually((a1,a2) -> (short)99)
-            .build();
+            .build()
+        );
 
 
         A.assertThat(function)

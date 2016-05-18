@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for DoubleToIntFunction. */
+public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<DoubleToIntFunctionBuilder, LDoublePredicate, DoubleToIntFunction> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.DoubleToIntFunction. */
-public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<DoubleToIntFunctionBuilder, LDoublePredicate, java.util.function.DoubleToIntFunction> {
-
-	private Consumer<java.util.function.DoubleToIntFunction> consumer;
+	private Consumer<DoubleToIntFunction> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.DoubleToIntFunction EVENTUALLY_THROW = Function4U.doubleToIntFunction((double a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.DoubleToIntFunction: int applyAsInt(double a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final DoubleToIntFunction EVENTUALLY_THROW = Function4U.doubleToIntFunction(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public DoubleToIntFunctionBuilder(@Nullable Consumer<java.util.function.DoubleToIntFunction> consumer) {
+	public DoubleToIntFunctionBuilder(@Nullable Consumer<DoubleToIntFunction> consumer) {
 		super(EVENTUALLY_THROW, LDoubleToIntFunction::constant, () -> new DoubleToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 		return new DoubleToIntFunctionBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static DoubleToIntFunction doubleToIntFunctionFrom(Function<DoubleToIntFunctionBuilder, DoubleToIntFunction> buildingFunction) {
+		return buildingFunction.apply(new DoubleToIntFunctionBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleToIntFunctionBuilder doubleToIntFunction(Consumer<java.util.function.DoubleToIntFunction> consumer) {
+	public static DoubleToIntFunctionBuilder doubleToIntFunction(Consumer<DoubleToIntFunction> consumer) {
 		return new DoubleToIntFunctionBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.DoubleToIntFunction build() {
+	public final DoubleToIntFunction build() {
 
-		final java.util.function.DoubleToIntFunction eventuallyFinal = this.eventually;
+		final DoubleToIntFunction eventuallyFinal = this.eventually;
 
-		java.util.function.DoubleToIntFunction retval;
+		DoubleToIntFunction retval;
 
-		final Case<LDoublePredicate, java.util.function.DoubleToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LDoublePredicate, DoubleToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.doubleToIntFunction(a1 -> {
 			try {
-				for (Case<LDoublePredicate, java.util.function.DoubleToIntFunction> aCase : casesArray) {
+				for (Case<LDoublePredicate, DoubleToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().applyAsInt(a1);
 					}
@@ -131,7 +130,7 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 		return retval;
 	}
 
-	public final java.util.function.DoubleToIntFunction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final DoubleToIntFunction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

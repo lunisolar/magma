@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.function.from;
 
-import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LObjDoubleFunction. */
 public final class LObjDoubleFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<LObjDoubleFunctionBuilder<T, R>, LObjDoublePredicate<T>, LObjDoubleFunction<T, R>, R> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LObjDoubleFunction<T, R>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjDoubleFunction EVENTUALLY_THROW = LObjDoubleFunction.l((Object a1, double a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LObjDoubleFunction.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LObjDoubleFunction EVENTUALLY_THROW = LObjDoubleFunction.l((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LObjDoubleFunctionBuilder(@Nullable Consumer<LObjDoubleFunction<T, R>> consumer) {
 		super(EVENTUALLY_THROW, LObjDoubleFunction::constant, () -> new LObjDoubleFunctionBuilder(null));
@@ -82,6 +74,12 @@ public final class LObjDoubleFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 	@Nonnull
 	public static <T, R> LObjDoubleFunctionBuilder<T, R> objDoubleFunction() {
 		return new LObjDoubleFunctionBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T, R> LObjDoubleFunction<T, R> objDoubleFunctionFrom(Function<LObjDoubleFunctionBuilder<T, R>, LObjDoubleFunction<T, R>> buildingFunction) {
+		return buildingFunction.apply(new LObjDoubleFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -103,8 +101,8 @@ public final class LObjDoubleFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <E1 extends T> LObjDoubleFunctionBuilder<T, R> casesOf(Class<E1> argC1, Consumer<LObjDoubleFunctionBuilder<E1, R>> pcpConsumer) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T a1, double a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LObjDoubleFunctionBuilder<T, R> casesOf(Class<V> argC1, Consumer<LObjDoubleFunctionBuilder<V, R>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -112,8 +110,8 @@ public final class LObjDoubleFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <E1 extends T> LObjDoubleFunctionBuilder<T, R> aCase(Class<E1> argC1, LObjDoubleFunction<E1, R> function) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T a1, double a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LObjDoubleFunctionBuilder<T, R> aCase(Class<V> argC1, LObjDoubleFunction<V, R> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -128,7 +126,7 @@ public final class LObjDoubleFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 		LObjDoubleFunction<T, R> retval;
 
 		final Case<LObjDoublePredicate<T>, LObjDoubleFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjDoubleFunction.<T, R> l((T a1, double a2) -> {
+		retval = LObjDoubleFunction.<T, R> l((a1, a2) -> {
 			try {
 				for (Case<LObjDoublePredicate<T>, LObjDoubleFunction<T, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

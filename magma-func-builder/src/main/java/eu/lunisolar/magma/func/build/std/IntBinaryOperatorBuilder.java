@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for IntBinaryOperator. */
+public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<IntBinaryOperatorBuilder, LBiIntPredicate, IntBinaryOperator> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.IntBinaryOperator. */
-public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<IntBinaryOperatorBuilder, LBiIntPredicate, java.util.function.IntBinaryOperator> {
-
-	private Consumer<java.util.function.IntBinaryOperator> consumer;
+	private Consumer<IntBinaryOperator> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.IntBinaryOperator EVENTUALLY_THROW = Function4U.intBinaryOperator((int a1, int a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.IntBinaryOperator: int applyAsInt(int a1,int a2)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final IntBinaryOperator EVENTUALLY_THROW = Function4U.intBinaryOperator((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public IntBinaryOperatorBuilder(@Nullable Consumer<java.util.function.IntBinaryOperator> consumer) {
+	public IntBinaryOperatorBuilder(@Nullable Consumer<IntBinaryOperator> consumer) {
 		super(EVENTUALLY_THROW, LIntBinaryOperator::constant, () -> new IntBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		return new IntBinaryOperatorBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static IntBinaryOperator intBinaryOperatorFrom(Function<IntBinaryOperatorBuilder, IntBinaryOperator> buildingFunction) {
+		return buildingFunction.apply(new IntBinaryOperatorBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static IntBinaryOperatorBuilder intBinaryOperator(Consumer<java.util.function.IntBinaryOperator> consumer) {
+	public static IntBinaryOperatorBuilder intBinaryOperator(Consumer<IntBinaryOperator> consumer) {
 		return new IntBinaryOperatorBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.IntBinaryOperator build() {
+	public final IntBinaryOperator build() {
 
-		final java.util.function.IntBinaryOperator eventuallyFinal = this.eventually;
+		final IntBinaryOperator eventuallyFinal = this.eventually;
 
-		java.util.function.IntBinaryOperator retval;
+		IntBinaryOperator retval;
 
-		final Case<LBiIntPredicate, java.util.function.IntBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intBinaryOperator((int a1, int a2) -> {
+		final Case<LBiIntPredicate, IntBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.intBinaryOperator((a1, a2) -> {
 			try {
-				for (Case<LBiIntPredicate, java.util.function.IntBinaryOperator> aCase : casesArray) {
+				for (Case<LBiIntPredicate, IntBinaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {
 						return aCase.caseFunction().applyAsInt(a1, a2);
 					}
@@ -131,7 +130,7 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		return retval;
 	}
 
-	public final java.util.function.IntBinaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final IntBinaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.function.to;
 
-import eu.lunisolar.magma.func.function.to.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LToCharBiFunction. */
 public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCharProduct.Base<LToCharBiFunctionBuilder<T1, T2>, LBiPredicate<T1, T2>, LToCharBiFunction<T1, T2>> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LToCharBiFunction<T1, T2>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToCharBiFunction EVENTUALLY_THROW = LToCharBiFunction.l((Object a1, Object a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LToCharBiFunction.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LToCharBiFunction EVENTUALLY_THROW = LToCharBiFunction.l((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LToCharBiFunctionBuilder(@Nullable Consumer<LToCharBiFunction<T1, T2>> consumer) {
 		super(EVENTUALLY_THROW, LToCharBiFunction::constant, () -> new LToCharBiFunctionBuilder(null));
@@ -82,6 +74,12 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 	@Nonnull
 	public static <T1, T2> LToCharBiFunctionBuilder<T1, T2> toCharBiFunction() {
 		return new LToCharBiFunctionBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T1, T2> LToCharBiFunction<T1, T2> toCharBiFunctionFrom(Function<LToCharBiFunctionBuilder<T1, T2>, LToCharBiFunction<T1, T2>> buildingFunction) {
+		return buildingFunction.apply(new LToCharBiFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -103,8 +101,8 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <E1 extends T1, E2 extends T2> LToCharBiFunctionBuilder<T1, T2> casesOf(Class<E1> argC1, Class<E2> argC2, Consumer<LToCharBiFunctionBuilder<E1, E2>> pcpConsumer) {
-		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+	public <V1 extends T1, V2 extends T2> LToCharBiFunctionBuilder<T1, T2> casesOf(Class<V1> argC1, Class<V2> argC2, Consumer<LToCharBiFunctionBuilder<V1, V2>> pcpConsumer) {
+		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -112,8 +110,8 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <E1 extends T1, E2 extends T2> LToCharBiFunctionBuilder<T1, T2> aCase(Class<E1> argC1, Class<E2> argC2, LToCharBiFunction<E1, E2> function) {
-		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod((T1 a1, T2 a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+	public <V1 extends T1, V2 extends T2> LToCharBiFunctionBuilder<T1, T2> aCase(Class<V1> argC1, Class<V2> argC2, LToCharBiFunction<V1, V2> function) {
+		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.evaluate(function);
 		return self();
@@ -128,7 +126,7 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 		LToCharBiFunction<T1, T2> retval;
 
 		final Case<LBiPredicate<T1, T2>, LToCharBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToCharBiFunction.<T1, T2> l((T1 a1, T2 a2) -> {
+		retval = LToCharBiFunction.<T1, T2> l((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LToCharBiFunction<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

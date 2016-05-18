@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.supplier.LSupplierBuilder.supplier;
+import static eu.lunisolar.magma.func.build.supplier.LSupplierBuilder.supplierFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LSupplierBuilderTest<R,X extends Throwable>{
+public class LSupplierBuilderTest<T,X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LSupplier function = LSupplierBuilder.supplier()
-                .build();
+            LSupplier<Integer> function = supplierFrom(b-> b
+                .build()
+            );
 
             function.doGet();
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LSupplier.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LSupplier function = LSupplierBuilder.supplier()
+            LSupplier<Integer> function = supplierFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,14 +95,15 @@ public class LSupplierBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LSupplier function = LSupplierBuilder.supplier()
+            LSupplier<Integer> function = supplierFrom(b -> b
                 .eventually(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
             function.doGet();
 
@@ -114,23 +116,24 @@ public class LSupplierBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-        LSupplier<Integer > function = supplier((LSupplier<Integer > f)-> doNothing())
-            .aCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
-                             .evaluate(() -> Integer.valueOf(0)))
-            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> Integer.valueOf(1))
-            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> Integer.valueOf(2))
-            .eventually(() -> Integer.valueOf(99))
-            .build();
+        LSupplier<Integer> function = supplierFrom( b -> b
+            .aCase(ce -> ce.of(() -> externalInfluence.get() == 0)
+                             .evaluate(() -> 0))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> 1)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> 2)
+            .eventually(() -> 99)
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesGet().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesGet().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesGet().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesGet().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesGet().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(0))
+            .doesGet().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(1))
+            .doesGet().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(2))
+            .doesGet().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo(99))
         ;
 
     }

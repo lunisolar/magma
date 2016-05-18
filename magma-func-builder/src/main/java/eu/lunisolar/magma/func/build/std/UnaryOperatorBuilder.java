@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for UnaryOperator. */
+public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<UnaryOperatorBuilder<T>, LPredicate<T>, UnaryOperator<T>, T> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.UnaryOperator. */
-public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<UnaryOperatorBuilder<T>, LPredicate<T>, java.util.function.UnaryOperator<T>, T> {
-
-	private Consumer<java.util.function.UnaryOperator<T>> consumer;
+	private Consumer<UnaryOperator<T>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.UnaryOperator EVENTUALLY_THROW = Function4U.unaryOperator((Object a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.UnaryOperator: T apply(T a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final UnaryOperator EVENTUALLY_THROW = Function4U.unaryOperator(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public UnaryOperatorBuilder(@Nullable Consumer<java.util.function.UnaryOperator<T>> consumer) {
+	public UnaryOperatorBuilder(@Nullable Consumer<UnaryOperator<T>> consumer) {
 		super(EVENTUALLY_THROW, LUnaryOperator::constant, () -> new UnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 		return new UnaryOperatorBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T> UnaryOperator<T> unaryOperatorFrom(Function<UnaryOperatorBuilder<T>, UnaryOperator<T>> buildingFunction) {
+		return buildingFunction.apply(new UnaryOperatorBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <T> UnaryOperatorBuilder<T> unaryOperator(Consumer<java.util.function.UnaryOperator<T>> consumer) {
+	public static <T> UnaryOperatorBuilder<T> unaryOperator(Consumer<UnaryOperator<T>> consumer) {
 		return new UnaryOperatorBuilder(consumer);
 	}
 
@@ -100,18 +99,36 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 		return self();
 	}
 
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <V extends T> UnaryOperatorBuilder<T> casesOf(Class<V> argC1, Consumer<UnaryOperatorBuilder<V>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> UnaryOperatorBuilder<T> aCase(Class<V> argC1, UnaryOperator<V> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+
+		pc.evaluate(function);
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.UnaryOperator<T> build() {
+	public final UnaryOperator<T> build() {
 
-		final java.util.function.UnaryOperator<T> eventuallyFinal = this.eventually;
+		final UnaryOperator<T> eventuallyFinal = this.eventually;
 
-		java.util.function.UnaryOperator<T> retval;
+		UnaryOperator<T> retval;
 
-		final Case<LPredicate<T>, java.util.function.UnaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LPredicate<T>, UnaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.<T> unaryOperator(a1 -> {
 			try {
-				for (Case<LPredicate<T>, java.util.function.UnaryOperator<T>> aCase : casesArray) {
+				for (Case<LPredicate<T>, UnaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().apply(a1);
 					}
@@ -131,7 +148,7 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 		return retval;
 	}
 
-	public final java.util.function.UnaryOperator<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final UnaryOperator<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

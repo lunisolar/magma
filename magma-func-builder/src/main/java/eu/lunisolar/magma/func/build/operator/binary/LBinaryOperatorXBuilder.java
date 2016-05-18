@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.operator.binary;
 
-import eu.lunisolar.magma.func.operator.binary.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LBinaryOperatorX. */
 public final class LBinaryOperatorXBuilder<T, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBinaryOperatorXBuilder<T, X>, LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>, T> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBinaryOperatorX<T, X>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBinaryOperatorX EVENTUALLY_THROW = LBinaryOperatorX.lX((Object a1, Object a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LBinaryOperatorX.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LBinaryOperatorX EVENTUALLY_THROW = LBinaryOperatorX.lX((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LBinaryOperatorXBuilder(@Nullable Consumer<LBinaryOperatorX<T, X>> consumer) {
 		super(EVENTUALLY_THROW, LBinaryOperatorX::constant, () -> new LBinaryOperatorXBuilder(null));
@@ -82,6 +74,12 @@ public final class LBinaryOperatorXBuilder<T, X extends Throwable> extends PerCa
 	@Nonnull
 	public static <T, X extends Throwable> LBinaryOperatorXBuilder<T, X> binaryOperatorX() {
 		return new LBinaryOperatorXBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T, X extends Throwable> LBinaryOperatorX<T, X> binaryOperatorXFrom(Function<LBinaryOperatorXBuilder<T, X>, LBinaryOperatorX<T, X>> buildingFunction) {
+		return buildingFunction.apply(new LBinaryOperatorXBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -101,6 +99,24 @@ public final class LBinaryOperatorXBuilder<T, X extends Throwable> extends PerCa
 		return self();
 	}
 
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <V extends T> LBinaryOperatorXBuilder<T, X> casesOf(Class<V> argC1, Class<V> argC2, Consumer<LBinaryOperatorXBuilder<V, X>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> LBinaryOperatorXBuilder<T, X> aCase(Class<V> argC1, Class<V> argC2, LBinaryOperatorX<V, X> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+
+		pc.evaluate(function);
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LBinaryOperatorX<T, X> build() {
@@ -110,7 +126,7 @@ public final class LBinaryOperatorXBuilder<T, X extends Throwable> extends PerCa
 		LBinaryOperatorX<T, X> retval;
 
 		final Case<LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBinaryOperatorX.<T, X> lX((T a1, T a2) -> {
+		retval = LBinaryOperatorX.<T, X> lX((a1, a2) -> {
 			try {
 				for (Case<LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

@@ -29,23 +29,21 @@ import java.util.function.*;
 
 import eu.lunisolar.magma.basics.builder.*;
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Abstract implementation of a per case builder of a complex implementation of a functional interface.
@@ -58,11 +56,11 @@ import java.util.function.*; // NOSONAR
  * the input data. This default _eventually_ behavior can be overridden.
  */
 @SuppressWarnings("unchecked")
-public abstract class PerCaseBuilderWithBooleanProduct<PCB extends PerCaseBuilderWithBooleanProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithBooleanProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
+public abstract class PerCaseBuilderWithBoolProduct<PCB extends PerCaseBuilderWithBoolProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithBoolProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
 
 	protected @Nonnull final LBoolFunction<F> directToFunction;
 
-	protected PerCaseBuilderWithBooleanProduct(@Nonnull F eventually, @Nonnull LBoolFunction<F> directToFunction, @Nonnull Supplier<PCB> subCasesFactory) {
+	protected PerCaseBuilderWithBoolProduct(@Nonnull F eventually, @Nonnull LBoolFunction<F> directToFunction, @Nonnull Supplier<PCB> subCasesFactory) {
 		super(eventually, subCasesFactory);
 		this.directToFunction = directToFunction;
 	}
@@ -78,17 +76,17 @@ public abstract class PerCaseBuilderWithBooleanProduct<PCB extends PerCaseBuilde
 	// </editor-fold>
 
 	protected PC partialCaseFactoryMethod(P casePredicate) {
-		return (PC) new PartialCaseWithBooleanProduct(self(), casePredicate, subCasesFactory);
+		return (PC) new PartialCaseWithBoolProduct(self(), casePredicate, subCasesFactory);
 	}
 
-	public static abstract class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithBooleanProduct<SELF, P, F, PartialCaseWithBooleanProduct.The<SELF, P, F>> {
+	public static abstract class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithBoolProduct<SELF, P, F, PartialCaseWithBoolProduct.The<SELF, P, F>> {
 		protected Base(@Nonnull F eventually, @Nonnull LBoolFunction<F> directToFunction, @Nonnull Supplier<SELF> subCasesFactory) {
 			super(eventually, directToFunction, subCasesFactory);
 		}
 
 		@Override
-		protected PartialCaseWithBooleanProduct.The<SELF, P, F> partialCaseFactoryMethod(P casePredicate) {
-			return new PartialCaseWithBooleanProduct.The(this, casePredicate, subCasesFactory);
+		protected PartialCaseWithBoolProduct.The<SELF, P, F> partialCaseFactoryMethod(P casePredicate) {
+			return new PartialCaseWithBoolProduct.The(this, casePredicate, subCasesFactory);
 		}
 	}
 

@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.predicate;
 
-import eu.lunisolar.magma.func.predicate.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LObjIntPredicateX. */
-public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LObjIntPredicateXBuilder<T, X>, LObjIntPredicateX<T, X>, LObjIntPredicateX<T, X>> {
+public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerCaseBuilderWithBoolProduct.Base<LObjIntPredicateXBuilder<T, X>, LObjIntPredicateX<T, X>, LObjIntPredicateX<T, X>> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LObjIntPredicateX<T, X>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjIntPredicateX EVENTUALLY_THROW = LObjIntPredicateX.lX((Object a1, int a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LObjIntPredicateX.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LObjIntPredicateX EVENTUALLY_THROW = LObjIntPredicateX.lX((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LObjIntPredicateXBuilder(@Nullable Consumer<LObjIntPredicateX<T, X>> consumer) {
 		super(EVENTUALLY_THROW, LObjIntPredicateX::constant, () -> new LObjIntPredicateXBuilder(null));
@@ -82,6 +74,12 @@ public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerC
 	@Nonnull
 	public static <T, X extends Throwable> LObjIntPredicateXBuilder<T, X> objIntPredicateX() {
 		return new LObjIntPredicateXBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T, X extends Throwable> LObjIntPredicateX<T, X> objIntPredicateXFrom(Function<LObjIntPredicateXBuilder<T, X>, LObjIntPredicateX<T, X>> buildingFunction) {
+		return buildingFunction.apply(new LObjIntPredicateXBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -103,8 +101,8 @@ public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerC
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <E1 extends T> LObjIntPredicateXBuilder<T, X> casesOf(Class<E1> argC1, Consumer<LObjIntPredicateXBuilder<E1, X>> pcpConsumer) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T a1, int a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LObjIntPredicateXBuilder<T, X> casesOf(Class<V> argC1, Consumer<LObjIntPredicateXBuilder<V, X>> pcpConsumer) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -112,8 +110,8 @@ public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerC
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <E1 extends T> LObjIntPredicateXBuilder<T, X> aCase(Class<E1> argC1, LObjIntPredicateX<E1, X> function) {
-		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T a1, int a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LObjIntPredicateXBuilder<T, X> aCase(Class<V> argC1, LObjIntPredicateX<V, X> function) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -128,7 +126,7 @@ public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerC
 		LObjIntPredicateX<T, X> retval;
 
 		final Case<LObjIntPredicateX<T, X>, LObjIntPredicateX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjIntPredicateX.<T, X> lX((T a1, int a2) -> {
+		retval = LObjIntPredicateX.<T, X> lX((a1, a2) -> {
 			try {
 				for (Case<LObjIntPredicateX<T, X>, LObjIntPredicateX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

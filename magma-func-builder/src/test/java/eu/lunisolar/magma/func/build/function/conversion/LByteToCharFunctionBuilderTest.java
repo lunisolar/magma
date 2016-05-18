@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LByteToCharFunctionBuilder.byteToCharFunction;
+import static eu.lunisolar.magma.func.build.function.conversion.LByteToCharFunctionBuilder.byteToCharFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LByteToCharFunctionBuilderTest<X extends Throwable>{
+public class LByteToCharFunctionBuilderTest<X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LByteToCharFunction function = LByteToCharFunctionBuilder.byteToCharFunction()
-                .build();
+            LByteToCharFunction function = byteToCharFunctionFrom(b-> b
+                .build()
+            );
 
             function.doApplyAsChar((byte)100);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LByteToCharFunction.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LByteToCharFunction function = LByteToCharFunctionBuilder.byteToCharFunction()
+            LByteToCharFunction function = byteToCharFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,14 +95,15 @@ public class LByteToCharFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LByteToCharFunction function = LByteToCharFunctionBuilder.byteToCharFunction()
+            LByteToCharFunction function = byteToCharFunctionFrom(b -> b
                 .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
             function.doApplyAsChar((byte)100);
 
@@ -114,22 +116,23 @@ public class LByteToCharFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
 
-        LByteToCharFunction function = byteToCharFunction((LByteToCharFunction f)-> doNothing())
+        LByteToCharFunction function = byteToCharFunctionFrom( b -> b
             .aCase(ce -> ce.of(a1 -> a1 == (byte)0)
-                             .evaluate(a1 -> (char)0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (char)1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (char)2)
-            .eventually(a1 -> (char)99)
-            .build();
+                             .evaluate(a1 -> '\u0000'))
+            .inCase(a1 -> a1 > (byte)0 && a1 < (byte)10).evaluate(a1 -> '\u0001')
+            .inCase(a1 -> a1 > (byte)10 && a1 < (byte)20).evaluate(a1 -> '\u0002')
+            .eventually(a1 -> '\u0099')
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApplyAsChar((byte)0).when(null).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((byte)5).when(null).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((byte)15).when(null).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((byte)10).when(null).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((byte)0).when(null).to(a -> a.isEqualTo('\u0000'))
+            .doesApplyAsChar((byte)5).when(null).to(a -> a.isEqualTo('\u0001'))
+            .doesApplyAsChar((byte)15).when(null).to(a -> a.isEqualTo('\u0002'))
+            .doesApplyAsChar((byte)10).when(null).to(a -> a.isEqualTo('\u0099'))
         ;
 
     }

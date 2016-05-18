@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LIntToLongFunctionXBuilder.intToLongFunctionX;
+import static eu.lunisolar.magma.func.build.function.conversion.LIntToLongFunctionXBuilder.intToLongFunctionXFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
+public class LIntToLongFunctionXBuilderTest<X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  throws X {
 
         assertThatThrownBy(() -> {
-            LIntToLongFunctionX function = LIntToLongFunctionXBuilder.intToLongFunctionX()
-                .build();
+            LIntToLongFunctionX<X> function = intToLongFunctionXFrom(b-> b
+                .build()
+            );
 
-            function.doApplyAsLong((int)100);
+            function.doApplyAsLong(100);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LIntToLongFunctionX.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  throws X {
 
 
         assertThatThrownBy(() -> {
-            LIntToLongFunctionX function = LIntToLongFunctionXBuilder.intToLongFunctionX()
+            LIntToLongFunctionX<X> function = intToLongFunctionXFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  throws X {
 
         assertThatThrownBy(() -> {
-            LIntToLongFunctionX function = LIntToLongFunctionXBuilder.intToLongFunctionX()
+            LIntToLongFunctionX<X> function = intToLongFunctionXFrom(b -> b
                 .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doApplyAsLong((int)100);
+            function.doApplyAsLong(100);
 
             fail("No exception were thrown.");
         })
@@ -114,22 +116,23 @@ public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  throws X {
 
-        LIntToLongFunctionX<ParseException> function = intToLongFunctionX((LIntToLongFunctionX<ParseException> f)-> doNothing())
-            .aCase(ce -> ce.of(a1 -> a1 == (int)0)
-                             .evaluate(a1 -> (long)0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (long)1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (long)2)
-            .eventually(a1 -> (long)99)
-            .build();
+        LIntToLongFunctionX<X> function = intToLongFunctionXFrom( b -> b
+            .aCase(ce -> ce.of(a1 -> a1 == 0)
+                             .evaluate(a1 -> 0L))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> 1L)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> 2L)
+            .eventually(a1 -> 99L)
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApplyAsLong((int)0).when(null).to(a -> a.isEqualTo((long)0))
-            .doesApplyAsLong((int)5).when(null).to(a -> a.isEqualTo((long)1))
-            .doesApplyAsLong((int)15).when(null).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((int)10).when(null).to(a -> a.isEqualTo((long)99))
+            .doesApplyAsLong(0).when(null).to(a -> a.isEqualTo(0L))
+            .doesApplyAsLong(5).when(null).to(a -> a.isEqualTo(1L))
+            .doesApplyAsLong(15).when(null).to(a -> a.isEqualTo(2L))
+            .doesApplyAsLong(10).when(null).to(a -> a.isEqualTo(99L))
         ;
 
     }

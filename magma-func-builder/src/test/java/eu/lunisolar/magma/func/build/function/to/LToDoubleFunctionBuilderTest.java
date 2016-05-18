@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.to.LToDoubleFunctionBuilder.toDoubleFunction;
+import static eu.lunisolar.magma.func.build.function.to.LToDoubleFunctionBuilder.toDoubleFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LToDoubleFunctionBuilderTest<T,X extends Throwable>{
+public class LToDoubleFunctionBuilderTest<T,X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LToDoubleFunction function = LToDoubleFunctionBuilder.toDoubleFunction()
-                .build();
+            LToDoubleFunction<Integer> function = toDoubleFunctionFrom(b-> b
+                .build()
+            );
 
-            function.doApplyAsDouble((T)Integer.valueOf(100));
+            function.doApplyAsDouble(100);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LToDoubleFunction.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LToDoubleFunction function = LToDoubleFunctionBuilder.toDoubleFunction()
+            LToDoubleFunction<Integer> function = toDoubleFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LToDoubleFunctionBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LToDoubleFunction function = LToDoubleFunctionBuilder.toDoubleFunction()
+            LToDoubleFunction<Integer> function = toDoubleFunctionFrom(b -> b
                 .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doApplyAsDouble((T)Integer.valueOf(100));
+            function.doApplyAsDouble(100);
 
             fail("No exception were thrown.");
         })
@@ -114,22 +116,23 @@ public class LToDoubleFunctionBuilderTest<T,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
 
-        LToDoubleFunction<Integer > function = toDoubleFunction((LToDoubleFunction<Integer > f)-> doNothing())
-            .aCase(ce -> ce.of(a1 -> a1 == Integer.valueOf(0))
-                             .evaluate(a1 -> (double)0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (double)1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (double)2)
-            .eventually(a1 -> (double)99)
-            .build();
+        LToDoubleFunction<Integer> function = toDoubleFunctionFrom( b -> b
+            .aCase(ce -> ce.of(a1 -> a1 == 0)
+                             .evaluate(a1 -> 0d))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> 1d)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> 2d)
+            .eventually(a1 -> 99d)
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApplyAsDouble(Integer.valueOf(0)).when(null).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble(Integer.valueOf(5)).when(null).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble(Integer.valueOf(15)).when(null).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble(Integer.valueOf(10)).when(null).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble(0).when(null).to(a -> a.isEqualTo(0d))
+            .doesApplyAsDouble(5).when(null).to(a -> a.isEqualTo(1d))
+            .doesApplyAsDouble(15).when(null).to(a -> a.isEqualTo(2d))
+            .doesApplyAsDouble(10).when(null).to(a -> a.isEqualTo(99d))
         ;
 
     }

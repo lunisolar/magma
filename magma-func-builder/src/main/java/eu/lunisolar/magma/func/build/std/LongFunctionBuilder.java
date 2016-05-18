@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for LongFunction. */
+public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LongFunctionBuilder<R>, LLongPredicate, LongFunction<R>, R> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.LongFunction. */
-public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LongFunctionBuilder<R>, LLongPredicate, java.util.function.LongFunction<R>, R> {
-
-	private Consumer<java.util.function.LongFunction<R>> consumer;
+	private Consumer<LongFunction<R>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.LongFunction EVENTUALLY_THROW = Function4U.longFunction((long a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.LongFunction: R apply(long a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final LongFunction EVENTUALLY_THROW = Function4U.longFunction(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public LongFunctionBuilder(@Nullable Consumer<java.util.function.LongFunction<R>> consumer) {
+	public LongFunctionBuilder(@Nullable Consumer<LongFunction<R>> consumer) {
 		super(EVENTUALLY_THROW, LLongFunction::constant, () -> new LongFunctionBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		return new LongFunctionBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <R> LongFunction<R> longFunctionFrom(Function<LongFunctionBuilder<R>, LongFunction<R>> buildingFunction) {
+		return buildingFunction.apply(new LongFunctionBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <R> LongFunctionBuilder<R> longFunction(Consumer<java.util.function.LongFunction<R>> consumer) {
+	public static <R> LongFunctionBuilder<R> longFunction(Consumer<LongFunction<R>> consumer) {
 		return new LongFunctionBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.LongFunction<R> build() {
+	public final LongFunction<R> build() {
 
-		final java.util.function.LongFunction<R> eventuallyFinal = this.eventually;
+		final LongFunction<R> eventuallyFinal = this.eventually;
 
-		java.util.function.LongFunction<R> retval;
+		LongFunction<R> retval;
 
-		final Case<LLongPredicate, java.util.function.LongFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLongPredicate, LongFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.<R> longFunction(a1 -> {
 			try {
-				for (Case<LLongPredicate, java.util.function.LongFunction<R>> aCase : casesArray) {
+				for (Case<LLongPredicate, LongFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().apply(a1);
 					}
@@ -131,7 +130,7 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		return retval;
 	}
 
-	public final java.util.function.LongFunction<R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LongFunction<R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.function.from;
 
-import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LObjByteFunction. */
 public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<LObjByteFunctionBuilder<T, R>, LObjBytePredicate<T>, LObjByteFunction<T, R>, R> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LObjByteFunction<T, R>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjByteFunction EVENTUALLY_THROW = LObjByteFunction.l((Object a1, byte a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, LObjByteFunction.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LObjByteFunction EVENTUALLY_THROW = LObjByteFunction.l((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LObjByteFunctionBuilder(@Nullable Consumer<LObjByteFunction<T, R>> consumer) {
 		super(EVENTUALLY_THROW, LObjByteFunction::constant, () -> new LObjByteFunctionBuilder(null));
@@ -82,6 +74,12 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 	@Nonnull
 	public static <T, R> LObjByteFunctionBuilder<T, R> objByteFunction() {
 		return new LObjByteFunctionBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T, R> LObjByteFunction<T, R> objByteFunctionFrom(Function<LObjByteFunctionBuilder<T, R>, LObjByteFunction<T, R>> buildingFunction) {
+		return buildingFunction.apply(new LObjByteFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -103,8 +101,8 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <E1 extends T> LObjByteFunctionBuilder<T, R> casesOf(Class<E1> argC1, Consumer<LObjByteFunctionBuilder<E1, R>> pcpConsumer) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T a1, byte a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LObjByteFunctionBuilder<T, R> casesOf(Class<V> argC1, Consumer<LObjByteFunctionBuilder<V, R>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -112,8 +110,8 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <E1 extends T> LObjByteFunctionBuilder<T, R> aCase(Class<E1> argC1, LObjByteFunction<E1, R> function) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T a1, byte a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LObjByteFunctionBuilder<T, R> aCase(Class<V> argC1, LObjByteFunction<V, R> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -128,7 +126,7 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 		LObjByteFunction<T, R> retval;
 
 		final Case<LObjBytePredicate<T>, LObjByteFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjByteFunction.<T, R> l((T a1, byte a2) -> {
+		retval = LObjByteFunction.<T, R> l((a1, a2) -> {
 			try {
 				for (Case<LObjBytePredicate<T>, LObjByteFunction<T, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

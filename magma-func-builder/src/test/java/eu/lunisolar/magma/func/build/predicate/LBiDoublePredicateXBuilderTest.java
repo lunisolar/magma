@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LBiDoublePredicateXBuilder.biDoublePredicateX;
+import static eu.lunisolar.magma.func.build.predicate.LBiDoublePredicateXBuilder.biDoublePredicateXFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiDoublePredicateXBuilderTest<X extends Throwable>{
+public class LBiDoublePredicateXBuilderTest<X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  throws X {
 
         assertThatThrownBy(() -> {
-            LBiDoublePredicateX function = LBiDoublePredicateXBuilder.biDoublePredicateX()
-                .build();
+            LBiDoublePredicateX<X> function = biDoublePredicateXFrom(b-> b
+                .build()
+            );
 
-            function.doTest((double)100,(double)100);
+            function.doTest(100d,100d);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LBiDoublePredicateX.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  throws X {
 
 
         assertThatThrownBy(() -> {
-            LBiDoublePredicateX function = LBiDoublePredicateXBuilder.biDoublePredicateX()
+            LBiDoublePredicateX<X> function = biDoublePredicateXFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LBiDoublePredicateXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  throws X {
 
         assertThatThrownBy(() -> {
-            LBiDoublePredicateX function = LBiDoublePredicateXBuilder.biDoublePredicateX()
+            LBiDoublePredicateX<X> function = biDoublePredicateXFrom(b -> b
                 .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doTest((double)100,(double)100);
+            function.doTest(100d,100d);
 
             fail("No exception were thrown.");
         })
@@ -114,22 +116,21 @@ public class LBiDoublePredicateXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  throws X {
 
-        LBiDoublePredicateX<ParseException> function = biDoublePredicateX((LBiDoublePredicateX<ParseException> f)-> doNothing())
-            .aCase(ce -> ce.of((a1,a2) -> a1 == (double)0)
+        LBiDoublePredicateX<X> function = biDoublePredicateXFrom( b -> b
+            .aCase(ce -> ce.of((a1,a2) -> a1 == 0d)
                              .evaluate((a1,a2) -> false))
-            .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> true)
-            .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> true)
+            .inCase((a1,a2) -> a1 > 0d && a1 < 10d).evaluate((a1,a2) -> true)
+            .inCase((a1,a2) -> a1 > 10d && a1 < 20d).evaluate((a1,a2) -> true)
             .eventually((a1,a2) -> true)
-            .build();
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesTest((double)0,(double)0).when(null).to(a -> a.isEqualTo(false))
-            .doesTest((double)5,(double)5).when(null).to(a -> a.isEqualTo(true))
-            .doesTest((double)15,(double)15).when(null).to(a -> a.isEqualTo(true))
-            .doesTest((double)10,(double)10).when(null).to(a -> a.isEqualTo(true))
+            .doesTest(0d,0d).when(null).to(a -> a.isEqualTo(false))
+            .doesTest(5d,5d).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }

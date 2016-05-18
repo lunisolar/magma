@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for ToIntFunction. */
+public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.Base<ToIntFunctionBuilder<T>, LPredicate<T>, ToIntFunction<T>> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.ToIntFunction. */
-public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.Base<ToIntFunctionBuilder<T>, LPredicate<T>, java.util.function.ToIntFunction<T>> {
-
-	private Consumer<java.util.function.ToIntFunction<T>> consumer;
+	private Consumer<ToIntFunction<T>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.ToIntFunction EVENTUALLY_THROW = Function4U.toIntFunction((Object a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.ToIntFunction: int applyAsInt(T a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final ToIntFunction EVENTUALLY_THROW = Function4U.toIntFunction(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public ToIntFunctionBuilder(@Nullable Consumer<java.util.function.ToIntFunction<T>> consumer) {
+	public ToIntFunctionBuilder(@Nullable Consumer<ToIntFunction<T>> consumer) {
 		super(EVENTUALLY_THROW, LToIntFunction::constant, () -> new ToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 		return new ToIntFunctionBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T> ToIntFunction<T> toIntFunctionFrom(Function<ToIntFunctionBuilder<T>, ToIntFunction<T>> buildingFunction) {
+		return buildingFunction.apply(new ToIntFunctionBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <T> ToIntFunctionBuilder<T> toIntFunction(Consumer<java.util.function.ToIntFunction<T>> consumer) {
+	public static <T> ToIntFunctionBuilder<T> toIntFunction(Consumer<ToIntFunction<T>> consumer) {
 		return new ToIntFunctionBuilder(consumer);
 	}
 
@@ -102,7 +101,7 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <E1 extends T> ToIntFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<ToIntFunctionBuilder<E1>> pcpConsumer) {
+	public <V extends T> ToIntFunctionBuilder<T> casesOf(Class<V> argC1, Consumer<ToIntFunctionBuilder<V>> pcpConsumer) {
 		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
@@ -111,7 +110,7 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <E1 extends T> ToIntFunctionBuilder<T> aCase(Class<E1> argC1, java.util.function.ToIntFunction<E1> function) {
+	public <V extends T> ToIntFunctionBuilder<T> aCase(Class<V> argC1, ToIntFunction<V> function) {
 		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
@@ -120,16 +119,16 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.ToIntFunction<T> build() {
+	public final ToIntFunction<T> build() {
 
-		final java.util.function.ToIntFunction<T> eventuallyFinal = this.eventually;
+		final ToIntFunction<T> eventuallyFinal = this.eventually;
 
-		java.util.function.ToIntFunction<T> retval;
+		ToIntFunction<T> retval;
 
-		final Case<LPredicate<T>, java.util.function.ToIntFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LPredicate<T>, ToIntFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.<T> toIntFunction(a1 -> {
 			try {
-				for (Case<LPredicate<T>, java.util.function.ToIntFunction<T>> aCase : casesArray) {
+				for (Case<LPredicate<T>, ToIntFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().applyAsInt(a1);
 					}
@@ -149,7 +148,7 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 		return retval;
 	}
 
-	public final java.util.function.ToIntFunction<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final ToIntFunction<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LFloatToByteFunctionBuilder.floatToByteFunction;
+import static eu.lunisolar.magma.func.build.function.conversion.LFloatToByteFunctionBuilder.floatToByteFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LFloatToByteFunctionBuilderTest<X extends Throwable>{
+public class LFloatToByteFunctionBuilderTest<X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LFloatToByteFunction function = LFloatToByteFunctionBuilder.floatToByteFunction()
-                .build();
+            LFloatToByteFunction function = floatToByteFunctionFrom(b-> b
+                .build()
+            );
 
-            function.doApplyAsByte((float)100);
+            function.doApplyAsByte(100f);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LFloatToByteFunction.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LFloatToByteFunction function = LFloatToByteFunctionBuilder.floatToByteFunction()
+            LFloatToByteFunction function = floatToByteFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LFloatToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LFloatToByteFunction function = LFloatToByteFunctionBuilder.floatToByteFunction()
+            LFloatToByteFunction function = floatToByteFunctionFrom(b -> b
                 .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doApplyAsByte((float)100);
+            function.doApplyAsByte(100f);
 
             fail("No exception were thrown.");
         })
@@ -114,22 +116,23 @@ public class LFloatToByteFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
 
-        LFloatToByteFunction function = floatToByteFunction((LFloatToByteFunction f)-> doNothing())
-            .aCase(ce -> ce.of(a1 -> a1 == (float)0)
+        LFloatToByteFunction function = floatToByteFunctionFrom( b -> b
+            .aCase(ce -> ce.of(a1 -> a1 == 0f)
                              .evaluate(a1 -> (byte)0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (byte)1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (byte)2)
+            .inCase(a1 -> a1 > 0f && a1 < 10f).evaluate(a1 -> (byte)1)
+            .inCase(a1 -> a1 > 10f && a1 < 20f).evaluate(a1 -> (byte)2)
             .eventually(a1 -> (byte)99)
-            .build();
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApplyAsByte((float)0).when(null).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte((float)5).when(null).to(a -> a.isEqualTo((byte)1))
-            .doesApplyAsByte((float)15).when(null).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((float)10).when(null).to(a -> a.isEqualTo((byte)99))
+            .doesApplyAsByte(0f).when(null).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte(5f).when(null).to(a -> a.isEqualTo((byte)1))
+            .doesApplyAsByte(15f).when(null).to(a -> a.isEqualTo((byte)2))
+            .doesApplyAsByte(10f).when(null).to(a -> a.isEqualTo((byte)99))
         ;
 
     }

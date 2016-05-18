@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.function.to;
 
-import eu.lunisolar.magma.func.function.to.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,42 +29,35 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LToIntFunctionX. */
 public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCaseBuilderWithIntProduct.Base<LToIntFunctionXBuilder<T, X>, LPredicateX<T, X>, LToIntFunctionX<T, X>> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LToIntFunctionX<T, X>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToIntFunctionX EVENTUALLY_THROW = LToIntFunctionX.lX((Object a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, LToIntFunctionX.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
-
-			throw new IllegalStateException(message);
-		});
+	public static final LToIntFunctionX EVENTUALLY_THROW = LToIntFunctionX.lX(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
 	public LToIntFunctionXBuilder(@Nullable Consumer<LToIntFunctionX<T, X>> consumer) {
 		super(EVENTUALLY_THROW, LToIntFunctionX::constant, () -> new LToIntFunctionXBuilder(null));
@@ -82,6 +74,12 @@ public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCas
 	@Nonnull
 	public static <T, X extends Throwable> LToIntFunctionXBuilder<T, X> toIntFunctionX() {
 		return new LToIntFunctionXBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T, X extends Throwable> LToIntFunctionX<T, X> toIntFunctionXFrom(Function<LToIntFunctionXBuilder<T, X>, LToIntFunctionX<T, X>> buildingFunction) {
+		return buildingFunction.apply(new LToIntFunctionXBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -103,7 +101,7 @@ public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCas
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <E1 extends T> LToIntFunctionXBuilder<T, X> casesOf(Class<E1> argC1, Consumer<LToIntFunctionXBuilder<E1, X>> pcpConsumer) {
+	public <V extends T> LToIntFunctionXBuilder<T, X> casesOf(Class<V> argC1, Consumer<LToIntFunctionXBuilder<V, X>> pcpConsumer) {
 		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
@@ -112,7 +110,7 @@ public final class LToIntFunctionXBuilder<T, X extends Throwable> extends PerCas
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <E1 extends T> LToIntFunctionXBuilder<T, X> aCase(Class<E1> argC1, LToIntFunctionX<E1, X> function) {
+	public <V extends T> LToIntFunctionXBuilder<T, X> aCase(Class<V> argC1, LToIntFunctionX<V, X> function) {
 		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);

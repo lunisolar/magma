@@ -18,7 +18,6 @@
 
 package eu.lunisolar.magma.func.build.supplier;
 
-import eu.lunisolar.magma.func.supplier.*;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
@@ -30,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /** Builder for LSupplier. */
-public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LSupplierBuilder<R>, LBoolSupplier, LSupplier<R>, R> {
+public final class LSupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<LSupplierBuilder<T>, LBoolSupplier, LSupplier<T>, T> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-	private Consumer<LSupplier<R>> consumer;
+	private Consumer<LSupplier<T>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
 	public static final LSupplier EVENTUALLY_THROW = LSupplier.l(() -> {
-		String message;
-		try {
-			message = String.format("No case specified for: no arg as function %s.", LSupplier.DESCRIPTION);
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public LSupplierBuilder(@Nullable Consumer<LSupplier<R>> consumer) {
+	public LSupplierBuilder(@Nullable Consumer<LSupplier<T>> consumer) {
 		super(EVENTUALLY_THROW, LSupplier::of, () -> new LSupplierBuilder(null));
 
 		this.consumer = consumer;
@@ -80,19 +72,25 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static <R> LSupplierBuilder<R> supplier() {
+	public static <T> LSupplierBuilder<T> supplier() {
 		return new LSupplierBuilder();
+	}
+
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T> LSupplier<T> supplierFrom(Function<LSupplierBuilder<T>, LSupplier<T>> buildingFunction) {
+		return buildingFunction.apply(new LSupplierBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <R> LSupplierBuilder<R> supplier(Consumer<LSupplier<R>> consumer) {
+	public static <T> LSupplierBuilder<T> supplier(Consumer<LSupplier<T>> consumer) {
 		return new LSupplierBuilder(consumer);
 	}
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LSupplierBuilder<R> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LSupplierBuilder<T> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -103,16 +101,16 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final LSupplier<R> build() {
+	public final LSupplier<T> build() {
 
-		final LSupplier<R> eventuallyFinal = this.eventually;
+		final LSupplier<T> eventuallyFinal = this.eventually;
 
-		LSupplier<R> retval;
+		LSupplier<T> retval;
 
-		final Case<LBoolSupplier, LSupplier<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LSupplier.<R> l(() -> {
+		final Case<LBoolSupplier, LSupplier<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LSupplier.<T> l(() -> {
 			try {
-				for (Case<LBoolSupplier, LSupplier<R>> aCase : casesArray) {
+				for (Case<LBoolSupplier, LSupplier<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().doGet();
 					}
@@ -132,7 +130,7 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 		return retval;
 	}
 
-	public final LSupplier<R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LSupplier<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

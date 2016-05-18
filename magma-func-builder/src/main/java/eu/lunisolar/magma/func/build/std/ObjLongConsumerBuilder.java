@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for ObjLongConsumer. */
+public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLongConsumerBuilder<T>, LObjLongPredicate<T>, ObjLongConsumer<T>> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.ObjLongConsumer. */
-public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLongConsumerBuilder<T>, LObjLongPredicate<T>, java.util.function.ObjLongConsumer<T>> {
-
-	private Consumer<java.util.function.ObjLongConsumer<T>> consumer;
+	private Consumer<ObjLongConsumer<T>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.ObjLongConsumer EVENTUALLY_THROW = Function4U.objLongConsumer((Object a1, long a2) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s ,%s  as function %s.", a1, a2, "java.util.function.ObjLongConsumer: void accept(T a1,long a2)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final ObjLongConsumer EVENTUALLY_THROW = Function4U.objLongConsumer((a1, a2) -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public ObjLongConsumerBuilder(@Nullable Consumer<java.util.function.ObjLongConsumer<T>> consumer) {
+	public ObjLongConsumerBuilder(@Nullable Consumer<ObjLongConsumer<T>> consumer) {
 		super(EVENTUALLY_THROW, () -> new ObjLongConsumerBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 		return new ObjLongConsumerBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static <T> ObjLongConsumer<T> objLongConsumerFrom(Function<ObjLongConsumerBuilder<T>, ObjLongConsumer<T>> buildingFunction) {
+		return buildingFunction.apply(new ObjLongConsumerBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <T> ObjLongConsumerBuilder<T> objLongConsumer(Consumer<java.util.function.ObjLongConsumer<T>> consumer) {
+	public static <T> ObjLongConsumerBuilder<T> objLongConsumer(Consumer<ObjLongConsumer<T>> consumer) {
 		return new ObjLongConsumerBuilder(consumer);
 	}
 
@@ -102,8 +101,8 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <E1 extends T> ObjLongConsumerBuilder<T> casesOf(Class<E1> argC1, Consumer<ObjLongConsumerBuilder<E1>> pcpConsumer) {
-		PartialCase.The pc = partialCaseFactoryMethod((T a1, long a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> ObjLongConsumerBuilder<T> casesOf(Class<V> argC1, Consumer<ObjLongConsumerBuilder<V>> pcpConsumer) {
+		PartialCase.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,8 +110,8 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <E1 extends T> ObjLongConsumerBuilder<T> aCase(Class<E1> argC1, java.util.function.ObjLongConsumer<E1> function) {
-		PartialCase.The pc = partialCaseFactoryMethod((T a1, long a2) -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> ObjLongConsumerBuilder<T> aCase(Class<V> argC1, ObjLongConsumer<V> function) {
+		PartialCase.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
 		return self();
@@ -120,16 +119,16 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.ObjLongConsumer<T> build() {
+	public final ObjLongConsumer<T> build() {
 
-		final java.util.function.ObjLongConsumer<T> eventuallyFinal = this.eventually;
+		final ObjLongConsumer<T> eventuallyFinal = this.eventually;
 
-		java.util.function.ObjLongConsumer<T> retval;
+		ObjLongConsumer<T> retval;
 
-		final Case<LObjLongPredicate<T>, java.util.function.ObjLongConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> objLongConsumer((T a1, long a2) -> {
+		final Case<LObjLongPredicate<T>, ObjLongConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.<T> objLongConsumer((a1, a2) -> {
 			try {
-				for (Case<LObjLongPredicate<T>, java.util.function.ObjLongConsumer<T>> aCase : casesArray) {
+				for (Case<LObjLongPredicate<T>, ObjLongConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {
 						aCase.caseFunction().accept(a1, a2);
 						return;
@@ -150,7 +149,7 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 		return retval;
 	}
 
-	public final java.util.function.ObjLongConsumer<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final ObjLongConsumer<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

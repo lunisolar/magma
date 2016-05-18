@@ -29,44 +29,37 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import java.util.function.Consumer;
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import java.util.function.*;
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
 
-import java.util.function.*; // NOSONAR
+/** Builder for LongUnaryOperator. */
+public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduct.Base<LongUnaryOperatorBuilder, LLongPredicate, LongUnaryOperator> {
+	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
-/** Builder for java.util.function.LongUnaryOperator. */
-public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduct.Base<LongUnaryOperatorBuilder, LLongPredicate, java.util.function.LongUnaryOperator> {
-
-	private Consumer<java.util.function.LongUnaryOperator> consumer;
+	private Consumer<LongUnaryOperator> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final java.util.function.LongUnaryOperator EVENTUALLY_THROW = Function4U.longUnaryOperator((long a1) -> {
-		String message;
-		try {
-			message = String.format("No case specified for: %s  as function %s.", a1, "java.util.function.LongUnaryOperator: long applyAsLong(long a1)");
-		} catch (Exception e) { // NOSONAR
-				message = "No case specified for input data (no details can be provided).";
-			}
+	public static final LongUnaryOperator EVENTUALLY_THROW = Function4U.longUnaryOperator(a1 -> {
+		throw new IllegalStateException("There is no case configured for the arguments (if any).");
+	});
 
-			throw new IllegalStateException(message);
-		});
-
-	public LongUnaryOperatorBuilder(@Nullable Consumer<java.util.function.LongUnaryOperator> consumer) {
+	public LongUnaryOperatorBuilder(@Nullable Consumer<LongUnaryOperator> consumer) {
 		super(EVENTUALLY_THROW, LLongUnaryOperator::constant, () -> new LongUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
@@ -83,9 +76,15 @@ public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduc
 		return new LongUnaryOperatorBuilder();
 	}
 
+	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
+	@Nonnull
+	public static LongUnaryOperator longUnaryOperatorFrom(Function<LongUnaryOperatorBuilder, LongUnaryOperator> buildingFunction) {
+		return buildingFunction.apply(new LongUnaryOperatorBuilder());
+	}
+
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static LongUnaryOperatorBuilder longUnaryOperator(Consumer<java.util.function.LongUnaryOperator> consumer) {
+	public static LongUnaryOperatorBuilder longUnaryOperator(Consumer<LongUnaryOperator> consumer) {
 		return new LongUnaryOperatorBuilder(consumer);
 	}
 
@@ -102,16 +101,16 @@ public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduc
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
-	public final java.util.function.LongUnaryOperator build() {
+	public final LongUnaryOperator build() {
 
-		final java.util.function.LongUnaryOperator eventuallyFinal = this.eventually;
+		final LongUnaryOperator eventuallyFinal = this.eventually;
 
-		java.util.function.LongUnaryOperator retval;
+		LongUnaryOperator retval;
 
-		final Case<LLongPredicate, java.util.function.LongUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLongPredicate, LongUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.longUnaryOperator(a1 -> {
 			try {
-				for (Case<LLongPredicate, java.util.function.LongUnaryOperator> aCase : casesArray) {
+				for (Case<LLongPredicate, LongUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1)) {
 						return aCase.caseFunction().applyAsLong(a1);
 					}
@@ -131,7 +130,7 @@ public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduc
 		return retval;
 	}
 
-	public final java.util.function.LongUnaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LongUnaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

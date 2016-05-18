@@ -27,23 +27,21 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -51,41 +49,44 @@ import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.to.LToIntFunctionBuilder.toIntFunction;
+import static eu.lunisolar.magma.func.build.function.to.LToIntFunctionBuilder.toIntFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LToIntFunctionBuilderTest<T,X extends Throwable>{
+public class LToIntFunctionBuilderTest<T,X extends ParseException>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws X {
+    public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            LToIntFunction function = LToIntFunctionBuilder.toIntFunction()
-                .build();
+            LToIntFunction<Integer> function = toIntFunctionFrom(b-> b
+                .build()
+            );
 
-            function.doApplyAsInt((T)Integer.valueOf(100));
+            function.doApplyAsInt(100);
 
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("No case specified for:")
-                    .hasMessageContaining(LToIntFunction.DESCRIPTION);
+                    .hasMessageContaining("There is no case configured for the arguments (if any).");
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws X {
+    public void testHandlingCanBeSetOnlyOnce()  {
 
 
         assertThatThrownBy(() -> {
-            LToIntFunction function = LToIntFunctionBuilder.toIntFunction()
+            LToIntFunction<Integer> function = toIntFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+            );
 
             fail("No exception were thrown.");
         })
@@ -94,16 +95,17 @@ public class LToIntFunctionBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws X {
+    public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            LToIntFunction function = LToIntFunctionBuilder.toIntFunction()
+            LToIntFunction<Integer> function = toIntFunctionFrom(b -> b
                 .eventually(a1 -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+            );
 
-            function.doApplyAsInt((T)Integer.valueOf(100));
+            function.doApplyAsInt(100);
 
             fail("No exception were thrown.");
         })
@@ -114,22 +116,23 @@ public class LToIntFunctionBuilderTest<T,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws X {
+    public void testBuild()  {
 
-        LToIntFunction<Integer > function = toIntFunction((LToIntFunction<Integer > f)-> doNothing())
-            .aCase(ce -> ce.of(a1 -> a1 == Integer.valueOf(0))
-                             .evaluate(a1 -> (int)0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> (int)1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> (int)2)
-            .eventually(a1 -> (int)99)
-            .build();
+        LToIntFunction<Integer> function = toIntFunctionFrom( b -> b
+            .aCase(ce -> ce.of(a1 -> a1 == 0)
+                             .evaluate(a1 -> 0))
+            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> 1)
+            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> 2)
+            .eventually(a1 -> 99)
+            .build()
+        );
 
 
         A.assertThat(function)
-            .doesApplyAsInt(Integer.valueOf(0)).when(null).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt(Integer.valueOf(5)).when(null).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt(Integer.valueOf(15)).when(null).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt(Integer.valueOf(10)).when(null).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt(0).when(null).to(a -> a.isEqualTo(0))
+            .doesApplyAsInt(5).when(null).to(a -> a.isEqualTo(1))
+            .doesApplyAsInt(15).when(null).to(a -> a.isEqualTo(2))
+            .doesApplyAsInt(10).when(null).to(a -> a.isEqualTo(99))
         ;
 
     }
