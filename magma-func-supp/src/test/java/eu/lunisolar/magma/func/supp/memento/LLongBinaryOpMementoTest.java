@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LLongBinaryOpMementoTest {
+public class LLongBinaryOpMementoTest  {
 
     private int functionCallCount = 0;
     private long initialTestValue = 1L;
@@ -54,7 +54,7 @@ public class LLongBinaryOpMementoTest {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong((long)100,(long)100))
+        assertThat(sut.doApplyAsLong(100L,100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongBinaryOpMementoTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong((long)100,(long)100))
+        assertThat(sut.doApplyAsLong(100L,100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

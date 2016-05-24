@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LShortToFloatFuncDeltaXTest<X extends Throwable> {
+public class LShortToFloatFuncDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final float initialTestValue = 1f;
@@ -44,7 +44,7 @@ public class LShortToFloatFuncDeltaXTest<X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LShortToFloatFuncDeltaX<X> sut =  LShortToFloatFuncDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
+    private LShortToFloatFuncDeltaX<X> sut =  LShortToFloatFuncDeltaX.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

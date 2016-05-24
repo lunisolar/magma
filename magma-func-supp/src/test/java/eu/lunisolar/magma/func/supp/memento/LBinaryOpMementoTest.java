@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LBinaryOpMementoTest<T> {
+public class LBinaryOpMementoTest <T> {
 
     private int functionCallCount = 0;
-    private T initialTestValue = (T)Integer.valueOf(1);
-    private T testValue = initialTestValue;
+    private Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private LBinaryOpMemento<T> sut =  LBinaryOpMemento.<T>mementoOf( (a1,a2) ->{
+    private LBinaryOpMemento<Integer> sut =  LBinaryOpMemento.mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LBinaryOpMementoTest<T> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100)))
+        assertThat(sut.doApply(100,100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -62,13 +62,13 @@ public class LBinaryOpMementoTest<T> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (T)Integer.valueOf(2);
+        testValue = 2;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100)))
+        assertThat(sut.doApply(100,100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

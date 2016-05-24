@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LDoubleToCharFuncMementoTest {
+public class LDoubleToCharFuncMementoTest  {
 
     private int functionCallCount = 0;
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LDoubleToCharFuncMemento sut =  LDoubleToCharFuncMemento.mementoOf( (a1) ->{
+    private LDoubleToCharFuncMemento sut =  LDoubleToCharFuncMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LDoubleToCharFuncMementoTest {
         assertThat(sut.lastValue())
             .isEqualTo('\u0000');
 
-        assertThat(sut.doApplyAsChar((double)100))
+        assertThat(sut.doApplyAsChar(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LDoubleToCharFuncMementoTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar((double)100))
+        assertThat(sut.doApplyAsChar(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

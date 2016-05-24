@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LLogicalOpDeltaTest {
+public class LLogicalOpDeltaTest  {
 
     private int functionCallCount = 0;
     private final boolean initialTestValue = true;
@@ -44,7 +44,7 @@ public class LLogicalOpDeltaTest {
 
     private final boolean initialLastValue = false;
 
-    private LLogicalOpDelta sut =  LLogicalOpDelta.deltaOf(initialLastValue, (a1) ->{
+    private LLogicalOpDelta sut =  LLogicalOpDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

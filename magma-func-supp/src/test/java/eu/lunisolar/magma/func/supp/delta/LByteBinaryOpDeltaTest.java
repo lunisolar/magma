@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LByteBinaryOpDeltaTest {
+public class LByteBinaryOpDeltaTest  {
 
     private int functionCallCount = 0;
     private final byte initialTestValue = (byte)1;

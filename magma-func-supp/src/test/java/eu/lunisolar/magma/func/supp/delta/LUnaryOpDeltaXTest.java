@@ -36,18 +36,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LUnaryOpDeltaXTest<T,X extends Throwable> {
+public class LUnaryOpDeltaXTest <T,X extends Throwable> {
 
     private int functionCallCount = 0;
-    private final T initialTestValue = (T)Integer.valueOf(1);
-    private T testValue = initialTestValue;
+    private final Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private final T initialLastValue = (T)Integer.valueOf(0);
+    private final Integer initialLastValue = 0;
 
-    private LUnaryOpDeltaX<T,X> sut =  LUnaryOpDeltaX.<T,X>deltaOf(initialLastValue, (a1) ->{
+    private LUnaryOpDeltaX<Integer,X> sut =  LUnaryOpDeltaX.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (T) (Integer) ((Integer)current-(Integer)last));
+    }, (last, current) -> (Integer)  (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {
@@ -55,7 +55,7 @@ public class LUnaryOpDeltaXTest<T,X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply((T)Integer.valueOf(100)))
+        assertThat(sut.doApply(100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -63,14 +63,14 @@ public class LUnaryOpDeltaXTest<T,X extends Throwable> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (T)Integer.valueOf(10);
+        testValue = 10;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((T)Integer.valueOf(100)))
-            .isEqualTo((T)Integer.valueOf(9));
+        assertThat(sut.doApply(100))
+            .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);
 

@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LBiObjBoolFuncMementoTest<T1,T2,R> {
+public class LBiObjBoolFuncMementoTest <T1,T2,R> {
 
     private int functionCallCount = 0;
-    private R initialTestValue = (R)Integer.valueOf(1);
-    private R testValue = initialTestValue;
+    private Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private LBiObjBoolFuncMemento<T1,T2,R> sut =  LBiObjBoolFuncMemento.<T1,T2,R>mementoOf( (a1,a2,a3) ->{
+    private LBiObjBoolFuncMemento<Integer,Integer,Integer> sut =  LBiObjBoolFuncMemento.mementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LBiObjBoolFuncMementoTest<T1,T2,R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true))
+        assertThat(sut.doApply(100,100,true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -62,13 +62,13 @@ public class LBiObjBoolFuncMementoTest<T1,T2,R> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (R)Integer.valueOf(2);
+        testValue = 2;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true))
+        assertThat(sut.doApply(100,100,true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

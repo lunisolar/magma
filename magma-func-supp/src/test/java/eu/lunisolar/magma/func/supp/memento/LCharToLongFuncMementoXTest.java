@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LCharToLongFuncMementoXTest<X extends Throwable> {
+public class LCharToLongFuncMementoXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LCharToLongFuncMementoX<X> sut =  LCharToLongFuncMementoX.<X>mementoOf( (a1) ->{
+    private LCharToLongFuncMementoX<X> sut =  LCharToLongFuncMementoX.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LCharToLongFuncMementoXTest<X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong((char)100))
+        assertThat(sut.doApplyAsLong('\u0100'))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LCharToLongFuncMementoXTest<X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong((char)100))
+        assertThat(sut.doApplyAsLong('\u0100'))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

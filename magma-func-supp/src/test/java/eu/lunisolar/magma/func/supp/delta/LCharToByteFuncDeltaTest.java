@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LCharToByteFuncDeltaTest {
+public class LCharToByteFuncDeltaTest  {
 
     private int functionCallCount = 0;
     private final byte initialTestValue = (byte)1;
@@ -44,7 +44,7 @@ public class LCharToByteFuncDeltaTest {
 
     private final byte initialLastValue = (byte)0;
 
-    private LCharToByteFuncDelta sut =  LCharToByteFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LCharToByteFuncDelta sut =  LCharToByteFuncDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LCharToByteFuncDeltaTest {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsByte((char)100))
+        assertThat(sut.doApplyAsByte('\u0100'))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LCharToByteFuncDeltaTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte((char)100))
+        assertThat(sut.doApplyAsByte('\u0100'))
             .isEqualTo((byte)9);
 
         assertThat(functionCallCount).isEqualTo(2);

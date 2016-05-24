@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LByteToLongFuncMementoTest {
+public class LByteToLongFuncMementoTest  {
 
     private int functionCallCount = 0;
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LByteToLongFuncMemento sut =  LByteToLongFuncMemento.mementoOf( (a1) ->{
+    private LByteToLongFuncMemento sut =  LByteToLongFuncMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

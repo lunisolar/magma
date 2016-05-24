@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LBoolToLongFuncDeltaTest {
+public class LBoolToLongFuncDeltaTest  {
 
     private int functionCallCount = 0;
     private final long initialTestValue = 1L;
@@ -44,7 +44,7 @@ public class LBoolToLongFuncDeltaTest {
 
     private final long initialLastValue = 0L;
 
-    private LBoolToLongFuncDelta sut =  LBoolToLongFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LBoolToLongFuncDelta sut =  LBoolToLongFuncDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

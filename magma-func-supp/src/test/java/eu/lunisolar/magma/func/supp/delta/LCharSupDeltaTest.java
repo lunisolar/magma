@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LCharSupDeltaTest {
+public class LCharSupDeltaTest  {
 
     private int functionCallCount = 0;
     private final char initialTestValue = '\u0001';

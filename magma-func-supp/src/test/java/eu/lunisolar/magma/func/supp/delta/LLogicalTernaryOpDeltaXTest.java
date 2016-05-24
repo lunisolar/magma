@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LLogicalTernaryOpDeltaXTest<X extends Throwable> {
+public class LLogicalTernaryOpDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final boolean initialTestValue = true;
@@ -44,7 +44,7 @@ public class LLogicalTernaryOpDeltaXTest<X extends Throwable> {
 
     private final boolean initialLastValue = false;
 
-    private LLogicalTernaryOpDeltaX<X> sut =  LLogicalTernaryOpDeltaX.<X>deltaOf(initialLastValue, (a1,a2,a3) ->{
+    private LLogicalTernaryOpDeltaX<X> sut =  LLogicalTernaryOpDeltaX.deltaOf(initialLastValue, (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LByteBinaryOpDeltaXTest<X extends Throwable> {
+public class LByteBinaryOpDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final byte initialTestValue = (byte)1;
@@ -44,7 +44,7 @@ public class LByteBinaryOpDeltaXTest<X extends Throwable> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LByteBinaryOpDeltaX<X> sut =  LByteBinaryOpDeltaX.<X>deltaOf(initialLastValue, (a1,a2) ->{
+    private LByteBinaryOpDeltaX<X> sut =  LByteBinaryOpDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

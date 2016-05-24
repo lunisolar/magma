@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LToLongBiFuncMementoXTest<T1,T2,X extends Throwable> {
+public class LToLongBiFuncMementoXTest <T1,T2,X extends Throwable> {
 
     private int functionCallCount = 0;
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LToLongBiFuncMementoX<T1,T2,X> sut =  LToLongBiFuncMementoX.<T1,T2,X>mementoOf( (a1,a2) ->{
+    private LToLongBiFuncMementoX<Integer,Integer,X> sut =  LToLongBiFuncMementoX.mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LToLongBiFuncMementoXTest<T1,T2,X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsLong(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LToLongBiFuncMementoXTest<T1,T2,X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsLong(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

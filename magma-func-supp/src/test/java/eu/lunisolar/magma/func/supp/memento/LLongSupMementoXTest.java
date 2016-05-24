@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LLongSupMementoXTest<X extends Throwable> {
+public class LLongSupMementoXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LLongSupMementoX<X> sut =  LLongSupMementoX.<X>mementoOf( () ->{
+    private LLongSupMementoX<X> sut =  LLongSupMementoX.mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

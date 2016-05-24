@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LDoubleToByteFuncDeltaXTest<X extends Throwable> {
+public class LDoubleToByteFuncDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final byte initialTestValue = (byte)1;
@@ -44,7 +44,7 @@ public class LDoubleToByteFuncDeltaXTest<X extends Throwable> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LDoubleToByteFuncDeltaX<X> sut =  LDoubleToByteFuncDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
+    private LDoubleToByteFuncDeltaX<X> sut =  LDoubleToByteFuncDeltaX.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LDoubleToByteFuncDeltaXTest<X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsByte((double)100))
+        assertThat(sut.doApplyAsByte(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LDoubleToByteFuncDeltaXTest<X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte((double)100))
+        assertThat(sut.doApplyAsByte(100d))
             .isEqualTo((byte)9);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -36,18 +36,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LObjCharFuncDeltaTest<T,R> {
+public class LObjCharFuncDeltaTest <T,R> {
 
     private int functionCallCount = 0;
-    private final R initialTestValue = (R)Integer.valueOf(1);
-    private R testValue = initialTestValue;
+    private final Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private final R initialLastValue = (R)Integer.valueOf(0);
+    private final Integer initialLastValue = 0;
 
-    private LObjCharFuncDelta<T,R> sut =  LObjCharFuncDelta.<T,R>deltaOf(initialLastValue, (a1,a2) ->{
+    private LObjCharFuncDelta<Integer,Integer> sut =  LObjCharFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (R) (Integer) ((Integer)current-(Integer)last));
+    }, (last, current) -> (Integer)  (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {
@@ -55,7 +55,7 @@ public class LObjCharFuncDeltaTest<T,R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply((T)Integer.valueOf(100),(char)100))
+        assertThat(sut.doApply(100,'\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -63,14 +63,14 @@ public class LObjCharFuncDeltaTest<T,R> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (R)Integer.valueOf(10);
+        testValue = 10;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((T)Integer.valueOf(100),(char)100))
-            .isEqualTo((R)Integer.valueOf(9));
+        assertThat(sut.doApply(100,'\u0100'))
+            .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);
 

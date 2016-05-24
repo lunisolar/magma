@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LLongToDoubleFuncMementoTest {
+public class LLongToDoubleFuncMementoTest  {
 
     private int functionCallCount = 0;
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LLongToDoubleFuncMemento sut =  LLongToDoubleFuncMemento.mementoOf( (a1) ->{
+    private LLongToDoubleFuncMemento sut =  LLongToDoubleFuncMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LLongToDoubleFuncMementoTest {
         assertThat(sut.lastValue())
             .isEqualTo(0d);
 
-        assertThat(sut.doApplyAsDouble((long)100))
+        assertThat(sut.doApplyAsDouble(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongToDoubleFuncMementoTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDouble((long)100))
+        assertThat(sut.doApplyAsDouble(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

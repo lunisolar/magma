@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LIntBinaryOpDeltaXTest<X extends Throwable> {
+public class LIntBinaryOpDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final int initialTestValue = 1;
@@ -44,7 +44,7 @@ public class LIntBinaryOpDeltaXTest<X extends Throwable> {
 
     private final int initialLastValue = 0;
 
-    private LIntBinaryOpDeltaX<X> sut =  LIntBinaryOpDeltaX.<X>deltaOf(initialLastValue, (a1,a2) ->{
+    private LIntBinaryOpDeltaX<X> sut =  LIntBinaryOpDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LIntBinaryOpDeltaXTest<X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt((int)100,(int)100))
+        assertThat(sut.doApplyAsInt(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LIntBinaryOpDeltaXTest<X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt((int)100,(int)100))
+        assertThat(sut.doApplyAsInt(100,100))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

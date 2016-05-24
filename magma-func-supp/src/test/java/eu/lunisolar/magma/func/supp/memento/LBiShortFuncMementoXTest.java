@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LBiShortFuncMementoXTest<R,X extends Throwable> {
+public class LBiShortFuncMementoXTest <R,X extends Throwable> {
 
     private int functionCallCount = 0;
-    private R initialTestValue = (R)Integer.valueOf(1);
-    private R testValue = initialTestValue;
+    private Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private LBiShortFuncMementoX<R,X> sut =  LBiShortFuncMementoX.<R,X>mementoOf( (a1,a2) ->{
+    private LBiShortFuncMementoX<Integer,X> sut =  LBiShortFuncMementoX.mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -62,7 +62,7 @@ public class LBiShortFuncMementoXTest<R,X extends Throwable> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (R)Integer.valueOf(2);
+        testValue = 2;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);

@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LDoubleBinaryOpMementoTest {
+public class LDoubleBinaryOpMementoTest  {
 
     private int functionCallCount = 0;
     private double initialTestValue = 1d;
@@ -54,7 +54,7 @@ public class LDoubleBinaryOpMementoTest {
         assertThat(sut.lastValue())
             .isEqualTo(0d);
 
-        assertThat(sut.doApplyAsDouble((double)100,(double)100))
+        assertThat(sut.doApplyAsDouble(100d,100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LDoubleBinaryOpMementoTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDouble((double)100,(double)100))
+        assertThat(sut.doApplyAsDouble(100d,100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

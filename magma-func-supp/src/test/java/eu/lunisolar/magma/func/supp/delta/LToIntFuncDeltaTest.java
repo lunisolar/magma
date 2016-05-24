@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LToIntFuncDeltaTest<T> {
+public class LToIntFuncDeltaTest <T> {
 
     private int functionCallCount = 0;
     private final int initialTestValue = 1;
@@ -44,7 +44,7 @@ public class LToIntFuncDeltaTest<T> {
 
     private final int initialLastValue = 0;
 
-    private LToIntFuncDelta<T> sut =  LToIntFuncDelta.<T>deltaOf(initialLastValue, (a1) ->{
+    private LToIntFuncDelta<Integer> sut =  LToIntFuncDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LToIntFuncDeltaTest<T> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt((T)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsInt(100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToIntFuncDeltaTest<T> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt((T)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsInt(100))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

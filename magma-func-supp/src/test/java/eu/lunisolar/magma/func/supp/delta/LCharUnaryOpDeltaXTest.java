@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LCharUnaryOpDeltaXTest<X extends Throwable> {
+public class LCharUnaryOpDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final char initialTestValue = '\u0001';
@@ -44,7 +44,7 @@ public class LCharUnaryOpDeltaXTest<X extends Throwable> {
 
     private final char initialLastValue = '\u0000';
 
-    private LCharUnaryOpDeltaX<X> sut =  LCharUnaryOpDeltaX.<X>deltaOf(initialLastValue, (a1) ->{
+    private LCharUnaryOpDeltaX<X> sut =  LCharUnaryOpDeltaX.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LCharUnaryOpDeltaXTest<X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar((char)100))
+        assertThat(sut.doApplyAsChar('\u0100'))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LCharUnaryOpDeltaXTest<X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar((char)100))
+        assertThat(sut.doApplyAsChar('\u0100'))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

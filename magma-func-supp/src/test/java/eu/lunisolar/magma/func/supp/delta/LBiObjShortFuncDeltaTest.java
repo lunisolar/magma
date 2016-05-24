@@ -36,18 +36,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LBiObjShortFuncDeltaTest<T1,T2,R> {
+public class LBiObjShortFuncDeltaTest <T1,T2,R> {
 
     private int functionCallCount = 0;
-    private final R initialTestValue = (R)Integer.valueOf(1);
-    private R testValue = initialTestValue;
+    private final Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private final R initialLastValue = (R)Integer.valueOf(0);
+    private final Integer initialLastValue = 0;
 
-    private LBiObjShortFuncDelta<T1,T2,R> sut =  LBiObjShortFuncDelta.<T1,T2,R>deltaOf(initialLastValue, (a1,a2,a3) ->{
+    private LBiObjShortFuncDelta<Integer,Integer,Integer> sut =  LBiObjShortFuncDelta.deltaOf(initialLastValue, (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (R) (Integer) ((Integer)current-(Integer)last));
+    }, (last, current) -> (Integer)  (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {
@@ -55,7 +55,7 @@ public class LBiObjShortFuncDeltaTest<T1,T2,R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(short)100))
+        assertThat(sut.doApply(100,100,(short)100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -63,14 +63,14 @@ public class LBiObjShortFuncDeltaTest<T1,T2,R> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (R)Integer.valueOf(10);
+        testValue = 10;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(short)100))
-            .isEqualTo((R)Integer.valueOf(9));
+        assertThat(sut.doApply(100,100,(short)100))
+            .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);
 

@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LToShortBiFuncDeltaXTest<T1,T2,X extends Throwable> {
+public class LToShortBiFuncDeltaXTest <T1,T2,X extends Throwable> {
 
     private int functionCallCount = 0;
     private final short initialTestValue = (short)1;
@@ -44,7 +44,7 @@ public class LToShortBiFuncDeltaXTest<T1,T2,X extends Throwable> {
 
     private final short initialLastValue = (short)0;
 
-    private LToShortBiFuncDeltaX<T1,T2,X> sut =  LToShortBiFuncDeltaX.<T1,T2,X>deltaOf(initialLastValue, (a1,a2) ->{
+    private LToShortBiFuncDeltaX<Integer,Integer,X> sut =  LToShortBiFuncDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LToShortBiFuncDeltaXTest<T1,T2,X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsShort(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToShortBiFuncDeltaXTest<T1,T2,X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsShort(100,100))
             .isEqualTo((short)9);
 
         assertThat(functionCallCount).isEqualTo(2);

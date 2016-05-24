@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LToCharBiFuncMementoTest<T1,T2> {
+public class LToCharBiFuncMementoTest <T1,T2> {
 
     private int functionCallCount = 0;
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LToCharBiFuncMemento<T1,T2> sut =  LToCharBiFuncMemento.<T1,T2>mementoOf( (a1,a2) ->{
+    private LToCharBiFuncMemento<Integer,Integer> sut =  LToCharBiFuncMemento.mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LToCharBiFuncMementoTest<T1,T2> {
         assertThat(sut.lastValue())
             .isEqualTo('\u0000');
 
-        assertThat(sut.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsChar(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LToCharBiFuncMementoTest<T1,T2> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsChar(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

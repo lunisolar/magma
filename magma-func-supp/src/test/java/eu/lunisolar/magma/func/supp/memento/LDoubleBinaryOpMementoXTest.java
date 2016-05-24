@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LDoubleBinaryOpMementoXTest<X extends Throwable> {
+public class LDoubleBinaryOpMementoXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDoubleBinaryOpMementoX<X> sut =  LDoubleBinaryOpMementoX.<X>mementoOf( (a1,a2) ->{
+    private LDoubleBinaryOpMementoX<X> sut =  LDoubleBinaryOpMementoX.mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LDoubleBinaryOpMementoXTest<X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(0d);
 
-        assertThat(sut.doApplyAsDouble((double)100,(double)100))
+        assertThat(sut.doApplyAsDouble(100d,100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LDoubleBinaryOpMementoXTest<X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDouble((double)100,(double)100))
+        assertThat(sut.doApplyAsDouble(100d,100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

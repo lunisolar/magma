@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LObjCharFuncMementoXTest<T,R,X extends Throwable> {
+public class LObjCharFuncMementoXTest <T,R,X extends Throwable> {
 
     private int functionCallCount = 0;
-    private R initialTestValue = (R)Integer.valueOf(1);
-    private R testValue = initialTestValue;
+    private Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private LObjCharFuncMementoX<T,R,X> sut =  LObjCharFuncMementoX.<T,R,X>mementoOf( (a1,a2) ->{
+    private LObjCharFuncMementoX<Integer,Integer,X> sut =  LObjCharFuncMementoX.mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LObjCharFuncMementoXTest<T,R,X extends Throwable> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply((T)Integer.valueOf(100),(char)100))
+        assertThat(sut.doApply(100,'\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -62,13 +62,13 @@ public class LObjCharFuncMementoXTest<T,R,X extends Throwable> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (R)Integer.valueOf(2);
+        testValue = 2;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((T)Integer.valueOf(100),(char)100))
+        assertThat(sut.doApply(100,'\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LSupMementoTest<R> {
+public class LSupMementoTest <T> {
 
     private int functionCallCount = 0;
-    private R initialTestValue = (R)Integer.valueOf(1);
-    private R testValue = initialTestValue;
+    private Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private LSupMemento<R> sut =  LSupMemento.<R>mementoOf( () ->{
+    private LSupMemento<Integer> sut =  LSupMemento.mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });
@@ -62,7 +62,7 @@ public class LSupMementoTest<R> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (R)Integer.valueOf(2);
+        testValue = 2;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);

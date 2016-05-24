@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LToDoubleFuncDeltaXTest<T,X extends Throwable> {
+public class LToDoubleFuncDeltaXTest <T,X extends Throwable> {
 
     private int functionCallCount = 0;
     private final double initialTestValue = 1d;
@@ -44,7 +44,7 @@ public class LToDoubleFuncDeltaXTest<T,X extends Throwable> {
 
     private final double initialLastValue = 0d;
 
-    private LToDoubleFuncDeltaX<T,X> sut =  LToDoubleFuncDeltaX.<T,X>deltaOf(initialLastValue, (a1) ->{
+    private LToDoubleFuncDeltaX<Integer,X> sut =  LToDoubleFuncDeltaX.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LToDoubleFuncDeltaXTest<T,X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsDouble((T)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsDouble(100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToDoubleFuncDeltaXTest<T,X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDouble((T)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsDouble(100))
             .isEqualTo(9d);
 
         assertThat(functionCallCount).isEqualTo(2);

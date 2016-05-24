@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LCharSupDeltaXTest<X extends Throwable> {
+public class LCharSupDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final char initialTestValue = '\u0001';
@@ -44,7 +44,7 @@ public class LCharSupDeltaXTest<X extends Throwable> {
 
     private final char initialLastValue = '\u0000';
 
-    private LCharSupDeltaX<X> sut =  LCharSupDeltaX.<X>deltaOf(initialLastValue, () ->{
+    private LCharSupDeltaX<X> sut =  LCharSupDeltaX.deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
     });

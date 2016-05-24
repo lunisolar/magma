@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LIntSupDeltaTest {
+public class LIntSupDeltaTest  {
 
     private int functionCallCount = 0;
     private final int initialTestValue = 1;

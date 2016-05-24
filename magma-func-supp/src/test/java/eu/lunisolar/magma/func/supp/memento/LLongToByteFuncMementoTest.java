@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LLongToByteFuncMementoTest {
+public class LLongToByteFuncMementoTest  {
 
     private int functionCallCount = 0;
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LLongToByteFuncMemento sut =  LLongToByteFuncMemento.mementoOf( (a1) ->{
+    private LLongToByteFuncMemento sut =  LLongToByteFuncMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LLongToByteFuncMementoTest {
         assertThat(sut.lastValue())
             .isEqualTo((byte)0);
 
-        assertThat(sut.doApplyAsByte((long)100))
+        assertThat(sut.doApplyAsByte(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongToByteFuncMementoTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte((long)100))
+        assertThat(sut.doApplyAsByte(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

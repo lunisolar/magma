@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LFloatToDoubleFuncDeltaTest {
+public class LFloatToDoubleFuncDeltaTest  {
 
     private int functionCallCount = 0;
     private final double initialTestValue = 1d;
@@ -44,7 +44,7 @@ public class LFloatToDoubleFuncDeltaTest {
 
     private final double initialLastValue = 0d;
 
-    private LFloatToDoubleFuncDelta sut =  LFloatToDoubleFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LFloatToDoubleFuncDelta sut =  LFloatToDoubleFuncDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LFloatToDoubleFuncDeltaTest {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsDouble((float)100))
+        assertThat(sut.doApplyAsDouble(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LFloatToDoubleFuncDeltaTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDouble((float)100))
+        assertThat(sut.doApplyAsDouble(100f))
             .isEqualTo(9d);
 
         assertThat(functionCallCount).isEqualTo(2);

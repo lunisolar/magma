@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LCharSupMementoTest {
+public class LCharSupMementoTest  {
 
     private int functionCallCount = 0;
     private char initialTestValue = '\u0001';

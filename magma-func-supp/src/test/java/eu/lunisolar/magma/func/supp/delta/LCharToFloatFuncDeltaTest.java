@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LCharToFloatFuncDeltaTest {
+public class LCharToFloatFuncDeltaTest  {
 
     private int functionCallCount = 0;
     private final float initialTestValue = 1f;
@@ -44,7 +44,7 @@ public class LCharToFloatFuncDeltaTest {
 
     private final float initialLastValue = 0f;
 
-    private LCharToFloatFuncDelta sut =  LCharToFloatFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LCharToFloatFuncDelta sut =  LCharToFloatFuncDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LCharToFloatFuncDeltaTest {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsFloat((char)100))
+        assertThat(sut.doApplyAsFloat('\u0100'))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LCharToFloatFuncDeltaTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFloat((char)100))
+        assertThat(sut.doApplyAsFloat('\u0100'))
             .isEqualTo(9f);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LToIntBiFuncDeltaTest<T1,T2> {
+public class LToIntBiFuncDeltaTest <T1,T2> {
 
     private int functionCallCount = 0;
     private final int initialTestValue = 1;
@@ -44,7 +44,7 @@ public class LToIntBiFuncDeltaTest<T1,T2> {
 
     private final int initialLastValue = 0;
 
-    private LToIntBiFuncDelta<T1,T2> sut =  LToIntBiFuncDelta.<T1,T2>deltaOf(initialLastValue, (a1,a2) ->{
+    private LToIntBiFuncDelta<Integer,Integer> sut =  LToIntBiFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LToIntBiFuncDeltaTest<T1,T2> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsInt(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToIntBiFuncDeltaTest<T1,T2> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsInt(100,100))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

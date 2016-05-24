@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LDoubleUnaryOpMementoTest {
+public class LDoubleUnaryOpMementoTest  {
 
     private int functionCallCount = 0;
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDoubleUnaryOpMemento sut =  LDoubleUnaryOpMemento.mementoOf( (a1) ->{
+    private LDoubleUnaryOpMemento sut =  LDoubleUnaryOpMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LDoubleUnaryOpMementoTest {
         assertThat(sut.lastValue())
             .isEqualTo(0d);
 
-        assertThat(sut.doApplyAsDouble((double)100))
+        assertThat(sut.doApplyAsDouble(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LDoubleUnaryOpMementoTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDouble((double)100))
+        assertThat(sut.doApplyAsDouble(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

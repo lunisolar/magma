@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LShortUnaryOpDeltaTest {
+public class LShortUnaryOpDeltaTest  {
 
     private int functionCallCount = 0;
     private final short initialTestValue = (short)1;
@@ -44,7 +44,7 @@ public class LShortUnaryOpDeltaTest {
 
     private final short initialLastValue = (short)0;
 
-    private LShortUnaryOpDelta sut =  LShortUnaryOpDelta.deltaOf(initialLastValue, (a1) ->{
+    private LShortUnaryOpDelta sut =  LShortUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LFloatBinaryOpDeltaXTest<X extends Throwable> {
+public class LFloatBinaryOpDeltaXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private final float initialTestValue = 1f;
@@ -44,7 +44,7 @@ public class LFloatBinaryOpDeltaXTest<X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LFloatBinaryOpDeltaX<X> sut =  LFloatBinaryOpDeltaX.<X>deltaOf(initialLastValue, (a1,a2) ->{
+    private LFloatBinaryOpDeltaX<X> sut =  LFloatBinaryOpDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LFloatBinaryOpDeltaXTest<X extends Throwable> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsFloat((float)100,(float)100))
+        assertThat(sut.doApplyAsFloat(100f,100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LFloatBinaryOpDeltaXTest<X extends Throwable> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFloat((float)100,(float)100))
+        assertThat(sut.doApplyAsFloat(100f,100f))
             .isEqualTo(9f);
 
         assertThat(functionCallCount).isEqualTo(2);

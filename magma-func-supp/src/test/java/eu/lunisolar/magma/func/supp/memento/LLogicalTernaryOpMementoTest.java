@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LLogicalTernaryOpMementoTest {
+public class LLogicalTernaryOpMementoTest  {
 
     private int functionCallCount = 0;
     private boolean initialTestValue = true;

@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LToCharBiFuncDeltaTest<T1,T2> {
+public class LToCharBiFuncDeltaTest <T1,T2> {
 
     private int functionCallCount = 0;
     private final char initialTestValue = '\u0001';
@@ -44,7 +44,7 @@ public class LToCharBiFuncDeltaTest<T1,T2> {
 
     private final char initialLastValue = '\u0000';
 
-    private LToCharBiFuncDelta<T1,T2> sut =  LToCharBiFuncDelta.<T1,T2>deltaOf(initialLastValue, (a1,a2) ->{
+    private LToCharBiFuncDelta<Integer,Integer> sut =  LToCharBiFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });
@@ -55,7 +55,7 @@ public class LToCharBiFuncDeltaTest<T1,T2> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsChar(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToCharBiFuncDeltaTest<T1,T2> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsChar(100,100))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LIntToFloatFuncMementoTest {
+public class LIntToFloatFuncMementoTest  {
 
     private int functionCallCount = 0;
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LIntToFloatFuncMemento sut =  LIntToFloatFuncMemento.mementoOf( (a1) ->{
+    private LIntToFloatFuncMemento sut =  LIntToFloatFuncMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -54,7 +54,7 @@ public class LIntToFloatFuncMementoTest {
         assertThat(sut.lastValue())
             .isEqualTo(0f);
 
-        assertThat(sut.doApplyAsFloat((int)100))
+        assertThat(sut.doApplyAsFloat(100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LIntToFloatFuncMementoTest {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFloat((int)100))
+        assertThat(sut.doApplyAsFloat(100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

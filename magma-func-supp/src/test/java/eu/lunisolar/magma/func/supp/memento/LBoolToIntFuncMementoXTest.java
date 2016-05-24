@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LBoolToIntFuncMementoXTest<X extends Throwable> {
+public class LBoolToIntFuncMementoXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LBoolToIntFuncMementoX<X> sut =  LBoolToIntFuncMementoX.<X>mementoOf( (a1) ->{
+    private LBoolToIntFuncMementoX<X> sut =  LBoolToIntFuncMementoX.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

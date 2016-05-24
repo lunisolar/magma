@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LByteBinaryOpMementoXTest<X extends Throwable> {
+public class LByteBinaryOpMementoXTest <X extends Throwable> {
 
     private int functionCallCount = 0;
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LByteBinaryOpMementoX<X> sut =  LByteBinaryOpMementoX.<X>mementoOf( (a1,a2) ->{
+    private LByteBinaryOpMementoX<X> sut =  LByteBinaryOpMementoX.mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

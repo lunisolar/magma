@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LShortFuncMementoTest<R> {
+public class LShortFuncMementoTest <R> {
 
     private int functionCallCount = 0;
-    private R initialTestValue = (R)Integer.valueOf(1);
-    private R testValue = initialTestValue;
+    private Integer initialTestValue = 1;
+    private Integer testValue = initialTestValue;
 
-    private LShortFuncMemento<R> sut =  LShortFuncMemento.<R>mementoOf( (a1) ->{
+    private LShortFuncMemento<Integer> sut =  LShortFuncMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
@@ -62,7 +62,7 @@ public class LShortFuncMementoTest<R> {
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        testValue = (R)Integer.valueOf(2);
+        testValue = 2;
 
         assertThat(sut.lastValue())
             .isSameAs(initialTestValue);

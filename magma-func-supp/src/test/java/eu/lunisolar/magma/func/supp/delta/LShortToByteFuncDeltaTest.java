@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LShortToByteFuncDeltaTest {
+public class LShortToByteFuncDeltaTest  {
 
     private int functionCallCount = 0;
     private final byte initialTestValue = (byte)1;
@@ -44,7 +44,7 @@ public class LShortToByteFuncDeltaTest {
 
     private final byte initialLastValue = (byte)0;
 
-    private LShortToByteFuncDelta sut =  LShortToByteFuncDelta.deltaOf(initialLastValue, (a1) ->{
+    private LShortToByteFuncDelta sut =  LShortToByteFuncDelta.deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

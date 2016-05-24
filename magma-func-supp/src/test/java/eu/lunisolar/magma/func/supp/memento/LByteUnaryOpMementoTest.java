@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public class LByteUnaryOpMementoTest {
+public class LByteUnaryOpMementoTest  {
 
     private int functionCallCount = 0;
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LByteUnaryOpMemento sut =  LByteUnaryOpMemento.mementoOf( (a1) ->{
+    private LByteUnaryOpMemento sut =  LByteUnaryOpMemento.mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });
