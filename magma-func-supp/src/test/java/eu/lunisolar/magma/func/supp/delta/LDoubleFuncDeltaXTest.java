@@ -44,10 +44,10 @@ public class LDoubleFuncDeltaXTest <R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LDoubleFuncDeltaX<Integer,X> sut =  LDoubleFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LDoubleFuncDeltaX<Integer,X> sut =  LDoubleFuncDeltaX.<Integer,X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

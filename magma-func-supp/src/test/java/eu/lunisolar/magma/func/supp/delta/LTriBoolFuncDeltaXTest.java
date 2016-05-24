@@ -44,10 +44,10 @@ public class LTriBoolFuncDeltaXTest <R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LTriBoolFuncDeltaX<Integer,X> sut =  LTriBoolFuncDeltaX.deltaOf(initialLastValue, (a1,a2,a3) ->{
+    private LTriBoolFuncDeltaX<Integer,X> sut =  LTriBoolFuncDeltaX.<Integer,X>deltaOf(initialLastValue, (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

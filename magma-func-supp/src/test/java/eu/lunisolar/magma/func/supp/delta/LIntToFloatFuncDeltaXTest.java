@@ -44,7 +44,7 @@ public class LIntToFloatFuncDeltaXTest <X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LIntToFloatFuncDeltaX<X> sut =  LIntToFloatFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LIntToFloatFuncDeltaX<X> sut =  LIntToFloatFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

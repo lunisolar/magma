@@ -44,7 +44,7 @@ public class LCharBinaryOpDeltaXTest <X extends Throwable> {
 
     private final char initialLastValue = '\u0000';
 
-    private LCharBinaryOpDeltaX<X> sut =  LCharBinaryOpDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
+    private LCharBinaryOpDeltaX<X> sut =  LCharBinaryOpDeltaX.<X>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

@@ -44,7 +44,7 @@ public class LCharToFloatFuncDeltaXTest <X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LCharToFloatFuncDeltaX<X> sut =  LCharToFloatFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LCharToFloatFuncDeltaX<X> sut =  LCharToFloatFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

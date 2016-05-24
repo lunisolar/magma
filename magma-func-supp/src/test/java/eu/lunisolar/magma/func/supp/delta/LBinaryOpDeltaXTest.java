@@ -44,10 +44,10 @@ public class LBinaryOpDeltaXTest <T,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LBinaryOpDeltaX<Integer,X> sut =  LBinaryOpDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
+    private LBinaryOpDeltaX<Integer,X> sut =  LBinaryOpDeltaX.<Integer,X>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

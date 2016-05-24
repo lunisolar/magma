@@ -43,7 +43,7 @@ public class LFloatUnaryOpMementoXTest <X extends Throwable> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LFloatUnaryOpMementoX<X> sut =  LFloatUnaryOpMementoX.mementoOf( a1 ->{
+    private LFloatUnaryOpMementoX<X> sut =  LFloatUnaryOpMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

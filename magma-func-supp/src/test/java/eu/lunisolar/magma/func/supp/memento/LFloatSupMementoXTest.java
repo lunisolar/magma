@@ -43,7 +43,7 @@ public class LFloatSupMementoXTest <X extends Throwable> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LFloatSupMementoX<X> sut =  LFloatSupMementoX.mementoOf( () ->{
+    private LFloatSupMementoX<X> sut =  LFloatSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

@@ -44,7 +44,7 @@ public class LDoubleToIntFuncDeltaXTest <X extends Throwable> {
 
     private final int initialLastValue = 0;
 
-    private LDoubleToIntFuncDeltaX<X> sut =  LDoubleToIntFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LDoubleToIntFuncDeltaX<X> sut =  LDoubleToIntFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

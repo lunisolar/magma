@@ -43,7 +43,7 @@ public class LFloatFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LFloatFuncMemento<Integer> sut =  LFloatFuncMemento.mementoOf( a1 ->{
+    private LFloatFuncMemento<Integer> sut =  LFloatFuncMemento.<Integer>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

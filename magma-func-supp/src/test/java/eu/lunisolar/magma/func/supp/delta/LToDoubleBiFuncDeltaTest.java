@@ -44,7 +44,7 @@ public class LToDoubleBiFuncDeltaTest <T1,T2> {
 
     private final double initialLastValue = 0d;
 
-    private LToDoubleBiFuncDelta<Integer,Integer> sut =  LToDoubleBiFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LToDoubleBiFuncDelta<Integer,Integer> sut =  LToDoubleBiFuncDelta.<Integer,Integer>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

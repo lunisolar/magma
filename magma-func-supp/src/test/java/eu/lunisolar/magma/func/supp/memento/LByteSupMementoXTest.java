@@ -43,7 +43,7 @@ public class LByteSupMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LByteSupMementoX<X> sut =  LByteSupMementoX.mementoOf( () ->{
+    private LByteSupMementoX<X> sut =  LByteSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

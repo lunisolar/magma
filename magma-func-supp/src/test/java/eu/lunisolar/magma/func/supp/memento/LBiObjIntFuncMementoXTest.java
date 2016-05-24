@@ -43,7 +43,7 @@ public class LBiObjIntFuncMementoXTest <T1,T2,R,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiObjIntFuncMementoX<Integer,Integer,Integer,X> sut =  LBiObjIntFuncMementoX.mementoOf( (a1,a2,a3) ->{
+    private LBiObjIntFuncMementoX<Integer,Integer,Integer,X> sut =  LBiObjIntFuncMementoX.<Integer,Integer,Integer,X>mementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

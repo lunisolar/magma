@@ -44,7 +44,7 @@ public class LObjIntToIntFuncDeltaTest <T> {
 
     private final int initialLastValue = 0;
 
-    private LObjIntToIntFuncDelta<Integer> sut =  LObjIntToIntFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LObjIntToIntFuncDelta<Integer> sut =  LObjIntToIntFuncDelta.<Integer>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

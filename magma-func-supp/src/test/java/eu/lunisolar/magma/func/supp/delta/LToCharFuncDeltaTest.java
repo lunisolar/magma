@@ -44,7 +44,7 @@ public class LToCharFuncDeltaTest <T> {
 
     private final char initialLastValue = '\u0000';
 
-    private LToCharFuncDelta<Integer> sut =  LToCharFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LToCharFuncDelta<Integer> sut =  LToCharFuncDelta.<Integer>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

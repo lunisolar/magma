@@ -43,7 +43,7 @@ public class LSupMementoXTest <T,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LSupMementoX<Integer,X> sut =  LSupMementoX.mementoOf( () ->{
+    private LSupMementoX<Integer,X> sut =  LSupMementoX.<Integer,X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

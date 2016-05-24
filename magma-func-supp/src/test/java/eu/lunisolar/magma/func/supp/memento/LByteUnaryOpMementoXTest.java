@@ -43,7 +43,7 @@ public class LByteUnaryOpMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LByteUnaryOpMementoX<X> sut =  LByteUnaryOpMementoX.mementoOf( a1 ->{
+    private LByteUnaryOpMementoX<X> sut =  LByteUnaryOpMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

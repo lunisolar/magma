@@ -43,7 +43,7 @@ public class LLongSupMementoXTest <X extends Throwable> {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LLongSupMementoX<X> sut =  LLongSupMementoX.mementoOf( () ->{
+    private LLongSupMementoX<X> sut =  LLongSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LSupMementoTest <T> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LSupMemento<Integer> sut =  LSupMemento.mementoOf( () ->{
+    private LSupMemento<Integer> sut =  LSupMemento.<Integer>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LToFloatFuncMementoXTest <T,X extends Throwable> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LToFloatFuncMementoX<Integer,X> sut =  LToFloatFuncMementoX.mementoOf( a1 ->{
+    private LToFloatFuncMementoX<Integer,X> sut =  LToFloatFuncMementoX.<Integer,X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

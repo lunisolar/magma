@@ -43,7 +43,7 @@ public class LIntToShortFuncMementoXTest <X extends Throwable> {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LIntToShortFuncMementoX<X> sut =  LIntToShortFuncMementoX.mementoOf( a1 ->{
+    private LIntToShortFuncMementoX<X> sut =  LIntToShortFuncMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

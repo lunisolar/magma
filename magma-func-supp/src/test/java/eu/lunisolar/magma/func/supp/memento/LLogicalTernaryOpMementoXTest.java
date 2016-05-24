@@ -43,7 +43,7 @@ public class LLogicalTernaryOpMementoXTest <X extends Throwable> {
     private boolean initialTestValue = true;
     private boolean testValue = initialTestValue;
 
-    private LLogicalTernaryOpMementoX<X> sut =  LLogicalTernaryOpMementoX.mementoOf( (a1,a2,a3) ->{
+    private LLogicalTernaryOpMementoX<X> sut =  LLogicalTernaryOpMementoX.<X>mementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

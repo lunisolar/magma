@@ -44,7 +44,7 @@ public class LBoolToLongFuncDeltaXTest <X extends Throwable> {
 
     private final long initialLastValue = 0L;
 
-    private LBoolToLongFuncDeltaX<X> sut =  LBoolToLongFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LBoolToLongFuncDeltaX<X> sut =  LBoolToLongFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

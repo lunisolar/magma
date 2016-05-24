@@ -43,7 +43,7 @@ public class LObjDoubleFuncMementoXTest <T,R,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LObjDoubleFuncMementoX<Integer,Integer,X> sut =  LObjDoubleFuncMementoX.mementoOf( (a1,a2) ->{
+    private LObjDoubleFuncMementoX<Integer,Integer,X> sut =  LObjDoubleFuncMementoX.<Integer,Integer,X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

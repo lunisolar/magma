@@ -44,10 +44,10 @@ public class LFloatFuncDeltaXTest <R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LFloatFuncDeltaX<Integer,X> sut =  LFloatFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LFloatFuncDeltaX<Integer,X> sut =  LFloatFuncDeltaX.<Integer,X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

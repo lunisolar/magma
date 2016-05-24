@@ -43,7 +43,7 @@ public class LBiObjFloatFuncMementoTest <T1,T2,R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiObjFloatFuncMemento<Integer,Integer,Integer> sut =  LBiObjFloatFuncMemento.mementoOf( (a1,a2,a3) ->{
+    private LBiObjFloatFuncMemento<Integer,Integer,Integer> sut =  LBiObjFloatFuncMemento.<Integer,Integer,Integer>mementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

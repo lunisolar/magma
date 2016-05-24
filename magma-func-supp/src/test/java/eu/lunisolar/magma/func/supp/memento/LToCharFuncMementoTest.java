@@ -43,7 +43,7 @@ public class LToCharFuncMementoTest <T> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LToCharFuncMemento<Integer> sut =  LToCharFuncMemento.mementoOf( a1 ->{
+    private LToCharFuncMemento<Integer> sut =  LToCharFuncMemento.<Integer>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

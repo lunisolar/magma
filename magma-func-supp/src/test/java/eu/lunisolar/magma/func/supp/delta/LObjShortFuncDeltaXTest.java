@@ -44,10 +44,10 @@ public class LObjShortFuncDeltaXTest <T,R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LObjShortFuncDeltaX<Integer,Integer,X> sut =  LObjShortFuncDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
+    private LObjShortFuncDeltaX<Integer,Integer,X> sut =  LObjShortFuncDeltaX.<Integer,Integer,X>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

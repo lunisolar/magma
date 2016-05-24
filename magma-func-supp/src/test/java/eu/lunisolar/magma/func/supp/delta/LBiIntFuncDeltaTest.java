@@ -44,10 +44,10 @@ public class LBiIntFuncDeltaTest <R> {
 
     private final Integer initialLastValue = 0;
 
-    private LBiIntFuncDelta<Integer> sut =  LBiIntFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LBiIntFuncDelta<Integer> sut =  LBiIntFuncDelta.<Integer>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

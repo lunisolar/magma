@@ -44,7 +44,7 @@ public class LFloatBinaryOpDeltaXTest <X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LFloatBinaryOpDeltaX<X> sut =  LFloatBinaryOpDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
+    private LFloatBinaryOpDeltaX<X> sut =  LFloatBinaryOpDeltaX.<X>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

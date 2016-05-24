@@ -44,7 +44,7 @@ public class LDoubleToCharFuncDeltaXTest <X extends Throwable> {
 
     private final char initialLastValue = '\u0000';
 
-    private LDoubleToCharFuncDeltaX<X> sut =  LDoubleToCharFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LDoubleToCharFuncDeltaX<X> sut =  LDoubleToCharFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

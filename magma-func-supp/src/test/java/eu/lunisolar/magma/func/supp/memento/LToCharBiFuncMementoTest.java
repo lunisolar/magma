@@ -43,7 +43,7 @@ public class LToCharBiFuncMementoTest <T1,T2> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LToCharBiFuncMemento<Integer,Integer> sut =  LToCharBiFuncMemento.mementoOf( (a1,a2) ->{
+    private LToCharBiFuncMemento<Integer,Integer> sut =  LToCharBiFuncMemento.<Integer,Integer>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

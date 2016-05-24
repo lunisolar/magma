@@ -43,7 +43,7 @@ public class LToByteFuncMementoXTest <T,X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LToByteFuncMementoX<Integer,X> sut =  LToByteFuncMementoX.mementoOf( a1 ->{
+    private LToByteFuncMementoX<Integer,X> sut =  LToByteFuncMementoX.<Integer,X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

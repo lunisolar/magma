@@ -43,7 +43,7 @@ public class LToShortBiFuncMementoTest <T1,T2> {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LToShortBiFuncMemento<Integer,Integer> sut =  LToShortBiFuncMemento.mementoOf( (a1,a2) ->{
+    private LToShortBiFuncMemento<Integer,Integer> sut =  LToShortBiFuncMemento.<Integer,Integer>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

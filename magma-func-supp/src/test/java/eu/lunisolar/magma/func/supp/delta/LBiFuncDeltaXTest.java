@@ -44,10 +44,10 @@ public class LBiFuncDeltaXTest <T1,T2,R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LBiFuncDeltaX<Integer,Integer,Integer,X> sut =  LBiFuncDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
+    private LBiFuncDeltaX<Integer,Integer,Integer,X> sut =  LBiFuncDeltaX.<Integer,Integer,Integer,X>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

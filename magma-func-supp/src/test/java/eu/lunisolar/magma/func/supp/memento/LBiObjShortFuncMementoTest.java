@@ -43,7 +43,7 @@ public class LBiObjShortFuncMementoTest <T1,T2,R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiObjShortFuncMemento<Integer,Integer,Integer> sut =  LBiObjShortFuncMemento.mementoOf( (a1,a2,a3) ->{
+    private LBiObjShortFuncMemento<Integer,Integer,Integer> sut =  LBiObjShortFuncMemento.<Integer,Integer,Integer>mementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

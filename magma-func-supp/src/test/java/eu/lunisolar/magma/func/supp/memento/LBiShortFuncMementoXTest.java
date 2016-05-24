@@ -43,7 +43,7 @@ public class LBiShortFuncMementoXTest <R,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiShortFuncMementoX<Integer,X> sut =  LBiShortFuncMementoX.mementoOf( (a1,a2) ->{
+    private LBiShortFuncMementoX<Integer,X> sut =  LBiShortFuncMementoX.<Integer,X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

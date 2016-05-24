@@ -44,7 +44,7 @@ public class LShortBinaryOpDeltaXTest <X extends Throwable> {
 
     private final short initialLastValue = (short)0;
 
-    private LShortBinaryOpDeltaX<X> sut =  LShortBinaryOpDeltaX.deltaOf(initialLastValue, (a1,a2) ->{
+    private LShortBinaryOpDeltaX<X> sut =  LShortBinaryOpDeltaX.<X>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

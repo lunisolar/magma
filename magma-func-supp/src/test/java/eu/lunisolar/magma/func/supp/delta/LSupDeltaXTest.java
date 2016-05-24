@@ -44,10 +44,10 @@ public class LSupDeltaXTest <T,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LSupDeltaX<Integer,X> sut =  LSupDeltaX.deltaOf(initialLastValue, () ->{
+    private LSupDeltaX<Integer,X> sut =  LSupDeltaX.<Integer,X>deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

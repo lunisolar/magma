@@ -43,7 +43,7 @@ public class LByteBinaryOpMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LByteBinaryOpMementoX<X> sut =  LByteBinaryOpMementoX.mementoOf( (a1,a2) ->{
+    private LByteBinaryOpMementoX<X> sut =  LByteBinaryOpMementoX.<X>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LByteFuncMementoXTest <R,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LByteFuncMementoX<Integer,X> sut =  LByteFuncMementoX.mementoOf( a1 ->{
+    private LByteFuncMementoX<Integer,X> sut =  LByteFuncMementoX.<Integer,X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

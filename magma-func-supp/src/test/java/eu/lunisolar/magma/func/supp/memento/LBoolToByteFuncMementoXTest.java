@@ -43,7 +43,7 @@ public class LBoolToByteFuncMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LBoolToByteFuncMementoX<X> sut =  LBoolToByteFuncMementoX.mementoOf( a1 ->{
+    private LBoolToByteFuncMementoX<X> sut =  LBoolToByteFuncMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

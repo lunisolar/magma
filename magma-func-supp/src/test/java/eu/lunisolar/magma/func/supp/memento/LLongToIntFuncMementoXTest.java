@@ -43,7 +43,7 @@ public class LLongToIntFuncMementoXTest <X extends Throwable> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LLongToIntFuncMementoX<X> sut =  LLongToIntFuncMementoX.mementoOf( a1 ->{
+    private LLongToIntFuncMementoX<X> sut =  LLongToIntFuncMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

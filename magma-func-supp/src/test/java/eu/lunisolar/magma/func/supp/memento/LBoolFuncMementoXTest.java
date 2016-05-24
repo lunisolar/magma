@@ -43,7 +43,7 @@ public class LBoolFuncMementoXTest <R,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBoolFuncMementoX<Integer,X> sut =  LBoolFuncMementoX.mementoOf( a1 ->{
+    private LBoolFuncMementoX<Integer,X> sut =  LBoolFuncMementoX.<Integer,X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

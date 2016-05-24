@@ -43,7 +43,7 @@ public class LToLongBiFuncMementoTest <T1,T2> {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LToLongBiFuncMemento<Integer,Integer> sut =  LToLongBiFuncMemento.mementoOf( (a1,a2) ->{
+    private LToLongBiFuncMemento<Integer,Integer> sut =  LToLongBiFuncMemento.<Integer,Integer>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LIntSupMementoXTest <X extends Throwable> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LIntSupMementoX<X> sut =  LIntSupMementoX.mementoOf( () ->{
+    private LIntSupMementoX<X> sut =  LIntSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

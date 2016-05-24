@@ -44,7 +44,7 @@ public class LBoolSupDeltaXTest <X extends Throwable> {
 
     private final boolean initialLastValue = false;
 
-    private LBoolSupDeltaX<X> sut =  LBoolSupDeltaX.deltaOf(initialLastValue, () ->{
+    private LBoolSupDeltaX<X> sut =  LBoolSupDeltaX.<X>deltaOf(initialLastValue, () ->{
         functionCallCount++;
         return testValue;
     });

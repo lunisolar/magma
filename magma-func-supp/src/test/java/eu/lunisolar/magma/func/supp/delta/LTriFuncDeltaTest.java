@@ -44,10 +44,10 @@ public class LTriFuncDeltaTest <T1,T2,T3,R> {
 
     private final Integer initialLastValue = 0;
 
-    private LTriFuncDelta<Integer,Integer,Integer,Integer> sut =  LTriFuncDelta.deltaOf(initialLastValue, (a1,a2,a3) ->{
+    private LTriFuncDelta<Integer,Integer,Integer,Integer> sut =  LTriFuncDelta.<Integer,Integer,Integer,Integer>deltaOf(initialLastValue, (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

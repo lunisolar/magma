@@ -43,7 +43,7 @@ public class LFloatToCharFuncMementoXTest <X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LFloatToCharFuncMementoX<X> sut =  LFloatToCharFuncMementoX.mementoOf( a1 ->{
+    private LFloatToCharFuncMementoX<X> sut =  LFloatToCharFuncMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

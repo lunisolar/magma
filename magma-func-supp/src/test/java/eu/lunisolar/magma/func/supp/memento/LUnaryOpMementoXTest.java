@@ -43,7 +43,7 @@ public class LUnaryOpMementoXTest <T,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LUnaryOpMementoX<Integer,X> sut =  LUnaryOpMementoX.mementoOf( a1 ->{
+    private LUnaryOpMementoX<Integer,X> sut =  LUnaryOpMementoX.<Integer,X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LByteFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LByteFuncMemento<Integer> sut =  LByteFuncMemento.mementoOf( a1 ->{
+    private LByteFuncMemento<Integer> sut =  LByteFuncMemento.<Integer>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

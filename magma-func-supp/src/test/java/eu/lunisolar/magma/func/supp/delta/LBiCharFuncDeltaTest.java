@@ -44,10 +44,10 @@ public class LBiCharFuncDeltaTest <R> {
 
     private final Integer initialLastValue = 0;
 
-    private LBiCharFuncDelta<Integer> sut =  LBiCharFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LBiCharFuncDelta<Integer> sut =  LBiCharFuncDelta.<Integer>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

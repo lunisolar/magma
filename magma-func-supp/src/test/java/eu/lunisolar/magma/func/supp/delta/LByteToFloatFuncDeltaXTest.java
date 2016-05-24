@@ -44,7 +44,7 @@ public class LByteToFloatFuncDeltaXTest <X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LByteToFloatFuncDeltaX<X> sut =  LByteToFloatFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LByteToFloatFuncDeltaX<X> sut =  LByteToFloatFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
     });

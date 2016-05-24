@@ -43,7 +43,7 @@ public class LTriBoolFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LTriBoolFuncMemento<Integer> sut =  LTriBoolFuncMemento.mementoOf( (a1,a2,a3) ->{
+    private LTriBoolFuncMemento<Integer> sut =  LTriBoolFuncMemento.<Integer>mementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

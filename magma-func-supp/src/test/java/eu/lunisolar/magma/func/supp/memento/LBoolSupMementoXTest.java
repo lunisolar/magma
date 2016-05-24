@@ -43,7 +43,7 @@ public class LBoolSupMementoXTest <X extends Throwable> {
     private boolean initialTestValue = true;
     private boolean testValue = initialTestValue;
 
-    private LBoolSupMementoX<X> sut =  LBoolSupMementoX.mementoOf( () ->{
+    private LBoolSupMementoX<X> sut =  LBoolSupMementoX.<X>mementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

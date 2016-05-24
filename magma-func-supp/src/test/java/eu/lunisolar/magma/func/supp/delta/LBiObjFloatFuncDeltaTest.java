@@ -44,10 +44,10 @@ public class LBiObjFloatFuncDeltaTest <T1,T2,R> {
 
     private final Integer initialLastValue = 0;
 
-    private LBiObjFloatFuncDelta<Integer,Integer,Integer> sut =  LBiObjFloatFuncDelta.deltaOf(initialLastValue, (a1,a2,a3) ->{
+    private LBiObjFloatFuncDelta<Integer,Integer,Integer> sut =  LBiObjFloatFuncDelta.<Integer,Integer,Integer>deltaOf(initialLastValue, (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

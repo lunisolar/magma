@@ -44,10 +44,10 @@ public class LTernaryOpDeltaTest <T> {
 
     private final Integer initialLastValue = 0;
 
-    private LTernaryOpDelta<Integer> sut =  LTernaryOpDelta.deltaOf(initialLastValue, (a1,a2,a3) ->{
+    private LTernaryOpDelta<Integer> sut =  LTernaryOpDelta.<Integer>deltaOf(initialLastValue, (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

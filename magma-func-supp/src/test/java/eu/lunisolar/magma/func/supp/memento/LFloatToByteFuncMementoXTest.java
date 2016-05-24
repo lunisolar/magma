@@ -43,7 +43,7 @@ public class LFloatToByteFuncMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LFloatToByteFuncMementoX<X> sut =  LFloatToByteFuncMementoX.mementoOf( a1 ->{
+    private LFloatToByteFuncMementoX<X> sut =  LFloatToByteFuncMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

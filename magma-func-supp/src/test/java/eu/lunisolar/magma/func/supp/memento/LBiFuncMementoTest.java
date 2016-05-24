@@ -43,7 +43,7 @@ public class LBiFuncMementoTest <T1,T2,R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiFuncMemento<Integer,Integer,Integer> sut =  LBiFuncMemento.mementoOf( (a1,a2) ->{
+    private LBiFuncMemento<Integer,Integer,Integer> sut =  LBiFuncMemento.<Integer,Integer,Integer>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

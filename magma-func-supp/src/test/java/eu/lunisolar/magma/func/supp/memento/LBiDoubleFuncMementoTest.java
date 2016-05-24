@@ -43,7 +43,7 @@ public class LBiDoubleFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiDoubleFuncMemento<Integer> sut =  LBiDoubleFuncMemento.mementoOf( (a1,a2) ->{
+    private LBiDoubleFuncMemento<Integer> sut =  LBiDoubleFuncMemento.<Integer>mementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

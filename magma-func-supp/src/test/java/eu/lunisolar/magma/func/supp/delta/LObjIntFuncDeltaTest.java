@@ -44,10 +44,10 @@ public class LObjIntFuncDeltaTest <T,R> {
 
     private final Integer initialLastValue = 0;
 
-    private LObjIntFuncDelta<Integer,Integer> sut =  LObjIntFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LObjIntFuncDelta<Integer,Integer> sut =  LObjIntFuncDelta.<Integer,Integer>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {

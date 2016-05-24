@@ -43,7 +43,7 @@ public class LIntToCharFuncMementoXTest <X extends Throwable> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LIntToCharFuncMementoX<X> sut =  LIntToCharFuncMementoX.mementoOf( a1 ->{
+    private LIntToCharFuncMementoX<X> sut =  LIntToCharFuncMementoX.<X>mementoOf( a1 ->{
         functionCallCount++;
         return testValue;
     });

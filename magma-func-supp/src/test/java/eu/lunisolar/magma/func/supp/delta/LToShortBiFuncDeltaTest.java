@@ -44,7 +44,7 @@ public class LToShortBiFuncDeltaTest <T1,T2> {
 
     private final short initialLastValue = (short)0;
 
-    private LToShortBiFuncDelta<Integer,Integer> sut =  LToShortBiFuncDelta.deltaOf(initialLastValue, (a1,a2) ->{
+    private LToShortBiFuncDelta<Integer,Integer> sut =  LToShortBiFuncDelta.<Integer,Integer>deltaOf(initialLastValue, (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

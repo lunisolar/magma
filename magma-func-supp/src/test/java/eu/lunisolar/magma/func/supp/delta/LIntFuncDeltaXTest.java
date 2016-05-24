@@ -44,10 +44,10 @@ public class LIntFuncDeltaXTest <R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LIntFuncDeltaX<Integer,X> sut =  LIntFuncDeltaX.deltaOf(initialLastValue, a1 ->{
+    private LIntFuncDeltaX<Integer,X> sut =  LIntFuncDeltaX.<Integer,X>deltaOf(initialLastValue, a1 ->{
         functionCallCount++;
         return testValue;
-    }, (last, current) -> (Integer)  (current-last));
+    }, (last, current) -> (current-last));
 
     @Test
     public void testReturnsLastResult() throws Throwable {
