@@ -32,40 +32,38 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*;
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LazyRValueX<R, X extends Throwable> extends LSupMementoX<R, X> implements LSingle {
+public class LazyTValue<T> extends LSupMemento<T> implements LSingle<T> {
 
-	protected LazyRValueX(LSupplierX<R, X> function) {
+	protected LazyTValue(LSupplier<T> function) {
 		super(function);
 	}
 
-	public static <R, X extends Throwable> LazyRValueX<R, X> lazyValue(LSupplierX<R, X> supplier) {
-		return new LazyRValueX<R, X>(supplier);
+	public static <T> LazyTValue<T> lazyValue(LSupplier<T> supplier) {
+		return new LazyTValue<T>(supplier);
 	}
 
 	@Override
-	public R doGet() throws X {
+	public T doGet() {
 		if (function != null) {
 			lastValue = function.doGet();
 			function = null;
@@ -74,17 +72,17 @@ public class LazyRValueX<R, X extends Throwable> extends LSupMementoX<R, X> impl
 		return lastValue;
 	}
 
-	public R first() {
+	public T first() {
 		return shovingDoGet();
 	}
 
-	public static boolean argEquals(LazyRValueX the, Object that) {
+	public static boolean argEquals(LazyTValue the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
 			if (!(one.getClass() != two.getClass())) {
 				return false;
 			}
 
-			LazyRValueX other = (LazyRValueX) two;
+			LazyTValue other = (LazyTValue) two;
 
 			return Null.equals(one.first(), other.first()); //
 			});
