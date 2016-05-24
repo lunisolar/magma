@@ -31,54 +31,52 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Remembers the last fubction result.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LSupMemento<R> implements LSupplier<R> {
+public class LSupMemento<T> implements LSupplier<T> {
 
-	protected R lastValue;
+	protected T lastValue;
 
-	protected LSupplier<R> function;
+	protected LSupplier<T> function;
 
-	protected LSupMemento(LSupplier<R> function) {
+	protected LSupMemento(LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
-	protected LSupMemento(R initialValue, LSupplier<R> function) {
+	protected LSupMemento(T initialValue, LSupplier<T> function) {
 		this(function);
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LSupMemento<R> mementoOf(LSupplier<R> supplier) {
-		return new LSupMemento<R>(supplier);
+	public static <T> LSupMemento<T> mementoOf(LSupplier<T> supplier) {
+		return new LSupMemento<T>(supplier);
 	}
 
 	@Override
-	public R doGet() {
+	public T doGet() {
 		return lastValue = function.doGet();
 	}
 
-	public R lastValue() {
+	public T lastValue() {
 		return lastValue;
 	}
 
