@@ -32,23 +32,21 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
 
-import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
-import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*; // NOSONAR
-import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
-import eu.lunisolar.magma.func.consumer.*; // NOSONAR
-import eu.lunisolar.magma.func.action.*; // NOSONAR
-
-import java.util.function.*; // NOSONAR
 
 /**
  * Counts function result delta between sequential calls of the function.
@@ -56,25 +54,25 @@ import java.util.function.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public class LToIntFuncDeltaX<T, X extends Throwable> extends LToIntFuncMementoX<T, X> {
 
-	protected final LIntBinaryOperator deltaFunction;
+	protected final LIntBinaryOperatorX<X> deltaFunction;
 
-	protected LToIntFuncDeltaX(LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
+	protected LToIntFuncDeltaX(LToIntFunctionX<T, X> function, LIntBinaryOperatorX<X> deltaFunction) {
 		super(function);
 		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
-	protected LToIntFuncDeltaX(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
+	protected LToIntFuncDeltaX(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperatorX<X> deltaFunction) {
 		super(initialValue, function);
 		Null.nonNullArg(deltaFunction, "deltaFunction");
 		this.deltaFunction = deltaFunction;
 	}
 
-	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
+	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(LToIntFunctionX<T, X> function, LIntBinaryOperatorX<X> deltaFunction) {
 		return new LToIntFuncDeltaX<T, X>(function, deltaFunction);
 	}
 
-	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperator deltaFunction) {
+	public static <T, X extends Throwable> LToIntFuncDeltaX<T, X> deltaOf(int initialValue, LToIntFunctionX<T, X> function, LIntBinaryOperatorX<X> deltaFunction) {
 		return new LToIntFuncDeltaX<T, X>(initialValue, function, deltaFunction);
 	}
 
