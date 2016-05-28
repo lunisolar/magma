@@ -217,7 +217,7 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 	@Nonnull
 	default LObjLongConsumer<T> andThen(@Nonnull LObjLongConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, long a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

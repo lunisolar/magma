@@ -201,7 +201,7 @@ public interface LBiShortConsumer extends LBiShortConsumerX<RuntimeException>, M
 	@Nonnull
 	default LBiShortConsumer andThen(@Nonnull LBiShortConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

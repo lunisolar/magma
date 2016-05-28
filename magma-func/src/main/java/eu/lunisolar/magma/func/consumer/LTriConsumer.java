@@ -228,7 +228,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	@Nonnull
 	default LTriConsumer<T1, T2, T3> andThen(@Nonnull LTriConsumer<? super T1, ? super T2, ? super T3> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, T3 a3) -> {
+		return (a1, a2, a3) -> {
 			this.doAccept(a1, a2, a3);
 			after.doAccept(a1, a2, a3);
 		};

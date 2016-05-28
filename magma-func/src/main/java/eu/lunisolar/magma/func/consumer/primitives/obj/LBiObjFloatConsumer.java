@@ -237,7 +237,7 @@ public interface LBiObjFloatConsumer<T1, T2> extends LBiObjFloatConsumerX<T1, T2
 	@Nonnull
 	default LBiObjFloatConsumer<T1, T2> andThen(@Nonnull LBiObjFloatConsumer<? super T1, ? super T2> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, float a3) -> {
+		return (a1, a2, a3) -> {
 			this.doAccept(a1, a2, a3);
 			after.doAccept(a1, a2, a3);
 		};

@@ -236,7 +236,7 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 	@Nonnull
 	default LTriBoolConsumerX<X> andThen(@Nonnull LTriBoolConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2, boolean a3) -> {
+		return (a1, a2, a3) -> {
 			this.doAccept(a1, a2, a3);
 			after.doAccept(a1, a2, a3);
 		};

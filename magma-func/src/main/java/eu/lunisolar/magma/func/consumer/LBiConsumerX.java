@@ -254,7 +254,7 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends BiConsumer<T1
 	@Nonnull
 	default LBiConsumerX<T1, T2, X> andThen(@Nonnull LBiConsumerX<? super T1, ? super T2, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

@@ -201,7 +201,7 @@ public interface LBiDoubleConsumer extends LBiDoubleConsumerX<RuntimeException>,
 	@Nonnull
 	default LBiDoubleConsumer andThen(@Nonnull LBiDoubleConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (double a1, double a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

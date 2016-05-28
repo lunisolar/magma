@@ -217,7 +217,7 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 	@Nonnull
 	default LObjIntConsumer<T> andThen(@Nonnull LObjIntConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, int a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

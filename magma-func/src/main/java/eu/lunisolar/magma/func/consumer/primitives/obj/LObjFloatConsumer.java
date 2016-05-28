@@ -201,7 +201,7 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 	@Nonnull
 	default LObjFloatConsumer<T> andThen(@Nonnull LObjFloatConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, float a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

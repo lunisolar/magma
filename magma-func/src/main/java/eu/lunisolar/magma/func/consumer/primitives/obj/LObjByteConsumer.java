@@ -201,7 +201,7 @@ public interface LObjByteConsumer<T> extends LObjByteConsumerX<T, RuntimeExcepti
 	@Nonnull
 	default LObjByteConsumer<T> andThen(@Nonnull LObjByteConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, byte a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

@@ -201,7 +201,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	@Nonnull
 	default LObjCharConsumer<T> andThen(@Nonnull LObjCharConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, char a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

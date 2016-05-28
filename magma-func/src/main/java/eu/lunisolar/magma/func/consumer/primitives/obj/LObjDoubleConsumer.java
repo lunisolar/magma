@@ -217,7 +217,7 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 	@Nonnull
 	default LObjDoubleConsumer<T> andThen(@Nonnull LObjDoubleConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, double a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

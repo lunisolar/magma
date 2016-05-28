@@ -246,7 +246,7 @@ public interface LObjFloatConsumerX<T, X extends Throwable> extends MetaConsumer
 	@Nonnull
 	default LObjFloatConsumerX<T, X> andThen(@Nonnull LObjFloatConsumerX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, float a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

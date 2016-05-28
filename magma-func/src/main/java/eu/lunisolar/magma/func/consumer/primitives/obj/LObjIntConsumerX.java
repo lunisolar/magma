@@ -262,7 +262,7 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends ObjIntConsumer
 	@Nonnull
 	default LObjIntConsumerX<T, X> andThen(@Nonnull LObjIntConsumerX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, int a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

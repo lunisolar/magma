@@ -246,7 +246,7 @@ public interface LBiLongConsumerX<X extends Throwable> extends MetaConsumer, Met
 	@Nonnull
 	default LBiLongConsumerX<X> andThen(@Nonnull LBiLongConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

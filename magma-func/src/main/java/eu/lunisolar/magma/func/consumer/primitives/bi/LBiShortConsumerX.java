@@ -246,7 +246,7 @@ public interface LBiShortConsumerX<X extends Throwable> extends MetaConsumer, Me
 	@Nonnull
 	default LBiShortConsumerX<X> andThen(@Nonnull LBiShortConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

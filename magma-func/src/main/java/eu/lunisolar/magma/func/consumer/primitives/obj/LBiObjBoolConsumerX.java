@@ -310,7 +310,7 @@ public interface LBiObjBoolConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	@Nonnull
 	default LBiObjBoolConsumerX<T1, T2, X> andThen(@Nonnull LBiObjBoolConsumerX<? super T1, ? super T2, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, boolean a3) -> {
+		return (a1, a2, a3) -> {
 			this.doAccept(a1, a2, a3);
 			after.doAccept(a1, a2, a3);
 		};

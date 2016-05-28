@@ -246,7 +246,7 @@ public interface LBiByteConsumerX<X extends Throwable> extends MetaConsumer, Met
 	@Nonnull
 	default LBiByteConsumerX<X> andThen(@Nonnull LBiByteConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte a1, byte a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

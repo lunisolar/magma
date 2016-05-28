@@ -201,7 +201,7 @@ public interface LObjShortConsumer<T> extends LObjShortConsumerX<T, RuntimeExcep
 	@Nonnull
 	default LObjShortConsumer<T> andThen(@Nonnull LObjShortConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, short a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

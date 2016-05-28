@@ -201,7 +201,7 @@ public interface LBiFloatConsumer extends LBiFloatConsumerX<RuntimeException>, M
 	@Nonnull
 	default LBiFloatConsumer andThen(@Nonnull LBiFloatConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

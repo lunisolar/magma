@@ -201,7 +201,7 @@ public interface LBiByteConsumer extends LBiByteConsumerX<RuntimeException>, Met
 	@Nonnull
 	default LBiByteConsumer andThen(@Nonnull LBiByteConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (byte a1, byte a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

@@ -201,7 +201,7 @@ public interface LBiCharConsumer extends LBiCharConsumerX<RuntimeException>, Met
 	@Nonnull
 	default LBiCharConsumer andThen(@Nonnull LBiCharConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (char a1, char a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

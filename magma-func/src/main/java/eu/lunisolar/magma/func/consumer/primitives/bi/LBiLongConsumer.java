@@ -201,7 +201,7 @@ public interface LBiLongConsumer extends LBiLongConsumerX<RuntimeException>, Met
 	@Nonnull
 	default LBiLongConsumer andThen(@Nonnull LBiLongConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

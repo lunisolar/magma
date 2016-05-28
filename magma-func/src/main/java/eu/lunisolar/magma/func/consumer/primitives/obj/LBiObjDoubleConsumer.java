@@ -237,7 +237,7 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 	@Nonnull
 	default LBiObjDoubleConsumer<T1, T2> andThen(@Nonnull LBiObjDoubleConsumer<? super T1, ? super T2> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, double a3) -> {
+		return (a1, a2, a3) -> {
 			this.doAccept(a1, a2, a3);
 			after.doAccept(a1, a2, a3);
 		};

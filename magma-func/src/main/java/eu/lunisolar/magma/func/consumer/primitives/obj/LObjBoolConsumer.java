@@ -201,7 +201,7 @@ public interface LObjBoolConsumer<T> extends LObjBoolConsumerX<T, RuntimeExcepti
 	@Nonnull
 	default LObjBoolConsumer<T> andThen(@Nonnull LObjBoolConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, boolean a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

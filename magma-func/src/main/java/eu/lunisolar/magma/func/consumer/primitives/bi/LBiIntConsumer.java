@@ -201,7 +201,7 @@ public interface LBiIntConsumer extends LBiIntConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LBiIntConsumer andThen(@Nonnull LBiIntConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (int a1, int a2) -> {
+		return (a1, a2) -> {
 			this.doAccept(a1, a2);
 			after.doAccept(a1, a2);
 		};

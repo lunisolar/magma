@@ -311,7 +311,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 	@Nonnull
 	default LBiObjFloatConsumerX<T1, T2, X> andThen(@Nonnull LBiObjFloatConsumerX<? super T1, ? super T2, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, float a3) -> {
+		return (a1, a2, a3) -> {
 			this.doAccept(a1, a2, a3);
 			after.doAccept(a1, a2, a3);
 		};
