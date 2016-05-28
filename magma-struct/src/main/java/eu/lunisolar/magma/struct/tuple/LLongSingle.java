@@ -32,16 +32,16 @@ public interface LLongSingle extends LTuple<Long> {
 
 	int SIZE = 1;
 
-	long first();
+	long value();
 
-	default long getFirst() {
-		return first();
+	default long getValue() {
+		return value();
 	}
 
 	default Long get(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -50,7 +50,7 @@ public interface LLongSingle extends LTuple<Long> {
 	default long getLong(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -62,16 +62,16 @@ public interface LLongSingle extends LTuple<Long> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongSingle and calculates hash from it. */
-	static int argHashCode(long a1) {
+	static int argHashCode(long a) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Long.hashCode(a1);
+		result = prime * result + Long.hashCode(a);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LLongSingle and checks if all values are equal. */
-	static boolean argEquals(long a1, long b1) {
-		return a1 == b1; //
+	static boolean argEquals(long a, long b) {
+		return a == b; //
 	}
 
 	/**
@@ -88,14 +88,14 @@ public interface LLongSingle extends LTuple<Long> {
 
 				LLongSingle other = (LLongSingle) two;
 
-				return argEquals(one.first(), other.first());
+				return argEquals(one.value(), other.value());
 			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -113,7 +113,7 @@ public interface LLongSingle extends LTuple<Long> {
 	default Long[] toVoArray(Long[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -131,7 +131,7 @@ public interface LLongSingle extends LTuple<Long> {
 	default long[] toLongArray(long[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -190,7 +190,7 @@ public interface LLongSingle extends LTuple<Long> {
 			return Null.compare(this, that, (one, two) -> {
 				int retval = 0;
 
-				return (retval = Long.compare(one.first(), two.first())) != 0 ? retval : 0; //
+				return (retval = Long.compare(one.value(), two.value())) != 0 ? retval : 0; //
 				});
 		}
 
@@ -205,37 +205,37 @@ public interface LLongSingle extends LTuple<Long> {
 
 		@Override
 		public int hashCode() {
-			return LLongSingle.argHashCode(first());
+			return LLongSingle.argHashCode(value());
 		}
 
 		@Override
 		public byte byteValue() {
-			return (byte) first();
+			return (byte) value();
 		}
 
 		@Override
 		public short shortValue() {
-			return (short) first();
+			return (short) value();
 		}
 
 		@Override
 		public int intValue() {
-			return (int) first();
+			return (int) value();
 		}
 
 		@Override
 		public long longValue() {
-			return (long) first();
+			return (long) value();
 		}
 
 		@Override
 		public float floatValue() {
-			return (float) first();
+			return (float) value();
 		}
 
 		@Override
 		public double doubleValue() {
-			return (double) first();
+			return (double) value();
 		}
 	}
 
@@ -244,35 +244,35 @@ public interface LLongSingle extends LTuple<Long> {
 	 */
 	final class MutLongSingle extends AbstractLongSingle {
 
-		private long first;
+		private long value;
 
-		public MutLongSingle(long a1) {
-			this.first = a1;
+		public MutLongSingle(long a) {
+			this.value = a;
 		}
 
-		public static MutLongSingle of(long a1) {
-			return new MutLongSingle(a1);
+		public static MutLongSingle of(long a) {
+			return new MutLongSingle(a);
 		}
 
 		public static MutLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public long first() {
-			return first;
+		public long value() {
+			return value;
 		}
 
-		public MutLongSingle first(long first) {
-			this.first = first;
+		public MutLongSingle value(long value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(long first) {
-			this.first = first;
+		public void setValue(long value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = 0L;
+			value = 0L;
 		}
 	}
 
@@ -281,35 +281,35 @@ public interface LLongSingle extends LTuple<Long> {
 	 */
 	final class MutCompLongSingle extends AbstractLongSingle implements ComparableLongSingle {
 
-		private long first;
+		private long value;
 
-		public MutCompLongSingle(long a1) {
-			this.first = a1;
+		public MutCompLongSingle(long a) {
+			this.value = a;
 		}
 
-		public static MutCompLongSingle of(long a1) {
-			return new MutCompLongSingle(a1);
+		public static MutCompLongSingle of(long a) {
+			return new MutCompLongSingle(a);
 		}
 
 		public static MutCompLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public long first() {
-			return first;
+		public long value() {
+			return value;
 		}
 
-		public MutCompLongSingle first(long first) {
-			this.first = first;
+		public MutCompLongSingle value(long value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(long first) {
-			this.first = first;
+		public void setValue(long value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = 0L;
+			value = 0L;
 		}
 	}
 
@@ -319,22 +319,22 @@ public interface LLongSingle extends LTuple<Long> {
 	@Immutable
 	final class ImmLongSingle extends AbstractLongSingle {
 
-		private final long first;
+		private final long value;
 
-		public ImmLongSingle(long a1) {
-			this.first = a1;
+		public ImmLongSingle(long a) {
+			this.value = a;
 		}
 
-		public static ImmLongSingle of(long a1) {
-			return new ImmLongSingle(a1);
+		public static ImmLongSingle of(long a) {
+			return new ImmLongSingle(a);
 		}
 
 		public static ImmLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public long first() {
-			return first;
+		public long value() {
+			return value;
 		}
 
 	}
@@ -345,22 +345,22 @@ public interface LLongSingle extends LTuple<Long> {
 	@Immutable
 	final class ImmCompLongSingle extends AbstractLongSingle implements ComparableLongSingle {
 
-		private final long first;
+		private final long value;
 
-		public ImmCompLongSingle(long a1) {
-			this.first = a1;
+		public ImmCompLongSingle(long a) {
+			this.value = a;
 		}
 
-		public static ImmCompLongSingle of(long a1) {
-			return new ImmCompLongSingle(a1);
+		public static ImmCompLongSingle of(long a) {
+			return new ImmCompLongSingle(a);
 		}
 
 		public static ImmCompLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public long first() {
-			return first;
+		public long value() {
+			return value;
 		}
 
 	}

@@ -72,8 +72,8 @@ public class LBoolToIntFuncMementoX<X extends Throwable> implements LBoolToIntFu
 	}
 
 	@Override
-	public int doApplyAsInt(boolean a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(boolean a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

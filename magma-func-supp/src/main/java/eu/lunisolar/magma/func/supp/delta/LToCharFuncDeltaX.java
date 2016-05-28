@@ -89,8 +89,8 @@ public class LToCharFuncDeltaX<T, X extends Throwable> extends LToCharFuncMement
 	}
 
 	@Override
-	public char doApplyAsChar(T a1) throws X {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(T a) throws X {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

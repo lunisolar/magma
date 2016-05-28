@@ -72,8 +72,8 @@ public class LFloatToShortFuncMemento implements LFloatToShortFunction {
 	}
 
 	@Override
-	public short doApplyAsShort(float a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(float a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

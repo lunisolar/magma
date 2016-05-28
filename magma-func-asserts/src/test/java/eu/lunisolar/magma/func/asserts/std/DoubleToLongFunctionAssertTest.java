@@ -45,11 +45,11 @@ public class DoubleToLongFunctionAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private DoubleToLongFunction function = a1 ->
+    private DoubleToLongFunction function = a ->
             testValue;
 
 
-    private DoubleToLongFunction functionThrowing = a1 -> {
+    private DoubleToLongFunction functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

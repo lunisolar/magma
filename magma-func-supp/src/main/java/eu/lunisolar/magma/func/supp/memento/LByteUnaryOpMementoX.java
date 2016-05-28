@@ -72,8 +72,8 @@ public class LByteUnaryOpMementoX<X extends Throwable> implements LByteUnaryOper
 	}
 
 	@Override
-	public byte doApplyAsByte(byte a1) throws X {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(byte a) throws X {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

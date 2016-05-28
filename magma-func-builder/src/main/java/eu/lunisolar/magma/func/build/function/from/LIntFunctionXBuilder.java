@@ -55,7 +55,7 @@ public final class LIntFunctionXBuilder<R, X extends Throwable> extends PerCaseB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntFunctionX EVENTUALLY_THROW = LIntFunctionX.lX(a1 -> {
+	public static final LIntFunctionX EVENTUALLY_THROW = LIntFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntFunctionXBuilder<R, X extends Throwable> extends PerCaseB
 		LIntFunctionX<R, X> retval;
 
 		final Case<LIntPredicateX<X>, LIntFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntFunctionX.<R, X> lX(a1 -> {
+		retval = LIntFunctionX.<R, X> lX(a -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApply(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1);
+				return eventuallyFinal.doApply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

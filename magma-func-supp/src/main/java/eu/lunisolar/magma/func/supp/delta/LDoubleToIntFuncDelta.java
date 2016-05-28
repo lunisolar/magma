@@ -89,8 +89,8 @@ public class LDoubleToIntFuncDelta extends LDoubleToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(double a1) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(double a) {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

@@ -45,11 +45,11 @@ public class ToIntFunctionAssertTest<T> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private ToIntFunction<Integer> function = a1 ->
+    private ToIntFunction<Integer> function = a ->
             testValue;
 
 
-    private ToIntFunction<Integer> functionThrowing = a1 -> {
+    private ToIntFunction<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

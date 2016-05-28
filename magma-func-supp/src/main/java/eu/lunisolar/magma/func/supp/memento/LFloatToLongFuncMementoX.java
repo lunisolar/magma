@@ -72,8 +72,8 @@ public class LFloatToLongFuncMementoX<X extends Throwable> implements LFloatToLo
 	}
 
 	@Override
-	public long doApplyAsLong(float a1) throws X {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(float a) throws X {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

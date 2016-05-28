@@ -89,8 +89,8 @@ public class LToByteFuncDelta<T> extends LToByteFuncMemento<T> {
 	}
 
 	@Override
-	public byte doApplyAsByte(T a1) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(T a) {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

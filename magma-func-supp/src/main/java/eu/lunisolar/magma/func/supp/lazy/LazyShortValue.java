@@ -72,7 +72,7 @@ public class LazyShortValue extends LShortSupMemento implements LShortSingle {
 		return lastValue;
 	}
 
-	public short first() {
+	public short value() {
 		return shovingDoGetAsShort();
 	}
 
@@ -84,7 +84,7 @@ public class LazyShortValue extends LShortSupMemento implements LShortSingle {
 
 			LazyShortValue other = (LazyShortValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyShortValue extends LShortSupMemento implements LShortSingle {
 
 	@Override
 	public int hashCode() {
-		return LShortSingle.argHashCode(first());
+		return LShortSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

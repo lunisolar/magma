@@ -89,8 +89,8 @@ public class LIntToShortFuncDeltaX<X extends Throwable> extends LIntToShortFuncM
 	}
 
 	@Override
-	public short doApplyAsShort(int a1) throws X {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(int a) throws X {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

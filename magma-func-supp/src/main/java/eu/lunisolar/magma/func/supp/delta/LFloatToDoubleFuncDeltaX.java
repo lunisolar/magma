@@ -89,8 +89,8 @@ public class LFloatToDoubleFuncDeltaX<X extends Throwable> extends LFloatToDoubl
 	}
 
 	@Override
-	public double doApplyAsDouble(float a1) throws X {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(float a) throws X {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

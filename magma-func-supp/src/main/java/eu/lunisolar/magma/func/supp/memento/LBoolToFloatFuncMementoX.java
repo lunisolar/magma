@@ -72,8 +72,8 @@ public class LBoolToFloatFuncMementoX<X extends Throwable> implements LBoolToFlo
 	}
 
 	@Override
-	public float doApplyAsFloat(boolean a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(boolean a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

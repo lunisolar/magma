@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharUnaryOperatorAssert<S extends LCharUnaryOperatorAssert<S, A, RS>, A extends LCharUnaryOperator, RS extends AbstractCharacterAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumer, A, RS, Character> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumer, A, RS, Character> doesApplyAsChar(char a1);
+	Evaluation<S, LCharConsumer, A, RS, Character> doesApplyAsChar(char a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LCharUnaryOperator, RS extends AbstractCharacterAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LCharUnaryOperatorAssert<S extends LCharUnaryOperatorAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumer, A, RS, Character> doesApplyAsChar(char a1) {
+		public Evaluation<S, LCharConsumer, A, RS, Character> doesApplyAsChar(char a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a1));
+				return assertFactory.doApply(actual.doApplyAsChar(a));
 			});
 
 		}

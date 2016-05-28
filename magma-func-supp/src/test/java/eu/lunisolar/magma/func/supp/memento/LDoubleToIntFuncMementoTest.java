@@ -43,7 +43,7 @@ public class LDoubleToIntFuncMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LDoubleToIntFuncMemento sut =  LDoubleToIntFuncMemento.mementoOf( a1 ->{
+    private LDoubleToIntFuncMemento sut =  LDoubleToIntFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

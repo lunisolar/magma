@@ -99,7 +99,7 @@ public class IntToDoubleFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             IntToDoubleFunction function = intToDoubleFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class IntToDoubleFunctionBuilderTest{
     public void testBuild()  {
 
         IntToDoubleFunction function = intToDoubleFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0)
-                             .evaluate(a1 -> 0d))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> 1d)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> 2d)
-            .eventually(a1 -> 99d)
+            .aCase(ce -> ce.of(a -> a == 0)
+                             .evaluate(a -> 0d))
+            .inCase(a -> a > 0 && a < 10).evaluate(a -> 1d)
+            .inCase(a -> a > 10 && a < 20).evaluate(a -> 2d)
+            .eventually(a -> 99d)
             .build()
         );
 

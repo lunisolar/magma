@@ -72,8 +72,8 @@ public class LBoolToLongFuncMemento implements LBoolToLongFunction {
 	}
 
 	@Override
-	public long doApplyAsLong(boolean a1) {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(boolean a) {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

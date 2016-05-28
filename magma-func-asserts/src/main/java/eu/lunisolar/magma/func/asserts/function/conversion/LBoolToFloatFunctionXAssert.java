@@ -57,7 +57,7 @@ public interface LBoolToFloatFunctionXAssert<S extends LBoolToFloatFunctionXAsse
 			FullFunctionalAssert<S, LBoolConsumerX<X>, A, RS, Float> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumerX<X>, A, RS, Float> doesApplyAsFloat(boolean a1);
+	Evaluation<S, LBoolConsumerX<X>, A, RS, Float> doesApplyAsFloat(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LBoolToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LBoolToFloatFunctionXAssert<S extends LBoolToFloatFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumerX<X>, A, RS, Float> doesApplyAsFloat(boolean a1) {
+		public Evaluation<S, LBoolConsumerX<X>, A, RS, Float> doesApplyAsFloat(boolean a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFloat(a1));
+				return assertFactory.doApply(actual.doApplyAsFloat(a));
 			});
 
 		}

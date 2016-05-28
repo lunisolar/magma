@@ -43,7 +43,7 @@ public class LDoubleToLongFuncMementoXTest <X extends Throwable> {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LDoubleToLongFuncMementoX<X> sut =  LDoubleToLongFuncMementoX.<X>mementoOf( a1 ->{
+    private LDoubleToLongFuncMementoX<X> sut =  LDoubleToLongFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

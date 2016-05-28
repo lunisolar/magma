@@ -72,8 +72,8 @@ public class LLongToShortFuncMemento implements LLongToShortFunction {
 	}
 
 	@Override
-	public short doApplyAsShort(long a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(long a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

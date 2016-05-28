@@ -72,8 +72,8 @@ public class LBoolToByteFuncMemento implements LBoolToByteFunction {
 	}
 
 	@Override
-	public byte doApplyAsByte(boolean a1) {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(boolean a) {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

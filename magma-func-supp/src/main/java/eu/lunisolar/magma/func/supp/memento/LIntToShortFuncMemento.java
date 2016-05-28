@@ -72,8 +72,8 @@ public class LIntToShortFuncMemento implements LIntToShortFunction {
 	}
 
 	@Override
-	public short doApplyAsShort(int a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(int a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

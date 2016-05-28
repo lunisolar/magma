@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: operator
  *
- * Domain (lvl: 1): long a1
+ * Domain (lvl: 1): long a
  *
  * Co-domain: long
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOperator, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LLongUnaryOperatorX: long doApplyAsLong(long a1) throws X";
+	String DESCRIPTION = "LLongUnaryOperatorX: long doApplyAsLong(long a) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,20 +72,20 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 	 */
 	@Override
 	@Deprecated
-	default long applyAsLong(long a1) {
-		return this.nestingDoApplyAsLong(a1);
+	default long applyAsLong(long a) {
+		return this.nestingDoApplyAsLong(a);
 	}
 
-	long doApplyAsLong(long a1) throws X;
+	long doApplyAsLong(long a) throws X;
 
 	default long tupleApplyAsLong(LLongSingle args) throws X {
-		return doApplyAsLong(args.first());
+		return doApplyAsLong(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default long nestingDoApplyAsLong(long a1) {
+	default long nestingDoApplyAsLong(long a) {
 		try {
-			return this.doApplyAsLong(a1);
+			return this.doApplyAsLong(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -94,23 +94,23 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(long a1) {
-		return ((LLongUnaryOperatorX<RuntimeException>) this).doApplyAsLong(a1);
+	default long shovingDoApplyAsLong(long a) {
+		return ((LLongUnaryOperatorX<RuntimeException>) this).doApplyAsLong(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> long handlingDoApplyAsLong(long a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> long handlingDoApplyAsLong(long a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsLong(a1);
+			return this.doApplyAsLong(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(long a1) throws X {
-		return doApplyAsLong(a1);
+	default long nonNullDoApplyAsLong(long a) throws X {
+		return doApplyAsLong(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -120,13 +120,13 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> captureLongUnaryOp(long a1) {
-		return () -> this.doApplyAsLong(a1);
+	default LLongSupplierX<X> captureLongUnaryOp(long a) {
+		return () -> this.doApplyAsLong(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLongUnaryOperatorX<X> constant(long r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -143,24 +143,24 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 		return lambda;
 	}
 
-	static <X extends Throwable> long call(long a1, final @Nonnull LLongUnaryOperatorX<X> lambda) throws X {
+	static <X extends Throwable> long call(long a, final @Nonnull LLongUnaryOperatorX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsLong(a1);
+		return lambda.doApplyAsLong(a);
 	}
 
-	static <X extends Throwable> long shoving(long a1, final @Nonnull LLongUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> long shoving(long a, final @Nonnull LLongUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoApplyAsLong(a1);
+		return lambda.shovingDoApplyAsLong(a);
 	}
 
-	static <X extends Throwable> long nesting(long a1, final @Nonnull LLongUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> long nesting(long a, final @Nonnull LLongUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoApplyAsLong(a1);
+		return lambda.nestingDoApplyAsLong(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> long handling(long a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongUnaryOperatorX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> long handling(long a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongUnaryOperatorX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoApplyAsLong(a1, handling);
+		return lambda.handlingDoApplyAsLong(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -219,16 +219,16 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongUnaryOperatorX<X> longUnaryOpComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
+	default LLongUnaryOperatorX<X> longUnaryOpComposeLong(@Nonnull final LLongUnaryOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsLong(before.doApplyAsLong(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> longUnaryOpCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
+	default <V> LToLongFunctionX<V, X> longUnaryOpCompose(@Nonnull final LToLongFunctionX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsLong(before.doApplyAsLong(v));
 	}
 
 	// </editor-fold>
@@ -239,63 +239,63 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 	@Nonnull
 	default <V> LLongFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsLong(a1));
+		return a -> after.doApply(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> thenToBool(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsLong(a1));
+		return a -> after.doTest(this.doApplyAsLong(a));
 	}
 
 	// </editor-fold>
@@ -337,13 +337,13 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends LongUnaryOpera
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongUnaryOperator handleLongUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoApplyAsLong(a1, handling);
+		return a -> this.handlingDoApplyAsLong(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongUnaryOperatorX<Y> handleLongUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoApplyAsLong(a1, handling);
+		return a -> this.handlingDoApplyAsLong(a, handling);
 	}
 
 	// </editor-fold>

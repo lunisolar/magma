@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface UnaryOperatorAssert<S extends UnaryOperatorAssert<S, A, RS, T>, A extends UnaryOperator<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, LConsumer<T>, A, RS, T> {
 
 	@Nonnull
-	Evaluation<S, LConsumer<T>, A, RS, T> doesApply(T a1);
+	Evaluation<S, LConsumer<T>, A, RS, T> doesApply(T a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends UnaryOperator<T>, RS extends Assert<RS, T>, T> extends Base<The<A, RS, T>, A, RS, T> {
@@ -73,13 +73,13 @@ public interface UnaryOperatorAssert<S extends UnaryOperatorAssert<S, A, RS, T>,
 		}
 
 		@Nonnull
-		public Evaluation<S, LConsumer<T>, A, RS, T> doesApply(T a1) {
+		public Evaluation<S, LConsumer<T>, A, RS, T> doesApply(T a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.apply(a1));
+				return assertFactory.doApply(actual.apply(a));
 			});
 
 		}

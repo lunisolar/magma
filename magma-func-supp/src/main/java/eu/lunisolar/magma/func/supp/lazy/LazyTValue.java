@@ -72,7 +72,7 @@ public class LazyTValue<T> extends LSupMemento<T> implements LSingle<T> {
 		return lastValue;
 	}
 
-	public T first() {
+	public T value() {
 		return shovingDoGet();
 	}
 
@@ -84,7 +84,7 @@ public class LazyTValue<T> extends LSupMemento<T> implements LSingle<T> {
 
 			LazyTValue other = (LazyTValue) two;
 
-			return Null.equals(one.first(), other.first()); //
+			return Null.equals(one.value(), other.value()); //
 			});
 	}
 
@@ -94,7 +94,7 @@ public class LazyTValue<T> extends LSupMemento<T> implements LSingle<T> {
 
 	@Override
 	public int hashCode() {
-		return LSingle.argHashCode(first());
+		return LSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

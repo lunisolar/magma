@@ -89,8 +89,8 @@ public class LByteToIntFuncDeltaX<X extends Throwable> extends LByteToIntFuncMem
 	}
 
 	@Override
-	public int doApplyAsInt(byte a1) throws X {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(byte a) throws X {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

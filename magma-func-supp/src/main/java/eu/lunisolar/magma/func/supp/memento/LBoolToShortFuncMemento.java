@@ -72,8 +72,8 @@ public class LBoolToShortFuncMemento implements LBoolToShortFunction {
 	}
 
 	@Override
-	public short doApplyAsShort(boolean a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(boolean a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

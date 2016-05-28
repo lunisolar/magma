@@ -43,7 +43,7 @@ public class LIntToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LIntToLongFuncMemento sut =  LIntToLongFuncMemento.mementoOf( a1 ->{
+    private LIntToLongFuncMemento sut =  LIntToLongFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

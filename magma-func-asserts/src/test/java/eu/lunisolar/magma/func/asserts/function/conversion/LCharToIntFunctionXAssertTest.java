@@ -46,11 +46,11 @@ public class LCharToIntFunctionXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharToIntFunctionX<X> function = a1 ->
+    private LCharToIntFunctionX<X> function = a ->
             testValue;
 
 
-    private LCharToIntFunctionX<X> functionThrowing = a1 -> {
+    private LCharToIntFunctionX<X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

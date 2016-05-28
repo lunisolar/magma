@@ -72,7 +72,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LConsumer)*/
-	public static <T> void doNothing(T a1) {
+	public static <T> void doNothing(T a) {
 		// NOSONAR
 	}
 
@@ -82,42 +82,42 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LBoolConsumer)*/
-	public static void doNothing(boolean a1) {
+	public static void doNothing(boolean a) {
 		// NOSONAR
 	}
 
 	/** Does nothing (LByteConsumer)*/
-	public static void doNothing(byte a1) {
+	public static void doNothing(byte a) {
 		// NOSONAR
 	}
 
 	/** Does nothing (LCharConsumer)*/
-	public static void doNothing(char a1) {
+	public static void doNothing(char a) {
 		// NOSONAR
 	}
 
 	/** Does nothing (LDoubleConsumer)*/
-	public static void doNothing(double a1) {
+	public static void doNothing(double a) {
 		// NOSONAR
 	}
 
 	/** Does nothing (LFloatConsumer)*/
-	public static void doNothing(float a1) {
+	public static void doNothing(float a) {
 		// NOSONAR
 	}
 
 	/** Does nothing (LIntConsumer)*/
-	public static void doNothing(int a1) {
+	public static void doNothing(int a) {
 		// NOSONAR
 	}
 
 	/** Does nothing (LLongConsumer)*/
-	public static void doNothing(long a1) {
+	public static void doNothing(long a) {
 		// NOSONAR
 	}
 
 	/** Does nothing (LShortConsumer)*/
-	public static void doNothing(short a1) {
+	public static void doNothing(short a) {
 		// NOSONAR
 	}
 
@@ -417,7 +417,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LFunction)   Function*/
-	public static <T, R> R produce(T a1) {
+	public static <T, R> R produce(T a) {
 		return (R) defaultObject;
 	}
 
@@ -427,247 +427,247 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LBoolToByteFunction)   Function*/
-	public static byte produceByte(boolean a1) {
+	public static byte produceByte(boolean a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LBoolToCharFunction)   Function*/
-	public static char produceChar(boolean a1) {
+	public static char produceChar(boolean a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LBoolToDoubleFunction)   Function*/
-	public static double produceDouble(boolean a1) {
+	public static double produceDouble(boolean a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LBoolToFloatFunction)   Function*/
-	public static float produceFloat(boolean a1) {
+	public static float produceFloat(boolean a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LBoolToIntFunction)   Function*/
-	public static int produceInt(boolean a1) {
+	public static int produceInt(boolean a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LBoolToLongFunction)   Function*/
-	public static long produceLong(boolean a1) {
+	public static long produceLong(boolean a) {
 		return defaultLong;
 	}
 
 	/** Does nothing (LBoolToShortFunction)   Function*/
-	public static short produceShort(boolean a1) {
+	public static short produceShort(boolean a) {
 		return defaultShort;
 	}
 
 	/** Does nothing (LByteToCharFunction)   Function*/
-	public static char produceChar(byte a1) {
+	public static char produceChar(byte a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LByteToDoubleFunction)   Function*/
-	public static double produceDouble(byte a1) {
+	public static double produceDouble(byte a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LByteToFloatFunction)   Function*/
-	public static float produceFloat(byte a1) {
+	public static float produceFloat(byte a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LByteToIntFunction)   Function*/
-	public static int produceInt(byte a1) {
+	public static int produceInt(byte a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LByteToLongFunction)   Function*/
-	public static long produceLong(byte a1) {
+	public static long produceLong(byte a) {
 		return defaultLong;
 	}
 
 	/** Does nothing (LByteToShortFunction)   Function*/
-	public static short produceShort(byte a1) {
+	public static short produceShort(byte a) {
 		return defaultShort;
 	}
 
 	/** Does nothing (LCharToByteFunction)   Function*/
-	public static byte produceByte(char a1) {
+	public static byte produceByte(char a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LCharToDoubleFunction)   Function*/
-	public static double produceDouble(char a1) {
+	public static double produceDouble(char a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LCharToFloatFunction)   Function*/
-	public static float produceFloat(char a1) {
+	public static float produceFloat(char a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LCharToIntFunction)   Function*/
-	public static int produceInt(char a1) {
+	public static int produceInt(char a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LCharToLongFunction)   Function*/
-	public static long produceLong(char a1) {
+	public static long produceLong(char a) {
 		return defaultLong;
 	}
 
 	/** Does nothing (LCharToShortFunction)   Function*/
-	public static short produceShort(char a1) {
+	public static short produceShort(char a) {
 		return defaultShort;
 	}
 
 	/** Does nothing (LDoubleToByteFunction)   Function*/
-	public static byte produceByte(double a1) {
+	public static byte produceByte(double a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LDoubleToCharFunction)   Function*/
-	public static char produceChar(double a1) {
+	public static char produceChar(double a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LDoubleToFloatFunction)   Function*/
-	public static float produceFloat(double a1) {
+	public static float produceFloat(double a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LDoubleToIntFunction)   Function*/
-	public static int produceInt(double a1) {
+	public static int produceInt(double a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LDoubleToLongFunction)   Function*/
-	public static long produceLong(double a1) {
+	public static long produceLong(double a) {
 		return defaultLong;
 	}
 
 	/** Does nothing (LDoubleToShortFunction)   Function*/
-	public static short produceShort(double a1) {
+	public static short produceShort(double a) {
 		return defaultShort;
 	}
 
 	/** Does nothing (LFloatToByteFunction)   Function*/
-	public static byte produceByte(float a1) {
+	public static byte produceByte(float a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LFloatToCharFunction)   Function*/
-	public static char produceChar(float a1) {
+	public static char produceChar(float a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LFloatToDoubleFunction)   Function*/
-	public static double produceDouble(float a1) {
+	public static double produceDouble(float a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LFloatToIntFunction)   Function*/
-	public static int produceInt(float a1) {
+	public static int produceInt(float a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LFloatToLongFunction)   Function*/
-	public static long produceLong(float a1) {
+	public static long produceLong(float a) {
 		return defaultLong;
 	}
 
 	/** Does nothing (LFloatToShortFunction)   Function*/
-	public static short produceShort(float a1) {
+	public static short produceShort(float a) {
 		return defaultShort;
 	}
 
 	/** Does nothing (LIntToByteFunction)   Function*/
-	public static byte produceByte(int a1) {
+	public static byte produceByte(int a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LIntToCharFunction)   Function*/
-	public static char produceChar(int a1) {
+	public static char produceChar(int a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LIntToDoubleFunction)   Function*/
-	public static double produceDouble(int a1) {
+	public static double produceDouble(int a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LIntToFloatFunction)   Function*/
-	public static float produceFloat(int a1) {
+	public static float produceFloat(int a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LIntToLongFunction)   Function*/
-	public static long produceLong(int a1) {
+	public static long produceLong(int a) {
 		return defaultLong;
 	}
 
 	/** Does nothing (LIntToShortFunction)   Function*/
-	public static short produceShort(int a1) {
+	public static short produceShort(int a) {
 		return defaultShort;
 	}
 
 	/** Does nothing (LLongToByteFunction)   Function*/
-	public static byte produceByte(long a1) {
+	public static byte produceByte(long a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LLongToCharFunction)   Function*/
-	public static char produceChar(long a1) {
+	public static char produceChar(long a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LLongToDoubleFunction)   Function*/
-	public static double produceDouble(long a1) {
+	public static double produceDouble(long a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LLongToFloatFunction)   Function*/
-	public static float produceFloat(long a1) {
+	public static float produceFloat(long a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LLongToIntFunction)   Function*/
-	public static int produceInt(long a1) {
+	public static int produceInt(long a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LLongToShortFunction)   Function*/
-	public static short produceShort(long a1) {
+	public static short produceShort(long a) {
 		return defaultShort;
 	}
 
 	/** Does nothing (LShortToByteFunction)   Function*/
-	public static byte produceByte(short a1) {
+	public static byte produceByte(short a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LShortToCharFunction)   Function*/
-	public static char produceChar(short a1) {
+	public static char produceChar(short a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LShortToDoubleFunction)   Function*/
-	public static double produceDouble(short a1) {
+	public static double produceDouble(short a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LShortToFloatFunction)   Function*/
-	public static float produceFloat(short a1) {
+	public static float produceFloat(short a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LShortToIntFunction)   Function*/
-	public static int produceInt(short a1) {
+	public static int produceInt(short a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LShortToLongFunction)   Function*/
-	public static long produceLong(short a1) {
+	public static long produceLong(short a) {
 		return defaultLong;
 	}
 
@@ -832,37 +832,37 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LBoolFunction)   Function*/
-	public static <R> R produce(boolean a1) {
+	public static <R> R produce(boolean a) {
 		return (R) defaultObject;
 	}
 
 	/** Does nothing (LByteFunction)   Function*/
-	public static <R> R produce(byte a1) {
+	public static <R> R produce(byte a) {
 		return (R) defaultObject;
 	}
 
 	/** Does nothing (LCharFunction)   Function*/
-	public static <R> R produce(char a1) {
+	public static <R> R produce(char a) {
 		return (R) defaultObject;
 	}
 
 	/** Does nothing (LDoubleFunction)   Function*/
-	public static <R> R produce(double a1) {
+	public static <R> R produce(double a) {
 		return (R) defaultObject;
 	}
 
 	/** Does nothing (LFloatFunction)   Function*/
-	public static <R> R produce(float a1) {
+	public static <R> R produce(float a) {
 		return (R) defaultObject;
 	}
 
 	/** Does nothing (LIntFunction)   Function*/
-	public static <R> R produce(int a1) {
+	public static <R> R produce(int a) {
 		return (R) defaultObject;
 	}
 
 	/** Does nothing (LLongFunction)   Function*/
-	public static <R> R produce(long a1) {
+	public static <R> R produce(long a) {
 		return (R) defaultObject;
 	}
 
@@ -947,7 +947,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LShortFunction)   Function*/
-	public static <R> R produce(short a1) {
+	public static <R> R produce(short a) {
 		return (R) defaultObject;
 	}
 
@@ -972,7 +972,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LToByteFunction)   Function*/
-	public static <T> byte produceByte(T a1) {
+	public static <T> byte produceByte(T a) {
 		return defaultByte;
 	}
 
@@ -982,7 +982,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LToCharFunction)   Function*/
-	public static <T> char produceChar(T a1) {
+	public static <T> char produceChar(T a) {
 		return defaultCharacter;
 	}
 
@@ -992,7 +992,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LToDoubleFunction)   Function*/
-	public static <T> double produceDouble(T a1) {
+	public static <T> double produceDouble(T a) {
 		return defaultDouble;
 	}
 
@@ -1002,7 +1002,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LToFloatFunction)   Function*/
-	public static <T> float produceFloat(T a1) {
+	public static <T> float produceFloat(T a) {
 		return defaultFloat;
 	}
 
@@ -1012,7 +1012,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LToIntFunction)   Function*/
-	public static <T> int produceInt(T a1) {
+	public static <T> int produceInt(T a) {
 		return defaultInteger;
 	}
 
@@ -1022,7 +1022,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LToLongFunction)   Function*/
-	public static <T> long produceLong(T a1) {
+	public static <T> long produceLong(T a) {
 		return defaultLong;
 	}
 
@@ -1032,7 +1032,7 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LToShortFunction)   Function*/
-	public static <T> short produceShort(T a1) {
+	public static <T> short produceShort(T a) {
 		return defaultShort;
 	}
 
@@ -1082,42 +1082,42 @@ public final class Function4U {
 	}
 
 	/** Does nothing (LByteUnaryOperator)   Operator*/
-	public static byte produceByte(byte a1) {
+	public static byte produceByte(byte a) {
 		return defaultByte;
 	}
 
 	/** Does nothing (LCharUnaryOperator)   Operator*/
-	public static char produceChar(char a1) {
+	public static char produceChar(char a) {
 		return defaultCharacter;
 	}
 
 	/** Does nothing (LDoubleUnaryOperator)   Operator*/
-	public static double produceDouble(double a1) {
+	public static double produceDouble(double a) {
 		return defaultDouble;
 	}
 
 	/** Does nothing (LFloatUnaryOperator)   Operator*/
-	public static float produceFloat(float a1) {
+	public static float produceFloat(float a) {
 		return defaultFloat;
 	}
 
 	/** Does nothing (LIntUnaryOperator)   Operator*/
-	public static int produceInt(int a1) {
+	public static int produceInt(int a) {
 		return defaultInteger;
 	}
 
 	/** Does nothing (LLogicalOperator)   Operator*/
-	public static boolean produceBoolean(boolean a1) {
+	public static boolean produceBoolean(boolean a) {
 		return defaultBoolean;
 	}
 
 	/** Does nothing (LLongUnaryOperator)   Operator*/
-	public static long produceLong(long a1) {
+	public static long produceLong(long a) {
 		return defaultLong;
 	}
 
 	/** Does nothing (LShortUnaryOperator)   Operator*/
-	public static short produceShort(short a1) {
+	public static short produceShort(short a) {
 		return defaultShort;
 	}
 
@@ -1318,72 +1318,72 @@ public final class Function4U {
 	// >>> LBytePredicate
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(byte a1) {
+	public static boolean alwaysTrue(byte a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(byte a1) {
+	public static boolean alwaysFalse(byte a) {
 		return false;
 	}
 
 	// >>> LCharPredicate
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(char a1) {
+	public static boolean alwaysTrue(char a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(char a1) {
+	public static boolean alwaysFalse(char a) {
 		return false;
 	}
 
 	// >>> LDoublePredicate
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(double a1) {
+	public static boolean alwaysTrue(double a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(double a1) {
+	public static boolean alwaysFalse(double a) {
 		return false;
 	}
 
 	// >>> LFloatPredicate
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(float a1) {
+	public static boolean alwaysTrue(float a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(float a1) {
+	public static boolean alwaysFalse(float a) {
 		return false;
 	}
 
 	// >>> LIntPredicate
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(int a1) {
+	public static boolean alwaysTrue(int a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(int a1) {
+	public static boolean alwaysFalse(int a) {
 		return false;
 	}
 
 	// >>> LLongPredicate
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(long a1) {
+	public static boolean alwaysTrue(long a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(long a1) {
+	public static boolean alwaysFalse(long a) {
 		return false;
 	}
 
@@ -1486,24 +1486,24 @@ public final class Function4U {
 	// >>> LPredicate<T>
 
 	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T a1) {
+	public static <T> boolean alwaysTrue(T a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T a1) {
+	public static <T> boolean alwaysFalse(T a) {
 		return false;
 	}
 
 	// >>> LShortPredicate
 
 	/** Returns TRUE. */
-	public static boolean alwaysTrue(short a1) {
+	public static boolean alwaysTrue(short a) {
 		return true;
 	}
 
 	/** Returns FALSE. */
-	public static boolean alwaysFalse(short a1) {
+	public static boolean alwaysFalse(short a) {
 		return false;
 	}
 

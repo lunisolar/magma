@@ -89,8 +89,8 @@ public class LFloatToCharFuncDelta extends LFloatToCharFuncMemento {
 	}
 
 	@Override
-	public char doApplyAsChar(float a1) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(float a) {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

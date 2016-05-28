@@ -72,8 +72,8 @@ public class LCharToIntFuncMementoX<X extends Throwable> implements LCharToIntFu
 	}
 
 	@Override
-	public int doApplyAsInt(char a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(char a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

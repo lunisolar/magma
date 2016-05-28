@@ -55,7 +55,7 @@ public final class LByteToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteToLongFunction EVENTUALLY_THROW = LByteToLongFunction.l(a1 -> {
+	public static final LByteToLongFunction EVENTUALLY_THROW = LByteToLongFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LByteToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 		LByteToLongFunction retval;
 
 		final Case<LBytePredicate, LByteToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToLongFunction.l(a1 -> {
+		retval = LByteToLongFunction.l(a -> {
 			try {
 				for (Case<LBytePredicate, LByteToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsLong(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsLong(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(a1);
+				return eventuallyFinal.doApplyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

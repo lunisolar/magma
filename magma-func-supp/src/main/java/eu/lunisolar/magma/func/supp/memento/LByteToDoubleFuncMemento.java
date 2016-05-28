@@ -72,8 +72,8 @@ public class LByteToDoubleFuncMemento implements LByteToDoubleFunction {
 	}
 
 	@Override
-	public double doApplyAsDouble(byte a1) {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(byte a) {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

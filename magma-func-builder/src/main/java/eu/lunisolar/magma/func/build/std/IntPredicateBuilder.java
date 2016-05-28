@@ -55,7 +55,7 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final IntPredicate EVENTUALLY_THROW = Function4U.intPredicate(a1 -> {
+	public static final IntPredicate EVENTUALLY_THROW = Function4U.intPredicate(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Bas
 		IntPredicate retval;
 
 		final Case<LIntPredicate, IntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intPredicate(a1 -> {
+		retval = Function4U.intPredicate(a -> {
 			try {
 				for (Case<LIntPredicate, IntPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().test(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().test(a);
 					}
 				}
 
-				return eventuallyFinal.test(a1);
+				return eventuallyFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

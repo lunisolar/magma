@@ -44,7 +44,7 @@ public class LBoolToLongFuncDeltaTest  {
 
     private final long initialLastValue = 0L;
 
-    private LBoolToLongFuncDelta sut =  LBoolToLongFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LBoolToLongFuncDelta sut =  LBoolToLongFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

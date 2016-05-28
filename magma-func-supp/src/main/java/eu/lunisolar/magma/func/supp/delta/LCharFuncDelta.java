@@ -77,8 +77,8 @@ public class LCharFuncDelta<R> extends LCharFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(char a1) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(char a) {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

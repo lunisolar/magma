@@ -99,7 +99,7 @@ public class LFloatToCharFunctionXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LFloatToCharFunctionX<X> function = floatToCharFunctionXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LFloatToCharFunctionXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LFloatToCharFunctionX<X> function = floatToCharFunctionXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0f)
-                             .evaluate(a1 -> '\u0000'))
-            .inCase(a1 -> a1 > 0f && a1 < 10f).evaluate(a1 -> '\u0001')
-            .inCase(a1 -> a1 > 10f && a1 < 20f).evaluate(a1 -> '\u0002')
-            .eventually(a1 -> '\u0099')
+            .aCase(ce -> ce.of(a -> a == 0f)
+                             .evaluate(a -> '\u0000'))
+            .inCase(a -> a > 0f && a < 10f).evaluate(a -> '\u0001')
+            .inCase(a -> a > 10f && a < 20f).evaluate(a -> '\u0002')
+            .eventually(a -> '\u0099')
             .build()
         );
 

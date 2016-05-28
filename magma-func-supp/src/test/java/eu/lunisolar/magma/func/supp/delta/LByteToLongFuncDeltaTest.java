@@ -44,7 +44,7 @@ public class LByteToLongFuncDeltaTest  {
 
     private final long initialLastValue = 0L;
 
-    private LByteToLongFuncDelta sut =  LByteToLongFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LByteToLongFuncDelta sut =  LByteToLongFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

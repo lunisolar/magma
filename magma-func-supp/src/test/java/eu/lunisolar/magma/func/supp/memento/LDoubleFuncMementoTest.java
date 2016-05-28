@@ -43,7 +43,7 @@ public class LDoubleFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LDoubleFuncMemento<Integer> sut =  LDoubleFuncMemento.<Integer>mementoOf( a1 ->{
+    private LDoubleFuncMemento<Integer> sut =  LDoubleFuncMemento.<Integer>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

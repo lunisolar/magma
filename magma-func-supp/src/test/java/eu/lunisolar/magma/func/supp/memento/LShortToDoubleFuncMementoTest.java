@@ -43,7 +43,7 @@ public class LShortToDoubleFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LShortToDoubleFuncMemento sut =  LShortToDoubleFuncMemento.mementoOf( a1 ->{
+    private LShortToDoubleFuncMemento sut =  LShortToDoubleFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

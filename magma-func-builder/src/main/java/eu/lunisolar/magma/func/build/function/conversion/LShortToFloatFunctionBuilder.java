@@ -55,7 +55,7 @@ public final class LShortToFloatFunctionBuilder extends PerCaseBuilderWithFloatP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToFloatFunction EVENTUALLY_THROW = LShortToFloatFunction.l(a1 -> {
+	public static final LShortToFloatFunction EVENTUALLY_THROW = LShortToFloatFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LShortToFloatFunctionBuilder extends PerCaseBuilderWithFloatP
 		LShortToFloatFunction retval;
 
 		final Case<LShortPredicate, LShortToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToFloatFunction.l(a1 -> {
+		retval = LShortToFloatFunction.l(a -> {
 			try {
 				for (Case<LShortPredicate, LShortToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsFloat(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsFloat(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(a1);
+				return eventuallyFinal.doApplyAsFloat(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -89,8 +89,8 @@ public class LCharToFloatFuncDelta extends LCharToFloatFuncMemento {
 	}
 
 	@Override
-	public float doApplyAsFloat(char a1) {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(char a) {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

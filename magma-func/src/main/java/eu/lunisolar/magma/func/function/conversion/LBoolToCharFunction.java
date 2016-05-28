@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): boolean a1
+ * Domain (lvl: 1): boolean a
  *
  * Co-domain: char
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LBoolToCharFunction: char doApplyAsChar(boolean a1)";
+	String DESCRIPTION = "LBoolToCharFunction: char doApplyAsChar(boolean a)";
 
-	char doApplyAsChar(boolean a1);
+	char doApplyAsChar(boolean a);
 
 	default char tupleApplyAsChar(LBoolSingle args) {
-		return doApplyAsChar(args.first());
+		return doApplyAsChar(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoApplyAsChar(boolean a1) {
-		return this.doApplyAsChar(a1);
+	default char nestingDoApplyAsChar(boolean a) {
+		return this.doApplyAsChar(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(boolean a1) {
-		return this.doApplyAsChar(a1);
+	default char shovingDoApplyAsChar(boolean a) {
+		return this.doApplyAsChar(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(boolean a1) {
-		return doApplyAsChar(a1);
+	default char nonNullDoApplyAsChar(boolean a) {
+		return doApplyAsChar(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureBoolToCharFunc(boolean a1) {
-		return () -> this.doApplyAsChar(a1);
+	default LCharSupplier captureBoolToCharFunc(boolean a) {
+		return () -> this.doApplyAsChar(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LBoolToCharFunction constant(char r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
-	static char call(boolean a1, final @Nonnull LBoolToCharFunction lambda) {
+	static char call(boolean a, final @Nonnull LBoolToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsChar(a1);
+		return lambda.doApplyAsChar(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBoolToCharFunction boolToCharFuncComposeBool(@Nonnull final LLogicalOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApply(v1));
+	default LBoolToCharFunction boolToCharFuncComposeBool(@Nonnull final LLogicalOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsChar(before.doApply(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToCharFunction<V1> boolToCharFuncCompose(@Nonnull final LPredicate<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doTest(v1));
+	default <V> LToCharFunction<V> boolToCharFuncCompose(@Nonnull final LPredicate<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsChar(before.doTest(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V> LBoolFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsChar(a1));
+		return a -> after.doApply(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToByteFunction thenToByte(@Nonnull LCharToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToShortFunction thenToShort(@Nonnull LCharToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToIntFunction thenToInt(@Nonnull LCharToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToLongFunction thenToLong(@Nonnull LCharToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToFloatFunction thenToFloat(@Nonnull LCharToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToDoubleFunction thenToDouble(@Nonnull LCharToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToCharFunction thenToChar(@Nonnull LCharUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLogicalOperator thenToBool(@Nonnull LCharPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsChar(a1));
+		return a -> after.doTest(this.doApplyAsChar(a));
 	}
 
 	// </editor-fold>

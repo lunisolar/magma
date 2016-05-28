@@ -99,7 +99,7 @@ public class LShortToByteFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LShortToByteFunction function = shortToByteFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LShortToByteFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LShortToByteFunction function = shortToByteFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == (short)0)
-                             .evaluate(a1 -> (byte)0))
-            .inCase(a1 -> a1 > (short)0 && a1 < (short)10).evaluate(a1 -> (byte)1)
-            .inCase(a1 -> a1 > (short)10 && a1 < (short)20).evaluate(a1 -> (byte)2)
-            .eventually(a1 -> (byte)99)
+            .aCase(ce -> ce.of(a -> a == (short)0)
+                             .evaluate(a -> (byte)0))
+            .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> (byte)1)
+            .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> (byte)2)
+            .eventually(a -> (byte)99)
             .build()
         );
 

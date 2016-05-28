@@ -89,8 +89,8 @@ public class LFloatUnaryOpDeltaX<X extends Throwable> extends LFloatUnaryOpMemen
 	}
 
 	@Override
-	public float doApplyAsFloat(float a1) throws X {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(float a) throws X {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

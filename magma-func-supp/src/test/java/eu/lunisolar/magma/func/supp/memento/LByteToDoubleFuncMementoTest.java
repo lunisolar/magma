@@ -43,7 +43,7 @@ public class LByteToDoubleFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LByteToDoubleFuncMemento sut =  LByteToDoubleFuncMemento.mementoOf( a1 ->{
+    private LByteToDoubleFuncMemento sut =  LByteToDoubleFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

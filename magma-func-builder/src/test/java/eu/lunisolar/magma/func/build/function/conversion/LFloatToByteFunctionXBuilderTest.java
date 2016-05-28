@@ -99,7 +99,7 @@ public class LFloatToByteFunctionXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LFloatToByteFunctionX<X> function = floatToByteFunctionXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LFloatToByteFunctionXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LFloatToByteFunctionX<X> function = floatToByteFunctionXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0f)
-                             .evaluate(a1 -> (byte)0))
-            .inCase(a1 -> a1 > 0f && a1 < 10f).evaluate(a1 -> (byte)1)
-            .inCase(a1 -> a1 > 10f && a1 < 20f).evaluate(a1 -> (byte)2)
-            .eventually(a1 -> (byte)99)
+            .aCase(ce -> ce.of(a -> a == 0f)
+                             .evaluate(a -> (byte)0))
+            .inCase(a -> a > 0f && a < 10f).evaluate(a -> (byte)1)
+            .inCase(a -> a > 10f && a < 20f).evaluate(a -> (byte)2)
+            .eventually(a -> (byte)99)
             .build()
         );
 

@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: operator
  *
- * Domain (lvl: 1): char a1
+ * Domain (lvl: 1): char a
  *
  * Co-domain: char
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LCharUnaryOperator: char doApplyAsChar(char a1)";
+	String DESCRIPTION = "LCharUnaryOperator: char doApplyAsChar(char a)";
 
-	char doApplyAsChar(char a1);
+	char doApplyAsChar(char a);
 
 	default char tupleApplyAsChar(LCharSingle args) {
-		return doApplyAsChar(args.first());
+		return doApplyAsChar(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoApplyAsChar(char a1) {
-		return this.doApplyAsChar(a1);
+	default char nestingDoApplyAsChar(char a) {
+		return this.doApplyAsChar(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(char a1) {
-		return this.doApplyAsChar(a1);
+	default char shovingDoApplyAsChar(char a) {
+		return this.doApplyAsChar(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(char a1) {
-		return doApplyAsChar(a1);
+	default char nonNullDoApplyAsChar(char a) {
+		return doApplyAsChar(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureCharUnaryOp(char a1) {
-		return () -> this.doApplyAsChar(a1);
+	default LCharSupplier captureCharUnaryOp(char a) {
+		return () -> this.doApplyAsChar(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LCharUnaryOperator constant(char r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 		return lambda;
 	}
 
-	static char call(char a1, final @Nonnull LCharUnaryOperator lambda) {
+	static char call(char a, final @Nonnull LCharUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsChar(a1);
+		return lambda.doApplyAsChar(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharUnaryOperator charUnaryOpComposeChar(@Nonnull final LCharUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
+	default LCharUnaryOperator charUnaryOpComposeChar(@Nonnull final LCharUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsChar(before.doApplyAsChar(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToCharFunction<V1> charUnaryOpCompose(@Nonnull final LToCharFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
+	default <V> LToCharFunction<V> charUnaryOpCompose(@Nonnull final LToCharFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsChar(before.doApplyAsChar(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsChar(a1));
+		return a -> after.doApply(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LCharToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LCharToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LCharToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LCharToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LCharToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LCharToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LCharUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBool(@Nonnull LCharPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsChar(a1));
+		return a -> after.doTest(this.doApplyAsChar(a));
 	}
 
 	// </editor-fold>

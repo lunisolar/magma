@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolConsumerXAssert<S extends LBoolConsumerXAssert<S, A, X>, A extends LBoolConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LBoolConsumerX<X>, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LBoolConsumerX<X>, A> doesAccept(boolean a1);
+	SemiEvaluation<S, LBoolConsumerX<X>, A> doesAccept(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LBoolConsumerX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
@@ -72,13 +72,13 @@ public interface LBoolConsumerXAssert<S extends LBoolConsumerXAssert<S, A, X>, A
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LBoolConsumerX<X>, A> doesAccept(boolean a1) {
+		public SemiEvaluation<S, LBoolConsumerX<X>, A> doesAccept(boolean a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				actual.doAccept(a1);
+				actual.doAccept(a);
 				return null;
 			});
 

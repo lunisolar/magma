@@ -89,8 +89,8 @@ public class LLongUnaryOpDelta extends LLongUnaryOpMemento {
 	}
 
 	@Override
-	public long doApplyAsLong(long a1) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(long a) {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

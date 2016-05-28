@@ -72,8 +72,8 @@ public class LIntToDoubleFuncMementoX<X extends Throwable> implements LIntToDoub
 	}
 
 	@Override
-	public double doApplyAsDouble(int a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(int a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

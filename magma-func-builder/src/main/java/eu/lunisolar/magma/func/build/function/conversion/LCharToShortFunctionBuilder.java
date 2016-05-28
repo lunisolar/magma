@@ -55,7 +55,7 @@ public final class LCharToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToShortFunction EVENTUALLY_THROW = LCharToShortFunction.l(a1 -> {
+	public static final LCharToShortFunction EVENTUALLY_THROW = LCharToShortFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LCharToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 		LCharToShortFunction retval;
 
 		final Case<LCharPredicate, LCharToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToShortFunction.l(a1 -> {
+		retval = LCharToShortFunction.l(a -> {
 			try {
 				for (Case<LCharPredicate, LCharToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsShort(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsShort(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(a1);
+				return eventuallyFinal.doApplyAsShort(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -45,11 +45,11 @@ public class ToLongFunctionAssertTest<T> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private ToLongFunction<Integer> function = a1 ->
+    private ToLongFunction<Integer> function = a ->
             testValue;
 
 
-    private ToLongFunction<Integer> functionThrowing = a1 -> {
+    private ToLongFunction<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

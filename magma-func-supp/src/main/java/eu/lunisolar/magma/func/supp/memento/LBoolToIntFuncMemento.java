@@ -72,8 +72,8 @@ public class LBoolToIntFuncMemento implements LBoolToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsInt(boolean a1) {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(boolean a) {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

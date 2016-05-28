@@ -89,8 +89,8 @@ public class LCharToShortFuncDelta extends LCharToShortFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsShort(char a1) {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(char a) {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

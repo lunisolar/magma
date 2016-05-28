@@ -72,8 +72,8 @@ public class LByteToShortFuncMemento implements LByteToShortFunction {
 	}
 
 	@Override
-	public short doApplyAsShort(byte a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(byte a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

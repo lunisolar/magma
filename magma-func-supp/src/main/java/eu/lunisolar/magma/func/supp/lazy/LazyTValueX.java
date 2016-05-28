@@ -72,7 +72,7 @@ public class LazyTValueX<T, X extends Throwable> extends LSupMementoX<T, X> impl
 		return lastValue;
 	}
 
-	public T first() {
+	public T value() {
 		return shovingDoGet();
 	}
 
@@ -84,7 +84,7 @@ public class LazyTValueX<T, X extends Throwable> extends LSupMementoX<T, X> impl
 
 			LazyTValueX other = (LazyTValueX) two;
 
-			return Null.equals(one.first(), other.first()); //
+			return Null.equals(one.value(), other.value()); //
 			});
 	}
 
@@ -94,7 +94,7 @@ public class LazyTValueX<T, X extends Throwable> extends LSupMementoX<T, X> impl
 
 	@Override
 	public int hashCode() {
-		return LSingle.argHashCode(first());
+		return LSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

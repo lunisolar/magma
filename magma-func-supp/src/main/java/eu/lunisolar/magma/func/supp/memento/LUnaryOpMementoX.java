@@ -72,8 +72,8 @@ public class LUnaryOpMementoX<T, X extends Throwable> implements LUnaryOperatorX
 	}
 
 	@Override
-	public T doApply(T a1) throws X {
-		return lastValue = function.doApply(a1);
+	public T doApply(T a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public T lastValue() {

@@ -55,7 +55,7 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongUnaryOperator EVENTUALLY_THROW = LLongUnaryOperator.l(a1 -> {
+	public static final LLongUnaryOperator EVENTUALLY_THROW = LLongUnaryOperator.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 		LLongUnaryOperator retval;
 
 		final Case<LLongPredicate, LLongUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongUnaryOperator.l(a1 -> {
+		retval = LLongUnaryOperator.l(a -> {
 			try {
 				for (Case<LLongPredicate, LLongUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsLong(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsLong(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(a1);
+				return eventuallyFinal.doApplyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

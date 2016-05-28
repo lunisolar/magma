@@ -72,7 +72,7 @@ public class LazyFloatValueX<X extends Throwable> extends LFloatSupMementoX<X> i
 		return lastValue;
 	}
 
-	public float first() {
+	public float value() {
 		return shovingDoGetAsFloat();
 	}
 
@@ -84,7 +84,7 @@ public class LazyFloatValueX<X extends Throwable> extends LFloatSupMementoX<X> i
 
 			LazyFloatValueX other = (LazyFloatValueX) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyFloatValueX<X extends Throwable> extends LFloatSupMementoX<X> i
 
 	@Override
 	public int hashCode() {
-		return LFloatSingle.argHashCode(first());
+		return LFloatSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

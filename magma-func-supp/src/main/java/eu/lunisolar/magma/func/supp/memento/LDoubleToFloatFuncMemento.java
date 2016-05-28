@@ -72,8 +72,8 @@ public class LDoubleToFloatFuncMemento implements LDoubleToFloatFunction {
 	}
 
 	@Override
-	public float doApplyAsFloat(double a1) {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(double a) {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

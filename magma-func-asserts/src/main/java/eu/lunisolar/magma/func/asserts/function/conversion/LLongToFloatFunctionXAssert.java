@@ -57,7 +57,7 @@ public interface LLongToFloatFunctionXAssert<S extends LLongToFloatFunctionXAsse
 			FullFunctionalAssert<S, LLongConsumerX<X>, A, RS, Float> {
 
 	@Nonnull
-	Evaluation<S, LLongConsumerX<X>, A, RS, Float> doesApplyAsFloat(long a1);
+	Evaluation<S, LLongConsumerX<X>, A, RS, Float> doesApplyAsFloat(long a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LLongToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LLongToFloatFunctionXAssert<S extends LLongToFloatFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongConsumerX<X>, A, RS, Float> doesApplyAsFloat(long a1) {
+		public Evaluation<S, LLongConsumerX<X>, A, RS, Float> doesApplyAsFloat(long a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFloat(a1));
+				return assertFactory.doApply(actual.doApplyAsFloat(a));
 			});
 
 		}

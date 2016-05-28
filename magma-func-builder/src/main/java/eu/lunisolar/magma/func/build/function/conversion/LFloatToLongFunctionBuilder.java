@@ -55,7 +55,7 @@ public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToLongFunction EVENTUALLY_THROW = LFloatToLongFunction.l(a1 -> {
+	public static final LFloatToLongFunction EVENTUALLY_THROW = LFloatToLongFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		LFloatToLongFunction retval;
 
 		final Case<LFloatPredicate, LFloatToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToLongFunction.l(a1 -> {
+		retval = LFloatToLongFunction.l(a -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsLong(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsLong(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(a1);
+				return eventuallyFinal.doApplyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

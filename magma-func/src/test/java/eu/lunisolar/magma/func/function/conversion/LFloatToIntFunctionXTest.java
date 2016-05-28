@@ -65,24 +65,24 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
 
 
     private LFloatToIntFunctionX<X> sut = new LFloatToIntFunctionX<X>(){
-        public  int doApplyAsInt(float a1)  throws X {
+        public  int doApplyAsInt(float a)  throws X {
             return testValue;
         }
     };
 
     private LFloatToIntFunction opposite = new LFloatToIntFunction(){
-        public  int doApplyAsInt(float a1)  {
+        public  int doApplyAsInt(float a)  {
             return testValue;
         }
     };
 
 
 
-    private LFloatToIntFunctionX<ParseException> sutAlwaysThrowing = LFloatToIntFunctionX.lX(a1 -> {
+    private LFloatToIntFunctionX<ParseException> sutAlwaysThrowing = LFloatToIntFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LFloatToIntFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LFloatToIntFunctionX.lX(a1 -> {
+    private LFloatToIntFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LFloatToIntFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -174,12 +174,12 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatToIntFunctionX: int doApplyAsInt(float a1) throws X");
+            .isEqualTo("LFloatToIntFunctionX: int doApplyAsInt(float a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LFloatToIntFunctionX.lX(a1 -> testValue ))
+        assertThat(LFloatToIntFunctionX.lX(a -> testValue ))
             .isInstanceOf(LFloatToIntFunctionX.class);
     }
 
@@ -194,7 +194,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     public void testHandlingDoApplyAsIntMethodWrapsTheException() throws X {
 
         // given
-        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a1 -> {
+        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -218,7 +218,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     public void testHandleFloatToIntFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a1 -> {
+        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -242,7 +242,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     public void testHandleFloatToIntFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a1 -> {
+        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -267,7 +267,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     public void testHandleFloatToIntFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a1 -> {
+        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -297,20 +297,20 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
+                assertThat(a).isEqualTo(90f);
                 return 100;
         };
 
-        LFloatUnaryOperatorX<X> before1 = p0 -> {
+        LFloatUnaryOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo(80f);
             beforeCalls.incrementAndGet();
             return 90f;
         };
 
         //when
-        LFloatToIntFunctionX<X> function = sutO.floatToIntFuncComposeFloat(before1);
+        LFloatToIntFunctionX<X> function = sutO.floatToIntFuncComposeFloat(before);
         function.doApplyAsInt(80f);
 
         //then - finals
@@ -326,20 +326,20 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
+                assertThat(a).isEqualTo(90f);
                 return 100;
         };
 
-        LToFloatFunctionX<Integer,X> before1 = p0 -> {
+        LToFloatFunctionX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90f;
         };
 
         //when
-        LToIntFunctionX<Integer,X> function = sutO.floatToIntFuncCompose(before1);
+        LToIntFunctionX<Integer,X> function = sutO.floatToIntFuncCompose(before);
         function.doApplyAsInt(80);
 
         //then - finals
@@ -360,9 +360,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -394,9 +394,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -428,9 +428,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -462,9 +462,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -496,9 +496,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -530,9 +530,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -564,9 +564,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -598,9 +598,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -632,9 +632,9 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LFloatToIntFunctionX<X> sutO = a1 -> {
+        LFloatToIntFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
                 return 90;
         };
 
@@ -689,7 +689,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a1 -> {
+        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -701,7 +701,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
     public void testHandleFloatToIntFunc() throws X {
 
         // given
-        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a1 -> {
+        LFloatToIntFunctionX<X> sutThrowing = LFloatToIntFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -731,7 +731,7 @@ public class LFloatToIntFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatToIntFunctionX: int doApplyAsInt(float a1) throws X");
+                .contains("LFloatToIntFunctionX: int doApplyAsInt(float a) throws X");
     }
 
 

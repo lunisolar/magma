@@ -72,8 +72,8 @@ public class LBoolToCharFuncMemento implements LBoolToCharFunction {
 	}
 
 	@Override
-	public char doApplyAsChar(boolean a1) {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(boolean a) {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

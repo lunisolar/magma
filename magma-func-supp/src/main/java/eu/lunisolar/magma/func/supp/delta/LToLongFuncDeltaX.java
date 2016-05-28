@@ -89,8 +89,8 @@ public class LToLongFuncDeltaX<T, X extends Throwable> extends LToLongFuncMement
 	}
 
 	@Override
-	public long doApplyAsLong(T a1) throws X {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(T a) throws X {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

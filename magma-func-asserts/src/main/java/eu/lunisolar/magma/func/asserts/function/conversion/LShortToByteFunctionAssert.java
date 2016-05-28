@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert<S, A, RS>, A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LShortConsumer, A, RS, Byte> {
 
 	@Nonnull
-	Evaluation<S, LShortConsumer, A, RS, Byte> doesApplyAsByte(short a1);
+	Evaluation<S, LShortConsumer, A, RS, Byte> doesApplyAsByte(short a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortConsumer, A, RS, Byte> doesApplyAsByte(short a1) {
+		public Evaluation<S, LShortConsumer, A, RS, Byte> doesApplyAsByte(short a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a1));
+				return assertFactory.doApply(actual.doApplyAsByte(a));
 			});
 
 		}

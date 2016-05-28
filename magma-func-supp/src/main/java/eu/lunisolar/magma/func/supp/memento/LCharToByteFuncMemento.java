@@ -72,8 +72,8 @@ public class LCharToByteFuncMemento implements LCharToByteFunction {
 	}
 
 	@Override
-	public byte doApplyAsByte(char a1) {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(char a) {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

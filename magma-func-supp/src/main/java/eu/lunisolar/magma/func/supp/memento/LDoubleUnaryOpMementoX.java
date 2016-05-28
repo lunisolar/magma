@@ -72,8 +72,8 @@ public class LDoubleUnaryOpMementoX<X extends Throwable> implements LDoubleUnary
 	}
 
 	@Override
-	public double doApplyAsDouble(double a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(double a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

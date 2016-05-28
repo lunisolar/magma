@@ -72,7 +72,7 @@ public class LazyDoubleValue extends LDoubleSupMemento implements LDoubleSingle 
 		return lastValue;
 	}
 
-	public double first() {
+	public double value() {
 		return shovingDoGetAsDouble();
 	}
 
@@ -84,7 +84,7 @@ public class LazyDoubleValue extends LDoubleSupMemento implements LDoubleSingle 
 
 			LazyDoubleValue other = (LazyDoubleValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyDoubleValue extends LDoubleSupMemento implements LDoubleSingle 
 
 	@Override
 	public int hashCode() {
-		return LDoubleSingle.argHashCode(first());
+		return LDoubleSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

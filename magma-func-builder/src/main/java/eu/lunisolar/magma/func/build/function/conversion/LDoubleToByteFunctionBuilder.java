@@ -55,7 +55,7 @@ public final class LDoubleToByteFunctionBuilder extends PerCaseBuilderWithBytePr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToByteFunction EVENTUALLY_THROW = LDoubleToByteFunction.l(a1 -> {
+	public static final LDoubleToByteFunction EVENTUALLY_THROW = LDoubleToByteFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToByteFunctionBuilder extends PerCaseBuilderWithBytePr
 		LDoubleToByteFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToByteFunction.l(a1 -> {
+		retval = LDoubleToByteFunction.l(a -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LDoubleToIntFunctionAssert<S extends LDoubleToIntFunctionAssert<S, A, RS>, A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, Integer> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, Integer> doesApplyAsInt(double a1);
+	Evaluation<S, LDoubleConsumer, A, RS, Integer> doesApplyAsInt(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LDoubleToIntFunctionAssert<S extends LDoubleToIntFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, Integer> doesApplyAsInt(double a1) {
+		public Evaluation<S, LDoubleConsumer, A, RS, Integer> doesApplyAsInt(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a1));
+				return assertFactory.doApply(actual.doApplyAsInt(a));
 			});
 
 		}

@@ -89,8 +89,8 @@ public class LByteToLongFuncDeltaX<X extends Throwable> extends LByteToLongFuncM
 	}
 
 	@Override
-	public long doApplyAsLong(byte a1) throws X {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(byte a) throws X {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

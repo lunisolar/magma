@@ -72,8 +72,8 @@ public class LDoubleFuncMemento<R> implements LDoubleFunction<R> {
 	}
 
 	@Override
-	public R doApply(double a1) {
-		return lastValue = function.doApply(a1);
+	public R doApply(double a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

@@ -89,8 +89,8 @@ public class LIntToCharFuncDeltaX<X extends Throwable> extends LIntToCharFuncMem
 	}
 
 	@Override
-	public char doApplyAsChar(int a1) throws X {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(int a) throws X {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

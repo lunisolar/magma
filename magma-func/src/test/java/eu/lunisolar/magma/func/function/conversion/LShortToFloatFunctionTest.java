@@ -65,13 +65,13 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
 
 
     private LShortToFloatFunction sut = new LShortToFloatFunction(){
-        public  float doApplyAsFloat(short a1)  {
+        public  float doApplyAsFloat(short a)  {
             return testValue;
         }
     };
 
     private LShortToFloatFunctionX<X> opposite = new LShortToFloatFunctionX<X>(){
-        public  float doApplyAsFloat(short a1)  throws X {
+        public  float doApplyAsFloat(short a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
 
 
 
-    private LShortToFloatFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LShortToFloatFunction.l(a1 -> {
+    private LShortToFloatFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LShortToFloatFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortToFloatFunction: float doApplyAsFloat(short a1)");
+            .isEqualTo("LShortToFloatFunction: float doApplyAsFloat(short a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LShortToFloatFunction.l(a1 -> testValue ))
+        assertThat(LShortToFloatFunction.l(a -> testValue ))
             .isInstanceOf(LShortToFloatFunction.class);
     }
 
@@ -159,7 +159,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LShortToFloatFunctionX<X> sutThrowing = LShortToFloatFunctionX.lX(a1 -> {
+        LShortToFloatFunctionX<X> sutThrowing = LShortToFloatFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LShortToFloatFunctionX<ParseException> sutThrowing = LShortToFloatFunctionX.lX(a1 -> {
+        LShortToFloatFunctionX<ParseException> sutThrowing = LShortToFloatFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     public void testHandlingDoApplyAsFloatMethodWrapsTheException() throws X {
 
         // given
-        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a1 -> {
+        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     public void testHandleShortToFloatFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a1 -> {
+        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     public void testHandleShortToFloatFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a1 -> {
+        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     public void testHandleShortToFloatFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a1 -> {
+        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -308,20 +308,20 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
+                assertThat(a).isEqualTo((short)90);
                 return 100f;
         };
 
-        LShortUnaryOperator before1 = p0 -> {
+        LShortUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo((short)80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
 
         //when
-        LShortToFloatFunction function = sutO.shortToFloatFuncComposeShort(before1);
+        LShortToFloatFunction function = sutO.shortToFloatFuncComposeShort(before);
         function.doApplyAsFloat((short)80);
 
         //then - finals
@@ -337,20 +337,20 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
+                assertThat(a).isEqualTo((short)90);
                 return 100f;
         };
 
-        LToShortFunction<Integer> before1 = p0 -> {
+        LToShortFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
 
         //when
-        LToFloatFunction<Integer> function = sutO.shortToFloatFuncCompose(before1);
+        LToFloatFunction<Integer> function = sutO.shortToFloatFuncCompose(before);
         function.doApplyAsFloat(80);
 
         //then - finals
@@ -371,9 +371,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -405,9 +405,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -439,9 +439,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -473,9 +473,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -507,9 +507,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -541,9 +541,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -575,9 +575,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -609,9 +609,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -643,9 +643,9 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortToFloatFunction sutO = a1 -> {
+        LShortToFloatFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return 90f;
         };
 
@@ -704,7 +704,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a1 -> {
+        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -716,7 +716,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
     public void testHandleShortToFloatFunc() throws X {
 
         // given
-        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a1 -> {
+        LShortToFloatFunction sutThrowing = LShortToFloatFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -746,7 +746,7 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortToFloatFunction: float doApplyAsFloat(short a1)");
+                .contains("LShortToFloatFunction: float doApplyAsFloat(short a)");
     }
 
 

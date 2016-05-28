@@ -99,7 +99,7 @@ public class LBytePredicateXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LBytePredicateX<X> function = bytePredicateXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LBytePredicateXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LBytePredicateX<X> function = bytePredicateXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == (byte)0)
-                             .evaluate(a1 -> false))
-            .inCase(a1 -> a1 > (byte)0 && a1 < (byte)10).evaluate(a1 -> true)
-            .inCase(a1 -> a1 > (byte)10 && a1 < (byte)20).evaluate(a1 -> true)
-            .eventually(a1 -> true)
+            .aCase(ce -> ce.of(a -> a == (byte)0)
+                             .evaluate(a -> false))
+            .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> true)
+            .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> true)
+            .eventually(a -> true)
             .build()
         );
 

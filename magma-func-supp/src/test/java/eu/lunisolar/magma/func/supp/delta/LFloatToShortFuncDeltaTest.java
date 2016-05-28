@@ -44,7 +44,7 @@ public class LFloatToShortFuncDeltaTest  {
 
     private final short initialLastValue = (short)0;
 
-    private LFloatToShortFuncDelta sut =  LFloatToShortFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LFloatToShortFuncDelta sut =  LFloatToShortFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

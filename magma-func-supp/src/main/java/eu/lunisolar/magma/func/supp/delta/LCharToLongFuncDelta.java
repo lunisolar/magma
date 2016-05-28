@@ -89,8 +89,8 @@ public class LCharToLongFuncDelta extends LCharToLongFuncMemento {
 	}
 
 	@Override
-	public long doApplyAsLong(char a1) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(char a) {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

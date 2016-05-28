@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LDoubleToFloatFunctionAssert<S extends LDoubleToFloatFunctionAssert<S, A, RS>, A extends LDoubleToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, Float> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, Float> doesApplyAsFloat(double a1);
+	Evaluation<S, LDoubleConsumer, A, RS, Float> doesApplyAsFloat(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LDoubleToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LDoubleToFloatFunctionAssert<S extends LDoubleToFloatFunctionAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, Float> doesApplyAsFloat(double a1) {
+		public Evaluation<S, LDoubleConsumer, A, RS, Float> doesApplyAsFloat(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFloat(a1));
+				return assertFactory.doApply(actual.doApplyAsFloat(a));
 			});
 
 		}

@@ -55,7 +55,7 @@ public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToLongFunction EVENTUALLY_THROW = LBoolToLongFunction.l(a1 -> {
+	public static final LBoolToLongFunction EVENTUALLY_THROW = LBoolToLongFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 		LBoolToLongFunction retval;
 
 		final Case<LLogicalOperator, LBoolToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToLongFunction.l(a1 -> {
+		retval = LBoolToLongFunction.l(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsLong(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsLong(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(a1);
+				return eventuallyFinal.doApplyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

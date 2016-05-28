@@ -85,8 +85,8 @@ public class LLogicalOpDelta extends LLogicalOpMemento {
 	}
 
 	@Override
-	public boolean doApply(boolean a1) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public boolean doApply(boolean a) {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

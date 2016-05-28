@@ -89,8 +89,8 @@ public class LBoolToFloatFuncDelta extends LBoolToFloatFuncMemento {
 	}
 
 	@Override
-	public float doApplyAsFloat(boolean a1) {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(boolean a) {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

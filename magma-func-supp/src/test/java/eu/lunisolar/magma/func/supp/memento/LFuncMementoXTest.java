@@ -43,7 +43,7 @@ public class LFuncMementoXTest <T,R,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LFuncMementoX<Integer,Integer,X> sut =  LFuncMementoX.<Integer,Integer,X>mementoOf( a1 ->{
+    private LFuncMementoX<Integer,Integer,X> sut =  LFuncMementoX.<Integer,Integer,X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

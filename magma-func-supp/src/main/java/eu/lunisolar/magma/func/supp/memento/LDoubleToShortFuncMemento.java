@@ -72,8 +72,8 @@ public class LDoubleToShortFuncMemento implements LDoubleToShortFunction {
 	}
 
 	@Override
-	public short doApplyAsShort(double a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(double a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

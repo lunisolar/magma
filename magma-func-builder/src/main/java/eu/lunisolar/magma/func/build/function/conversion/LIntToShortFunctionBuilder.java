@@ -55,7 +55,7 @@ public final class LIntToShortFunctionBuilder extends PerCaseBuilderWithShortPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToShortFunction EVENTUALLY_THROW = LIntToShortFunction.l(a1 -> {
+	public static final LIntToShortFunction EVENTUALLY_THROW = LIntToShortFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntToShortFunctionBuilder extends PerCaseBuilderWithShortPro
 		LIntToShortFunction retval;
 
 		final Case<LIntPredicate, LIntToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToShortFunction.l(a1 -> {
+		retval = LIntToShortFunction.l(a -> {
 			try {
 				for (Case<LIntPredicate, LIntToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsShort(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsShort(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(a1);
+				return eventuallyFinal.doApplyAsShort(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

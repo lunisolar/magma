@@ -43,7 +43,7 @@ public class LCharToByteFuncMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LCharToByteFuncMemento sut =  LCharToByteFuncMemento.mementoOf( a1 ->{
+    private LCharToByteFuncMemento sut =  LCharToByteFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

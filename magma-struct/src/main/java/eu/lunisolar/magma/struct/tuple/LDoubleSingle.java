@@ -32,16 +32,16 @@ public interface LDoubleSingle extends LTuple<Double> {
 
 	int SIZE = 1;
 
-	double first();
+	double value();
 
-	default double getFirst() {
-		return first();
+	default double getValue() {
+		return value();
 	}
 
 	default Double get(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -50,7 +50,7 @@ public interface LDoubleSingle extends LTuple<Double> {
 	default double getDouble(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -62,16 +62,16 @@ public interface LDoubleSingle extends LTuple<Double> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LDoubleSingle and calculates hash from it. */
-	static int argHashCode(double a1) {
+	static int argHashCode(double a) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Double.hashCode(a1);
+		result = prime * result + Double.hashCode(a);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LDoubleSingle and checks if all values are equal. */
-	static boolean argEquals(double a1, double b1) {
-		return a1 == b1; //
+	static boolean argEquals(double a, double b) {
+		return a == b; //
 	}
 
 	/**
@@ -88,14 +88,14 @@ public interface LDoubleSingle extends LTuple<Double> {
 
 				LDoubleSingle other = (LDoubleSingle) two;
 
-				return argEquals(one.first(), other.first());
+				return argEquals(one.value(), other.value());
 			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -113,7 +113,7 @@ public interface LDoubleSingle extends LTuple<Double> {
 	default Double[] toVoArray(Double[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -131,7 +131,7 @@ public interface LDoubleSingle extends LTuple<Double> {
 	default double[] toDoubleArray(double[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -190,7 +190,7 @@ public interface LDoubleSingle extends LTuple<Double> {
 			return Null.compare(this, that, (one, two) -> {
 				int retval = 0;
 
-				return (retval = Double.compare(one.first(), two.first())) != 0 ? retval : 0; //
+				return (retval = Double.compare(one.value(), two.value())) != 0 ? retval : 0; //
 				});
 		}
 
@@ -205,37 +205,37 @@ public interface LDoubleSingle extends LTuple<Double> {
 
 		@Override
 		public int hashCode() {
-			return LDoubleSingle.argHashCode(first());
+			return LDoubleSingle.argHashCode(value());
 		}
 
 		@Override
 		public byte byteValue() {
-			return (byte) first();
+			return (byte) value();
 		}
 
 		@Override
 		public short shortValue() {
-			return (short) first();
+			return (short) value();
 		}
 
 		@Override
 		public int intValue() {
-			return (int) first();
+			return (int) value();
 		}
 
 		@Override
 		public long longValue() {
-			return (long) first();
+			return (long) value();
 		}
 
 		@Override
 		public float floatValue() {
-			return (float) first();
+			return (float) value();
 		}
 
 		@Override
 		public double doubleValue() {
-			return (double) first();
+			return (double) value();
 		}
 	}
 
@@ -244,35 +244,35 @@ public interface LDoubleSingle extends LTuple<Double> {
 	 */
 	final class MutDoubleSingle extends AbstractDoubleSingle {
 
-		private double first;
+		private double value;
 
-		public MutDoubleSingle(double a1) {
-			this.first = a1;
+		public MutDoubleSingle(double a) {
+			this.value = a;
 		}
 
-		public static MutDoubleSingle of(double a1) {
-			return new MutDoubleSingle(a1);
+		public static MutDoubleSingle of(double a) {
+			return new MutDoubleSingle(a);
 		}
 
 		public static MutDoubleSingle copyOf(LDoubleSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public double first() {
-			return first;
+		public double value() {
+			return value;
 		}
 
-		public MutDoubleSingle first(double first) {
-			this.first = first;
+		public MutDoubleSingle value(double value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(double first) {
-			this.first = first;
+		public void setValue(double value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = 0d;
+			value = 0d;
 		}
 	}
 
@@ -281,35 +281,35 @@ public interface LDoubleSingle extends LTuple<Double> {
 	 */
 	final class MutCompDoubleSingle extends AbstractDoubleSingle implements ComparableDoubleSingle {
 
-		private double first;
+		private double value;
 
-		public MutCompDoubleSingle(double a1) {
-			this.first = a1;
+		public MutCompDoubleSingle(double a) {
+			this.value = a;
 		}
 
-		public static MutCompDoubleSingle of(double a1) {
-			return new MutCompDoubleSingle(a1);
+		public static MutCompDoubleSingle of(double a) {
+			return new MutCompDoubleSingle(a);
 		}
 
 		public static MutCompDoubleSingle copyOf(LDoubleSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public double first() {
-			return first;
+		public double value() {
+			return value;
 		}
 
-		public MutCompDoubleSingle first(double first) {
-			this.first = first;
+		public MutCompDoubleSingle value(double value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(double first) {
-			this.first = first;
+		public void setValue(double value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = 0d;
+			value = 0d;
 		}
 	}
 
@@ -319,22 +319,22 @@ public interface LDoubleSingle extends LTuple<Double> {
 	@Immutable
 	final class ImmDoubleSingle extends AbstractDoubleSingle {
 
-		private final double first;
+		private final double value;
 
-		public ImmDoubleSingle(double a1) {
-			this.first = a1;
+		public ImmDoubleSingle(double a) {
+			this.value = a;
 		}
 
-		public static ImmDoubleSingle of(double a1) {
-			return new ImmDoubleSingle(a1);
+		public static ImmDoubleSingle of(double a) {
+			return new ImmDoubleSingle(a);
 		}
 
 		public static ImmDoubleSingle copyOf(LDoubleSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public double first() {
-			return first;
+		public double value() {
+			return value;
 		}
 
 	}
@@ -345,22 +345,22 @@ public interface LDoubleSingle extends LTuple<Double> {
 	@Immutable
 	final class ImmCompDoubleSingle extends AbstractDoubleSingle implements ComparableDoubleSingle {
 
-		private final double first;
+		private final double value;
 
-		public ImmCompDoubleSingle(double a1) {
-			this.first = a1;
+		public ImmCompDoubleSingle(double a) {
+			this.value = a;
 		}
 
-		public static ImmCompDoubleSingle of(double a1) {
-			return new ImmCompDoubleSingle(a1);
+		public static ImmCompDoubleSingle of(double a) {
+			return new ImmCompDoubleSingle(a);
 		}
 
 		public static ImmCompDoubleSingle copyOf(LDoubleSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public double first() {
-			return first;
+		public double value() {
+			return value;
 		}
 
 	}

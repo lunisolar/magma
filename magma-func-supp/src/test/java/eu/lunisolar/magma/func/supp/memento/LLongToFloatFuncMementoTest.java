@@ -43,7 +43,7 @@ public class LLongToFloatFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LLongToFloatFuncMemento sut =  LLongToFloatFuncMemento.mementoOf( a1 ->{
+    private LLongToFloatFuncMemento sut =  LLongToFloatFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

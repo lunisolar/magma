@@ -72,8 +72,8 @@ public class LShortToIntFuncMementoX<X extends Throwable> implements LShortToInt
 	}
 
 	@Override
-	public int doApplyAsInt(short a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(short a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

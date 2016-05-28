@@ -89,8 +89,8 @@ public class LShortToFloatFuncDeltaX<X extends Throwable> extends LShortToFloatF
 	}
 
 	@Override
-	public float doApplyAsFloat(short a1) throws X {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(short a) throws X {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

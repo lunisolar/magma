@@ -99,7 +99,7 @@ public class LongFunctionBuilderTest<R>{
 
         assertThatThrownBy(() -> {
             LongFunction<Integer> function = longFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LongFunctionBuilderTest<R>{
     public void testBuild()  {
 
         LongFunction<Integer> function = longFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0L)
-                             .evaluate(a1 -> 0))
-            .inCase(a1 -> a1 > 0L && a1 < 10L).evaluate(a1 -> 1)
-            .inCase(a1 -> a1 > 10L && a1 < 20L).evaluate(a1 -> 2)
-            .eventually(a1 -> 99)
+            .aCase(ce -> ce.of(a -> a == 0L)
+                             .evaluate(a -> 0))
+            .inCase(a -> a > 0L && a < 10L).evaluate(a -> 1)
+            .inCase(a -> a > 10L && a < 20L).evaluate(a -> 2)
+            .eventually(a -> 99)
             .build()
         );
 

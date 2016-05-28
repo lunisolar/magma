@@ -77,8 +77,8 @@ public class LDoubleFuncDeltaX<R, X extends Throwable> extends LDoubleFuncMement
 	}
 
 	@Override
-	public R doApply(double a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(double a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

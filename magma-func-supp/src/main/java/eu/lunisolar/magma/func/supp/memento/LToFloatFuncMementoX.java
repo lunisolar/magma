@@ -72,8 +72,8 @@ public class LToFloatFuncMementoX<T, X extends Throwable> implements LToFloatFun
 	}
 
 	@Override
-	public float doApplyAsFloat(T a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(T a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

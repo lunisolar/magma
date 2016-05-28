@@ -43,7 +43,7 @@ public class LIntUnaryOpMementoXTest <X extends Throwable> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LIntUnaryOpMementoX<X> sut =  LIntUnaryOpMementoX.<X>mementoOf( a1 ->{
+    private LIntUnaryOpMementoX<X> sut =  LIntUnaryOpMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

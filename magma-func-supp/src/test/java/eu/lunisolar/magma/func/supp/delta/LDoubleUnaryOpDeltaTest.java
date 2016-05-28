@@ -44,7 +44,7 @@ public class LDoubleUnaryOpDeltaTest  {
 
     private final double initialLastValue = 0d;
 
-    private LDoubleUnaryOpDelta sut =  LDoubleUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LDoubleUnaryOpDelta sut =  LDoubleUnaryOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

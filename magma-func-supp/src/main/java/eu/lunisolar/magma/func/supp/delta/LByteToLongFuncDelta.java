@@ -89,8 +89,8 @@ public class LByteToLongFuncDelta extends LByteToLongFuncMemento {
 	}
 
 	@Override
-	public long doApplyAsLong(byte a1) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(byte a) {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

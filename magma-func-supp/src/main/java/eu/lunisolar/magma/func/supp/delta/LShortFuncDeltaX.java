@@ -77,8 +77,8 @@ public class LShortFuncDeltaX<R, X extends Throwable> extends LShortFuncMementoX
 	}
 
 	@Override
-	public R doApply(short a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(short a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

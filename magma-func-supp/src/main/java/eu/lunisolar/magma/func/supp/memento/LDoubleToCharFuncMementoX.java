@@ -72,8 +72,8 @@ public class LDoubleToCharFuncMementoX<X extends Throwable> implements LDoubleTo
 	}
 
 	@Override
-	public char doApplyAsChar(double a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(double a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

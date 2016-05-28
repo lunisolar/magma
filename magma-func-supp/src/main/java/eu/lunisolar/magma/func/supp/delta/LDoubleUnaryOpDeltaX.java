@@ -89,8 +89,8 @@ public class LDoubleUnaryOpDeltaX<X extends Throwable> extends LDoubleUnaryOpMem
 	}
 
 	@Override
-	public double doApplyAsDouble(double a1) throws X {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(double a) throws X {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

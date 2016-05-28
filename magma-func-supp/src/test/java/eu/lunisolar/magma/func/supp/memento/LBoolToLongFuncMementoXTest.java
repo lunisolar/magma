@@ -43,7 +43,7 @@ public class LBoolToLongFuncMementoXTest <X extends Throwable> {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LBoolToLongFuncMementoX<X> sut =  LBoolToLongFuncMementoX.<X>mementoOf( a1 ->{
+    private LBoolToLongFuncMementoX<X> sut =  LBoolToLongFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -44,7 +44,7 @@ public class LIntToFloatFuncDeltaTest  {
 
     private final float initialLastValue = 0f;
 
-    private LIntToFloatFuncDelta sut =  LIntToFloatFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LIntToFloatFuncDelta sut =  LIntToFloatFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

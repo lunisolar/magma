@@ -46,11 +46,11 @@ public class LCharToDoubleFunctionAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharToDoubleFunction function = a1 ->
+    private LCharToDoubleFunction function = a ->
             testValue;
 
 
-    private LCharToDoubleFunction functionThrowing = a1 -> {
+    private LCharToDoubleFunction functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

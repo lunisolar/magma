@@ -99,7 +99,7 @@ public class LDoubleToCharFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LDoubleToCharFunction function = doubleToCharFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LDoubleToCharFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LDoubleToCharFunction function = doubleToCharFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0d)
-                             .evaluate(a1 -> '\u0000'))
-            .inCase(a1 -> a1 > 0d && a1 < 10d).evaluate(a1 -> '\u0001')
-            .inCase(a1 -> a1 > 10d && a1 < 20d).evaluate(a1 -> '\u0002')
-            .eventually(a1 -> '\u0099')
+            .aCase(ce -> ce.of(a -> a == 0d)
+                             .evaluate(a -> '\u0000'))
+            .inCase(a -> a > 0d && a < 10d).evaluate(a -> '\u0001')
+            .inCase(a -> a > 10d && a < 20d).evaluate(a -> '\u0002')
+            .eventually(a -> '\u0099')
             .build()
         );
 

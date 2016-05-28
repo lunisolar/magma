@@ -89,8 +89,8 @@ public class LToLongFuncDelta<T> extends LToLongFuncMemento<T> {
 	}
 
 	@Override
-	public long doApplyAsLong(T a1) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(T a) {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

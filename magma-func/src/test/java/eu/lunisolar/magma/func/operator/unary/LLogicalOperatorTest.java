@@ -65,13 +65,13 @@ public class LLogicalOperatorTest<X extends ParseException> {
 
 
     private LLogicalOperator sut = new LLogicalOperator(){
-        public  boolean doApply(boolean a1)  {
+        public  boolean doApply(boolean a)  {
             return testValue;
         }
     };
 
     private LLogicalOperatorX<X> opposite = new LLogicalOperatorX<X>(){
-        public  boolean doApply(boolean a1)  throws X {
+        public  boolean doApply(boolean a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
 
 
 
-    private LLogicalOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LLogicalOperator.l(a1 -> {
+    private LLogicalOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LLogicalOperator.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LLogicalOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLogicalOperator: boolean doApply(boolean a1)");
+            .isEqualTo("LLogicalOperator: boolean doApply(boolean a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LLogicalOperator.l(a1 -> testValue ))
+        assertThat(LLogicalOperator.l(a -> testValue ))
             .isInstanceOf(LLogicalOperator.class);
     }
 
@@ -159,7 +159,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LLogicalOperatorX<X> sutThrowing = LLogicalOperatorX.lX(a1 -> {
+        LLogicalOperatorX<X> sutThrowing = LLogicalOperatorX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LLogicalOperatorX<ParseException> sutThrowing = LLogicalOperatorX.lX(a1 -> {
+        LLogicalOperatorX<ParseException> sutThrowing = LLogicalOperatorX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     public void testHandlingDoApplyMethodWrapsTheException() throws X {
 
         // given
-        LLogicalOperator sutThrowing = LLogicalOperator.l(a1 -> {
+        LLogicalOperator sutThrowing = LLogicalOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     public void testHandleLogicalOpMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LLogicalOperator sutThrowing = LLogicalOperator.l(a1 -> {
+        LLogicalOperator sutThrowing = LLogicalOperator.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     public void testHandleLogicalOpMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LLogicalOperator sutThrowing = LLogicalOperator.l(a1 -> {
+        LLogicalOperator sutThrowing = LLogicalOperator.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     public void testHandleLogicalOpMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LLogicalOperator sutThrowing = LLogicalOperator.l(a1 -> {
+        LLogicalOperator sutThrowing = LLogicalOperator.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -318,8 +318,8 @@ public class LLogicalOperatorTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LLogicalOperator fun1 = LLogicalOperator.l(a1 -> f1Result);
-        LLogicalOperator fun2 = LLogicalOperator.l(a1 -> f2Result);
+        LLogicalOperator fun1 = LLogicalOperator.l(a -> f1Result);
+        LLogicalOperator fun2 = LLogicalOperator.l(a -> f2Result);
 
         //when
         LLogicalOperator andFunction = fun1.and(fun2);
@@ -361,20 +361,20 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
-        LLogicalOperator before1 = p0 -> {
+        LLogicalOperator before = p0 -> {
             assertThat(p0).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LLogicalOperator function = sutO.logicalOpComposeBool(before1);
+        LLogicalOperator function = sutO.logicalOpComposeBool(before);
         function.doApply(true);
 
         //then - finals
@@ -390,20 +390,20 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
-        LPredicate<Integer> before1 = p0 -> {
+        LPredicate<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LPredicate<Integer> function = sutO.logicalOpCompose(before1);
+        LPredicate<Integer> function = sutO.logicalOpCompose(before);
         function.doTest(80);
 
         //then - finals
@@ -424,9 +424,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -458,9 +458,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -492,9 +492,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -526,9 +526,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -560,9 +560,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -594,9 +594,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -628,9 +628,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -662,9 +662,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -696,9 +696,9 @@ public class LLogicalOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LLogicalOperator sutO = a1 -> {
+        LLogicalOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return true;
         };
 
@@ -764,7 +764,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LLogicalOperator sutThrowing = LLogicalOperator.l(a1 -> {
+        LLogicalOperator sutThrowing = LLogicalOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -776,7 +776,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     public void testHandleLogicalOp() throws X {
 
         // given
-        LLogicalOperator sutThrowing = LLogicalOperator.l(a1 -> {
+        LLogicalOperator sutThrowing = LLogicalOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -806,7 +806,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLogicalOperator: boolean doApply(boolean a1)");
+                .contains("LLogicalOperator: boolean doApply(boolean a)");
     }
 
 

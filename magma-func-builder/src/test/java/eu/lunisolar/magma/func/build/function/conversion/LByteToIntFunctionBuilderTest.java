@@ -99,7 +99,7 @@ public class LByteToIntFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LByteToIntFunction function = byteToIntFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LByteToIntFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LByteToIntFunction function = byteToIntFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == (byte)0)
-                             .evaluate(a1 -> 0))
-            .inCase(a1 -> a1 > (byte)0 && a1 < (byte)10).evaluate(a1 -> 1)
-            .inCase(a1 -> a1 > (byte)10 && a1 < (byte)20).evaluate(a1 -> 2)
-            .eventually(a1 -> 99)
+            .aCase(ce -> ce.of(a -> a == (byte)0)
+                             .evaluate(a -> 0))
+            .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> 1)
+            .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> 2)
+            .eventually(a -> 99)
             .build()
         );
 

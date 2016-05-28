@@ -45,11 +45,11 @@ public class IntPredicateAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private IntPredicate function = a1 ->
+    private IntPredicate function = a ->
             testValue;
 
 
-    private IntPredicate functionThrowing = a1 -> {
+    private IntPredicate functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): boolean a1
+ * Domain (lvl: 1): boolean a
  *
  * Co-domain: none
  *
@@ -64,19 +64,19 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	String DESCRIPTION = "LBoolConsumerX: void doAccept(boolean a1) throws X";
+	String DESCRIPTION = "LBoolConsumerX: void doAccept(boolean a) throws X";
 
-	void doAccept(boolean a1) throws X;
+	void doAccept(boolean a) throws X;
 
 	default LTuple.Void tupleAccept(LBoolSingle args) throws X {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(boolean a1) {
+	default void nestingDoAccept(boolean a) {
 		try {
-			this.doAccept(a1);
+			this.doAccept(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -85,15 +85,15 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(boolean a1) {
-		((LBoolConsumerX<RuntimeException>) this).doAccept(a1);
+	default void shovingDoAccept(boolean a) {
+		((LBoolConsumerX<RuntimeException>) this).doAccept(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(boolean a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(boolean a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(a1);
+			this.doAccept(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -106,8 +106,8 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureBoolCons(boolean a1) {
-		return () -> this.doAccept(a1);
+	default LActionX<X> captureBoolCons(boolean a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -124,24 +124,24 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 		return lambda;
 	}
 
-	static <X extends Throwable> void call(boolean a1, final @Nonnull LBoolConsumerX<X> lambda) throws X {
+	static <X extends Throwable> void call(boolean a, final @Nonnull LBoolConsumerX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
-	static <X extends Throwable> void shoving(boolean a1, final @Nonnull LBoolConsumerX<X> lambda) {
+	static <X extends Throwable> void shoving(boolean a, final @Nonnull LBoolConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.shovingDoAccept(a1);
+		lambda.shovingDoAccept(a);
 	}
 
-	static <X extends Throwable> void nesting(boolean a1, final @Nonnull LBoolConsumerX<X> lambda) {
+	static <X extends Throwable> void nesting(boolean a, final @Nonnull LBoolConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.nestingDoAccept(a1);
+		lambda.nestingDoAccept(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> void handling(boolean a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBoolConsumerX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> void handling(boolean a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBoolConsumerX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.handlingDoAccept(a1, handling);
+		lambda.handlingDoAccept(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -194,16 +194,16 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBoolConsumerX<X> boolConsComposeBool(@Nonnull final LLogicalOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApply(v1));
+	default LBoolConsumerX<X> boolConsComposeBool(@Nonnull final LLogicalOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApply(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> boolConsCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doTest(v1));
+	default <V> LConsumerX<V, X> boolConsCompose(@Nonnull final LPredicateX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doTest(v));
 	}
 
 	// </editor-fold>
@@ -214,9 +214,9 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default LBoolConsumerX<X> andThen(@Nonnull LBoolConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 
@@ -253,13 +253,13 @@ public interface LBoolConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBoolConsumer handleBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoAccept(a1, handling);
+		return a -> this.handlingDoAccept(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBoolConsumerX<Y> handleBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoAccept(a1, handling);
+		return a -> this.handlingDoAccept(a, handling);
 	}
 
 	// </editor-fold>

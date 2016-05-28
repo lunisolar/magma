@@ -57,7 +57,7 @@ public interface LDoubleToIntFunctionXAssert<S extends LDoubleToIntFunctionXAsse
 			FullFunctionalAssert<S, LDoubleConsumerX<X>, A, RS, Integer> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumerX<X>, A, RS, Integer> doesApplyAsInt(double a1);
+	Evaluation<S, LDoubleConsumerX<X>, A, RS, Integer> doesApplyAsInt(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LDoubleToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LDoubleToIntFunctionXAssert<S extends LDoubleToIntFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumerX<X>, A, RS, Integer> doesApplyAsInt(double a1) {
+		public Evaluation<S, LDoubleConsumerX<X>, A, RS, Integer> doesApplyAsInt(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a1));
+				return assertFactory.doApply(actual.doApplyAsInt(a));
 			});
 
 		}

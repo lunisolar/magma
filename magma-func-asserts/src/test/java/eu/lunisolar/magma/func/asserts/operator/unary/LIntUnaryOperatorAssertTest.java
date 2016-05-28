@@ -46,11 +46,11 @@ public class LIntUnaryOperatorAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntUnaryOperator function = a1 ->
+    private LIntUnaryOperator function = a ->
             testValue;
 
 
-    private LIntUnaryOperator functionThrowing = a1 -> {
+    private LIntUnaryOperator functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

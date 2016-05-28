@@ -72,8 +72,8 @@ public class LUnaryOpMemento<T> implements LUnaryOperator<T> {
 	}
 
 	@Override
-	public T doApply(T a1) {
-		return lastValue = function.doApply(a1);
+	public T doApply(T a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public T lastValue() {

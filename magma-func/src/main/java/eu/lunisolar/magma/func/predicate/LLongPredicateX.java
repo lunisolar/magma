@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: predicate
  *
- * Domain (lvl: 1): long a1
+ * Domain (lvl: 1): long a
  *
  * Co-domain: boolean
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongPredicateX<X extends Throwable> extends LongPredicate, MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LLongPredicateX: boolean doTest(long a1) throws X";
+	String DESCRIPTION = "LLongPredicateX: boolean doTest(long a) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,20 +72,20 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	 */
 	@Override
 	@Deprecated
-	default boolean test(long a1) {
-		return this.nestingDoTest(a1);
+	default boolean test(long a) {
+		return this.nestingDoTest(a);
 	}
 
-	boolean doTest(long a1) throws X;
+	boolean doTest(long a) throws X;
 
 	default boolean tupleTest(LLongSingle args) throws X {
-		return doTest(args.first());
+		return doTest(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(long a1) {
+	default boolean nestingDoTest(long a) {
 		try {
-			return this.doTest(a1);
+			return this.doTest(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -94,29 +94,29 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(long a1) {
-		return ((LLongPredicateX<RuntimeException>) this).doTest(a1);
+	default boolean shovingDoTest(long a) {
+		return ((LLongPredicateX<RuntimeException>) this).doTest(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(long a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(long a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(a1);
+			return this.doTest(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(long a1) throws X {
-		return doTest(a1);
+	default boolean nonNullDoTest(long a) throws X {
+		return doTest(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(long a1) throws X {
-		return doTest(a1);
+	default boolean doApplyAsBoolean(long a) throws X {
+		return doTest(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -126,13 +126,13 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureLongPred(long a1) {
-		return () -> this.doTest(a1);
+	default LBoolSupplierX<X> captureLongPred(long a) {
+		return () -> this.doTest(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLongPredicateX<X> constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -149,24 +149,24 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 		return lambda;
 	}
 
-	static <X extends Throwable> boolean call(long a1, final @Nonnull LLongPredicateX<X> lambda) throws X {
+	static <X extends Throwable> boolean call(long a, final @Nonnull LLongPredicateX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1);
+		return lambda.doTest(a);
 	}
 
-	static <X extends Throwable> boolean shoving(long a1, final @Nonnull LLongPredicateX<X> lambda) {
+	static <X extends Throwable> boolean shoving(long a, final @Nonnull LLongPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoTest(a1);
+		return lambda.shovingDoTest(a);
 	}
 
-	static <X extends Throwable> boolean nesting(long a1, final @Nonnull LLongPredicateX<X> lambda) {
+	static <X extends Throwable> boolean nesting(long a, final @Nonnull LLongPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoTest(a1);
+		return lambda.nestingDoTest(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> boolean handling(long a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongPredicateX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> boolean handling(long a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongPredicateX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoTest(a1, handling);
+		return lambda.handlingDoTest(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -229,7 +229,7 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	 */
 	@Nonnull
 	default LLongPredicateX<X> negate() {
-		return a1 -> !doTest(a1);
+		return a -> !doTest(a);
 	}
 
 	/**
@@ -239,7 +239,7 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	@Nonnull
 	default LLongPredicateX<X> and(@Nonnull LLongPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) && other.doTest(a1);
+		return a -> doTest(a) && other.doTest(a);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	@Nonnull
 	default LLongPredicateX<X> or(@Nonnull LLongPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) || other.doTest(a1);
+		return a -> doTest(a) || other.doTest(a);
 	}
 
 	/**
@@ -259,7 +259,7 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	@Nonnull
 	default LLongPredicateX<X> xor(@Nonnull LLongPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) ^ other.doTest(a1);
+		return a -> doTest(a) ^ other.doTest(a);
 	}
 
 	/**
@@ -267,8 +267,8 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static <X extends Throwable> LLongPredicateX<X> isEqual(long target1) {
-		return a1 -> a1 == target1;
+	static <X extends Throwable> LLongPredicateX<X> isEqual(long target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -277,16 +277,16 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongPredicateX<X> longPredComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsLong(v1));
+	default LLongPredicateX<X> longPredComposeLong(@Nonnull final LLongUnaryOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsLong(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> longPredCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsLong(v1));
+	default <V> LPredicateX<V, X> longPredCompose(@Nonnull final LToLongFunctionX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsLong(v));
 	}
 
 	// </editor-fold>
@@ -297,63 +297,63 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	@Nonnull
 	default <V> LLongFunctionX<V, X> boolToLongFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> boolToLongToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doTest(a1));
+		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> boolToLongToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doTest(a1));
+		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> boolToLongToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doTest(a1));
+		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> boolToLongUnaryOperator(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doTest(a1));
+		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> boolToLongToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doTest(a1));
+		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> boolToLongToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doTest(a1));
+		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> boolToLongToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doTest(a1));
+		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> boolToLongPredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	// </editor-fold>
@@ -389,13 +389,13 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongPredicate handleLongPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoTest(a1, handling);
+		return a -> this.handlingDoTest(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongPredicateX<Y> handleLongPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoTest(a1, handling);
+		return a -> this.handlingDoTest(a, handling);
 	}
 
 	// </editor-fold>

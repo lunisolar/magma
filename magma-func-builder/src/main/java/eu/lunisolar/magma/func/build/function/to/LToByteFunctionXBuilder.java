@@ -55,7 +55,7 @@ public final class LToByteFunctionXBuilder<T, X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToByteFunctionX EVENTUALLY_THROW = LToByteFunctionX.lX(a1 -> {
+	public static final LToByteFunctionX EVENTUALLY_THROW = LToByteFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class LToByteFunctionXBuilder<T, X extends Throwable> extends PerCa
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> LToByteFunctionXBuilder<T, X> casesOf(Class<V> argC1, Consumer<LToByteFunctionXBuilder<V, X>> pcpConsumer) {
-		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToByteFunctionXBuilder<T, X> casesOf(Class<V> argC, Consumer<LToByteFunctionXBuilder<V, X>> pcpConsumer) {
+		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class LToByteFunctionXBuilder<T, X extends Throwable> extends PerCa
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LToByteFunctionXBuilder<T, X> aCase(Class<V> argC1, LToByteFunctionX<V, X> function) {
-		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToByteFunctionXBuilder<T, X> aCase(Class<V> argC, LToByteFunctionX<V, X> function) {
+		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class LToByteFunctionXBuilder<T, X extends Throwable> extends PerCa
 		LToByteFunctionX<T, X> retval;
 
 		final Case<LPredicateX<T, X>, LToByteFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToByteFunctionX.<T, X> lX(a1 -> {
+		retval = LToByteFunctionX.<T, X> lX(a -> {
 			try {
 				for (Case<LPredicateX<T, X>, LToByteFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

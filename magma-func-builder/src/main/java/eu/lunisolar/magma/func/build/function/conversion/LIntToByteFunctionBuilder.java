@@ -55,7 +55,7 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToByteFunction EVENTUALLY_THROW = LIntToByteFunction.l(a1 -> {
+	public static final LIntToByteFunction EVENTUALLY_THROW = LIntToByteFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 		LIntToByteFunction retval;
 
 		final Case<LIntPredicate, LIntToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToByteFunction.l(a1 -> {
+		retval = LIntToByteFunction.l(a -> {
 			try {
 				for (Case<LIntPredicate, LIntToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

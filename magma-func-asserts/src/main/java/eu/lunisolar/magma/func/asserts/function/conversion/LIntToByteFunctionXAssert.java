@@ -57,7 +57,7 @@ public interface LIntToByteFunctionXAssert<S extends LIntToByteFunctionXAssert<S
 			FullFunctionalAssert<S, LIntConsumerX<X>, A, RS, Byte> {
 
 	@Nonnull
-	Evaluation<S, LIntConsumerX<X>, A, RS, Byte> doesApplyAsByte(int a1);
+	Evaluation<S, LIntConsumerX<X>, A, RS, Byte> doesApplyAsByte(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LIntToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -78,13 +78,13 @@ public interface LIntToByteFunctionXAssert<S extends LIntToByteFunctionXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntConsumerX<X>, A, RS, Byte> doesApplyAsByte(int a1) {
+		public Evaluation<S, LIntConsumerX<X>, A, RS, Byte> doesApplyAsByte(int a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a1));
+				return assertFactory.doApply(actual.doApplyAsByte(a));
 			});
 
 		}

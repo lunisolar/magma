@@ -57,7 +57,7 @@ public interface LToCharFunctionXAssert<S extends LToCharFunctionXAssert<S, A, R
 			FullFunctionalAssert<S, LConsumerX<T, X>, A, RS, Character> {
 
 	@Nonnull
-	Evaluation<S, LConsumerX<T, X>, A, RS, Character> doesApplyAsChar(T a1);
+	Evaluation<S, LConsumerX<T, X>, A, RS, Character> doesApplyAsChar(T a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LToCharFunctionX<T, X>, RS extends AbstractCharacterAssert<RS>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
@@ -80,13 +80,13 @@ public interface LToCharFunctionXAssert<S extends LToCharFunctionXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LConsumerX<T, X>, A, RS, Character> doesApplyAsChar(T a1) {
+		public Evaluation<S, LConsumerX<T, X>, A, RS, Character> doesApplyAsChar(T a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a1));
+				return assertFactory.doApply(actual.doApplyAsChar(a));
 			});
 
 		}

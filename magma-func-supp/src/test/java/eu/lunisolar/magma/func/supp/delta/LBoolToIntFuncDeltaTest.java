@@ -44,7 +44,7 @@ public class LBoolToIntFuncDeltaTest  {
 
     private final int initialLastValue = 0;
 
-    private LBoolToIntFuncDelta sut =  LBoolToIntFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LBoolToIntFuncDelta sut =  LBoolToIntFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

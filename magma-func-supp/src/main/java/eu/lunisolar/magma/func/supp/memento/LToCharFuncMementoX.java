@@ -72,8 +72,8 @@ public class LToCharFuncMementoX<T, X extends Throwable> implements LToCharFunct
 	}
 
 	@Override
-	public char doApplyAsChar(T a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(T a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

@@ -89,8 +89,8 @@ public class LBoolToDoubleFuncDeltaX<X extends Throwable> extends LBoolToDoubleF
 	}
 
 	@Override
-	public double doApplyAsDouble(boolean a1) throws X {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(boolean a) throws X {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

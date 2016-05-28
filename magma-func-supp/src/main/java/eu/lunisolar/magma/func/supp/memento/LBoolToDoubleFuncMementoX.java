@@ -72,8 +72,8 @@ public class LBoolToDoubleFuncMementoX<X extends Throwable> implements LBoolToDo
 	}
 
 	@Override
-	public double doApplyAsDouble(boolean a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(boolean a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

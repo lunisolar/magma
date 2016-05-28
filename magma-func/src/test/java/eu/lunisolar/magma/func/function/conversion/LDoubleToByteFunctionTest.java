@@ -65,13 +65,13 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
 
 
     private LDoubleToByteFunction sut = new LDoubleToByteFunction(){
-        public  byte doApplyAsByte(double a1)  {
+        public  byte doApplyAsByte(double a)  {
             return testValue;
         }
     };
 
     private LDoubleToByteFunctionX<X> opposite = new LDoubleToByteFunctionX<X>(){
-        public  byte doApplyAsByte(double a1)  throws X {
+        public  byte doApplyAsByte(double a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
 
 
 
-    private LDoubleToByteFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LDoubleToByteFunction.l(a1 -> {
+    private LDoubleToByteFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LDoubleToByteFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleToByteFunction: byte doApplyAsByte(double a1)");
+            .isEqualTo("LDoubleToByteFunction: byte doApplyAsByte(double a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LDoubleToByteFunction.l(a1 -> testValue ))
+        assertThat(LDoubleToByteFunction.l(a -> testValue ))
             .isInstanceOf(LDoubleToByteFunction.class);
     }
 
@@ -159,7 +159,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LDoubleToByteFunctionX<X> sutThrowing = LDoubleToByteFunctionX.lX(a1 -> {
+        LDoubleToByteFunctionX<X> sutThrowing = LDoubleToByteFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LDoubleToByteFunctionX<ParseException> sutThrowing = LDoubleToByteFunctionX.lX(a1 -> {
+        LDoubleToByteFunctionX<ParseException> sutThrowing = LDoubleToByteFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     public void testHandlingDoApplyAsByteMethodWrapsTheException() throws X {
 
         // given
-        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a1 -> {
+        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     public void testHandleDoubleToByteFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a1 -> {
+        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     public void testHandleDoubleToByteFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a1 -> {
+        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     public void testHandleDoubleToByteFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a1 -> {
+        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -308,20 +308,20 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return (byte)100;
         };
 
-        LDoubleUnaryOperator before1 = p0 -> {
+        LDoubleUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo(80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LDoubleToByteFunction function = sutO.doubleToByteFuncComposeDouble(before1);
+        LDoubleToByteFunction function = sutO.doubleToByteFuncComposeDouble(before);
         function.doApplyAsByte(80d);
 
         //then - finals
@@ -337,20 +337,20 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return (byte)100;
         };
 
-        LToDoubleFunction<Integer> before1 = p0 -> {
+        LToDoubleFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LToByteFunction<Integer> function = sutO.doubleToByteFuncCompose(before1);
+        LToByteFunction<Integer> function = sutO.doubleToByteFuncCompose(before);
         function.doApplyAsByte(80);
 
         //then - finals
@@ -371,9 +371,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -405,9 +405,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -439,9 +439,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -473,9 +473,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -507,9 +507,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -541,9 +541,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -575,9 +575,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -609,9 +609,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -643,9 +643,9 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToByteFunction sutO = a1 -> {
+        LDoubleToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return (byte)90;
         };
 
@@ -704,7 +704,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a1 -> {
+        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -716,7 +716,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
     public void testHandleDoubleToByteFunc() throws X {
 
         // given
-        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a1 -> {
+        LDoubleToByteFunction sutThrowing = LDoubleToByteFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -746,7 +746,7 @@ public class LDoubleToByteFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleToByteFunction: byte doApplyAsByte(double a1)");
+                .contains("LDoubleToByteFunction: byte doApplyAsByte(double a)");
     }
 
 

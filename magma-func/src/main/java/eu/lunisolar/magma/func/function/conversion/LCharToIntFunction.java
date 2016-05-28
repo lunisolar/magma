@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): char a1
+ * Domain (lvl: 1): char a
  *
  * Co-domain: int
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LCharToIntFunction: int doApplyAsInt(char a1)";
+	String DESCRIPTION = "LCharToIntFunction: int doApplyAsInt(char a)";
 
-	int doApplyAsInt(char a1);
+	int doApplyAsInt(char a);
 
 	default int tupleApplyAsInt(LCharSingle args) {
-		return doApplyAsInt(args.first());
+		return doApplyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(char a1) {
-		return this.doApplyAsInt(a1);
+	default int nestingDoApplyAsInt(char a) {
+		return this.doApplyAsInt(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(char a1) {
-		return this.doApplyAsInt(a1);
+	default int shovingDoApplyAsInt(char a) {
+		return this.doApplyAsInt(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(char a1) {
-		return doApplyAsInt(a1);
+	default int nonNullDoApplyAsInt(char a) {
+		return doApplyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureCharToIntFunc(char a1) {
-		return () -> this.doApplyAsInt(a1);
+	default LIntSupplier captureCharToIntFunc(char a) {
+		return () -> this.doApplyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LCharToIntFunction constant(int r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 		return lambda;
 	}
 
-	static int call(char a1, final @Nonnull LCharToIntFunction lambda) {
+	static int call(char a, final @Nonnull LCharToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a1);
+		return lambda.doApplyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToIntFunction charToIntFuncComposeChar(@Nonnull final LCharUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsChar(v1));
+	default LCharToIntFunction charToIntFuncComposeChar(@Nonnull final LCharUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsChar(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> charToIntFuncCompose(@Nonnull final LToCharFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsChar(v1));
+	default <V> LToIntFunction<V> charToIntFuncCompose(@Nonnull final LToCharFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsChar(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsInt(a1));
+		return a -> after.doApply(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsInt(a1));
+		return a -> after.doTest(this.doApplyAsInt(a));
 	}
 
 	// </editor-fold>

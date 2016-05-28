@@ -72,8 +72,8 @@ public class LIntToCharFuncMementoX<X extends Throwable> implements LIntToCharFu
 	}
 
 	@Override
-	public char doApplyAsChar(int a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(int a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

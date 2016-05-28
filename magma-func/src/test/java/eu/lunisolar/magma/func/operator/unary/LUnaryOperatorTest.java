@@ -65,29 +65,29 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     private LUnaryOperator<Integer> sut = new LUnaryOperator<Integer>(){
-        public @Nullable Integer doApply(Integer a1)  {
+        public @Nullable Integer doApply(Integer a)  {
             return testValue;
         }
     };
 
     private LUnaryOperatorX<Integer,X> opposite = new LUnaryOperatorX<Integer,X>(){
-        public @Nullable Integer doApply(Integer a1)  throws X {
+        public @Nullable Integer doApply(Integer a)  throws X {
             return testValue;
         }
     };
 
     private LUnaryOperator<Integer> sutNull = new LUnaryOperator<Integer>(){
-        public @Nullable Integer doApply(Integer a1)  {
+        public @Nullable Integer doApply(Integer a)  {
             return null;
         }
     };
 
 
-    private UnaryOperator<Integer> jre = a1 -> testValue;
+    private UnaryOperator<Integer> jre = a -> testValue;
 
 
 
-    private LUnaryOperatorX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LUnaryOperator.l(a1 -> {
+    private LUnaryOperatorX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LUnaryOperator.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -145,7 +145,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LUnaryOperator: T doApply(T a1)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LUnaryOperator: T doApply(T a)).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply(100);
     }
@@ -154,12 +154,12 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LUnaryOperator: T doApply(T a1)");
+            .isEqualTo("LUnaryOperator: T doApply(T a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LUnaryOperator.l(a1 -> testValue ))
+        assertThat(LUnaryOperator.l(a -> testValue ))
             .isInstanceOf(LUnaryOperator.class);
     }
 
@@ -178,7 +178,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -200,7 +200,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LUnaryOperatorX<Integer,ParseException> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,ParseException> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -224,7 +224,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     public void testHandlingDoApplyMethodWrapsTheException() throws X {
 
         // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a1 -> {
+        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -248,7 +248,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     public void testHandleUnaryOpMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a1 -> {
+        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -272,7 +272,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     public void testHandleUnaryOpMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a1 -> {
+        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -297,7 +297,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     public void testHandleUnaryOpMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a1 -> {
+        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -328,9 +328,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -362,9 +362,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -396,9 +396,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -430,9 +430,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -464,9 +464,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -498,9 +498,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -532,9 +532,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -566,9 +566,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -600,9 +600,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperator<Integer> sutO = a1 -> {
+        LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -668,7 +668,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a1 -> {
+        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -680,7 +680,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     public void testHandleUnaryOp() throws X {
 
         // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a1 -> {
+        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -710,7 +710,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LUnaryOperator: T doApply(T a1)");
+                .contains("LUnaryOperator: T doApply(T a)");
     }
 
 

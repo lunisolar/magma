@@ -55,7 +55,7 @@ public final class LShortToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToLongFunction EVENTUALLY_THROW = LShortToLongFunction.l(a1 -> {
+	public static final LShortToLongFunction EVENTUALLY_THROW = LShortToLongFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LShortToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		LShortToLongFunction retval;
 
 		final Case<LShortPredicate, LShortToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToLongFunction.l(a1 -> {
+		retval = LShortToLongFunction.l(a -> {
 			try {
 				for (Case<LShortPredicate, LShortToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsLong(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsLong(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(a1);
+				return eventuallyFinal.doApplyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

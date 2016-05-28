@@ -72,8 +72,8 @@ public class LIntToCharFuncMemento implements LIntToCharFunction {
 	}
 
 	@Override
-	public char doApplyAsChar(int a1) {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(int a) {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

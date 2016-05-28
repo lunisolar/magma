@@ -72,8 +72,8 @@ public class LIntToByteFuncMemento implements LIntToByteFunction {
 	}
 
 	@Override
-	public byte doApplyAsByte(int a1) {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(int a) {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

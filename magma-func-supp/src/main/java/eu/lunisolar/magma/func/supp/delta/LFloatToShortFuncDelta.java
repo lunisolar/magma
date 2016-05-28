@@ -89,8 +89,8 @@ public class LFloatToShortFuncDelta extends LFloatToShortFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsShort(float a1) {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(float a) {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

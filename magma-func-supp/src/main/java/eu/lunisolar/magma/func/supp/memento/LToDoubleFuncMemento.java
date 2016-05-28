@@ -72,8 +72,8 @@ public class LToDoubleFuncMemento<T> implements LToDoubleFunction<T> {
 	}
 
 	@Override
-	public double doApplyAsDouble(T a1) {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(T a) {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

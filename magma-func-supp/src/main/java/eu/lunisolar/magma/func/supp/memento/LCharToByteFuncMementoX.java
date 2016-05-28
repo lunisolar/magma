@@ -72,8 +72,8 @@ public class LCharToByteFuncMementoX<X extends Throwable> implements LCharToByte
 	}
 
 	@Override
-	public byte doApplyAsByte(char a1) throws X {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(char a) throws X {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

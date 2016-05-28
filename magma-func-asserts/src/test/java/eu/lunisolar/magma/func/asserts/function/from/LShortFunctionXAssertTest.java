@@ -46,11 +46,11 @@ public class LShortFunctionXAssertTest<R,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LShortFunctionX<Integer,X> function = a1 ->
+    private LShortFunctionX<Integer,X> function = a ->
             testValue;
 
 
-    private LShortFunctionX<Integer,X> functionThrowing = a1 -> {
+    private LShortFunctionX<Integer,X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

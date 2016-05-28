@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): long a1
+ * Domain (lvl: 1): long a
  *
  * Co-domain: R
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LLongFunctionX: R doApply(long a1) throws X";
+	String DESCRIPTION = "LLongFunctionX: R doApply(long a) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,21 +72,21 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 	 */
 	@Override
 	@Deprecated
-	default R apply(long a1) {
-		return this.nestingDoApply(a1);
+	default R apply(long a) {
+		return this.nestingDoApply(a);
 	}
 
 	@Nullable
-	R doApply(long a1) throws X;
+	R doApply(long a) throws X;
 
 	default R tupleApply(LLongSingle args) throws X {
-		return doApply(args.first());
+		return doApply(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(long a1) {
+	default R nestingDoApply(long a) {
 		try {
-			return this.doApply(a1);
+			return this.doApply(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -95,15 +95,15 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default R shovingDoApply(long a1) {
-		return ((LLongFunctionX<R, RuntimeException>) this).doApply(a1);
+	default R shovingDoApply(long a) {
+		return ((LLongFunctionX<R, RuntimeException>) this).doApply(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> R handlingDoApply(long a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> R handlingDoApply(long a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(a1);
+			return this.doApply(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -113,8 +113,8 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(long a1) throws X {
-		return Null.requireNonNull(doApply(a1), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullDoApply(long a) throws X {
+		return Null.requireNonNull(doApply(a), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -124,13 +124,13 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureLongFunc(long a1) {
-		return () -> this.doApply(a1);
+	default LSupplierX<R, X> captureLongFunc(long a) {
+		return () -> this.doApply(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LLongFunctionX<R, X> constant(R r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -147,24 +147,24 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 		return lambda;
 	}
 
-	static <R, X extends Throwable> R call(long a1, final @Nonnull LLongFunctionX<R, X> lambda) throws X {
+	static <R, X extends Throwable> R call(long a, final @Nonnull LLongFunctionX<R, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a1);
+		return lambda.doApply(a);
 	}
 
-	static <R, X extends Throwable> R shoving(long a1, final @Nonnull LLongFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> R shoving(long a, final @Nonnull LLongFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoApply(a1);
+		return lambda.shovingDoApply(a);
 	}
 
-	static <R, X extends Throwable> R nesting(long a1, final @Nonnull LLongFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> R nesting(long a, final @Nonnull LLongFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoApply(a1);
+		return lambda.nestingDoApply(a);
 	}
 
-	static <R, X extends Throwable, Y extends Throwable> R handling(long a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongFunctionX<R, X> lambda) throws Y {
+	static <R, X extends Throwable, Y extends Throwable> R handling(long a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLongFunctionX<R, X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoApply(a1, handling);
+		return lambda.handlingDoApply(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -223,16 +223,16 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongFunctionX<R, X> longFuncComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApply(before1.doApplyAsLong(v1));
+	default LLongFunctionX<R, X> longFuncComposeLong(@Nonnull final LLongUnaryOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApply(before.doApplyAsLong(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> longFuncCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApply(before1.doApplyAsLong(v1));
+	default <V> LFunctionX<V, R, X> longFuncCompose(@Nonnull final LToLongFunctionX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApply(before.doApplyAsLong(v));
 	}
 
 	// </editor-fold>
@@ -243,70 +243,70 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 	@Nonnull
 	default <V> LLongFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApply(a1));
+		return a -> after.doApply(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doAccept(this.doApply(a1));
+		return a -> after.doAccept(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApply(a1));
+		return a -> after.doApplyAsByte(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApply(a1));
+		return a -> after.doApplyAsShort(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApply(a1));
+		return a -> after.doApplyAsInt(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApply(a1));
+		return a -> after.doApplyAsLong(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApply(a1));
+		return a -> after.doApplyAsFloat(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApply(a1));
+		return a -> after.doApplyAsDouble(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApply(a1));
+		return a -> after.doApplyAsChar(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> thenToBool(@Nonnull LPredicateX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApply(a1));
+		return a -> after.doTest(this.doApply(a));
 	}
 
 	// </editor-fold>
@@ -348,13 +348,13 @@ public interface LLongFunctionX<R, X extends Throwable> extends LongFunction<R>,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongFunction<R> handleLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoApply(a1, handling);
+		return a -> this.handlingDoApply(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongFunctionX<R, Y> handleLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoApply(a1, handling);
+		return a -> this.handlingDoApply(a, handling);
 	}
 
 	// </editor-fold>

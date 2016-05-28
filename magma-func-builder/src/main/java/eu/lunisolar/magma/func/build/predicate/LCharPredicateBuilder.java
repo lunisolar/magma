@@ -55,7 +55,7 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharPredicate EVENTUALLY_THROW = LCharPredicate.l(a1 -> {
+	public static final LCharPredicate EVENTUALLY_THROW = LCharPredicate.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 		LCharPredicate retval;
 
 		final Case<LCharPredicate, LCharPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharPredicate.l(a1 -> {
+		retval = LCharPredicate.l(a -> {
 			try {
 				for (Case<LCharPredicate, LCharPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doTest(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doTest(a);
 					}
 				}
 
-				return eventuallyFinal.doTest(a1);
+				return eventuallyFinal.doTest(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

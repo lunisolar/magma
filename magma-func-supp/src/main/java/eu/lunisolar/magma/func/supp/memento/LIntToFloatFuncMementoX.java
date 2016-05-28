@@ -72,8 +72,8 @@ public class LIntToFloatFuncMementoX<X extends Throwable> implements LIntToFloat
 	}
 
 	@Override
-	public float doApplyAsFloat(int a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(int a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

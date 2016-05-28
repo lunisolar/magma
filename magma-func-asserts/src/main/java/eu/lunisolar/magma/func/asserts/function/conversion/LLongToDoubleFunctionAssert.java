@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLongToDoubleFunctionAssert<S extends LLongToDoubleFunctionAssert<S, A, RS>, A extends LLongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LLongConsumer, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDouble(long a1);
+	Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDouble(long a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LLongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LLongToDoubleFunctionAssert<S extends LLongToDoubleFunctionAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDouble(long a1) {
+		public Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDouble(long a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsDouble(a1));
+				return assertFactory.doApply(actual.doApplyAsDouble(a));
 			});
 
 		}

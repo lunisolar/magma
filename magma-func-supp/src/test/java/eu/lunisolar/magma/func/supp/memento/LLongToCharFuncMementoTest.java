@@ -43,7 +43,7 @@ public class LLongToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LLongToCharFuncMemento sut =  LLongToCharFuncMemento.mementoOf( a1 ->{
+    private LLongToCharFuncMemento sut =  LLongToCharFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

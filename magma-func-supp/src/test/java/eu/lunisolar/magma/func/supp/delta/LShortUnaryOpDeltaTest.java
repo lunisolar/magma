@@ -44,7 +44,7 @@ public class LShortUnaryOpDeltaTest  {
 
     private final short initialLastValue = (short)0;
 
-    private LShortUnaryOpDelta sut =  LShortUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LShortUnaryOpDelta sut =  LShortUnaryOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

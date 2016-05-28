@@ -72,8 +72,8 @@ public class LDoubleFuncMementoX<R, X extends Throwable> implements LDoubleFunct
 	}
 
 	@Override
-	public R doApply(double a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(double a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

@@ -55,7 +55,7 @@ public final class LBoolFunctionXBuilder<R, X extends Throwable> extends PerCase
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolFunctionX EVENTUALLY_THROW = LBoolFunctionX.lX(a1 -> {
+	public static final LBoolFunctionX EVENTUALLY_THROW = LBoolFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolFunctionXBuilder<R, X extends Throwable> extends PerCase
 		LBoolFunctionX<R, X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolFunctionX.<R, X> lX(a1 -> {
+		retval = LBoolFunctionX.<R, X> lX(a -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApply(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1);
+				return eventuallyFinal.doApply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

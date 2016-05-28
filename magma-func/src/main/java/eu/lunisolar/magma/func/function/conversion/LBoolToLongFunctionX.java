@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): boolean a1
+ * Domain (lvl: 1): boolean a
  *
  * Co-domain: long
  *
@@ -64,18 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBoolToLongFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LBoolToLongFunctionX: long doApplyAsLong(boolean a1) throws X";
+	String DESCRIPTION = "LBoolToLongFunctionX: long doApplyAsLong(boolean a) throws X";
 
-	long doApplyAsLong(boolean a1) throws X;
+	long doApplyAsLong(boolean a) throws X;
 
 	default long tupleApplyAsLong(LBoolSingle args) throws X {
-		return doApplyAsLong(args.first());
+		return doApplyAsLong(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default long nestingDoApplyAsLong(boolean a1) {
+	default long nestingDoApplyAsLong(boolean a) {
 		try {
-			return this.doApplyAsLong(a1);
+			return this.doApplyAsLong(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -84,23 +84,23 @@ public interface LBoolToLongFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(boolean a1) {
-		return ((LBoolToLongFunctionX<RuntimeException>) this).doApplyAsLong(a1);
+	default long shovingDoApplyAsLong(boolean a) {
+		return ((LBoolToLongFunctionX<RuntimeException>) this).doApplyAsLong(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> long handlingDoApplyAsLong(boolean a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> long handlingDoApplyAsLong(boolean a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsLong(a1);
+			return this.doApplyAsLong(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(boolean a1) throws X {
-		return doApplyAsLong(a1);
+	default long nonNullDoApplyAsLong(boolean a) throws X {
+		return doApplyAsLong(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -110,13 +110,13 @@ public interface LBoolToLongFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> captureBoolToLongFunc(boolean a1) {
-		return () -> this.doApplyAsLong(a1);
+	default LLongSupplierX<X> captureBoolToLongFunc(boolean a) {
+		return () -> this.doApplyAsLong(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LBoolToLongFunctionX<X> constant(long r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -133,24 +133,24 @@ public interface LBoolToLongFunctionX<X extends Throwable> extends MetaFunction,
 		return lambda;
 	}
 
-	static <X extends Throwable> long call(boolean a1, final @Nonnull LBoolToLongFunctionX<X> lambda) throws X {
+	static <X extends Throwable> long call(boolean a, final @Nonnull LBoolToLongFunctionX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsLong(a1);
+		return lambda.doApplyAsLong(a);
 	}
 
-	static <X extends Throwable> long shoving(boolean a1, final @Nonnull LBoolToLongFunctionX<X> lambda) {
+	static <X extends Throwable> long shoving(boolean a, final @Nonnull LBoolToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoApplyAsLong(a1);
+		return lambda.shovingDoApplyAsLong(a);
 	}
 
-	static <X extends Throwable> long nesting(boolean a1, final @Nonnull LBoolToLongFunctionX<X> lambda) {
+	static <X extends Throwable> long nesting(boolean a, final @Nonnull LBoolToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoApplyAsLong(a1);
+		return lambda.nestingDoApplyAsLong(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> long handling(boolean a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBoolToLongFunctionX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> long handling(boolean a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LBoolToLongFunctionX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoApplyAsLong(a1, handling);
+		return lambda.handlingDoApplyAsLong(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -203,16 +203,16 @@ public interface LBoolToLongFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBoolToLongFunctionX<X> boolToLongFuncComposeBool(@Nonnull final LLogicalOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApply(v1));
+	default LBoolToLongFunctionX<X> boolToLongFuncComposeBool(@Nonnull final LLogicalOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsLong(before.doApply(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> boolToLongFuncCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doTest(v1));
+	default <V> LToLongFunctionX<V, X> boolToLongFuncCompose(@Nonnull final LPredicateX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsLong(before.doTest(v));
 	}
 
 	// </editor-fold>
@@ -223,63 +223,63 @@ public interface LBoolToLongFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LBoolFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsLong(a1));
+		return a -> after.doApply(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToLongFunctionX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLogicalOperatorX<X> thenToBool(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsLong(a1));
+		return a -> after.doTest(this.doApplyAsLong(a));
 	}
 
 	// </editor-fold>
@@ -315,13 +315,13 @@ public interface LBoolToLongFunctionX<X extends Throwable> extends MetaFunction,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBoolToLongFunction handleBoolToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoApplyAsLong(a1, handling);
+		return a -> this.handlingDoApplyAsLong(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBoolToLongFunctionX<Y> handleBoolToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoApplyAsLong(a1, handling);
+		return a -> this.handlingDoApplyAsLong(a, handling);
 	}
 
 	// </editor-fold>

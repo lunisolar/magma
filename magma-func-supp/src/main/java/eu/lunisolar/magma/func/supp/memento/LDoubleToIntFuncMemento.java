@@ -72,8 +72,8 @@ public class LDoubleToIntFuncMemento implements LDoubleToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsInt(double a1) {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(double a) {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

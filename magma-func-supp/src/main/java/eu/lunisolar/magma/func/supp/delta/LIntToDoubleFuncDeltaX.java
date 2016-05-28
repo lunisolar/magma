@@ -89,8 +89,8 @@ public class LIntToDoubleFuncDeltaX<X extends Throwable> extends LIntToDoubleFun
 	}
 
 	@Override
-	public double doApplyAsDouble(int a1) throws X {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(int a) throws X {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

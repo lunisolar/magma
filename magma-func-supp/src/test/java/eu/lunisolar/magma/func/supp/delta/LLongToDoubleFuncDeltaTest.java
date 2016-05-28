@@ -44,7 +44,7 @@ public class LLongToDoubleFuncDeltaTest  {
 
     private final double initialLastValue = 0d;
 
-    private LLongToDoubleFuncDelta sut =  LLongToDoubleFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LLongToDoubleFuncDelta sut =  LLongToDoubleFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

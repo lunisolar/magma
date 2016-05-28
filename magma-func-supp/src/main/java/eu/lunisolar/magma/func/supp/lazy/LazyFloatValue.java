@@ -72,7 +72,7 @@ public class LazyFloatValue extends LFloatSupMemento implements LFloatSingle {
 		return lastValue;
 	}
 
-	public float first() {
+	public float value() {
 		return shovingDoGetAsFloat();
 	}
 
@@ -84,7 +84,7 @@ public class LazyFloatValue extends LFloatSupMemento implements LFloatSingle {
 
 			LazyFloatValue other = (LazyFloatValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyFloatValue extends LFloatSupMemento implements LFloatSingle {
 
 	@Override
 	public int hashCode() {
-		return LFloatSingle.argHashCode(first());
+		return LFloatSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

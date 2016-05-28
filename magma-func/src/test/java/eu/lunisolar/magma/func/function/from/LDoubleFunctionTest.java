@@ -65,29 +65,29 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
 
 
     private LDoubleFunction<Integer> sut = new LDoubleFunction<Integer>(){
-        public @Nullable Integer doApply(double a1)  {
+        public @Nullable Integer doApply(double a)  {
             return testValue;
         }
     };
 
     private LDoubleFunctionX<Integer,X> opposite = new LDoubleFunctionX<Integer,X>(){
-        public @Nullable Integer doApply(double a1)  throws X {
+        public @Nullable Integer doApply(double a)  throws X {
             return testValue;
         }
     };
 
     private LDoubleFunction<Integer> sutNull = new LDoubleFunction<Integer>(){
-        public @Nullable Integer doApply(double a1)  {
+        public @Nullable Integer doApply(double a)  {
             return null;
         }
     };
 
 
-    private DoubleFunction<Integer> jre = a1 -> testValue;
+    private DoubleFunction<Integer> jre = a -> testValue;
 
 
 
-    private LDoubleFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LDoubleFunction.l(a1 -> {
+    private LDoubleFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LDoubleFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -145,7 +145,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LDoubleFunction: R doApply(double a1)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LDoubleFunction: R doApply(double a)).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply(100d);
     }
@@ -154,12 +154,12 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleFunction: R doApply(double a1)");
+            .isEqualTo("LDoubleFunction: R doApply(double a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LDoubleFunction.l(a1 -> testValue ))
+        assertThat(LDoubleFunction.l(a -> testValue ))
             .isInstanceOf(LDoubleFunction.class);
     }
 
@@ -178,7 +178,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LDoubleFunctionX<Integer,X> sutThrowing = LDoubleFunctionX.lX(a1 -> {
+        LDoubleFunctionX<Integer,X> sutThrowing = LDoubleFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -200,7 +200,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LDoubleFunctionX<Integer,ParseException> sutThrowing = LDoubleFunctionX.lX(a1 -> {
+        LDoubleFunctionX<Integer,ParseException> sutThrowing = LDoubleFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -224,7 +224,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     public void testHandlingDoApplyMethodWrapsTheException() throws X {
 
         // given
-        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a1 -> {
+        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -248,7 +248,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     public void testHandleDoubleFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a1 -> {
+        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -272,7 +272,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     public void testHandleDoubleFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a1 -> {
+        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -297,7 +297,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     public void testHandleDoubleFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a1 -> {
+        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -327,20 +327,20 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return 100;
         };
 
-        LDoubleUnaryOperator before1 = p0 -> {
+        LDoubleUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo(80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LDoubleFunction<Integer> function = sutO.doubleFuncComposeDouble(before1);
+        LDoubleFunction<Integer> function = sutO.doubleFuncComposeDouble(before);
         function.doApply(80d);
 
         //then - finals
@@ -356,20 +356,20 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return 100;
         };
 
-        LToDoubleFunction<Integer> before1 = p0 -> {
+        LToDoubleFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LFunction<Integer,Integer> function = sutO.doubleFuncCompose(before1);
+        LFunction<Integer,Integer> function = sutO.doubleFuncCompose(before);
         function.doApply(80);
 
         //then - finals
@@ -390,9 +390,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -424,9 +424,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -455,9 +455,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -489,9 +489,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -523,9 +523,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -557,9 +557,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -591,9 +591,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -625,9 +625,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -659,9 +659,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -693,9 +693,9 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleFunction<Integer> sutO = a1 -> {
+        LDoubleFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90;
         };
 
@@ -754,7 +754,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a1 -> {
+        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -766,7 +766,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
     public void testHandleDoubleFunc() throws X {
 
         // given
-        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a1 -> {
+        LDoubleFunction<Integer> sutThrowing = LDoubleFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -796,7 +796,7 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleFunction: R doApply(double a1)");
+                .contains("LDoubleFunction: R doApply(double a)");
     }
 
 

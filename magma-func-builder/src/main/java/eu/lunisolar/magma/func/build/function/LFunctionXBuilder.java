@@ -55,7 +55,7 @@ public final class LFunctionXBuilder<T, R, X extends Throwable> extends PerCaseB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFunctionX EVENTUALLY_THROW = LFunctionX.lX(a1 -> {
+	public static final LFunctionX EVENTUALLY_THROW = LFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class LFunctionXBuilder<T, R, X extends Throwable> extends PerCaseB
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> LFunctionXBuilder<T, R, X> casesOf(Class<V> argC1, Consumer<LFunctionXBuilder<V, R, X>> pcpConsumer) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LFunctionXBuilder<T, R, X> casesOf(Class<V> argC, Consumer<LFunctionXBuilder<V, R, X>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class LFunctionXBuilder<T, R, X extends Throwable> extends PerCaseB
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LFunctionXBuilder<T, R, X> aCase(Class<V> argC1, LFunctionX<V, R, X> function) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LFunctionXBuilder<T, R, X> aCase(Class<V> argC, LFunctionX<V, R, X> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class LFunctionXBuilder<T, R, X extends Throwable> extends PerCaseB
 		LFunctionX<T, R, X> retval;
 
 		final Case<LPredicateX<T, X>, LFunctionX<T, R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFunctionX.<T, R, X> lX(a1 -> {
+		retval = LFunctionX.<T, R, X> lX(a -> {
 			try {
 				for (Case<LPredicateX<T, X>, LFunctionX<T, R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApply(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1);
+				return eventuallyFinal.doApply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -77,8 +77,8 @@ public class LUnaryOpDeltaX<T, X extends Throwable> extends LUnaryOpMementoX<T, 
 	}
 
 	@Override
-	public T doApply(T a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public T doApply(T a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

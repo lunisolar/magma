@@ -72,8 +72,8 @@ public class LDoubleToLongFuncMementoX<X extends Throwable> implements LDoubleTo
 	}
 
 	@Override
-	public long doApplyAsLong(double a1) throws X {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(double a) throws X {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

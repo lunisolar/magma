@@ -89,8 +89,8 @@ public class LDoubleToLongFuncDeltaX<X extends Throwable> extends LDoubleToLongF
 	}
 
 	@Override
-	public long doApplyAsLong(double a1) throws X {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(double a) throws X {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

@@ -55,7 +55,7 @@ public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToDoubleFunction EVENTUALLY_THROW = LIntToDoubleFunction.l(a1 -> {
+	public static final LIntToDoubleFunction EVENTUALLY_THROW = LIntToDoubleFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 		LIntToDoubleFunction retval;
 
 		final Case<LIntPredicate, LIntToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToDoubleFunction.l(a1 -> {
+		retval = LIntToDoubleFunction.l(a -> {
 			try {
 				for (Case<LIntPredicate, LIntToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsDouble(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(a1);
+				return eventuallyFinal.doApplyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

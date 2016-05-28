@@ -89,8 +89,8 @@ public class LLongToIntFuncDelta extends LLongToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(long a1) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(long a) {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

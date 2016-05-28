@@ -55,7 +55,7 @@ public final class LByteUnaryOperatorBuilder extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteUnaryOperator EVENTUALLY_THROW = LByteUnaryOperator.l(a1 -> {
+	public static final LByteUnaryOperator EVENTUALLY_THROW = LByteUnaryOperator.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LByteUnaryOperatorBuilder extends PerCaseBuilderWithByteProdu
 		LByteUnaryOperator retval;
 
 		final Case<LBytePredicate, LByteUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteUnaryOperator.l(a1 -> {
+		retval = LByteUnaryOperator.l(a -> {
 			try {
 				for (Case<LBytePredicate, LByteUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

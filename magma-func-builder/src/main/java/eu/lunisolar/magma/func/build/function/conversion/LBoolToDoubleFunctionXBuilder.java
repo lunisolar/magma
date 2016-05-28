@@ -55,7 +55,7 @@ public final class LBoolToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToDoubleFunctionX EVENTUALLY_THROW = LBoolToDoubleFunctionX.lX(a1 -> {
+	public static final LBoolToDoubleFunctionX EVENTUALLY_THROW = LBoolToDoubleFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 		LBoolToDoubleFunctionX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToDoubleFunctionX.<X> lX(a1 -> {
+		retval = LBoolToDoubleFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsDouble(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(a1);
+				return eventuallyFinal.doApplyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

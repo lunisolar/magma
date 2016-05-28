@@ -55,7 +55,7 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToShortFunction EVENTUALLY_THROW = LToShortFunction.l(a1 -> {
+	public static final LToShortFunction EVENTUALLY_THROW = LToShortFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> LToShortFunctionBuilder<T> casesOf(Class<V> argC1, Consumer<LToShortFunctionBuilder<V>> pcpConsumer) {
-		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToShortFunctionBuilder<T> casesOf(Class<V> argC, Consumer<LToShortFunctionBuilder<V>> pcpConsumer) {
+		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LToShortFunctionBuilder<T> aCase(Class<V> argC1, LToShortFunction<V> function) {
-		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToShortFunctionBuilder<T> aCase(Class<V> argC, LToShortFunction<V> function) {
+		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 		LToShortFunction<T> retval;
 
 		final Case<LPredicate<T>, LToShortFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToShortFunction.<T> l(a1 -> {
+		retval = LToShortFunction.<T> l(a -> {
 			try {
 				for (Case<LPredicate<T>, LToShortFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsShort(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsShort(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(a1);
+				return eventuallyFinal.doApplyAsShort(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

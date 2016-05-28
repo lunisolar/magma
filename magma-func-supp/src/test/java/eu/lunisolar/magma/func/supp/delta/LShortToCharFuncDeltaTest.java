@@ -44,7 +44,7 @@ public class LShortToCharFuncDeltaTest  {
 
     private final char initialLastValue = '\u0000';
 
-    private LShortToCharFuncDelta sut =  LShortToCharFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LShortToCharFuncDelta sut =  LShortToCharFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

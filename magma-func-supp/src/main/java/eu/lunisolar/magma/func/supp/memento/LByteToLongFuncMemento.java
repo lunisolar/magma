@@ -72,8 +72,8 @@ public class LByteToLongFuncMemento implements LByteToLongFunction {
 	}
 
 	@Override
-	public long doApplyAsLong(byte a1) {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(byte a) {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

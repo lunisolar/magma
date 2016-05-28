@@ -72,8 +72,8 @@ public class LToShortFuncMementoX<T, X extends Throwable> implements LToShortFun
 	}
 
 	@Override
-	public short doApplyAsShort(T a1) throws X {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(T a) throws X {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

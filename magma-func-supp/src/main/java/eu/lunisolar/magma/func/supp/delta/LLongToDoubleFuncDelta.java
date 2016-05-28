@@ -89,8 +89,8 @@ public class LLongToDoubleFuncDelta extends LLongToDoubleFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDouble(long a1) {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(long a) {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

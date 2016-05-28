@@ -55,7 +55,7 @@ public final class LLongToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToCharFunction EVENTUALLY_THROW = LLongToCharFunction.l(a1 -> {
+	public static final LLongToCharFunction EVENTUALLY_THROW = LLongToCharFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLongToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 		LLongToCharFunction retval;
 
 		final Case<LLongPredicate, LLongToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToCharFunction.l(a1 -> {
+		retval = LLongToCharFunction.l(a -> {
 			try {
 				for (Case<LLongPredicate, LLongToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

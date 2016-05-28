@@ -44,7 +44,7 @@ public class LCharToFloatFuncDeltaTest  {
 
     private final float initialLastValue = 0f;
 
-    private LCharToFloatFuncDelta sut =  LCharToFloatFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LCharToFloatFuncDelta sut =  LCharToFloatFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

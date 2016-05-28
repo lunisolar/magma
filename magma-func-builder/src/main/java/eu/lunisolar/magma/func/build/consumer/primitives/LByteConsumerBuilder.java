@@ -55,7 +55,7 @@ public final class LByteConsumerBuilder extends PerCaseBuilder.Base<LByteConsume
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteConsumer EVENTUALLY_THROW = LByteConsumer.l(a1 -> {
+	public static final LByteConsumer EVENTUALLY_THROW = LByteConsumer.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,16 +108,16 @@ public final class LByteConsumerBuilder extends PerCaseBuilder.Base<LByteConsume
 		LByteConsumer retval;
 
 		final Case<LBytePredicate, LByteConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteConsumer.l(a1 -> {
+		retval = LByteConsumer.l(a -> {
 			try {
 				for (Case<LBytePredicate, LByteConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						aCase.caseFunction().doAccept(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						aCase.caseFunction().doAccept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1);
+				eventuallyFinal.doAccept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

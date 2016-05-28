@@ -43,7 +43,7 @@ public class LDoubleFuncMementoXTest <R,X extends Throwable> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LDoubleFuncMementoX<Integer,X> sut =  LDoubleFuncMementoX.<Integer,X>mementoOf( a1 ->{
+    private LDoubleFuncMementoX<Integer,X> sut =  LDoubleFuncMementoX.<Integer,X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

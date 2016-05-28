@@ -55,7 +55,7 @@ public final class LLogicalOperatorXBuilder<X extends Throwable> extends PerCase
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLogicalOperatorX EVENTUALLY_THROW = LLogicalOperatorX.lX(a1 -> {
+	public static final LLogicalOperatorX EVENTUALLY_THROW = LLogicalOperatorX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLogicalOperatorXBuilder<X extends Throwable> extends PerCase
 		LLogicalOperatorX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LLogicalOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLogicalOperatorX.<X> lX(a1 -> {
+		retval = LLogicalOperatorX.<X> lX(a -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LLogicalOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApply(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1);
+				return eventuallyFinal.doApply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

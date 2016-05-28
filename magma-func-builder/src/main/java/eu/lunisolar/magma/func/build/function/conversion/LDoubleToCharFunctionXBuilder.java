@@ -55,7 +55,7 @@ public final class LDoubleToCharFunctionXBuilder<X extends Throwable> extends Pe
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToCharFunctionX EVENTUALLY_THROW = LDoubleToCharFunctionX.lX(a1 -> {
+	public static final LDoubleToCharFunctionX EVENTUALLY_THROW = LDoubleToCharFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToCharFunctionXBuilder<X extends Throwable> extends Pe
 		LDoubleToCharFunctionX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToCharFunctionX.<X> lX(a1 -> {
+		retval = LDoubleToCharFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

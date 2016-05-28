@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): float a1
+ * Domain (lvl: 1): float a
  *
  * Co-domain: none
  *
@@ -64,23 +64,23 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LFloatConsumer: void doAccept(float a1)";
+	String DESCRIPTION = "LFloatConsumer: void doAccept(float a)";
 
-	void doAccept(float a1);
+	void doAccept(float a);
 
 	default LTuple.Void tupleAccept(LFloatSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(float a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(float a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(float a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(float a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,8 +90,8 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureFloatCons(float a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureFloatCons(float a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,9 +101,9 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 		return lambda;
 	}
 
-	static void call(float a1, final @Nonnull LFloatConsumer lambda) {
+	static void call(float a, final @Nonnull LFloatConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -156,16 +156,16 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatConsumer floatConsComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
+	default LFloatConsumer floatConsComposeFloat(@Nonnull final LFloatUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsFloat(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> floatConsCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
+	default <V> LConsumer<V> floatConsCompose(@Nonnull final LToFloatFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsFloat(v));
 	}
 
 	// </editor-fold>
@@ -176,9 +176,9 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LFloatConsumer andThen(@Nonnull LFloatConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

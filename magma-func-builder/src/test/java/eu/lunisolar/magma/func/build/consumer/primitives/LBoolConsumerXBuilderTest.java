@@ -99,7 +99,7 @@ public class LBoolConsumerXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LBoolConsumerX<X> function = boolConsumerXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -120,10 +120,10 @@ public class LBoolConsumerXBuilderTest<X extends ParseException>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LBoolConsumerX<X> function = boolConsumerXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == false)
-                             .evaluate(a1 -> externalEffect.set(0)))
-            .inCase(a1 -> a1 == true ).evaluate(a1 -> externalEffect.set(1))
-            .eventually(a1 -> externalEffect.set(99))
+            .aCase(ce -> ce.of(a -> a == false)
+                             .evaluate(a -> externalEffect.set(0)))
+            .inCase(a -> a == true ).evaluate(a -> externalEffect.set(1))
+            .eventually(a -> externalEffect.set(99))
             .build()
         );
 

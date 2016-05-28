@@ -57,7 +57,7 @@ public interface LCharToShortFunctionXAssert<S extends LCharToShortFunctionXAsse
 			FullFunctionalAssert<S, LCharConsumerX<X>, A, RS, Short> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumerX<X>, A, RS, Short> doesApplyAsShort(char a1);
+	Evaluation<S, LCharConsumerX<X>, A, RS, Short> doesApplyAsShort(char a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LCharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LCharToShortFunctionXAssert<S extends LCharToShortFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumerX<X>, A, RS, Short> doesApplyAsShort(char a1) {
+		public Evaluation<S, LCharConsumerX<X>, A, RS, Short> doesApplyAsShort(char a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsShort(a1));
+				return assertFactory.doApply(actual.doApplyAsShort(a));
 			});
 
 		}

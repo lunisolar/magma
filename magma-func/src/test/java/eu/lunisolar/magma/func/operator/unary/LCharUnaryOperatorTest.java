@@ -65,13 +65,13 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
 
     private LCharUnaryOperator sut = new LCharUnaryOperator(){
-        public  char doApplyAsChar(char a1)  {
+        public  char doApplyAsChar(char a)  {
             return testValue;
         }
     };
 
     private LCharUnaryOperatorX<X> opposite = new LCharUnaryOperatorX<X>(){
-        public  char doApplyAsChar(char a1)  throws X {
+        public  char doApplyAsChar(char a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
 
 
-    private LCharUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LCharUnaryOperator.l(a1 -> {
+    private LCharUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LCharUnaryOperator.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharUnaryOperator: char doApplyAsChar(char a1)");
+            .isEqualTo("LCharUnaryOperator: char doApplyAsChar(char a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LCharUnaryOperator.l(a1 -> testValue ))
+        assertThat(LCharUnaryOperator.l(a -> testValue ))
             .isInstanceOf(LCharUnaryOperator.class);
     }
 
@@ -159,7 +159,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LCharUnaryOperatorX<X> sutThrowing = LCharUnaryOperatorX.lX(a1 -> {
+        LCharUnaryOperatorX<X> sutThrowing = LCharUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LCharUnaryOperatorX<ParseException> sutThrowing = LCharUnaryOperatorX.lX(a1 -> {
+        LCharUnaryOperatorX<ParseException> sutThrowing = LCharUnaryOperatorX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     public void testHandlingDoApplyAsCharMethodWrapsTheException() throws X {
 
         // given
-        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a1 -> {
+        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     public void testHandleCharUnaryOpMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a1 -> {
+        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     public void testHandleCharUnaryOpMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a1 -> {
+        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     public void testHandleCharUnaryOpMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a1 -> {
+        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -308,20 +308,20 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return '\u0100';
         };
 
-        LCharUnaryOperator before1 = p0 -> {
+        LCharUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo('\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LCharUnaryOperator function = sutO.charUnaryOpComposeChar(before1);
+        LCharUnaryOperator function = sutO.charUnaryOpComposeChar(before);
         function.doApplyAsChar('\u0080');
 
         //then - finals
@@ -337,20 +337,20 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return '\u0100';
         };
 
-        LToCharFunction<Integer> before1 = p0 -> {
+        LToCharFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LToCharFunction<Integer> function = sutO.charUnaryOpCompose(before1);
+        LToCharFunction<Integer> function = sutO.charUnaryOpCompose(before);
         function.doApplyAsChar(80);
 
         //then - finals
@@ -371,9 +371,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -405,9 +405,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -439,9 +439,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -473,9 +473,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -507,9 +507,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -541,9 +541,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -575,9 +575,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -609,9 +609,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -643,9 +643,9 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharUnaryOperator sutO = a1 -> {
+        LCharUnaryOperator sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return '\u0090';
         };
 
@@ -711,7 +711,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a1 -> {
+        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -723,7 +723,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     public void testHandleCharUnaryOp() throws X {
 
         // given
-        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a1 -> {
+        LCharUnaryOperator sutThrowing = LCharUnaryOperator.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -753,7 +753,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharUnaryOperator: char doApplyAsChar(char a1)");
+                .contains("LCharUnaryOperator: char doApplyAsChar(char a)");
     }
 
 

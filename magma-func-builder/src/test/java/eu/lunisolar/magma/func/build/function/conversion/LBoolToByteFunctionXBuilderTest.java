@@ -99,7 +99,7 @@ public class LBoolToByteFunctionXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LBoolToByteFunctionX<X> function = boolToByteFunctionXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,10 +119,10 @@ public class LBoolToByteFunctionXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LBoolToByteFunctionX<X> function = boolToByteFunctionXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == false)
-                             .evaluate(a1 -> (byte)0))
-            .inCase(a1 -> a1 == true ).evaluate(a1 -> (byte)1)
-            .eventually(a1 -> (byte)99)
+            .aCase(ce -> ce.of(a -> a == false)
+                             .evaluate(a -> (byte)0))
+            .inCase(a -> a == true ).evaluate(a -> (byte)1)
+            .eventually(a -> (byte)99)
             .build()
         );
 

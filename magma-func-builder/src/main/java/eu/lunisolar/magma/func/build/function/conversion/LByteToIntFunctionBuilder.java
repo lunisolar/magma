@@ -55,7 +55,7 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteToIntFunction EVENTUALLY_THROW = LByteToIntFunction.l(a1 -> {
+	public static final LByteToIntFunction EVENTUALLY_THROW = LByteToIntFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LByteToIntFunction retval;
 
 		final Case<LBytePredicate, LByteToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToIntFunction.l(a1 -> {
+		retval = LByteToIntFunction.l(a -> {
 			try {
 				for (Case<LBytePredicate, LByteToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -99,7 +99,7 @@ public class LCharUnaryOperatorXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LCharUnaryOperatorX<X> function = charUnaryOperatorXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LCharUnaryOperatorXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LCharUnaryOperatorX<X> function = charUnaryOperatorXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == '\u0000')
-                             .evaluate(a1 -> '\u0000'))
-            .inCase(a1 -> a1 > '\u0000' && a1 < '\u0010').evaluate(a1 -> '\u0001')
-            .inCase(a1 -> a1 > '\u0010' && a1 < '\u0020').evaluate(a1 -> '\u0002')
-            .eventually(a1 -> '\u0099')
+            .aCase(ce -> ce.of(a -> a == '\u0000')
+                             .evaluate(a -> '\u0000'))
+            .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> '\u0001')
+            .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> '\u0002')
+            .eventually(a -> '\u0099')
             .build()
         );
 

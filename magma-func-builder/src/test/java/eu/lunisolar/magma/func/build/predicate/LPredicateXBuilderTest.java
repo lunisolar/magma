@@ -99,7 +99,7 @@ public class LPredicateXBuilderTest<T,X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LPredicateX<Integer,X> function = predicateXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LPredicateXBuilderTest<T,X extends ParseException>{
     public void testBuild()  throws X {
 
         LPredicateX<Integer,X> function = predicateXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0)
-                             .evaluate(a1 -> false))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> true)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> true)
-            .eventually(a1 -> true)
+            .aCase(ce -> ce.of(a -> a == 0)
+                             .evaluate(a -> false))
+            .inCase(a -> a > 0 && a < 10).evaluate(a -> true)
+            .inCase(a -> a > 10 && a < 20).evaluate(a -> true)
+            .eventually(a -> true)
             .build()
         );
 

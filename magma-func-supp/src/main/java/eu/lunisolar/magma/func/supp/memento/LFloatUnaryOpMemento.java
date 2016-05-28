@@ -72,8 +72,8 @@ public class LFloatUnaryOpMemento implements LFloatUnaryOperator {
 	}
 
 	@Override
-	public float doApplyAsFloat(float a1) {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(float a) {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

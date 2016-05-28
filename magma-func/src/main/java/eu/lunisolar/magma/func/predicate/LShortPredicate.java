@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: predicate
  *
- * Domain (lvl: 1): short a1
+ * Domain (lvl: 1): short a
  *
  * Co-domain: boolean
  *
@@ -64,33 +64,33 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortPredicate extends LShortPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LShortPredicate: boolean doTest(short a1)";
+	String DESCRIPTION = "LShortPredicate: boolean doTest(short a)";
 
-	boolean doTest(short a1);
+	boolean doTest(short a);
 
 	default boolean tupleTest(LShortSingle args) {
-		return doTest(args.first());
+		return doTest(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(short a1) {
-		return this.doTest(a1);
+	default boolean nestingDoTest(short a) {
+		return this.doTest(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(short a1) {
-		return this.doTest(a1);
+	default boolean shovingDoTest(short a) {
+		return this.doTest(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(short a1) {
-		return doTest(a1);
+	default boolean nonNullDoTest(short a) {
+		return doTest(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(short a1) {
-		return doTest(a1);
+	default boolean doApplyAsBoolean(short a) {
+		return doTest(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -100,13 +100,13 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureShortPred(short a1) {
-		return () -> this.doTest(a1);
+	default LBoolSupplier captureShortPred(short a) {
+		return () -> this.doTest(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LShortPredicate constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -116,9 +116,9 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 		return lambda;
 	}
 
-	static boolean call(short a1, final @Nonnull LShortPredicate lambda) {
+	static boolean call(short a, final @Nonnull LShortPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1);
+		return lambda.doTest(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -175,7 +175,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LShortPredicate negate() {
-		return a1 -> !doTest(a1);
+		return a -> !doTest(a);
 	}
 
 	/**
@@ -185,7 +185,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate and(@Nonnull LShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) && other.doTest(a1);
+		return a -> doTest(a) && other.doTest(a);
 	}
 
 	/**
@@ -195,7 +195,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate or(@Nonnull LShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) || other.doTest(a1);
+		return a -> doTest(a) || other.doTest(a);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate xor(@Nonnull LShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) ^ other.doTest(a1);
+		return a -> doTest(a) ^ other.doTest(a);
 	}
 
 	/**
@@ -213,8 +213,8 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LShortPredicate isEqual(short target1) {
-		return a1 -> a1 == target1;
+	static LShortPredicate isEqual(short target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -223,16 +223,16 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortPredicate shortPredComposeShort(@Nonnull final LShortUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsShort(v1));
+	default LShortPredicate shortPredComposeShort(@Nonnull final LShortUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsShort(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> shortPredCompose(@Nonnull final LToShortFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsShort(v1));
+	default <V> LPredicate<V> shortPredCompose(@Nonnull final LToShortFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsShort(v));
 	}
 
 	// </editor-fold>
@@ -243,63 +243,63 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LShortFunction<V> boolToShortFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunction boolToShortToByteFunction(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doTest(a1));
+		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperator boolToShortUnaryOperator(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doTest(a1));
+		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunction boolToShortToIntFunction(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doTest(a1));
+		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunction boolToShortToLongFunction(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doTest(a1));
+		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunction boolToShortToFloatFunction(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doTest(a1));
+		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction boolToShortToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doTest(a1));
+		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunction boolToShortToCharFunction(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doTest(a1));
+		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicate boolToShortPredicate(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	// </editor-fold>

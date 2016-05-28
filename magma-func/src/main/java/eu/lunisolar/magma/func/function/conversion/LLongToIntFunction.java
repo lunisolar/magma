@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): long a1
+ * Domain (lvl: 1): long a
  *
  * Co-domain: int
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LLongToIntFunction: int doApplyAsInt(long a1)";
+	String DESCRIPTION = "LLongToIntFunction: int doApplyAsInt(long a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,29 +72,29 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 	 */
 	@Override
 	@Deprecated
-	default int applyAsInt(long a1) {
-		return this.nestingDoApplyAsInt(a1);
+	default int applyAsInt(long a) {
+		return this.nestingDoApplyAsInt(a);
 	}
 
-	int doApplyAsInt(long a1);
+	int doApplyAsInt(long a);
 
 	default int tupleApplyAsInt(LLongSingle args) {
-		return doApplyAsInt(args.first());
+		return doApplyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(long a1) {
-		return this.doApplyAsInt(a1);
+	default int nestingDoApplyAsInt(long a) {
+		return this.doApplyAsInt(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(long a1) {
-		return this.doApplyAsInt(a1);
+	default int shovingDoApplyAsInt(long a) {
+		return this.doApplyAsInt(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(long a1) {
-		return doApplyAsInt(a1);
+	default int nonNullDoApplyAsInt(long a) {
+		return doApplyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -104,13 +104,13 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureLongToIntFunc(long a1) {
-		return () -> this.doApplyAsInt(a1);
+	default LIntSupplier captureLongToIntFunc(long a) {
+		return () -> this.doApplyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LLongToIntFunction constant(int r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -120,9 +120,9 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 		return lambda;
 	}
 
-	static int call(long a1, final @Nonnull LLongToIntFunction lambda) {
+	static int call(long a, final @Nonnull LLongToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a1);
+		return lambda.doApplyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -181,16 +181,16 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongToIntFunction longToIntFuncComposeLong(@Nonnull final LLongUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsLong(v1));
+	default LLongToIntFunction longToIntFuncComposeLong(@Nonnull final LLongUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsLong(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> longToIntFuncCompose(@Nonnull final LToLongFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsLong(v1));
+	default <V> LToIntFunction<V> longToIntFuncCompose(@Nonnull final LToLongFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsLong(v));
 	}
 
 	// </editor-fold>
@@ -201,63 +201,63 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 	@Nonnull
 	default <V> LLongFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsInt(a1));
+		return a -> after.doApply(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperator thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsInt(a1));
+		return a -> after.doTest(this.doApplyAsInt(a));
 	}
 
 	// </editor-fold>

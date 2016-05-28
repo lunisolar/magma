@@ -55,7 +55,7 @@ public final class LCharToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToDoubleFunction EVENTUALLY_THROW = LCharToDoubleFunction.l(a1 -> {
+	public static final LCharToDoubleFunction EVENTUALLY_THROW = LCharToDoubleFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LCharToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 		LCharToDoubleFunction retval;
 
 		final Case<LCharPredicate, LCharToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToDoubleFunction.l(a1 -> {
+		retval = LCharToDoubleFunction.l(a -> {
 			try {
 				for (Case<LCharPredicate, LCharToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsDouble(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(a1);
+				return eventuallyFinal.doApplyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

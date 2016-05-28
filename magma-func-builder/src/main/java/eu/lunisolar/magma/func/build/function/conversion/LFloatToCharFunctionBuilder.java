@@ -55,7 +55,7 @@ public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToCharFunction EVENTUALLY_THROW = LFloatToCharFunction.l(a1 -> {
+	public static final LFloatToCharFunction EVENTUALLY_THROW = LFloatToCharFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 		LFloatToCharFunction retval;
 
 		final Case<LFloatPredicate, LFloatToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToCharFunction.l(a1 -> {
+		retval = LFloatToCharFunction.l(a -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

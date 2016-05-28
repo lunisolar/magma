@@ -44,7 +44,7 @@ public class LLogicalOpDeltaTest  {
 
     private final boolean initialLastValue = false;
 
-    private LLogicalOpDelta sut =  LLogicalOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LLogicalOpDelta sut =  LLogicalOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

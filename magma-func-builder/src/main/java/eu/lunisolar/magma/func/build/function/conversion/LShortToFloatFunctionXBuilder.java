@@ -55,7 +55,7 @@ public final class LShortToFloatFunctionXBuilder<X extends Throwable> extends Pe
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToFloatFunctionX EVENTUALLY_THROW = LShortToFloatFunctionX.lX(a1 -> {
+	public static final LShortToFloatFunctionX EVENTUALLY_THROW = LShortToFloatFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LShortToFloatFunctionXBuilder<X extends Throwable> extends Pe
 		LShortToFloatFunctionX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToFloatFunctionX.<X> lX(a1 -> {
+		retval = LShortToFloatFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsFloat(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsFloat(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(a1);
+				return eventuallyFinal.doApplyAsFloat(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

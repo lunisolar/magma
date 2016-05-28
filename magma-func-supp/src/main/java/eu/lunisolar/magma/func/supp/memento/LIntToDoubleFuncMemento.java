@@ -72,8 +72,8 @@ public class LIntToDoubleFuncMemento implements LIntToDoubleFunction {
 	}
 
 	@Override
-	public double doApplyAsDouble(int a1) {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(int a) {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

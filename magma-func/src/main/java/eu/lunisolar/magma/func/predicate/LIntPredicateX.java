@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: predicate
  *
- * Domain (lvl: 1): int a1
+ * Domain (lvl: 1): int a
  *
  * Co-domain: boolean
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LIntPredicateX: boolean doTest(int a1) throws X";
+	String DESCRIPTION = "LIntPredicateX: boolean doTest(int a) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,20 +72,20 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	 */
 	@Override
 	@Deprecated
-	default boolean test(int a1) {
-		return this.nestingDoTest(a1);
+	default boolean test(int a) {
+		return this.nestingDoTest(a);
 	}
 
-	boolean doTest(int a1) throws X;
+	boolean doTest(int a) throws X;
 
 	default boolean tupleTest(LIntSingle args) throws X {
-		return doTest(args.first());
+		return doTest(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(int a1) {
+	default boolean nestingDoTest(int a) {
 		try {
-			return this.doTest(a1);
+			return this.doTest(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -94,29 +94,29 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(int a1) {
-		return ((LIntPredicateX<RuntimeException>) this).doTest(a1);
+	default boolean shovingDoTest(int a) {
+		return ((LIntPredicateX<RuntimeException>) this).doTest(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(int a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(int a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(a1);
+			return this.doTest(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(int a1) throws X {
-		return doTest(a1);
+	default boolean nonNullDoTest(int a) throws X {
+		return doTest(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(int a1) throws X {
-		return doTest(a1);
+	default boolean doApplyAsBoolean(int a) throws X {
+		return doTest(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -126,13 +126,13 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureIntPred(int a1) {
-		return () -> this.doTest(a1);
+	default LBoolSupplierX<X> captureIntPred(int a) {
+		return () -> this.doTest(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntPredicateX<X> constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -149,24 +149,24 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 		return lambda;
 	}
 
-	static <X extends Throwable> boolean call(int a1, final @Nonnull LIntPredicateX<X> lambda) throws X {
+	static <X extends Throwable> boolean call(int a, final @Nonnull LIntPredicateX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1);
+		return lambda.doTest(a);
 	}
 
-	static <X extends Throwable> boolean shoving(int a1, final @Nonnull LIntPredicateX<X> lambda) {
+	static <X extends Throwable> boolean shoving(int a, final @Nonnull LIntPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoTest(a1);
+		return lambda.shovingDoTest(a);
 	}
 
-	static <X extends Throwable> boolean nesting(int a1, final @Nonnull LIntPredicateX<X> lambda) {
+	static <X extends Throwable> boolean nesting(int a, final @Nonnull LIntPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoTest(a1);
+		return lambda.nestingDoTest(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> boolean handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntPredicateX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> boolean handling(int a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntPredicateX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoTest(a1, handling);
+		return lambda.handlingDoTest(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -229,7 +229,7 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	 */
 	@Nonnull
 	default LIntPredicateX<X> negate() {
-		return a1 -> !doTest(a1);
+		return a -> !doTest(a);
 	}
 
 	/**
@@ -239,7 +239,7 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	@Nonnull
 	default LIntPredicateX<X> and(@Nonnull LIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) && other.doTest(a1);
+		return a -> doTest(a) && other.doTest(a);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	@Nonnull
 	default LIntPredicateX<X> or(@Nonnull LIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) || other.doTest(a1);
+		return a -> doTest(a) || other.doTest(a);
 	}
 
 	/**
@@ -259,7 +259,7 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	@Nonnull
 	default LIntPredicateX<X> xor(@Nonnull LIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) ^ other.doTest(a1);
+		return a -> doTest(a) ^ other.doTest(a);
 	}
 
 	/**
@@ -267,8 +267,8 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static <X extends Throwable> LIntPredicateX<X> isEqual(int target1) {
-		return a1 -> a1 == target1;
+	static <X extends Throwable> LIntPredicateX<X> isEqual(int target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -277,16 +277,16 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntPredicateX<X> intPredComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsInt(v1));
+	default LIntPredicateX<X> intPredComposeInt(@Nonnull final LIntUnaryOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsInt(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> intPredCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsInt(v1));
+	default <V> LPredicateX<V, X> intPredCompose(@Nonnull final LToIntFunctionX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsInt(v));
 	}
 
 	// </editor-fold>
@@ -297,63 +297,63 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	@Nonnull
 	default <V> LIntFunctionX<V, X> boolToIntFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> boolToIntToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doTest(a1));
+		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> boolToIntToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doTest(a1));
+		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> boolToIntUnaryOperator(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doTest(a1));
+		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> boolToIntToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doTest(a1));
+		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> boolToIntToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doTest(a1));
+		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> boolToIntToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doTest(a1));
+		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> boolToIntToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doTest(a1));
+		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicateX<X> boolToIntPredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	// </editor-fold>
@@ -389,13 +389,13 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LIntPredicate handleIntPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoTest(a1, handling);
+		return a -> this.handlingDoTest(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LIntPredicateX<Y> handleIntPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoTest(a1, handling);
+		return a -> this.handlingDoTest(a, handling);
 	}
 
 	// </editor-fold>

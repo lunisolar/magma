@@ -72,7 +72,7 @@ public class LazyLongValueX<X extends Throwable> extends LLongSupMementoX<X> imp
 		return lastValue;
 	}
 
-	public long first() {
+	public long value() {
 		return shovingDoGetAsLong();
 	}
 
@@ -84,7 +84,7 @@ public class LazyLongValueX<X extends Throwable> extends LLongSupMementoX<X> imp
 
 			LazyLongValueX other = (LazyLongValueX) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyLongValueX<X extends Throwable> extends LLongSupMementoX<X> imp
 
 	@Override
 	public int hashCode() {
-		return LLongSingle.argHashCode(first());
+		return LLongSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

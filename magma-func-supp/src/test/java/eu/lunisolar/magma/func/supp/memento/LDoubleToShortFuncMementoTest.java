@@ -43,7 +43,7 @@ public class LDoubleToShortFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LDoubleToShortFuncMemento sut =  LDoubleToShortFuncMemento.mementoOf( a1 ->{
+    private LDoubleToShortFuncMemento sut =  LDoubleToShortFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -89,8 +89,8 @@ public class LBoolToIntFuncDelta extends LBoolToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(boolean a1) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(boolean a) {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

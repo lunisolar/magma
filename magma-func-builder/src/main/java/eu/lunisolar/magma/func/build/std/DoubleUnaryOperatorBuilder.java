@@ -55,7 +55,7 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleUnaryOperator EVENTUALLY_THROW = Function4U.doubleUnaryOperator(a1 -> {
+	public static final DoubleUnaryOperator EVENTUALLY_THROW = Function4U.doubleUnaryOperator(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 		DoubleUnaryOperator retval;
 
 		final Case<LDoublePredicate, DoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleUnaryOperator(a1 -> {
+		retval = Function4U.doubleUnaryOperator(a -> {
 			try {
 				for (Case<LDoublePredicate, DoubleUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().applyAsDouble(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().applyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(a1);
+				return eventuallyFinal.applyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

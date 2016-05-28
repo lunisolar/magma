@@ -55,7 +55,7 @@ public final class LFloatToShortFunctionBuilder extends PerCaseBuilderWithShortP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToShortFunction EVENTUALLY_THROW = LFloatToShortFunction.l(a1 -> {
+	public static final LFloatToShortFunction EVENTUALLY_THROW = LFloatToShortFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LFloatToShortFunctionBuilder extends PerCaseBuilderWithShortP
 		LFloatToShortFunction retval;
 
 		final Case<LFloatPredicate, LFloatToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToShortFunction.l(a1 -> {
+		retval = LFloatToShortFunction.l(a -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsShort(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsShort(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(a1);
+				return eventuallyFinal.doApplyAsShort(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

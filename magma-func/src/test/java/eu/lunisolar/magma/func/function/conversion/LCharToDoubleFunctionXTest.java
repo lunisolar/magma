@@ -65,24 +65,24 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
 
 
     private LCharToDoubleFunctionX<X> sut = new LCharToDoubleFunctionX<X>(){
-        public  double doApplyAsDouble(char a1)  throws X {
+        public  double doApplyAsDouble(char a)  throws X {
             return testValue;
         }
     };
 
     private LCharToDoubleFunction opposite = new LCharToDoubleFunction(){
-        public  double doApplyAsDouble(char a1)  {
+        public  double doApplyAsDouble(char a)  {
             return testValue;
         }
     };
 
 
 
-    private LCharToDoubleFunctionX<ParseException> sutAlwaysThrowing = LCharToDoubleFunctionX.lX(a1 -> {
+    private LCharToDoubleFunctionX<ParseException> sutAlwaysThrowing = LCharToDoubleFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LCharToDoubleFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToDoubleFunctionX.lX(a1 -> {
+    private LCharToDoubleFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToDoubleFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -174,12 +174,12 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharToDoubleFunctionX: double doApplyAsDouble(char a1) throws X");
+            .isEqualTo("LCharToDoubleFunctionX: double doApplyAsDouble(char a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LCharToDoubleFunctionX.lX(a1 -> testValue ))
+        assertThat(LCharToDoubleFunctionX.lX(a -> testValue ))
             .isInstanceOf(LCharToDoubleFunctionX.class);
     }
 
@@ -194,7 +194,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     public void testHandlingDoApplyAsDoubleMethodWrapsTheException() throws X {
 
         // given
-        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a1 -> {
+        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -218,7 +218,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     public void testHandleCharToDoubleFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a1 -> {
+        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -242,7 +242,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     public void testHandleCharToDoubleFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a1 -> {
+        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -267,7 +267,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     public void testHandleCharToDoubleFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a1 -> {
+        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -297,20 +297,20 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return 100d;
         };
 
-        LCharUnaryOperatorX<X> before1 = p0 -> {
+        LCharUnaryOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo('\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LCharToDoubleFunctionX<X> function = sutO.charToDoubleFuncComposeChar(before1);
+        LCharToDoubleFunctionX<X> function = sutO.charToDoubleFuncComposeChar(before);
         function.doApplyAsDouble('\u0080');
 
         //then - finals
@@ -326,20 +326,20 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return 100d;
         };
 
-        LToCharFunctionX<Integer,X> before1 = p0 -> {
+        LToCharFunctionX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LToDoubleFunctionX<Integer,X> function = sutO.charToDoubleFuncCompose(before1);
+        LToDoubleFunctionX<Integer,X> function = sutO.charToDoubleFuncCompose(before);
         function.doApplyAsDouble(80);
 
         //then - finals
@@ -360,9 +360,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -394,9 +394,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -428,9 +428,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -462,9 +462,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -496,9 +496,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -530,9 +530,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -564,9 +564,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -598,9 +598,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -632,9 +632,9 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToDoubleFunctionX<X> sutO = a1 -> {
+        LCharToDoubleFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90d;
         };
 
@@ -689,7 +689,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a1 -> {
+        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -701,7 +701,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     public void testHandleCharToDoubleFunc() throws X {
 
         // given
-        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a1 -> {
+        LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -731,7 +731,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharToDoubleFunctionX: double doApplyAsDouble(char a1) throws X");
+                .contains("LCharToDoubleFunctionX: double doApplyAsDouble(char a) throws X");
     }
 
 

@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): T a1
+ * Domain (lvl: 1): T a
  *
  * Co-domain: none
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LConsumer: void doAccept(T a1)";
+	String DESCRIPTION = "LConsumer: void doAccept(T a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,25 +72,25 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	 */
 	@Override
 	@Deprecated
-	default void accept(T a1) {
-		this.nestingDoAccept(a1);
+	default void accept(T a) {
+		this.nestingDoAccept(a);
 	}
 
-	void doAccept(T a1);
+	void doAccept(T a);
 
 	default LTuple.Void tupleAccept(LSingle<T> args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(T a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(T a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(T a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(T a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -100,8 +100,8 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureCons(T a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureCons(T a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -111,9 +111,9 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 		return lambda;
 	}
 
-	static <T> void call(T a1, final @Nonnull LConsumer<T> lambda) {
+	static <T> void call(T a, final @Nonnull LConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -172,9 +172,9 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> consCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApply(v1));
+	default <V> LConsumer<V> consCompose(@Nonnull final LFunction<? super V, ? extends T> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApply(v));
 	}
 
 	// </editor-fold>
@@ -185,9 +185,9 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	@Nonnull
 	default LConsumer<T> andThen(@Nonnull LConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

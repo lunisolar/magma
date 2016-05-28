@@ -99,7 +99,7 @@ public class LShortToIntFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LShortToIntFunction function = shortToIntFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LShortToIntFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LShortToIntFunction function = shortToIntFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == (short)0)
-                             .evaluate(a1 -> 0))
-            .inCase(a1 -> a1 > (short)0 && a1 < (short)10).evaluate(a1 -> 1)
-            .inCase(a1 -> a1 > (short)10 && a1 < (short)20).evaluate(a1 -> 2)
-            .eventually(a1 -> 99)
+            .aCase(ce -> ce.of(a -> a == (short)0)
+                             .evaluate(a -> 0))
+            .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> 1)
+            .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> 2)
+            .eventually(a -> 99)
             .build()
         );
 

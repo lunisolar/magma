@@ -44,7 +44,7 @@ public class LFloatToLongFuncDeltaTest  {
 
     private final long initialLastValue = 0L;
 
-    private LFloatToLongFuncDelta sut =  LFloatToLongFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LFloatToLongFuncDelta sut =  LFloatToLongFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

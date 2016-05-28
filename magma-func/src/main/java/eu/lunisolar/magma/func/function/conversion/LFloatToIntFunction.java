@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): float a1
+ * Domain (lvl: 1): float a
  *
  * Co-domain: int
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LFloatToIntFunction: int doApplyAsInt(float a1)";
+	String DESCRIPTION = "LFloatToIntFunction: int doApplyAsInt(float a)";
 
-	int doApplyAsInt(float a1);
+	int doApplyAsInt(float a);
 
 	default int tupleApplyAsInt(LFloatSingle args) {
-		return doApplyAsInt(args.first());
+		return doApplyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(float a1) {
-		return this.doApplyAsInt(a1);
+	default int nestingDoApplyAsInt(float a) {
+		return this.doApplyAsInt(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(float a1) {
-		return this.doApplyAsInt(a1);
+	default int shovingDoApplyAsInt(float a) {
+		return this.doApplyAsInt(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(float a1) {
-		return doApplyAsInt(a1);
+	default int nonNullDoApplyAsInt(float a) {
+		return doApplyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureFloatToIntFunc(float a1) {
-		return () -> this.doApplyAsInt(a1);
+	default LIntSupplier captureFloatToIntFunc(float a) {
+		return () -> this.doApplyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LFloatToIntFunction constant(int r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
-	static int call(float a1, final @Nonnull LFloatToIntFunction lambda) {
+	static int call(float a, final @Nonnull LFloatToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a1);
+		return lambda.doApplyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatToIntFunction floatToIntFuncComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
+	default LFloatToIntFunction floatToIntFuncComposeFloat(@Nonnull final LFloatUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsFloat(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> floatToIntFuncCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
+	default <V> LToIntFunction<V> floatToIntFuncCompose(@Nonnull final LToFloatFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsFloat(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsInt(a1));
+		return a -> after.doApply(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsInt(a1));
+		return a -> after.doTest(this.doApplyAsInt(a));
 	}
 
 	// </editor-fold>

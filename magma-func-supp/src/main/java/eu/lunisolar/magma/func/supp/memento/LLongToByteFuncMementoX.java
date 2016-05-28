@@ -72,8 +72,8 @@ public class LLongToByteFuncMementoX<X extends Throwable> implements LLongToByte
 	}
 
 	@Override
-	public byte doApplyAsByte(long a1) throws X {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(long a) throws X {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

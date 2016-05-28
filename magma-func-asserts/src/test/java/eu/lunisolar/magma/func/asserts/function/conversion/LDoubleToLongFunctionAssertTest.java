@@ -46,11 +46,11 @@ public class LDoubleToLongFunctionAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleToLongFunction function = a1 ->
+    private LDoubleToLongFunction function = a ->
             testValue;
 
 
-    private LDoubleToLongFunction functionThrowing = a1 -> {
+    private LDoubleToLongFunction functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

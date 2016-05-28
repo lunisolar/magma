@@ -89,8 +89,8 @@ public class LByteUnaryOpDelta extends LByteUnaryOpMemento {
 	}
 
 	@Override
-	public byte doApplyAsByte(byte a1) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(byte a) {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

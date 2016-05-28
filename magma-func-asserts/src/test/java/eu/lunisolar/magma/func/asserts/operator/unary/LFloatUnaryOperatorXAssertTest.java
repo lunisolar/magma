@@ -46,11 +46,11 @@ public class LFloatUnaryOperatorXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatUnaryOperatorX<X> function = a1 ->
+    private LFloatUnaryOperatorX<X> function = a ->
             testValue;
 
 
-    private LFloatUnaryOperatorX<X> functionThrowing = a1 -> {
+    private LFloatUnaryOperatorX<X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

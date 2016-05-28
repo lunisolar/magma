@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): byte a1
+ * Domain (lvl: 1): byte a
  *
  * Co-domain: long
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LByteToLongFunction: long doApplyAsLong(byte a1)";
+	String DESCRIPTION = "LByteToLongFunction: long doApplyAsLong(byte a)";
 
-	long doApplyAsLong(byte a1);
+	long doApplyAsLong(byte a);
 
 	default long tupleApplyAsLong(LByteSingle args) {
-		return doApplyAsLong(args.first());
+		return doApplyAsLong(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default long nestingDoApplyAsLong(byte a1) {
-		return this.doApplyAsLong(a1);
+	default long nestingDoApplyAsLong(byte a) {
+		return this.doApplyAsLong(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(byte a1) {
-		return this.doApplyAsLong(a1);
+	default long shovingDoApplyAsLong(byte a) {
+		return this.doApplyAsLong(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(byte a1) {
-		return doApplyAsLong(a1);
+	default long nonNullDoApplyAsLong(byte a) {
+		return doApplyAsLong(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureByteToLongFunc(byte a1) {
-		return () -> this.doApplyAsLong(a1);
+	default LLongSupplier captureByteToLongFunc(byte a) {
+		return () -> this.doApplyAsLong(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LByteToLongFunction constant(long r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 		return lambda;
 	}
 
-	static long call(byte a1, final @Nonnull LByteToLongFunction lambda) {
+	static long call(byte a, final @Nonnull LByteToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsLong(a1);
+		return lambda.doApplyAsLong(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteToLongFunction byteToLongFuncComposeByte(@Nonnull final LByteUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsByte(v1));
+	default LByteToLongFunction byteToLongFuncComposeByte(@Nonnull final LByteUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsLong(before.doApplyAsByte(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunction<V1> byteToLongFuncCompose(@Nonnull final LToByteFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsByte(v1));
+	default <V> LToLongFunction<V> byteToLongFuncCompose(@Nonnull final LToByteFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsLong(before.doApplyAsByte(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V> LByteFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsLong(a1));
+		return a -> after.doApply(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperator thenToByte(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunction thenToShort(@Nonnull LLongToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsLong(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicate thenToBool(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsLong(a1));
+		return a -> after.doTest(this.doApplyAsLong(a));
 	}
 
 	// </editor-fold>

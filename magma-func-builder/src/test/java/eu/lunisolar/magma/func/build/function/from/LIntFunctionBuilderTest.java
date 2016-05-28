@@ -99,7 +99,7 @@ public class LIntFunctionBuilderTest<R,X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LIntFunction<Integer> function = intFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LIntFunctionBuilderTest<R,X extends ParseException>{
     public void testBuild()  {
 
         LIntFunction<Integer> function = intFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0)
-                             .evaluate(a1 -> 0))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> 1)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> 2)
-            .eventually(a1 -> 99)
+            .aCase(ce -> ce.of(a -> a == 0)
+                             .evaluate(a -> 0))
+            .inCase(a -> a > 0 && a < 10).evaluate(a -> 1)
+            .inCase(a -> a > 10 && a < 20).evaluate(a -> 2)
+            .eventually(a -> 99)
             .build()
         );
 

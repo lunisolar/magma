@@ -77,8 +77,8 @@ public class LLongFuncDeltaX<R, X extends Throwable> extends LLongFuncMementoX<R
 	}
 
 	@Override
-	public R doApply(long a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(long a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

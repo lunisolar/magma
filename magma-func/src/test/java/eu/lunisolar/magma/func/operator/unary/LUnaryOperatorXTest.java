@@ -65,32 +65,32 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
 
     private LUnaryOperatorX<Integer,X> sut = new LUnaryOperatorX<Integer,X>(){
-        public @Nullable Integer doApply(Integer a1)  throws X {
+        public @Nullable Integer doApply(Integer a)  throws X {
             return testValue;
         }
     };
 
     private LUnaryOperator<Integer> opposite = new LUnaryOperator<Integer>(){
-        public @Nullable Integer doApply(Integer a1)  {
+        public @Nullable Integer doApply(Integer a)  {
             return testValue;
         }
     };
 
     private LUnaryOperatorX<Integer,X> sutNull = new LUnaryOperatorX<Integer,X>(){
-        public @Nullable Integer doApply(Integer a1)  throws X {
+        public @Nullable Integer doApply(Integer a)  throws X {
             return null;
         }
     };
 
 
-    private UnaryOperator<Integer> jre = a1 -> testValue;
+    private UnaryOperator<Integer> jre = a -> testValue;
 
 
-    private LUnaryOperatorX<Integer,ParseException> sutAlwaysThrowing = LUnaryOperatorX.lX(a1 -> {
+    private LUnaryOperatorX<Integer,ParseException> sutAlwaysThrowing = LUnaryOperatorX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LUnaryOperatorX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LUnaryOperatorX.lX(a1 -> {
+    private LUnaryOperatorX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LUnaryOperatorX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -178,7 +178,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LUnaryOperatorX: T doApply(T a1) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LUnaryOperatorX: T doApply(T a) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply(100);
     }
@@ -187,12 +187,12 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LUnaryOperatorX: T doApply(T a1) throws X");
+            .isEqualTo("LUnaryOperatorX: T doApply(T a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LUnaryOperatorX.lX(a1 -> testValue ))
+        assertThat(LUnaryOperatorX.lX(a -> testValue ))
             .isInstanceOf(LUnaryOperatorX.class);
     }
 
@@ -213,7 +213,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     public void testHandlingDoApplyMethodWrapsTheException() throws X {
 
         // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -237,7 +237,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     public void testHandleUnaryOpXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -261,7 +261,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     public void testHandleUnaryOpXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -286,7 +286,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     public void testHandleUnaryOpXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -317,9 +317,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -351,9 +351,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -385,9 +385,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -419,9 +419,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -453,9 +453,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -487,9 +487,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -521,9 +521,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -555,9 +555,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -589,9 +589,9 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LUnaryOperatorX<Integer,X> sutO = a1 -> {
+        LUnaryOperatorX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90;
         };
 
@@ -653,7 +653,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -665,7 +665,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     public void testHandleUnaryOp() throws X {
 
         // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a1 -> {
+        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -695,7 +695,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LUnaryOperatorX: T doApply(T a1) throws X");
+                .contains("LUnaryOperatorX: T doApply(T a) throws X");
     }
 
 

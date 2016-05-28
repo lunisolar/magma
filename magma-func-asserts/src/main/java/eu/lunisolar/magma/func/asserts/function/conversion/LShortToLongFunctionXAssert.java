@@ -57,7 +57,7 @@ public interface LShortToLongFunctionXAssert<S extends LShortToLongFunctionXAsse
 			FullFunctionalAssert<S, LShortConsumerX<X>, A, RS, Long> {
 
 	@Nonnull
-	Evaluation<S, LShortConsumerX<X>, A, RS, Long> doesApplyAsLong(short a1);
+	Evaluation<S, LShortConsumerX<X>, A, RS, Long> doesApplyAsLong(short a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LShortToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LShortToLongFunctionXAssert<S extends LShortToLongFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortConsumerX<X>, A, RS, Long> doesApplyAsLong(short a1) {
+		public Evaluation<S, LShortConsumerX<X>, A, RS, Long> doesApplyAsLong(short a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a1));
+				return assertFactory.doApply(actual.doApplyAsLong(a));
 			});
 
 		}

@@ -55,7 +55,7 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final IntUnaryOperator EVENTUALLY_THROW = Function4U.intUnaryOperator(a1 -> {
+	public static final IntUnaryOperator EVENTUALLY_THROW = Function4U.intUnaryOperator(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 		IntUnaryOperator retval;
 
 		final Case<LIntPredicate, IntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intUnaryOperator(a1 -> {
+		retval = Function4U.intUnaryOperator(a -> {
 			try {
 				for (Case<LIntPredicate, IntUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().applyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().applyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a1);
+				return eventuallyFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

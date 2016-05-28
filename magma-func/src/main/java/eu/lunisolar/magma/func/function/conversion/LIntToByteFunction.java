@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): int a1
+ * Domain (lvl: 1): int a
  *
  * Co-domain: byte
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LIntToByteFunction: byte doApplyAsByte(int a1)";
+	String DESCRIPTION = "LIntToByteFunction: byte doApplyAsByte(int a)";
 
-	byte doApplyAsByte(int a1);
+	byte doApplyAsByte(int a);
 
 	default byte tupleApplyAsByte(LIntSingle args) {
-		return doApplyAsByte(args.first());
+		return doApplyAsByte(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default byte nestingDoApplyAsByte(int a1) {
-		return this.doApplyAsByte(a1);
+	default byte nestingDoApplyAsByte(int a) {
+		return this.doApplyAsByte(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default byte shovingDoApplyAsByte(int a1) {
-		return this.doApplyAsByte(a1);
+	default byte shovingDoApplyAsByte(int a) {
+		return this.doApplyAsByte(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNullDoApplyAsByte(int a1) {
-		return doApplyAsByte(a1);
+	default byte nonNullDoApplyAsByte(int a) {
+		return doApplyAsByte(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureIntToByteFunc(int a1) {
-		return () -> this.doApplyAsByte(a1);
+	default LByteSupplier captureIntToByteFunc(int a) {
+		return () -> this.doApplyAsByte(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LIntToByteFunction constant(byte r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 		return lambda;
 	}
 
-	static byte call(int a1, final @Nonnull LIntToByteFunction lambda) {
+	static byte call(int a, final @Nonnull LIntToByteFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsByte(a1);
+		return lambda.doApplyAsByte(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntToByteFunction intToByteFuncComposeInt(@Nonnull final LIntUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsByte(before1.doApplyAsInt(v1));
+	default LIntToByteFunction intToByteFuncComposeInt(@Nonnull final LIntUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsByte(before.doApplyAsInt(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToByteFunction<V1> intToByteFuncCompose(@Nonnull final LToIntFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsByte(before1.doApplyAsInt(v1));
+	default <V> LToByteFunction<V> intToByteFuncCompose(@Nonnull final LToIntFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsByte(before.doApplyAsInt(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsByte(a1));
+		return a -> after.doApply(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsByte(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsByte(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LByteToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsByte(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsByte(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsByte(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsByte(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsByte(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBool(@Nonnull LBytePredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsByte(a1));
+		return a -> after.doTest(this.doApplyAsByte(a));
 	}
 
 	// </editor-fold>

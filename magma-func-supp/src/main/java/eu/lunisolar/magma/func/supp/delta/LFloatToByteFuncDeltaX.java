@@ -89,8 +89,8 @@ public class LFloatToByteFuncDeltaX<X extends Throwable> extends LFloatToByteFun
 	}
 
 	@Override
-	public byte doApplyAsByte(float a1) throws X {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(float a) throws X {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteConsumerAssert<S extends LByteConsumerAssert<S, A>, A extends LByteConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LByteConsumer, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LByteConsumer, A> doesAccept(byte a1);
+	SemiEvaluation<S, LByteConsumer, A> doesAccept(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LByteConsumer> extends Base<The<A>, A> {
@@ -72,13 +72,13 @@ public interface LByteConsumerAssert<S extends LByteConsumerAssert<S, A>, A exte
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LByteConsumer, A> doesAccept(byte a1) {
+		public SemiEvaluation<S, LByteConsumer, A> doesAccept(byte a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				actual.doAccept(a1);
+				actual.doAccept(a);
 				return null;
 			});
 

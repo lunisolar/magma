@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: operator
  *
- * Domain (lvl: 1): boolean a1
+ * Domain (lvl: 1): boolean a
  *
  * Co-domain: boolean
  *
@@ -64,32 +64,32 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, MetaLogicalOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LLogicalOperator: boolean doApply(boolean a1)";
+	String DESCRIPTION = "LLogicalOperator: boolean doApply(boolean a)";
 
-	boolean doApply(boolean a1);
+	boolean doApply(boolean a);
 
 	default boolean tupleApply(LBoolSingle args) {
-		return doApply(args.first());
+		return doApply(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoApply(boolean a1) {
-		return this.doApply(a1);
+	default boolean nestingDoApply(boolean a) {
+		return this.doApply(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoApply(boolean a1) {
-		return this.doApply(a1);
+	default boolean shovingDoApply(boolean a) {
+		return this.doApply(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoApply(boolean a1) {
-		return doApply(a1);
+	default boolean nonNullDoApply(boolean a) {
+		return doApply(a);
 	}
 
 	/** For convenience, boolean operator is also special case of predicate. */
-	default boolean doTest(boolean a1) {
-		return doApply(a1);
+	default boolean doTest(boolean a) {
+		return doApply(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -99,13 +99,13 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureLogicalOp(boolean a1) {
-		return () -> this.doApply(a1);
+	default LBoolSupplier captureLogicalOp(boolean a) {
+		return () -> this.doApply(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LLogicalOperator constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -115,9 +115,9 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 		return lambda;
 	}
 
-	static boolean call(boolean a1, final @Nonnull LLogicalOperator lambda) {
+	static boolean call(boolean a, final @Nonnull LLogicalOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a1);
+		return lambda.doApply(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -174,7 +174,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LLogicalOperator negate() {
-		return a1 -> !doApply(a1);
+		return a -> !doApply(a);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default LLogicalOperator and(@Nonnull LLogicalOperator other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doApply(a1) && other.doApply(a1);
+		return a -> doApply(a) && other.doApply(a);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default LLogicalOperator or(@Nonnull LLogicalOperator other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doApply(a1) || other.doApply(a1);
+		return a -> doApply(a) || other.doApply(a);
 	}
 
 	/**
@@ -204,7 +204,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default LLogicalOperator xor(@Nonnull LLogicalOperator other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doApply(a1) ^ other.doApply(a1);
+		return a -> doApply(a) ^ other.doApply(a);
 	}
 
 	/**
@@ -212,8 +212,8 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LLogicalOperator isEqual(boolean target1) {
-		return a1 -> a1 == target1;
+	static LLogicalOperator isEqual(boolean target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -222,16 +222,16 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalOperator logicalOpComposeBool(@Nonnull final LLogicalOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApply(before1.doApply(v1));
+	default LLogicalOperator logicalOpComposeBool(@Nonnull final LLogicalOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApply(before.doApply(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> logicalOpCompose(@Nonnull final LPredicate<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApply(before1.doTest(v1));
+	default <V> LPredicate<V> logicalOpCompose(@Nonnull final LPredicate<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApply(before.doTest(v));
 	}
 
 	// </editor-fold>
@@ -242,63 +242,63 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	@Nonnull
 	default <V> LBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApply(a1));
+		return a -> after.doApply(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToByteFunction thenToByte(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApply(a1));
+		return a -> after.doApplyAsByte(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToShortFunction thenToShort(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApply(a1));
+		return a -> after.doApplyAsShort(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToIntFunction thenToInt(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApply(a1));
+		return a -> after.doApplyAsInt(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToLongFunction thenToLong(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApply(a1));
+		return a -> after.doApplyAsLong(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToFloatFunction thenToFloat(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApply(a1));
+		return a -> after.doApplyAsFloat(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToDoubleFunction thenToDouble(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApply(a1));
+		return a -> after.doApplyAsDouble(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToCharFunction thenToChar(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApply(a1));
+		return a -> after.doApplyAsChar(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLogicalOperator thenToBool(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApply(a1));
+		return a -> after.doApply(this.doApply(a));
 	}
 
 	// </editor-fold>

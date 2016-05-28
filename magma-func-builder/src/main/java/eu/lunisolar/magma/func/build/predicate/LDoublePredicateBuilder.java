@@ -55,7 +55,7 @@ public final class LDoublePredicateBuilder extends PerCaseBuilderWithBoolProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoublePredicate EVENTUALLY_THROW = LDoublePredicate.l(a1 -> {
+	public static final LDoublePredicate EVENTUALLY_THROW = LDoublePredicate.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoublePredicateBuilder extends PerCaseBuilderWithBoolProduct
 		LDoublePredicate retval;
 
 		final Case<LDoublePredicate, LDoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoublePredicate.l(a1 -> {
+		retval = LDoublePredicate.l(a -> {
 			try {
 				for (Case<LDoublePredicate, LDoublePredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doTest(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doTest(a);
 					}
 				}
 
-				return eventuallyFinal.doTest(a1);
+				return eventuallyFinal.doTest(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

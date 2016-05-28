@@ -43,7 +43,7 @@ public class LBoolToIntFuncMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LBoolToIntFuncMemento sut =  LBoolToIntFuncMemento.mementoOf( a1 ->{
+    private LBoolToIntFuncMemento sut =  LBoolToIntFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

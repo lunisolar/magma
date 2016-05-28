@@ -43,7 +43,7 @@ public class LShortToDoubleFuncMementoXTest <X extends Throwable> {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LShortToDoubleFuncMementoX<X> sut =  LShortToDoubleFuncMementoX.<X>mementoOf( a1 ->{
+    private LShortToDoubleFuncMementoX<X> sut =  LShortToDoubleFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

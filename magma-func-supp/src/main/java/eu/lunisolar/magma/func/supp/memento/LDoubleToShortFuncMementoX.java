@@ -72,8 +72,8 @@ public class LDoubleToShortFuncMementoX<X extends Throwable> implements LDoubleT
 	}
 
 	@Override
-	public short doApplyAsShort(double a1) throws X {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(double a) throws X {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

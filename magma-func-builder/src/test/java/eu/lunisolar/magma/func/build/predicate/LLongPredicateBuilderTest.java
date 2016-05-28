@@ -99,7 +99,7 @@ public class LLongPredicateBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LLongPredicate function = longPredicateFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LLongPredicateBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LLongPredicate function = longPredicateFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0L)
-                             .evaluate(a1 -> false))
-            .inCase(a1 -> a1 > 0L && a1 < 10L).evaluate(a1 -> true)
-            .inCase(a1 -> a1 > 10L && a1 < 20L).evaluate(a1 -> true)
-            .eventually(a1 -> true)
+            .aCase(ce -> ce.of(a -> a == 0L)
+                             .evaluate(a -> false))
+            .inCase(a -> a > 0L && a < 10L).evaluate(a -> true)
+            .inCase(a -> a > 10L && a < 20L).evaluate(a -> true)
+            .eventually(a -> true)
             .build()
         );
 

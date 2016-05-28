@@ -55,7 +55,7 @@ public final class LCharUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharUnaryOperatorX EVENTUALLY_THROW = LCharUnaryOperatorX.lX(a1 -> {
+	public static final LCharUnaryOperatorX EVENTUALLY_THROW = LCharUnaryOperatorX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LCharUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 		LCharUnaryOperatorX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharUnaryOperatorX.<X> lX(a1 -> {
+		retval = LCharUnaryOperatorX.<X> lX(a -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

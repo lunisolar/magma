@@ -43,7 +43,7 @@ public class LFloatToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LFloatToLongFuncMemento sut =  LFloatToLongFuncMemento.mementoOf( a1 ->{
+    private LFloatToLongFuncMemento sut =  LFloatToLongFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -45,11 +45,11 @@ public class DoubleUnaryOperatorAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private DoubleUnaryOperator function = a1 ->
+    private DoubleUnaryOperator function = a ->
             testValue;
 
 
-    private DoubleUnaryOperator functionThrowing = a1 -> {
+    private DoubleUnaryOperator functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

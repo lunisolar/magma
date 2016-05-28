@@ -72,7 +72,7 @@ public class LazyBoolValue extends LBoolSupMemento implements LBoolSingle {
 		return lastValue;
 	}
 
-	public boolean first() {
+	public boolean value() {
 		return shovingDoGetAsBool();
 	}
 
@@ -84,7 +84,7 @@ public class LazyBoolValue extends LBoolSupMemento implements LBoolSingle {
 
 			LazyBoolValue other = (LazyBoolValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyBoolValue extends LBoolSupMemento implements LBoolSingle {
 
 	@Override
 	public int hashCode() {
-		return LBoolSingle.argHashCode(first());
+		return LBoolSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

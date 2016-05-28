@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): byte a1
+ * Domain (lvl: 1): byte a
  *
  * Co-domain: none
  *
@@ -64,23 +64,23 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LByteConsumer: void doAccept(byte a1)";
+	String DESCRIPTION = "LByteConsumer: void doAccept(byte a)";
 
-	void doAccept(byte a1);
+	void doAccept(byte a);
 
 	default LTuple.Void tupleAccept(LByteSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(byte a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(byte a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(byte a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(byte a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,8 +90,8 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureByteCons(byte a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureByteCons(byte a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,9 +101,9 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 		return lambda;
 	}
 
-	static void call(byte a1, final @Nonnull LByteConsumer lambda) {
+	static void call(byte a, final @Nonnull LByteConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -156,16 +156,16 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteConsumer byteConsComposeByte(@Nonnull final LByteUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
+	default LByteConsumer byteConsComposeByte(@Nonnull final LByteUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsByte(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> byteConsCompose(@Nonnull final LToByteFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
+	default <V> LConsumer<V> byteConsCompose(@Nonnull final LToByteFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsByte(v));
 	}
 
 	// </editor-fold>
@@ -176,9 +176,9 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LByteConsumer andThen(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

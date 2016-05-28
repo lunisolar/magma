@@ -89,8 +89,8 @@ public class LCharToByteFuncDeltaX<X extends Throwable> extends LCharToByteFuncM
 	}
 
 	@Override
-	public byte doApplyAsByte(char a1) throws X {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(char a) throws X {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

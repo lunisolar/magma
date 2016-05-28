@@ -55,7 +55,7 @@ public final class LLongConsumerBuilder extends PerCaseBuilder.Base<LLongConsume
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongConsumer EVENTUALLY_THROW = LLongConsumer.l(a1 -> {
+	public static final LLongConsumer EVENTUALLY_THROW = LLongConsumer.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,16 +108,16 @@ public final class LLongConsumerBuilder extends PerCaseBuilder.Base<LLongConsume
 		LLongConsumer retval;
 
 		final Case<LLongPredicate, LLongConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongConsumer.l(a1 -> {
+		retval = LLongConsumer.l(a -> {
 			try {
 				for (Case<LLongPredicate, LLongConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						aCase.caseFunction().doAccept(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						aCase.caseFunction().doAccept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1);
+				eventuallyFinal.doAccept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -72,8 +72,8 @@ public class LBoolFuncMemento<R> implements LBoolFunction<R> {
 	}
 
 	@Override
-	public R doApply(boolean a1) {
-		return lastValue = function.doApply(a1);
+	public R doApply(boolean a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

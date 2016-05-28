@@ -89,8 +89,8 @@ public class LIntToFloatFuncDelta extends LIntToFloatFuncMemento {
 	}
 
 	@Override
-	public float doApplyAsFloat(int a1) {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(int a) {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

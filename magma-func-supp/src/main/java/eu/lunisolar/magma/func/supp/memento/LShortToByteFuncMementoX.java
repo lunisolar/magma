@@ -72,8 +72,8 @@ public class LShortToByteFuncMementoX<X extends Throwable> implements LShortToBy
 	}
 
 	@Override
-	public byte doApplyAsByte(short a1) throws X {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(short a) throws X {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

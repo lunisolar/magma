@@ -55,7 +55,7 @@ public final class LShortToIntFunctionXBuilder<X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToIntFunctionX EVENTUALLY_THROW = LShortToIntFunctionX.lX(a1 -> {
+	public static final LShortToIntFunctionX EVENTUALLY_THROW = LShortToIntFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LShortToIntFunctionXBuilder<X extends Throwable> extends PerC
 		LShortToIntFunctionX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToIntFunctionX.<X> lX(a1 -> {
+		retval = LShortToIntFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

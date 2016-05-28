@@ -43,7 +43,7 @@ public class LDoubleUnaryOpMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDoubleUnaryOpMemento sut =  LDoubleUnaryOpMemento.mementoOf( a1 ->{
+    private LDoubleUnaryOpMemento sut =  LDoubleUnaryOpMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

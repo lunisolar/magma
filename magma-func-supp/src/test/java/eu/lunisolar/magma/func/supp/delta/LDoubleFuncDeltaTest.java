@@ -44,7 +44,7 @@ public class LDoubleFuncDeltaTest <R> {
 
     private final Integer initialLastValue = 0;
 
-    private LDoubleFuncDelta<Integer> sut =  LDoubleFuncDelta.<Integer>deltaOf(initialLastValue, a1 ->{
+    private LDoubleFuncDelta<Integer> sut =  LDoubleFuncDelta.<Integer>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

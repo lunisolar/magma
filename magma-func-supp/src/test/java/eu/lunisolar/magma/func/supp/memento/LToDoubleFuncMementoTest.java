@@ -43,7 +43,7 @@ public class LToDoubleFuncMementoTest <T> {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LToDoubleFuncMemento<Integer> sut =  LToDoubleFuncMemento.<Integer>mementoOf( a1 ->{
+    private LToDoubleFuncMemento<Integer> sut =  LToDoubleFuncMemento.<Integer>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

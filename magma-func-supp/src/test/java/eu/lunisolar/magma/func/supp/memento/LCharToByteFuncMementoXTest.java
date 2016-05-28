@@ -43,7 +43,7 @@ public class LCharToByteFuncMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LCharToByteFuncMementoX<X> sut =  LCharToByteFuncMementoX.<X>mementoOf( a1 ->{
+    private LCharToByteFuncMementoX<X> sut =  LCharToByteFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

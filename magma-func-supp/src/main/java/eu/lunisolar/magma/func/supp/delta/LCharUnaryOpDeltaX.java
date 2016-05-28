@@ -89,8 +89,8 @@ public class LCharUnaryOpDeltaX<X extends Throwable> extends LCharUnaryOpMemento
 	}
 
 	@Override
-	public char doApplyAsChar(char a1) throws X {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(char a) throws X {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

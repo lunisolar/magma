@@ -72,7 +72,7 @@ public class LazyCharValue extends LCharSupMemento implements LCharSingle {
 		return lastValue;
 	}
 
-	public char first() {
+	public char value() {
 		return shovingDoGetAsChar();
 	}
 
@@ -84,7 +84,7 @@ public class LazyCharValue extends LCharSupMemento implements LCharSingle {
 
 			LazyCharValue other = (LazyCharValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyCharValue extends LCharSupMemento implements LCharSingle {
 
 	@Override
 	public int hashCode() {
-		return LCharSingle.argHashCode(first());
+		return LCharSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

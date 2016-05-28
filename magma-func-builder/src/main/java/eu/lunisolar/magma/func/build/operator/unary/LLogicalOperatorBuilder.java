@@ -55,7 +55,7 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLogicalOperator EVENTUALLY_THROW = LLogicalOperator.l(a1 -> {
+	public static final LLogicalOperator EVENTUALLY_THROW = LLogicalOperator.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 		LLogicalOperator retval;
 
 		final Case<LLogicalOperator, LLogicalOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLogicalOperator.l(a1 -> {
+		retval = LLogicalOperator.l(a -> {
 			try {
 				for (Case<LLogicalOperator, LLogicalOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApply(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1);
+				return eventuallyFinal.doApply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

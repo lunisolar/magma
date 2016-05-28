@@ -43,7 +43,7 @@ public class LDoubleUnaryOpMementoXTest <X extends Throwable> {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDoubleUnaryOpMementoX<X> sut =  LDoubleUnaryOpMementoX.<X>mementoOf( a1 ->{
+    private LDoubleUnaryOpMementoX<X> sut =  LDoubleUnaryOpMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

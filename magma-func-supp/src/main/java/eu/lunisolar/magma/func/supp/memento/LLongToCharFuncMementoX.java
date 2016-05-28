@@ -72,8 +72,8 @@ public class LLongToCharFuncMementoX<X extends Throwable> implements LLongToChar
 	}
 
 	@Override
-	public char doApplyAsChar(long a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(long a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

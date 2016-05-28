@@ -44,7 +44,7 @@ public class LDoubleToFloatFuncDeltaTest  {
 
     private final float initialLastValue = 0f;
 
-    private LDoubleToFloatFuncDelta sut =  LDoubleToFloatFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LDoubleToFloatFuncDelta sut =  LDoubleToFloatFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

@@ -65,26 +65,26 @@ public class LPredicateXTest<T,X extends ParseException> {
 
 
     private LPredicateX<Integer,X> sut = new LPredicateX<Integer,X>(){
-        public  boolean doTest(Integer a1)  throws X {
+        public  boolean doTest(Integer a)  throws X {
             return testValue;
         }
     };
 
     private LPredicate<Integer> opposite = new LPredicate<Integer>(){
-        public  boolean doTest(Integer a1)  {
+        public  boolean doTest(Integer a)  {
             return testValue;
         }
     };
 
 
-    private Predicate<Integer> jre = a1 -> testValue;
+    private Predicate<Integer> jre = a -> testValue;
 
 
-    private LPredicateX<Integer,ParseException> sutAlwaysThrowing = LPredicateX.lX(a1 -> {
+    private LPredicateX<Integer,ParseException> sutAlwaysThrowing = LPredicateX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LPredicateX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LPredicateX.lX(a1 -> {
+    private LPredicateX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LPredicateX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -183,12 +183,12 @@ public class LPredicateXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LPredicateX: boolean doTest(T a1) throws X");
+            .isEqualTo("LPredicateX: boolean doTest(T a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LPredicateX.lX(a1 -> testValue ))
+        assertThat(LPredicateX.lX(a -> testValue ))
             .isInstanceOf(LPredicateX.class);
     }
 
@@ -209,7 +209,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     public void testHandlingDoTestMethodWrapsTheException() throws X {
 
         // given
-        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a1 -> {
+        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -233,7 +233,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     public void testHandlePredXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a1 -> {
+        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -257,7 +257,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     public void testHandlePredXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a1 -> {
+        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -282,7 +282,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     public void testHandlePredXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a1 -> {
+        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -322,8 +322,8 @@ public class LPredicateXTest<T,X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LPredicateX<Integer,X> fun1 = LPredicateX.lX(a1 -> f1Result);
-        LPredicateX<Integer,X> fun2 = LPredicateX.lX(a1 -> f2Result);
+        LPredicateX<Integer,X> fun1 = LPredicateX.lX(a -> f1Result);
+        LPredicateX<Integer,X> fun2 = LPredicateX.lX(a -> f2Result);
 
         //when
         LPredicateX<Integer,X> andFunction = fun1.and(fun2);
@@ -365,20 +365,20 @@ public class LPredicateXTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
+                assertThat(a).isEqualTo(90);
                 return true;
         };
 
-        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+        LFunctionX<Integer,Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
 
         //when
-        LPredicateX<Integer,X> function = sutO.predCompose(before1);
+        LPredicateX<Integer,X> function = sutO.predCompose(before);
         function.doTest(80);
 
         //then - finals
@@ -399,9 +399,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -433,9 +433,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -467,9 +467,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -501,9 +501,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -535,9 +535,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -569,9 +569,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -603,9 +603,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -637,9 +637,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -671,9 +671,9 @@ public class LPredicateXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LPredicateX<Integer,X> sutO = a1 -> {
+        LPredicateX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return true;
         };
 
@@ -728,7 +728,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a1 -> {
+        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -740,7 +740,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     public void testHandlePred() throws X {
 
         // given
-        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a1 -> {
+        LPredicateX<Integer,X> sutThrowing = LPredicateX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -770,7 +770,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LPredicateX: boolean doTest(T a1) throws X");
+                .contains("LPredicateX: boolean doTest(T a) throws X");
     }
 
 

@@ -72,8 +72,8 @@ public class LShortToFloatFuncMementoX<X extends Throwable> implements LShortToF
 	}
 
 	@Override
-	public float doApplyAsFloat(short a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(short a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

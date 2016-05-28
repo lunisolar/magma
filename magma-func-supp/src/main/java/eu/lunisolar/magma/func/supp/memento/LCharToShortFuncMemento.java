@@ -72,8 +72,8 @@ public class LCharToShortFuncMemento implements LCharToShortFunction {
 	}
 
 	@Override
-	public short doApplyAsShort(char a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(char a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

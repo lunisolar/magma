@@ -72,8 +72,8 @@ public class LDoubleUnaryOpMemento implements LDoubleUnaryOperator {
 	}
 
 	@Override
-	public double doApplyAsDouble(double a1) {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(double a) {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

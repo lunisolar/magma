@@ -72,8 +72,8 @@ public class LToLongFuncMementoX<T, X extends Throwable> implements LToLongFunct
 	}
 
 	@Override
-	public long doApplyAsLong(T a1) throws X {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(T a) throws X {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

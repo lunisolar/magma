@@ -55,7 +55,7 @@ public final class LDoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToIntFunction EVENTUALLY_THROW = LDoubleToIntFunction.l(a1 -> {
+	public static final LDoubleToIntFunction EVENTUALLY_THROW = LDoubleToIntFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProd
 		LDoubleToIntFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToIntFunction.l(a1 -> {
+		retval = LDoubleToIntFunction.l(a -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -43,7 +43,7 @@ public class LFloatToShortFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LFloatToShortFuncMemento sut =  LFloatToShortFuncMemento.mementoOf( a1 ->{
+    private LFloatToShortFuncMemento sut =  LFloatToShortFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

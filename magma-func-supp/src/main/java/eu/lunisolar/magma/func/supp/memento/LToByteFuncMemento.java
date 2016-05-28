@@ -72,8 +72,8 @@ public class LToByteFuncMemento<T> implements LToByteFunction<T> {
 	}
 
 	@Override
-	public byte doApplyAsByte(T a1) {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(T a) {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

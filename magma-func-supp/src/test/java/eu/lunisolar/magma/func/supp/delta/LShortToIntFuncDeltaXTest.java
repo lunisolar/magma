@@ -44,7 +44,7 @@ public class LShortToIntFuncDeltaXTest <X extends Throwable> {
 
     private final int initialLastValue = 0;
 
-    private LShortToIntFuncDeltaX<X> sut =  LShortToIntFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
+    private LShortToIntFuncDeltaX<X> sut =  LShortToIntFuncDeltaX.<X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLongToCharFunctionAssert<S extends LLongToCharFunctionAssert<S, A, RS>, A extends LLongToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LLongConsumer, A, RS, Character> {
 
 	@Nonnull
-	Evaluation<S, LLongConsumer, A, RS, Character> doesApplyAsChar(long a1);
+	Evaluation<S, LLongConsumer, A, RS, Character> doesApplyAsChar(long a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LLongToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LLongToCharFunctionAssert<S extends LLongToCharFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongConsumer, A, RS, Character> doesApplyAsChar(long a1) {
+		public Evaluation<S, LLongConsumer, A, RS, Character> doesApplyAsChar(long a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a1));
+				return assertFactory.doApply(actual.doApplyAsChar(a));
 			});
 
 		}

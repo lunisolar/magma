@@ -55,7 +55,7 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LConsumer EVENTUALLY_THROW = LConsumer.l(a1 -> {
+	public static final LConsumer EVENTUALLY_THROW = LConsumer.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> LConsumerBuilder<T> casesOf(Class<V> argC1, Consumer<LConsumerBuilder<V>> pcpConsumer) {
-		PartialCase.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LConsumerBuilder<T> casesOf(Class<V> argC, Consumer<LConsumerBuilder<V>> pcpConsumer) {
+		PartialCase.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LConsumerBuilder<T> aCase(Class<V> argC1, LConsumer<V> function) {
-		PartialCase.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LConsumerBuilder<T> aCase(Class<V> argC, LConsumer<V> function) {
+		PartialCase.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,16 +126,16 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 		LConsumer<T> retval;
 
 		final Case<LPredicate<T>, LConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LConsumer.<T> l(a1 -> {
+		retval = LConsumer.<T> l(a -> {
 			try {
 				for (Case<LPredicate<T>, LConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						aCase.caseFunction().doAccept(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						aCase.caseFunction().doAccept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1);
+				eventuallyFinal.doAccept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

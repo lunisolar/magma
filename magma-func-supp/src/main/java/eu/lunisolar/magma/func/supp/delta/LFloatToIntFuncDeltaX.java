@@ -89,8 +89,8 @@ public class LFloatToIntFuncDeltaX<X extends Throwable> extends LFloatToIntFuncM
 	}
 
 	@Override
-	public int doApplyAsInt(float a1) throws X {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(float a) throws X {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

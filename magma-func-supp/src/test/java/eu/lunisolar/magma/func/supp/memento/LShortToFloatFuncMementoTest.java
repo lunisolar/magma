@@ -43,7 +43,7 @@ public class LShortToFloatFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LShortToFloatFuncMemento sut =  LShortToFloatFuncMemento.mementoOf( a1 ->{
+    private LShortToFloatFuncMemento sut =  LShortToFloatFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

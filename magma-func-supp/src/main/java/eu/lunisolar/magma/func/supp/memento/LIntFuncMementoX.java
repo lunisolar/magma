@@ -72,8 +72,8 @@ public class LIntFuncMementoX<R, X extends Throwable> implements LIntFunctionX<R
 	}
 
 	@Override
-	public R doApply(int a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(int a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

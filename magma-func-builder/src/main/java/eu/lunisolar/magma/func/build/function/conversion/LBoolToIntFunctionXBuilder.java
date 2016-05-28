@@ -55,7 +55,7 @@ public final class LBoolToIntFunctionXBuilder<X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToIntFunctionX EVENTUALLY_THROW = LBoolToIntFunctionX.lX(a1 -> {
+	public static final LBoolToIntFunctionX EVENTUALLY_THROW = LBoolToIntFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToIntFunctionXBuilder<X extends Throwable> extends PerCa
 		LBoolToIntFunctionX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToIntFunctionX.<X> lX(a1 -> {
+		retval = LBoolToIntFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

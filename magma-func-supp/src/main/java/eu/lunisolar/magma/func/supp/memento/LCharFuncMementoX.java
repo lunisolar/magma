@@ -72,8 +72,8 @@ public class LCharFuncMementoX<R, X extends Throwable> implements LCharFunctionX
 	}
 
 	@Override
-	public R doApply(char a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(char a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

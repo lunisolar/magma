@@ -89,8 +89,8 @@ public class LByteToShortFuncDeltaX<X extends Throwable> extends LByteToShortFun
 	}
 
 	@Override
-	public short doApplyAsShort(byte a1) throws X {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(byte a) throws X {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

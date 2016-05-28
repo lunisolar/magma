@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteUnaryOperatorAssert<S extends LByteUnaryOperatorAssert<S, A, RS>, A extends LByteUnaryOperator, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LByteConsumer, A, RS, Byte> {
 
 	@Nonnull
-	Evaluation<S, LByteConsumer, A, RS, Byte> doesApplyAsByte(byte a1);
+	Evaluation<S, LByteConsumer, A, RS, Byte> doesApplyAsByte(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LByteUnaryOperator, RS extends AbstractByteAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LByteUnaryOperatorAssert<S extends LByteUnaryOperatorAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LByteConsumer, A, RS, Byte> doesApplyAsByte(byte a1) {
+		public Evaluation<S, LByteConsumer, A, RS, Byte> doesApplyAsByte(byte a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a1));
+				return assertFactory.doApply(actual.doApplyAsByte(a));
 			});
 
 		}

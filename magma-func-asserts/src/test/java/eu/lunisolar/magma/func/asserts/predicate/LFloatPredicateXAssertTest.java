@@ -46,11 +46,11 @@ public class LFloatPredicateXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatPredicateX<X> function = a1 ->
+    private LFloatPredicateX<X> function = a ->
             testValue;
 
 
-    private LFloatPredicateX<X> functionThrowing = a1 -> {
+    private LFloatPredicateX<X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

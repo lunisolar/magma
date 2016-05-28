@@ -99,7 +99,7 @@ public class LBoolToFloatFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LBoolToFloatFunction function = boolToFloatFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,10 +119,10 @@ public class LBoolToFloatFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LBoolToFloatFunction function = boolToFloatFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == false)
-                             .evaluate(a1 -> 0f))
-            .inCase(a1 -> a1 == true ).evaluate(a1 -> 1f)
-            .eventually(a1 -> 99f)
+            .aCase(ce -> ce.of(a -> a == false)
+                             .evaluate(a -> 0f))
+            .inCase(a -> a == true ).evaluate(a -> 1f)
+            .eventually(a -> 99f)
             .build()
         );
 

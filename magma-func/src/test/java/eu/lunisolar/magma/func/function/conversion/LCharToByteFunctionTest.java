@@ -65,13 +65,13 @@ public class LCharToByteFunctionTest<X extends ParseException> {
 
 
     private LCharToByteFunction sut = new LCharToByteFunction(){
-        public  byte doApplyAsByte(char a1)  {
+        public  byte doApplyAsByte(char a)  {
             return testValue;
         }
     };
 
     private LCharToByteFunctionX<X> opposite = new LCharToByteFunctionX<X>(){
-        public  byte doApplyAsByte(char a1)  throws X {
+        public  byte doApplyAsByte(char a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
 
 
 
-    private LCharToByteFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToByteFunction.l(a1 -> {
+    private LCharToByteFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToByteFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharToByteFunction: byte doApplyAsByte(char a1)");
+            .isEqualTo("LCharToByteFunction: byte doApplyAsByte(char a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LCharToByteFunction.l(a1 -> testValue ))
+        assertThat(LCharToByteFunction.l(a -> testValue ))
             .isInstanceOf(LCharToByteFunction.class);
     }
 
@@ -159,7 +159,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LCharToByteFunctionX<X> sutThrowing = LCharToByteFunctionX.lX(a1 -> {
+        LCharToByteFunctionX<X> sutThrowing = LCharToByteFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LCharToByteFunctionX<ParseException> sutThrowing = LCharToByteFunctionX.lX(a1 -> {
+        LCharToByteFunctionX<ParseException> sutThrowing = LCharToByteFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     public void testHandlingDoApplyAsByteMethodWrapsTheException() throws X {
 
         // given
-        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a1 -> {
+        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     public void testHandleCharToByteFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a1 -> {
+        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     public void testHandleCharToByteFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a1 -> {
+        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     public void testHandleCharToByteFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a1 -> {
+        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -308,20 +308,20 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return (byte)100;
         };
 
-        LCharUnaryOperator before1 = p0 -> {
+        LCharUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo('\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LCharToByteFunction function = sutO.charToByteFuncComposeChar(before1);
+        LCharToByteFunction function = sutO.charToByteFuncComposeChar(before);
         function.doApplyAsByte('\u0080');
 
         //then - finals
@@ -337,20 +337,20 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return (byte)100;
         };
 
-        LToCharFunction<Integer> before1 = p0 -> {
+        LToCharFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LToByteFunction<Integer> function = sutO.charToByteFuncCompose(before1);
+        LToByteFunction<Integer> function = sutO.charToByteFuncCompose(before);
         function.doApplyAsByte(80);
 
         //then - finals
@@ -371,9 +371,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -405,9 +405,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -439,9 +439,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -473,9 +473,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -507,9 +507,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -541,9 +541,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -575,9 +575,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -609,9 +609,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -643,9 +643,9 @@ public class LCharToByteFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToByteFunction sutO = a1 -> {
+        LCharToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (byte)90;
         };
 
@@ -704,7 +704,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a1 -> {
+        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -716,7 +716,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
     public void testHandleCharToByteFunc() throws X {
 
         // given
-        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a1 -> {
+        LCharToByteFunction sutThrowing = LCharToByteFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -746,7 +746,7 @@ public class LCharToByteFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharToByteFunction: byte doApplyAsByte(char a1)");
+                .contains("LCharToByteFunction: byte doApplyAsByte(char a)");
     }
 
 

@@ -44,7 +44,7 @@ public class LLongToFloatFuncDeltaTest  {
 
     private final float initialLastValue = 0f;
 
-    private LLongToFloatFuncDelta sut =  LLongToFloatFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LLongToFloatFuncDelta sut =  LLongToFloatFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

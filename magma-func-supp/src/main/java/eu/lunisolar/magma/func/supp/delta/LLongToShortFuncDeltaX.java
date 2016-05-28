@@ -89,8 +89,8 @@ public class LLongToShortFuncDeltaX<X extends Throwable> extends LLongToShortFun
 	}
 
 	@Override
-	public short doApplyAsShort(long a1) throws X {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(long a) throws X {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

@@ -32,16 +32,16 @@ public interface LByteSingle extends LTuple<Byte> {
 
 	int SIZE = 1;
 
-	byte first();
+	byte value();
 
-	default byte getFirst() {
-		return first();
+	default byte getValue() {
+		return value();
 	}
 
 	default Byte get(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -50,7 +50,7 @@ public interface LByteSingle extends LTuple<Byte> {
 	default byte getByte(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -62,16 +62,16 @@ public interface LByteSingle extends LTuple<Byte> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LByteSingle and calculates hash from it. */
-	static int argHashCode(byte a1) {
+	static int argHashCode(byte a) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Byte.hashCode(a1);
+		result = prime * result + Byte.hashCode(a);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LByteSingle and checks if all values are equal. */
-	static boolean argEquals(byte a1, byte b1) {
-		return a1 == b1; //
+	static boolean argEquals(byte a, byte b) {
+		return a == b; //
 	}
 
 	/**
@@ -88,14 +88,14 @@ public interface LByteSingle extends LTuple<Byte> {
 
 				LByteSingle other = (LByteSingle) two;
 
-				return argEquals(one.first(), other.first());
+				return argEquals(one.value(), other.value());
 			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -113,7 +113,7 @@ public interface LByteSingle extends LTuple<Byte> {
 	default Byte[] toVoArray(Byte[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -131,7 +131,7 @@ public interface LByteSingle extends LTuple<Byte> {
 	default byte[] toByteArray(byte[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -190,7 +190,7 @@ public interface LByteSingle extends LTuple<Byte> {
 			return Null.compare(this, that, (one, two) -> {
 				int retval = 0;
 
-				return (retval = Byte.compare(one.first(), two.first())) != 0 ? retval : 0; //
+				return (retval = Byte.compare(one.value(), two.value())) != 0 ? retval : 0; //
 				});
 		}
 
@@ -205,37 +205,37 @@ public interface LByteSingle extends LTuple<Byte> {
 
 		@Override
 		public int hashCode() {
-			return LByteSingle.argHashCode(first());
+			return LByteSingle.argHashCode(value());
 		}
 
 		@Override
 		public byte byteValue() {
-			return (byte) first();
+			return (byte) value();
 		}
 
 		@Override
 		public short shortValue() {
-			return (short) first();
+			return (short) value();
 		}
 
 		@Override
 		public int intValue() {
-			return (int) first();
+			return (int) value();
 		}
 
 		@Override
 		public long longValue() {
-			return (long) first();
+			return (long) value();
 		}
 
 		@Override
 		public float floatValue() {
-			return (float) first();
+			return (float) value();
 		}
 
 		@Override
 		public double doubleValue() {
-			return (double) first();
+			return (double) value();
 		}
 	}
 
@@ -244,35 +244,35 @@ public interface LByteSingle extends LTuple<Byte> {
 	 */
 	final class MutByteSingle extends AbstractByteSingle {
 
-		private byte first;
+		private byte value;
 
-		public MutByteSingle(byte a1) {
-			this.first = a1;
+		public MutByteSingle(byte a) {
+			this.value = a;
 		}
 
-		public static MutByteSingle of(byte a1) {
-			return new MutByteSingle(a1);
+		public static MutByteSingle of(byte a) {
+			return new MutByteSingle(a);
 		}
 
 		public static MutByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public byte first() {
-			return first;
+		public byte value() {
+			return value;
 		}
 
-		public MutByteSingle first(byte first) {
-			this.first = first;
+		public MutByteSingle value(byte value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(byte first) {
-			this.first = first;
+		public void setValue(byte value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = (byte) 0;
+			value = (byte) 0;
 		}
 	}
 
@@ -281,35 +281,35 @@ public interface LByteSingle extends LTuple<Byte> {
 	 */
 	final class MutCompByteSingle extends AbstractByteSingle implements ComparableByteSingle {
 
-		private byte first;
+		private byte value;
 
-		public MutCompByteSingle(byte a1) {
-			this.first = a1;
+		public MutCompByteSingle(byte a) {
+			this.value = a;
 		}
 
-		public static MutCompByteSingle of(byte a1) {
-			return new MutCompByteSingle(a1);
+		public static MutCompByteSingle of(byte a) {
+			return new MutCompByteSingle(a);
 		}
 
 		public static MutCompByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public byte first() {
-			return first;
+		public byte value() {
+			return value;
 		}
 
-		public MutCompByteSingle first(byte first) {
-			this.first = first;
+		public MutCompByteSingle value(byte value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(byte first) {
-			this.first = first;
+		public void setValue(byte value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = (byte) 0;
+			value = (byte) 0;
 		}
 	}
 
@@ -319,22 +319,22 @@ public interface LByteSingle extends LTuple<Byte> {
 	@Immutable
 	final class ImmByteSingle extends AbstractByteSingle {
 
-		private final byte first;
+		private final byte value;
 
-		public ImmByteSingle(byte a1) {
-			this.first = a1;
+		public ImmByteSingle(byte a) {
+			this.value = a;
 		}
 
-		public static ImmByteSingle of(byte a1) {
-			return new ImmByteSingle(a1);
+		public static ImmByteSingle of(byte a) {
+			return new ImmByteSingle(a);
 		}
 
 		public static ImmByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public byte first() {
-			return first;
+		public byte value() {
+			return value;
 		}
 
 	}
@@ -345,22 +345,22 @@ public interface LByteSingle extends LTuple<Byte> {
 	@Immutable
 	final class ImmCompByteSingle extends AbstractByteSingle implements ComparableByteSingle {
 
-		private final byte first;
+		private final byte value;
 
-		public ImmCompByteSingle(byte a1) {
-			this.first = a1;
+		public ImmCompByteSingle(byte a) {
+			this.value = a;
 		}
 
-		public static ImmCompByteSingle of(byte a1) {
-			return new ImmCompByteSingle(a1);
+		public static ImmCompByteSingle of(byte a) {
+			return new ImmCompByteSingle(a);
 		}
 
 		public static ImmCompByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public byte first() {
-			return first;
+		public byte value() {
+			return value;
 		}
 
 	}

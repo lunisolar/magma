@@ -55,7 +55,7 @@ public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToLongFunction EVENTUALLY_THROW = LIntToLongFunction.l(a1 -> {
+	public static final LIntToLongFunction EVENTUALLY_THROW = LIntToLongFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 		LIntToLongFunction retval;
 
 		final Case<LIntPredicate, LIntToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToLongFunction.l(a1 -> {
+		retval = LIntToLongFunction.l(a -> {
 			try {
 				for (Case<LIntPredicate, LIntToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsLong(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsLong(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(a1);
+				return eventuallyFinal.doApplyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

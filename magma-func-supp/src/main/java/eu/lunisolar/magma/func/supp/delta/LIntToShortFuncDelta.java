@@ -89,8 +89,8 @@ public class LIntToShortFuncDelta extends LIntToShortFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsShort(int a1) {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(int a) {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

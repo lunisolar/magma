@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: operator
  *
- * Domain (lvl: 1): boolean a1
+ * Domain (lvl: 1): boolean a
  *
  * Co-domain: boolean
  *
@@ -64,18 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LLogicalOperatorX: boolean doApply(boolean a1) throws X";
+	String DESCRIPTION = "LLogicalOperatorX: boolean doApply(boolean a) throws X";
 
-	boolean doApply(boolean a1) throws X;
+	boolean doApply(boolean a) throws X;
 
 	default boolean tupleApply(LBoolSingle args) throws X {
-		return doApply(args.first());
+		return doApply(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoApply(boolean a1) {
+	default boolean nestingDoApply(boolean a) {
 		try {
-			return this.doApply(a1);
+			return this.doApply(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -84,28 +84,28 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoApply(boolean a1) {
-		return ((LLogicalOperatorX<RuntimeException>) this).doApply(a1);
+	default boolean shovingDoApply(boolean a) {
+		return ((LLogicalOperatorX<RuntimeException>) this).doApply(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoApply(boolean a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoApply(boolean a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApply(a1);
+			return this.doApply(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoApply(boolean a1) throws X {
-		return doApply(a1);
+	default boolean nonNullDoApply(boolean a) throws X {
+		return doApply(a);
 	}
 
 	/** For convenience, boolean operator is also special case of predicate. */
-	default boolean doTest(boolean a1) throws X {
-		return doApply(a1);
+	default boolean doTest(boolean a) throws X {
+		return doApply(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -115,13 +115,13 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureLogicalOp(boolean a1) {
-		return () -> this.doApply(a1);
+	default LBoolSupplierX<X> captureLogicalOp(boolean a) {
+		return () -> this.doApply(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLogicalOperatorX<X> constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -138,24 +138,24 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 		return lambda;
 	}
 
-	static <X extends Throwable> boolean call(boolean a1, final @Nonnull LLogicalOperatorX<X> lambda) throws X {
+	static <X extends Throwable> boolean call(boolean a, final @Nonnull LLogicalOperatorX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a1);
+		return lambda.doApply(a);
 	}
 
-	static <X extends Throwable> boolean shoving(boolean a1, final @Nonnull LLogicalOperatorX<X> lambda) {
+	static <X extends Throwable> boolean shoving(boolean a, final @Nonnull LLogicalOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoApply(a1);
+		return lambda.shovingDoApply(a);
 	}
 
-	static <X extends Throwable> boolean nesting(boolean a1, final @Nonnull LLogicalOperatorX<X> lambda) {
+	static <X extends Throwable> boolean nesting(boolean a, final @Nonnull LLogicalOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoApply(a1);
+		return lambda.nestingDoApply(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> boolean handling(boolean a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLogicalOperatorX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> boolean handling(boolean a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LLogicalOperatorX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoApply(a1, handling);
+		return lambda.handlingDoApply(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -212,7 +212,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	 */
 	@Nonnull
 	default LLogicalOperatorX<X> negate() {
-		return a1 -> !doApply(a1);
+		return a -> !doApply(a);
 	}
 
 	/**
@@ -222,7 +222,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	@Nonnull
 	default LLogicalOperatorX<X> and(@Nonnull LLogicalOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doApply(a1) && other.doApply(a1);
+		return a -> doApply(a) && other.doApply(a);
 	}
 
 	/**
@@ -232,7 +232,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	@Nonnull
 	default LLogicalOperatorX<X> or(@Nonnull LLogicalOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doApply(a1) || other.doApply(a1);
+		return a -> doApply(a) || other.doApply(a);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	@Nonnull
 	default LLogicalOperatorX<X> xor(@Nonnull LLogicalOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doApply(a1) ^ other.doApply(a1);
+		return a -> doApply(a) ^ other.doApply(a);
 	}
 
 	/**
@@ -250,8 +250,8 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static <X extends Throwable> LLogicalOperatorX<X> isEqual(boolean target1) {
-		return a1 -> a1 == target1;
+	static <X extends Throwable> LLogicalOperatorX<X> isEqual(boolean target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -260,16 +260,16 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalOperatorX<X> logicalOpComposeBool(@Nonnull final LLogicalOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApply(before1.doApply(v1));
+	default LLogicalOperatorX<X> logicalOpComposeBool(@Nonnull final LLogicalOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApply(before.doApply(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> logicalOpCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApply(before1.doTest(v1));
+	default <V> LPredicateX<V, X> logicalOpCompose(@Nonnull final LPredicateX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApply(before.doTest(v));
 	}
 
 	// </editor-fold>
@@ -280,63 +280,63 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	@Nonnull
 	default <V> LBoolFunctionX<V, X> then(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApply(a1));
+		return a -> after.doApply(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToByteFunctionX<X> thenToByte(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApply(a1));
+		return a -> after.doApplyAsByte(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToShortFunctionX<X> thenToShort(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApply(a1));
+		return a -> after.doApplyAsShort(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToIntFunctionX<X> thenToInt(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApply(a1));
+		return a -> after.doApplyAsInt(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToLongFunctionX<X> thenToLong(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApply(a1));
+		return a -> after.doApplyAsLong(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToFloatFunctionX<X> thenToFloat(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApply(a1));
+		return a -> after.doApplyAsFloat(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToDoubleFunctionX<X> thenToDouble(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApply(a1));
+		return a -> after.doApplyAsDouble(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToCharFunctionX<X> thenToChar(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApply(a1));
+		return a -> after.doApplyAsChar(this.doApply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLogicalOperatorX<X> thenToBool(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApply(a1));
+		return a -> after.doApply(this.doApply(a));
 	}
 
 	// </editor-fold>
@@ -378,13 +378,13 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaLogicalOpera
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLogicalOperator handleLogicalOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoApply(a1, handling);
+		return a -> this.handlingDoApply(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLogicalOperatorX<Y> handleLogicalOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoApply(a1, handling);
+		return a -> this.handlingDoApply(a, handling);
 	}
 
 	// </editor-fold>

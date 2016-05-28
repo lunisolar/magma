@@ -63,24 +63,24 @@ public class LFloatConsumerXTest<X extends ParseException> {
 
 
     private LFloatConsumerX<X> sut = new LFloatConsumerX<X>(){
-        public  void doAccept(float a1)  throws X {
+        public  void doAccept(float a)  throws X {
             Function4U.doNothing();
         }
     };
 
     private LFloatConsumer opposite = new LFloatConsumer(){
-        public  void doAccept(float a1)  {
+        public  void doAccept(float a)  {
             Function4U.doNothing();
         }
     };
 
 
 
-    private LFloatConsumerX<ParseException> sutAlwaysThrowing = LFloatConsumerX.lX(a1 -> {
+    private LFloatConsumerX<ParseException> sutAlwaysThrowing = LFloatConsumerX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LFloatConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LFloatConsumerX.lX(a1 -> {
+    private LFloatConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LFloatConsumerX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -161,7 +161,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatConsumerX: void doAccept(float a1) throws X");
+            .isEqualTo("LFloatConsumerX: void doAccept(float a) throws X");
     }
 
     @Test
@@ -181,7 +181,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a1 -> {
+        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -205,7 +205,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     public void testHandleFloatConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a1 -> {
+        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -229,7 +229,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     public void testHandleFloatConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a1 -> {
+        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -254,7 +254,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     public void testHandleFloatConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a1 -> {
+        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -284,19 +284,19 @@ public class LFloatConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatConsumerX<X> sutO = a1 -> {
+        LFloatConsumerX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
+                assertThat(a).isEqualTo(90f);
         };
 
-        LFloatUnaryOperatorX<X> before1 = p0 -> {
+        LFloatUnaryOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo(80f);
             beforeCalls.incrementAndGet();
             return 90f;
         };
 
         //when
-        LFloatConsumerX<X> function = sutO.floatConsComposeFloat(before1);
+        LFloatConsumerX<X> function = sutO.floatConsComposeFloat(before);
         function.doAccept(80f);
 
         //then - finals
@@ -312,19 +312,19 @@ public class LFloatConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatConsumerX<X> sutO = a1 -> {
+        LFloatConsumerX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
+                assertThat(a).isEqualTo(90f);
         };
 
-        LToFloatFunctionX<Integer,X> before1 = p0 -> {
+        LToFloatFunctionX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90f;
         };
 
         //when
-        LConsumerX<Integer,X> function = sutO.floatConsCompose(before1);
+        LConsumerX<Integer,X> function = sutO.floatConsCompose(before);
         function.doAccept(80);
 
         //then - finals
@@ -341,14 +341,14 @@ public class LFloatConsumerXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LFloatConsumerX<X> sutO = a1 -> {
+        LFloatConsumerX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
         };
 
-        LFloatConsumerX<X> thenFunction = a1 -> {
+        LFloatConsumerX<X> thenFunction = a -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
+                assertThat(a).isEqualTo(80f);
         };
 
         //when
@@ -389,7 +389,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a1 -> {
+        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -401,7 +401,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     public void testHandleFloatCons() throws X {
 
         // given
-        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a1 -> {
+        LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -431,7 +431,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatConsumerX: void doAccept(float a1) throws X");
+                .contains("LFloatConsumerX: void doAccept(float a) throws X");
     }
 
 

@@ -55,7 +55,7 @@ public final class LFloatToDoubleFunctionXBuilder<X extends Throwable> extends P
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToDoubleFunctionX EVENTUALLY_THROW = LFloatToDoubleFunctionX.lX(a1 -> {
+	public static final LFloatToDoubleFunctionX EVENTUALLY_THROW = LFloatToDoubleFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LFloatToDoubleFunctionXBuilder<X extends Throwable> extends P
 		LFloatToDoubleFunctionX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToDoubleFunctionX.<X> lX(a1 -> {
+		retval = LFloatToDoubleFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsDouble(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(a1);
+				return eventuallyFinal.doApplyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

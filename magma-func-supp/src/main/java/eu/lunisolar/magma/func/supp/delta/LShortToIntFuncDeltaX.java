@@ -89,8 +89,8 @@ public class LShortToIntFuncDeltaX<X extends Throwable> extends LShortToIntFuncM
 	}
 
 	@Override
-	public int doApplyAsInt(short a1) throws X {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(short a) throws X {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

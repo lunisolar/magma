@@ -45,11 +45,11 @@ public class DoubleFunctionAssertTest<R> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private DoubleFunction<Integer> function = a1 ->
+    private DoubleFunction<Integer> function = a ->
             testValue;
 
 
-    private DoubleFunction<Integer> functionThrowing = a1 -> {
+    private DoubleFunction<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

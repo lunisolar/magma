@@ -72,8 +72,8 @@ public class LBoolToByteFuncMementoX<X extends Throwable> implements LBoolToByte
 	}
 
 	@Override
-	public byte doApplyAsByte(boolean a1) throws X {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(boolean a) throws X {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

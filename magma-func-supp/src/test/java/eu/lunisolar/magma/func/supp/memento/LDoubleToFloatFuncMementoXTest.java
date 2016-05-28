@@ -43,7 +43,7 @@ public class LDoubleToFloatFuncMementoXTest <X extends Throwable> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LDoubleToFloatFuncMementoX<X> sut =  LDoubleToFloatFuncMementoX.<X>mementoOf( a1 ->{
+    private LDoubleToFloatFuncMementoX<X> sut =  LDoubleToFloatFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: predicate
  *
- * Domain (lvl: 1): char a1
+ * Domain (lvl: 1): char a
  *
  * Co-domain: boolean
  *
@@ -64,33 +64,33 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LCharPredicate: boolean doTest(char a1)";
+	String DESCRIPTION = "LCharPredicate: boolean doTest(char a)";
 
-	boolean doTest(char a1);
+	boolean doTest(char a);
 
 	default boolean tupleTest(LCharSingle args) {
-		return doTest(args.first());
+		return doTest(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(char a1) {
-		return this.doTest(a1);
+	default boolean nestingDoTest(char a) {
+		return this.doTest(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(char a1) {
-		return this.doTest(a1);
+	default boolean shovingDoTest(char a) {
+		return this.doTest(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(char a1) {
-		return doTest(a1);
+	default boolean nonNullDoTest(char a) {
+		return doTest(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(char a1) {
-		return doTest(a1);
+	default boolean doApplyAsBoolean(char a) {
+		return doTest(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -100,13 +100,13 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureCharPred(char a1) {
-		return () -> this.doTest(a1);
+	default LBoolSupplier captureCharPred(char a) {
+		return () -> this.doTest(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LCharPredicate constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -116,9 +116,9 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return lambda;
 	}
 
-	static boolean call(char a1, final @Nonnull LCharPredicate lambda) {
+	static boolean call(char a, final @Nonnull LCharPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1);
+		return lambda.doTest(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -175,7 +175,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	 */
 	@Nonnull
 	default LCharPredicate negate() {
-		return a1 -> !doTest(a1);
+		return a -> !doTest(a);
 	}
 
 	/**
@@ -185,7 +185,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LCharPredicate and(@Nonnull LCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) && other.doTest(a1);
+		return a -> doTest(a) && other.doTest(a);
 	}
 
 	/**
@@ -195,7 +195,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LCharPredicate or(@Nonnull LCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) || other.doTest(a1);
+		return a -> doTest(a) || other.doTest(a);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LCharPredicate xor(@Nonnull LCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) ^ other.doTest(a1);
+		return a -> doTest(a) ^ other.doTest(a);
 	}
 
 	/**
@@ -213,8 +213,8 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LCharPredicate isEqual(char target1) {
-		return a1 -> a1 == target1;
+	static LCharPredicate isEqual(char target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -223,16 +223,16 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharPredicate charPredComposeChar(@Nonnull final LCharUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsChar(v1));
+	default LCharPredicate charPredComposeChar(@Nonnull final LCharUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsChar(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> charPredCompose(@Nonnull final LToCharFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsChar(v1));
+	default <V> LPredicate<V> charPredCompose(@Nonnull final LToCharFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsChar(v));
 	}
 
 	// </editor-fold>
@@ -243,63 +243,63 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default <V> LCharFunction<V> boolToCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction boolToCharToByteFunction(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doTest(a1));
+		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction boolToCharToShortFunction(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doTest(a1));
+		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction boolToCharToIntFunction(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doTest(a1));
+		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction boolToCharToLongFunction(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doTest(a1));
+		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction boolToCharToFloatFunction(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doTest(a1));
+		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction boolToCharToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doTest(a1));
+		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator boolToCharUnaryOperator(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doTest(a1));
+		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate boolToCharPredicate(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	// </editor-fold>

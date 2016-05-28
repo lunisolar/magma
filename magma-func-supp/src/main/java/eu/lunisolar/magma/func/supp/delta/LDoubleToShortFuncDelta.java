@@ -89,8 +89,8 @@ public class LDoubleToShortFuncDelta extends LDoubleToShortFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsShort(double a1) {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(double a) {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

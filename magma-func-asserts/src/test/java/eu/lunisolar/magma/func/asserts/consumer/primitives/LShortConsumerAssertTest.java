@@ -47,11 +47,11 @@ public class LShortConsumerAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LShortConsumer function = a1 ->
+    private LShortConsumer function = a ->
             externalEffect.set(testValue);
 
 
-    private LShortConsumer functionThrowing = a1 -> {
+    private LShortConsumer functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

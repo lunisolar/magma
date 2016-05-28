@@ -99,7 +99,7 @@ public class LFloatToLongFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LFloatToLongFunction function = floatToLongFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LFloatToLongFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LFloatToLongFunction function = floatToLongFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0f)
-                             .evaluate(a1 -> 0L))
-            .inCase(a1 -> a1 > 0f && a1 < 10f).evaluate(a1 -> 1L)
-            .inCase(a1 -> a1 > 10f && a1 < 20f).evaluate(a1 -> 2L)
-            .eventually(a1 -> 99L)
+            .aCase(ce -> ce.of(a -> a == 0f)
+                             .evaluate(a -> 0L))
+            .inCase(a -> a > 0f && a < 10f).evaluate(a -> 1L)
+            .inCase(a -> a > 10f && a < 20f).evaluate(a -> 2L)
+            .eventually(a -> 99L)
             .build()
         );
 

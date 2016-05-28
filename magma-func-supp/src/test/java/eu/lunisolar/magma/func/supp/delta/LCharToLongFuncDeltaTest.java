@@ -44,7 +44,7 @@ public class LCharToLongFuncDeltaTest  {
 
     private final long initialLastValue = 0L;
 
-    private LCharToLongFuncDelta sut =  LCharToLongFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LCharToLongFuncDelta sut =  LCharToLongFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

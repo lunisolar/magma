@@ -46,11 +46,11 @@ public class LDoubleToShortFunctionXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleToShortFunctionX<X> function = a1 ->
+    private LDoubleToShortFunctionX<X> function = a ->
             testValue;
 
 
-    private LDoubleToShortFunctionX<X> functionThrowing = a1 -> {
+    private LDoubleToShortFunctionX<X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

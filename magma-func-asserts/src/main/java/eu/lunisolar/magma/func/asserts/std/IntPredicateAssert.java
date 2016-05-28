@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface IntPredicateAssert<S extends IntPredicateAssert<S, A, RS>, A extends IntPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	Evaluation<S, LIntConsumer, A, RS, Boolean> doesTest(int a1);
+	Evaluation<S, LIntConsumer, A, RS, Boolean> doesTest(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends IntPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -73,13 +73,13 @@ public interface IntPredicateAssert<S extends IntPredicateAssert<S, A, RS>, A ex
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntConsumer, A, RS, Boolean> doesTest(int a1) {
+		public Evaluation<S, LIntConsumer, A, RS, Boolean> doesTest(int a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.test(a1));
+				return assertFactory.doApply(actual.test(a));
 			});
 
 		}

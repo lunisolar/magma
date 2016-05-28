@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): float a1
+ * Domain (lvl: 1): float a
  *
  * Co-domain: int
  *
@@ -64,18 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LFloatToIntFunctionX: int doApplyAsInt(float a1) throws X";
+	String DESCRIPTION = "LFloatToIntFunctionX: int doApplyAsInt(float a) throws X";
 
-	int doApplyAsInt(float a1) throws X;
+	int doApplyAsInt(float a) throws X;
 
 	default int tupleApplyAsInt(LFloatSingle args) throws X {
-		return doApplyAsInt(args.first());
+		return doApplyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(float a1) {
+	default int nestingDoApplyAsInt(float a) {
 		try {
-			return this.doApplyAsInt(a1);
+			return this.doApplyAsInt(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -84,23 +84,23 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(float a1) {
-		return ((LFloatToIntFunctionX<RuntimeException>) this).doApplyAsInt(a1);
+	default int shovingDoApplyAsInt(float a) {
+		return ((LFloatToIntFunctionX<RuntimeException>) this).doApplyAsInt(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> int handlingDoApplyAsInt(float a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> int handlingDoApplyAsInt(float a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsInt(a1);
+			return this.doApplyAsInt(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(float a1) throws X {
-		return doApplyAsInt(a1);
+	default int nonNullDoApplyAsInt(float a) throws X {
+		return doApplyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -110,13 +110,13 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureFloatToIntFunc(float a1) {
-		return () -> this.doApplyAsInt(a1);
+	default LIntSupplierX<X> captureFloatToIntFunc(float a) {
+		return () -> this.doApplyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatToIntFunctionX<X> constant(int r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -133,24 +133,24 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 		return lambda;
 	}
 
-	static <X extends Throwable> int call(float a1, final @Nonnull LFloatToIntFunctionX<X> lambda) throws X {
+	static <X extends Throwable> int call(float a, final @Nonnull LFloatToIntFunctionX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a1);
+		return lambda.doApplyAsInt(a);
 	}
 
-	static <X extends Throwable> int shoving(float a1, final @Nonnull LFloatToIntFunctionX<X> lambda) {
+	static <X extends Throwable> int shoving(float a, final @Nonnull LFloatToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoApplyAsInt(a1);
+		return lambda.shovingDoApplyAsInt(a);
 	}
 
-	static <X extends Throwable> int nesting(float a1, final @Nonnull LFloatToIntFunctionX<X> lambda) {
+	static <X extends Throwable> int nesting(float a, final @Nonnull LFloatToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoApplyAsInt(a1);
+		return lambda.nestingDoApplyAsInt(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> int handling(float a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LFloatToIntFunctionX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> int handling(float a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LFloatToIntFunctionX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoApplyAsInt(a1, handling);
+		return lambda.handlingDoApplyAsInt(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -203,16 +203,16 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatToIntFunctionX<X> floatToIntFuncComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
+	default LFloatToIntFunctionX<X> floatToIntFuncComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsFloat(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunctionX<V1, X> floatToIntFuncCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
+	default <V> LToIntFunctionX<V, X> floatToIntFuncCompose(@Nonnull final LToFloatFunctionX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsInt(before.doApplyAsFloat(v));
 	}
 
 	// </editor-fold>
@@ -223,63 +223,63 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LFloatFunctionX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsInt(a1));
+		return a -> after.doApply(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunctionX<X> thenToByte(@Nonnull LIntToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunctionX<X> thenToShort(@Nonnull LIntToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunctionX<X> thenToInt(@Nonnull LIntUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunctionX<X> thenToLong(@Nonnull LIntToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperatorX<X> thenToFloat(@Nonnull LIntToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunctionX<X> thenToDouble(@Nonnull LIntToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunctionX<X> thenToChar(@Nonnull LIntToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsInt(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicateX<X> thenToBool(@Nonnull LIntPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsInt(a1));
+		return a -> after.doTest(this.doApplyAsInt(a));
 	}
 
 	// </editor-fold>
@@ -315,13 +315,13 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LFloatToIntFunction handleFloatToIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoApplyAsInt(a1, handling);
+		return a -> this.handlingDoApplyAsInt(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LFloatToIntFunctionX<Y> handleFloatToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoApplyAsInt(a1, handling);
+		return a -> this.handlingDoApplyAsInt(a, handling);
 	}
 
 	// </editor-fold>

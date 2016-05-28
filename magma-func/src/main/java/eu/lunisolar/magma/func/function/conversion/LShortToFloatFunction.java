@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): short a1
+ * Domain (lvl: 1): short a
  *
  * Co-domain: float
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LShortToFloatFunction: float doApplyAsFloat(short a1)";
+	String DESCRIPTION = "LShortToFloatFunction: float doApplyAsFloat(short a)";
 
-	float doApplyAsFloat(short a1);
+	float doApplyAsFloat(short a);
 
 	default float tupleApplyAsFloat(LShortSingle args) {
-		return doApplyAsFloat(args.first());
+		return doApplyAsFloat(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default float nestingDoApplyAsFloat(short a1) {
-		return this.doApplyAsFloat(a1);
+	default float nestingDoApplyAsFloat(short a) {
+		return this.doApplyAsFloat(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFloat(short a1) {
-		return this.doApplyAsFloat(a1);
+	default float shovingDoApplyAsFloat(short a) {
+		return this.doApplyAsFloat(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFloat(short a1) {
-		return doApplyAsFloat(a1);
+	default float nonNullDoApplyAsFloat(short a) {
+		return doApplyAsFloat(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier captureShortToFloatFunc(short a1) {
-		return () -> this.doApplyAsFloat(a1);
+	default LFloatSupplier captureShortToFloatFunc(short a) {
+		return () -> this.doApplyAsFloat(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LShortToFloatFunction constant(float r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 		return lambda;
 	}
 
-	static float call(short a1, final @Nonnull LShortToFloatFunction lambda) {
+	static float call(short a, final @Nonnull LShortToFloatFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsFloat(a1);
+		return lambda.doApplyAsFloat(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortToFloatFunction shortToFloatFuncComposeShort(@Nonnull final LShortUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
+	default LShortToFloatFunction shortToFloatFuncComposeShort(@Nonnull final LShortUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsFloat(before.doApplyAsShort(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> shortToFloatFuncCompose(@Nonnull final LToShortFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
+	default <V> LToFloatFunction<V> shortToFloatFuncCompose(@Nonnull final LToShortFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsFloat(before.doApplyAsShort(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsFloat(a1));
+		return a -> after.doApply(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LFloatToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsFloat(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LFloatToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsFloat(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LFloatToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsFloat(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LFloatToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsFloat(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LFloatUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsFloat(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LFloatToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsFloat(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LFloatToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsFloat(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsFloat(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBool(@Nonnull LFloatPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsFloat(a1));
+		return a -> after.doTest(this.doApplyAsFloat(a));
 	}
 
 	// </editor-fold>

@@ -72,7 +72,7 @@ public class LazyByteValue extends LByteSupMemento implements LByteSingle {
 		return lastValue;
 	}
 
-	public byte first() {
+	public byte value() {
 		return shovingDoGetAsByte();
 	}
 
@@ -84,7 +84,7 @@ public class LazyByteValue extends LByteSupMemento implements LByteSingle {
 
 			LazyByteValue other = (LazyByteValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyByteValue extends LByteSupMemento implements LByteSingle {
 
 	@Override
 	public int hashCode() {
-		return LByteSingle.argHashCode(first());
+		return LByteSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

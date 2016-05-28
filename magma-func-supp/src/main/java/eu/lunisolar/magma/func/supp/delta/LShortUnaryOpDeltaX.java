@@ -89,8 +89,8 @@ public class LShortUnaryOpDeltaX<X extends Throwable> extends LShortUnaryOpMemen
 	}
 
 	@Override
-	public short doApplyAsShort(short a1) throws X {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(short a) throws X {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

@@ -89,8 +89,8 @@ public class LShortToIntFuncDelta extends LShortToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(short a1) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(short a) {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): double a1
+ * Domain (lvl: 1): double a
  *
  * Co-domain: none
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LDoubleConsumer: void doAccept(double a1)";
+	String DESCRIPTION = "LDoubleConsumer: void doAccept(double a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,25 +72,25 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	 */
 	@Override
 	@Deprecated
-	default void accept(double a1) {
-		this.nestingDoAccept(a1);
+	default void accept(double a) {
+		this.nestingDoAccept(a);
 	}
 
-	void doAccept(double a1);
+	void doAccept(double a);
 
 	default LTuple.Void tupleAccept(LDoubleSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(double a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(double a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(double a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(double a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -100,8 +100,8 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureDoubleCons(double a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureDoubleCons(double a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -111,9 +111,9 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 		return lambda;
 	}
 
-	static void call(double a1, final @Nonnull LDoubleConsumer lambda) {
+	static void call(double a, final @Nonnull LDoubleConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -172,16 +172,16 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleConsumer doubleConsComposeDouble(@Nonnull final LDoubleUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
+	default LDoubleConsumer doubleConsComposeDouble(@Nonnull final LDoubleUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsDouble(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> doubleConsCompose(@Nonnull final LToDoubleFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
+	default <V> LConsumer<V> doubleConsCompose(@Nonnull final LToDoubleFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsDouble(v));
 	}
 
 	// </editor-fold>
@@ -192,9 +192,9 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	@Nonnull
 	default LDoubleConsumer andThen(@Nonnull LDoubleConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

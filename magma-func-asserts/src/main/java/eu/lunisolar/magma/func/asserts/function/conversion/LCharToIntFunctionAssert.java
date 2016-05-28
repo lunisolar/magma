@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharToIntFunctionAssert<S extends LCharToIntFunctionAssert<S, A, RS>, A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumer, A, RS, Integer> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumer, A, RS, Integer> doesApplyAsInt(char a1);
+	Evaluation<S, LCharConsumer, A, RS, Integer> doesApplyAsInt(char a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LCharToIntFunctionAssert<S extends LCharToIntFunctionAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumer, A, RS, Integer> doesApplyAsInt(char a1) {
+		public Evaluation<S, LCharConsumer, A, RS, Integer> doesApplyAsInt(char a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a1));
+				return assertFactory.doApply(actual.doApplyAsInt(a));
 			});
 
 		}

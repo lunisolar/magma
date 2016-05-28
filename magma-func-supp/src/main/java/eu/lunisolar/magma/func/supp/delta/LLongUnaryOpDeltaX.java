@@ -89,8 +89,8 @@ public class LLongUnaryOpDeltaX<X extends Throwable> extends LLongUnaryOpMemento
 	}
 
 	@Override
-	public long doApplyAsLong(long a1) throws X {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(long a) throws X {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

@@ -72,8 +72,8 @@ public class LToByteFuncMementoX<T, X extends Throwable> implements LToByteFunct
 	}
 
 	@Override
-	public byte doApplyAsByte(T a1) throws X {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(T a) throws X {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

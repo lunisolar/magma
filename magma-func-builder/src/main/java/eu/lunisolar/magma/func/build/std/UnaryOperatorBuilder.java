@@ -55,7 +55,7 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final UnaryOperator EVENTUALLY_THROW = Function4U.unaryOperator(a1 -> {
+	public static final UnaryOperator EVENTUALLY_THROW = Function4U.unaryOperator(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> UnaryOperatorBuilder<T> casesOf(Class<V> argC1, Consumer<UnaryOperatorBuilder<V>> pcpConsumer) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> UnaryOperatorBuilder<T> casesOf(Class<V> argC, Consumer<UnaryOperatorBuilder<V>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> UnaryOperatorBuilder<T> aCase(Class<V> argC1, UnaryOperator<V> function) {
-		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> UnaryOperatorBuilder<T> aCase(Class<V> argC, UnaryOperator<V> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 		UnaryOperator<T> retval;
 
 		final Case<LPredicate<T>, UnaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> unaryOperator(a1 -> {
+		retval = Function4U.<T> unaryOperator(a -> {
 			try {
 				for (Case<LPredicate<T>, UnaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().apply(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.apply(a1);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

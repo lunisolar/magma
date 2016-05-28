@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: operator
  *
- * Domain (lvl: 1): short a1
+ * Domain (lvl: 1): short a
  *
  * Co-domain: short
  *
@@ -64,27 +64,27 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LShortUnaryOperator: short doApplyAsShort(short a1)";
+	String DESCRIPTION = "LShortUnaryOperator: short doApplyAsShort(short a)";
 
-	short doApplyAsShort(short a1);
+	short doApplyAsShort(short a);
 
 	default short tupleApplyAsShort(LShortSingle args) {
-		return doApplyAsShort(args.first());
+		return doApplyAsShort(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default short nestingDoApplyAsShort(short a1) {
-		return this.doApplyAsShort(a1);
+	default short nestingDoApplyAsShort(short a) {
+		return this.doApplyAsShort(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default short shovingDoApplyAsShort(short a1) {
-		return this.doApplyAsShort(a1);
+	default short shovingDoApplyAsShort(short a) {
+		return this.doApplyAsShort(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsShort(short a1) {
-		return doApplyAsShort(a1);
+	default short nonNullDoApplyAsShort(short a) {
+		return doApplyAsShort(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -94,13 +94,13 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier captureShortUnaryOp(short a1) {
-		return () -> this.doApplyAsShort(a1);
+	default LShortSupplier captureShortUnaryOp(short a) {
+		return () -> this.doApplyAsShort(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LShortUnaryOperator constant(short r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,9 +110,9 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 		return lambda;
 	}
 
-	static short call(short a1, final @Nonnull LShortUnaryOperator lambda) {
+	static short call(short a, final @Nonnull LShortUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsShort(a1);
+		return lambda.doApplyAsShort(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -165,16 +165,16 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortUnaryOperator shortUnaryOpComposeShort(@Nonnull final LShortUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsShort(before1.doApplyAsShort(v1));
+	default LShortUnaryOperator shortUnaryOpComposeShort(@Nonnull final LShortUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsShort(before.doApplyAsShort(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToShortFunction<V1> shortUnaryOpCompose(@Nonnull final LToShortFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsShort(before1.doApplyAsShort(v1));
+	default <V> LToShortFunction<V> shortUnaryOpCompose(@Nonnull final LToShortFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsShort(before.doApplyAsShort(v));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsShort(a1));
+		return a -> after.doApply(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LShortToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsShort(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LShortUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsShort(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LShortToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsShort(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LShortToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsShort(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LShortToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsShort(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LShortToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsShort(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LShortToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsShort(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsShort(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBool(@Nonnull LShortPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsShort(a1));
+		return a -> after.doTest(this.doApplyAsShort(a));
 	}
 
 	// </editor-fold>

@@ -43,24 +43,24 @@ public final class Tuple4U {
 		return LPair.ImmCompPair.of(a1, a2);
 	}
 
-	public static <T> LSingle.MutSingle<T> tuple(T a1) {
-		return LSingle.MutSingle.of(a1);
+	public static <T> LSingle.MutSingle<T> tuple(T a) {
+		return LSingle.MutSingle.of(a);
 	}
 
-	public static <T> LSingle.MutSingle<T> single(T a1) {
-		return LSingle.MutSingle.of(a1);
+	public static <T> LSingle.MutSingle<T> single(T a) {
+		return LSingle.MutSingle.of(a);
 	}
 
-	public static <T extends Comparable<T>> LSingle.MutCompSingle<T> comparable(T a1) {
-		return LSingle.MutCompSingle.of(a1);
+	public static <T extends Comparable<T>> LSingle.MutCompSingle<T> comparable(T a) {
+		return LSingle.MutCompSingle.of(a);
 	}
 
-	public static <T> LSingle<T> immutable(T a1) {
-		return LSingle.ImmSingle.of(a1);
+	public static <T> LSingle<T> immutable(T a) {
+		return LSingle.ImmSingle.of(a);
 	}
 
-	public static <T extends Comparable<T>> LSingle.ComparableSingle immComp(T a1) {
-		return LSingle.ImmCompSingle.of(a1);
+	public static <T extends Comparable<T>> LSingle.ComparableSingle immComp(T a) {
+		return LSingle.ImmCompSingle.of(a);
 	}
 
 	public static <T1, T2, T3> LTriple.MutTriple<T1, T2, T3> tuple(T1 a1, T2 a2, T3 a3) {
@@ -83,164 +83,164 @@ public final class Tuple4U {
 		return LTriple.ImmCompTriple.of(a1, a2, a3);
 	}
 
-	public static LBoolSingle.MutBoolSingle tuple(boolean a1) {
-		return LBoolSingle.MutBoolSingle.of(a1);
+	public static LBoolSingle.MutBoolSingle tuple(boolean a) {
+		return LBoolSingle.MutBoolSingle.of(a);
 	}
 
-	public static LBoolSingle.MutBoolSingle boolSingle(boolean a1) {
-		return LBoolSingle.MutBoolSingle.of(a1);
+	public static LBoolSingle.MutBoolSingle boolSingle(boolean a) {
+		return LBoolSingle.MutBoolSingle.of(a);
 	}
 
-	public static LBoolSingle.MutCompBoolSingle comparable(boolean a1) {
-		return LBoolSingle.MutCompBoolSingle.of(a1);
+	public static LBoolSingle.MutCompBoolSingle comparable(boolean a) {
+		return LBoolSingle.MutCompBoolSingle.of(a);
 	}
 
-	public static LBoolSingle immutable(boolean a1) {
-		return LBoolSingle.ImmBoolSingle.of(a1);
+	public static LBoolSingle immutable(boolean a) {
+		return LBoolSingle.ImmBoolSingle.of(a);
 	}
 
-	public static LBoolSingle.ComparableBoolSingle immComp(boolean a1) {
-		return LBoolSingle.ImmCompBoolSingle.of(a1);
+	public static LBoolSingle.ComparableBoolSingle immComp(boolean a) {
+		return LBoolSingle.ImmCompBoolSingle.of(a);
 	}
 
-	public static LByteSingle.MutByteSingle tuple(byte a1) {
-		return LByteSingle.MutByteSingle.of(a1);
+	public static LByteSingle.MutByteSingle tuple(byte a) {
+		return LByteSingle.MutByteSingle.of(a);
 	}
 
-	public static LByteSingle.MutByteSingle byteSingle(byte a1) {
-		return LByteSingle.MutByteSingle.of(a1);
+	public static LByteSingle.MutByteSingle byteSingle(byte a) {
+		return LByteSingle.MutByteSingle.of(a);
 	}
 
-	public static LByteSingle.MutCompByteSingle comparable(byte a1) {
-		return LByteSingle.MutCompByteSingle.of(a1);
+	public static LByteSingle.MutCompByteSingle comparable(byte a) {
+		return LByteSingle.MutCompByteSingle.of(a);
 	}
 
-	public static LByteSingle immutable(byte a1) {
-		return LByteSingle.ImmByteSingle.of(a1);
+	public static LByteSingle immutable(byte a) {
+		return LByteSingle.ImmByteSingle.of(a);
 	}
 
-	public static LByteSingle.ComparableByteSingle immComp(byte a1) {
-		return LByteSingle.ImmCompByteSingle.of(a1);
+	public static LByteSingle.ComparableByteSingle immComp(byte a) {
+		return LByteSingle.ImmCompByteSingle.of(a);
 	}
 
-	public static LCharSingle.MutCharSingle tuple(char a1) {
-		return LCharSingle.MutCharSingle.of(a1);
+	public static LCharSingle.MutCharSingle tuple(char a) {
+		return LCharSingle.MutCharSingle.of(a);
 	}
 
-	public static LCharSingle.MutCharSingle charSingle(char a1) {
-		return LCharSingle.MutCharSingle.of(a1);
+	public static LCharSingle.MutCharSingle charSingle(char a) {
+		return LCharSingle.MutCharSingle.of(a);
 	}
 
-	public static LCharSingle.MutCompCharSingle comparable(char a1) {
-		return LCharSingle.MutCompCharSingle.of(a1);
+	public static LCharSingle.MutCompCharSingle comparable(char a) {
+		return LCharSingle.MutCompCharSingle.of(a);
 	}
 
-	public static LCharSingle immutable(char a1) {
-		return LCharSingle.ImmCharSingle.of(a1);
+	public static LCharSingle immutable(char a) {
+		return LCharSingle.ImmCharSingle.of(a);
 	}
 
-	public static LCharSingle.ComparableCharSingle immComp(char a1) {
-		return LCharSingle.ImmCompCharSingle.of(a1);
+	public static LCharSingle.ComparableCharSingle immComp(char a) {
+		return LCharSingle.ImmCompCharSingle.of(a);
 	}
 
-	public static LDoubleSingle.MutDoubleSingle tuple(double a1) {
-		return LDoubleSingle.MutDoubleSingle.of(a1);
+	public static LDoubleSingle.MutDoubleSingle tuple(double a) {
+		return LDoubleSingle.MutDoubleSingle.of(a);
 	}
 
-	public static LDoubleSingle.MutDoubleSingle doubleSingle(double a1) {
-		return LDoubleSingle.MutDoubleSingle.of(a1);
+	public static LDoubleSingle.MutDoubleSingle doubleSingle(double a) {
+		return LDoubleSingle.MutDoubleSingle.of(a);
 	}
 
-	public static LDoubleSingle.MutCompDoubleSingle comparable(double a1) {
-		return LDoubleSingle.MutCompDoubleSingle.of(a1);
+	public static LDoubleSingle.MutCompDoubleSingle comparable(double a) {
+		return LDoubleSingle.MutCompDoubleSingle.of(a);
 	}
 
-	public static LDoubleSingle immutable(double a1) {
-		return LDoubleSingle.ImmDoubleSingle.of(a1);
+	public static LDoubleSingle immutable(double a) {
+		return LDoubleSingle.ImmDoubleSingle.of(a);
 	}
 
-	public static LDoubleSingle.ComparableDoubleSingle immComp(double a1) {
-		return LDoubleSingle.ImmCompDoubleSingle.of(a1);
+	public static LDoubleSingle.ComparableDoubleSingle immComp(double a) {
+		return LDoubleSingle.ImmCompDoubleSingle.of(a);
 	}
 
-	public static LFloatSingle.MutFloatSingle tuple(float a1) {
-		return LFloatSingle.MutFloatSingle.of(a1);
+	public static LFloatSingle.MutFloatSingle tuple(float a) {
+		return LFloatSingle.MutFloatSingle.of(a);
 	}
 
-	public static LFloatSingle.MutFloatSingle floatSingle(float a1) {
-		return LFloatSingle.MutFloatSingle.of(a1);
+	public static LFloatSingle.MutFloatSingle floatSingle(float a) {
+		return LFloatSingle.MutFloatSingle.of(a);
 	}
 
-	public static LFloatSingle.MutCompFloatSingle comparable(float a1) {
-		return LFloatSingle.MutCompFloatSingle.of(a1);
+	public static LFloatSingle.MutCompFloatSingle comparable(float a) {
+		return LFloatSingle.MutCompFloatSingle.of(a);
 	}
 
-	public static LFloatSingle immutable(float a1) {
-		return LFloatSingle.ImmFloatSingle.of(a1);
+	public static LFloatSingle immutable(float a) {
+		return LFloatSingle.ImmFloatSingle.of(a);
 	}
 
-	public static LFloatSingle.ComparableFloatSingle immComp(float a1) {
-		return LFloatSingle.ImmCompFloatSingle.of(a1);
+	public static LFloatSingle.ComparableFloatSingle immComp(float a) {
+		return LFloatSingle.ImmCompFloatSingle.of(a);
 	}
 
-	public static LIntSingle.MutIntSingle tuple(int a1) {
-		return LIntSingle.MutIntSingle.of(a1);
+	public static LIntSingle.MutIntSingle tuple(int a) {
+		return LIntSingle.MutIntSingle.of(a);
 	}
 
-	public static LIntSingle.MutIntSingle intSingle(int a1) {
-		return LIntSingle.MutIntSingle.of(a1);
+	public static LIntSingle.MutIntSingle intSingle(int a) {
+		return LIntSingle.MutIntSingle.of(a);
 	}
 
-	public static LIntSingle.MutCompIntSingle comparable(int a1) {
-		return LIntSingle.MutCompIntSingle.of(a1);
+	public static LIntSingle.MutCompIntSingle comparable(int a) {
+		return LIntSingle.MutCompIntSingle.of(a);
 	}
 
-	public static LIntSingle immutable(int a1) {
-		return LIntSingle.ImmIntSingle.of(a1);
+	public static LIntSingle immutable(int a) {
+		return LIntSingle.ImmIntSingle.of(a);
 	}
 
-	public static LIntSingle.ComparableIntSingle immComp(int a1) {
-		return LIntSingle.ImmCompIntSingle.of(a1);
+	public static LIntSingle.ComparableIntSingle immComp(int a) {
+		return LIntSingle.ImmCompIntSingle.of(a);
 	}
 
-	public static LLongSingle.MutLongSingle tuple(long a1) {
-		return LLongSingle.MutLongSingle.of(a1);
+	public static LLongSingle.MutLongSingle tuple(long a) {
+		return LLongSingle.MutLongSingle.of(a);
 	}
 
-	public static LLongSingle.MutLongSingle longSingle(long a1) {
-		return LLongSingle.MutLongSingle.of(a1);
+	public static LLongSingle.MutLongSingle longSingle(long a) {
+		return LLongSingle.MutLongSingle.of(a);
 	}
 
-	public static LLongSingle.MutCompLongSingle comparable(long a1) {
-		return LLongSingle.MutCompLongSingle.of(a1);
+	public static LLongSingle.MutCompLongSingle comparable(long a) {
+		return LLongSingle.MutCompLongSingle.of(a);
 	}
 
-	public static LLongSingle immutable(long a1) {
-		return LLongSingle.ImmLongSingle.of(a1);
+	public static LLongSingle immutable(long a) {
+		return LLongSingle.ImmLongSingle.of(a);
 	}
 
-	public static LLongSingle.ComparableLongSingle immComp(long a1) {
-		return LLongSingle.ImmCompLongSingle.of(a1);
+	public static LLongSingle.ComparableLongSingle immComp(long a) {
+		return LLongSingle.ImmCompLongSingle.of(a);
 	}
 
-	public static LShortSingle.MutShortSingle tuple(short a1) {
-		return LShortSingle.MutShortSingle.of(a1);
+	public static LShortSingle.MutShortSingle tuple(short a) {
+		return LShortSingle.MutShortSingle.of(a);
 	}
 
-	public static LShortSingle.MutShortSingle shortSingle(short a1) {
-		return LShortSingle.MutShortSingle.of(a1);
+	public static LShortSingle.MutShortSingle shortSingle(short a) {
+		return LShortSingle.MutShortSingle.of(a);
 	}
 
-	public static LShortSingle.MutCompShortSingle comparable(short a1) {
-		return LShortSingle.MutCompShortSingle.of(a1);
+	public static LShortSingle.MutCompShortSingle comparable(short a) {
+		return LShortSingle.MutCompShortSingle.of(a);
 	}
 
-	public static LShortSingle immutable(short a1) {
-		return LShortSingle.ImmShortSingle.of(a1);
+	public static LShortSingle immutable(short a) {
+		return LShortSingle.ImmShortSingle.of(a);
 	}
 
-	public static LShortSingle.ComparableShortSingle immComp(short a1) {
-		return LShortSingle.ImmCompShortSingle.of(a1);
+	public static LShortSingle.ComparableShortSingle immComp(short a) {
+		return LShortSingle.ImmCompShortSingle.of(a);
 	}
 
 	public static LBoolPair.MutBoolPair tuple(boolean a1, boolean a2) {

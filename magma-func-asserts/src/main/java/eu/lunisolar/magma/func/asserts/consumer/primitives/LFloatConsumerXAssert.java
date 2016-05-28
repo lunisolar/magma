@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LFloatConsumerXAssert<S extends LFloatConsumerXAssert<S, A, X>, A extends LFloatConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LFloatConsumerX<X>, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LFloatConsumerX<X>, A> doesAccept(float a1);
+	SemiEvaluation<S, LFloatConsumerX<X>, A> doesAccept(float a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LFloatConsumerX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
@@ -72,13 +72,13 @@ public interface LFloatConsumerXAssert<S extends LFloatConsumerXAssert<S, A, X>,
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LFloatConsumerX<X>, A> doesAccept(float a1) {
+		public SemiEvaluation<S, LFloatConsumerX<X>, A> doesAccept(float a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				actual.doAccept(a1);
+				actual.doAccept(a);
 				return null;
 			});
 

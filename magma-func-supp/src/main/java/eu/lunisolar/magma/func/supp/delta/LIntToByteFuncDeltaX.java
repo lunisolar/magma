@@ -89,8 +89,8 @@ public class LIntToByteFuncDeltaX<X extends Throwable> extends LIntToByteFuncMem
 	}
 
 	@Override
-	public byte doApplyAsByte(int a1) throws X {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(int a) throws X {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

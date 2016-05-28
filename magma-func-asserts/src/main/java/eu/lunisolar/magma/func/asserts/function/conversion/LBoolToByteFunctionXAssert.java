@@ -57,7 +57,7 @@ public interface LBoolToByteFunctionXAssert<S extends LBoolToByteFunctionXAssert
 			FullFunctionalAssert<S, LBoolConsumerX<X>, A, RS, Byte> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumerX<X>, A, RS, Byte> doesApplyAsByte(boolean a1);
+	Evaluation<S, LBoolConsumerX<X>, A, RS, Byte> doesApplyAsByte(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LBoolToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -78,13 +78,13 @@ public interface LBoolToByteFunctionXAssert<S extends LBoolToByteFunctionXAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumerX<X>, A, RS, Byte> doesApplyAsByte(boolean a1) {
+		public Evaluation<S, LBoolConsumerX<X>, A, RS, Byte> doesApplyAsByte(boolean a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a1));
+				return assertFactory.doApply(actual.doApplyAsByte(a));
 			});
 
 		}

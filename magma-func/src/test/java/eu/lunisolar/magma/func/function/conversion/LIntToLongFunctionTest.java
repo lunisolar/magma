@@ -65,23 +65,23 @@ public class LIntToLongFunctionTest<X extends ParseException> {
 
 
     private LIntToLongFunction sut = new LIntToLongFunction(){
-        public  long doApplyAsLong(int a1)  {
+        public  long doApplyAsLong(int a)  {
             return testValue;
         }
     };
 
     private LIntToLongFunctionX<X> opposite = new LIntToLongFunctionX<X>(){
-        public  long doApplyAsLong(int a1)  throws X {
+        public  long doApplyAsLong(int a)  throws X {
             return testValue;
         }
     };
 
 
-    private IntToLongFunction jre = a1 -> testValue;
+    private IntToLongFunction jre = a -> testValue;
 
 
 
-    private LIntToLongFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LIntToLongFunction.l(a1 -> {
+    private LIntToLongFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LIntToLongFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -143,12 +143,12 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntToLongFunction: long doApplyAsLong(int a1)");
+            .isEqualTo("LIntToLongFunction: long doApplyAsLong(int a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LIntToLongFunction.l(a1 -> testValue ))
+        assertThat(LIntToLongFunction.l(a -> testValue ))
             .isInstanceOf(LIntToLongFunction.class);
     }
 
@@ -167,7 +167,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LIntToLongFunctionX<X> sutThrowing = LIntToLongFunctionX.lX(a1 -> {
+        LIntToLongFunctionX<X> sutThrowing = LIntToLongFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -189,7 +189,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LIntToLongFunctionX<ParseException> sutThrowing = LIntToLongFunctionX.lX(a1 -> {
+        LIntToLongFunctionX<ParseException> sutThrowing = LIntToLongFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -213,7 +213,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     public void testHandlingDoApplyAsLongMethodWrapsTheException() throws X {
 
         // given
-        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a1 -> {
+        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -237,7 +237,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     public void testHandleIntToLongFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a1 -> {
+        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -261,7 +261,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     public void testHandleIntToLongFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a1 -> {
+        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -286,7 +286,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     public void testHandleIntToLongFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a1 -> {
+        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -316,20 +316,20 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
+                assertThat(a).isEqualTo(90);
                 return 100L;
         };
 
-        LIntUnaryOperator before1 = p0 -> {
+        LIntUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
 
         //when
-        LIntToLongFunction function = sutO.intToLongFuncComposeInt(before1);
+        LIntToLongFunction function = sutO.intToLongFuncComposeInt(before);
         function.doApplyAsLong(80);
 
         //then - finals
@@ -345,20 +345,20 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
+                assertThat(a).isEqualTo(90);
                 return 100L;
         };
 
-        LToIntFunction<Integer> before1 = p0 -> {
+        LToIntFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
 
         //when
-        LToLongFunction<Integer> function = sutO.intToLongFuncCompose(before1);
+        LToLongFunction<Integer> function = sutO.intToLongFuncCompose(before);
         function.doApplyAsLong(80);
 
         //then - finals
@@ -379,9 +379,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -413,9 +413,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -447,9 +447,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -481,9 +481,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -515,9 +515,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -549,9 +549,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -583,9 +583,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -617,9 +617,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -651,9 +651,9 @@ public class LIntToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToLongFunction sutO = a1 -> {
+        LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return 90L;
         };
 
@@ -712,7 +712,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a1 -> {
+        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -724,7 +724,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
     public void testHandleIntToLongFunc() throws X {
 
         // given
-        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a1 -> {
+        LIntToLongFunction sutThrowing = LIntToLongFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -754,7 +754,7 @@ public class LIntToLongFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntToLongFunction: long doApplyAsLong(int a1)");
+                .contains("LIntToLongFunction: long doApplyAsLong(int a)");
     }
 
 

@@ -72,8 +72,8 @@ public class LToShortFuncMemento<T> implements LToShortFunction<T> {
 	}
 
 	@Override
-	public short doApplyAsShort(T a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(T a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

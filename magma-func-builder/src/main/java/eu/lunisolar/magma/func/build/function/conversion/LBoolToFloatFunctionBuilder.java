@@ -55,7 +55,7 @@ public final class LBoolToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToFloatFunction EVENTUALLY_THROW = LBoolToFloatFunction.l(a1 -> {
+	public static final LBoolToFloatFunction EVENTUALLY_THROW = LBoolToFloatFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 		LBoolToFloatFunction retval;
 
 		final Case<LLogicalOperator, LBoolToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToFloatFunction.l(a1 -> {
+		retval = LBoolToFloatFunction.l(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsFloat(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsFloat(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(a1);
+				return eventuallyFinal.doApplyAsFloat(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -72,8 +72,8 @@ public class LBoolToFloatFuncMemento implements LBoolToFloatFunction {
 	}
 
 	@Override
-	public float doApplyAsFloat(boolean a1) {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(boolean a) {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

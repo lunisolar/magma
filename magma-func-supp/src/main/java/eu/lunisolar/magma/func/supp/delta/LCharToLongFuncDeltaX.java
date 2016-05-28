@@ -89,8 +89,8 @@ public class LCharToLongFuncDeltaX<X extends Throwable> extends LCharToLongFuncM
 	}
 
 	@Override
-	public long doApplyAsLong(char a1) throws X {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(char a) throws X {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

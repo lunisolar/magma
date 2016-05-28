@@ -55,7 +55,7 @@ public final class LBoolToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToByteFunction EVENTUALLY_THROW = LBoolToByteFunction.l(a1 -> {
+	public static final LBoolToByteFunction EVENTUALLY_THROW = LBoolToByteFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		LBoolToByteFunction retval;
 
 		final Case<LLogicalOperator, LBoolToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToByteFunction.l(a1 -> {
+		retval = LBoolToByteFunction.l(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

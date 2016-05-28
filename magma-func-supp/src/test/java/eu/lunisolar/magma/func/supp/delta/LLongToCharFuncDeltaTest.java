@@ -44,7 +44,7 @@ public class LLongToCharFuncDeltaTest  {
 
     private final char initialLastValue = '\u0000';
 
-    private LLongToCharFuncDelta sut =  LLongToCharFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LLongToCharFuncDelta sut =  LLongToCharFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

@@ -46,11 +46,11 @@ public class ConsumerAssertTest<T> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private Consumer<Integer> function = a1 ->
+    private Consumer<Integer> function = a ->
             externalEffect.set(testValue);
 
 
-    private Consumer<Integer> functionThrowing = a1 -> {
+    private Consumer<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

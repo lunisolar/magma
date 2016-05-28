@@ -72,8 +72,8 @@ public class LLongToDoubleFuncMementoX<X extends Throwable> implements LLongToDo
 	}
 
 	@Override
-	public double doApplyAsDouble(long a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(long a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

@@ -89,8 +89,8 @@ public class LBoolToShortFuncDeltaX<X extends Throwable> extends LBoolToShortFun
 	}
 
 	@Override
-	public short doApplyAsShort(boolean a1) throws X {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(boolean a) throws X {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

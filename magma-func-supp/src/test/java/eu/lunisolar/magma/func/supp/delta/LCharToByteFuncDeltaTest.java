@@ -44,7 +44,7 @@ public class LCharToByteFuncDeltaTest  {
 
     private final byte initialLastValue = (byte)0;
 
-    private LCharToByteFuncDelta sut =  LCharToByteFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LCharToByteFuncDelta sut =  LCharToByteFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

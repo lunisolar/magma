@@ -55,7 +55,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntUnaryOperator EVENTUALLY_THROW = LIntUnaryOperator.l(a1 -> {
+	public static final LIntUnaryOperator EVENTUALLY_THROW = LIntUnaryOperator.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		LIntUnaryOperator retval;
 
 		final Case<LIntPredicate, LIntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntUnaryOperator.l(a1 -> {
+		retval = LIntUnaryOperator.l(a -> {
 			try {
 				for (Case<LIntPredicate, LIntUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

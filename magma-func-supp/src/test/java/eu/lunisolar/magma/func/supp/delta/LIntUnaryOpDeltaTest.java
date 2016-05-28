@@ -44,7 +44,7 @@ public class LIntUnaryOpDeltaTest  {
 
     private final int initialLastValue = 0;
 
-    private LIntUnaryOpDelta sut =  LIntUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LIntUnaryOpDelta sut =  LIntUnaryOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

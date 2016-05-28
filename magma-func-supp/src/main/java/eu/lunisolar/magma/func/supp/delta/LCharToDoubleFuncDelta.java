@@ -89,8 +89,8 @@ public class LCharToDoubleFuncDelta extends LCharToDoubleFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDouble(char a1) {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(char a) {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

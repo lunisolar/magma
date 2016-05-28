@@ -89,8 +89,8 @@ public class LBoolToShortFuncDelta extends LBoolToShortFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsShort(boolean a1) {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(boolean a) {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

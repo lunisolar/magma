@@ -72,8 +72,8 @@ public class LFloatToIntFuncMementoX<X extends Throwable> implements LFloatToInt
 	}
 
 	@Override
-	public int doApplyAsInt(float a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(float a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

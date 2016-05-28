@@ -99,7 +99,7 @@ public class LDoubleToLongFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LDoubleToLongFunction function = doubleToLongFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LDoubleToLongFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LDoubleToLongFunction function = doubleToLongFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0d)
-                             .evaluate(a1 -> 0L))
-            .inCase(a1 -> a1 > 0d && a1 < 10d).evaluate(a1 -> 1L)
-            .inCase(a1 -> a1 > 10d && a1 < 20d).evaluate(a1 -> 2L)
-            .eventually(a1 -> 99L)
+            .aCase(ce -> ce.of(a -> a == 0d)
+                             .evaluate(a -> 0L))
+            .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1L)
+            .inCase(a -> a > 10d && a < 20d).evaluate(a -> 2L)
+            .eventually(a -> 99L)
             .build()
         );
 

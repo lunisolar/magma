@@ -32,16 +32,16 @@ public interface LCharSingle extends LTuple<Character> {
 
 	int SIZE = 1;
 
-	char first();
+	char value();
 
-	default char getFirst() {
-		return first();
+	default char getValue() {
+		return value();
 	}
 
 	default Character get(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -50,7 +50,7 @@ public interface LCharSingle extends LTuple<Character> {
 	default char getChar(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -62,16 +62,16 @@ public interface LCharSingle extends LTuple<Character> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharSingle and calculates hash from it. */
-	static int argHashCode(char a1) {
+	static int argHashCode(char a) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Character.hashCode(a1);
+		result = prime * result + Character.hashCode(a);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LCharSingle and checks if all values are equal. */
-	static boolean argEquals(char a1, char b1) {
-		return a1 == b1; //
+	static boolean argEquals(char a, char b) {
+		return a == b; //
 	}
 
 	/**
@@ -88,14 +88,14 @@ public interface LCharSingle extends LTuple<Character> {
 
 				LCharSingle other = (LCharSingle) two;
 
-				return argEquals(one.first(), other.first());
+				return argEquals(one.value(), other.value());
 			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -113,7 +113,7 @@ public interface LCharSingle extends LTuple<Character> {
 	default Character[] toVoArray(Character[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -131,7 +131,7 @@ public interface LCharSingle extends LTuple<Character> {
 	default char[] toCharArray(char[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -190,7 +190,7 @@ public interface LCharSingle extends LTuple<Character> {
 			return Null.compare(this, that, (one, two) -> {
 				int retval = 0;
 
-				return (retval = Character.compare(one.first(), two.first())) != 0 ? retval : 0; //
+				return (retval = Character.compare(one.value(), two.value())) != 0 ? retval : 0; //
 				});
 		}
 
@@ -205,7 +205,7 @@ public interface LCharSingle extends LTuple<Character> {
 
 		@Override
 		public int hashCode() {
-			return LCharSingle.argHashCode(first());
+			return LCharSingle.argHashCode(value());
 		}
 
 	}
@@ -215,35 +215,35 @@ public interface LCharSingle extends LTuple<Character> {
 	 */
 	final class MutCharSingle extends AbstractCharSingle {
 
-		private char first;
+		private char value;
 
-		public MutCharSingle(char a1) {
-			this.first = a1;
+		public MutCharSingle(char a) {
+			this.value = a;
 		}
 
-		public static MutCharSingle of(char a1) {
-			return new MutCharSingle(a1);
+		public static MutCharSingle of(char a) {
+			return new MutCharSingle(a);
 		}
 
 		public static MutCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public char first() {
-			return first;
+		public char value() {
+			return value;
 		}
 
-		public MutCharSingle first(char first) {
-			this.first = first;
+		public MutCharSingle value(char value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(char first) {
-			this.first = first;
+		public void setValue(char value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = '\u0000';
+			value = '\u0000';
 		}
 	}
 
@@ -252,35 +252,35 @@ public interface LCharSingle extends LTuple<Character> {
 	 */
 	final class MutCompCharSingle extends AbstractCharSingle implements ComparableCharSingle {
 
-		private char first;
+		private char value;
 
-		public MutCompCharSingle(char a1) {
-			this.first = a1;
+		public MutCompCharSingle(char a) {
+			this.value = a;
 		}
 
-		public static MutCompCharSingle of(char a1) {
-			return new MutCompCharSingle(a1);
+		public static MutCompCharSingle of(char a) {
+			return new MutCompCharSingle(a);
 		}
 
 		public static MutCompCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public char first() {
-			return first;
+		public char value() {
+			return value;
 		}
 
-		public MutCompCharSingle first(char first) {
-			this.first = first;
+		public MutCompCharSingle value(char value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(char first) {
-			this.first = first;
+		public void setValue(char value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = '\u0000';
+			value = '\u0000';
 		}
 	}
 
@@ -290,22 +290,22 @@ public interface LCharSingle extends LTuple<Character> {
 	@Immutable
 	final class ImmCharSingle extends AbstractCharSingle {
 
-		private final char first;
+		private final char value;
 
-		public ImmCharSingle(char a1) {
-			this.first = a1;
+		public ImmCharSingle(char a) {
+			this.value = a;
 		}
 
-		public static ImmCharSingle of(char a1) {
-			return new ImmCharSingle(a1);
+		public static ImmCharSingle of(char a) {
+			return new ImmCharSingle(a);
 		}
 
 		public static ImmCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public char first() {
-			return first;
+		public char value() {
+			return value;
 		}
 
 	}
@@ -316,22 +316,22 @@ public interface LCharSingle extends LTuple<Character> {
 	@Immutable
 	final class ImmCompCharSingle extends AbstractCharSingle implements ComparableCharSingle {
 
-		private final char first;
+		private final char value;
 
-		public ImmCompCharSingle(char a1) {
-			this.first = a1;
+		public ImmCompCharSingle(char a) {
+			this.value = a;
 		}
 
-		public static ImmCompCharSingle of(char a1) {
-			return new ImmCompCharSingle(a1);
+		public static ImmCompCharSingle of(char a) {
+			return new ImmCompCharSingle(a);
 		}
 
 		public static ImmCompCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public char first() {
-			return first;
+		public char value() {
+			return value;
 		}
 
 	}

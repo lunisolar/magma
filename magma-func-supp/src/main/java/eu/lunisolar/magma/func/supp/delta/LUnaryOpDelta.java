@@ -77,8 +77,8 @@ public class LUnaryOpDelta<T> extends LUnaryOpMemento<T> {
 	}
 
 	@Override
-	public T doApply(T a1) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public T doApply(T a) {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

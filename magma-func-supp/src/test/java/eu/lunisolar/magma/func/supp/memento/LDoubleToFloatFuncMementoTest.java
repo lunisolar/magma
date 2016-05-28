@@ -43,7 +43,7 @@ public class LDoubleToFloatFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LDoubleToFloatFuncMemento sut =  LDoubleToFloatFuncMemento.mementoOf( a1 ->{
+    private LDoubleToFloatFuncMemento sut =  LDoubleToFloatFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

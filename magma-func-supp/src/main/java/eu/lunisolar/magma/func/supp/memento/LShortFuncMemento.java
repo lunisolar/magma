@@ -72,8 +72,8 @@ public class LShortFuncMemento<R> implements LShortFunction<R> {
 	}
 
 	@Override
-	public R doApply(short a1) {
-		return lastValue = function.doApply(a1);
+	public R doApply(short a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

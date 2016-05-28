@@ -65,26 +65,26 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
 
 
     private LDoubleToLongFunctionX<X> sut = new LDoubleToLongFunctionX<X>(){
-        public  long doApplyAsLong(double a1)  throws X {
+        public  long doApplyAsLong(double a)  throws X {
             return testValue;
         }
     };
 
     private LDoubleToLongFunction opposite = new LDoubleToLongFunction(){
-        public  long doApplyAsLong(double a1)  {
+        public  long doApplyAsLong(double a)  {
             return testValue;
         }
     };
 
 
-    private DoubleToLongFunction jre = a1 -> testValue;
+    private DoubleToLongFunction jre = a -> testValue;
 
 
-    private LDoubleToLongFunctionX<ParseException> sutAlwaysThrowing = LDoubleToLongFunctionX.lX(a1 -> {
+    private LDoubleToLongFunctionX<ParseException> sutAlwaysThrowing = LDoubleToLongFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LDoubleToLongFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LDoubleToLongFunctionX.lX(a1 -> {
+    private LDoubleToLongFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LDoubleToLongFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -176,12 +176,12 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleToLongFunctionX: long doApplyAsLong(double a1) throws X");
+            .isEqualTo("LDoubleToLongFunctionX: long doApplyAsLong(double a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LDoubleToLongFunctionX.lX(a1 -> testValue ))
+        assertThat(LDoubleToLongFunctionX.lX(a -> testValue ))
             .isInstanceOf(LDoubleToLongFunctionX.class);
     }
 
@@ -202,7 +202,7 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
     public void testHandlingDoApplyAsLongMethodWrapsTheException() throws X {
 
         // given
-        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a1 -> {
+        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -226,7 +226,7 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
     public void testHandleDoubleToLongFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a1 -> {
+        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -250,7 +250,7 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
     public void testHandleDoubleToLongFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a1 -> {
+        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -275,7 +275,7 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
     public void testHandleDoubleToLongFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a1 -> {
+        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -305,20 +305,20 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return 100L;
         };
 
-        LDoubleUnaryOperatorX<X> before1 = p0 -> {
+        LDoubleUnaryOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo(80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LDoubleToLongFunctionX<X> function = sutO.doubleToLongFuncComposeDouble(before1);
+        LDoubleToLongFunctionX<X> function = sutO.doubleToLongFuncComposeDouble(before);
         function.doApplyAsLong(80d);
 
         //then - finals
@@ -334,20 +334,20 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return 100L;
         };
 
-        LToDoubleFunctionX<Integer,X> before1 = p0 -> {
+        LToDoubleFunctionX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LToLongFunctionX<Integer,X> function = sutO.doubleToLongFuncCompose(before1);
+        LToLongFunctionX<Integer,X> function = sutO.doubleToLongFuncCompose(before);
         function.doApplyAsLong(80);
 
         //then - finals
@@ -368,9 +368,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -402,9 +402,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -436,9 +436,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -470,9 +470,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -504,9 +504,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -538,9 +538,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -572,9 +572,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -606,9 +606,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -640,9 +640,9 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoubleToLongFunctionX<X> sutO = a1 -> {
+        LDoubleToLongFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return 90L;
         };
 
@@ -697,7 +697,7 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a1 -> {
+        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -709,7 +709,7 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
     public void testHandleDoubleToLongFunc() throws X {
 
         // given
-        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a1 -> {
+        LDoubleToLongFunctionX<X> sutThrowing = LDoubleToLongFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -739,7 +739,7 @@ public class LDoubleToLongFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleToLongFunctionX: long doApplyAsLong(double a1) throws X");
+                .contains("LDoubleToLongFunctionX: long doApplyAsLong(double a) throws X");
     }
 
 

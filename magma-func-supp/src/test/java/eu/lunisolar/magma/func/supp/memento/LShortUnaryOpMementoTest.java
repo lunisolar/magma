@@ -43,7 +43,7 @@ public class LShortUnaryOpMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LShortUnaryOpMemento sut =  LShortUnaryOpMemento.mementoOf( a1 ->{
+    private LShortUnaryOpMemento sut =  LShortUnaryOpMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

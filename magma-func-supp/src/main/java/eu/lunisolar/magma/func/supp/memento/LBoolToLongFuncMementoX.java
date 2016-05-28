@@ -72,8 +72,8 @@ public class LBoolToLongFuncMementoX<X extends Throwable> implements LBoolToLong
 	}
 
 	@Override
-	public long doApplyAsLong(boolean a1) throws X {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(boolean a) throws X {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

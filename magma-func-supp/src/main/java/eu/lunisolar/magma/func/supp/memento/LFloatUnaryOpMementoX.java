@@ -72,8 +72,8 @@ public class LFloatUnaryOpMementoX<X extends Throwable> implements LFloatUnaryOp
 	}
 
 	@Override
-	public float doApplyAsFloat(float a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(float a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

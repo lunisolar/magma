@@ -46,11 +46,11 @@ public class LBoolFunctionAssertTest<R,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBoolFunction<Integer> function = a1 ->
+    private LBoolFunction<Integer> function = a ->
             testValue;
 
 
-    private LBoolFunction<Integer> functionThrowing = a1 -> {
+    private LBoolFunction<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

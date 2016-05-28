@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: predicate
  *
- * Domain (lvl: 1): float a1
+ * Domain (lvl: 1): float a
  *
  * Co-domain: boolean
  *
@@ -64,33 +64,33 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LFloatPredicate: boolean doTest(float a1)";
+	String DESCRIPTION = "LFloatPredicate: boolean doTest(float a)";
 
-	boolean doTest(float a1);
+	boolean doTest(float a);
 
 	default boolean tupleTest(LFloatSingle args) {
-		return doTest(args.first());
+		return doTest(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(float a1) {
-		return this.doTest(a1);
+	default boolean nestingDoTest(float a) {
+		return this.doTest(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(float a1) {
-		return this.doTest(a1);
+	default boolean shovingDoTest(float a) {
+		return this.doTest(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(float a1) {
-		return doTest(a1);
+	default boolean nonNullDoTest(float a) {
+		return doTest(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(float a1) {
-		return doTest(a1);
+	default boolean doApplyAsBoolean(float a) {
+		return doTest(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -100,13 +100,13 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureFloatPred(float a1) {
-		return () -> this.doTest(a1);
+	default LBoolSupplier captureFloatPred(float a) {
+		return () -> this.doTest(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LFloatPredicate constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -116,9 +116,9 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 		return lambda;
 	}
 
-	static boolean call(float a1, final @Nonnull LFloatPredicate lambda) {
+	static boolean call(float a, final @Nonnull LFloatPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1);
+		return lambda.doTest(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -175,7 +175,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LFloatPredicate negate() {
-		return a1 -> !doTest(a1);
+		return a -> !doTest(a);
 	}
 
 	/**
@@ -185,7 +185,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate and(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) && other.doTest(a1);
+		return a -> doTest(a) && other.doTest(a);
 	}
 
 	/**
@@ -195,7 +195,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate or(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) || other.doTest(a1);
+		return a -> doTest(a) || other.doTest(a);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate xor(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) ^ other.doTest(a1);
+		return a -> doTest(a) ^ other.doTest(a);
 	}
 
 	/**
@@ -213,8 +213,8 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LFloatPredicate isEqual(float target1) {
-		return a1 -> a1 == target1;
+	static LFloatPredicate isEqual(float target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -223,16 +223,16 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatPredicate floatPredComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
+	default LFloatPredicate floatPredComposeFloat(@Nonnull final LFloatUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsFloat(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> floatPredCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
+	default <V> LPredicate<V> floatPredCompose(@Nonnull final LToFloatFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsFloat(v));
 	}
 
 	// </editor-fold>
@@ -243,63 +243,63 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LFloatFunction<V> boolToFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction boolToFloatToByteFunction(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doTest(a1));
+		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction boolToFloatToShortFunction(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doTest(a1));
+		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction boolToFloatToIntFunction(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doTest(a1));
+		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction boolToFloatToLongFunction(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doTest(a1));
+		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator boolToFloatUnaryOperator(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doTest(a1));
+		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction boolToFloatToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doTest(a1));
+		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction boolToFloatToCharFunction(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doTest(a1));
+		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate boolToFloatPredicate(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	// </editor-fold>

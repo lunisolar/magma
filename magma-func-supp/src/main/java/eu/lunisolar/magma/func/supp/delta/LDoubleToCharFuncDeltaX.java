@@ -89,8 +89,8 @@ public class LDoubleToCharFuncDeltaX<X extends Throwable> extends LDoubleToCharF
 	}
 
 	@Override
-	public char doApplyAsChar(double a1) throws X {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(double a) throws X {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

@@ -89,8 +89,8 @@ public class LLongToFloatFuncDeltaX<X extends Throwable> extends LLongToFloatFun
 	}
 
 	@Override
-	public float doApplyAsFloat(long a1) throws X {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(long a) throws X {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

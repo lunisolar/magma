@@ -72,8 +72,8 @@ public class LByteToFloatFuncMemento implements LByteToFloatFunction {
 	}
 
 	@Override
-	public float doApplyAsFloat(byte a1) {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(byte a) {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

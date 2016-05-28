@@ -57,7 +57,7 @@ public interface LByteToLongFunctionXAssert<S extends LByteToLongFunctionXAssert
 			FullFunctionalAssert<S, LByteConsumerX<X>, A, RS, Long> {
 
 	@Nonnull
-	Evaluation<S, LByteConsumerX<X>, A, RS, Long> doesApplyAsLong(byte a1);
+	Evaluation<S, LByteConsumerX<X>, A, RS, Long> doesApplyAsLong(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LByteToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -78,13 +78,13 @@ public interface LByteToLongFunctionXAssert<S extends LByteToLongFunctionXAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LByteConsumerX<X>, A, RS, Long> doesApplyAsLong(byte a1) {
+		public Evaluation<S, LByteConsumerX<X>, A, RS, Long> doesApplyAsLong(byte a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a1));
+				return assertFactory.doApply(actual.doApplyAsLong(a));
 			});
 
 		}

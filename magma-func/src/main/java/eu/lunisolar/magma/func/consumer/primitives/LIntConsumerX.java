@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): int a1
+ * Domain (lvl: 1): int a
  *
  * Co-domain: none
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaConsumer, MetaInterface.Throwing<X> {
 
-	String DESCRIPTION = "LIntConsumerX: void doAccept(int a1) throws X";
+	String DESCRIPTION = "LIntConsumerX: void doAccept(int a) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,21 +72,21 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 	 */
 	@Override
 	@Deprecated
-	default void accept(int a1) {
-		this.nestingDoAccept(a1);
+	default void accept(int a) {
+		this.nestingDoAccept(a);
 	}
 
-	void doAccept(int a1) throws X;
+	void doAccept(int a) throws X;
 
 	default LTuple.Void tupleAccept(LIntSingle args) throws X {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(int a1) {
+	default void nestingDoAccept(int a) {
 		try {
-			this.doAccept(a1);
+			this.doAccept(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -95,15 +95,15 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(int a1) {
-		((LIntConsumerX<RuntimeException>) this).doAccept(a1);
+	default void shovingDoAccept(int a) {
+		((LIntConsumerX<RuntimeException>) this).doAccept(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> void handlingDoAccept(int a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> void handlingDoAccept(int a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			this.doAccept(a1);
+			this.doAccept(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
@@ -116,8 +116,8 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureIntCons(int a1) {
-		return () -> this.doAccept(a1);
+	default LActionX<X> captureIntCons(int a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -134,24 +134,24 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 		return lambda;
 	}
 
-	static <X extends Throwable> void call(int a1, final @Nonnull LIntConsumerX<X> lambda) throws X {
+	static <X extends Throwable> void call(int a, final @Nonnull LIntConsumerX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
-	static <X extends Throwable> void shoving(int a1, final @Nonnull LIntConsumerX<X> lambda) {
+	static <X extends Throwable> void shoving(int a, final @Nonnull LIntConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.shovingDoAccept(a1);
+		lambda.shovingDoAccept(a);
 	}
 
-	static <X extends Throwable> void nesting(int a1, final @Nonnull LIntConsumerX<X> lambda) {
+	static <X extends Throwable> void nesting(int a, final @Nonnull LIntConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.nestingDoAccept(a1);
+		lambda.nestingDoAccept(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> void handling(int a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntConsumerX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> void handling(int a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LIntConsumerX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.handlingDoAccept(a1, handling);
+		lambda.handlingDoAccept(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -210,16 +210,16 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntConsumerX<X> intConsComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
+	default LIntConsumerX<X> intConsComposeInt(@Nonnull final LIntUnaryOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsInt(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> intConsCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
+	default <V> LConsumerX<V, X> intConsCompose(@Nonnull final LToIntFunctionX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsInt(v));
 	}
 
 	// </editor-fold>
@@ -230,9 +230,9 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 	@Nonnull
 	default LIntConsumerX<X> andThen(@Nonnull LIntConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 
@@ -269,13 +269,13 @@ public interface LIntConsumerX<X extends Throwable> extends IntConsumer, MetaCon
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LIntConsumer handleIntCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoAccept(a1, handling);
+		return a -> this.handlingDoAccept(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LIntConsumerX<Y> handleIntConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoAccept(a1, handling);
+		return a -> this.handlingDoAccept(a, handling);
 	}
 
 	// </editor-fold>

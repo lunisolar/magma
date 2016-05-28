@@ -72,8 +72,8 @@ public class LCharUnaryOpMementoX<X extends Throwable> implements LCharUnaryOper
 	}
 
 	@Override
-	public char doApplyAsChar(char a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(char a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

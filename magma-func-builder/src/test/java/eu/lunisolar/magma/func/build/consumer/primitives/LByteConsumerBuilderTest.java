@@ -99,7 +99,7 @@ public class LByteConsumerBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LByteConsumer function = byteConsumerFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -120,11 +120,11 @@ public class LByteConsumerBuilderTest<X extends ParseException>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LByteConsumer function = byteConsumerFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == (byte)0)
-                             .evaluate(a1 -> externalEffect.set(0)))
-            .inCase(a1 -> a1 > (byte)0 && a1 < (byte)10).evaluate(a1 -> externalEffect.set(1))
-            .inCase(a1 -> a1 > (byte)10 && a1 < (byte)20).evaluate(a1 -> externalEffect.set(2))
-            .eventually(a1 -> externalEffect.set(99))
+            .aCase(ce -> ce.of(a -> a == (byte)0)
+                             .evaluate(a -> externalEffect.set(0)))
+            .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> externalEffect.set(1))
+            .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> externalEffect.set(2))
+            .eventually(a -> externalEffect.set(99))
             .build()
         );
 

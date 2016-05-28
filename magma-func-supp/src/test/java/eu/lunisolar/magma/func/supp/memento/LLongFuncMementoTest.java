@@ -43,7 +43,7 @@ public class LLongFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LLongFuncMemento<Integer> sut =  LLongFuncMemento.<Integer>mementoOf( a1 ->{
+    private LLongFuncMemento<Integer> sut =  LLongFuncMemento.<Integer>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -89,8 +89,8 @@ public class LBoolToFloatFuncDeltaX<X extends Throwable> extends LBoolToFloatFun
 	}
 
 	@Override
-	public float doApplyAsFloat(boolean a1) throws X {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(boolean a) throws X {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

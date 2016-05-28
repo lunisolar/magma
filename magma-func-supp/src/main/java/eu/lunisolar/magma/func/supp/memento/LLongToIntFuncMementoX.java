@@ -72,8 +72,8 @@ public class LLongToIntFuncMementoX<X extends Throwable> implements LLongToIntFu
 	}
 
 	@Override
-	public int doApplyAsInt(long a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(long a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

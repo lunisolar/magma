@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): T a1
+ * Domain (lvl: 1): T a
  *
  * Co-domain: char
  *
@@ -64,18 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LToCharFunctionX: char doApplyAsChar(T a1) throws X";
+	String DESCRIPTION = "LToCharFunctionX: char doApplyAsChar(T a) throws X";
 
-	char doApplyAsChar(T a1) throws X;
+	char doApplyAsChar(T a) throws X;
 
 	default char tupleApplyAsChar(LSingle<T> args) throws X {
-		return doApplyAsChar(args.first());
+		return doApplyAsChar(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoApplyAsChar(T a1) {
+	default char nestingDoApplyAsChar(T a) {
 		try {
-			return this.doApplyAsChar(a1);
+			return this.doApplyAsChar(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -84,23 +84,23 @@ public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, 
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(T a1) {
-		return ((LToCharFunctionX<T, RuntimeException>) this).doApplyAsChar(a1);
+	default char shovingDoApplyAsChar(T a) {
+		return ((LToCharFunctionX<T, RuntimeException>) this).doApplyAsChar(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> char handlingDoApplyAsChar(T a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> char handlingDoApplyAsChar(T a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsChar(a1);
+			return this.doApplyAsChar(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(T a1) throws X {
-		return doApplyAsChar(a1);
+	default char nonNullDoApplyAsChar(T a) throws X {
+		return doApplyAsChar(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -110,13 +110,13 @@ public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> captureToCharFunc(T a1) {
-		return () -> this.doApplyAsChar(a1);
+	default LCharSupplierX<X> captureToCharFunc(T a) {
+		return () -> this.doApplyAsChar(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LToCharFunctionX<T, X> constant(char r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -133,24 +133,24 @@ public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, 
 		return lambda;
 	}
 
-	static <T, X extends Throwable> char call(T a1, final @Nonnull LToCharFunctionX<T, X> lambda) throws X {
+	static <T, X extends Throwable> char call(T a, final @Nonnull LToCharFunctionX<T, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsChar(a1);
+		return lambda.doApplyAsChar(a);
 	}
 
-	static <T, X extends Throwable> char shoving(T a1, final @Nonnull LToCharFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> char shoving(T a, final @Nonnull LToCharFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoApplyAsChar(a1);
+		return lambda.shovingDoApplyAsChar(a);
 	}
 
-	static <T, X extends Throwable> char nesting(T a1, final @Nonnull LToCharFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> char nesting(T a, final @Nonnull LToCharFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoApplyAsChar(a1);
+		return lambda.nestingDoApplyAsChar(a);
 	}
 
-	static <T, X extends Throwable, Y extends Throwable> char handling(T a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToCharFunctionX<T, X> lambda) throws Y {
+	static <T, X extends Throwable, Y extends Throwable> char handling(T a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToCharFunctionX<T, X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoApplyAsChar(a1, handling);
+		return lambda.handlingDoApplyAsChar(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -203,9 +203,9 @@ public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, 
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToCharFunctionX<V1, X> toCharFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApply(v1));
+	default <V> LToCharFunctionX<V, X> toCharFuncCompose(@Nonnull final LFunctionX<? super V, ? extends T, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsChar(before.doApply(v));
 	}
 
 	// </editor-fold>
@@ -216,63 +216,63 @@ public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, 
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsChar(a1));
+		return a -> after.doApply(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsChar(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBool(@Nonnull LCharPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsChar(a1));
+		return a -> after.doTest(this.doApplyAsChar(a));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LToCharFunctionX<T, X extends Throwable> extends MetaFunction, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToCharFunction<T> handleToCharFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoApplyAsChar(a1, handling);
+		return a -> this.handlingDoApplyAsChar(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToCharFunctionX<T, Y> handleToCharFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoApplyAsChar(a1, handling);
+		return a -> this.handlingDoApplyAsChar(a, handling);
 	}
 
 	// </editor-fold>

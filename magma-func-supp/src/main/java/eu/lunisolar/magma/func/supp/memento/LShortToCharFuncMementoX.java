@@ -72,8 +72,8 @@ public class LShortToCharFuncMementoX<X extends Throwable> implements LShortToCh
 	}
 
 	@Override
-	public char doApplyAsChar(short a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(short a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

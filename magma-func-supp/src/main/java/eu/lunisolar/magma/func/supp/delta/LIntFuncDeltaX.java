@@ -77,8 +77,8 @@ public class LIntFuncDeltaX<R, X extends Throwable> extends LIntFuncMementoX<R, 
 	}
 
 	@Override
-	public R doApply(int a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(int a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

@@ -72,7 +72,7 @@ public class LazyIntValue extends LIntSupMemento implements LIntSingle {
 		return lastValue;
 	}
 
-	public int first() {
+	public int value() {
 		return shovingDoGetAsInt();
 	}
 
@@ -84,7 +84,7 @@ public class LazyIntValue extends LIntSupMemento implements LIntSingle {
 
 			LazyIntValue other = (LazyIntValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyIntValue extends LIntSupMemento implements LIntSingle {
 
 	@Override
 	public int hashCode() {
-		return LIntSingle.argHashCode(first());
+		return LIntSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

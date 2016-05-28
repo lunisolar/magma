@@ -55,7 +55,7 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToIntFunction EVENTUALLY_THROW = LLongToIntFunction.l(a1 -> {
+	public static final LLongToIntFunction EVENTUALLY_THROW = LLongToIntFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LLongToIntFunction retval;
 
 		final Case<LLongPredicate, LLongToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToIntFunction.l(a1 -> {
+		retval = LLongToIntFunction.l(a -> {
 			try {
 				for (Case<LLongPredicate, LLongToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

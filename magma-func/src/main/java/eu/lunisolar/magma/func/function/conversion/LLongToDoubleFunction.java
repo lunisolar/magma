@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): long a1
+ * Domain (lvl: 1): long a
  *
  * Co-domain: double
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LLongToDoubleFunction: double doApplyAsDouble(long a1)";
+	String DESCRIPTION = "LLongToDoubleFunction: double doApplyAsDouble(long a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,29 +72,29 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 	 */
 	@Override
 	@Deprecated
-	default double applyAsDouble(long a1) {
-		return this.nestingDoApplyAsDouble(a1);
+	default double applyAsDouble(long a) {
+		return this.nestingDoApplyAsDouble(a);
 	}
 
-	double doApplyAsDouble(long a1);
+	double doApplyAsDouble(long a);
 
 	default double tupleApplyAsDouble(LLongSingle args) {
-		return doApplyAsDouble(args.first());
+		return doApplyAsDouble(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default double nestingDoApplyAsDouble(long a1) {
-		return this.doApplyAsDouble(a1);
+	default double nestingDoApplyAsDouble(long a) {
+		return this.doApplyAsDouble(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(long a1) {
-		return this.doApplyAsDouble(a1);
+	default double shovingDoApplyAsDouble(long a) {
+		return this.doApplyAsDouble(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(long a1) {
-		return doApplyAsDouble(a1);
+	default double nonNullDoApplyAsDouble(long a) {
+		return doApplyAsDouble(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -104,13 +104,13 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureLongToDoubleFunc(long a1) {
-		return () -> this.doApplyAsDouble(a1);
+	default LDoubleSupplier captureLongToDoubleFunc(long a) {
+		return () -> this.doApplyAsDouble(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LLongToDoubleFunction constant(double r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -120,9 +120,9 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 		return lambda;
 	}
 
-	static double call(long a1, final @Nonnull LLongToDoubleFunction lambda) {
+	static double call(long a, final @Nonnull LLongToDoubleFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsDouble(a1);
+		return lambda.doApplyAsDouble(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -181,16 +181,16 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongToDoubleFunction longToDoubleFuncComposeLong(@Nonnull final LLongUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsDouble(before1.doApplyAsLong(v1));
+	default LLongToDoubleFunction longToDoubleFuncComposeLong(@Nonnull final LLongUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsDouble(before.doApplyAsLong(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> longToDoubleFuncCompose(@Nonnull final LToLongFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsDouble(before1.doApplyAsLong(v1));
+	default <V> LToDoubleFunction<V> longToDoubleFuncCompose(@Nonnull final LToLongFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsDouble(before.doApplyAsLong(v));
 	}
 
 	// </editor-fold>
@@ -201,63 +201,63 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 	@Nonnull
 	default <V> LLongFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsDouble(a1));
+		return a -> after.doApply(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunction thenToByte(@Nonnull LDoubleToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunction thenToShort(@Nonnull LDoubleToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunction thenToInt(@Nonnull LDoubleToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperator thenToLong(@Nonnull LDoubleToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunction thenToFloat(@Nonnull LDoubleToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunction thenToDouble(@Nonnull LDoubleUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunction thenToChar(@Nonnull LDoubleToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicate thenToBool(@Nonnull LDoublePredicate after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsDouble(a1));
+		return a -> after.doTest(this.doApplyAsDouble(a));
 	}
 
 	// </editor-fold>

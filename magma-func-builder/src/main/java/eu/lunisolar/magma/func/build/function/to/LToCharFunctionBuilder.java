@@ -55,7 +55,7 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToCharFunction EVENTUALLY_THROW = LToCharFunction.l(a1 -> {
+	public static final LToCharFunction EVENTUALLY_THROW = LToCharFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> LToCharFunctionBuilder<T> casesOf(Class<V> argC1, Consumer<LToCharFunctionBuilder<V>> pcpConsumer) {
-		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToCharFunctionBuilder<T> casesOf(Class<V> argC, Consumer<LToCharFunctionBuilder<V>> pcpConsumer) {
+		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LToCharFunctionBuilder<T> aCase(Class<V> argC1, LToCharFunction<V> function) {
-		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToCharFunctionBuilder<T> aCase(Class<V> argC, LToCharFunction<V> function) {
+		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 		LToCharFunction<T> retval;
 
 		final Case<LPredicate<T>, LToCharFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToCharFunction.<T> l(a1 -> {
+		retval = LToCharFunction.<T> l(a -> {
 			try {
 				for (Case<LPredicate<T>, LToCharFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

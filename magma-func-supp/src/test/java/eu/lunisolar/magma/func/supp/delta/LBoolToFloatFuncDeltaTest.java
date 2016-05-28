@@ -44,7 +44,7 @@ public class LBoolToFloatFuncDeltaTest  {
 
     private final float initialLastValue = 0f;
 
-    private LBoolToFloatFuncDelta sut =  LBoolToFloatFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LBoolToFloatFuncDelta sut =  LBoolToFloatFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

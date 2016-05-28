@@ -43,7 +43,7 @@ public class LCharToIntFuncMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LCharToIntFuncMemento sut =  LCharToIntFuncMemento.mementoOf( a1 ->{
+    private LCharToIntFuncMemento sut =  LCharToIntFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

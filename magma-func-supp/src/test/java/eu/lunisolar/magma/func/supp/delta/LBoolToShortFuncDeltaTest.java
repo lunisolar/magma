@@ -44,7 +44,7 @@ public class LBoolToShortFuncDeltaTest  {
 
     private final short initialLastValue = (short)0;
 
-    private LBoolToShortFuncDelta sut =  LBoolToShortFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LBoolToShortFuncDelta sut =  LBoolToShortFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

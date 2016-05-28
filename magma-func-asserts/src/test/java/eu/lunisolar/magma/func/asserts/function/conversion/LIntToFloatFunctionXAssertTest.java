@@ -46,11 +46,11 @@ public class LIntToFloatFunctionXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntToFloatFunctionX<X> function = a1 ->
+    private LIntToFloatFunctionX<X> function = a ->
             testValue;
 
 
-    private LIntToFloatFunctionX<X> functionThrowing = a1 -> {
+    private LIntToFloatFunctionX<X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

@@ -99,7 +99,7 @@ public class LFloatUnaryOperatorBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LFloatUnaryOperator function = floatUnaryOperatorFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LFloatUnaryOperatorBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LFloatUnaryOperator function = floatUnaryOperatorFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0f)
-                             .evaluate(a1 -> 0f))
-            .inCase(a1 -> a1 > 0f && a1 < 10f).evaluate(a1 -> 1f)
-            .inCase(a1 -> a1 > 10f && a1 < 20f).evaluate(a1 -> 2f)
-            .eventually(a1 -> 99f)
+            .aCase(ce -> ce.of(a -> a == 0f)
+                             .evaluate(a -> 0f))
+            .inCase(a -> a > 0f && a < 10f).evaluate(a -> 1f)
+            .inCase(a -> a > 10f && a < 20f).evaluate(a -> 2f)
+            .eventually(a -> 99f)
             .build()
         );
 

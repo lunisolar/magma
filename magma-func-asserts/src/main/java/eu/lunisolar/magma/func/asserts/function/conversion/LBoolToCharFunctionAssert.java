@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolToCharFunctionAssert<S extends LBoolToCharFunctionAssert<S, A, RS>, A extends LBoolToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBoolConsumer, A, RS, Character> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumer, A, RS, Character> doesApplyAsChar(boolean a1);
+	Evaluation<S, LBoolConsumer, A, RS, Character> doesApplyAsChar(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LBoolToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LBoolToCharFunctionAssert<S extends LBoolToCharFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumer, A, RS, Character> doesApplyAsChar(boolean a1) {
+		public Evaluation<S, LBoolConsumer, A, RS, Character> doesApplyAsChar(boolean a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a1));
+				return assertFactory.doApply(actual.doApplyAsChar(a));
 			});
 
 		}

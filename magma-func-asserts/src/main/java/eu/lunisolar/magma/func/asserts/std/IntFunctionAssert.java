@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface IntFunctionAssert<S extends IntFunctionAssert<S, A, RS, R>, A extends IntFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumer, A, RS, R> {
 
 	@Nonnull
-	Evaluation<S, LIntConsumer, A, RS, R> doesApply(int a1);
+	Evaluation<S, LIntConsumer, A, RS, R> doesApply(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends IntFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
@@ -73,13 +73,13 @@ public interface IntFunctionAssert<S extends IntFunctionAssert<S, A, RS, R>, A e
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntConsumer, A, RS, R> doesApply(int a1) {
+		public Evaluation<S, LIntConsumer, A, RS, R> doesApply(int a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.apply(a1));
+				return assertFactory.doApply(actual.apply(a));
 			});
 
 		}

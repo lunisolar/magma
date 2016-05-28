@@ -43,7 +43,7 @@ public class LIntToFloatFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LIntToFloatFuncMemento sut =  LIntToFloatFuncMemento.mementoOf( a1 ->{
+    private LIntToFloatFuncMemento sut =  LIntToFloatFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -44,7 +44,7 @@ public class LBoolToByteFuncDeltaTest  {
 
     private final byte initialLastValue = (byte)0;
 
-    private LBoolToByteFuncDelta sut =  LBoolToByteFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LBoolToByteFuncDelta sut =  LBoolToByteFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

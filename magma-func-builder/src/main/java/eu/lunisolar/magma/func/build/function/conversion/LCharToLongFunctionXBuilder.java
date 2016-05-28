@@ -55,7 +55,7 @@ public final class LCharToLongFunctionXBuilder<X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToLongFunctionX EVENTUALLY_THROW = LCharToLongFunctionX.lX(a1 -> {
+	public static final LCharToLongFunctionX EVENTUALLY_THROW = LCharToLongFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LCharToLongFunctionXBuilder<X extends Throwable> extends PerC
 		LCharToLongFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToLongFunctionX.<X> lX(a1 -> {
+		retval = LCharToLongFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToLongFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsLong(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsLong(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsLong(a1);
+				return eventuallyFinal.doApplyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -89,8 +89,8 @@ public class LIntToFloatFuncDeltaX<X extends Throwable> extends LIntToFloatFuncM
 	}
 
 	@Override
-	public float doApplyAsFloat(int a1) throws X {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(int a) throws X {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

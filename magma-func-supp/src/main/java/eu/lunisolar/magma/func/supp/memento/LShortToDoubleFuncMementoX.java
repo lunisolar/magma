@@ -72,8 +72,8 @@ public class LShortToDoubleFuncMementoX<X extends Throwable> implements LShortTo
 	}
 
 	@Override
-	public double doApplyAsDouble(short a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(short a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

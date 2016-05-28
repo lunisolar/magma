@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): short a1
+ * Domain (lvl: 1): short a
  *
  * Co-domain: none
  *
@@ -64,23 +64,23 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LShortConsumer: void doAccept(short a1)";
+	String DESCRIPTION = "LShortConsumer: void doAccept(short a)";
 
-	void doAccept(short a1);
+	void doAccept(short a);
 
 	default LTuple.Void tupleAccept(LShortSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(short a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(short a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(short a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(short a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,8 +90,8 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureShortCons(short a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureShortCons(short a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,9 +101,9 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 		return lambda;
 	}
 
-	static void call(short a1, final @Nonnull LShortConsumer lambda) {
+	static void call(short a, final @Nonnull LShortConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -156,16 +156,16 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortConsumer shortConsComposeShort(@Nonnull final LShortUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
+	default LShortConsumer shortConsComposeShort(@Nonnull final LShortUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsShort(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> shortConsCompose(@Nonnull final LToShortFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
+	default <V> LConsumer<V> shortConsCompose(@Nonnull final LToShortFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsShort(v));
 	}
 
 	// </editor-fold>
@@ -176,9 +176,9 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LShortConsumer andThen(@Nonnull LShortConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

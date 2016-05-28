@@ -55,7 +55,7 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToIntFunction EVENTUALLY_THROW = LCharToIntFunction.l(a1 -> {
+	public static final LCharToIntFunction EVENTUALLY_THROW = LCharToIntFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LCharToIntFunction retval;
 
 		final Case<LCharPredicate, LCharToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToIntFunction.l(a1 -> {
+		retval = LCharToIntFunction.l(a -> {
 			try {
 				for (Case<LCharPredicate, LCharToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

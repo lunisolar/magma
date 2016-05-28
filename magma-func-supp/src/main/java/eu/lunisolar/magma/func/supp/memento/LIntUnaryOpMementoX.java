@@ -72,8 +72,8 @@ public class LIntUnaryOpMementoX<X extends Throwable> implements LIntUnaryOperat
 	}
 
 	@Override
-	public int doApplyAsInt(int a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(int a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

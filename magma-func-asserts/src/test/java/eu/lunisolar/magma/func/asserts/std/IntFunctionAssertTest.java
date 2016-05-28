@@ -45,11 +45,11 @@ public class IntFunctionAssertTest<R> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private IntFunction<Integer> function = a1 ->
+    private IntFunction<Integer> function = a ->
             testValue;
 
 
-    private IntFunction<Integer> functionThrowing = a1 -> {
+    private IntFunction<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

@@ -55,7 +55,7 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final IntConsumer EVENTUALLY_THROW = Function4U.intConsumer(a1 -> {
+	public static final IntConsumer EVENTUALLY_THROW = Function4U.intConsumer(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,16 +108,16 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 		IntConsumer retval;
 
 		final Case<LIntPredicate, IntConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intConsumer(a1 -> {
+		retval = Function4U.intConsumer(a -> {
 			try {
 				for (Case<LIntPredicate, IntConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						aCase.caseFunction().accept(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						aCase.caseFunction().accept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(a1);
+				eventuallyFinal.accept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

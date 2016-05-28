@@ -65,13 +65,13 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
 
     private LIntToShortFunction sut = new LIntToShortFunction(){
-        public  short doApplyAsShort(int a1)  {
+        public  short doApplyAsShort(int a)  {
             return testValue;
         }
     };
 
     private LIntToShortFunctionX<X> opposite = new LIntToShortFunctionX<X>(){
-        public  short doApplyAsShort(int a1)  throws X {
+        public  short doApplyAsShort(int a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
 
 
-    private LIntToShortFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LIntToShortFunction.l(a1 -> {
+    private LIntToShortFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LIntToShortFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntToShortFunction: short doApplyAsShort(int a1)");
+            .isEqualTo("LIntToShortFunction: short doApplyAsShort(int a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LIntToShortFunction.l(a1 -> testValue ))
+        assertThat(LIntToShortFunction.l(a -> testValue ))
             .isInstanceOf(LIntToShortFunction.class);
     }
 
@@ -159,7 +159,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LIntToShortFunctionX<X> sutThrowing = LIntToShortFunctionX.lX(a1 -> {
+        LIntToShortFunctionX<X> sutThrowing = LIntToShortFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LIntToShortFunctionX<ParseException> sutThrowing = LIntToShortFunctionX.lX(a1 -> {
+        LIntToShortFunctionX<ParseException> sutThrowing = LIntToShortFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     public void testHandlingDoApplyAsShortMethodWrapsTheException() throws X {
 
         // given
-        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a1 -> {
+        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     public void testHandleIntToShortFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a1 -> {
+        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     public void testHandleIntToShortFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a1 -> {
+        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     public void testHandleIntToShortFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a1 -> {
+        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -308,20 +308,20 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
+                assertThat(a).isEqualTo(90);
                 return (short)100;
         };
 
-        LIntUnaryOperator before1 = p0 -> {
+        LIntUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
 
         //when
-        LIntToShortFunction function = sutO.intToShortFuncComposeInt(before1);
+        LIntToShortFunction function = sutO.intToShortFuncComposeInt(before);
         function.doApplyAsShort(80);
 
         //then - finals
@@ -337,20 +337,20 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
+                assertThat(a).isEqualTo(90);
                 return (short)100;
         };
 
-        LToIntFunction<Integer> before1 = p0 -> {
+        LToIntFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
 
         //when
-        LToShortFunction<Integer> function = sutO.intToShortFuncCompose(before1);
+        LToShortFunction<Integer> function = sutO.intToShortFuncCompose(before);
         function.doApplyAsShort(80);
 
         //then - finals
@@ -371,9 +371,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -405,9 +405,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -439,9 +439,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -473,9 +473,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -507,9 +507,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -541,9 +541,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -575,9 +575,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -609,9 +609,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -643,9 +643,9 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LIntToShortFunction sutO = a1 -> {
+        LIntToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return (short)90;
         };
 
@@ -704,7 +704,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a1 -> {
+        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -716,7 +716,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     public void testHandleIntToShortFunc() throws X {
 
         // given
-        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a1 -> {
+        LIntToShortFunction sutThrowing = LIntToShortFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -746,7 +746,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntToShortFunction: short doApplyAsShort(int a1)");
+                .contains("LIntToShortFunction: short doApplyAsShort(int a)");
     }
 
 

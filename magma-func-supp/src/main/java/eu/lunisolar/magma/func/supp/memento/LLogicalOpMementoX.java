@@ -72,8 +72,8 @@ public class LLogicalOpMementoX<X extends Throwable> implements LLogicalOperator
 	}
 
 	@Override
-	public boolean doApply(boolean a1) throws X {
-		return lastValue = function.doApply(a1);
+	public boolean doApply(boolean a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public boolean lastValue() {

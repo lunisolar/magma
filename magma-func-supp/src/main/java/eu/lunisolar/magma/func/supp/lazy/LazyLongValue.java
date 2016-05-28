@@ -72,7 +72,7 @@ public class LazyLongValue extends LLongSupMemento implements LLongSingle {
 		return lastValue;
 	}
 
-	public long first() {
+	public long value() {
 		return shovingDoGetAsLong();
 	}
 
@@ -84,7 +84,7 @@ public class LazyLongValue extends LLongSupMemento implements LLongSingle {
 
 			LazyLongValue other = (LazyLongValue) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyLongValue extends LLongSupMemento implements LLongSingle {
 
 	@Override
 	public int hashCode() {
-		return LLongSingle.argHashCode(first());
+		return LLongSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

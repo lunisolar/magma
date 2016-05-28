@@ -55,7 +55,7 @@ public final class LFloatToByteFunctionBuilder extends PerCaseBuilderWithBytePro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToByteFunction EVENTUALLY_THROW = LFloatToByteFunction.l(a1 -> {
+	public static final LFloatToByteFunction EVENTUALLY_THROW = LFloatToByteFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LFloatToByteFunctionBuilder extends PerCaseBuilderWithBytePro
 		LFloatToByteFunction retval;
 
 		final Case<LFloatPredicate, LFloatToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToByteFunction.l(a1 -> {
+		retval = LFloatToByteFunction.l(a -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

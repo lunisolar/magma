@@ -44,7 +44,7 @@ public class LFloatToByteFuncDeltaTest  {
 
     private final byte initialLastValue = (byte)0;
 
-    private LFloatToByteFuncDelta sut =  LFloatToByteFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LFloatToByteFuncDelta sut =  LFloatToByteFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

@@ -65,24 +65,24 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
     private LCharToShortFunctionX<X> sut = new LCharToShortFunctionX<X>(){
-        public  short doApplyAsShort(char a1)  throws X {
+        public  short doApplyAsShort(char a)  throws X {
             return testValue;
         }
     };
 
     private LCharToShortFunction opposite = new LCharToShortFunction(){
-        public  short doApplyAsShort(char a1)  {
+        public  short doApplyAsShort(char a)  {
             return testValue;
         }
     };
 
 
 
-    private LCharToShortFunctionX<ParseException> sutAlwaysThrowing = LCharToShortFunctionX.lX(a1 -> {
+    private LCharToShortFunctionX<ParseException> sutAlwaysThrowing = LCharToShortFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LCharToShortFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToShortFunctionX.lX(a1 -> {
+    private LCharToShortFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToShortFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -174,12 +174,12 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharToShortFunctionX: short doApplyAsShort(char a1) throws X");
+            .isEqualTo("LCharToShortFunctionX: short doApplyAsShort(char a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LCharToShortFunctionX.lX(a1 -> testValue ))
+        assertThat(LCharToShortFunctionX.lX(a -> testValue ))
             .isInstanceOf(LCharToShortFunctionX.class);
     }
 
@@ -194,7 +194,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testHandlingDoApplyAsShortMethodWrapsTheException() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a1 -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -218,7 +218,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testHandleCharToShortFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a1 -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -242,7 +242,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testHandleCharToShortFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a1 -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -267,7 +267,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testHandleCharToShortFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a1 -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -297,20 +297,20 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return (short)100;
         };
 
-        LCharUnaryOperatorX<X> before1 = p0 -> {
+        LCharUnaryOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo('\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LCharToShortFunctionX<X> function = sutO.charToShortFuncComposeChar(before1);
+        LCharToShortFunctionX<X> function = sutO.charToShortFuncComposeChar(before);
         function.doApplyAsShort('\u0080');
 
         //then - finals
@@ -326,20 +326,20 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return (short)100;
         };
 
-        LToCharFunctionX<Integer,X> before1 = p0 -> {
+        LToCharFunctionX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LToShortFunctionX<Integer,X> function = sutO.charToShortFuncCompose(before1);
+        LToShortFunctionX<Integer,X> function = sutO.charToShortFuncCompose(before);
         function.doApplyAsShort(80);
 
         //then - finals
@@ -360,9 +360,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -394,9 +394,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -428,9 +428,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -462,9 +462,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -496,9 +496,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -530,9 +530,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -564,9 +564,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -598,9 +598,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -632,9 +632,9 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = a1 -> {
+        LCharToShortFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return (short)90;
         };
 
@@ -689,7 +689,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a1 -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -701,7 +701,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testHandleCharToShortFunc() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a1 -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -731,7 +731,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharToShortFunctionX: short doApplyAsShort(char a1) throws X");
+                .contains("LCharToShortFunctionX: short doApplyAsShort(char a) throws X");
     }
 
 

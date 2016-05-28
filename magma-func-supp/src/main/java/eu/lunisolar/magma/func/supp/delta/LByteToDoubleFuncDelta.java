@@ -89,8 +89,8 @@ public class LByteToDoubleFuncDelta extends LByteToDoubleFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDouble(byte a1) {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(byte a) {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

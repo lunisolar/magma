@@ -44,7 +44,7 @@ public class LUnaryOpDeltaXTest <T,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LUnaryOpDeltaX<Integer,X> sut =  LUnaryOpDeltaX.<Integer,X>deltaOf(initialLastValue, a1 ->{
+    private LUnaryOpDeltaX<Integer,X> sut =  LUnaryOpDeltaX.<Integer,X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

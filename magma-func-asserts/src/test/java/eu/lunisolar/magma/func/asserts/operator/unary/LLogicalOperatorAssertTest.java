@@ -46,11 +46,11 @@ public class LLogicalOperatorAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLogicalOperator function = a1 ->
+    private LLogicalOperator function = a ->
             testValue;
 
 
-    private LLogicalOperator functionThrowing = a1 -> {
+    private LLogicalOperator functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

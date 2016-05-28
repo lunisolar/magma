@@ -72,8 +72,8 @@ public class LCharUnaryOpMemento implements LCharUnaryOperator {
 	}
 
 	@Override
-	public char doApplyAsChar(char a1) {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(char a) {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

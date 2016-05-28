@@ -77,8 +77,8 @@ public class LBoolFuncDeltaX<R, X extends Throwable> extends LBoolFuncMementoX<R
 	}
 
 	@Override
-	public R doApply(boolean a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(boolean a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

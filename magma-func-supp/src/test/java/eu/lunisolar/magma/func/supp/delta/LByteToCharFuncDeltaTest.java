@@ -44,7 +44,7 @@ public class LByteToCharFuncDeltaTest  {
 
     private final char initialLastValue = '\u0000';
 
-    private LByteToCharFuncDelta sut =  LByteToCharFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LByteToCharFuncDelta sut =  LByteToCharFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

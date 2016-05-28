@@ -89,8 +89,8 @@ public class LCharUnaryOpDelta extends LCharUnaryOpMemento {
 	}
 
 	@Override
-	public char doApplyAsChar(char a1) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(char a) {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

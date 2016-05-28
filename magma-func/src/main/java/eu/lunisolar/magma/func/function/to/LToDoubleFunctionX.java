@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: function
  *
- * Domain (lvl: 1): T a1
+ * Domain (lvl: 1): T a
  *
  * Co-domain: double
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunction<T>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LToDoubleFunctionX: double doApplyAsDouble(T a1) throws X";
+	String DESCRIPTION = "LToDoubleFunctionX: double doApplyAsDouble(T a) throws X";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,20 +72,20 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunc
 	 */
 	@Override
 	@Deprecated
-	default double applyAsDouble(T a1) {
-		return this.nestingDoApplyAsDouble(a1);
+	default double applyAsDouble(T a) {
+		return this.nestingDoApplyAsDouble(a);
 	}
 
-	double doApplyAsDouble(T a1) throws X;
+	double doApplyAsDouble(T a) throws X;
 
 	default double tupleApplyAsDouble(LSingle<T> args) throws X {
-		return doApplyAsDouble(args.first());
+		return doApplyAsDouble(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default double nestingDoApplyAsDouble(T a1) {
+	default double nestingDoApplyAsDouble(T a) {
 		try {
-			return this.doApplyAsDouble(a1);
+			return this.doApplyAsDouble(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -94,23 +94,23 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunc
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDouble(T a1) {
-		return ((LToDoubleFunctionX<T, RuntimeException>) this).doApplyAsDouble(a1);
+	default double shovingDoApplyAsDouble(T a) {
+		return ((LToDoubleFunctionX<T, RuntimeException>) this).doApplyAsDouble(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> double handlingDoApplyAsDouble(T a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> double handlingDoApplyAsDouble(T a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doApplyAsDouble(a1);
+			return this.doApplyAsDouble(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDouble(T a1) throws X {
-		return doApplyAsDouble(a1);
+	default double nonNullDoApplyAsDouble(T a) throws X {
+		return doApplyAsDouble(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -120,13 +120,13 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> captureToDoubleFunc(T a1) {
-		return () -> this.doApplyAsDouble(a1);
+	default LDoubleSupplierX<X> captureToDoubleFunc(T a) {
+		return () -> this.doApplyAsDouble(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LToDoubleFunctionX<T, X> constant(double r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -143,24 +143,24 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunc
 		return lambda;
 	}
 
-	static <T, X extends Throwable> double call(T a1, final @Nonnull LToDoubleFunctionX<T, X> lambda) throws X {
+	static <T, X extends Throwable> double call(T a, final @Nonnull LToDoubleFunctionX<T, X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsDouble(a1);
+		return lambda.doApplyAsDouble(a);
 	}
 
-	static <T, X extends Throwable> double shoving(T a1, final @Nonnull LToDoubleFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> double shoving(T a, final @Nonnull LToDoubleFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoApplyAsDouble(a1);
+		return lambda.shovingDoApplyAsDouble(a);
 	}
 
-	static <T, X extends Throwable> double nesting(T a1, final @Nonnull LToDoubleFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> double nesting(T a, final @Nonnull LToDoubleFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoApplyAsDouble(a1);
+		return lambda.nestingDoApplyAsDouble(a);
 	}
 
-	static <T, X extends Throwable, Y extends Throwable> double handling(T a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToDoubleFunctionX<T, X> lambda) throws Y {
+	static <T, X extends Throwable, Y extends Throwable> double handling(T a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LToDoubleFunctionX<T, X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoApplyAsDouble(a1, handling);
+		return lambda.handlingDoApplyAsDouble(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -219,9 +219,9 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunc
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunctionX<V1, X> toDoubleFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsDouble(before1.doApply(v1));
+	default <V> LToDoubleFunctionX<V, X> toDoubleFuncCompose(@Nonnull final LFunctionX<? super V, ? extends T, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doApplyAsDouble(before.doApply(v));
 	}
 
 	// </editor-fold>
@@ -232,63 +232,63 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunc
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doApplyAsDouble(a1));
+		return a -> after.doApply(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LDoubleToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsByte(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LDoubleToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsShort(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LDoubleToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsInt(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LDoubleToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsLong(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LDoubleToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsFloat(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LDoubleUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsDouble(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LDoubleToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doApplyAsDouble(a1));
+		return a -> after.doApplyAsChar(this.doApplyAsDouble(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBool(@Nonnull LDoublePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doTest(this.doApplyAsDouble(a1));
+		return a -> after.doTest(this.doApplyAsDouble(a));
 	}
 
 	// </editor-fold>
@@ -324,13 +324,13 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends ToDoubleFunc
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToDoubleFunction<T> handleToDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoApplyAsDouble(a1, handling);
+		return a -> this.handlingDoApplyAsDouble(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToDoubleFunctionX<T, Y> handleToDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoApplyAsDouble(a1, handling);
+		return a -> this.handlingDoApplyAsDouble(a, handling);
 	}
 
 	// </editor-fold>

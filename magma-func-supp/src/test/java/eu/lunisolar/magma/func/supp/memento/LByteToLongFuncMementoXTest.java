@@ -43,7 +43,7 @@ public class LByteToLongFuncMementoXTest <X extends Throwable> {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LByteToLongFuncMementoX<X> sut =  LByteToLongFuncMementoX.<X>mementoOf( a1 ->{
+    private LByteToLongFuncMementoX<X> sut =  LByteToLongFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

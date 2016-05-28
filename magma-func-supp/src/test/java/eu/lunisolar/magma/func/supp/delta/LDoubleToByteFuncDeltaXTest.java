@@ -44,7 +44,7 @@ public class LDoubleToByteFuncDeltaXTest <X extends Throwable> {
 
     private final byte initialLastValue = (byte)0;
 
-    private LDoubleToByteFuncDeltaX<X> sut =  LDoubleToByteFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
+    private LDoubleToByteFuncDeltaX<X> sut =  LDoubleToByteFuncDeltaX.<X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

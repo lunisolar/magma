@@ -55,7 +55,7 @@ public final class LLongToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToDoubleFunction EVENTUALLY_THROW = LLongToDoubleFunction.l(a1 -> {
+	public static final LLongToDoubleFunction EVENTUALLY_THROW = LLongToDoubleFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLongToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 		LLongToDoubleFunction retval;
 
 		final Case<LLongPredicate, LLongToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToDoubleFunction.l(a1 -> {
+		retval = LLongToDoubleFunction.l(a -> {
 			try {
 				for (Case<LLongPredicate, LLongToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsDouble(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(a1);
+				return eventuallyFinal.doApplyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -44,7 +44,7 @@ public class LByteFuncDeltaXTest <R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LByteFuncDeltaX<Integer,X> sut =  LByteFuncDeltaX.<Integer,X>deltaOf(initialLastValue, a1 ->{
+    private LByteFuncDeltaX<Integer,X> sut =  LByteFuncDeltaX.<Integer,X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

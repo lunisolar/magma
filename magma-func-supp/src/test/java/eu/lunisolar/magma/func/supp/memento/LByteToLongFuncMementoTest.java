@@ -43,7 +43,7 @@ public class LByteToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LByteToLongFuncMemento sut =  LByteToLongFuncMemento.mementoOf( a1 ->{
+    private LByteToLongFuncMemento sut =  LByteToLongFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

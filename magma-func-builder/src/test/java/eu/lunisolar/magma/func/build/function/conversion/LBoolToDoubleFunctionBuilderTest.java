@@ -99,7 +99,7 @@ public class LBoolToDoubleFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LBoolToDoubleFunction function = boolToDoubleFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,10 +119,10 @@ public class LBoolToDoubleFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LBoolToDoubleFunction function = boolToDoubleFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == false)
-                             .evaluate(a1 -> 0d))
-            .inCase(a1 -> a1 == true ).evaluate(a1 -> 1d)
-            .eventually(a1 -> 99d)
+            .aCase(ce -> ce.of(a -> a == false)
+                             .evaluate(a -> 0d))
+            .inCase(a -> a == true ).evaluate(a -> 1d)
+            .eventually(a -> 99d)
             .build()
         );
 

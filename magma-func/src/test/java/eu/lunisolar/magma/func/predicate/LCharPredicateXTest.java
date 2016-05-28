@@ -65,24 +65,24 @@ public class LCharPredicateXTest<X extends ParseException> {
 
 
     private LCharPredicateX<X> sut = new LCharPredicateX<X>(){
-        public  boolean doTest(char a1)  throws X {
+        public  boolean doTest(char a)  throws X {
             return testValue;
         }
     };
 
     private LCharPredicate opposite = new LCharPredicate(){
-        public  boolean doTest(char a1)  {
+        public  boolean doTest(char a)  {
             return testValue;
         }
     };
 
 
 
-    private LCharPredicateX<ParseException> sutAlwaysThrowing = LCharPredicateX.lX(a1 -> {
+    private LCharPredicateX<ParseException> sutAlwaysThrowing = LCharPredicateX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LCharPredicateX<RuntimeException> sutAlwaysThrowingUnchecked = LCharPredicateX.lX(a1 -> {
+    private LCharPredicateX<RuntimeException> sutAlwaysThrowingUnchecked = LCharPredicateX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -181,12 +181,12 @@ public class LCharPredicateXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharPredicateX: boolean doTest(char a1) throws X");
+            .isEqualTo("LCharPredicateX: boolean doTest(char a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LCharPredicateX.lX(a1 -> testValue ))
+        assertThat(LCharPredicateX.lX(a -> testValue ))
             .isInstanceOf(LCharPredicateX.class);
     }
 
@@ -201,7 +201,7 @@ public class LCharPredicateXTest<X extends ParseException> {
     public void testHandlingDoTestMethodWrapsTheException() throws X {
 
         // given
-        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a1 -> {
+        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -225,7 +225,7 @@ public class LCharPredicateXTest<X extends ParseException> {
     public void testHandleCharPredXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a1 -> {
+        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -249,7 +249,7 @@ public class LCharPredicateXTest<X extends ParseException> {
     public void testHandleCharPredXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a1 -> {
+        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -274,7 +274,7 @@ public class LCharPredicateXTest<X extends ParseException> {
     public void testHandleCharPredXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a1 -> {
+        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -314,8 +314,8 @@ public class LCharPredicateXTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LCharPredicateX<X> fun1 = LCharPredicateX.lX(a1 -> f1Result);
-        LCharPredicateX<X> fun2 = LCharPredicateX.lX(a1 -> f2Result);
+        LCharPredicateX<X> fun1 = LCharPredicateX.lX(a -> f1Result);
+        LCharPredicateX<X> fun2 = LCharPredicateX.lX(a -> f2Result);
 
         //when
         LCharPredicateX<X> andFunction = fun1.and(fun2);
@@ -357,20 +357,20 @@ public class LCharPredicateXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return true;
         };
 
-        LCharUnaryOperatorX<X> before1 = p0 -> {
+        LCharUnaryOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo('\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LCharPredicateX<X> function = sutO.charPredComposeChar(before1);
+        LCharPredicateX<X> function = sutO.charPredComposeChar(before);
         function.doTest('\u0080');
 
         //then - finals
@@ -386,20 +386,20 @@ public class LCharPredicateXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return true;
         };
 
-        LToCharFunctionX<Integer,X> before1 = p0 -> {
+        LToCharFunctionX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LPredicateX<Integer,X> function = sutO.charPredCompose(before1);
+        LPredicateX<Integer,X> function = sutO.charPredCompose(before);
         function.doTest(80);
 
         //then - finals
@@ -420,9 +420,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -454,9 +454,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -488,9 +488,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -522,9 +522,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -556,9 +556,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -590,9 +590,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -624,9 +624,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -658,9 +658,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -692,9 +692,9 @@ public class LCharPredicateXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharPredicateX<X> sutO = a1 -> {
+        LCharPredicateX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return true;
         };
 
@@ -749,7 +749,7 @@ public class LCharPredicateXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a1 -> {
+        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -761,7 +761,7 @@ public class LCharPredicateXTest<X extends ParseException> {
     public void testHandleCharPred() throws X {
 
         // given
-        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a1 -> {
+        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -791,7 +791,7 @@ public class LCharPredicateXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharPredicateX: boolean doTest(char a1) throws X");
+                .contains("LCharPredicateX: boolean doTest(char a) throws X");
     }
 
 

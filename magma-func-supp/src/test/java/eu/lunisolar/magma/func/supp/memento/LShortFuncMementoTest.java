@@ -43,7 +43,7 @@ public class LShortFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LShortFuncMemento<Integer> sut =  LShortFuncMemento.<Integer>mementoOf( a1 ->{
+    private LShortFuncMemento<Integer> sut =  LShortFuncMemento.<Integer>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

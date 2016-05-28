@@ -89,8 +89,8 @@ public class LToShortFuncDeltaX<T, X extends Throwable> extends LToShortFuncMeme
 	}
 
 	@Override
-	public short doApplyAsShort(T a1) throws X {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(T a) throws X {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

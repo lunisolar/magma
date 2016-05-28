@@ -57,7 +57,7 @@ public interface LToLongFunctionXAssert<S extends LToLongFunctionXAssert<S, A, R
 			FullFunctionalAssert<S, LConsumerX<T, X>, A, RS, Long> {
 
 	@Nonnull
-	Evaluation<S, LConsumerX<T, X>, A, RS, Long> doesApplyAsLong(T a1);
+	Evaluation<S, LConsumerX<T, X>, A, RS, Long> doesApplyAsLong(T a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
@@ -80,13 +80,13 @@ public interface LToLongFunctionXAssert<S extends LToLongFunctionXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LConsumerX<T, X>, A, RS, Long> doesApplyAsLong(T a1) {
+		public Evaluation<S, LConsumerX<T, X>, A, RS, Long> doesApplyAsLong(T a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a1));
+				return assertFactory.doApply(actual.doApplyAsLong(a));
 			});
 
 		}

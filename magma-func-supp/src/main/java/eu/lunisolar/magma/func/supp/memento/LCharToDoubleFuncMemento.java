@@ -72,8 +72,8 @@ public class LCharToDoubleFuncMemento implements LCharToDoubleFunction {
 	}
 
 	@Override
-	public double doApplyAsDouble(char a1) {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(char a) {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

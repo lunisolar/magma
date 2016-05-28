@@ -44,7 +44,7 @@ public class LDoubleToCharFuncDeltaTest  {
 
     private final char initialLastValue = '\u0000';
 
-    private LDoubleToCharFuncDelta sut =  LDoubleToCharFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LDoubleToCharFuncDelta sut =  LDoubleToCharFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

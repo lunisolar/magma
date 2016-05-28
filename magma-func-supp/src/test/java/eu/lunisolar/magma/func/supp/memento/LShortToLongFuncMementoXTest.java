@@ -43,7 +43,7 @@ public class LShortToLongFuncMementoXTest <X extends Throwable> {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LShortToLongFuncMementoX<X> sut =  LShortToLongFuncMementoX.<X>mementoOf( a1 ->{
+    private LShortToLongFuncMementoX<X> sut =  LShortToLongFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

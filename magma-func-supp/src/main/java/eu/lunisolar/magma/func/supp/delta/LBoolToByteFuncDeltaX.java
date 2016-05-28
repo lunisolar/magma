@@ -89,8 +89,8 @@ public class LBoolToByteFuncDeltaX<X extends Throwable> extends LBoolToByteFuncM
 	}
 
 	@Override
-	public byte doApplyAsByte(boolean a1) throws X {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(boolean a) throws X {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

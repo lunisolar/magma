@@ -89,8 +89,8 @@ public class LIntToByteFuncDelta extends LIntToByteFuncMemento {
 	}
 
 	@Override
-	public byte doApplyAsByte(int a1) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(int a) {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

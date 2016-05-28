@@ -99,7 +99,7 @@ public class LShortToFloatFunctionXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LShortToFloatFunctionX<X> function = shortToFloatFunctionXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LShortToFloatFunctionXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LShortToFloatFunctionX<X> function = shortToFloatFunctionXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == (short)0)
-                             .evaluate(a1 -> 0f))
-            .inCase(a1 -> a1 > (short)0 && a1 < (short)10).evaluate(a1 -> 1f)
-            .inCase(a1 -> a1 > (short)10 && a1 < (short)20).evaluate(a1 -> 2f)
-            .eventually(a1 -> 99f)
+            .aCase(ce -> ce.of(a -> a == (short)0)
+                             .evaluate(a -> 0f))
+            .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> 1f)
+            .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> 2f)
+            .eventually(a -> 99f)
             .build()
         );
 

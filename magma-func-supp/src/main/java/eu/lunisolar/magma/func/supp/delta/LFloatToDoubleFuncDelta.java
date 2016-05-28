@@ -89,8 +89,8 @@ public class LFloatToDoubleFuncDelta extends LFloatToDoubleFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDouble(float a1) {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(float a) {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

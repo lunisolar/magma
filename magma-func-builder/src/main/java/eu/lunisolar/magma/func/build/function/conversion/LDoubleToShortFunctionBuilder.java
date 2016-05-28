@@ -55,7 +55,7 @@ public final class LDoubleToShortFunctionBuilder extends PerCaseBuilderWithShort
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToShortFunction EVENTUALLY_THROW = LDoubleToShortFunction.l(a1 -> {
+	public static final LDoubleToShortFunction EVENTUALLY_THROW = LDoubleToShortFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToShortFunctionBuilder extends PerCaseBuilderWithShort
 		LDoubleToShortFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToShortFunction.l(a1 -> {
+		retval = LDoubleToShortFunction.l(a -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsShort(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsShort(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(a1);
+				return eventuallyFinal.doApplyAsShort(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

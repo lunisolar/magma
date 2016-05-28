@@ -77,8 +77,8 @@ public class LByteFuncDeltaX<R, X extends Throwable> extends LByteFuncMementoX<R
 	}
 
 	@Override
-	public R doApply(byte a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(byte a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

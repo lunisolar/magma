@@ -43,7 +43,7 @@ public class LFloatToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LFloatToCharFuncMemento sut =  LFloatToCharFuncMemento.mementoOf( a1 ->{
+    private LFloatToCharFuncMemento sut =  LFloatToCharFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

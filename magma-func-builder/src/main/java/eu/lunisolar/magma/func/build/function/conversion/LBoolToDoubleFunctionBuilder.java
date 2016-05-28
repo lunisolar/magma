@@ -55,7 +55,7 @@ public final class LBoolToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToDoubleFunction EVENTUALLY_THROW = LBoolToDoubleFunction.l(a1 -> {
+	public static final LBoolToDoubleFunction EVENTUALLY_THROW = LBoolToDoubleFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 		LBoolToDoubleFunction retval;
 
 		final Case<LLogicalOperator, LBoolToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToDoubleFunction.l(a1 -> {
+		retval = LBoolToDoubleFunction.l(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsDouble(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(a1);
+				return eventuallyFinal.doApplyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

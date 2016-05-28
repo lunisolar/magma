@@ -44,7 +44,7 @@ public class LDoubleToShortFuncDeltaTest  {
 
     private final short initialLastValue = (short)0;
 
-    private LDoubleToShortFuncDelta sut =  LDoubleToShortFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LDoubleToShortFuncDelta sut =  LDoubleToShortFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

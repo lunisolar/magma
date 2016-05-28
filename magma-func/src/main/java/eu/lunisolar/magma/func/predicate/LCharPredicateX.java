@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: predicate
  *
- * Domain (lvl: 1): char a1
+ * Domain (lvl: 1): char a
  *
  * Co-domain: boolean
  *
@@ -64,18 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, MetaInterface.Throwing<X> { // NOSONAR
 
-	String DESCRIPTION = "LCharPredicateX: boolean doTest(char a1) throws X";
+	String DESCRIPTION = "LCharPredicateX: boolean doTest(char a) throws X";
 
-	boolean doTest(char a1) throws X;
+	boolean doTest(char a) throws X;
 
 	default boolean tupleTest(LCharSingle args) throws X {
-		return doTest(args.first());
+		return doTest(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(char a1) {
+	default boolean nestingDoTest(char a) {
 		try {
-			return this.doTest(a1);
+			return this.doTest(a);
 		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
 		} catch (Throwable e) { // NOSONAR
@@ -84,29 +84,29 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(char a1) {
-		return ((LCharPredicateX<RuntimeException>) this).doTest(a1);
+	default boolean shovingDoTest(char a) {
+		return ((LCharPredicateX<RuntimeException>) this).doTest(a);
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default <Y extends Throwable> boolean handlingDoTest(char a1, HandlingInstructions<Throwable, Y> handling) throws Y {
+	default <Y extends Throwable> boolean handlingDoTest(char a, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
-			return this.doTest(a1);
+			return this.doTest(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(char a1) throws X {
-		return doTest(a1);
+	default boolean nonNullDoTest(char a) throws X {
+		return doTest(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(char a1) throws X {
-		return doTest(a1);
+	default boolean doApplyAsBoolean(char a) throws X {
+		return doTest(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -116,13 +116,13 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplierX<X> captureCharPred(char a1) {
-		return () -> this.doTest(a1);
+	default LBoolSupplierX<X> captureCharPred(char a) {
+		return () -> this.doTest(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharPredicateX<X> constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,24 +139,24 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 		return lambda;
 	}
 
-	static <X extends Throwable> boolean call(char a1, final @Nonnull LCharPredicateX<X> lambda) throws X {
+	static <X extends Throwable> boolean call(char a, final @Nonnull LCharPredicateX<X> lambda) throws X {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1);
+		return lambda.doTest(a);
 	}
 
-	static <X extends Throwable> boolean shoving(char a1, final @Nonnull LCharPredicateX<X> lambda) {
+	static <X extends Throwable> boolean shoving(char a, final @Nonnull LCharPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.shovingDoTest(a1);
+		return lambda.shovingDoTest(a);
 	}
 
-	static <X extends Throwable> boolean nesting(char a1, final @Nonnull LCharPredicateX<X> lambda) {
+	static <X extends Throwable> boolean nesting(char a, final @Nonnull LCharPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.nestingDoTest(a1);
+		return lambda.nestingDoTest(a);
 	}
 
-	static <X extends Throwable, Y extends Throwable> boolean handling(char a1, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharPredicateX<X> lambda) throws Y {
+	static <X extends Throwable, Y extends Throwable> boolean handling(char a, final HandlingInstructions<Throwable, Y> handling, final @Nonnull LCharPredicateX<X> lambda) throws Y {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.handlingDoTest(a1, handling);
+		return lambda.handlingDoTest(a, handling);
 	}
 
 	// <editor-fold desc="wrap">
@@ -213,7 +213,7 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	 */
 	@Nonnull
 	default LCharPredicateX<X> negate() {
-		return a1 -> !doTest(a1);
+		return a -> !doTest(a);
 	}
 
 	/**
@@ -223,7 +223,7 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	@Nonnull
 	default LCharPredicateX<X> and(@Nonnull LCharPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) && other.doTest(a1);
+		return a -> doTest(a) && other.doTest(a);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	@Nonnull
 	default LCharPredicateX<X> or(@Nonnull LCharPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) || other.doTest(a1);
+		return a -> doTest(a) || other.doTest(a);
 	}
 
 	/**
@@ -243,7 +243,7 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	@Nonnull
 	default LCharPredicateX<X> xor(@Nonnull LCharPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) ^ other.doTest(a1);
+		return a -> doTest(a) ^ other.doTest(a);
 	}
 
 	/**
@@ -251,8 +251,8 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static <X extends Throwable> LCharPredicateX<X> isEqual(char target1) {
-		return a1 -> a1 == target1;
+	static <X extends Throwable> LCharPredicateX<X> isEqual(char target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -261,16 +261,16 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharPredicateX<X> charPredComposeChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsChar(v1));
+	default LCharPredicateX<X> charPredComposeChar(@Nonnull final LCharUnaryOperatorX<X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsChar(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> charPredCompose(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsChar(v1));
+	default <V> LPredicateX<V, X> charPredCompose(@Nonnull final LToCharFunctionX<? super V, X> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsChar(v));
 	}
 
 	// </editor-fold>
@@ -281,63 +281,63 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	@Nonnull
 	default <V> LCharFunctionX<V, X> boolToCharFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> boolToCharToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doTest(a1));
+		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> boolToCharToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doTest(a1));
+		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> boolToCharToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doTest(a1));
+		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> boolToCharToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doTest(a1));
+		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> boolToCharToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doTest(a1));
+		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> boolToCharToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doTest(a1));
+		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> boolToCharUnaryOperator(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doTest(a1));
+		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicateX<X> boolToCharPredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	// </editor-fold>
@@ -373,13 +373,13 @@ public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, Met
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LCharPredicate handleCharPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return a1 -> this.handlingDoTest(a1, handling);
+		return a -> this.handlingDoTest(a, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LCharPredicateX<Y> handleCharPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return a1 -> this.handlingDoTest(a1, handling);
+		return a -> this.handlingDoTest(a, handling);
 	}
 
 	// </editor-fold>

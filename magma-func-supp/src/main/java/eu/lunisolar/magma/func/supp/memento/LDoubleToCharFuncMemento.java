@@ -72,8 +72,8 @@ public class LDoubleToCharFuncMemento implements LDoubleToCharFunction {
 	}
 
 	@Override
-	public char doApplyAsChar(double a1) {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(double a) {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

@@ -72,8 +72,8 @@ public class LToIntFuncMemento<T> implements LToIntFunction<T> {
 	}
 
 	@Override
-	public int doApplyAsInt(T a1) {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(T a) {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

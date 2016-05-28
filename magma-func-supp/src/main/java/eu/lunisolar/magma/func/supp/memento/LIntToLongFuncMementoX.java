@@ -72,8 +72,8 @@ public class LIntToLongFuncMementoX<X extends Throwable> implements LIntToLongFu
 	}
 
 	@Override
-	public long doApplyAsLong(int a1) throws X {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(int a) throws X {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

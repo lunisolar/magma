@@ -44,7 +44,7 @@ public class LByteUnaryOpDeltaTest  {
 
     private final byte initialLastValue = (byte)0;
 
-    private LByteUnaryOpDelta sut =  LByteUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LByteUnaryOpDelta sut =  LByteUnaryOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

@@ -89,8 +89,8 @@ public class LDoubleToByteFuncDeltaX<X extends Throwable> extends LDoubleToByteF
 	}
 
 	@Override
-	public byte doApplyAsByte(double a1) throws X {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(double a) throws X {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

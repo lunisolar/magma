@@ -89,8 +89,8 @@ public class LFloatToCharFuncDeltaX<X extends Throwable> extends LFloatToCharFun
 	}
 
 	@Override
-	public char doApplyAsChar(float a1) throws X {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(float a) throws X {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

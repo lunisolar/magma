@@ -72,7 +72,7 @@ public class LazyBoolValueX<X extends Throwable> extends LBoolSupMementoX<X> imp
 		return lastValue;
 	}
 
-	public boolean first() {
+	public boolean value() {
 		return shovingDoGetAsBool();
 	}
 
@@ -84,7 +84,7 @@ public class LazyBoolValueX<X extends Throwable> extends LBoolSupMementoX<X> imp
 
 			LazyBoolValueX other = (LazyBoolValueX) two;
 
-			return one.first() == other.first();
+			return one.value() == other.value();
 		});
 	}
 
@@ -94,7 +94,7 @@ public class LazyBoolValueX<X extends Throwable> extends LBoolSupMementoX<X> imp
 
 	@Override
 	public int hashCode() {
-		return LBoolSingle.argHashCode(first());
+		return LBoolSingle.argHashCode(value());
 	}
 
 	// TODO: hash, equals, NonNull,

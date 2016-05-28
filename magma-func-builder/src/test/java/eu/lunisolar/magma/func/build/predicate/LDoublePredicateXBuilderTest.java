@@ -99,7 +99,7 @@ public class LDoublePredicateXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LDoublePredicateX<X> function = doublePredicateXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LDoublePredicateXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LDoublePredicateX<X> function = doublePredicateXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0d)
-                             .evaluate(a1 -> false))
-            .inCase(a1 -> a1 > 0d && a1 < 10d).evaluate(a1 -> true)
-            .inCase(a1 -> a1 > 10d && a1 < 20d).evaluate(a1 -> true)
-            .eventually(a1 -> true)
+            .aCase(ce -> ce.of(a -> a == 0d)
+                             .evaluate(a -> false))
+            .inCase(a -> a > 0d && a < 10d).evaluate(a -> true)
+            .inCase(a -> a > 10d && a < 20d).evaluate(a -> true)
+            .eventually(a -> true)
             .build()
         );
 

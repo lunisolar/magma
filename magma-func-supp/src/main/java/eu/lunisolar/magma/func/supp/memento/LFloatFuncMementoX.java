@@ -72,8 +72,8 @@ public class LFloatFuncMementoX<R, X extends Throwable> implements LFloatFunctio
 	}
 
 	@Override
-	public R doApply(float a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(float a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

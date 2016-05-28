@@ -72,8 +72,8 @@ public class LDoubleToFloatFuncMementoX<X extends Throwable> implements LDoubleT
 	}
 
 	@Override
-	public float doApplyAsFloat(double a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(double a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

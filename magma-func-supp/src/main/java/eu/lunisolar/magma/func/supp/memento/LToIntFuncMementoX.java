@@ -72,8 +72,8 @@ public class LToIntFuncMementoX<T, X extends Throwable> implements LToIntFunctio
 	}
 
 	@Override
-	public int doApplyAsInt(T a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(T a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

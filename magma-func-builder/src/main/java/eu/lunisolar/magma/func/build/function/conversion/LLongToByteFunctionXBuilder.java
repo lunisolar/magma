@@ -55,7 +55,7 @@ public final class LLongToByteFunctionXBuilder<X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToByteFunctionX EVENTUALLY_THROW = LLongToByteFunctionX.lX(a1 -> {
+	public static final LLongToByteFunctionX EVENTUALLY_THROW = LLongToByteFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLongToByteFunctionXBuilder<X extends Throwable> extends PerC
 		LLongToByteFunctionX<X> retval;
 
 		final Case<LLongPredicateX<X>, LLongToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToByteFunctionX.<X> lX(a1 -> {
+		retval = LLongToByteFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

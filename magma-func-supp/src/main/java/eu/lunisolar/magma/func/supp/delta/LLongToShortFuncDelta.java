@@ -89,8 +89,8 @@ public class LLongToShortFuncDelta extends LLongToShortFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsShort(long a1) {
-		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a1));
+	public short doApplyAsShort(long a) {
+		return deltaFunction.doApplyAsShort(lastValue(), super.doApplyAsShort(a));
 	}
 
 	// <editor-fold desc="object">

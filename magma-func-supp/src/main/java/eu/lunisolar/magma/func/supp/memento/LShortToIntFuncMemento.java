@@ -72,8 +72,8 @@ public class LShortToIntFuncMemento implements LShortToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsInt(short a1) {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(short a) {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

@@ -99,7 +99,7 @@ public class LDoubleToFloatFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LDoubleToFloatFunction function = doubleToFloatFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LDoubleToFloatFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LDoubleToFloatFunction function = doubleToFloatFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0d)
-                             .evaluate(a1 -> 0f))
-            .inCase(a1 -> a1 > 0d && a1 < 10d).evaluate(a1 -> 1f)
-            .inCase(a1 -> a1 > 10d && a1 < 20d).evaluate(a1 -> 2f)
-            .eventually(a1 -> 99f)
+            .aCase(ce -> ce.of(a -> a == 0d)
+                             .evaluate(a -> 0f))
+            .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1f)
+            .inCase(a -> a > 10d && a < 20d).evaluate(a -> 2f)
+            .eventually(a -> 99f)
             .build()
         );
 

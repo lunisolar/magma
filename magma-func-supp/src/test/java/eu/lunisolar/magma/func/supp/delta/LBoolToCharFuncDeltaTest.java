@@ -44,7 +44,7 @@ public class LBoolToCharFuncDeltaTest  {
 
     private final char initialLastValue = '\u0000';
 
-    private LBoolToCharFuncDelta sut =  LBoolToCharFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LBoolToCharFuncDelta sut =  LBoolToCharFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

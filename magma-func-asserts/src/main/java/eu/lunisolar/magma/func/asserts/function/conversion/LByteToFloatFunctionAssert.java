@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteToFloatFunctionAssert<S extends LByteToFloatFunctionAssert<S, A, RS>, A extends LByteToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LByteConsumer, A, RS, Float> {
 
 	@Nonnull
-	Evaluation<S, LByteConsumer, A, RS, Float> doesApplyAsFloat(byte a1);
+	Evaluation<S, LByteConsumer, A, RS, Float> doesApplyAsFloat(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LByteToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LByteToFloatFunctionAssert<S extends LByteToFloatFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LByteConsumer, A, RS, Float> doesApplyAsFloat(byte a1) {
+		public Evaluation<S, LByteConsumer, A, RS, Float> doesApplyAsFloat(byte a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFloat(a1));
+				return assertFactory.doApply(actual.doApplyAsFloat(a));
 			});
 
 		}

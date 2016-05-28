@@ -72,8 +72,8 @@ public class LByteFuncMementoX<R, X extends Throwable> implements LByteFunctionX
 	}
 
 	@Override
-	public R doApply(byte a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(byte a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

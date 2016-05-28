@@ -44,7 +44,7 @@ public class LFloatUnaryOpDeltaTest  {
 
     private final float initialLastValue = 0f;
 
-    private LFloatUnaryOpDelta sut =  LFloatUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LFloatUnaryOpDelta sut =  LFloatUnaryOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

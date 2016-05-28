@@ -43,7 +43,7 @@ public class LByteToShortFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LByteToShortFuncMemento sut =  LByteToShortFuncMemento.mementoOf( a1 ->{
+    private LByteToShortFuncMemento sut =  LByteToShortFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

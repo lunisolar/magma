@@ -72,8 +72,8 @@ public class LBoolToCharFuncMementoX<X extends Throwable> implements LBoolToChar
 	}
 
 	@Override
-	public char doApplyAsChar(boolean a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(boolean a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

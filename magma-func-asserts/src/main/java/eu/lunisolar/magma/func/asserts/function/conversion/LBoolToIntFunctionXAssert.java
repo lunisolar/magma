@@ -57,7 +57,7 @@ public interface LBoolToIntFunctionXAssert<S extends LBoolToIntFunctionXAssert<S
 			FullFunctionalAssert<S, LBoolConsumerX<X>, A, RS, Integer> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumerX<X>, A, RS, Integer> doesApplyAsInt(boolean a1);
+	Evaluation<S, LBoolConsumerX<X>, A, RS, Integer> doesApplyAsInt(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LBoolToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LBoolToIntFunctionXAssert<S extends LBoolToIntFunctionXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumerX<X>, A, RS, Integer> doesApplyAsInt(boolean a1) {
+		public Evaluation<S, LBoolConsumerX<X>, A, RS, Integer> doesApplyAsInt(boolean a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a1));
+				return assertFactory.doApply(actual.doApplyAsInt(a));
 			});
 
 		}

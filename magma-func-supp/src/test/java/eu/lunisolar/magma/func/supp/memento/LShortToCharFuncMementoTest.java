@@ -43,7 +43,7 @@ public class LShortToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LShortToCharFuncMemento sut =  LShortToCharFuncMemento.mementoOf( a1 ->{
+    private LShortToCharFuncMemento sut =  LShortToCharFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

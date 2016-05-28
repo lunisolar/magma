@@ -45,11 +45,11 @@ public class UnaryOperatorAssertTest<T> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private UnaryOperator<Integer> function = a1 ->
+    private UnaryOperator<Integer> function = a ->
             testValue;
 
 
-    private UnaryOperator<Integer> functionThrowing = a1 -> {
+    private UnaryOperator<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

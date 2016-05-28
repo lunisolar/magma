@@ -72,8 +72,8 @@ public class LDoubleToLongFuncMemento implements LDoubleToLongFunction {
 	}
 
 	@Override
-	public long doApplyAsLong(double a1) {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(double a) {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

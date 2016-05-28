@@ -72,8 +72,8 @@ public class LShortToLongFuncMementoX<X extends Throwable> implements LShortToLo
 	}
 
 	@Override
-	public long doApplyAsLong(short a1) throws X {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(short a) throws X {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

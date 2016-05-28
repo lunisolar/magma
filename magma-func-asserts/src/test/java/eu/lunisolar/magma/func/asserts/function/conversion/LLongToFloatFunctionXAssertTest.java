@@ -46,11 +46,11 @@ public class LLongToFloatFunctionXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLongToFloatFunctionX<X> function = a1 ->
+    private LLongToFloatFunctionX<X> function = a ->
             testValue;
 
 
-    private LLongToFloatFunctionX<X> functionThrowing = a1 -> {
+    private LLongToFloatFunctionX<X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

@@ -44,7 +44,7 @@ public class LShortToIntFuncDeltaTest  {
 
     private final int initialLastValue = 0;
 
-    private LShortToIntFuncDelta sut =  LShortToIntFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LShortToIntFuncDelta sut =  LShortToIntFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

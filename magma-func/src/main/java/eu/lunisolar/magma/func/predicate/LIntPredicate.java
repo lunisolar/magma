@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: predicate
  *
- * Domain (lvl: 1): int a1
+ * Domain (lvl: 1): int a
  *
  * Co-domain: boolean
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
-	String DESCRIPTION = "LIntPredicate: boolean doTest(int a1)";
+	String DESCRIPTION = "LIntPredicate: boolean doTest(int a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,35 +72,35 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	 */
 	@Override
 	@Deprecated
-	default boolean test(int a1) {
-		return this.nestingDoTest(a1);
+	default boolean test(int a) {
+		return this.nestingDoTest(a);
 	}
 
-	boolean doTest(int a1);
+	boolean doTest(int a);
 
 	default boolean tupleTest(LIntSingle args) {
-		return doTest(args.first());
+		return doTest(args.value());
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(int a1) {
-		return this.doTest(a1);
+	default boolean nestingDoTest(int a) {
+		return this.doTest(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default boolean shovingDoTest(int a1) {
-		return this.doTest(a1);
+	default boolean shovingDoTest(int a) {
+		return this.doTest(a);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(int a1) {
-		return doTest(a1);
+	default boolean nonNullDoTest(int a) {
+		return doTest(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean doApplyAsBoolean(int a1) {
-		return doTest(a1);
+	default boolean doApplyAsBoolean(int a) {
+		return doTest(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -110,13 +110,13 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureIntPred(int a1) {
-		return () -> this.doTest(a1);
+	default LBoolSupplier captureIntPred(int a) {
+		return () -> this.doTest(a);
 	}
 
 	/** Creates function that always returns the same value. */
 	static LIntPredicate constant(boolean r) {
-		return a1 -> r;
+		return a -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -126,9 +126,9 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return lambda;
 	}
 
-	static boolean call(int a1, final @Nonnull LIntPredicate lambda) {
+	static boolean call(int a, final @Nonnull LIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1);
+		return lambda.doTest(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -191,7 +191,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	 */
 	@Nonnull
 	default LIntPredicate negate() {
-		return a1 -> !doTest(a1);
+		return a -> !doTest(a);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default LIntPredicate and(@Nonnull LIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) && other.doTest(a1);
+		return a -> doTest(a) && other.doTest(a);
 	}
 
 	/**
@@ -211,7 +211,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default LIntPredicate or(@Nonnull LIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) || other.doTest(a1);
+		return a -> doTest(a) || other.doTest(a);
 	}
 
 	/**
@@ -221,7 +221,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default LIntPredicate xor(@Nonnull LIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a1 -> doTest(a1) ^ other.doTest(a1);
+		return a -> doTest(a) ^ other.doTest(a);
 	}
 
 	/**
@@ -229,8 +229,8 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
-	static LIntPredicate isEqual(int target1) {
-		return a1 -> a1 == target1;
+	static LIntPredicate isEqual(int target) {
+		return a -> a == target;
 	}
 
 	// </editor-fold>
@@ -239,16 +239,16 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntPredicate intPredComposeInt(@Nonnull final LIntUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsInt(v1));
+	default LIntPredicate intPredComposeInt(@Nonnull final LIntUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsInt(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> intPredCompose(@Nonnull final LToIntFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doTest(before1.doApplyAsInt(v1));
+	default <V> LPredicate<V> intPredCompose(@Nonnull final LToIntFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doTest(before.doApplyAsInt(v));
 	}
 
 	// </editor-fold>
@@ -259,63 +259,63 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default <V> LIntFunction<V> boolToIntFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction boolToIntToByteFunction(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsByte(this.doTest(a1));
+		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunction boolToIntToShortFunction(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsShort(this.doTest(a1));
+		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator boolToIntUnaryOperator(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsInt(this.doTest(a1));
+		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction boolToIntToLongFunction(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsLong(this.doTest(a1));
+		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunction boolToIntToFloatFunction(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsFloat(this.doTest(a1));
+		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction boolToIntToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsDouble(this.doTest(a1));
+		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction boolToIntToCharFunction(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApplyAsChar(this.doTest(a1));
+		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicate boolToIntPredicate(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> after.doApply(this.doTest(a1));
+		return a -> after.doApply(this.doTest(a));
 	}
 
 	// </editor-fold>

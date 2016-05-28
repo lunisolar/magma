@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteToLongFunctionAssert<S extends LByteToLongFunctionAssert<S, A, RS>, A extends LByteToLongFunction, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LByteConsumer, A, RS, Long> {
 
 	@Nonnull
-	Evaluation<S, LByteConsumer, A, RS, Long> doesApplyAsLong(byte a1);
+	Evaluation<S, LByteConsumer, A, RS, Long> doesApplyAsLong(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LByteToLongFunction, RS extends AbstractLongAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LByteToLongFunctionAssert<S extends LByteToLongFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LByteConsumer, A, RS, Long> doesApplyAsLong(byte a1) {
+		public Evaluation<S, LByteConsumer, A, RS, Long> doesApplyAsLong(byte a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a1));
+				return assertFactory.doApply(actual.doApplyAsLong(a));
 			});
 
 		}

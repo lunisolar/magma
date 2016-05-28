@@ -43,7 +43,7 @@ public class LCharFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LCharFuncMemento<Integer> sut =  LCharFuncMemento.<Integer>mementoOf( a1 ->{
+    private LCharFuncMemento<Integer> sut =  LCharFuncMemento.<Integer>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

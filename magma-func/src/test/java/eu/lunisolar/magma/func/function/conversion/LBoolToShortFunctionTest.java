@@ -65,13 +65,13 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
 
 
     private LBoolToShortFunction sut = new LBoolToShortFunction(){
-        public  short doApplyAsShort(boolean a1)  {
+        public  short doApplyAsShort(boolean a)  {
             return testValue;
         }
     };
 
     private LBoolToShortFunctionX<X> opposite = new LBoolToShortFunctionX<X>(){
-        public  short doApplyAsShort(boolean a1)  throws X {
+        public  short doApplyAsShort(boolean a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
 
 
 
-    private LBoolToShortFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolToShortFunction.l(a1 -> {
+    private LBoolToShortFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolToShortFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolToShortFunction: short doApplyAsShort(boolean a1)");
+            .isEqualTo("LBoolToShortFunction: short doApplyAsShort(boolean a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBoolToShortFunction.l(a1 -> testValue ))
+        assertThat(LBoolToShortFunction.l(a -> testValue ))
             .isInstanceOf(LBoolToShortFunction.class);
     }
 
@@ -159,7 +159,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBoolToShortFunctionX<X> sutThrowing = LBoolToShortFunctionX.lX(a1 -> {
+        LBoolToShortFunctionX<X> sutThrowing = LBoolToShortFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBoolToShortFunctionX<ParseException> sutThrowing = LBoolToShortFunctionX.lX(a1 -> {
+        LBoolToShortFunctionX<ParseException> sutThrowing = LBoolToShortFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     public void testHandlingDoApplyAsShortMethodWrapsTheException() throws X {
 
         // given
-        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a1 -> {
+        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     public void testHandleBoolToShortFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a1 -> {
+        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     public void testHandleBoolToShortFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a1 -> {
+        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     public void testHandleBoolToShortFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a1 -> {
+        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -308,20 +308,20 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)100;
         };
 
-        LLogicalOperator before1 = p0 -> {
+        LLogicalOperator before = p0 -> {
             assertThat(p0).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBoolToShortFunction function = sutO.boolToShortFuncComposeBool(before1);
+        LBoolToShortFunction function = sutO.boolToShortFuncComposeBool(before);
         function.doApplyAsShort(true);
 
         //then - finals
@@ -337,20 +337,20 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)100;
         };
 
-        LPredicate<Integer> before1 = p0 -> {
+        LPredicate<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LToShortFunction<Integer> function = sutO.boolToShortFuncCompose(before1);
+        LToShortFunction<Integer> function = sutO.boolToShortFuncCompose(before);
         function.doApplyAsShort(80);
 
         //then - finals
@@ -371,9 +371,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -405,9 +405,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -439,9 +439,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -473,9 +473,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -507,9 +507,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -541,9 +541,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -575,9 +575,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -609,9 +609,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -643,9 +643,9 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToShortFunction sutO = a1 -> {
+        LBoolToShortFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return (short)90;
         };
 
@@ -704,7 +704,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a1 -> {
+        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -716,7 +716,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
     public void testHandleBoolToShortFunc() throws X {
 
         // given
-        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a1 -> {
+        LBoolToShortFunction sutThrowing = LBoolToShortFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -746,7 +746,7 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolToShortFunction: short doApplyAsShort(boolean a1)");
+                .contains("LBoolToShortFunction: short doApplyAsShort(boolean a)");
     }
 
 

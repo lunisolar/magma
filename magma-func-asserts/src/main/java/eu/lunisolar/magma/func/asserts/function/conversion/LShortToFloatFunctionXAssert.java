@@ -57,7 +57,7 @@ public interface LShortToFloatFunctionXAssert<S extends LShortToFloatFunctionXAs
 			FullFunctionalAssert<S, LShortConsumerX<X>, A, RS, Float> {
 
 	@Nonnull
-	Evaluation<S, LShortConsumerX<X>, A, RS, Float> doesApplyAsFloat(short a1);
+	Evaluation<S, LShortConsumerX<X>, A, RS, Float> doesApplyAsFloat(short a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LShortToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LShortToFloatFunctionXAssert<S extends LShortToFloatFunctionXAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortConsumerX<X>, A, RS, Float> doesApplyAsFloat(short a1) {
+		public Evaluation<S, LShortConsumerX<X>, A, RS, Float> doesApplyAsFloat(short a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFloat(a1));
+				return assertFactory.doApply(actual.doApplyAsFloat(a));
 			});
 
 		}

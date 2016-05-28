@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolToShortFunctionAssert<S extends LBoolToShortFunctionAssert<S, A, RS>, A extends LBoolToShortFunction, RS extends AbstractShortAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBoolConsumer, A, RS, Short> {
 
 	@Nonnull
-	Evaluation<S, LBoolConsumer, A, RS, Short> doesApplyAsShort(boolean a1);
+	Evaluation<S, LBoolConsumer, A, RS, Short> doesApplyAsShort(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LBoolToShortFunction, RS extends AbstractShortAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LBoolToShortFunctionAssert<S extends LBoolToShortFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LBoolConsumer, A, RS, Short> doesApplyAsShort(boolean a1) {
+		public Evaluation<S, LBoolConsumer, A, RS, Short> doesApplyAsShort(boolean a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsShort(a1));
+				return assertFactory.doApply(actual.doApplyAsShort(a));
 			});
 
 		}

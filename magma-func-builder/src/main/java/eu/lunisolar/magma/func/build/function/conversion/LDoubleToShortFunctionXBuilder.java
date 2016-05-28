@@ -55,7 +55,7 @@ public final class LDoubleToShortFunctionXBuilder<X extends Throwable> extends P
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToShortFunctionX EVENTUALLY_THROW = LDoubleToShortFunctionX.lX(a1 -> {
+	public static final LDoubleToShortFunctionX EVENTUALLY_THROW = LDoubleToShortFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToShortFunctionXBuilder<X extends Throwable> extends P
 		LDoubleToShortFunctionX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToShortFunctionX.<X> lX(a1 -> {
+		retval = LDoubleToShortFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsShort(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsShort(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(a1);
+				return eventuallyFinal.doApplyAsShort(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

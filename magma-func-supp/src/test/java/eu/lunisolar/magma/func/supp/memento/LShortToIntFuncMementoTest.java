@@ -43,7 +43,7 @@ public class LShortToIntFuncMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LShortToIntFuncMemento sut =  LShortToIntFuncMemento.mementoOf( a1 ->{
+    private LShortToIntFuncMemento sut =  LShortToIntFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

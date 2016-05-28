@@ -44,7 +44,7 @@ public class LIntToByteFuncDeltaTest  {
 
     private final byte initialLastValue = (byte)0;
 
-    private LIntToByteFuncDelta sut =  LIntToByteFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LIntToByteFuncDelta sut =  LIntToByteFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

@@ -32,16 +32,16 @@ public interface LSingle<T> extends LTuple<T> {
 
 	int SIZE = 1;
 
-	T first();
+	T value();
 
-	default T getFirst() {
-		return first();
+	default T getValue() {
+		return value();
 	}
 
 	default T get(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -53,16 +53,16 @@ public interface LSingle<T> extends LTuple<T> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSingle and calculates hash from it. */
-	static <T> int argHashCode(T a1) {
+	static <T> int argHashCode(T a) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((a1 == null) ? 0 : a1.hashCode());
+		result = prime * result + ((a == null) ? 0 : a.hashCode());
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LSingle and checks if all values are equal. */
-	static <T> boolean argEquals(T a1, T b1) {
-		return Null.equals(a1, b1); //
+	static <T> boolean argEquals(T a, T b) {
+		return Null.equals(a, b); //
 	}
 
 	/**
@@ -79,14 +79,14 @@ public interface LSingle<T> extends LTuple<T> {
 
 				LSingle other = (LSingle) two;
 
-				return argEquals(one.first(), other.first());
+				return argEquals(one.value(), other.value());
 			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -127,7 +127,7 @@ public interface LSingle<T> extends LTuple<T> {
 			return Null.compare(this, that, (one, two) -> {
 				int retval = 0;
 
-				return (retval = Null.compare(one.first(), two.first())) != 0 ? retval : 0; //
+				return (retval = Null.compare(one.value(), two.value())) != 0 ? retval : 0; //
 				});
 		}
 
@@ -142,7 +142,7 @@ public interface LSingle<T> extends LTuple<T> {
 
 		@Override
 		public int hashCode() {
-			return LSingle.argHashCode(first());
+			return LSingle.argHashCode(value());
 		}
 
 	}
@@ -152,35 +152,35 @@ public interface LSingle<T> extends LTuple<T> {
 	 */
 	final class MutSingle<T> extends AbstractSingle<T> {
 
-		private T first;
+		private T value;
 
-		public MutSingle(T a1) {
-			this.first = a1;
+		public MutSingle(T a) {
+			this.value = a;
 		}
 
-		public static <T> MutSingle<T> of(T a1) {
-			return new MutSingle(a1);
+		public static <T> MutSingle<T> of(T a) {
+			return new MutSingle(a);
 		}
 
 		public static <T> MutSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public T first() {
-			return first;
+		public T value() {
+			return value;
 		}
 
-		public MutSingle<T> first(T first) {
-			this.first = first;
+		public MutSingle<T> value(T value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(T first) {
-			this.first = first;
+		public void setValue(T value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = null;
+			value = null;
 		}
 	}
 
@@ -189,35 +189,35 @@ public interface LSingle<T> extends LTuple<T> {
 	 */
 	final class MutCompSingle<T extends Comparable<T>> extends AbstractSingle<T> implements ComparableSingle<T> {
 
-		private T first;
+		private T value;
 
-		public MutCompSingle(T a1) {
-			this.first = a1;
+		public MutCompSingle(T a) {
+			this.value = a;
 		}
 
-		public static <T extends Comparable<T>> MutCompSingle<T> of(T a1) {
-			return new MutCompSingle(a1);
+		public static <T extends Comparable<T>> MutCompSingle<T> of(T a) {
+			return new MutCompSingle(a);
 		}
 
 		public static <T extends Comparable<T>> MutCompSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public T first() {
-			return first;
+		public T value() {
+			return value;
 		}
 
-		public MutCompSingle<T> first(T first) {
-			this.first = first;
+		public MutCompSingle<T> value(T value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(T first) {
-			this.first = first;
+		public void setValue(T value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = null;
+			value = null;
 		}
 	}
 
@@ -227,22 +227,22 @@ public interface LSingle<T> extends LTuple<T> {
 	@Immutable
 	final class ImmSingle<T> extends AbstractSingle<T> {
 
-		private final T first;
+		private final T value;
 
-		public ImmSingle(T a1) {
-			this.first = a1;
+		public ImmSingle(T a) {
+			this.value = a;
 		}
 
-		public static <T> ImmSingle<T> of(T a1) {
-			return new ImmSingle(a1);
+		public static <T> ImmSingle<T> of(T a) {
+			return new ImmSingle(a);
 		}
 
 		public static <T> ImmSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public T first() {
-			return first;
+		public T value() {
+			return value;
 		}
 
 	}
@@ -253,22 +253,22 @@ public interface LSingle<T> extends LTuple<T> {
 	@Immutable
 	final class ImmCompSingle<T extends Comparable<T>> extends AbstractSingle<T> implements ComparableSingle<T> {
 
-		private final T first;
+		private final T value;
 
-		public ImmCompSingle(T a1) {
-			this.first = a1;
+		public ImmCompSingle(T a) {
+			this.value = a;
 		}
 
-		public static <T extends Comparable<T>> ImmCompSingle<T> of(T a1) {
-			return new ImmCompSingle(a1);
+		public static <T extends Comparable<T>> ImmCompSingle<T> of(T a) {
+			return new ImmCompSingle(a);
 		}
 
 		public static <T extends Comparable<T>> ImmCompSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public T first() {
-			return first;
+		public T value() {
+			return value;
 		}
 
 	}

@@ -45,11 +45,11 @@ public class PredicateAssertTest<T> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private Predicate<Integer> function = a1 ->
+    private Predicate<Integer> function = a ->
             testValue;
 
 
-    private Predicate<Integer> functionThrowing = a1 -> {
+    private Predicate<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

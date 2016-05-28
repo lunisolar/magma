@@ -55,7 +55,7 @@ public final class LFloatToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatToIntFunction EVENTUALLY_THROW = LFloatToIntFunction.l(a1 -> {
+	public static final LFloatToIntFunction EVENTUALLY_THROW = LFloatToIntFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LFloatToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 		LFloatToIntFunction retval;
 
 		final Case<LFloatPredicate, LFloatToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToIntFunction.l(a1 -> {
+		retval = LFloatToIntFunction.l(a -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

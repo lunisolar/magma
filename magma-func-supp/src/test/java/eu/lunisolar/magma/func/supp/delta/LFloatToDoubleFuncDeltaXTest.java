@@ -44,7 +44,7 @@ public class LFloatToDoubleFuncDeltaXTest <X extends Throwable> {
 
     private final double initialLastValue = 0d;
 
-    private LFloatToDoubleFuncDeltaX<X> sut =  LFloatToDoubleFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
+    private LFloatToDoubleFuncDeltaX<X> sut =  LFloatToDoubleFuncDeltaX.<X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

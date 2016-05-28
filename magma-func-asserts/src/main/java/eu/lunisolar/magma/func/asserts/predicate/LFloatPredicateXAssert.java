@@ -57,7 +57,7 @@ public interface LFloatPredicateXAssert<S extends LFloatPredicateXAssert<S, A, R
 			FullFunctionalAssert<S, LFloatConsumerX<X>, A, RS, Boolean> {
 
 	@Nonnull
-	Evaluation<S, LFloatConsumerX<X>, A, RS, Boolean> doesTest(float a1);
+	Evaluation<S, LFloatConsumerX<X>, A, RS, Boolean> doesTest(float a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -78,13 +78,13 @@ public interface LFloatPredicateXAssert<S extends LFloatPredicateXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LFloatConsumerX<X>, A, RS, Boolean> doesTest(float a1) {
+		public Evaluation<S, LFloatConsumerX<X>, A, RS, Boolean> doesTest(float a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a1));
+				return assertFactory.doApply(actual.doTest(a));
 			});
 
 		}

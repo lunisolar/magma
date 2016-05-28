@@ -55,7 +55,7 @@ public final class LDoubleToFloatFunctionBuilder extends PerCaseBuilderWithFloat
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToFloatFunction EVENTUALLY_THROW = LDoubleToFloatFunction.l(a1 -> {
+	public static final LDoubleToFloatFunction EVENTUALLY_THROW = LDoubleToFloatFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToFloatFunctionBuilder extends PerCaseBuilderWithFloat
 		LDoubleToFloatFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToFloatFunction.l(a1 -> {
+		retval = LDoubleToFloatFunction.l(a -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsFloat(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsFloat(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(a1);
+				return eventuallyFinal.doApplyAsFloat(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

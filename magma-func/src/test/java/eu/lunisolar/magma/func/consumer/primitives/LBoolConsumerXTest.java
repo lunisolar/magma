@@ -63,24 +63,24 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
 
     private LBoolConsumerX<X> sut = new LBoolConsumerX<X>(){
-        public  void doAccept(boolean a1)  throws X {
+        public  void doAccept(boolean a)  throws X {
             Function4U.doNothing();
         }
     };
 
     private LBoolConsumer opposite = new LBoolConsumer(){
-        public  void doAccept(boolean a1)  {
+        public  void doAccept(boolean a)  {
             Function4U.doNothing();
         }
     };
 
 
 
-    private LBoolConsumerX<ParseException> sutAlwaysThrowing = LBoolConsumerX.lX(a1 -> {
+    private LBoolConsumerX<ParseException> sutAlwaysThrowing = LBoolConsumerX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBoolConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolConsumerX.lX(a1 -> {
+    private LBoolConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolConsumerX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -161,7 +161,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolConsumerX: void doAccept(boolean a1) throws X");
+            .isEqualTo("LBoolConsumerX: void doAccept(boolean a) throws X");
     }
 
     @Test
@@ -181,7 +181,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     public void testHandlingDoAcceptMethodWrapsTheException() throws X {
 
         // given
-        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
+        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -205,7 +205,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     public void testHandleBoolConsXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
+        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -229,7 +229,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     public void testHandleBoolConsXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
+        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -254,7 +254,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     public void testHandleBoolConsXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
+        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -284,19 +284,19 @@ public class LBoolConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBoolConsumerX<X> sutO = a1 -> {
+        LBoolConsumerX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
         };
 
-        LLogicalOperatorX<X> before1 = p0 -> {
+        LLogicalOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBoolConsumerX<X> function = sutO.boolConsComposeBool(before1);
+        LBoolConsumerX<X> function = sutO.boolConsComposeBool(before);
         function.doAccept(true);
 
         //then - finals
@@ -312,19 +312,19 @@ public class LBoolConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBoolConsumerX<X> sutO = a1 -> {
+        LBoolConsumerX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
         };
 
-        LPredicateX<Integer,X> before1 = p0 -> {
+        LPredicateX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LConsumerX<Integer,X> function = sutO.boolConsCompose(before1);
+        LConsumerX<Integer,X> function = sutO.boolConsCompose(before);
         function.doAccept(80);
 
         //then - finals
@@ -341,14 +341,14 @@ public class LBoolConsumerXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBoolConsumerX<X> sutO = a1 -> {
+        LBoolConsumerX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
         };
 
-        LBoolConsumerX<X> thenFunction = a1 -> {
+        LBoolConsumerX<X> thenFunction = a -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
         };
 
         //when
@@ -389,7 +389,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
+        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -401,7 +401,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
     public void testHandleBoolCons() throws X {
 
         // given
-        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a1 -> {
+        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -431,7 +431,7 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolConsumerX: void doAccept(boolean a1) throws X");
+                .contains("LBoolConsumerX: void doAccept(boolean a) throws X");
     }
 
 

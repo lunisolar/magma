@@ -72,8 +72,8 @@ public class LByteFuncMemento<R> implements LByteFunction<R> {
 	}
 
 	@Override
-	public R doApply(byte a1) {
-		return lastValue = function.doApply(a1);
+	public R doApply(byte a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

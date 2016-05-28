@@ -57,7 +57,7 @@ public interface LCharUnaryOperatorXAssert<S extends LCharUnaryOperatorXAssert<S
 			FullFunctionalAssert<S, LCharConsumerX<X>, A, RS, Character> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumerX<X>, A, RS, Character> doesApplyAsChar(char a1);
+	Evaluation<S, LCharConsumerX<X>, A, RS, Character> doesApplyAsChar(char a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LCharUnaryOperatorX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LCharUnaryOperatorXAssert<S extends LCharUnaryOperatorXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumerX<X>, A, RS, Character> doesApplyAsChar(char a1) {
+		public Evaluation<S, LCharConsumerX<X>, A, RS, Character> doesApplyAsChar(char a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a1));
+				return assertFactory.doApply(actual.doApplyAsChar(a));
 			});
 
 		}

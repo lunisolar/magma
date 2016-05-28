@@ -55,7 +55,7 @@ public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToIntFunction EVENTUALLY_THROW = LBoolToIntFunction.l(a1 -> {
+	public static final LBoolToIntFunction EVENTUALLY_THROW = LBoolToIntFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LBoolToIntFunction retval;
 
 		final Case<LLogicalOperator, LBoolToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToIntFunction.l(a1 -> {
+		retval = LBoolToIntFunction.l(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

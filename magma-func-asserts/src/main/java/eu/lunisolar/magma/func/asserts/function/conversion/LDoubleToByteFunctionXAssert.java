@@ -57,7 +57,7 @@ public interface LDoubleToByteFunctionXAssert<S extends LDoubleToByteFunctionXAs
 			FullFunctionalAssert<S, LDoubleConsumerX<X>, A, RS, Byte> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumerX<X>, A, RS, Byte> doesApplyAsByte(double a1);
+	Evaluation<S, LDoubleConsumerX<X>, A, RS, Byte> doesApplyAsByte(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LDoubleToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -80,13 +80,13 @@ public interface LDoubleToByteFunctionXAssert<S extends LDoubleToByteFunctionXAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumerX<X>, A, RS, Byte> doesApplyAsByte(double a1) {
+		public Evaluation<S, LDoubleConsumerX<X>, A, RS, Byte> doesApplyAsByte(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a1));
+				return assertFactory.doApply(actual.doApplyAsByte(a));
 			});
 
 		}

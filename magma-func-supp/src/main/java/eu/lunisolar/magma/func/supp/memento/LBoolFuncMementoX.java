@@ -72,8 +72,8 @@ public class LBoolFuncMementoX<R, X extends Throwable> implements LBoolFunctionX
 	}
 
 	@Override
-	public R doApply(boolean a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(boolean a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

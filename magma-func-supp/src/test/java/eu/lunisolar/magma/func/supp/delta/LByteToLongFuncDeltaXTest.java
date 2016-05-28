@@ -44,7 +44,7 @@ public class LByteToLongFuncDeltaXTest <X extends Throwable> {
 
     private final long initialLastValue = 0L;
 
-    private LByteToLongFuncDeltaX<X> sut =  LByteToLongFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
+    private LByteToLongFuncDeltaX<X> sut =  LByteToLongFuncDeltaX.<X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

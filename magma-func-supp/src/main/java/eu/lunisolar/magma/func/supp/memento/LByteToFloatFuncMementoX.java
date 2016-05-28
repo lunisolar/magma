@@ -72,8 +72,8 @@ public class LByteToFloatFuncMementoX<X extends Throwable> implements LByteToFlo
 	}
 
 	@Override
-	public float doApplyAsFloat(byte a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(byte a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

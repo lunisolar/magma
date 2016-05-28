@@ -89,8 +89,8 @@ public class LBoolToCharFuncDelta extends LBoolToCharFuncMemento {
 	}
 
 	@Override
-	public char doApplyAsChar(boolean a1) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(boolean a) {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

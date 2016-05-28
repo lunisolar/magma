@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharPredicateXAssert<S extends LCharPredicateXAssert<S, A, RS, X>, A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumerX<X>, A, RS, Boolean> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumerX<X>, A, RS, Boolean> doesTest(char a1);
+	Evaluation<S, LCharConsumerX<X>, A, RS, Boolean> doesTest(char a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -75,13 +75,13 @@ public interface LCharPredicateXAssert<S extends LCharPredicateXAssert<S, A, RS,
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumerX<X>, A, RS, Boolean> doesTest(char a1) {
+		public Evaluation<S, LCharConsumerX<X>, A, RS, Boolean> doesTest(char a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a1));
+				return assertFactory.doApply(actual.doTest(a));
 			});
 
 		}

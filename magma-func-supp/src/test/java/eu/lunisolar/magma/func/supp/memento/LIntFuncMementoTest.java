@@ -43,7 +43,7 @@ public class LIntFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LIntFuncMemento<Integer> sut =  LIntFuncMemento.<Integer>mementoOf( a1 ->{
+    private LIntFuncMemento<Integer> sut =  LIntFuncMemento.<Integer>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

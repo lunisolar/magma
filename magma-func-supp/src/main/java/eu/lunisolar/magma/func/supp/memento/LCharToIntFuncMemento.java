@@ -72,8 +72,8 @@ public class LCharToIntFuncMemento implements LCharToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsInt(char a1) {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(char a) {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

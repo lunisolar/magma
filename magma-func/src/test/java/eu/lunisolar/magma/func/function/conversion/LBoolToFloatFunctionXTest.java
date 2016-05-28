@@ -65,24 +65,24 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
 
 
     private LBoolToFloatFunctionX<X> sut = new LBoolToFloatFunctionX<X>(){
-        public  float doApplyAsFloat(boolean a1)  throws X {
+        public  float doApplyAsFloat(boolean a)  throws X {
             return testValue;
         }
     };
 
     private LBoolToFloatFunction opposite = new LBoolToFloatFunction(){
-        public  float doApplyAsFloat(boolean a1)  {
+        public  float doApplyAsFloat(boolean a)  {
             return testValue;
         }
     };
 
 
 
-    private LBoolToFloatFunctionX<ParseException> sutAlwaysThrowing = LBoolToFloatFunctionX.lX(a1 -> {
+    private LBoolToFloatFunctionX<ParseException> sutAlwaysThrowing = LBoolToFloatFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBoolToFloatFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolToFloatFunctionX.lX(a1 -> {
+    private LBoolToFloatFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolToFloatFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -174,12 +174,12 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolToFloatFunctionX: float doApplyAsFloat(boolean a1) throws X");
+            .isEqualTo("LBoolToFloatFunctionX: float doApplyAsFloat(boolean a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBoolToFloatFunctionX.lX(a1 -> testValue ))
+        assertThat(LBoolToFloatFunctionX.lX(a -> testValue ))
             .isInstanceOf(LBoolToFloatFunctionX.class);
     }
 
@@ -194,7 +194,7 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
     public void testHandlingDoApplyAsFloatMethodWrapsTheException() throws X {
 
         // given
-        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a1 -> {
+        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -218,7 +218,7 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
     public void testHandleBoolToFloatFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a1 -> {
+        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -242,7 +242,7 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
     public void testHandleBoolToFloatFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a1 -> {
+        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -267,7 +267,7 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
     public void testHandleBoolToFloatFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a1 -> {
+        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -297,20 +297,20 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 100f;
         };
 
-        LLogicalOperatorX<X> before1 = p0 -> {
+        LLogicalOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBoolToFloatFunctionX<X> function = sutO.boolToFloatFuncComposeBool(before1);
+        LBoolToFloatFunctionX<X> function = sutO.boolToFloatFuncComposeBool(before);
         function.doApplyAsFloat(true);
 
         //then - finals
@@ -326,20 +326,20 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 100f;
         };
 
-        LPredicateX<Integer,X> before1 = p0 -> {
+        LPredicateX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LToFloatFunctionX<Integer,X> function = sutO.boolToFloatFuncCompose(before1);
+        LToFloatFunctionX<Integer,X> function = sutO.boolToFloatFuncCompose(before);
         function.doApplyAsFloat(80);
 
         //then - finals
@@ -360,9 +360,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -394,9 +394,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -428,9 +428,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -462,9 +462,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -496,9 +496,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -530,9 +530,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -564,9 +564,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -598,9 +598,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -632,9 +632,9 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LBoolToFloatFunctionX<X> sutO = a1 -> {
+        LBoolToFloatFunctionX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
+                assertThat(a).isEqualTo(true);
                 return 90f;
         };
 
@@ -689,7 +689,7 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a1 -> {
+        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -701,7 +701,7 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
     public void testHandleBoolToFloatFunc() throws X {
 
         // given
-        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a1 -> {
+        LBoolToFloatFunctionX<X> sutThrowing = LBoolToFloatFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -731,7 +731,7 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolToFloatFunctionX: float doApplyAsFloat(boolean a1) throws X");
+                .contains("LBoolToFloatFunctionX: float doApplyAsFloat(boolean a) throws X");
     }
 
 

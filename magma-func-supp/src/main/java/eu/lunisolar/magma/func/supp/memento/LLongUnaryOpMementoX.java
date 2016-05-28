@@ -72,8 +72,8 @@ public class LLongUnaryOpMementoX<X extends Throwable> implements LLongUnaryOper
 	}
 
 	@Override
-	public long doApplyAsLong(long a1) throws X {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(long a) throws X {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

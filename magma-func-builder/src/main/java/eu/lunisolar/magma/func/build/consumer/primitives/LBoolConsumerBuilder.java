@@ -55,7 +55,7 @@ public final class LBoolConsumerBuilder extends PerCaseBuilder.Base<LBoolConsume
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolConsumer EVENTUALLY_THROW = LBoolConsumer.l(a1 -> {
+	public static final LBoolConsumer EVENTUALLY_THROW = LBoolConsumer.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,16 +108,16 @@ public final class LBoolConsumerBuilder extends PerCaseBuilder.Base<LBoolConsume
 		LBoolConsumer retval;
 
 		final Case<LLogicalOperator, LBoolConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolConsumer.l(a1 -> {
+		retval = LBoolConsumer.l(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						aCase.caseFunction().doAccept(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						aCase.caseFunction().doAccept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1);
+				eventuallyFinal.doAccept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

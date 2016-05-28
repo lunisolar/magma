@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): char a1
+ * Domain (lvl: 1): char a
  *
  * Co-domain: none
  *
@@ -64,23 +64,23 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LCharConsumer: void doAccept(char a1)";
+	String DESCRIPTION = "LCharConsumer: void doAccept(char a)";
 
-	void doAccept(char a1);
+	void doAccept(char a);
 
 	default LTuple.Void tupleAccept(LCharSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(char a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(char a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(char a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(char a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,8 +90,8 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureCharCons(char a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureCharCons(char a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,9 +101,9 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 		return lambda;
 	}
 
-	static void call(char a1, final @Nonnull LCharConsumer lambda) {
+	static void call(char a, final @Nonnull LCharConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -156,16 +156,16 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharConsumer charConsComposeChar(@Nonnull final LCharUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
+	default LCharConsumer charConsComposeChar(@Nonnull final LCharUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsChar(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> charConsCompose(@Nonnull final LToCharFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
+	default <V> LConsumer<V> charConsCompose(@Nonnull final LToCharFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsChar(v));
 	}
 
 	// </editor-fold>
@@ -176,9 +176,9 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LCharConsumer andThen(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

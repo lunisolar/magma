@@ -99,7 +99,7 @@ public class LCharToFloatFunctionXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LCharToFloatFunctionX<X> function = charToFloatFunctionXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LCharToFloatFunctionXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LCharToFloatFunctionX<X> function = charToFloatFunctionXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == '\u0000')
-                             .evaluate(a1 -> 0f))
-            .inCase(a1 -> a1 > '\u0000' && a1 < '\u0010').evaluate(a1 -> 1f)
-            .inCase(a1 -> a1 > '\u0010' && a1 < '\u0020').evaluate(a1 -> 2f)
-            .eventually(a1 -> 99f)
+            .aCase(ce -> ce.of(a -> a == '\u0000')
+                             .evaluate(a -> 0f))
+            .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> 1f)
+            .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> 2f)
+            .eventually(a -> 99f)
             .build()
         );
 

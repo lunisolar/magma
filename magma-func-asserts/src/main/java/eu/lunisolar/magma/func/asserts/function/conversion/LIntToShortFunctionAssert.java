@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LIntToShortFunctionAssert<S extends LIntToShortFunctionAssert<S, A, RS>, A extends LIntToShortFunction, RS extends AbstractShortAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumer, A, RS, Short> {
 
 	@Nonnull
-	Evaluation<S, LIntConsumer, A, RS, Short> doesApplyAsShort(int a1);
+	Evaluation<S, LIntConsumer, A, RS, Short> doesApplyAsShort(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LIntToShortFunction, RS extends AbstractShortAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LIntToShortFunctionAssert<S extends LIntToShortFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntConsumer, A, RS, Short> doesApplyAsShort(int a1) {
+		public Evaluation<S, LIntConsumer, A, RS, Short> doesApplyAsShort(int a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsShort(a1));
+				return assertFactory.doApply(actual.doApplyAsShort(a));
 			});
 
 		}

@@ -46,11 +46,11 @@ public class LUnaryOperatorAssertTest<T,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LUnaryOperator<Integer> function = a1 ->
+    private LUnaryOperator<Integer> function = a ->
             testValue;
 
 
-    private LUnaryOperator<Integer> functionThrowing = a1 -> {
+    private LUnaryOperator<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

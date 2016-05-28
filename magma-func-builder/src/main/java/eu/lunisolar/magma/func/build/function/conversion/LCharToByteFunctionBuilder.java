@@ -55,7 +55,7 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToByteFunction EVENTUALLY_THROW = LCharToByteFunction.l(a1 -> {
+	public static final LCharToByteFunction EVENTUALLY_THROW = LCharToByteFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		LCharToByteFunction retval;
 
 		final Case<LCharPredicate, LCharToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToByteFunction.l(a1 -> {
+		retval = LCharToByteFunction.l(a -> {
 			try {
 				for (Case<LCharPredicate, LCharToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

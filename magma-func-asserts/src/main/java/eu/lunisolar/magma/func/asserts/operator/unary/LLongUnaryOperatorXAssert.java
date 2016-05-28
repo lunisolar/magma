@@ -57,7 +57,7 @@ public interface LLongUnaryOperatorXAssert<S extends LLongUnaryOperatorXAssert<S
 			FullFunctionalAssert<S, LLongConsumerX<X>, A, RS, Long> {
 
 	@Nonnull
-	Evaluation<S, LLongConsumerX<X>, A, RS, Long> doesApplyAsLong(long a1);
+	Evaluation<S, LLongConsumerX<X>, A, RS, Long> doesApplyAsLong(long a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LLongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -78,13 +78,13 @@ public interface LLongUnaryOperatorXAssert<S extends LLongUnaryOperatorXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongConsumerX<X>, A, RS, Long> doesApplyAsLong(long a1) {
+		public Evaluation<S, LLongConsumerX<X>, A, RS, Long> doesApplyAsLong(long a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a1));
+				return assertFactory.doApply(actual.doApplyAsLong(a));
 			});
 
 		}

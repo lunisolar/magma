@@ -46,11 +46,11 @@ public class LToByteFunctionXAssertTest<T,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LToByteFunctionX<Integer,X> function = a1 ->
+    private LToByteFunctionX<Integer,X> function = a ->
             testValue;
 
 
-    private LToByteFunctionX<Integer,X> functionThrowing = a1 -> {
+    private LToByteFunctionX<Integer,X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

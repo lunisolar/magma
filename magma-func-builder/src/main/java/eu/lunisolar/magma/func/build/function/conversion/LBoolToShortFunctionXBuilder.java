@@ -55,7 +55,7 @@ public final class LBoolToShortFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToShortFunctionX EVENTUALLY_THROW = LBoolToShortFunctionX.lX(a1 -> {
+	public static final LBoolToShortFunctionX EVENTUALLY_THROW = LBoolToShortFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LBoolToShortFunctionXBuilder<X extends Throwable> extends Per
 		LBoolToShortFunctionX<X> retval;
 
 		final Case<LLogicalOperatorX<X>, LBoolToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolToShortFunctionX.<X> lX(a1 -> {
+		retval = LBoolToShortFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LLogicalOperatorX<X>, LBoolToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1)) {
-						return aCase.caseFunction().doApplyAsShort(a1);
+					if (aCase.casePredicate().doApply(a)) {
+						return aCase.caseFunction().doApplyAsShort(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsShort(a1);
+				return eventuallyFinal.doApplyAsShort(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

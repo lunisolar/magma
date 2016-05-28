@@ -72,8 +72,8 @@ public class LShortUnaryOpMementoX<X extends Throwable> implements LShortUnaryOp
 	}
 
 	@Override
-	public short doApplyAsShort(short a1) throws X {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(short a) throws X {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

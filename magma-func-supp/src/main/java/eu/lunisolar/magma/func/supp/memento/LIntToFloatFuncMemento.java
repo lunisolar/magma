@@ -72,8 +72,8 @@ public class LIntToFloatFuncMemento implements LIntToFloatFunction {
 	}
 
 	@Override
-	public float doApplyAsFloat(int a1) {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(int a) {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

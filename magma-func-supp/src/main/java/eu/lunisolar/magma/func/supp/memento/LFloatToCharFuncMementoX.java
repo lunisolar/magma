@@ -72,8 +72,8 @@ public class LFloatToCharFuncMementoX<X extends Throwable> implements LFloatToCh
 	}
 
 	@Override
-	public char doApplyAsChar(float a1) throws X {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(float a) throws X {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

@@ -72,8 +72,8 @@ public class LShortUnaryOpMemento implements LShortUnaryOperator {
 	}
 
 	@Override
-	public short doApplyAsShort(short a1) {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(short a) {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

@@ -89,8 +89,8 @@ public class LToIntFuncDeltaX<T, X extends Throwable> extends LToIntFuncMementoX
 	}
 
 	@Override
-	public int doApplyAsInt(T a1) throws X {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(T a) throws X {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

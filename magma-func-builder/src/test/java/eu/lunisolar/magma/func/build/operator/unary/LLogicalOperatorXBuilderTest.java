@@ -99,7 +99,7 @@ public class LLogicalOperatorXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LLogicalOperatorX<X> function = logicalOperatorXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,10 +119,10 @@ public class LLogicalOperatorXBuilderTest<X extends ParseException>{
     public void testBuild()  throws X {
 
         LLogicalOperatorX<X> function = logicalOperatorXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == false)
-                             .evaluate(a1 -> false))
-            .inCase(a1 -> a1 == true ).evaluate(a1 -> true)
-            .eventually(a1 -> true)
+            .aCase(ce -> ce.of(a -> a == false)
+                             .evaluate(a -> false))
+            .inCase(a -> a == true ).evaluate(a -> true)
+            .eventually(a -> true)
             .build()
         );
 

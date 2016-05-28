@@ -44,7 +44,7 @@ public class LCharToDoubleFuncDeltaTest  {
 
     private final double initialLastValue = 0d;
 
-    private LCharToDoubleFuncDelta sut =  LCharToDoubleFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LCharToDoubleFuncDelta sut =  LCharToDoubleFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

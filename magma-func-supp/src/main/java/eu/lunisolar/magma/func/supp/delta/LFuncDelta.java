@@ -77,8 +77,8 @@ public class LFuncDelta<T, R> extends LFuncMemento<T, R> {
 	}
 
 	@Override
-	public R doApply(T a1) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(T a) {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

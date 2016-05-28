@@ -43,7 +43,7 @@ public class LShortToByteFuncMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LShortToByteFuncMementoX<X> sut =  LShortToByteFuncMementoX.<X>mementoOf( a1 ->{
+    private LShortToByteFuncMementoX<X> sut =  LShortToByteFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

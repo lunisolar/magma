@@ -99,7 +99,7 @@ public class IntToLongFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             IntToLongFunction function = intToLongFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class IntToLongFunctionBuilderTest{
     public void testBuild()  {
 
         IntToLongFunction function = intToLongFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0)
-                             .evaluate(a1 -> 0L))
-            .inCase(a1 -> a1 > 0 && a1 < 10).evaluate(a1 -> 1L)
-            .inCase(a1 -> a1 > 10 && a1 < 20).evaluate(a1 -> 2L)
-            .eventually(a1 -> 99L)
+            .aCase(ce -> ce.of(a -> a == 0)
+                             .evaluate(a -> 0L))
+            .inCase(a -> a > 0 && a < 10).evaluate(a -> 1L)
+            .inCase(a -> a > 10 && a < 20).evaluate(a -> 2L)
+            .eventually(a -> 99L)
             .build()
         );
 

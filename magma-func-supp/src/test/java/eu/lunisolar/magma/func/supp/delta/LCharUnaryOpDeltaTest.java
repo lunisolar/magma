@@ -44,7 +44,7 @@ public class LCharUnaryOpDeltaTest  {
 
     private final char initialLastValue = '\u0000';
 
-    private LCharUnaryOpDelta sut =  LCharUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LCharUnaryOpDelta sut =  LCharUnaryOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

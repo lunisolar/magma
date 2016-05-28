@@ -43,7 +43,7 @@ public class LByteToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LByteToCharFuncMemento sut =  LByteToCharFuncMemento.mementoOf( a1 ->{
+    private LByteToCharFuncMemento sut =  LByteToCharFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -72,8 +72,8 @@ public class LCharFuncMemento<R> implements LCharFunction<R> {
 	}
 
 	@Override
-	public R doApply(char a1) {
-		return lastValue = function.doApply(a1);
+	public R doApply(char a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

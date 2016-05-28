@@ -77,8 +77,8 @@ public class LCharFuncDeltaX<R, X extends Throwable> extends LCharFuncMementoX<R
 	}
 
 	@Override
-	public R doApply(char a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(char a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

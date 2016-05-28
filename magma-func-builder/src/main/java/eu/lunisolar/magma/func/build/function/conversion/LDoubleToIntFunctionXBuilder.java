@@ -55,7 +55,7 @@ public final class LDoubleToIntFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToIntFunctionX EVENTUALLY_THROW = LDoubleToIntFunctionX.lX(a1 -> {
+	public static final LDoubleToIntFunctionX EVENTUALLY_THROW = LDoubleToIntFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToIntFunctionXBuilder<X extends Throwable> extends Per
 		LDoubleToIntFunctionX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToIntFunctionX.<X> lX(a1 -> {
+		retval = LDoubleToIntFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsInt(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1);
+				return eventuallyFinal.doApplyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

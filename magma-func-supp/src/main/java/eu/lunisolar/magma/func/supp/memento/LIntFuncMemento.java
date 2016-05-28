@@ -72,8 +72,8 @@ public class LIntFuncMemento<R> implements LIntFunction<R> {
 	}
 
 	@Override
-	public R doApply(int a1) {
-		return lastValue = function.doApply(a1);
+	public R doApply(int a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

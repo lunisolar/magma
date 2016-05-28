@@ -43,7 +43,7 @@ public class LLongToDoubleFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LLongToDoubleFuncMemento sut =  LLongToDoubleFuncMemento.mementoOf( a1 ->{
+    private LLongToDoubleFuncMemento sut =  LLongToDoubleFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

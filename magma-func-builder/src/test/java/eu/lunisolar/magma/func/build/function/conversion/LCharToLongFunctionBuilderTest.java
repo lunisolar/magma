@@ -99,7 +99,7 @@ public class LCharToLongFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LCharToLongFunction function = charToLongFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LCharToLongFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LCharToLongFunction function = charToLongFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == '\u0000')
-                             .evaluate(a1 -> 0L))
-            .inCase(a1 -> a1 > '\u0000' && a1 < '\u0010').evaluate(a1 -> 1L)
-            .inCase(a1 -> a1 > '\u0010' && a1 < '\u0020').evaluate(a1 -> 2L)
-            .eventually(a1 -> 99L)
+            .aCase(ce -> ce.of(a -> a == '\u0000')
+                             .evaluate(a -> 0L))
+            .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> 1L)
+            .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> 2L)
+            .eventually(a -> 99L)
             .build()
         );
 

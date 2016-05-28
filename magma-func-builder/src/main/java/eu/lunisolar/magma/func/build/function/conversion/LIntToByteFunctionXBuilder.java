@@ -55,7 +55,7 @@ public final class LIntToByteFunctionXBuilder<X extends Throwable> extends PerCa
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToByteFunctionX EVENTUALLY_THROW = LIntToByteFunctionX.lX(a1 -> {
+	public static final LIntToByteFunctionX EVENTUALLY_THROW = LIntToByteFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntToByteFunctionXBuilder<X extends Throwable> extends PerCa
 		LIntToByteFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToByteFunctionX.<X> lX(a1 -> {
+		retval = LIntToByteFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsByte(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1);
+				return eventuallyFinal.doApplyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

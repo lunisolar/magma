@@ -72,8 +72,8 @@ public class LFloatFuncMemento<R> implements LFloatFunction<R> {
 	}
 
 	@Override
-	public R doApply(float a1) {
-		return lastValue = function.doApply(a1);
+	public R doApply(float a) {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

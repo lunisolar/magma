@@ -89,8 +89,8 @@ public class LToByteFuncDeltaX<T, X extends Throwable> extends LToByteFuncMement
 	}
 
 	@Override
-	public byte doApplyAsByte(T a1) throws X {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1));
+	public byte doApplyAsByte(T a) throws X {
+		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

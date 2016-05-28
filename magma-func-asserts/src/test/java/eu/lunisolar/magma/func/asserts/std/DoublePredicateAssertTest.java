@@ -45,11 +45,11 @@ public class DoublePredicateAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private DoublePredicate function = a1 ->
+    private DoublePredicate function = a ->
             testValue;
 
 
-    private DoublePredicate functionThrowing = a1 -> {
+    private DoublePredicate functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

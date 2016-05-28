@@ -55,7 +55,7 @@ public final class LongPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LongPredicate EVENTUALLY_THROW = Function4U.longPredicate(a1 -> {
+	public static final LongPredicate EVENTUALLY_THROW = Function4U.longPredicate(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LongPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 		LongPredicate retval;
 
 		final Case<LLongPredicate, LongPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.longPredicate(a1 -> {
+		retval = Function4U.longPredicate(a -> {
 			try {
 				for (Case<LLongPredicate, LongPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().test(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().test(a);
 					}
 				}
 
-				return eventuallyFinal.test(a1);
+				return eventuallyFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

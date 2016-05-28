@@ -44,7 +44,7 @@ public class LBoolFuncDeltaTest <R> {
 
     private final Integer initialLastValue = 0;
 
-    private LBoolFuncDelta<Integer> sut =  LBoolFuncDelta.<Integer>deltaOf(initialLastValue, a1 ->{
+    private LBoolFuncDelta<Integer> sut =  LBoolFuncDelta.<Integer>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

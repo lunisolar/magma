@@ -32,16 +32,16 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 	int SIZE = 1;
 
-	boolean first();
+	boolean value();
 
-	default boolean getFirst() {
-		return first();
+	default boolean getValue() {
+		return value();
 	}
 
 	default Boolean get(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -50,7 +50,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	default boolean getBoolean(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -62,16 +62,16 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolSingle and calculates hash from it. */
-	static int argHashCode(boolean a1) {
+	static int argHashCode(boolean a) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Boolean.hashCode(a1);
+		result = prime * result + Boolean.hashCode(a);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolSingle and checks if all values are equal. */
-	static boolean argEquals(boolean a1, boolean b1) {
-		return a1 == b1; //
+	static boolean argEquals(boolean a, boolean b) {
+		return a == b; //
 	}
 
 	/**
@@ -88,14 +88,14 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 				LBoolSingle other = (LBoolSingle) two;
 
-				return argEquals(one.first(), other.first());
+				return argEquals(one.value(), other.value());
 			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -113,7 +113,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	default Boolean[] toVoArray(Boolean[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -131,7 +131,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	default boolean[] toBoolArray(boolean[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -172,7 +172,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 			return Null.compare(this, that, (one, two) -> {
 				int retval = 0;
 
-				return (retval = Boolean.compare(one.first(), two.first())) != 0 ? retval : 0; //
+				return (retval = Boolean.compare(one.value(), two.value())) != 0 ? retval : 0; //
 				});
 		}
 
@@ -187,7 +187,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 		@Override
 		public int hashCode() {
-			return LBoolSingle.argHashCode(first());
+			return LBoolSingle.argHashCode(value());
 		}
 
 	}
@@ -197,35 +197,35 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	 */
 	final class MutBoolSingle extends AbstractBoolSingle {
 
-		private boolean first;
+		private boolean value;
 
-		public MutBoolSingle(boolean a1) {
-			this.first = a1;
+		public MutBoolSingle(boolean a) {
+			this.value = a;
 		}
 
-		public static MutBoolSingle of(boolean a1) {
-			return new MutBoolSingle(a1);
+		public static MutBoolSingle of(boolean a) {
+			return new MutBoolSingle(a);
 		}
 
 		public static MutBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public boolean first() {
-			return first;
+		public boolean value() {
+			return value;
 		}
 
-		public MutBoolSingle first(boolean first) {
-			this.first = first;
+		public MutBoolSingle value(boolean value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(boolean first) {
-			this.first = first;
+		public void setValue(boolean value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = false;
+			value = false;
 		}
 	}
 
@@ -234,35 +234,35 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	 */
 	final class MutCompBoolSingle extends AbstractBoolSingle implements ComparableBoolSingle {
 
-		private boolean first;
+		private boolean value;
 
-		public MutCompBoolSingle(boolean a1) {
-			this.first = a1;
+		public MutCompBoolSingle(boolean a) {
+			this.value = a;
 		}
 
-		public static MutCompBoolSingle of(boolean a1) {
-			return new MutCompBoolSingle(a1);
+		public static MutCompBoolSingle of(boolean a) {
+			return new MutCompBoolSingle(a);
 		}
 
 		public static MutCompBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public boolean first() {
-			return first;
+		public boolean value() {
+			return value;
 		}
 
-		public MutCompBoolSingle first(boolean first) {
-			this.first = first;
+		public MutCompBoolSingle value(boolean value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(boolean first) {
-			this.first = first;
+		public void setValue(boolean value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = false;
+			value = false;
 		}
 	}
 
@@ -272,22 +272,22 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	@Immutable
 	final class ImmBoolSingle extends AbstractBoolSingle {
 
-		private final boolean first;
+		private final boolean value;
 
-		public ImmBoolSingle(boolean a1) {
-			this.first = a1;
+		public ImmBoolSingle(boolean a) {
+			this.value = a;
 		}
 
-		public static ImmBoolSingle of(boolean a1) {
-			return new ImmBoolSingle(a1);
+		public static ImmBoolSingle of(boolean a) {
+			return new ImmBoolSingle(a);
 		}
 
 		public static ImmBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public boolean first() {
-			return first;
+		public boolean value() {
+			return value;
 		}
 
 	}
@@ -298,22 +298,22 @@ public interface LBoolSingle extends LTuple<Boolean> {
 	@Immutable
 	final class ImmCompBoolSingle extends AbstractBoolSingle implements ComparableBoolSingle {
 
-		private final boolean first;
+		private final boolean value;
 
-		public ImmCompBoolSingle(boolean a1) {
-			this.first = a1;
+		public ImmCompBoolSingle(boolean a) {
+			this.value = a;
 		}
 
-		public static ImmCompBoolSingle of(boolean a1) {
-			return new ImmCompBoolSingle(a1);
+		public static ImmCompBoolSingle of(boolean a) {
+			return new ImmCompBoolSingle(a);
 		}
 
 		public static ImmCompBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public boolean first() {
-			return first;
+		public boolean value() {
+			return value;
 		}
 
 	}

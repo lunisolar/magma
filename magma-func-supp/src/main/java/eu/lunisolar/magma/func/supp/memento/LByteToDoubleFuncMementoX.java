@@ -72,8 +72,8 @@ public class LByteToDoubleFuncMementoX<X extends Throwable> implements LByteToDo
 	}
 
 	@Override
-	public double doApplyAsDouble(byte a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(byte a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

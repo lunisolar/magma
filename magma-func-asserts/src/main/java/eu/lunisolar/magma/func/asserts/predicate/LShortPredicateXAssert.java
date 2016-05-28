@@ -57,7 +57,7 @@ public interface LShortPredicateXAssert<S extends LShortPredicateXAssert<S, A, R
 			FullFunctionalAssert<S, LShortConsumerX<X>, A, RS, Boolean> {
 
 	@Nonnull
-	Evaluation<S, LShortConsumerX<X>, A, RS, Boolean> doesTest(short a1);
+	Evaluation<S, LShortConsumerX<X>, A, RS, Boolean> doesTest(short a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -78,13 +78,13 @@ public interface LShortPredicateXAssert<S extends LShortPredicateXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortConsumerX<X>, A, RS, Boolean> doesTest(short a1) {
+		public Evaluation<S, LShortConsumerX<X>, A, RS, Boolean> doesTest(short a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a1));
+				return assertFactory.doApply(actual.doTest(a));
 			});
 
 		}

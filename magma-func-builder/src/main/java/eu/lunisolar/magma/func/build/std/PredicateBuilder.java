@@ -55,7 +55,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final Predicate EVENTUALLY_THROW = Function4U.predicate(a1 -> {
+	public static final Predicate EVENTUALLY_THROW = Function4U.predicate(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> PredicateBuilder<T> casesOf(Class<V> argC1, Consumer<PredicateBuilder<V>> pcpConsumer) {
-		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> PredicateBuilder<T> casesOf(Class<V> argC, Consumer<PredicateBuilder<V>> pcpConsumer) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> PredicateBuilder<T> aCase(Class<V> argC1, Predicate<V> function) {
-		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> PredicateBuilder<T> aCase(Class<V> argC, Predicate<V> function) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 		Predicate<T> retval;
 
 		final Case<LPredicate<T>, Predicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> predicate(a1 -> {
+		retval = Function4U.<T> predicate(a -> {
 			try {
 				for (Case<LPredicate<T>, Predicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().test(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().test(a);
 					}
 				}
 
-				return eventuallyFinal.test(a1);
+				return eventuallyFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

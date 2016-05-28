@@ -43,7 +43,7 @@ public class LCharToFloatFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LCharToFloatFuncMemento sut =  LCharToFloatFuncMemento.mementoOf( a1 ->{
+    private LCharToFloatFuncMemento sut =  LCharToFloatFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

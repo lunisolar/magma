@@ -72,8 +72,8 @@ public class LFloatToCharFuncMemento implements LFloatToCharFunction {
 	}
 
 	@Override
-	public char doApplyAsChar(float a1) {
-		return lastValue = function.doApplyAsChar(a1);
+	public char doApplyAsChar(float a) {
+		return lastValue = function.doApplyAsChar(a);
 	}
 
 	public char lastValue() {

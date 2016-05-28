@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface DoublePredicateAssert<S extends DoublePredicateAssert<S, A, RS>, A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, Boolean> doesTest(double a1);
+	Evaluation<S, LDoubleConsumer, A, RS, Boolean> doesTest(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -73,13 +73,13 @@ public interface DoublePredicateAssert<S extends DoublePredicateAssert<S, A, RS>
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, Boolean> doesTest(double a1) {
+		public Evaluation<S, LDoubleConsumer, A, RS, Boolean> doesTest(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.test(a1));
+				return assertFactory.doApply(actual.test(a));
 			});
 
 		}

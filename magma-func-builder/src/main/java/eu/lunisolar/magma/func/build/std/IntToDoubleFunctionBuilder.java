@@ -55,7 +55,7 @@ public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoublePr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final IntToDoubleFunction EVENTUALLY_THROW = Function4U.intToDoubleFunction(a1 -> {
+	public static final IntToDoubleFunction EVENTUALLY_THROW = Function4U.intToDoubleFunction(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoublePr
 		IntToDoubleFunction retval;
 
 		final Case<LIntPredicate, IntToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.intToDoubleFunction(a1 -> {
+		retval = Function4U.intToDoubleFunction(a -> {
 			try {
 				for (Case<LIntPredicate, IntToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().applyAsDouble(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().applyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(a1);
+				return eventuallyFinal.applyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

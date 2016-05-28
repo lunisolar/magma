@@ -99,7 +99,7 @@ public class LCharConsumerXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LCharConsumerX<X> function = charConsumerXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -120,11 +120,11 @@ public class LCharConsumerXBuilderTest<X extends ParseException>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LCharConsumerX<X> function = charConsumerXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == '\u0000')
-                             .evaluate(a1 -> externalEffect.set(0)))
-            .inCase(a1 -> a1 > '\u0000' && a1 < '\u0010').evaluate(a1 -> externalEffect.set(1))
-            .inCase(a1 -> a1 > '\u0010' && a1 < '\u0020').evaluate(a1 -> externalEffect.set(2))
-            .eventually(a1 -> externalEffect.set(99))
+            .aCase(ce -> ce.of(a -> a == '\u0000')
+                             .evaluate(a -> externalEffect.set(0)))
+            .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> externalEffect.set(1))
+            .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> externalEffect.set(2))
+            .eventually(a -> externalEffect.set(99))
             .build()
         );
 

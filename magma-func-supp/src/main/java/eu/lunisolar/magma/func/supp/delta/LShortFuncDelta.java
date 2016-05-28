@@ -77,8 +77,8 @@ public class LShortFuncDelta<R> extends LShortFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(short a1) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public R doApply(short a) {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

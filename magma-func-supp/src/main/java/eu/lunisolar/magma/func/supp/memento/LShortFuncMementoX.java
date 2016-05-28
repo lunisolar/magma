@@ -72,8 +72,8 @@ public class LShortFuncMementoX<R, X extends Throwable> implements LShortFunctio
 	}
 
 	@Override
-	public R doApply(short a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(short a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

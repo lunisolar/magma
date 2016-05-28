@@ -89,8 +89,8 @@ public class LBoolToCharFuncDeltaX<X extends Throwable> extends LBoolToCharFuncM
 	}
 
 	@Override
-	public char doApplyAsChar(boolean a1) throws X {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1));
+	public char doApplyAsChar(boolean a) throws X {
+		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

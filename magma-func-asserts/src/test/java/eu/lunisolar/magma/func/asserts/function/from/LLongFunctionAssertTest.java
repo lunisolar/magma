@@ -46,11 +46,11 @@ public class LLongFunctionAssertTest<R,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLongFunction<Integer> function = a1 ->
+    private LLongFunction<Integer> function = a ->
             testValue;
 
 
-    private LLongFunction<Integer> functionThrowing = a1 -> {
+    private LLongFunction<Integer> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

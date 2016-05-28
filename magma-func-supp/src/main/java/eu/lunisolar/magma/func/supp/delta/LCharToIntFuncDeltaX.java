@@ -89,8 +89,8 @@ public class LCharToIntFuncDeltaX<X extends Throwable> extends LCharToIntFuncMem
 	}
 
 	@Override
-	public int doApplyAsInt(char a1) throws X {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(char a) throws X {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

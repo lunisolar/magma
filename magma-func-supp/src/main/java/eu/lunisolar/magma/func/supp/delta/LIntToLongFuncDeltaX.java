@@ -89,8 +89,8 @@ public class LIntToLongFuncDeltaX<X extends Throwable> extends LIntToLongFuncMem
 	}
 
 	@Override
-	public long doApplyAsLong(int a1) throws X {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1));
+	public long doApplyAsLong(int a) throws X {
+		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

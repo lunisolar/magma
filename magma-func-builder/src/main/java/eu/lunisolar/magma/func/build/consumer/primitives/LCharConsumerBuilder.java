@@ -55,7 +55,7 @@ public final class LCharConsumerBuilder extends PerCaseBuilder.Base<LCharConsume
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharConsumer EVENTUALLY_THROW = LCharConsumer.l(a1 -> {
+	public static final LCharConsumer EVENTUALLY_THROW = LCharConsumer.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,16 +108,16 @@ public final class LCharConsumerBuilder extends PerCaseBuilder.Base<LCharConsume
 		LCharConsumer retval;
 
 		final Case<LCharPredicate, LCharConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharConsumer.l(a1 -> {
+		retval = LCharConsumer.l(a -> {
 			try {
 				for (Case<LCharPredicate, LCharConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						aCase.caseFunction().doAccept(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						aCase.caseFunction().doAccept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1);
+				eventuallyFinal.doAccept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

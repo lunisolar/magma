@@ -55,7 +55,7 @@ public final class LByteFunctionXBuilder<R, X extends Throwable> extends PerCase
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteFunctionX EVENTUALLY_THROW = LByteFunctionX.lX(a1 -> {
+	public static final LByteFunctionX EVENTUALLY_THROW = LByteFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LByteFunctionXBuilder<R, X extends Throwable> extends PerCase
 		LByteFunctionX<R, X> retval;
 
 		final Case<LBytePredicateX<X>, LByteFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteFunctionX.<R, X> lX(a1 -> {
+		retval = LByteFunctionX.<R, X> lX(a -> {
 			try {
 				for (Case<LBytePredicateX<X>, LByteFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApply(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1);
+				return eventuallyFinal.doApply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

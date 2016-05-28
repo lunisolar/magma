@@ -44,7 +44,7 @@ public class LFloatFuncDeltaXTest <R,X extends Throwable> {
 
     private final Integer initialLastValue = 0;
 
-    private LFloatFuncDeltaX<Integer,X> sut =  LFloatFuncDeltaX.<Integer,X>deltaOf(initialLastValue, a1 ->{
+    private LFloatFuncDeltaX<Integer,X> sut =  LFloatFuncDeltaX.<Integer,X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

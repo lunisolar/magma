@@ -89,8 +89,8 @@ public class LFloatUnaryOpDelta extends LFloatUnaryOpMemento {
 	}
 
 	@Override
-	public float doApplyAsFloat(float a1) {
-		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a1));
+	public float doApplyAsFloat(float a) {
+		return deltaFunction.doApplyAsFloat(lastValue(), super.doApplyAsFloat(a));
 	}
 
 	// <editor-fold desc="object">

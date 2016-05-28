@@ -55,7 +55,7 @@ public final class LDoubleConsumerBuilder extends PerCaseBuilder.Base<LDoubleCon
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleConsumer EVENTUALLY_THROW = LDoubleConsumer.l(a1 -> {
+	public static final LDoubleConsumer EVENTUALLY_THROW = LDoubleConsumer.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,16 +108,16 @@ public final class LDoubleConsumerBuilder extends PerCaseBuilder.Base<LDoubleCon
 		LDoubleConsumer retval;
 
 		final Case<LDoublePredicate, LDoubleConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleConsumer.l(a1 -> {
+		retval = LDoubleConsumer.l(a -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						aCase.caseFunction().doAccept(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						aCase.caseFunction().doAccept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1);
+				eventuallyFinal.doAccept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): boolean a1
+ * Domain (lvl: 1): boolean a
  *
  * Co-domain: none
  *
@@ -64,23 +64,23 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LBoolConsumer: void doAccept(boolean a1)";
+	String DESCRIPTION = "LBoolConsumer: void doAccept(boolean a)";
 
-	void doAccept(boolean a1);
+	void doAccept(boolean a);
 
 	default LTuple.Void tupleAccept(LBoolSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(boolean a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(boolean a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(boolean a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(boolean a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -90,8 +90,8 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBoolCons(boolean a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureBoolCons(boolean a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,9 +101,9 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 		return lambda;
 	}
 
-	static void call(boolean a1, final @Nonnull LBoolConsumer lambda) {
+	static void call(boolean a, final @Nonnull LBoolConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -156,16 +156,16 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBoolConsumer boolConsComposeBool(@Nonnull final LLogicalOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApply(v1));
+	default LBoolConsumer boolConsComposeBool(@Nonnull final LLogicalOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApply(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> boolConsCompose(@Nonnull final LPredicate<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doTest(v1));
+	default <V> LConsumer<V> boolConsCompose(@Nonnull final LPredicate<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doTest(v));
 	}
 
 	// </editor-fold>
@@ -176,9 +176,9 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LBoolConsumer andThen(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

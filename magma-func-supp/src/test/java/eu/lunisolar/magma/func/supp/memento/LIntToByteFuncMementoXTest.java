@@ -43,7 +43,7 @@ public class LIntToByteFuncMementoXTest <X extends Throwable> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LIntToByteFuncMementoX<X> sut =  LIntToByteFuncMementoX.<X>mementoOf( a1 ->{
+    private LIntToByteFuncMementoX<X> sut =  LIntToByteFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LCharToDoubleFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LCharToDoubleFuncMemento sut =  LCharToDoubleFuncMemento.mementoOf( a1 ->{
+    private LCharToDoubleFuncMemento sut =  LCharToDoubleFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -55,7 +55,7 @@ public final class LShortToCharFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LShortToCharFunctionX EVENTUALLY_THROW = LShortToCharFunctionX.lX(a1 -> {
+	public static final LShortToCharFunctionX EVENTUALLY_THROW = LShortToCharFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LShortToCharFunctionXBuilder<X extends Throwable> extends Per
 		LShortToCharFunctionX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToCharFunctionX.<X> lX(a1 -> {
+		retval = LShortToCharFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

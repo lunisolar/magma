@@ -65,24 +65,24 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
 
 
     private LShortUnaryOperatorX<X> sut = new LShortUnaryOperatorX<X>(){
-        public  short doApplyAsShort(short a1)  throws X {
+        public  short doApplyAsShort(short a)  throws X {
             return testValue;
         }
     };
 
     private LShortUnaryOperator opposite = new LShortUnaryOperator(){
-        public  short doApplyAsShort(short a1)  {
+        public  short doApplyAsShort(short a)  {
             return testValue;
         }
     };
 
 
 
-    private LShortUnaryOperatorX<ParseException> sutAlwaysThrowing = LShortUnaryOperatorX.lX(a1 -> {
+    private LShortUnaryOperatorX<ParseException> sutAlwaysThrowing = LShortUnaryOperatorX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LShortUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LShortUnaryOperatorX.lX(a1 -> {
+    private LShortUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LShortUnaryOperatorX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -174,12 +174,12 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortUnaryOperatorX: short doApplyAsShort(short a1) throws X");
+            .isEqualTo("LShortUnaryOperatorX: short doApplyAsShort(short a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LShortUnaryOperatorX.lX(a1 -> testValue ))
+        assertThat(LShortUnaryOperatorX.lX(a -> testValue ))
             .isInstanceOf(LShortUnaryOperatorX.class);
     }
 
@@ -194,7 +194,7 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
     public void testHandlingDoApplyAsShortMethodWrapsTheException() throws X {
 
         // given
-        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a1 -> {
+        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -218,7 +218,7 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
     public void testHandleShortUnaryOpXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a1 -> {
+        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -242,7 +242,7 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
     public void testHandleShortUnaryOpXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a1 -> {
+        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -267,7 +267,7 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
     public void testHandleShortUnaryOpXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a1 -> {
+        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -297,20 +297,20 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
+                assertThat(a).isEqualTo((short)90);
                 return (short)100;
         };
 
-        LShortUnaryOperatorX<X> before1 = p0 -> {
+        LShortUnaryOperatorX<X> before = p0 -> {
             assertThat(p0).isEqualTo((short)80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
 
         //when
-        LShortUnaryOperatorX<X> function = sutO.shortUnaryOpComposeShort(before1);
+        LShortUnaryOperatorX<X> function = sutO.shortUnaryOpComposeShort(before);
         function.doApplyAsShort((short)80);
 
         //then - finals
@@ -326,20 +326,20 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
+                assertThat(a).isEqualTo((short)90);
                 return (short)100;
         };
 
-        LToShortFunctionX<Integer,X> before1 = p0 -> {
+        LToShortFunctionX<Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
 
         //when
-        LToShortFunctionX<Integer,X> function = sutO.shortUnaryOpCompose(before1);
+        LToShortFunctionX<Integer,X> function = sutO.shortUnaryOpCompose(before);
         function.doApplyAsShort(80);
 
         //then - finals
@@ -360,9 +360,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -394,9 +394,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -428,9 +428,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -462,9 +462,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -496,9 +496,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -530,9 +530,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -564,9 +564,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -598,9 +598,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -632,9 +632,9 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LShortUnaryOperatorX<X> sutO = a1 -> {
+        LShortUnaryOperatorX<X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
+                assertThat(a).isEqualTo((short)80);
                 return (short)90;
         };
 
@@ -696,7 +696,7 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a1 -> {
+        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -708,7 +708,7 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
     public void testHandleShortUnaryOp() throws X {
 
         // given
-        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a1 -> {
+        LShortUnaryOperatorX<X> sutThrowing = LShortUnaryOperatorX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -738,7 +738,7 @@ public class LShortUnaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortUnaryOperatorX: short doApplyAsShort(short a1) throws X");
+                .contains("LShortUnaryOperatorX: short doApplyAsShort(short a) throws X");
     }
 
 

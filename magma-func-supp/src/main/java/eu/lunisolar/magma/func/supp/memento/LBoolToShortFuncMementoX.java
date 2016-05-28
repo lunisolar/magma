@@ -72,8 +72,8 @@ public class LBoolToShortFuncMementoX<X extends Throwable> implements LBoolToSho
 	}
 
 	@Override
-	public short doApplyAsShort(boolean a1) throws X {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(boolean a) throws X {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {

@@ -45,11 +45,11 @@ public class IntToDoubleFunctionAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private IntToDoubleFunction function = a1 ->
+    private IntToDoubleFunction function = a ->
             testValue;
 
 
-    private IntToDoubleFunction functionThrowing = a1 -> {
+    private IntToDoubleFunction functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

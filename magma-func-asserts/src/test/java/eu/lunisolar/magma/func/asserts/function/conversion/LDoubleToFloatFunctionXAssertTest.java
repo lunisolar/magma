@@ -46,11 +46,11 @@ public class LDoubleToFloatFunctionXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleToFloatFunctionX<X> function = a1 ->
+    private LDoubleToFloatFunctionX<X> function = a ->
             testValue;
 
 
-    private LDoubleToFloatFunctionX<X> functionThrowing = a1 -> {
+    private LDoubleToFloatFunctionX<X> functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

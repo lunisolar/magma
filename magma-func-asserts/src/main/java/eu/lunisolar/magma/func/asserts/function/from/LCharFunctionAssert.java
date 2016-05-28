@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharFunctionAssert<S extends LCharFunctionAssert<S, A, RS, R>, A extends LCharFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumer, A, RS, R> {
 
 	@Nonnull
-	Evaluation<S, LCharConsumer, A, RS, R> doesApply(char a1);
+	Evaluation<S, LCharConsumer, A, RS, R> doesApply(char a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LCharFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
@@ -75,13 +75,13 @@ public interface LCharFunctionAssert<S extends LCharFunctionAssert<S, A, RS, R>,
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharConsumer, A, RS, R> doesApply(char a1) {
+		public Evaluation<S, LCharConsumer, A, RS, R> doesApply(char a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApply(a1));
+				return assertFactory.doApply(actual.doApply(a));
 			});
 
 		}

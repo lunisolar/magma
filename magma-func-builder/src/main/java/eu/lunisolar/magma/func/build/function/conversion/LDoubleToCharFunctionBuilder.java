@@ -55,7 +55,7 @@ public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharPr
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDoubleToCharFunction EVENTUALLY_THROW = LDoubleToCharFunction.l(a1 -> {
+	public static final LDoubleToCharFunction EVENTUALLY_THROW = LDoubleToCharFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharPr
 		LDoubleToCharFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToCharFunction.l(a1 -> {
+		retval = LDoubleToCharFunction.l(a -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

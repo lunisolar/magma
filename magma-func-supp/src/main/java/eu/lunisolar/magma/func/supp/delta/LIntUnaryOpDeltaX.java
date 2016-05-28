@@ -89,8 +89,8 @@ public class LIntUnaryOpDeltaX<X extends Throwable> extends LIntUnaryOpMementoX<
 	}
 
 	@Override
-	public int doApplyAsInt(int a1) throws X {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(int a) throws X {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

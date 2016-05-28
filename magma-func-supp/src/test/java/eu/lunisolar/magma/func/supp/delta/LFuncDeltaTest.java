@@ -44,7 +44,7 @@ public class LFuncDeltaTest <T,R> {
 
     private final Integer initialLastValue = 0;
 
-    private LFuncDelta<Integer,Integer> sut =  LFuncDelta.<Integer,Integer>deltaOf(initialLastValue, a1 ->{
+    private LFuncDelta<Integer,Integer> sut =  LFuncDelta.<Integer,Integer>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

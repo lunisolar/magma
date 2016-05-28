@@ -55,7 +55,7 @@ public final class LLongToFloatFunctionXBuilder<X extends Throwable> extends Per
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToFloatFunctionX EVENTUALLY_THROW = LLongToFloatFunctionX.lX(a1 -> {
+	public static final LLongToFloatFunctionX EVENTUALLY_THROW = LLongToFloatFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LLongToFloatFunctionXBuilder<X extends Throwable> extends Per
 		LLongToFloatFunctionX<X> retval;
 
 		final Case<LLongPredicateX<X>, LLongToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToFloatFunctionX.<X> lX(a1 -> {
+		retval = LLongToFloatFunctionX.<X> lX(a -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsFloat(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsFloat(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(a1);
+				return eventuallyFinal.doApplyAsFloat(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

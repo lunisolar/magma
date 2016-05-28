@@ -43,7 +43,7 @@ public class LFloatToByteFuncMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LFloatToByteFuncMemento sut =  LFloatToByteFuncMemento.mementoOf( a1 ->{
+    private LFloatToByteFuncMemento sut =  LFloatToByteFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

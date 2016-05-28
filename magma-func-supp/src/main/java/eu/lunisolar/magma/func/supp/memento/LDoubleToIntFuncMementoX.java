@@ -72,8 +72,8 @@ public class LDoubleToIntFuncMementoX<X extends Throwable> implements LDoubleToI
 	}
 
 	@Override
-	public int doApplyAsInt(double a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(double a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

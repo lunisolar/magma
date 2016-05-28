@@ -32,16 +32,16 @@ public interface LFloatSingle extends LTuple<Float> {
 
 	int SIZE = 1;
 
-	float first();
+	float value();
 
-	default float getFirst() {
-		return first();
+	default float getValue() {
+		return value();
 	}
 
 	default Float get(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -50,7 +50,7 @@ public interface LFloatSingle extends LTuple<Float> {
 	default float getFloat(int index) {
 		switch (index) {
 			case 1 :
-				return first();
+				return value();
 			default :
 				throw new NoSuchElementException();
 		}
@@ -62,16 +62,16 @@ public interface LFloatSingle extends LTuple<Float> {
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFloatSingle and calculates hash from it. */
-	static int argHashCode(float a1) {
+	static int argHashCode(float a) {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Float.hashCode(a1);
+		result = prime * result + Float.hashCode(a);
 		return result;
 	}
 
 	/** Static equals() implementation that takes same arguments (doubled) as fields of the LFloatSingle and checks if all values are equal. */
-	static boolean argEquals(float a1, float b1) {
-		return a1 == b1; //
+	static boolean argEquals(float a, float b) {
+		return a == b; //
 	}
 
 	/**
@@ -88,14 +88,14 @@ public interface LFloatSingle extends LTuple<Float> {
 
 				LFloatSingle other = (LFloatSingle) two;
 
-				return argEquals(one.first(), other.first());
+				return argEquals(one.value(), other.value());
 			});
 	}
 
 	default Object[] toArray(Object[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -113,7 +113,7 @@ public interface LFloatSingle extends LTuple<Float> {
 	default Float[] toVoArray(Float[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -131,7 +131,7 @@ public interface LFloatSingle extends LTuple<Float> {
 	default float[] toFloatArray(float[] array, int startingIndex) {
 		int i = startingIndex;
 
-		array[i] = first();
+		array[i] = value();
 
 		return array;
 	}
@@ -190,7 +190,7 @@ public interface LFloatSingle extends LTuple<Float> {
 			return Null.compare(this, that, (one, two) -> {
 				int retval = 0;
 
-				return (retval = Float.compare(one.first(), two.first())) != 0 ? retval : 0; //
+				return (retval = Float.compare(one.value(), two.value())) != 0 ? retval : 0; //
 				});
 		}
 
@@ -205,37 +205,37 @@ public interface LFloatSingle extends LTuple<Float> {
 
 		@Override
 		public int hashCode() {
-			return LFloatSingle.argHashCode(first());
+			return LFloatSingle.argHashCode(value());
 		}
 
 		@Override
 		public byte byteValue() {
-			return (byte) first();
+			return (byte) value();
 		}
 
 		@Override
 		public short shortValue() {
-			return (short) first();
+			return (short) value();
 		}
 
 		@Override
 		public int intValue() {
-			return (int) first();
+			return (int) value();
 		}
 
 		@Override
 		public long longValue() {
-			return (long) first();
+			return (long) value();
 		}
 
 		@Override
 		public float floatValue() {
-			return (float) first();
+			return (float) value();
 		}
 
 		@Override
 		public double doubleValue() {
-			return (double) first();
+			return (double) value();
 		}
 	}
 
@@ -244,35 +244,35 @@ public interface LFloatSingle extends LTuple<Float> {
 	 */
 	final class MutFloatSingle extends AbstractFloatSingle {
 
-		private float first;
+		private float value;
 
-		public MutFloatSingle(float a1) {
-			this.first = a1;
+		public MutFloatSingle(float a) {
+			this.value = a;
 		}
 
-		public static MutFloatSingle of(float a1) {
-			return new MutFloatSingle(a1);
+		public static MutFloatSingle of(float a) {
+			return new MutFloatSingle(a);
 		}
 
 		public static MutFloatSingle copyOf(LFloatSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public float first() {
-			return first;
+		public float value() {
+			return value;
 		}
 
-		public MutFloatSingle first(float first) {
-			this.first = first;
+		public MutFloatSingle value(float value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(float first) {
-			this.first = first;
+		public void setValue(float value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = 0f;
+			value = 0f;
 		}
 	}
 
@@ -281,35 +281,35 @@ public interface LFloatSingle extends LTuple<Float> {
 	 */
 	final class MutCompFloatSingle extends AbstractFloatSingle implements ComparableFloatSingle {
 
-		private float first;
+		private float value;
 
-		public MutCompFloatSingle(float a1) {
-			this.first = a1;
+		public MutCompFloatSingle(float a) {
+			this.value = a;
 		}
 
-		public static MutCompFloatSingle of(float a1) {
-			return new MutCompFloatSingle(a1);
+		public static MutCompFloatSingle of(float a) {
+			return new MutCompFloatSingle(a);
 		}
 
 		public static MutCompFloatSingle copyOf(LFloatSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public float first() {
-			return first;
+		public float value() {
+			return value;
 		}
 
-		public MutCompFloatSingle first(float first) {
-			this.first = first;
+		public MutCompFloatSingle value(float value) {
+			this.value = value;
 			return this;
 		}
 
-		public void setFirst(float first) {
-			this.first = first;
+		public void setValue(float value) {
+			this.value = value;
 		}
 
 		public void reset() {
-			first = 0f;
+			value = 0f;
 		}
 	}
 
@@ -319,22 +319,22 @@ public interface LFloatSingle extends LTuple<Float> {
 	@Immutable
 	final class ImmFloatSingle extends AbstractFloatSingle {
 
-		private final float first;
+		private final float value;
 
-		public ImmFloatSingle(float a1) {
-			this.first = a1;
+		public ImmFloatSingle(float a) {
+			this.value = a;
 		}
 
-		public static ImmFloatSingle of(float a1) {
-			return new ImmFloatSingle(a1);
+		public static ImmFloatSingle of(float a) {
+			return new ImmFloatSingle(a);
 		}
 
 		public static ImmFloatSingle copyOf(LFloatSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public float first() {
-			return first;
+		public float value() {
+			return value;
 		}
 
 	}
@@ -345,22 +345,22 @@ public interface LFloatSingle extends LTuple<Float> {
 	@Immutable
 	final class ImmCompFloatSingle extends AbstractFloatSingle implements ComparableFloatSingle {
 
-		private final float first;
+		private final float value;
 
-		public ImmCompFloatSingle(float a1) {
-			this.first = a1;
+		public ImmCompFloatSingle(float a) {
+			this.value = a;
 		}
 
-		public static ImmCompFloatSingle of(float a1) {
-			return new ImmCompFloatSingle(a1);
+		public static ImmCompFloatSingle of(float a) {
+			return new ImmCompFloatSingle(a);
 		}
 
 		public static ImmCompFloatSingle copyOf(LFloatSingle tuple) {
-			return of(tuple.first());
+			return of(tuple.value());
 		}
 
-		public float first() {
-			return first;
+		public float value() {
+			return value;
 		}
 
 	}

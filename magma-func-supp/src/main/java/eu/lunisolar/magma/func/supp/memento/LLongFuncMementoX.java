@@ -72,8 +72,8 @@ public class LLongFuncMementoX<R, X extends Throwable> implements LLongFunctionX
 	}
 
 	@Override
-	public R doApply(long a1) throws X {
-		return lastValue = function.doApply(a1);
+	public R doApply(long a) throws X {
+		return lastValue = function.doApply(a);
 	}
 
 	public R lastValue() {

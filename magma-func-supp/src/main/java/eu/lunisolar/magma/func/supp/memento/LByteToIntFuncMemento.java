@@ -72,8 +72,8 @@ public class LByteToIntFuncMemento implements LByteToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsInt(byte a1) {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(byte a) {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LShortUnaryOperatorAssert<S extends LShortUnaryOperatorAssert<S, A, RS>, A extends LShortUnaryOperator, RS extends AbstractShortAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LShortConsumer, A, RS, Short> {
 
 	@Nonnull
-	Evaluation<S, LShortConsumer, A, RS, Short> doesApplyAsShort(short a1);
+	Evaluation<S, LShortConsumer, A, RS, Short> doesApplyAsShort(short a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LShortUnaryOperator, RS extends AbstractShortAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -75,13 +75,13 @@ public interface LShortUnaryOperatorAssert<S extends LShortUnaryOperatorAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortConsumer, A, RS, Short> doesApplyAsShort(short a1) {
+		public Evaluation<S, LShortConsumer, A, RS, Short> doesApplyAsShort(short a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsShort(a1));
+				return assertFactory.doApply(actual.doApplyAsShort(a));
 			});
 
 		}

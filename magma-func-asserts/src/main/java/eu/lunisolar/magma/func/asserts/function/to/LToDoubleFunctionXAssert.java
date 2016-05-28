@@ -57,7 +57,7 @@ public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, 
 			FullFunctionalAssert<S, LConsumerX<T, X>, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LConsumerX<T, X>, A, RS, Double> doesApplyAsDouble(T a1);
+	Evaluation<S, LConsumerX<T, X>, A, RS, Double> doesApplyAsDouble(T a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
@@ -80,13 +80,13 @@ public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LConsumerX<T, X>, A, RS, Double> doesApplyAsDouble(T a1) {
+		public Evaluation<S, LConsumerX<T, X>, A, RS, Double> doesApplyAsDouble(T a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {
-					pc.doAccept(a1);
+					pc.doAccept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsDouble(a1));
+				return assertFactory.doApply(actual.doApplyAsDouble(a));
 			});
 
 		}

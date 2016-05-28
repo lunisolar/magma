@@ -72,8 +72,8 @@ public class LIntToByteFuncMementoX<X extends Throwable> implements LIntToByteFu
 	}
 
 	@Override
-	public byte doApplyAsByte(int a1) throws X {
-		return lastValue = function.doApplyAsByte(a1);
+	public byte doApplyAsByte(int a) throws X {
+		return lastValue = function.doApplyAsByte(a);
 	}
 
 	public byte lastValue() {

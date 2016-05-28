@@ -89,8 +89,8 @@ public class LShortToDoubleFuncDeltaX<X extends Throwable> extends LShortToDoubl
 	}
 
 	@Override
-	public double doApplyAsDouble(short a1) throws X {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(short a) throws X {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

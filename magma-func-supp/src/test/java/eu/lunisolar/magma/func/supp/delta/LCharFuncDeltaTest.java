@@ -44,7 +44,7 @@ public class LCharFuncDeltaTest <R> {
 
     private final Integer initialLastValue = 0;
 
-    private LCharFuncDelta<Integer> sut =  LCharFuncDelta.<Integer>deltaOf(initialLastValue, a1 ->{
+    private LCharFuncDelta<Integer> sut =  LCharFuncDelta.<Integer>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

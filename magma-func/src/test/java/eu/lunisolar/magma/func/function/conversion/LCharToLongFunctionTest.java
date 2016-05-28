@@ -65,13 +65,13 @@ public class LCharToLongFunctionTest<X extends ParseException> {
 
 
     private LCharToLongFunction sut = new LCharToLongFunction(){
-        public  long doApplyAsLong(char a1)  {
+        public  long doApplyAsLong(char a)  {
             return testValue;
         }
     };
 
     private LCharToLongFunctionX<X> opposite = new LCharToLongFunctionX<X>(){
-        public  long doApplyAsLong(char a1)  throws X {
+        public  long doApplyAsLong(char a)  throws X {
             return testValue;
         }
     };
@@ -79,7 +79,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
 
 
 
-    private LCharToLongFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToLongFunction.l(a1 -> {
+    private LCharToLongFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LCharToLongFunction.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -141,12 +141,12 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharToLongFunction: long doApplyAsLong(char a1)");
+            .isEqualTo("LCharToLongFunction: long doApplyAsLong(char a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LCharToLongFunction.l(a1 -> testValue ))
+        assertThat(LCharToLongFunction.l(a -> testValue ))
             .isInstanceOf(LCharToLongFunction.class);
     }
 
@@ -159,7 +159,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LCharToLongFunctionX<X> sutThrowing = LCharToLongFunctionX.lX(a1 -> {
+        LCharToLongFunctionX<X> sutThrowing = LCharToLongFunctionX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -181,7 +181,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LCharToLongFunctionX<ParseException> sutThrowing = LCharToLongFunctionX.lX(a1 -> {
+        LCharToLongFunctionX<ParseException> sutThrowing = LCharToLongFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -205,7 +205,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     public void testHandlingDoApplyAsLongMethodWrapsTheException() throws X {
 
         // given
-        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a1 -> {
+        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -229,7 +229,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     public void testHandleCharToLongFuncMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a1 -> {
+        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -253,7 +253,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     public void testHandleCharToLongFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a1 -> {
+        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -278,7 +278,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     public void testHandleCharToLongFuncMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a1 -> {
+        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -308,20 +308,20 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return 100L;
         };
 
-        LCharUnaryOperator before1 = p0 -> {
+        LCharUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo('\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LCharToLongFunction function = sutO.charToLongFuncComposeChar(before1);
+        LCharToLongFunction function = sutO.charToLongFuncComposeChar(before);
         function.doApplyAsLong('\u0080');
 
         //then - finals
@@ -337,20 +337,20 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
+                assertThat(a).isEqualTo('\u0090');
                 return 100L;
         };
 
-        LToCharFunction<Integer> before1 = p0 -> {
+        LToCharFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
 
         //when
-        LToLongFunction<Integer> function = sutO.charToLongFuncCompose(before1);
+        LToLongFunction<Integer> function = sutO.charToLongFuncCompose(before);
         function.doApplyAsLong(80);
 
         //then - finals
@@ -371,9 +371,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -405,9 +405,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -439,9 +439,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -473,9 +473,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -507,9 +507,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -541,9 +541,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -575,9 +575,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -609,9 +609,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -643,9 +643,9 @@ public class LCharToLongFunctionTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LCharToLongFunction sutO = a1 -> {
+        LCharToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a).isEqualTo('\u0080');
                 return 90L;
         };
 
@@ -704,7 +704,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a1 -> {
+        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -716,7 +716,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
     public void testHandleCharToLongFunc() throws X {
 
         // given
-        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a1 -> {
+        LCharToLongFunction sutThrowing = LCharToLongFunction.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -746,7 +746,7 @@ public class LCharToLongFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharToLongFunction: long doApplyAsLong(char a1)");
+                .contains("LCharToLongFunction: long doApplyAsLong(char a)");
     }
 
 

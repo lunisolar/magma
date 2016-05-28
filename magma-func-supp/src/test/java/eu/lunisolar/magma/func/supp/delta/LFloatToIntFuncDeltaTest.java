@@ -44,7 +44,7 @@ public class LFloatToIntFuncDeltaTest  {
 
     private final int initialLastValue = 0;
 
-    private LFloatToIntFuncDelta sut =  LFloatToIntFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LFloatToIntFuncDelta sut =  LFloatToIntFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

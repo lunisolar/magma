@@ -99,7 +99,7 @@ public class LDoubleConsumerXBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LDoubleConsumerX<X> function = doubleConsumerXFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -120,11 +120,11 @@ public class LDoubleConsumerXBuilderTest<X extends ParseException>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LDoubleConsumerX<X> function = doubleConsumerXFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0d)
-                             .evaluate(a1 -> externalEffect.set(0)))
-            .inCase(a1 -> a1 > 0d && a1 < 10d).evaluate(a1 -> externalEffect.set(1))
-            .inCase(a1 -> a1 > 10d && a1 < 20d).evaluate(a1 -> externalEffect.set(2))
-            .eventually(a1 -> externalEffect.set(99))
+            .aCase(ce -> ce.of(a -> a == 0d)
+                             .evaluate(a -> externalEffect.set(0)))
+            .inCase(a -> a > 0d && a < 10d).evaluate(a -> externalEffect.set(1))
+            .inCase(a -> a > 10d && a < 20d).evaluate(a -> externalEffect.set(2))
+            .eventually(a -> externalEffect.set(99))
             .build()
         );
 

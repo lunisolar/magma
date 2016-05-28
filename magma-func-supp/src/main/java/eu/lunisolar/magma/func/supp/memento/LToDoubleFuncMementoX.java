@@ -72,8 +72,8 @@ public class LToDoubleFuncMementoX<T, X extends Throwable> implements LToDoubleF
 	}
 
 	@Override
-	public double doApplyAsDouble(T a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(T a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

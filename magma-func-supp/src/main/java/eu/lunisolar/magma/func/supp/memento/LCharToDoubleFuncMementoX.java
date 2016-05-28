@@ -72,8 +72,8 @@ public class LCharToDoubleFuncMementoX<X extends Throwable> implements LCharToDo
 	}
 
 	@Override
-	public double doApplyAsDouble(char a1) throws X {
-		return lastValue = function.doApplyAsDouble(a1);
+	public double doApplyAsDouble(char a) throws X {
+		return lastValue = function.doApplyAsDouble(a);
 	}
 
 	public double lastValue() {

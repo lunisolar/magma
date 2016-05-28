@@ -43,7 +43,7 @@ public class LDoubleToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LDoubleToLongFuncMemento sut =  LDoubleToLongFuncMemento.mementoOf( a1 ->{
+    private LDoubleToLongFuncMemento sut =  LDoubleToLongFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

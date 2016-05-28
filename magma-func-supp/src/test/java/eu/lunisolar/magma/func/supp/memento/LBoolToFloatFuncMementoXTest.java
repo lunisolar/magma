@@ -43,7 +43,7 @@ public class LBoolToFloatFuncMementoXTest <X extends Throwable> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LBoolToFloatFuncMementoX<X> sut =  LBoolToFloatFuncMementoX.<X>mementoOf( a1 ->{
+    private LBoolToFloatFuncMementoX<X> sut =  LBoolToFloatFuncMementoX.<X>mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -89,8 +89,8 @@ public class LFloatToIntFuncDelta extends LFloatToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(float a1) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(float a) {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

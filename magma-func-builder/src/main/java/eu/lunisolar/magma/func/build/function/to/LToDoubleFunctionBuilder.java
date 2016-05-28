@@ -55,7 +55,7 @@ public final class LToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoubleP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToDoubleFunction EVENTUALLY_THROW = LToDoubleFunction.l(a1 -> {
+	public static final LToDoubleFunction EVENTUALLY_THROW = LToDoubleFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class LToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoubleP
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> LToDoubleFunctionBuilder<T> casesOf(Class<V> argC1, Consumer<LToDoubleFunctionBuilder<V>> pcpConsumer) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToDoubleFunctionBuilder<T> casesOf(Class<V> argC, Consumer<LToDoubleFunctionBuilder<V>> pcpConsumer) {
+		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class LToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoubleP
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LToDoubleFunctionBuilder<T> aCase(Class<V> argC1, LToDoubleFunction<V> function) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToDoubleFunctionBuilder<T> aCase(Class<V> argC, LToDoubleFunction<V> function) {
+		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class LToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoubleP
 		LToDoubleFunction<T> retval;
 
 		final Case<LPredicate<T>, LToDoubleFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToDoubleFunction.<T> l(a1 -> {
+		retval = LToDoubleFunction.<T> l(a -> {
 			try {
 				for (Case<LPredicate<T>, LToDoubleFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsDouble(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsDouble(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDouble(a1);
+				return eventuallyFinal.doApplyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

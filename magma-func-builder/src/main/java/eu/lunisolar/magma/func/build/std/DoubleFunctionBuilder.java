@@ -55,7 +55,7 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleFunction EVENTUALLY_THROW = Function4U.doubleFunction(a1 -> {
+	public static final DoubleFunction EVENTUALLY_THROW = Function4U.doubleFunction(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		DoubleFunction<R> retval;
 
 		final Case<LDoublePredicate, DoubleFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<R> doubleFunction(a1 -> {
+		retval = Function4U.<R> doubleFunction(a -> {
 			try {
 				for (Case<LDoublePredicate, DoubleFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().apply(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.apply(a1);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

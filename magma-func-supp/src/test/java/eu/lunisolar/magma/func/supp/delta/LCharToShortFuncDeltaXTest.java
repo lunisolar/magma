@@ -44,7 +44,7 @@ public class LCharToShortFuncDeltaXTest <X extends Throwable> {
 
     private final short initialLastValue = (short)0;
 
-    private LCharToShortFuncDeltaX<X> sut =  LCharToShortFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
+    private LCharToShortFuncDeltaX<X> sut =  LCharToShortFuncDeltaX.<X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

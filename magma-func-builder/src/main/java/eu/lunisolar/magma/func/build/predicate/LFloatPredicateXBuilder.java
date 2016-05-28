@@ -55,7 +55,7 @@ public final class LFloatPredicateXBuilder<X extends Throwable> extends PerCaseB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFloatPredicateX EVENTUALLY_THROW = LFloatPredicateX.lX(a1 -> {
+	public static final LFloatPredicateX EVENTUALLY_THROW = LFloatPredicateX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LFloatPredicateXBuilder<X extends Throwable> extends PerCaseB
 		LFloatPredicateX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatPredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatPredicateX.<X> lX(a1 -> {
+		retval = LFloatPredicateX.<X> lX(a -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatPredicateX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doTest(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doTest(a);
 					}
 				}
 
-				return eventuallyFinal.doTest(a1);
+				return eventuallyFinal.doTest(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

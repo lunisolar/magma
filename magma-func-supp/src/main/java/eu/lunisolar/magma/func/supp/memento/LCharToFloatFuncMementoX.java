@@ -72,8 +72,8 @@ public class LCharToFloatFuncMementoX<X extends Throwable> implements LCharToFlo
 	}
 
 	@Override
-	public float doApplyAsFloat(char a1) throws X {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(char a) throws X {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

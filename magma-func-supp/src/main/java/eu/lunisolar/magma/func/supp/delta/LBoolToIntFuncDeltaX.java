@@ -89,8 +89,8 @@ public class LBoolToIntFuncDeltaX<X extends Throwable> extends LBoolToIntFuncMem
 	}
 
 	@Override
-	public int doApplyAsInt(boolean a1) throws X {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1));
+	public int doApplyAsInt(boolean a) throws X {
+		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

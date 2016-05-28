@@ -99,7 +99,7 @@ public class LDoubleToShortFunctionBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LDoubleToShortFunction function = doubleToShortFunctionFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LDoubleToShortFunctionBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LDoubleToShortFunction function = doubleToShortFunctionFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == 0d)
-                             .evaluate(a1 -> (short)0))
-            .inCase(a1 -> a1 > 0d && a1 < 10d).evaluate(a1 -> (short)1)
-            .inCase(a1 -> a1 > 10d && a1 < 20d).evaluate(a1 -> (short)2)
-            .eventually(a1 -> (short)99)
+            .aCase(ce -> ce.of(a -> a == 0d)
+                             .evaluate(a -> (short)0))
+            .inCase(a -> a > 0d && a < 10d).evaluate(a -> (short)1)
+            .inCase(a -> a > 10d && a < 20d).evaluate(a -> (short)2)
+            .eventually(a -> (short)99)
             .build()
         );
 

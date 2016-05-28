@@ -46,11 +46,11 @@ public class LongConsumerAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LongConsumer function = a1 ->
+    private LongConsumer function = a ->
             externalEffect.set(testValue);
 
 
-    private LongConsumer functionThrowing = a1 -> {
+    private LongConsumer functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

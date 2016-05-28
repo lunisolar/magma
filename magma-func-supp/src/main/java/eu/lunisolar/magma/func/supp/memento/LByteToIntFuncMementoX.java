@@ -72,8 +72,8 @@ public class LByteToIntFuncMementoX<X extends Throwable> implements LByteToIntFu
 	}
 
 	@Override
-	public int doApplyAsInt(byte a1) throws X {
-		return lastValue = function.doApplyAsInt(a1);
+	public int doApplyAsInt(byte a) throws X {
+		return lastValue = function.doApplyAsInt(a);
 	}
 
 	public int lastValue() {

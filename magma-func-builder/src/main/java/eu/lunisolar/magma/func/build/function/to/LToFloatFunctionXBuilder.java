@@ -55,7 +55,7 @@ public final class LToFloatFunctionXBuilder<T, X extends Throwable> extends PerC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToFloatFunctionX EVENTUALLY_THROW = LToFloatFunctionX.lX(a1 -> {
+	public static final LToFloatFunctionX EVENTUALLY_THROW = LToFloatFunctionX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -101,8 +101,8 @@ public final class LToFloatFunctionXBuilder<T, X extends Throwable> extends PerC
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
-	public <V extends T> LToFloatFunctionXBuilder<T, X> casesOf(Class<V> argC1, Consumer<LToFloatFunctionXBuilder<V, X>> pcpConsumer) {
-		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToFloatFunctionXBuilder<T, X> casesOf(Class<V> argC, Consumer<LToFloatFunctionXBuilder<V, X>> pcpConsumer) {
+		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -110,8 +110,8 @@ public final class LToFloatFunctionXBuilder<T, X extends Throwable> extends PerC
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LToFloatFunctionXBuilder<T, X> aCase(Class<V> argC1, LToFloatFunctionX<V, X> function) {
-		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(a1 -> (argC1 == null || argC1.isInstance(a1)));
+	public <V extends T> LToFloatFunctionXBuilder<T, X> aCase(Class<V> argC, LToFloatFunctionX<V, X> function) {
+		PartialCaseWithFloatProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,15 +126,15 @@ public final class LToFloatFunctionXBuilder<T, X extends Throwable> extends PerC
 		LToFloatFunctionX<T, X> retval;
 
 		final Case<LPredicateX<T, X>, LToFloatFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToFloatFunctionX.<T, X> lX(a1 -> {
+		retval = LToFloatFunctionX.<T, X> lX(a -> {
 			try {
 				for (Case<LPredicateX<T, X>, LToFloatFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsFloat(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsFloat(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFloat(a1);
+				return eventuallyFinal.doApplyAsFloat(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -85,8 +85,8 @@ public class LLogicalOpDeltaX<X extends Throwable> extends LLogicalOpMementoX<X>
 	}
 
 	@Override
-	public boolean doApply(boolean a1) throws X {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1));
+	public boolean doApply(boolean a) throws X {
+		return deltaFunction.doApply(lastValue(), super.doApply(a));
 	}
 
 	// <editor-fold desc="object">

@@ -55,7 +55,7 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteToCharFunction EVENTUALLY_THROW = LByteToCharFunction.l(a1 -> {
+	public static final LByteToCharFunction EVENTUALLY_THROW = LByteToCharFunction.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 		LByteToCharFunction retval;
 
 		final Case<LBytePredicate, LByteToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToCharFunction.l(a1 -> {
+		retval = LByteToCharFunction.l(a -> {
 			try {
 				for (Case<LBytePredicate, LByteToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doApplyAsChar(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doApplyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1);
+				return eventuallyFinal.doApplyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

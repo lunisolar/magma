@@ -55,7 +55,7 @@ public final class LCharConsumerXBuilder<X extends Throwable> extends PerCaseBui
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharConsumerX EVENTUALLY_THROW = LCharConsumerX.lX(a1 -> {
+	public static final LCharConsumerX EVENTUALLY_THROW = LCharConsumerX.lX(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,16 +108,16 @@ public final class LCharConsumerXBuilder<X extends Throwable> extends PerCaseBui
 		LCharConsumerX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharConsumerX.<X> lX(a1 -> {
+		retval = LCharConsumerX.<X> lX(a -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						aCase.caseFunction().doAccept(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						aCase.caseFunction().doAccept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1);
+				eventuallyFinal.doAccept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

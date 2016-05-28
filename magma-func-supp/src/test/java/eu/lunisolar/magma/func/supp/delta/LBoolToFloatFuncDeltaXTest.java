@@ -44,7 +44,7 @@ public class LBoolToFloatFuncDeltaXTest <X extends Throwable> {
 
     private final float initialLastValue = 0f;
 
-    private LBoolToFloatFuncDeltaX<X> sut =  LBoolToFloatFuncDeltaX.<X>deltaOf(initialLastValue, a1 ->{
+    private LBoolToFloatFuncDeltaX<X> sut =  LBoolToFloatFuncDeltaX.<X>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

@@ -99,7 +99,7 @@ public class LByteUnaryOperatorBuilderTest<X extends ParseException>{
 
         assertThatThrownBy(() -> {
             LByteUnaryOperator function = byteUnaryOperatorFrom(b -> b
-                .eventually(a1 -> {
+                .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
@@ -119,11 +119,11 @@ public class LByteUnaryOperatorBuilderTest<X extends ParseException>{
     public void testBuild()  {
 
         LByteUnaryOperator function = byteUnaryOperatorFrom( b -> b
-            .aCase(ce -> ce.of(a1 -> a1 == (byte)0)
-                             .evaluate(a1 -> (byte)0))
-            .inCase(a1 -> a1 > (byte)0 && a1 < (byte)10).evaluate(a1 -> (byte)1)
-            .inCase(a1 -> a1 > (byte)10 && a1 < (byte)20).evaluate(a1 -> (byte)2)
-            .eventually(a1 -> (byte)99)
+            .aCase(ce -> ce.of(a -> a == (byte)0)
+                             .evaluate(a -> (byte)0))
+            .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> (byte)1)
+            .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> (byte)2)
+            .eventually(a -> (byte)99)
             .build()
         );
 

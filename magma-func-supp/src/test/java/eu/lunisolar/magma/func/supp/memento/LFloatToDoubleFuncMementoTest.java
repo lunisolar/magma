@@ -43,7 +43,7 @@ public class LFloatToDoubleFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LFloatToDoubleFuncMemento sut =  LFloatToDoubleFuncMemento.mementoOf( a1 ->{
+    private LFloatToDoubleFuncMemento sut =  LFloatToDoubleFuncMemento.mementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

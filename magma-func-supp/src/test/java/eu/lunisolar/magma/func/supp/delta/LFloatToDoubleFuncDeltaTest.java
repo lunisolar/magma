@@ -44,7 +44,7 @@ public class LFloatToDoubleFuncDeltaTest  {
 
     private final double initialLastValue = 0d;
 
-    private LFloatToDoubleFuncDelta sut =  LFloatToDoubleFuncDelta.deltaOf(initialLastValue, a1 ->{
+    private LFloatToDoubleFuncDelta sut =  LFloatToDoubleFuncDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

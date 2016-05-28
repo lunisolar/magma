@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): long a1
+ * Domain (lvl: 1): long a
  *
  * Co-domain: none
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LLongConsumer: void doAccept(long a1)";
+	String DESCRIPTION = "LLongConsumer: void doAccept(long a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,25 +72,25 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	 */
 	@Override
 	@Deprecated
-	default void accept(long a1) {
-		this.nestingDoAccept(a1);
+	default void accept(long a) {
+		this.nestingDoAccept(a);
 	}
 
-	void doAccept(long a1);
+	void doAccept(long a);
 
 	default LTuple.Void tupleAccept(LLongSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(long a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(long a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(long a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(long a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -100,8 +100,8 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureLongCons(long a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureLongCons(long a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -111,9 +111,9 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 		return lambda;
 	}
 
-	static void call(long a1, final @Nonnull LLongConsumer lambda) {
+	static void call(long a, final @Nonnull LLongConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -172,16 +172,16 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongConsumer longConsComposeLong(@Nonnull final LLongUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
+	default LLongConsumer longConsComposeLong(@Nonnull final LLongUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsLong(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> longConsCompose(@Nonnull final LToLongFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
+	default <V> LConsumer<V> longConsCompose(@Nonnull final LToLongFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsLong(v));
 	}
 
 	// </editor-fold>
@@ -192,9 +192,9 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LLongConsumer andThen(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

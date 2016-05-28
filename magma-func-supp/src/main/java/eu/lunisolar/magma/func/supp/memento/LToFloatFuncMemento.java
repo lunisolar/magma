@@ -72,8 +72,8 @@ public class LToFloatFuncMemento<T> implements LToFloatFunction<T> {
 	}
 
 	@Override
-	public float doApplyAsFloat(T a1) {
-		return lastValue = function.doApplyAsFloat(a1);
+	public float doApplyAsFloat(T a) {
+		return lastValue = function.doApplyAsFloat(a);
 	}
 
 	public float lastValue() {

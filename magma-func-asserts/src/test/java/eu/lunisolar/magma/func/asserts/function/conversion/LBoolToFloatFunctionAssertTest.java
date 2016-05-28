@@ -46,11 +46,11 @@ public class LBoolToFloatFunctionAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBoolToFloatFunction function = a1 ->
+    private LBoolToFloatFunction function = a ->
             testValue;
 
 
-    private LBoolToFloatFunction functionThrowing = a1 -> {
+    private LBoolToFloatFunction functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

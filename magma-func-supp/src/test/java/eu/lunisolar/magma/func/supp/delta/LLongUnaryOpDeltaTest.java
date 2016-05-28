@@ -44,7 +44,7 @@ public class LLongUnaryOpDeltaTest  {
 
     private final long initialLastValue = 0L;
 
-    private LLongUnaryOpDelta sut =  LLongUnaryOpDelta.deltaOf(initialLastValue, a1 ->{
+    private LLongUnaryOpDelta sut =  LLongUnaryOpDelta.deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     });

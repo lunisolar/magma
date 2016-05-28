@@ -46,11 +46,11 @@ public class LFloatToShortFunctionAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatToShortFunction function = a1 ->
+    private LFloatToShortFunction function = a ->
             testValue;
 
 
-    private LFloatToShortFunction functionThrowing = a1 -> {
+    private LFloatToShortFunction functionThrowing = a -> {
         throw new UnsupportedOperationException();
     };
 

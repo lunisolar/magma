@@ -72,8 +72,8 @@ public class LFloatToLongFuncMemento implements LFloatToLongFunction {
 	}
 
 	@Override
-	public long doApplyAsLong(float a1) {
-		return lastValue = function.doApplyAsLong(a1);
+	public long doApplyAsLong(float a) {
+		return lastValue = function.doApplyAsLong(a);
 	}
 
 	public long lastValue() {

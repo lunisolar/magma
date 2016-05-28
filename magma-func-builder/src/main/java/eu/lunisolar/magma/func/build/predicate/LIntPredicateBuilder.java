@@ -55,7 +55,7 @@ public final class LIntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntPredicate EVENTUALLY_THROW = LIntPredicate.l(a1 -> {
+	public static final LIntPredicate EVENTUALLY_THROW = LIntPredicate.l(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,15 +108,15 @@ public final class LIntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 		LIntPredicate retval;
 
 		final Case<LIntPredicate, LIntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntPredicate.l(a1 -> {
+		retval = LIntPredicate.l(a -> {
 			try {
 				for (Case<LIntPredicate, LIntPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1)) {
-						return aCase.caseFunction().doTest(a1);
+					if (aCase.casePredicate().doTest(a)) {
+						return aCase.caseFunction().doTest(a);
 					}
 				}
 
-				return eventuallyFinal.doTest(a1);
+				return eventuallyFinal.doTest(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -89,8 +89,8 @@ public class LBoolToDoubleFuncDelta extends LBoolToDoubleFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDouble(boolean a1) {
-		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a1));
+	public double doApplyAsDouble(boolean a) {
+		return deltaFunction.doApplyAsDouble(lastValue(), super.doApplyAsDouble(a));
 	}
 
 	// <editor-fold desc="object">

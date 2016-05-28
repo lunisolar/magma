@@ -65,24 +65,24 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
 
 
     private LToCharFunctionX<Integer,X> sut = new LToCharFunctionX<Integer,X>(){
-        public  char doApplyAsChar(Integer a1)  throws X {
+        public  char doApplyAsChar(Integer a)  throws X {
             return testValue;
         }
     };
 
     private LToCharFunction<Integer> opposite = new LToCharFunction<Integer>(){
-        public  char doApplyAsChar(Integer a1)  {
+        public  char doApplyAsChar(Integer a)  {
             return testValue;
         }
     };
 
 
 
-    private LToCharFunctionX<Integer,ParseException> sutAlwaysThrowing = LToCharFunctionX.lX(a1 -> {
+    private LToCharFunctionX<Integer,ParseException> sutAlwaysThrowing = LToCharFunctionX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LToCharFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LToCharFunctionX.lX(a1 -> {
+    private LToCharFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LToCharFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -174,12 +174,12 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToCharFunctionX: char doApplyAsChar(T a1) throws X");
+            .isEqualTo("LToCharFunctionX: char doApplyAsChar(T a) throws X");
     }
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LToCharFunctionX.lX(a1 -> testValue ))
+        assertThat(LToCharFunctionX.lX(a -> testValue ))
             .isInstanceOf(LToCharFunctionX.class);
     }
 
@@ -194,7 +194,7 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
     public void testHandlingDoApplyAsCharMethodWrapsTheException() throws X {
 
         // given
-        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a1 -> {
+        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -218,7 +218,7 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
     public void testHandleToCharFuncXMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a1 -> {
+        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -242,7 +242,7 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
     public void testHandleToCharFuncXMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a1 -> {
+        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -267,7 +267,7 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
     public void testHandleToCharFuncXMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a1 -> {
+        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -297,20 +297,20 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
+                assertThat(a).isEqualTo(90);
                 return '\u0100';
         };
 
-        LFunctionX<Integer,Integer,X> before1 = p0 -> {
+        LFunctionX<Integer,Integer,X> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90;
         };
 
         //when
-        LToCharFunctionX<Integer,X> function = sutO.toCharFuncCompose(before1);
+        LToCharFunctionX<Integer,X> function = sutO.toCharFuncCompose(before);
         function.doApplyAsChar(80);
 
         //then - finals
@@ -331,9 +331,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -365,9 +365,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -399,9 +399,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -433,9 +433,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -467,9 +467,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -501,9 +501,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -535,9 +535,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -569,9 +569,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -603,9 +603,9 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LToCharFunctionX<Integer,X> sutO = a1 -> {
+        LToCharFunctionX<Integer,X> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
+                assertThat(a).isEqualTo(80);
                 return '\u0090';
         };
 
@@ -660,7 +660,7 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a1 -> {
+        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -672,7 +672,7 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
     public void testHandleToCharFunc() throws X {
 
         // given
-        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a1 -> {
+        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -702,7 +702,7 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToCharFunctionX: char doApplyAsChar(T a1) throws X");
+                .contains("LToCharFunctionX: char doApplyAsChar(T a) throws X");
     }
 
 

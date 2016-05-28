@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Type: consumer
  *
- * Domain (lvl: 1): int a1
+ * Domain (lvl: 1): int a
  *
  * Co-domain: none
  *
@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	String DESCRIPTION = "LIntConsumer: void doAccept(int a1)";
+	String DESCRIPTION = "LIntConsumer: void doAccept(int a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -72,25 +72,25 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 	 */
 	@Override
 	@Deprecated
-	default void accept(int a1) {
-		this.nestingDoAccept(a1);
+	default void accept(int a) {
+		this.nestingDoAccept(a);
 	}
 
-	void doAccept(int a1);
+	void doAccept(int a);
 
 	default LTuple.Void tupleAccept(LIntSingle args) {
-		doAccept(args.first());
+		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(int a1) {
-		this.doAccept(a1);
+	default void nestingDoAccept(int a) {
+		this.doAccept(a);
 	}
 
 	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
-	default void shovingDoAccept(int a1) {
-		this.doAccept(a1);
+	default void shovingDoAccept(int a) {
+		this.doAccept(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -100,8 +100,8 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureIntCons(int a1) {
-		return () -> this.doAccept(a1);
+	default LAction captureIntCons(int a) {
+		return () -> this.doAccept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -111,9 +111,9 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 		return lambda;
 	}
 
-	static void call(int a1, final @Nonnull LIntConsumer lambda) {
+	static void call(int a, final @Nonnull LIntConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1);
+		lambda.doAccept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -172,16 +172,16 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntConsumer intConsComposeInt(@Nonnull final LIntUnaryOperator before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
+	default LIntConsumer intConsComposeInt(@Nonnull final LIntUnaryOperator before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsInt(v));
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> intConsCompose(@Nonnull final LToIntFunction<? super V1> before1) {
-		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
+	default <V> LConsumer<V> intConsCompose(@Nonnull final LToIntFunction<? super V> before) {
+		Null.nonNullArg(before, "before");
+		return v -> this.doAccept(before.doApplyAsInt(v));
 	}
 
 	// </editor-fold>
@@ -192,9 +192,9 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 	@Nonnull
 	default LIntConsumer andThen(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
-		return a1 -> {
-			this.doAccept(a1);
-			after.doAccept(a1);
+		return a -> {
+			this.doAccept(a);
+			after.doAccept(a);
 		};
 	}
 

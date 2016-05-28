@@ -65,23 +65,23 @@ public class LDoublePredicateTest<X extends ParseException> {
 
 
     private LDoublePredicate sut = new LDoublePredicate(){
-        public  boolean doTest(double a1)  {
+        public  boolean doTest(double a)  {
             return testValue;
         }
     };
 
     private LDoublePredicateX<X> opposite = new LDoublePredicateX<X>(){
-        public  boolean doTest(double a1)  throws X {
+        public  boolean doTest(double a)  throws X {
             return testValue;
         }
     };
 
 
-    private DoublePredicate jre = a1 -> testValue;
+    private DoublePredicate jre = a -> testValue;
 
 
 
-    private LDoublePredicateX<RuntimeException> sutAlwaysThrowingUnchecked = LDoublePredicate.l(a1 -> {
+    private LDoublePredicateX<RuntimeException> sutAlwaysThrowingUnchecked = LDoublePredicate.l(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -150,12 +150,12 @@ public class LDoublePredicateTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoublePredicate: boolean doTest(double a1)");
+            .isEqualTo("LDoublePredicate: boolean doTest(double a)");
     }
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LDoublePredicate.l(a1 -> testValue ))
+        assertThat(LDoublePredicate.l(a -> testValue ))
             .isInstanceOf(LDoublePredicate.class);
     }
 
@@ -174,7 +174,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LDoublePredicateX<X> sutThrowing = LDoublePredicateX.lX(a1 -> {
+        LDoublePredicateX<X> sutThrowing = LDoublePredicateX.lX(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -196,7 +196,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LDoublePredicateX<ParseException> sutThrowing = LDoublePredicateX.lX(a1 -> {
+        LDoublePredicateX<ParseException> sutThrowing = LDoublePredicateX.lX(a -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -220,7 +220,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     public void testHandlingDoTestMethodWrapsTheException() throws X {
 
         // given
-        LDoublePredicate sutThrowing = LDoublePredicate.l(a1 -> {
+        LDoublePredicate sutThrowing = LDoublePredicate.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -244,7 +244,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     public void testHandleDoublePredMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LDoublePredicate sutThrowing = LDoublePredicate.l(a1 -> {
+        LDoublePredicate sutThrowing = LDoublePredicate.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -268,7 +268,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     public void testHandleDoublePredMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LDoublePredicate sutThrowing = LDoublePredicate.l(a1 -> {
+        LDoublePredicate sutThrowing = LDoublePredicate.l(a -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -293,7 +293,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     public void testHandleDoublePredMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LDoublePredicate sutThrowing = LDoublePredicate.l(a1 -> {
+        LDoublePredicate sutThrowing = LDoublePredicate.l(a -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -333,8 +333,8 @@ public class LDoublePredicateTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LDoublePredicate fun1 = LDoublePredicate.l(a1 -> f1Result);
-        LDoublePredicate fun2 = LDoublePredicate.l(a1 -> f2Result);
+        LDoublePredicate fun1 = LDoublePredicate.l(a -> f1Result);
+        LDoublePredicate fun2 = LDoublePredicate.l(a -> f2Result);
 
         //when
         LDoublePredicate andFunction = fun1.and(fun2);
@@ -376,20 +376,20 @@ public class LDoublePredicateTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return true;
         };
 
-        LDoubleUnaryOperator before1 = p0 -> {
+        LDoubleUnaryOperator before = p0 -> {
             assertThat(p0).isEqualTo(80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LDoublePredicate function = sutO.doublePredComposeDouble(before1);
+        LDoublePredicate function = sutO.doublePredComposeDouble(before);
         function.doTest(80d);
 
         //then - finals
@@ -405,20 +405,20 @@ public class LDoublePredicateTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
+                assertThat(a).isEqualTo(90d);
                 return true;
         };
 
-        LToDoubleFunction<Integer> before1 = p0 -> {
+        LToDoubleFunction<Integer> before = p0 -> {
             assertThat(p0).isEqualTo(80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
 
         //when
-        LPredicate<Integer> function = sutO.doublePredCompose(before1);
+        LPredicate<Integer> function = sutO.doublePredCompose(before);
         function.doTest(80);
 
         //then - finals
@@ -439,9 +439,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -473,9 +473,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -507,9 +507,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -541,9 +541,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -575,9 +575,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -609,9 +609,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -643,9 +643,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -677,9 +677,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -711,9 +711,9 @@ public class LDoublePredicateTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
         //given (+ some assertions)
-        LDoublePredicate sutO = a1 -> {
+        LDoublePredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
+                assertThat(a).isEqualTo(80d);
                 return true;
         };
 
@@ -772,7 +772,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LDoublePredicate sutThrowing = LDoublePredicate.l(a1 -> {
+        LDoublePredicate sutThrowing = LDoublePredicate.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -784,7 +784,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     public void testHandleDoublePred() throws X {
 
         // given
-        LDoublePredicate sutThrowing = LDoublePredicate.l(a1 -> {
+        LDoublePredicate sutThrowing = LDoublePredicate.l(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -814,7 +814,7 @@ public class LDoublePredicateTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoublePredicate: boolean doTest(double a1)");
+                .contains("LDoublePredicate: boolean doTest(double a)");
     }
 
 

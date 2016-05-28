@@ -44,7 +44,7 @@ public class LIntFuncDeltaTest <R> {
 
     private final Integer initialLastValue = 0;
 
-    private LIntFuncDelta<Integer> sut =  LIntFuncDelta.<Integer>deltaOf(initialLastValue, a1 ->{
+    private LIntFuncDelta<Integer> sut =  LIntFuncDelta.<Integer>deltaOf(initialLastValue, a ->{
         functionCallCount++;
         return testValue;
     }, (last, current) -> (current-last));

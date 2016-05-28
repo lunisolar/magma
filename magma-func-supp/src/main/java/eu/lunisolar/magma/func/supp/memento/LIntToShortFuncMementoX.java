@@ -72,8 +72,8 @@ public class LIntToShortFuncMementoX<X extends Throwable> implements LIntToShort
 	}
 
 	@Override
-	public short doApplyAsShort(int a1) throws X {
-		return lastValue = function.doApplyAsShort(a1);
+	public short doApplyAsShort(int a) throws X {
+		return lastValue = function.doApplyAsShort(a);
 	}
 
 	public short lastValue() {
