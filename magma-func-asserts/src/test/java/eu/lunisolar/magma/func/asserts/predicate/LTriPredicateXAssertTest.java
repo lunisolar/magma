@@ -46,11 +46,11 @@ public class LTriPredicateXAssertTest<T1,T2,T3,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LTriPredicateX<Integer,Integer,Integer,X> function = (Integer a1,Integer a2,Integer a3) ->
+    private LTriPredicateX<Integer,Integer,Integer,X> function = (a1,a2,a3) ->
             testValue;
 
 
-    private LTriPredicateX<Integer,Integer,Integer,X> functionThrowing = (Integer a1,Integer a2,Integer a3) -> {
+    private LTriPredicateX<Integer,Integer,Integer,X> functionThrowing = (a1,a2,a3) -> {
         throw new UnsupportedOperationException();
     };
 

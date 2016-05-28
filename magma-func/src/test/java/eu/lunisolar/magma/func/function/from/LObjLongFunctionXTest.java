@@ -308,7 +308,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjLongFunctionX<Integer,Integer,X> sutO = (Integer a1,long a2) -> {
+        LObjLongFunctionX<Integer,Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91L);
@@ -343,7 +343,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjLongFunctionX<Integer,Integer,X> sutO = (Integer a1,long a2) -> {
+        LObjLongFunctionX<Integer,Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91L);

@@ -47,11 +47,11 @@ public class LTriConsumerXAssertTest<T1,T2,T3,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LTriConsumerX<Integer,Integer,Integer,X> function = (Integer a1,Integer a2,Integer a3) ->
+    private LTriConsumerX<Integer,Integer,Integer,X> function = (a1,a2,a3) ->
             externalEffect.set(testValue);
 
 
-    private LTriConsumerX<Integer,Integer,Integer,X> functionThrowing = (Integer a1,Integer a2,Integer a3) -> {
+    private LTriConsumerX<Integer,Integer,Integer,X> functionThrowing = (a1,a2,a3) -> {
         throw new UnsupportedOperationException();
     };
 

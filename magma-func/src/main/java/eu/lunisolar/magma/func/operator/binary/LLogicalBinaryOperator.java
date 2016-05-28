@@ -186,7 +186,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	 */
 	@Nonnull
 	default LLogicalBinaryOperator negate() {
-		return (boolean a1, boolean a2) -> !doApply(a1, a2);
+		return (a1, a2) -> !doApply(a1, a2);
 	}
 
 	/**
@@ -196,7 +196,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	@Nonnull
 	default LLogicalBinaryOperator and(@Nonnull LLogicalBinaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2) -> doApply(a1, a2) && other.doApply(a1, a2);
+		return (a1, a2) -> doApply(a1, a2) && other.doApply(a1, a2);
 	}
 
 	/**
@@ -206,7 +206,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	@Nonnull
 	default LLogicalBinaryOperator or(@Nonnull LLogicalBinaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2) -> doApply(a1, a2) || other.doApply(a1, a2);
+		return (a1, a2) -> doApply(a1, a2) || other.doApply(a1, a2);
 	}
 
 	/**
@@ -261,7 +261,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	default LLogicalBinaryOperator logicalBinaryOpComposeBool(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (boolean v1, boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -269,7 +269,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	default <V1, V2> LBiPredicate<V1, V2> logicalBinaryOpCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
+		return (v1, v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -280,7 +280,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	@Nonnull
 	default <V> LBiBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

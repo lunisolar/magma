@@ -243,7 +243,7 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends ObjDoubleCo
 	default <V1> LObjDoubleConsumerX<V1, X> objDoubleConsComposeDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, double v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -251,7 +251,7 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends ObjDoubleCo
 	default <V1, V2> LBiConsumerX<V1, V2, X> objDoubleConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -301,13 +301,13 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends ObjDoubleCo
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjDoubleConsumer<T> handleObjDoubleCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, double a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjDoubleConsumerX<T, Y> handleObjDoubleConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, double a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

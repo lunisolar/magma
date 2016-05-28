@@ -295,7 +295,7 @@ public class LBiByteConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiByteConsumer sutO = (byte a1,byte a2) -> {
+        LBiByteConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo((byte)90);
                 assertThat(a2).isEqualTo((byte)91);
@@ -329,7 +329,7 @@ public class LBiByteConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiByteConsumer sutO = (byte a1,byte a2) -> {
+        LBiByteConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo((byte)90);
                 assertThat(a2).isEqualTo((byte)91);

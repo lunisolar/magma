@@ -46,11 +46,11 @@ public class LIntBinaryOperatorXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntBinaryOperatorX<X> function = (int a1,int a2) ->
+    private LIntBinaryOperatorX<X> function = (a1,a2) ->
             testValue;
 
 
-    private LIntBinaryOperatorX<X> functionThrowing = (int a1,int a2) -> {
+    private LIntBinaryOperatorX<X> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

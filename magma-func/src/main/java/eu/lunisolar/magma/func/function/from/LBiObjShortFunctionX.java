@@ -304,7 +304,7 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, short v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsShort(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsShort(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -314,7 +314,7 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsShort(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsShort(v3));
 	}
 
 	// </editor-fold>
@@ -325,14 +325,14 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 	@Nonnull
 	default <V> LBiObjShortFunctionX<T1, T2, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, short a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiObjShortConsumerX<T1, T2, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, short a3) -> after.doAccept(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doAccept(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>
@@ -374,13 +374,13 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiObjShortFunction<T1, T2, R> handleBiObjShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2, short a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiObjShortFunctionX<T1, T2, R, Y> handleBiObjShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2, short a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

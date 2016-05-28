@@ -243,7 +243,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	 */
 	@Nonnull
 	default LObjCharPredicateX<T, X> negate() {
-		return (T a1, char a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	@Nonnull
 	default LObjCharPredicateX<T, X> and(@Nonnull LObjCharPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, char a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	@Nonnull
 	default LObjCharPredicateX<T, X> or(@Nonnull LObjCharPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, char a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	default <V1> LObjCharPredicateX<V1, X> objCharPredComposeChar(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, char v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -302,7 +302,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	default <V1, V2> LBiPredicateX<V1, V2, X> objCharPredCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -313,7 +313,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	@Nonnull
 	default <V> LObjCharFunctionX<T, V, X> boolToObjCharFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, char a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -349,13 +349,13 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjCharPredicate<T> handleObjCharPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, char a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjCharPredicateX<T, Y> handleObjCharPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, char a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

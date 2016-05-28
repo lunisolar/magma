@@ -243,7 +243,7 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends ObjIntConsumer
 	default <V1> LObjIntConsumerX<V1, X> objIntConsComposeInt(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, int v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -251,7 +251,7 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends ObjIntConsumer
 	default <V1, V2> LBiConsumerX<V1, V2, X> objIntConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -301,13 +301,13 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends ObjIntConsumer
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjIntConsumer<T> handleObjIntCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, int a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjIntConsumerX<T, Y> handleObjIntConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, int a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

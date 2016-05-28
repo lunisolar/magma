@@ -46,11 +46,11 @@ public class LBinaryOperatorAssertTest<T,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBinaryOperator<Integer> function = (Integer a1,Integer a2) ->
+    private LBinaryOperator<Integer> function = (a1,a2) ->
             testValue;
 
 
-    private LBinaryOperator<Integer> functionThrowing = (Integer a1,Integer a2) -> {
+    private LBinaryOperator<Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

@@ -198,7 +198,7 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 	default <V1, V2> LBiConsumer<V1, V2> biConsCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>

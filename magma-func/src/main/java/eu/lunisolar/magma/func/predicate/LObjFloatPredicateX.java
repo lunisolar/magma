@@ -243,7 +243,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	 */
 	@Nonnull
 	default LObjFloatPredicateX<T, X> negate() {
-		return (T a1, float a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	@Nonnull
 	default LObjFloatPredicateX<T, X> and(@Nonnull LObjFloatPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, float a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	@Nonnull
 	default LObjFloatPredicateX<T, X> or(@Nonnull LObjFloatPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, float a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	default <V1> LObjFloatPredicateX<V1, X> objFloatPredComposeFloat(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, float v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -302,7 +302,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	default <V1, V2> LBiPredicateX<V1, V2, X> objFloatPredCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -313,7 +313,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	@Nonnull
 	default <V> LObjFloatFunctionX<T, V, X> boolToObjFloatFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, float a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -349,13 +349,13 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjFloatPredicate<T> handleObjFloatPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, float a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjFloatPredicateX<T, Y> handleObjFloatPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, float a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -195,7 +195,7 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	default <V1> LObjCharFunction<V1, R> objCharFuncComposeChar(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, char v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	default <V1, V2> LBiFunction<V1, V2, R> objCharFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	@Nonnull
 	default <V> LObjCharFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, char a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjCharConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, char a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

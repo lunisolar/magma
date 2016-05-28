@@ -240,7 +240,7 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 	default <V1> LObjShortFunctionX<V1, R, X> objShortFuncComposeShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, short v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> objShortFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 	@Nonnull
 	default <V> LObjShortFunctionX<T, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, short a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjShortConsumerX<T, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, short a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjShortFunction<T, R> handleObjShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, short a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjShortFunctionX<T, R, Y> handleObjShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, short a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

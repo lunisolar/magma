@@ -256,7 +256,7 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	default LCharBinaryOperatorX<X> charBinaryOpComposeChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (char v1, char v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -264,7 +264,7 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	default <V1, V2> LToCharBiFunctionX<V1, V2, X> charBinaryOpCompose(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -275,7 +275,7 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	@Nonnull
 	default <V> LBiCharFunctionX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (char a1, char a2) -> after.doApply(this.doApplyAsChar(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsChar(a1, a2));
 	}
 
 	// </editor-fold>
@@ -311,13 +311,13 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LCharBinaryOperator handleCharBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (char a1, char a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LCharBinaryOperatorX<Y> handleCharBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (char a1, char a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
 	}
 
 	// </editor-fold>

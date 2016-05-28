@@ -46,11 +46,11 @@ public class LDoubleBinaryOperatorXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleBinaryOperatorX<X> function = (double a1,double a2) ->
+    private LDoubleBinaryOperatorX<X> function = (a1,a2) ->
             testValue;
 
 
-    private LDoubleBinaryOperatorX<X> functionThrowing = (double a1,double a2) -> {
+    private LDoubleBinaryOperatorX<X> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

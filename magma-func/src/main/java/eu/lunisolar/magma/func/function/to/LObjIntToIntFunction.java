@@ -191,7 +191,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	default <V1> LObjIntToIntFunction<V1> objIntToIntFuncComposeInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, int v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -199,7 +199,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	default <V1, V2> LToIntBiFunction<V1, V2> objIntToIntFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -210,7 +210,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	@Nonnull
 	default <V> LObjIntFunction<T, V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, int a2) -> after.doApply(this.doApplyAsInt(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsInt(a1, a2));
 	}
 
 	// </editor-fold>

@@ -195,7 +195,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	default <V1> LObjLongFunction<V1, R> objLongFuncComposeLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, long v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	default <V1, V2> LBiFunction<V1, V2, R> objLongFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	@Nonnull
 	default <V> LObjLongFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, long a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjLongConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, long a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

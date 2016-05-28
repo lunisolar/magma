@@ -45,11 +45,11 @@ public class BinaryOperatorAssertTest<T> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private BinaryOperator<Integer> function = (Integer a1,Integer a2) ->
+    private BinaryOperator<Integer> function = (a1,a2) ->
             testValue;
 
 
-    private BinaryOperator<Integer> functionThrowing = (Integer a1,Integer a2) -> {
+    private BinaryOperator<Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

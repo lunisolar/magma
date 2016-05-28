@@ -46,11 +46,11 @@ public class LBiByteFunctionAssertTest<R,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiByteFunction<Integer> function = (byte a1,byte a2) ->
+    private LBiByteFunction<Integer> function = (a1,a2) ->
             testValue;
 
 
-    private LBiByteFunction<Integer> functionThrowing = (byte a1,byte a2) -> {
+    private LBiByteFunction<Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

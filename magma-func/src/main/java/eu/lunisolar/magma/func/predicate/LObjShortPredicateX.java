@@ -243,7 +243,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	 */
 	@Nonnull
 	default LObjShortPredicateX<T, X> negate() {
-		return (T a1, short a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	@Nonnull
 	default LObjShortPredicateX<T, X> and(@Nonnull LObjShortPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, short a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	@Nonnull
 	default LObjShortPredicateX<T, X> or(@Nonnull LObjShortPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, short a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	default <V1> LObjShortPredicateX<V1, X> objShortPredComposeShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, short v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -302,7 +302,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	default <V1, V2> LBiPredicateX<V1, V2, X> objShortPredCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -313,7 +313,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	@Nonnull
 	default <V> LObjShortFunctionX<T, V, X> boolToObjShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, short a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -349,13 +349,13 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjShortPredicate<T> handleObjShortPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, short a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjShortPredicateX<T, Y> handleObjShortPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, short a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

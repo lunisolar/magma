@@ -305,7 +305,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 	 */
 	@Nonnull
 	default LBiObjCharPredicateX<T1, T2, X> negate() {
-		return (T1 a1, T2 a2, char a3) -> !doTest(a1, a2, a3);
+		return (a1, a2, a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -315,7 +315,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 	@Nonnull
 	default LBiObjCharPredicateX<T1, T2, X> and(@Nonnull LBiObjCharPredicateX<? super T1, ? super T2, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, char a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -325,7 +325,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 	@Nonnull
 	default LBiObjCharPredicateX<T1, T2, X> or(@Nonnull LBiObjCharPredicateX<? super T1, ? super T2, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, char a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -357,7 +357,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, char v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -367,7 +367,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
 	}
 
 	// </editor-fold>
@@ -378,7 +378,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 	@Nonnull
 	default <V> LBiObjCharFunctionX<T1, T2, V, X> boolToBiObjCharFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, char a3) -> after.doApply(this.doTest(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>
@@ -414,13 +414,13 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> handleBiObjCharPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2, char a3) -> this.handlingDoTest(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoTest(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiObjCharPredicateX<T1, T2, Y> handleBiObjCharPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2, char a3) -> this.handlingDoTest(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoTest(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

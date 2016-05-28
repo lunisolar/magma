@@ -240,7 +240,7 @@ public interface LBiLongFunctionX<R, X extends Throwable> extends MetaFunction, 
 	default LBiLongFunctionX<R, X> biLongFuncComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (long v1, long v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LBiLongFunctionX<R, X extends Throwable> extends MetaFunction, 
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> biLongFuncCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LBiLongFunctionX<R, X extends Throwable> extends MetaFunction, 
 	@Nonnull
 	default <V> LBiLongFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiLongConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LBiLongFunctionX<R, X extends Throwable> extends MetaFunction, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiLongFunction<R> handleBiLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (long a1, long a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiLongFunctionX<R, Y> handleBiLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (long a1, long a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

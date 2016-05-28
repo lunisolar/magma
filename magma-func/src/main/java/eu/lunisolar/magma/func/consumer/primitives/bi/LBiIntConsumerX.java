@@ -227,7 +227,7 @@ public interface LBiIntConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	default LBiIntConsumerX<X> biIntConsComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (int v1, int v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LBiIntConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	default <V1, V2> LBiConsumerX<V1, V2, X> biIntConsCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LBiIntConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiIntConsumer handleBiIntCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (int a1, int a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiIntConsumerX<Y> handleBiIntConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (int a1, int a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -182,7 +182,7 @@ public interface LBiDoubleConsumer extends LBiDoubleConsumerX<RuntimeException>,
 	default LBiDoubleConsumer biDoubleConsComposeDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (double v1, double v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -190,7 +190,7 @@ public interface LBiDoubleConsumer extends LBiDoubleConsumerX<RuntimeException>,
 	default <V1, V2> LBiConsumer<V1, V2> biDoubleConsCompose(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>

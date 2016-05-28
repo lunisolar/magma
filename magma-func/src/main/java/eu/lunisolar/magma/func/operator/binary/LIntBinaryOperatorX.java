@@ -272,7 +272,7 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends IntBinaryOpera
 	default LIntBinaryOperatorX<X> intBinaryOpComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (int v1, int v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -280,7 +280,7 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends IntBinaryOpera
 	default <V1, V2> LToIntBiFunctionX<V1, V2, X> intBinaryOpCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -291,7 +291,7 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends IntBinaryOpera
 	@Nonnull
 	default <V> LBiIntFunctionX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (int a1, int a2) -> after.doApply(this.doApplyAsInt(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsInt(a1, a2));
 	}
 
 	// </editor-fold>
@@ -327,13 +327,13 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends IntBinaryOpera
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LIntBinaryOperator handleIntBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (int a1, int a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LIntBinaryOperatorX<Y> handleIntBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (int a1, int a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsInt(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -232,7 +232,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	 */
 	@Nonnull
 	default LBiObjLongPredicate<T1, T2> negate() {
-		return (T1 a1, T2 a2, long a3) -> !doTest(a1, a2, a3);
+		return (a1, a2, a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	@Nonnull
 	default LBiObjLongPredicate<T1, T2> and(@Nonnull LBiObjLongPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, long a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -252,7 +252,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	@Nonnull
 	default LBiObjLongPredicate<T1, T2> or(@Nonnull LBiObjLongPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, long a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -284,7 +284,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, long v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -293,7 +293,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
 	}
 
 	// </editor-fold>
@@ -304,7 +304,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	@Nonnull
 	default <V> LBiObjLongFunction<T1, T2, V> boolToBiObjLongFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, long a3) -> after.doApply(this.doTest(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>

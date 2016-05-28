@@ -195,7 +195,7 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 	default <V1> LObjShortFunction<V1, R> objShortFuncComposeShort(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, short v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 	default <V1, V2> LBiFunction<V1, V2, R> objShortFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 	@Nonnull
 	default <V> LObjShortFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, short a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjShortConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, short a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

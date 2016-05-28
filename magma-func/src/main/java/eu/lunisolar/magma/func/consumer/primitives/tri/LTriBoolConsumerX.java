@@ -216,7 +216,7 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (boolean v1, boolean v2, boolean v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -225,7 +225,7 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -275,13 +275,13 @@ public interface LTriBoolConsumerX<X extends Throwable> extends MetaConsumer, Me
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriBoolConsumer handleTriBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean a1, boolean a2, boolean a3) -> this.handlingDoAccept(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriBoolConsumerX<Y> handleTriBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean a1, boolean a2, boolean a3) -> this.handlingDoAccept(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

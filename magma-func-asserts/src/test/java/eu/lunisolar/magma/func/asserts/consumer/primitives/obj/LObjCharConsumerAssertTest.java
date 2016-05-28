@@ -47,11 +47,11 @@ public class LObjCharConsumerAssertTest<T,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LObjCharConsumer<Integer> function = (Integer a1,char a2) ->
+    private LObjCharConsumer<Integer> function = (a1,a2) ->
             externalEffect.set(testValue);
 
 
-    private LObjCharConsumer<Integer> functionThrowing = (Integer a1,char a2) -> {
+    private LObjCharConsumer<Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

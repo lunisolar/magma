@@ -46,11 +46,11 @@ public class LTriBoolFunctionAssertTest<R,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LTriBoolFunction<Integer> function = (boolean a1,boolean a2,boolean a3) ->
+    private LTriBoolFunction<Integer> function = (a1,a2,a3) ->
             testValue;
 
 
-    private LTriBoolFunction<Integer> functionThrowing = (boolean a1,boolean a2,boolean a3) -> {
+    private LTriBoolFunction<Integer> functionThrowing = (a1,a2,a3) -> {
         throw new UnsupportedOperationException();
     };
 

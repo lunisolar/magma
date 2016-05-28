@@ -195,7 +195,7 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 	default <V1> LObjFloatFunction<V1, R> objFloatFuncComposeFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, float v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 	default <V1, V2> LBiFunction<V1, V2, R> objFloatFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 	@Nonnull
 	default <V> LObjFloatFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, float a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjFloatConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, float a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

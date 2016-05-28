@@ -46,11 +46,11 @@ public class ObjDoubleConsumerAssertTest<T> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private ObjDoubleConsumer<Integer> function = (Integer a1,double a2) ->
+    private ObjDoubleConsumer<Integer> function = (a1,a2) ->
             externalEffect.set(testValue);
 
 
-    private ObjDoubleConsumer<Integer> functionThrowing = (Integer a1,double a2) -> {
+    private ObjDoubleConsumer<Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

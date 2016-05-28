@@ -240,7 +240,7 @@ public interface LBiDoubleFunctionX<R, X extends Throwable> extends MetaFunction
 	default LBiDoubleFunctionX<R, X> biDoubleFuncComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (double v1, double v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LBiDoubleFunctionX<R, X extends Throwable> extends MetaFunction
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> biDoubleFuncCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LBiDoubleFunctionX<R, X extends Throwable> extends MetaFunction
 	@Nonnull
 	default <V> LBiDoubleFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (double a1, double a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiDoubleConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (double a1, double a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LBiDoubleFunctionX<R, X extends Throwable> extends MetaFunction
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiDoubleFunction<R> handleBiDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (double a1, double a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiDoubleFunctionX<R, Y> handleBiDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (double a1, double a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

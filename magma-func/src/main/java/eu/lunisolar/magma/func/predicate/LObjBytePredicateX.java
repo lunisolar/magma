@@ -243,7 +243,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	 */
 	@Nonnull
 	default LObjBytePredicateX<T, X> negate() {
-		return (T a1, byte a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	@Nonnull
 	default LObjBytePredicateX<T, X> and(@Nonnull LObjBytePredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, byte a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	@Nonnull
 	default LObjBytePredicateX<T, X> or(@Nonnull LObjBytePredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, byte a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	default <V1> LObjBytePredicateX<V1, X> objBytePredComposeByte(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, byte v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -302,7 +302,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	default <V1, V2> LBiPredicateX<V1, V2, X> objBytePredCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -313,7 +313,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	@Nonnull
 	default <V> LObjByteFunctionX<T, V, X> boolToObjByteFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, byte a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -349,13 +349,13 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjBytePredicate<T> handleObjBytePred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, byte a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjBytePredicateX<T, Y> handleObjBytePredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, byte a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

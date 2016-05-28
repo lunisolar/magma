@@ -240,7 +240,7 @@ public interface LBiCharFunctionX<R, X extends Throwable> extends MetaFunction, 
 	default LBiCharFunctionX<R, X> biCharFuncComposeChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (char v1, char v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LBiCharFunctionX<R, X extends Throwable> extends MetaFunction, 
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> biCharFuncCompose(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LBiCharFunctionX<R, X extends Throwable> extends MetaFunction, 
 	@Nonnull
 	default <V> LBiCharFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (char a1, char a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiCharConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (char a1, char a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LBiCharFunctionX<R, X extends Throwable> extends MetaFunction, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiCharFunction<R> handleBiCharFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (char a1, char a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiCharFunctionX<R, Y> handleBiCharFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (char a1, char a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

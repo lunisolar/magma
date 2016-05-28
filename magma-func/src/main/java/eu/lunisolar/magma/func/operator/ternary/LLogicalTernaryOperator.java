@@ -192,7 +192,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	default LLogicalTernaryOperator negate() {
-		return (boolean a1, boolean a2, boolean a3) -> !doApply(a1, a2, a3);
+		return (a1, a2, a3) -> !doApply(a1, a2, a3);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	@Nonnull
 	default LLogicalTernaryOperator and(@Nonnull LLogicalTernaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2, boolean a3) -> doApply(a1, a2, a3) && other.doApply(a1, a2, a3);
+		return (a1, a2, a3) -> doApply(a1, a2, a3) && other.doApply(a1, a2, a3);
 	}
 
 	/**
@@ -212,7 +212,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	@Nonnull
 	default LLogicalTernaryOperator or(@Nonnull LLogicalTernaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2, boolean a3) -> doApply(a1, a2, a3) || other.doApply(a1, a2, a3);
+		return (a1, a2, a3) -> doApply(a1, a2, a3) || other.doApply(a1, a2, a3);
 	}
 
 	/**
@@ -241,7 +241,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	static LLogicalTernaryOperator and() {
-		return (boolean a1, boolean a2, boolean a3) -> a1 && a2 && a3;
+		return (a1, a2, a3) -> a1 && a2 && a3;
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	static LLogicalTernaryOperator or() {
-		return (boolean a1, boolean a2, boolean a3) -> a1 || a2 || a3;
+		return (a1, a2, a3) -> a1 || a2 || a3;
 	}
 
 	/**
@@ -257,7 +257,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	static LLogicalTernaryOperator xor() {
-		return (boolean a1, boolean a2, boolean a3) -> a1 ^ a2 ^ a3;
+		return (a1, a2, a3) -> a1 ^ a2 ^ a3;
 	}
 
 	// <editor-fold desc="compose (functional)">
@@ -268,7 +268,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (boolean v1, boolean v2, boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -277,7 +277,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -288,7 +288,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	@Nonnull
 	default <V> LTriBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2, boolean a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>

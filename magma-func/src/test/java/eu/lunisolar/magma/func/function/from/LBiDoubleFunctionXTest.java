@@ -308,7 +308,7 @@ public class LBiDoubleFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiDoubleFunctionX<Integer,X> sutO = (double a1,double a2) -> {
+        LBiDoubleFunctionX<Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90d);
                 assertThat(a2).isEqualTo(91d);
@@ -343,7 +343,7 @@ public class LBiDoubleFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiDoubleFunctionX<Integer,X> sutO = (double a1,double a2) -> {
+        LBiDoubleFunctionX<Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90d);
                 assertThat(a2).isEqualTo(91d);

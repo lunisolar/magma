@@ -368,7 +368,7 @@ public class LObjShortPredicateTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjShortPredicate<Integer> sutO = (Integer a1,short a2) -> {
+        LObjShortPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo((short)91);
@@ -403,7 +403,7 @@ public class LObjShortPredicateTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjShortPredicate<Integer> sutO = (Integer a1,short a2) -> {
+        LObjShortPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo((short)91);

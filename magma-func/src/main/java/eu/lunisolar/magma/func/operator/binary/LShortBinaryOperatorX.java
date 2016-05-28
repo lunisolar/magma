@@ -256,7 +256,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	default LShortBinaryOperatorX<X> shortBinaryOpComposeShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (short v1, short v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -264,7 +264,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	default <V1, V2> LToShortBiFunctionX<V1, V2, X> shortBinaryOpCompose(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -275,7 +275,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	@Nonnull
 	default <V> LBiShortFunctionX<V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> after.doApply(this.doApplyAsShort(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsShort(a1, a2));
 	}
 
 	// </editor-fold>
@@ -311,13 +311,13 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LShortBinaryOperator handleShortBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short a1, short a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LShortBinaryOperatorX<Y> handleShortBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short a1, short a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
 	}
 
 	// </editor-fold>

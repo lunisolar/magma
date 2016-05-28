@@ -290,7 +290,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, float v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -300,7 +300,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
 	// </editor-fold>
@@ -350,13 +350,13 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiObjFloatConsumer<T1, T2> handleBiObjFloatCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2, float a3) -> this.handlingDoAccept(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiObjFloatConsumerX<T1, T2, Y> handleBiObjFloatConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2, float a3) -> this.handlingDoAccept(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

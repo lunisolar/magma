@@ -232,7 +232,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	 */
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> negate() {
-		return (T1 a1, T2 a2, char a3) -> !doTest(a1, a2, a3);
+		return (a1, a2, a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> and(@Nonnull LBiObjCharPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, char a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -252,7 +252,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	@Nonnull
 	default LBiObjCharPredicate<T1, T2> or(@Nonnull LBiObjCharPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, char a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -284,7 +284,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, char v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -293,7 +293,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsChar(v3));
 	}
 
 	// </editor-fold>
@@ -304,7 +304,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	@Nonnull
 	default <V> LBiObjCharFunction<T1, T2, V> boolToBiObjCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, char a3) -> after.doApply(this.doTest(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>

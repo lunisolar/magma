@@ -198,7 +198,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	 */
 	@Nonnull
 	default LObjIntPredicate<T> negate() {
-		return (T a1, int a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	@Nonnull
 	default LObjIntPredicate<T> and(@Nonnull LObjIntPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, int a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	@Nonnull
 	default LObjIntPredicate<T> or(@Nonnull LObjIntPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, int a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	default <V1> LObjIntPredicate<V1> objIntPredComposeInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, int v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	default <V1, V2> LBiPredicate<V1, V2> objIntPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	@Nonnull
 	default <V> LObjIntFunction<T, V> boolToObjIntFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, int a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

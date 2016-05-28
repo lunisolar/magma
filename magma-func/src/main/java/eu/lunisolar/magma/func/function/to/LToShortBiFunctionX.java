@@ -236,7 +236,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	default <V1, V2> LToShortBiFunctionX<V1, V2, X> toShortBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApplyAsShort(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -247,7 +247,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsShort(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsShort(a1, a2));
 	}
 
 	// </editor-fold>
@@ -283,13 +283,13 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToShortBiFunction<T1, T2> handleToShortBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToShortBiFunctionX<T1, T2, Y> handleToShortBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsShort(a1, a2, handling);
 	}
 
 	// </editor-fold>

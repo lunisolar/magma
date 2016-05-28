@@ -46,11 +46,11 @@ public class BiConsumerAssertTest<T1,T2> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private BiConsumer<Integer,Integer> function = (Integer a1,Integer a2) ->
+    private BiConsumer<Integer,Integer> function = (a1,a2) ->
             externalEffect.set(testValue);
 
 
-    private BiConsumer<Integer,Integer> functionThrowing = (Integer a1,Integer a2) -> {
+    private BiConsumer<Integer,Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

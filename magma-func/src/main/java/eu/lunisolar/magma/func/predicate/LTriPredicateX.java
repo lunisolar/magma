@@ -305,7 +305,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	 */
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> negate() {
-		return (T1 a1, T2 a2, T3 a3) -> !doTest(a1, a2, a3);
+		return (a1, a2, a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -315,7 +315,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> and(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, T3 a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -325,7 +325,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> or(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, T3 a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -358,7 +358,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
@@ -369,7 +369,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default <V> LTriFunctionX<T1, T2, T3, V, X> boolToTriFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, T3 a3) -> after.doApply(this.doTest(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>
@@ -405,13 +405,13 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> handleTriPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoTest(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoTest(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriPredicateX<T1, T2, T3, Y> handleTriPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoTest(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoTest(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

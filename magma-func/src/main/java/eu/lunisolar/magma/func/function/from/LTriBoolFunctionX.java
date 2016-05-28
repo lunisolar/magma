@@ -229,7 +229,7 @@ public interface LTriBoolFunctionX<R, X extends Throwable> extends MetaFunction,
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (boolean v1, boolean v2, boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -238,7 +238,7 @@ public interface LTriBoolFunctionX<R, X extends Throwable> extends MetaFunction,
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -249,14 +249,14 @@ public interface LTriBoolFunctionX<R, X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LTriBoolFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2, boolean a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTriBoolConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2, boolean a3) -> after.doAccept(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doAccept(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>
@@ -298,13 +298,13 @@ public interface LTriBoolFunctionX<R, X extends Throwable> extends MetaFunction,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriBoolFunction<R> handleTriBoolFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean a1, boolean a2, boolean a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriBoolFunctionX<R, Y> handleTriBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean a1, boolean a2, boolean a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

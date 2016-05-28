@@ -198,7 +198,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	 */
 	@Nonnull
 	default LObjFloatPredicate<T> negate() {
-		return (T a1, float a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	@Nonnull
 	default LObjFloatPredicate<T> and(@Nonnull LObjFloatPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, float a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	@Nonnull
 	default LObjFloatPredicate<T> or(@Nonnull LObjFloatPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, float a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	default <V1> LObjFloatPredicate<V1> objFloatPredComposeFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, float v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	default <V1, V2> LBiPredicate<V1, V2> objFloatPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	@Nonnull
 	default <V> LObjFloatFunction<T, V> boolToObjFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, float a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

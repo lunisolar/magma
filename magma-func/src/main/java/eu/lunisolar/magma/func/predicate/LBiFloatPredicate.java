@@ -198,7 +198,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	 */
 	@Nonnull
 	default LBiFloatPredicate negate() {
-		return (float a1, float a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate and(@Nonnull LBiFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float a1, float a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate or(@Nonnull LBiFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float a1, float a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	default LBiFloatPredicate biFloatPredComposeFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (float v1, float v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	default <V1, V2> LBiPredicate<V1, V2> biFloatPredCompose(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default <V> LBiFloatFunction<V> boolToBiFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

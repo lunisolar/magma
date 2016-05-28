@@ -319,7 +319,7 @@ public class LBiBoolFunctionTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiBoolFunction<Integer> sutO = (boolean a1,boolean a2) -> {
+        LBiBoolFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
@@ -354,7 +354,7 @@ public class LBiBoolFunctionTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiBoolFunction<Integer> sutO = (boolean a1,boolean a2) -> {
+        LBiBoolFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);

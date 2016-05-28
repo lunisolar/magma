@@ -244,7 +244,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends BinaryOperator
 	@Nonnull
 	default <V> LBiFunctionX<T, T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, T a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -286,13 +286,13 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends BinaryOperator
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBinaryOperator<T> handleBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, T a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBinaryOperatorX<T, Y> handleBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, T a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

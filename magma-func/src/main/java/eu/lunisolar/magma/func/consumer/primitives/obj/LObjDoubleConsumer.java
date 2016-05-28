@@ -198,7 +198,7 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 	default <V1> LObjDoubleConsumer<V1> objDoubleConsComposeDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, double v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -206,7 +206,7 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 	default <V1, V2> LBiConsumer<V1, V2> objDoubleConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>

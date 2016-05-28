@@ -224,7 +224,7 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 	@Nonnull
 	default <V> LTriFunctionX<T, T, T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, T a2, T a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>
@@ -266,13 +266,13 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTernaryOperator<T> handleTernaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, T a2, T a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTernaryOperatorX<T, Y> handleTernaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, T a2, T a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

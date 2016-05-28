@@ -182,7 +182,7 @@ public interface LBiByteConsumer extends LBiByteConsumerX<RuntimeException>, Met
 	default LBiByteConsumer biByteConsComposeByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (byte v1, byte v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -190,7 +190,7 @@ public interface LBiByteConsumer extends LBiByteConsumerX<RuntimeException>, Met
 	default <V1, V2> LBiConsumer<V1, V2> biByteConsCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>

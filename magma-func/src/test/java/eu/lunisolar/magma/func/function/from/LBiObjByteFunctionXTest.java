@@ -308,7 +308,7 @@ public class LBiObjByteFunctionXTest<T1,T2,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjByteFunctionX<Integer,Integer,Integer,X> sutO = (Integer a1,Integer a2,byte a3) -> {
+        LBiObjByteFunctionX<Integer,Integer,Integer,X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
@@ -349,7 +349,7 @@ public class LBiObjByteFunctionXTest<T1,T2,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjByteFunctionX<Integer,Integer,Integer,X> sutO = (Integer a1,Integer a2,byte a3) -> {
+        LBiObjByteFunctionX<Integer,Integer,Integer,X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

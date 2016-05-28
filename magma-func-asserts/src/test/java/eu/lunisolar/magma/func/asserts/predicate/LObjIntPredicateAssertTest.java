@@ -46,11 +46,11 @@ public class LObjIntPredicateAssertTest<T,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LObjIntPredicate<Integer> function = (Integer a1,int a2) ->
+    private LObjIntPredicate<Integer> function = (a1,a2) ->
             testValue;
 
 
-    private LObjIntPredicate<Integer> functionThrowing = (Integer a1,int a2) -> {
+    private LObjIntPredicate<Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

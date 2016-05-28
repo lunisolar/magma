@@ -243,7 +243,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	 */
 	@Nonnull
 	default LBiShortPredicateX<X> negate() {
-		return (short a1, short a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default LBiShortPredicateX<X> and(@Nonnull LBiShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short a1, short a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default LBiShortPredicateX<X> or(@Nonnull LBiShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short a1, short a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	default LBiShortPredicateX<X> biShortPredComposeShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (short v1, short v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -302,7 +302,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	default <V1, V2> LBiPredicateX<V1, V2, X> biShortPredCompose(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -313,7 +313,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default <V> LBiShortFunctionX<V, X> boolToBiShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -349,13 +349,13 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiShortPredicate handleBiShortPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short a1, short a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiShortPredicateX<Y> handleBiShortPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short a1, short a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

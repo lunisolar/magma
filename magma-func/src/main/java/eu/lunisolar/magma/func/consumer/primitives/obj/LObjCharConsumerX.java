@@ -227,7 +227,7 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 	default <V1> LObjCharConsumerX<V1, X> objCharConsComposeChar(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, char v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 	default <V1, V2> LBiConsumerX<V1, V2, X> objCharConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjCharConsumer<T> handleObjCharCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, char a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjCharConsumerX<T, Y> handleObjCharConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, char a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -308,7 +308,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjIntToIntFunction<Integer> sutO = (Integer a1,int a2) -> {
+        LObjIntToIntFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
@@ -343,7 +343,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjIntToIntFunction<Integer> sutO = (Integer a1,int a2) -> {
+        LObjIntToIntFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

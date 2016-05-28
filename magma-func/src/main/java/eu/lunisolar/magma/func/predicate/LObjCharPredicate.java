@@ -198,7 +198,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default LObjCharPredicate<T> negate() {
-		return (T a1, char a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjCharPredicate<T> and(@Nonnull LObjCharPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, char a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjCharPredicate<T> or(@Nonnull LObjCharPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, char a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	default <V1> LObjCharPredicate<V1> objCharPredComposeChar(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, char v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	default <V1, V2> LBiPredicate<V1, V2> objCharPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	@Nonnull
 	default <V> LObjCharFunction<T, V> boolToObjCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, char a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

@@ -308,7 +308,7 @@ public class LBiCharFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiCharFunctionX<Integer,X> sutO = (char a1,char a2) -> {
+        LBiCharFunctionX<Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo('\u0090');
                 assertThat(a2).isEqualTo('\u0091');
@@ -343,7 +343,7 @@ public class LBiCharFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiCharFunctionX<Integer,X> sutO = (char a1,char a2) -> {
+        LBiCharFunctionX<Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo('\u0090');
                 assertThat(a2).isEqualTo('\u0091');

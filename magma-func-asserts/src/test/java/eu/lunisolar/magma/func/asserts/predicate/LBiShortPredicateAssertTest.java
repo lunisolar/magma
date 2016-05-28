@@ -46,11 +46,11 @@ public class LBiShortPredicateAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiShortPredicate function = (short a1,short a2) ->
+    private LBiShortPredicate function = (a1,a2) ->
             testValue;
 
 
-    private LBiShortPredicate functionThrowing = (short a1,short a2) -> {
+    private LBiShortPredicate functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

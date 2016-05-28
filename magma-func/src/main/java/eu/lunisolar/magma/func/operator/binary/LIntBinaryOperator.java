@@ -234,7 +234,7 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 	default LIntBinaryOperator intBinaryOpComposeInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (int v1, int v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -242,7 +242,7 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 	default <V1, V2> LToIntBiFunction<V1, V2> intBinaryOpCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -253,7 +253,7 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 	@Nonnull
 	default <V> LBiIntFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (int a1, int a2) -> after.doApply(this.doApplyAsInt(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsInt(a1, a2));
 	}
 
 	// </editor-fold>

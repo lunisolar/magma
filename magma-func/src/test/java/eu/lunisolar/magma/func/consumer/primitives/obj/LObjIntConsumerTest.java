@@ -303,7 +303,7 @@ public class LObjIntConsumerTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjIntConsumer<Integer> sutO = (Integer a1,int a2) -> {
+        LObjIntConsumer<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
@@ -337,7 +337,7 @@ public class LObjIntConsumerTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjIntConsumer<Integer> sutO = (Integer a1,int a2) -> {
+        LObjIntConsumer<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

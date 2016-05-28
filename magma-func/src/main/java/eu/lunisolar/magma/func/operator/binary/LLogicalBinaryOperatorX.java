@@ -224,7 +224,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	 */
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> negate() {
-		return (boolean a1, boolean a2) -> !doApply(a1, a2);
+		return (a1, a2) -> !doApply(a1, a2);
 	}
 
 	/**
@@ -234,7 +234,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> and(@Nonnull LLogicalBinaryOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2) -> doApply(a1, a2) && other.doApply(a1, a2);
+		return (a1, a2) -> doApply(a1, a2) && other.doApply(a1, a2);
 	}
 
 	/**
@@ -244,7 +244,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> or(@Nonnull LLogicalBinaryOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2) -> doApply(a1, a2) || other.doApply(a1, a2);
+		return (a1, a2) -> doApply(a1, a2) || other.doApply(a1, a2);
 	}
 
 	/**
@@ -299,7 +299,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	default LLogicalBinaryOperatorX<X> logicalBinaryOpComposeBool(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (boolean v1, boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -307,7 +307,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	default <V1, V2> LBiPredicateX<V1, V2, X> logicalBinaryOpCompose(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
+		return (v1, v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -318,7 +318,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	@Nonnull
 	default <V> LBiBoolFunctionX<V, X> then(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -354,13 +354,13 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLogicalBinaryOperator handleLogicalBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLogicalBinaryOperatorX<Y> handleLogicalBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

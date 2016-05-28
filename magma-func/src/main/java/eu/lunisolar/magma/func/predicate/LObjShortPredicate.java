@@ -198,7 +198,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	 */
 	@Nonnull
 	default LObjShortPredicate<T> negate() {
-		return (T a1, short a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	@Nonnull
 	default LObjShortPredicate<T> and(@Nonnull LObjShortPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, short a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	@Nonnull
 	default LObjShortPredicate<T> or(@Nonnull LObjShortPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, short a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	default <V1> LObjShortPredicate<V1> objShortPredComposeShort(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, short v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	default <V1, V2> LBiPredicate<V1, V2> objShortPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	@Nonnull
 	default <V> LObjShortFunction<T, V> boolToObjShortFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, short a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

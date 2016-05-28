@@ -256,7 +256,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	default LFloatBinaryOperatorX<X> floatBinaryOpComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (float v1, float v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -264,7 +264,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> floatBinaryOpCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -275,7 +275,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	@Nonnull
 	default <V> LBiFloatFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
 	}
 
 	// </editor-fold>
@@ -311,13 +311,13 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LFloatBinaryOperator handleFloatBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (float a1, float a2) -> this.handlingDoApplyAsFloat(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsFloat(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LFloatBinaryOperatorX<Y> handleFloatBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (float a1, float a2) -> this.handlingDoApplyAsFloat(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsFloat(a1, a2, handling);
 	}
 
 	// </editor-fold>

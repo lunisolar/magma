@@ -236,7 +236,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	default <V1, V2> LToCharBiFunctionX<V1, V2, X> toCharBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -247,7 +247,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsChar(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsChar(a1, a2));
 	}
 
 	// </editor-fold>
@@ -283,13 +283,13 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToCharBiFunction<T1, T2> handleToCharBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToCharBiFunctionX<T1, T2, Y> handleToCharBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsChar(a1, a2, handling);
 	}
 
 	// </editor-fold>

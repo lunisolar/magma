@@ -46,11 +46,11 @@ public class LBiDoubleFunctionXAssertTest<R,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiDoubleFunctionX<Integer,X> function = (double a1,double a2) ->
+    private LBiDoubleFunctionX<Integer,X> function = (a1,a2) ->
             testValue;
 
 
-    private LBiDoubleFunctionX<Integer,X> functionThrowing = (double a1,double a2) -> {
+    private LBiDoubleFunctionX<Integer,X> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

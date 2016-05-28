@@ -47,11 +47,11 @@ public class LBiIntConsumerXAssertTest<X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiIntConsumerX<X> function = (int a1,int a2) ->
+    private LBiIntConsumerX<X> function = (a1,a2) ->
             externalEffect.set(testValue);
 
 
-    private LBiIntConsumerX<X> functionThrowing = (int a1,int a2) -> {
+    private LBiIntConsumerX<X> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

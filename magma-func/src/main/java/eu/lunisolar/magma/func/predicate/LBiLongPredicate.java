@@ -198,7 +198,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LBiLongPredicate negate() {
-		return (long a1, long a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate and(@Nonnull LBiLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (long a1, long a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate or(@Nonnull LBiLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (long a1, long a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	default LBiLongPredicate biLongPredComposeLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (long v1, long v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	default <V1, V2> LBiPredicate<V1, V2> biLongPredCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default <V> LBiLongFunction<V> boolToBiLongFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

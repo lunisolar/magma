@@ -198,7 +198,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LBiIntPredicate negate() {
-		return (int a1, int a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LBiIntPredicate and(@Nonnull LBiIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int a1, int a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LBiIntPredicate or(@Nonnull LBiIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int a1, int a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	default LBiIntPredicate biIntPredComposeInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (int v1, int v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	default <V1, V2> LBiPredicate<V1, V2> biIntPredCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LBiIntFunction<V> boolToBiIntFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (int a1, int a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

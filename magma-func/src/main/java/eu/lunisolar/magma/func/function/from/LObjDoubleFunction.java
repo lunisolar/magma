@@ -195,7 +195,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	default <V1> LObjDoubleFunction<V1, R> objDoubleFuncComposeDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, double v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	default <V1, V2> LBiFunction<V1, V2, R> objDoubleFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	@Nonnull
 	default <V> LObjDoubleFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, double a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjDoubleConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, double a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

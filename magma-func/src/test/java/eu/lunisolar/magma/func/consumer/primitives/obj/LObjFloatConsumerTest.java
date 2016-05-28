@@ -295,7 +295,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjFloatConsumer<Integer> sutO = (Integer a1,float a2) -> {
+        LObjFloatConsumer<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91f);
@@ -329,7 +329,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjFloatConsumer<Integer> sutO = (Integer a1,float a2) -> {
+        LObjFloatConsumer<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91f);

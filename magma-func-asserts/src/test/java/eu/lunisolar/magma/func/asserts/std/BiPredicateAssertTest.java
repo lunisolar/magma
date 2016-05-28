@@ -45,11 +45,11 @@ public class BiPredicateAssertTest<T1,T2> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private BiPredicate<Integer,Integer> function = (Integer a1,Integer a2) ->
+    private BiPredicate<Integer,Integer> function = (a1,a2) ->
             testValue;
 
 
-    private BiPredicate<Integer,Integer> functionThrowing = (Integer a1,Integer a2) -> {
+    private BiPredicate<Integer,Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

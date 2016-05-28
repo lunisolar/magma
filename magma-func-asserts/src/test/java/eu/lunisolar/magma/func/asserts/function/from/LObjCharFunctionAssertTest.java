@@ -46,11 +46,11 @@ public class LObjCharFunctionAssertTest<T,R,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LObjCharFunction<Integer,Integer> function = (Integer a1,char a2) ->
+    private LObjCharFunction<Integer,Integer> function = (a1,a2) ->
             testValue;
 
 
-    private LObjCharFunction<Integer,Integer> functionThrowing = (Integer a1,char a2) -> {
+    private LObjCharFunction<Integer,Integer> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

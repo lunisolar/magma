@@ -182,7 +182,7 @@ public interface LObjBoolConsumer<T> extends LObjBoolConsumerX<T, RuntimeExcepti
 	default <V1> LObjBoolConsumer<V1> objBoolConsComposeBool(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -190,7 +190,7 @@ public interface LObjBoolConsumer<T> extends LObjBoolConsumerX<T, RuntimeExcepti
 	default <V1, V2> LBiConsumer<V1, V2> objBoolConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doTest(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>

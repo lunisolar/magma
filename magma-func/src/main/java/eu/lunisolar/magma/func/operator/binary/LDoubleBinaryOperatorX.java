@@ -272,7 +272,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends DoubleBinar
 	default LDoubleBinaryOperatorX<X> doubleBinaryOpComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (double v1, double v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -280,7 +280,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends DoubleBinar
 	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> doubleBinaryOpCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -291,7 +291,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends DoubleBinar
 	@Nonnull
 	default <V> LBiDoubleFunctionX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (double a1, double a2) -> after.doApply(this.doApplyAsDouble(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsDouble(a1, a2));
 	}
 
 	// </editor-fold>
@@ -327,13 +327,13 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends DoubleBinar
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LDoubleBinaryOperator handleDoubleBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (double a1, double a2) -> this.handlingDoApplyAsDouble(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsDouble(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LDoubleBinaryOperatorX<Y> handleDoubleBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (double a1, double a2) -> this.handlingDoApplyAsDouble(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsDouble(a1, a2, handling);
 	}
 
 	// </editor-fold>

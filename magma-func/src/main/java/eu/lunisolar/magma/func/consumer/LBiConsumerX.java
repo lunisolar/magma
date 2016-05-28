@@ -243,7 +243,7 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends BiConsumer<T1
 	default <V1, V2> LBiConsumerX<V1, V2, X> biConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -293,13 +293,13 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends BiConsumer<T1
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiConsumer<T1, T2> handleBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiConsumerX<T1, T2, Y> handleBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

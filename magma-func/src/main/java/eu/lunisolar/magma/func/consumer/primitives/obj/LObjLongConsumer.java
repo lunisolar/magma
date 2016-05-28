@@ -198,7 +198,7 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 	default <V1> LObjLongConsumer<V1> objLongConsComposeLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, long v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -206,7 +206,7 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 	default <V1, V2> LBiConsumer<V1, V2> objLongConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>

@@ -304,7 +304,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
@@ -315,14 +315,14 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 	@Nonnull
 	default <V> LTriFunctionX<T1, T2, T3, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, T3 a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTriConsumerX<T1, T2, T3, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, T3 a3) -> after.doAccept(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doAccept(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>
@@ -364,13 +364,13 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriFunction<T1, T2, T3, R> handleTriFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriFunctionX<T1, T2, T3, R, Y> handleTriFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoApply(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoApply(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

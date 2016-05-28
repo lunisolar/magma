@@ -284,7 +284,7 @@ public class LBiCharConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiCharConsumerX<X> sutO = (char a1,char a2) -> {
+        LBiCharConsumerX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo('\u0090');
                 assertThat(a2).isEqualTo('\u0091');
@@ -318,7 +318,7 @@ public class LBiCharConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiCharConsumerX<X> sutO = (char a1,char a2) -> {
+        LBiCharConsumerX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo('\u0090');
                 assertThat(a2).isEqualTo('\u0091');

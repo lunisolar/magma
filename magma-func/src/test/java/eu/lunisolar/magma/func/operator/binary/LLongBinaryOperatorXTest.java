@@ -365,7 +365,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongBinaryOperatorX<X> sutO = (long a1,long a2) -> {
+        LLongBinaryOperatorX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90L);
                 assertThat(a2).isEqualTo(91L);
@@ -400,7 +400,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongBinaryOperatorX<X> sutO = (long a1,long a2) -> {
+        LLongBinaryOperatorX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90L);
                 assertThat(a2).isEqualTo(91L);

@@ -198,7 +198,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	 */
 	@Nonnull
 	default LBiShortPredicate negate() {
-		return (short a1, short a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiShortPredicate and(@Nonnull LBiShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (short a1, short a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiShortPredicate or(@Nonnull LBiShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (short a1, short a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	default LBiShortPredicate biShortPredComposeShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (short v1, short v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	default <V1, V2> LBiPredicate<V1, V2> biShortPredCompose(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	@Nonnull
 	default <V> LBiShortFunction<V> boolToBiShortFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

@@ -217,7 +217,7 @@ public interface LBiObjBoolConsumer<T1, T2> extends LBiObjBoolConsumerX<T1, T2, 
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, boolean v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -226,7 +226,7 @@ public interface LBiObjBoolConsumer<T1, T2> extends LBiObjBoolConsumerX<T1, T2, 
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doTest(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>

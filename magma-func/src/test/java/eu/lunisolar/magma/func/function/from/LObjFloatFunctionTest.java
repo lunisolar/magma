@@ -319,7 +319,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjFloatFunction<Integer,Integer> sutO = (Integer a1,float a2) -> {
+        LObjFloatFunction<Integer,Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91f);
@@ -354,7 +354,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjFloatFunction<Integer,Integer> sutO = (Integer a1,float a2) -> {
+        LObjFloatFunction<Integer,Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91f);

@@ -198,7 +198,7 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 	default <V1> LObjIntConsumer<V1> objIntConsComposeInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, int v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -206,7 +206,7 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 	default <V1, V2> LBiConsumer<V1, V2> objIntConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>

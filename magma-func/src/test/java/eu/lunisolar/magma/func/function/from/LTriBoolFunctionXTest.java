@@ -308,7 +308,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriBoolFunctionX<Integer,X> sutO = (boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolFunctionX<Integer,X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
@@ -349,7 +349,7 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriBoolFunctionX<Integer,X> sutO = (boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolFunctionX<Integer,X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);

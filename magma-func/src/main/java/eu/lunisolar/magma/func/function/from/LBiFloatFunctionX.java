@@ -240,7 +240,7 @@ public interface LBiFloatFunctionX<R, X extends Throwable> extends MetaFunction,
 	default LBiFloatFunctionX<R, X> biFloatFuncComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (float v1, float v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LBiFloatFunctionX<R, X extends Throwable> extends MetaFunction,
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> biFloatFuncCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LBiFloatFunctionX<R, X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LBiFloatFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiFloatConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LBiFloatFunctionX<R, X extends Throwable> extends MetaFunction,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiFloatFunction<R> handleBiFloatFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (float a1, float a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiFloatFunctionX<R, Y> handleBiFloatFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (float a1, float a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

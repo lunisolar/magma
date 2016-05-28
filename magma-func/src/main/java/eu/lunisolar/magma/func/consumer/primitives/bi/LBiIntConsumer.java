@@ -182,7 +182,7 @@ public interface LBiIntConsumer extends LBiIntConsumerX<RuntimeException>, MetaC
 	default LBiIntConsumer biIntConsComposeInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (int v1, int v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -190,7 +190,7 @@ public interface LBiIntConsumer extends LBiIntConsumerX<RuntimeException>, MetaC
 	default <V1, V2> LBiConsumer<V1, V2> biIntConsCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>

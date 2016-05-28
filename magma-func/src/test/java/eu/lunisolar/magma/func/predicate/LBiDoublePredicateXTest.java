@@ -357,7 +357,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiDoublePredicateX<X> sutO = (double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90d);
                 assertThat(a2).isEqualTo(91d);
@@ -392,7 +392,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiDoublePredicateX<X> sutO = (double a1,double a2) -> {
+        LBiDoublePredicateX<X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90d);
                 assertThat(a2).isEqualTo(91d);

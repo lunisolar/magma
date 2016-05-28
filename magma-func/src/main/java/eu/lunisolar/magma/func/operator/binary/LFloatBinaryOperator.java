@@ -218,7 +218,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	default LFloatBinaryOperator floatBinaryOpComposeFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (float v1, float v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -226,7 +226,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	default <V1, V2> LToFloatBiFunction<V1, V2> floatBinaryOpCompose(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -237,7 +237,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V> LBiFloatFunction<V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
 	}
 
 	// </editor-fold>

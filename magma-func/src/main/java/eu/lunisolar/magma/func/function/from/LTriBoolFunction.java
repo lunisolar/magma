@@ -191,7 +191,7 @@ public interface LTriBoolFunction<R> extends LTriBoolFunctionX<R, RuntimeExcepti
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (boolean v1, boolean v2, boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -200,7 +200,7 @@ public interface LTriBoolFunction<R> extends LTriBoolFunctionX<R, RuntimeExcepti
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -211,14 +211,14 @@ public interface LTriBoolFunction<R> extends LTriBoolFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default <V> LTriBoolFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2, boolean a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTriBoolConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2, boolean a3) -> after.doAccept(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doAccept(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>

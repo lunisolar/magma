@@ -232,7 +232,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	 */
 	@Nonnull
 	default LBiObjDoublePredicate<T1, T2> negate() {
-		return (T1 a1, T2 a2, double a3) -> !doTest(a1, a2, a3);
+		return (a1, a2, a3) -> !doTest(a1, a2, a3);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	@Nonnull
 	default LBiObjDoublePredicate<T1, T2> and(@Nonnull LBiObjDoublePredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, double a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -252,7 +252,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	@Nonnull
 	default LBiObjDoublePredicate<T1, T2> or(@Nonnull LBiObjDoublePredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, double a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -284,7 +284,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, double v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -293,7 +293,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
+		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
 	}
 
 	// </editor-fold>
@@ -304,7 +304,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	@Nonnull
 	default <V> LBiObjDoubleFunction<T1, T2, V> boolToBiObjDoubleFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, double a3) -> after.doApply(this.doTest(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}
 
 	// </editor-fold>

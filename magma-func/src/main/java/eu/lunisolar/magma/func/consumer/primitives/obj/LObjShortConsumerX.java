@@ -227,7 +227,7 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 	default <V1> LObjShortConsumerX<V1, X> objShortConsComposeShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, short v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 	default <V1, V2> LBiConsumerX<V1, V2, X> objShortConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjShortConsumer<T> handleObjShortCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, short a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjShortConsumerX<T, Y> handleObjShortConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, short a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

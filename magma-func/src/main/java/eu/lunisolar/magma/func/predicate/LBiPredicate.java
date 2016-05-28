@@ -214,7 +214,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	 */
 	@Nonnull
 	default LBiPredicate<T1, T2> negate() {
-		return (T1 a1, T2 a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -224,7 +224,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	@Nonnull
 	default LBiPredicate<T1, T2> and(@Nonnull LBiPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -234,7 +234,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	@Nonnull
 	default LBiPredicate<T1, T2> or(@Nonnull LBiPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -265,7 +265,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	default <V1, V2> LBiPredicate<V1, V2> biPredCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -276,7 +276,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> boolToBiFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

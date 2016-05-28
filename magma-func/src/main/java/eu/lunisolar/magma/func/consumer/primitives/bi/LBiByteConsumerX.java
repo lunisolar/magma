@@ -227,7 +227,7 @@ public interface LBiByteConsumerX<X extends Throwable> extends MetaConsumer, Met
 	default LBiByteConsumerX<X> biByteConsComposeByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (byte v1, byte v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LBiByteConsumerX<X extends Throwable> extends MetaConsumer, Met
 	default <V1, V2> LBiConsumerX<V1, V2, X> biByteConsCompose(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LBiByteConsumerX<X extends Throwable> extends MetaConsumer, Met
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiByteConsumer handleBiByteCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (byte a1, byte a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiByteConsumerX<Y> handleBiByteConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (byte a1, byte a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

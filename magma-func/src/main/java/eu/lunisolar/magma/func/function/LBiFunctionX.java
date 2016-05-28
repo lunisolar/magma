@@ -256,7 +256,7 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends BiFunction
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> biFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -267,14 +267,14 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends BiFunction
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiConsumerX<T1, T2, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -316,13 +316,13 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends BiFunction
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiFunction<T1, T2, R> handleBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiFunctionX<T1, T2, R, Y> handleBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

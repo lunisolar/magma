@@ -206,7 +206,7 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 	@Nonnull
 	default <V> LBiFunction<T, T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, T a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

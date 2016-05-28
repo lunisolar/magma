@@ -319,7 +319,7 @@ public class LBiObjCharFunctionTest<T1,T2,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjCharFunction<Integer,Integer,Integer> sutO = (Integer a1,Integer a2,char a3) -> {
+        LBiObjCharFunction<Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
@@ -360,7 +360,7 @@ public class LBiObjCharFunctionTest<T1,T2,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjCharFunction<Integer,Integer,Integer> sutO = (Integer a1,Integer a2,char a3) -> {
+        LBiObjCharFunction<Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

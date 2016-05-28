@@ -256,7 +256,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	default LByteBinaryOperatorX<X> byteBinaryOpComposeByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (byte v1, byte v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -264,7 +264,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	default <V1, V2> LToByteBiFunctionX<V1, V2, X> byteBinaryOpCompose(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -275,7 +275,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	@Nonnull
 	default <V> LBiByteFunctionX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte a1, byte a2) -> after.doApply(this.doApplyAsByte(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsByte(a1, a2));
 	}
 
 	// </editor-fold>
@@ -311,13 +311,13 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LByteBinaryOperator handleByteBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (byte a1, byte a2) -> this.handlingDoApplyAsByte(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsByte(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LByteBinaryOperatorX<Y> handleByteBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (byte a1, byte a2) -> this.handlingDoApplyAsByte(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsByte(a1, a2, handling);
 	}
 
 	// </editor-fold>

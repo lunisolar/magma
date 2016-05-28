@@ -195,7 +195,7 @@ public interface LBiFloatFunction<R> extends LBiFloatFunctionX<R, RuntimeExcepti
 	default LBiFloatFunction<R> biFloatFuncComposeFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (float v1, float v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LBiFloatFunction<R> extends LBiFloatFunctionX<R, RuntimeExcepti
 	default <V1, V2> LBiFunction<V1, V2, R> biFloatFuncCompose(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LBiFloatFunction<R> extends LBiFloatFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default <V> LBiFloatFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiFloatConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float a1, float a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

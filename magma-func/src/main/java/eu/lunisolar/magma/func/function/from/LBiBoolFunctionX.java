@@ -240,7 +240,7 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	default LBiBoolFunctionX<R, X> biBoolFuncComposeBool(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (boolean v1, boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> biBoolFuncCompose(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
+		return (v1, v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	@Nonnull
 	default <V> LBiBoolFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiBoolConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean a1, boolean a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LBiBoolFunctionX<R, X extends Throwable> extends MetaFunction, 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiBoolFunction<R> handleBiBoolFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiBoolFunctionX<R, Y> handleBiBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -234,7 +234,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	default LDoubleBinaryOperator doubleBinaryOpComposeDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (double v1, double v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -242,7 +242,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	default <V1, V2> LToDoubleBiFunction<V1, V2> doubleBinaryOpCompose(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -253,7 +253,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	@Nonnull
 	default <V> LBiDoubleFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (double a1, double a2) -> after.doApply(this.doApplyAsDouble(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsDouble(a1, a2));
 	}
 
 	// </editor-fold>

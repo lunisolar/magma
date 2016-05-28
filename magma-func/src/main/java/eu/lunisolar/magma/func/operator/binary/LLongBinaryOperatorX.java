@@ -272,7 +272,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends LongBinaryOpe
 	default LLongBinaryOperatorX<X> longBinaryOpComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (long v1, long v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -280,7 +280,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends LongBinaryOpe
 	default <V1, V2> LToLongBiFunctionX<V1, V2, X> longBinaryOpCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -291,7 +291,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends LongBinaryOpe
 	@Nonnull
 	default <V> LBiLongFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doApply(this.doApplyAsLong(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsLong(a1, a2));
 	}
 
 	// </editor-fold>
@@ -327,13 +327,13 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends LongBinaryOpe
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongBinaryOperator handleLongBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (long a1, long a2) -> this.handlingDoApplyAsLong(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsLong(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongBinaryOperatorX<Y> handleLongBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (long a1, long a2) -> this.handlingDoApplyAsLong(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApplyAsLong(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -217,7 +217,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>

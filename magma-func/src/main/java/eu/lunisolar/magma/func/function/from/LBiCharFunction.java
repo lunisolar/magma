@@ -195,7 +195,7 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 	default LBiCharFunction<R> biCharFuncComposeChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (char v1, char v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 	default <V1, V2> LBiFunction<V1, V2, R> biCharFuncCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LBiCharFunction<R> extends LBiCharFunctionX<R, RuntimeException
 	@Nonnull
 	default <V> LBiCharFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (char a1, char a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiCharConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char a1, char a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

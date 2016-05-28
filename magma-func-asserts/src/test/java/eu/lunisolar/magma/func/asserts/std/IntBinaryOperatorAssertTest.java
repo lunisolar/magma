@@ -45,11 +45,11 @@ public class IntBinaryOperatorAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private IntBinaryOperator function = (int a1,int a2) ->
+    private IntBinaryOperator function = (a1,a2) ->
             testValue;
 
 
-    private IntBinaryOperator functionThrowing = (int a1,int a2) -> {
+    private IntBinaryOperator functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

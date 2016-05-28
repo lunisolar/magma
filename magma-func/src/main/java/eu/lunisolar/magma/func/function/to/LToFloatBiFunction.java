@@ -191,7 +191,7 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 	default <V1, V2> LToFloatBiFunction<V1, V2> toFloatBiFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsFloat(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApplyAsFloat(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -202,7 +202,7 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsFloat(a1, a2));
 	}
 
 	// </editor-fold>

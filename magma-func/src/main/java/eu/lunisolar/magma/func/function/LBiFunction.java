@@ -211,7 +211,7 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	default <V1, V2> LBiFunction<V1, V2, R> biFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -222,14 +222,14 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiConsumer<T1, T2> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

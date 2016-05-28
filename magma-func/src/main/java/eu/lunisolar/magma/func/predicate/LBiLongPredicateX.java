@@ -243,7 +243,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	 */
 	@Nonnull
 	default LBiLongPredicateX<X> negate() {
-		return (long a1, long a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	@Nonnull
 	default LBiLongPredicateX<X> and(@Nonnull LBiLongPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (long a1, long a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	@Nonnull
 	default LBiLongPredicateX<X> or(@Nonnull LBiLongPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (long a1, long a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	default LBiLongPredicateX<X> biLongPredComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (long v1, long v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -302,7 +302,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	default <V1, V2> LBiPredicateX<V1, V2, X> biLongPredCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -313,7 +313,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	@Nonnull
 	default <V> LBiLongFunctionX<V, X> boolToBiLongFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -349,13 +349,13 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiLongPredicate handleBiLongPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (long a1, long a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiLongPredicateX<Y> handleBiLongPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (long a1, long a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

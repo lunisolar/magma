@@ -195,7 +195,7 @@ public interface LBiLongFunction<R> extends LBiLongFunctionX<R, RuntimeException
 	default LBiLongFunction<R> biLongFuncComposeLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (long v1, long v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LBiLongFunction<R> extends LBiLongFunctionX<R, RuntimeException
 	default <V1, V2> LBiFunction<V1, V2, R> biLongFuncCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LBiLongFunction<R> extends LBiLongFunctionX<R, RuntimeException
 	@Nonnull
 	default <V> LBiLongFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiLongConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

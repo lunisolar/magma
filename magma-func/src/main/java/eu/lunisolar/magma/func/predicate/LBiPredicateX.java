@@ -259,7 +259,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	 */
 	@Nonnull
 	default LBiPredicateX<T1, T2, X> negate() {
-		return (T1 a1, T2 a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -269,7 +269,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	@Nonnull
 	default LBiPredicateX<T1, T2, X> and(@Nonnull LBiPredicateX<? super T1, ? super T2, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -279,7 +279,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	@Nonnull
 	default LBiPredicateX<T1, T2, X> or(@Nonnull LBiPredicateX<? super T1, ? super T2, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -310,7 +310,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	default <V1, V2> LBiPredicateX<V1, V2, X> biPredCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -321,7 +321,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> boolToBiFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -357,13 +357,13 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiPredicate<T1, T2> handleBiPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiPredicateX<T1, T2, Y> handleBiPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

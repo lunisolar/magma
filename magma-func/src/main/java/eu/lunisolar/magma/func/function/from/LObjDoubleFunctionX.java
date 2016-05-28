@@ -240,7 +240,7 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	default <V1> LObjDoubleFunctionX<V1, R, X> objDoubleFuncComposeDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, double v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> objDoubleFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	@Nonnull
 	default <V> LObjDoubleFunctionX<T, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, double a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjDoubleConsumerX<T, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, double a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LObjDoubleFunctionX<T, R, X extends Throwable> extends MetaFunc
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjDoubleFunction<T, R> handleObjDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, double a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjDoubleFunctionX<T, R, Y> handleObjDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, double a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

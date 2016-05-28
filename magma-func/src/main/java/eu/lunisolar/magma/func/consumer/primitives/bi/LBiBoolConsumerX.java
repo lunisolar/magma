@@ -227,7 +227,7 @@ public interface LBiBoolConsumerX<X extends Throwable> extends MetaConsumer, Met
 	default LBiBoolConsumerX<X> biBoolConsComposeBool(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (boolean v1, boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LBiBoolConsumerX<X extends Throwable> extends MetaConsumer, Met
 	default <V1, V2> LBiConsumerX<V1, V2, X> biBoolConsCompose(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doTest(v1), before2.doTest(v2));
+		return (v1, v2) -> this.doAccept(before1.doTest(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LBiBoolConsumerX<X extends Throwable> extends MetaConsumer, Met
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiBoolConsumer handleBiBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean a1, boolean a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiBoolConsumerX<Y> handleBiBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean a1, boolean a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

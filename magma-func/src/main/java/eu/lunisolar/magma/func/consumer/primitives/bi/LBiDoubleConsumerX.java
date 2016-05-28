@@ -227,7 +227,7 @@ public interface LBiDoubleConsumerX<X extends Throwable> extends MetaConsumer, M
 	default LBiDoubleConsumerX<X> biDoubleConsComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (double v1, double v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LBiDoubleConsumerX<X extends Throwable> extends MetaConsumer, M
 	default <V1, V2> LBiConsumerX<V1, V2, X> biDoubleConsCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LBiDoubleConsumerX<X extends Throwable> extends MetaConsumer, M
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiDoubleConsumer handleBiDoubleCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (double a1, double a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiDoubleConsumerX<Y> handleBiDoubleConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (double a1, double a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

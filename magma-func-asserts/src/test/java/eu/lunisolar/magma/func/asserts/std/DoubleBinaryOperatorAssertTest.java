@@ -45,11 +45,11 @@ public class DoubleBinaryOperatorAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private DoubleBinaryOperator function = (double a1,double a2) ->
+    private DoubleBinaryOperator function = (a1,a2) ->
             testValue;
 
 
-    private DoubleBinaryOperator functionThrowing = (double a1,double a2) -> {
+    private DoubleBinaryOperator functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

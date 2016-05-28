@@ -319,7 +319,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriFunction<Integer,Integer,Integer,Integer> sutO = (Integer a1,Integer a2,Integer a3) -> {
+        LTriFunction<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

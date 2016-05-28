@@ -284,7 +284,7 @@ public class LObjBoolConsumerXTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjBoolConsumerX<Integer,X> sutO = (Integer a1,boolean a2) -> {
+        LObjBoolConsumerX<Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(true);
@@ -318,7 +318,7 @@ public class LObjBoolConsumerXTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjBoolConsumerX<Integer,X> sutO = (Integer a1,boolean a2) -> {
+        LObjBoolConsumerX<Integer,X> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(true);

@@ -182,7 +182,7 @@ public interface LObjShortConsumer<T> extends LObjShortConsumerX<T, RuntimeExcep
 	default <V1> LObjShortConsumer<V1> objShortConsComposeShort(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, short v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -190,7 +190,7 @@ public interface LObjShortConsumer<T> extends LObjShortConsumerX<T, RuntimeExcep
 	default <V1, V2> LBiConsumer<V1, V2> objShortConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>

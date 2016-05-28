@@ -217,7 +217,7 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, byte v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -226,7 +226,7 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
 	}
 
 	// </editor-fold>

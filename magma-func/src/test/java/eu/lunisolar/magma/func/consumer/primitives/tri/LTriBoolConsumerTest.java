@@ -295,7 +295,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriBoolConsumer sutO = (boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
@@ -335,7 +335,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriBoolConsumer sutO = (boolean a1,boolean a2,boolean a3) -> {
+        LTriBoolConsumer sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);

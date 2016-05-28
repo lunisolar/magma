@@ -291,7 +291,7 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
@@ -341,13 +341,13 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriConsumer<T1, T2, T3> handleTriCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoAccept(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriConsumerX<T1, T2, T3, Y> handleTriConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T1 a1, T2 a2, T3 a3) -> this.handlingDoAccept(a1, a2, a3, handling);
+		return (a1, a2, a3) -> this.handlingDoAccept(a1, a2, a3, handling);
 	}
 
 	// </editor-fold>

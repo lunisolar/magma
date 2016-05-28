@@ -182,7 +182,7 @@ public interface LBiShortConsumer extends LBiShortConsumerX<RuntimeException>, M
 	default LBiShortConsumer biShortConsComposeShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (short v1, short v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -190,7 +190,7 @@ public interface LBiShortConsumer extends LBiShortConsumerX<RuntimeException>, M
 	default <V1, V2> LBiConsumer<V1, V2> biShortConsCompose(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>

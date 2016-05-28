@@ -319,7 +319,7 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjCharFunction<Integer,Integer> sutO = (Integer a1,char a2) -> {
+        LObjCharFunction<Integer,Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo('\u0091');
@@ -354,7 +354,7 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjCharFunction<Integer,Integer> sutO = (Integer a1,char a2) -> {
+        LObjCharFunction<Integer,Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo('\u0091');

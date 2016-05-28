@@ -227,7 +227,7 @@ public interface LBiLongConsumerX<X extends Throwable> extends MetaConsumer, Met
 	default LBiLongConsumerX<X> biLongConsComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (long v1, long v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LBiLongConsumerX<X extends Throwable> extends MetaConsumer, Met
 	default <V1, V2> LBiConsumerX<V1, V2, X> biLongConsCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LBiLongConsumerX<X extends Throwable> extends MetaConsumer, Met
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiLongConsumer handleBiLongCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (long a1, long a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiLongConsumerX<Y> handleBiLongConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (long a1, long a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

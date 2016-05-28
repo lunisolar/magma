@@ -240,7 +240,7 @@ public interface LObjBoolFunctionX<T, R, X extends Throwable> extends MetaFuncti
 	default <V1> LObjBoolFunctionX<V1, R, X> objBoolFuncComposeBool(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -248,7 +248,7 @@ public interface LObjBoolFunctionX<T, R, X extends Throwable> extends MetaFuncti
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> objBoolFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doTest(v2));
+		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -259,14 +259,14 @@ public interface LObjBoolFunctionX<T, R, X extends Throwable> extends MetaFuncti
 	@Nonnull
 	default <V> LObjBoolFunctionX<T, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, boolean a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjBoolConsumerX<T, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, boolean a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -308,13 +308,13 @@ public interface LObjBoolFunctionX<T, R, X extends Throwable> extends MetaFuncti
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjBoolFunction<T, R> handleObjBoolFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjBoolFunctionX<T, R, Y> handleObjBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, boolean a2) -> this.handlingDoApply(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoApply(a1, a2, handling);
 	}
 
 	// </editor-fold>

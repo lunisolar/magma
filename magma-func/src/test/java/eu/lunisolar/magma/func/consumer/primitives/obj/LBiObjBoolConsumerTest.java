@@ -295,7 +295,7 @@ public class LBiObjBoolConsumerTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjBoolConsumer<Integer,Integer> sutO = (Integer a1,Integer a2,boolean a3) -> {
+        LBiObjBoolConsumer<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
@@ -335,7 +335,7 @@ public class LBiObjBoolConsumerTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjBoolConsumer<Integer,Integer> sutO = (Integer a1,Integer a2,boolean a3) -> {
+        LBiObjBoolConsumer<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

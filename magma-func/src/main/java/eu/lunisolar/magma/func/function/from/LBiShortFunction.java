@@ -195,7 +195,7 @@ public interface LBiShortFunction<R> extends LBiShortFunctionX<R, RuntimeExcepti
 	default LBiShortFunction<R> biShortFuncComposeShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (short v1, short v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -203,7 +203,7 @@ public interface LBiShortFunction<R> extends LBiShortFunctionX<R, RuntimeExcepti
 	default <V1, V2> LBiFunction<V1, V2, R> biShortFuncCompose(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -214,14 +214,14 @@ public interface LBiShortFunction<R> extends LBiShortFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default <V> LBiShortFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiShortConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>

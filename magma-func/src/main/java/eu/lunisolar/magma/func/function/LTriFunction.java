@@ -230,7 +230,7 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
@@ -241,14 +241,14 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	@Nonnull
 	default <V> LTriFunction<T1, T2, T3, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, T3 a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTriConsumer<T1, T2, T3> then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2, T3 a3) -> after.doAccept(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doAccept(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>

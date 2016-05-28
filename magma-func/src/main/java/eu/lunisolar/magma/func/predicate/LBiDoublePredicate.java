@@ -198,7 +198,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	 */
 	@Nonnull
 	default LBiDoublePredicate negate() {
-		return (double a1, double a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	@Nonnull
 	default LBiDoublePredicate and(@Nonnull LBiDoublePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (double a1, double a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	@Nonnull
 	default LBiDoublePredicate or(@Nonnull LBiDoublePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (double a1, double a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	default LBiDoublePredicate biDoublePredComposeDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (double v1, double v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	default <V1, V2> LBiPredicate<V1, V2> biDoublePredCompose(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	@Nonnull
 	default <V> LBiDoubleFunction<V> boolToBiDoubleFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (double a1, double a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>

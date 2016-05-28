@@ -227,7 +227,7 @@ public interface LObjFloatConsumerX<T, X extends Throwable> extends MetaConsumer
 	default <V1> LObjFloatConsumerX<V1, X> objFloatConsComposeFloat(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, float v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -235,7 +235,7 @@ public interface LObjFloatConsumerX<T, X extends Throwable> extends MetaConsumer
 	default <V1, V2> LBiConsumerX<V1, V2, X> objFloatConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -285,13 +285,13 @@ public interface LObjFloatConsumerX<T, X extends Throwable> extends MetaConsumer
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjFloatConsumer<T> handleObjFloatCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T a1, float a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjFloatConsumerX<T, Y> handleObjFloatConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T a1, float a2) -> this.handlingDoAccept(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoAccept(a1, a2, handling);
 	}
 
 	// </editor-fold>

@@ -218,7 +218,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	default LShortBinaryOperator shortBinaryOpComposeShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (short v1, short v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -226,7 +226,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	default <V1, V2> LToShortBiFunction<V1, V2> shortBinaryOpCompose(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
+		return (v1, v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -237,7 +237,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V> LBiShortFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (short a1, short a2) -> after.doApply(this.doApplyAsShort(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsShort(a1, a2));
 	}
 
 	// </editor-fold>

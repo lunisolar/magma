@@ -46,11 +46,11 @@ public class LToIntBiFunctionXAssertTest<T1,T2,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LToIntBiFunctionX<Integer,Integer,X> function = (Integer a1,Integer a2) ->
+    private LToIntBiFunctionX<Integer,Integer,X> function = (a1,a2) ->
             testValue;
 
 
-    private LToIntBiFunctionX<Integer,Integer,X> functionThrowing = (Integer a1,Integer a2) -> {
+    private LToIntBiFunctionX<Integer,Integer,X> functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

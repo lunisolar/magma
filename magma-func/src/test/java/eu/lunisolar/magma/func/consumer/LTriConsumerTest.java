@@ -295,7 +295,7 @@ public class LTriConsumerTest<T1,T2,T3,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriConsumer<Integer,Integer,Integer> sutO = (Integer a1,Integer a2,Integer a3) -> {
+        LTriConsumer<Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

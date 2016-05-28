@@ -186,7 +186,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	@Nonnull
 	default <V> LTriFunction<T, T, T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, T a2, T a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
 	}
 
 	// </editor-fold>

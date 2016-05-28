@@ -368,7 +368,7 @@ public class LObjIntPredicateTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjIntPredicate<Integer> sutO = (Integer a1,int a2) -> {
+        LObjIntPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
@@ -403,7 +403,7 @@ public class LObjIntPredicateTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjIntPredicate<Integer> sutO = (Integer a1,int a2) -> {
+        LObjIntPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

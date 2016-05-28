@@ -182,7 +182,7 @@ public interface LObjByteConsumer<T> extends LObjByteConsumerX<T, RuntimeExcepti
 	default <V1> LObjByteConsumer<V1> objByteConsComposeByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, byte v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -190,7 +190,7 @@ public interface LObjByteConsumer<T> extends LObjByteConsumerX<T, RuntimeExcepti
 	default <V1, V2> LBiConsumer<V1, V2> objByteConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>

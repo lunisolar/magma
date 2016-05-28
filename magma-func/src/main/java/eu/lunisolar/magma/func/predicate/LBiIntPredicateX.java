@@ -243,7 +243,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	 */
 	@Nonnull
 	default LBiIntPredicateX<X> negate() {
-		return (int a1, int a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	@Nonnull
 	default LBiIntPredicateX<X> and(@Nonnull LBiIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (int a1, int a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	@Nonnull
 	default LBiIntPredicateX<X> or(@Nonnull LBiIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (int a1, int a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	default LBiIntPredicateX<X> biIntPredComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (int v1, int v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -302,7 +302,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	default <V1, V2> LBiPredicateX<V1, V2, X> biIntPredCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -313,7 +313,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	@Nonnull
 	default <V> LBiIntFunctionX<V, X> boolToBiIntFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (int a1, int a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
@@ -349,13 +349,13 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiIntPredicate handleBiIntPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (int a1, int a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiIntPredicateX<Y> handleBiIntPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (int a1, int a2) -> this.handlingDoTest(a1, a2, handling);
+		return (a1, a2) -> this.handlingDoTest(a1, a2, handling);
 	}
 
 	// </editor-fold>

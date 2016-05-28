@@ -45,11 +45,11 @@ public class LongBinaryOperatorAssertTest {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LongBinaryOperator function = (long a1,long a2) ->
+    private LongBinaryOperator function = (a1,a2) ->
             testValue;
 
 
-    private LongBinaryOperator functionThrowing = (long a1,long a2) -> {
+    private LongBinaryOperator functionThrowing = (a1,a2) -> {
         throw new UnsupportedOperationException();
     };
 

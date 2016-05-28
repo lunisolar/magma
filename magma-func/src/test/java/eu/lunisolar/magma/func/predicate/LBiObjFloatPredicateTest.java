@@ -368,7 +368,7 @@ public class LBiObjFloatPredicateTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjFloatPredicate<Integer,Integer> sutO = (Integer a1,Integer a2,float a3) -> {
+        LBiObjFloatPredicate<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
@@ -409,7 +409,7 @@ public class LBiObjFloatPredicateTest<T1,T2,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBiObjFloatPredicate<Integer,Integer> sutO = (Integer a1,Integer a2,float a3) -> {
+        LBiObjFloatPredicate<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

@@ -357,7 +357,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LTriPredicateX<Integer,Integer,Integer,X> sutO = (Integer a1,Integer a2,Integer a3) -> {
+        LTriPredicateX<Integer,Integer,Integer,X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);

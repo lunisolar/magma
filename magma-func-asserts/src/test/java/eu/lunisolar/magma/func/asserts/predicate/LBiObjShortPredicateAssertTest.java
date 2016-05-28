@@ -46,11 +46,11 @@ public class LBiObjShortPredicateAssertTest<T1,T2,X extends ParseException> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjShortPredicate<Integer,Integer> function = (Integer a1,Integer a2,short a3) ->
+    private LBiObjShortPredicate<Integer,Integer> function = (a1,a2,a3) ->
             testValue;
 
 
-    private LBiObjShortPredicate<Integer,Integer> functionThrowing = (Integer a1,Integer a2,short a3) -> {
+    private LBiObjShortPredicate<Integer,Integer> functionThrowing = (a1,a2,a3) -> {
         throw new UnsupportedOperationException();
     };
 

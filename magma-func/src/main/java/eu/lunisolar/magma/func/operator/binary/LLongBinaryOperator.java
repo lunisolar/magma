@@ -234,7 +234,7 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 	default LLongBinaryOperator longBinaryOpComposeLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (long v1, long v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -242,7 +242,7 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 	default <V1, V2> LToLongBiFunction<V1, V2> longBinaryOpCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -253,7 +253,7 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 	@Nonnull
 	default <V> LBiLongFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (long a1, long a2) -> after.doApply(this.doApplyAsLong(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsLong(a1, a2));
 	}
 
 	// </editor-fold>

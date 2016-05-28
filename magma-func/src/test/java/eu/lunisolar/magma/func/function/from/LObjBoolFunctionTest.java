@@ -319,7 +319,7 @@ public class LObjBoolFunctionTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjBoolFunction<Integer,Integer> sutO = (Integer a1,boolean a2) -> {
+        LObjBoolFunction<Integer,Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(true);
@@ -354,7 +354,7 @@ public class LObjBoolFunctionTest<T,R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LObjBoolFunction<Integer,Integer> sutO = (Integer a1,boolean a2) -> {
+        LObjBoolFunction<Integer,Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(true);

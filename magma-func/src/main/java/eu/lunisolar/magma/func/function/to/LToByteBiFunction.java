@@ -191,7 +191,7 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 	default <V1, V2> LToByteBiFunction<V1, V2> toByteBiFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApplyAsByte(before1.doApply(v1), before2.doApply(v2));
+		return (v1, v2) -> this.doApplyAsByte(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -202,7 +202,7 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LByteFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T1 a1, T2 a2) -> after.doApply(this.doApplyAsByte(a1, a2));
+		return (a1, a2) -> after.doApply(this.doApplyAsByte(a1, a2));
 	}
 
 	// </editor-fold>

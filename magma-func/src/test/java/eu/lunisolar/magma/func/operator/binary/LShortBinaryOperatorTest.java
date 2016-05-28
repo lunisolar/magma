@@ -368,7 +368,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortBinaryOperator sutO = (short a1,short a2) -> {
+        LShortBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo((short)90);
                 assertThat(a2).isEqualTo((short)91);
@@ -403,7 +403,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortBinaryOperator sutO = (short a1,short a2) -> {
+        LShortBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo((short)90);
                 assertThat(a2).isEqualTo((short)91);

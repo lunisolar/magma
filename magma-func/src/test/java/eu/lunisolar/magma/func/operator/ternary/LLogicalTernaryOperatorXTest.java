@@ -350,7 +350,7 @@ public class LLogicalTernaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLogicalTernaryOperatorX<X> sutO = (boolean a1,boolean a2,boolean a3) -> {
+        LLogicalTernaryOperatorX<X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);
@@ -391,7 +391,7 @@ public class LLogicalTernaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLogicalTernaryOperatorX<X> sutO = (boolean a1,boolean a2,boolean a3) -> {
+        LLogicalTernaryOperatorX<X> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(true);
                 assertThat(a2).isEqualTo(true);

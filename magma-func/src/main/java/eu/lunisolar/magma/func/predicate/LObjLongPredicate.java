@@ -198,7 +198,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> negate() {
-		return (T a1, long a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !doTest(a1, a2);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjLongPredicate<T> and(@Nonnull LObjLongPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, long a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjLongPredicate<T> or(@Nonnull LObjLongPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, long a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	default <V1> LObjLongPredicate<V1> objLongPredComposeLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, long v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -257,7 +257,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	default <V1, V2> LBiPredicate<V1, V2> objLongPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -268,7 +268,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	@Nonnull
 	default <V> LObjLongFunction<T, V> boolToObjLongFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T a1, long a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}
 
 	// </editor-fold>
