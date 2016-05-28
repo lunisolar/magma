@@ -289,7 +289,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	@Nonnull
 	default LBiPredicateX<T1, T2, X> xor(@Nonnull LBiPredicateX<? super T1, ? super T2, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -298,7 +298,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 	 */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiPredicateX<T1, T2, X> isEqual(T1 v1, T2 v2) {
-		return (T1 a1, T2 a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2));
+		return (a1, a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2));
 	}
 
 	// </editor-fold>

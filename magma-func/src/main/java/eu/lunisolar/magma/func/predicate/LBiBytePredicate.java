@@ -228,7 +228,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiBytePredicate xor(@Nonnull LBiBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (byte a1, byte a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	static LBiBytePredicate isEqual(byte v1, byte v2) {
-		return (byte a1, byte a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

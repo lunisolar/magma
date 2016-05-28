@@ -262,7 +262,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 	@Nonnull
 	default LBiObjBoolPredicate<T1, T2> xor(@Nonnull LBiObjBoolPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, boolean a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -271,7 +271,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends LBiObjBoolPredicateX<T1, T2
 	 */
 	@Nonnull
 	static <T1, T2> LBiObjBoolPredicate<T1, T2> isEqual(T1 v1, T2 v2, boolean v3) {
-		return (T1 a1, T2 a2, boolean a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
+		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
 	}
 
 	// </editor-fold>

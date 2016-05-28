@@ -228,7 +228,7 @@ public interface LObjBoolPredicate<T> extends LObjBoolPredicateX<T, RuntimeExcep
 	@Nonnull
 	default LObjBoolPredicate<T> xor(@Nonnull LObjBoolPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, boolean a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public interface LObjBoolPredicate<T> extends LObjBoolPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	static <T> LObjBoolPredicate<T> isEqual(T v1, boolean v2) {
-		return (T a1, boolean a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
+		return (a1, a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
 	}
 
 	// </editor-fold>

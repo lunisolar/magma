@@ -273,7 +273,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	@Nonnull
 	default LBiIntPredicateX<X> xor(@Nonnull LBiIntPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (int a1, int a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 	 */
 	@Nonnull
 	static <X extends Throwable> LBiIntPredicateX<X> isEqual(int v1, int v2) {
-		return (int a1, int a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

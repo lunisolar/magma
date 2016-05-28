@@ -335,7 +335,7 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Throwable> extends MetaP
 	@Nonnull
 	default LBiObjBytePredicateX<T1, T2, X> xor(@Nonnull LBiObjBytePredicateX<? super T1, ? super T2, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, byte a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -344,7 +344,7 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Throwable> extends MetaP
 	 */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjBytePredicateX<T1, T2, X> isEqual(T1 v1, T2 v2, byte v3) {
-		return (T1 a1, T2 a2, byte a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
+		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
 	}
 
 	// </editor-fold>

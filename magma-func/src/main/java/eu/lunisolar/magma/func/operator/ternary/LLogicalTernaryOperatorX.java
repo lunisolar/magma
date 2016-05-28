@@ -260,7 +260,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaLogic
 	@Nonnull
 	default LLogicalTernaryOperatorX<X> xor(@Nonnull LLogicalTernaryOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2, boolean a3) -> doApply(a1, a2, a3) ^ other.doApply(a1, a2, a3);
+		return (a1, a2, a3) -> doApply(a1, a2, a3) ^ other.doApply(a1, a2, a3);
 	}
 
 	/**
@@ -269,7 +269,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaLogic
 	 */
 	@Nonnull
 	static <X extends Throwable> LLogicalTernaryOperatorX<X> isEqual(boolean v1, boolean v2, boolean v3) {
-		return (boolean a1, boolean a2, boolean a3) -> (a1 == v1) && (a2 == v2) && (a3 == v3);
+		return (a1, a2, a3) -> (a1 == v1) && (a2 == v2) && (a3 == v3);
 	}
 
 	// </editor-fold>

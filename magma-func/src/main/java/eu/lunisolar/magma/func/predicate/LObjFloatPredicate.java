@@ -228,7 +228,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	@Nonnull
 	default LObjFloatPredicate<T> xor(@Nonnull LObjFloatPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, float a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	 */
 	@Nonnull
 	static <T> LObjFloatPredicate<T> isEqual(T v1, float v2) {
-		return (T a1, float a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
+		return (a1, a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
 	}
 
 	// </editor-fold>

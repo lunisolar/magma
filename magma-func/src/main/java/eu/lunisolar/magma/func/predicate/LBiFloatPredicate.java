@@ -228,7 +228,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate xor(@Nonnull LBiFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float a1, float a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	 */
 	@Nonnull
 	static LBiFloatPredicate isEqual(float v1, float v2) {
-		return (float a1, float a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

@@ -273,7 +273,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	@Nonnull
 	default LBiFloatPredicateX<X> xor(@Nonnull LBiFloatPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (float a1, float a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	 */
 	@Nonnull
 	static <X extends Throwable> LBiFloatPredicateX<X> isEqual(float v1, float v2) {
-		return (float a1, float a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

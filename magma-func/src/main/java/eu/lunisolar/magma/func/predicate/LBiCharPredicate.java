@@ -228,7 +228,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiCharPredicate xor(@Nonnull LBiCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (char a1, char a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	static LBiCharPredicate isEqual(char v1, char v2) {
-		return (char a1, char a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

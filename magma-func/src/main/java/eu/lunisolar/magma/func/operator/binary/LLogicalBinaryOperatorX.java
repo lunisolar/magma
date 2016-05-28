@@ -254,7 +254,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> xor(@Nonnull LLogicalBinaryOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2) -> doApply(a1, a2) ^ other.doApply(a1, a2);
+		return (a1, a2) -> doApply(a1, a2) ^ other.doApply(a1, a2);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaLogica
 	 */
 	@Nonnull
 	static <X extends Throwable> LLogicalBinaryOperatorX<X> isEqual(boolean v1, boolean v2) {
-		return (boolean a1, boolean a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

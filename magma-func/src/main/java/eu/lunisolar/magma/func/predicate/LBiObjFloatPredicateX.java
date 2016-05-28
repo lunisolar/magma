@@ -335,7 +335,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> xor(@Nonnull LBiObjFloatPredicateX<? super T1, ? super T2, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, float a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -344,7 +344,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 	 */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjFloatPredicateX<T1, T2, X> isEqual(T1 v1, T2 v2, float v3) {
-		return (T1 a1, T2 a2, float a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
+		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == v3);
 	}
 
 	// </editor-fold>

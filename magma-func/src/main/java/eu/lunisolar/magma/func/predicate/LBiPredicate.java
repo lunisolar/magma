@@ -244,7 +244,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	@Nonnull
 	default LBiPredicate<T1, T2> xor(@Nonnull LBiPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	 */
 	@Nonnull
 	static <T1, T2> LBiPredicate<T1, T2> isEqual(T1 v1, T2 v2) {
-		return (T1 a1, T2 a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2));
+		return (a1, a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2));
 	}
 
 	// </editor-fold>

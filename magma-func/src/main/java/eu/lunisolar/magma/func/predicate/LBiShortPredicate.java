@@ -228,7 +228,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiShortPredicate xor(@Nonnull LBiShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (short a1, short a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	 */
 	@Nonnull
 	static LBiShortPredicate isEqual(short v1, short v2) {
-		return (short a1, short a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

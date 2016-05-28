@@ -273,7 +273,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	@Nonnull
 	default LObjLongPredicateX<T, X> xor(@Nonnull LObjLongPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T a1, long a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	 */
 	@Nonnull
 	static <T, X extends Throwable> LObjLongPredicateX<T, X> isEqual(T v1, long v2) {
-		return (T a1, long a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
+		return (a1, a2) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == v2);
 	}
 
 	// </editor-fold>

@@ -228,7 +228,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	@Nonnull
 	default LBiDoublePredicate xor(@Nonnull LBiDoublePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (double a1, double a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	 */
 	@Nonnull
 	static LBiDoublePredicate isEqual(double v1, double v2) {
-		return (double a1, double a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>

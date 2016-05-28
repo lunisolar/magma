@@ -335,7 +335,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> xor(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T1 a1, T2 a2, T3 a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
 	}
 
 	/**
@@ -344,7 +344,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	 */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> isEqual(T1 v1, T2 v2, T3 v3) {
-		return (T1 a1, T2 a2, T3 a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == null ? v3 == null : a3.equals(v3));
+		return (a1, a2, a3) -> (a1 == null ? v1 == null : a1.equals(v1)) && (a2 == null ? v2 == null : a2.equals(v2)) && (a3 == null ? v3 == null : a3.equals(v3));
 	}
 
 	// </editor-fold>

@@ -222,7 +222,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	@Nonnull
 	default LLogicalTernaryOperator xor(@Nonnull LLogicalTernaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean a1, boolean a2, boolean a3) -> doApply(a1, a2, a3) ^ other.doApply(a1, a2, a3);
+		return (a1, a2, a3) -> doApply(a1, a2, a3) ^ other.doApply(a1, a2, a3);
 	}
 
 	/**
@@ -231,7 +231,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	static LLogicalTernaryOperator isEqual(boolean v1, boolean v2, boolean v3) {
-		return (boolean a1, boolean a2, boolean a3) -> (a1 == v1) && (a2 == v2) && (a3 == v3);
+		return (a1, a2, a3) -> (a1 == v1) && (a2 == v2) && (a3 == v3);
 	}
 
 	// </editor-fold>

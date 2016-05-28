@@ -273,7 +273,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	@Nonnull
 	default LBiLongPredicateX<X> xor(@Nonnull LBiLongPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (long a1, long a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, M
 	 */
 	@Nonnull
 	static <X extends Throwable> LBiLongPredicateX<X> isEqual(long v1, long v2) {
-		return (long a1, long a2) -> (a1 == v1) && (a2 == v2);
+		return (a1, a2) -> (a1 == v1) && (a2 == v2);
 	}
 
 	// </editor-fold>
