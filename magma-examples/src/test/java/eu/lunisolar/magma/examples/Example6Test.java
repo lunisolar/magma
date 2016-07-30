@@ -39,8 +39,9 @@ public class Example6Test {
     @Test
     public void example1() throws CheckedException {
 
+        LFunctionX<Integer, Integer, CheckedException> after = i -> -i;
         LToByteFunctionX<Integer, CheckedException> func = potentiallyThrowing
-                .then(i -> -i)
+                .then(after)
                 .thenToDouble(i -> i)
                 .thenToFloat(d -> (float) d + 1)
                 .thenToLong(f -> (long) f + 1)
