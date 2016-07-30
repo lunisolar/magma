@@ -266,7 +266,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LObjFloatFunction<T, V> boolToObjFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LObjFloatFunction<T, V> boolToObjFloatFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

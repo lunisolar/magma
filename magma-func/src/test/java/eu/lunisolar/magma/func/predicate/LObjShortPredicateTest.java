@@ -437,7 +437,7 @@ public class LObjShortPredicateTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToObjShortFunction0() throws X  {
+    public void testBoolToObjShortFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -459,7 +459,7 @@ public class LObjShortPredicateTest<T,X extends ParseException> {
         };
 
         //when
-        LObjShortFunction<Integer,Integer> function = sutO.boolToObjShortFunction(thenFunction);
+        LObjShortFunction<Integer,Integer> function = sutO.boolToObjShortFunc(thenFunction);
         Integer finalValue = function.doApply(80,(short)81);
 
         //then - finals

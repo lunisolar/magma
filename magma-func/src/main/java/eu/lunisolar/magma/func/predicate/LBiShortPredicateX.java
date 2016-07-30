@@ -311,7 +311,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiShortFunctionX<V, X> boolToBiShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LBiShortFunctionX<V, X> boolToBiShortFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

@@ -408,7 +408,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToTriFunction0() throws X  {
+    public void testBoolToTriFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -431,7 +431,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
         };
 
         //when
-        LTriFunction<Integer,Integer,Integer,Integer> function = sutO.boolToTriFunction(thenFunction);
+        LTriFunction<Integer,Integer,Integer,Integer> function = sutO.boolToTriFunc(thenFunction);
         Integer finalValue = function.doApply(80,81,82);
 
         //then - finals

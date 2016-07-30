@@ -377,7 +377,7 @@ public interface LBiObjDoublePredicateX<T1, T2, X extends Throwable> extends Met
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiObjDoubleFunctionX<T1, T2, V, X> boolToBiObjDoubleFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LBiObjDoubleFunctionX<T1, T2, V, X> boolToBiObjDoubleFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}

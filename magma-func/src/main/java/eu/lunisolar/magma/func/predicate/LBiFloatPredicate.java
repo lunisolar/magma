@@ -266,7 +266,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiFloatFunction<V> boolToBiFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LBiFloatFunction<V> boolToBiFloatFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

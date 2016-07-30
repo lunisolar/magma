@@ -433,7 +433,7 @@ public class LLongPredicateTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToLongFunction0() throws X  {
+    public void testBoolToLongFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -454,7 +454,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongFunction<Integer> function = sutO.boolToLongFunction(thenFunction);
+        LLongFunction<Integer> function = sutO.boolToLongFunc(thenFunction);
         Integer finalValue = function.doApply(80L);
 
         //then - finals
@@ -467,7 +467,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongToByteFunction1() throws X  {
+    public void testBoolToLongToByteFunc1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -488,7 +488,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToByteFunction function = sutO.boolToLongToByteFunction(thenFunction);
+        LLongToByteFunction function = sutO.boolToLongToByteFunc(thenFunction);
         byte finalValue = function.doApplyAsByte(80L);
 
         //then - finals
@@ -501,7 +501,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongToShortFunction2() throws X  {
+    public void testBoolToLongToShortFunc2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -522,7 +522,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToShortFunction function = sutO.boolToLongToShortFunction(thenFunction);
+        LLongToShortFunction function = sutO.boolToLongToShortFunc(thenFunction);
         short finalValue = function.doApplyAsShort(80L);
 
         //then - finals
@@ -535,7 +535,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongToIntFunction3() throws X  {
+    public void testBoolToLongToIntFunc3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -556,7 +556,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToIntFunction function = sutO.boolToLongToIntFunction(thenFunction);
+        LLongToIntFunction function = sutO.boolToLongToIntFunc(thenFunction);
         int finalValue = function.doApplyAsInt(80L);
 
         //then - finals
@@ -569,7 +569,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongUnaryOperator4() throws X  {
+    public void testBoolToLongUnaryOp4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -590,7 +590,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongUnaryOperator function = sutO.boolToLongUnaryOperator(thenFunction);
+        LLongUnaryOperator function = sutO.boolToLongUnaryOp(thenFunction);
         long finalValue = function.doApplyAsLong(80L);
 
         //then - finals
@@ -603,7 +603,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongToFloatFunction5() throws X  {
+    public void testBoolToLongToFloatFunc5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -624,7 +624,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToFloatFunction function = sutO.boolToLongToFloatFunction(thenFunction);
+        LLongToFloatFunction function = sutO.boolToLongToFloatFunc(thenFunction);
         float finalValue = function.doApplyAsFloat(80L);
 
         //then - finals
@@ -637,7 +637,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongToDoubleFunction6() throws X  {
+    public void testBoolToLongToDoubleFunc6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -658,7 +658,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToDoubleFunction function = sutO.boolToLongToDoubleFunction(thenFunction);
+        LLongToDoubleFunction function = sutO.boolToLongToDoubleFunc(thenFunction);
         double finalValue = function.doApplyAsDouble(80L);
 
         //then - finals
@@ -671,7 +671,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongToCharFunction7() throws X  {
+    public void testBoolToLongToCharFunc7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -692,7 +692,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToCharFunction function = sutO.boolToLongToCharFunction(thenFunction);
+        LLongToCharFunction function = sutO.boolToLongToCharFunc(thenFunction);
         char finalValue = function.doApplyAsChar(80L);
 
         //then - finals
@@ -705,7 +705,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToLongPredicate8() throws X  {
+    public void testBoolToLongPred8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -726,7 +726,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongPredicate function = sutO.boolToLongPredicate(thenFunction);
+        LLongPredicate function = sutO.boolToLongPred(thenFunction);
         boolean finalValue = function.doTest(80L);
 
         //then - finals

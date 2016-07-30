@@ -414,7 +414,7 @@ public class LBytePredicateXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToByteFunction0() throws X  {
+    public void testBoolToByteFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -435,7 +435,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteFunctionX<Integer,X> function = sutO.boolToByteFunction(thenFunction);
+        LByteFunctionX<Integer,X> function = sutO.boolToByteFunc(thenFunction);
         Integer finalValue = function.doApply((byte)80);
 
         //then - finals
@@ -448,7 +448,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToByteUnaryOperator1() throws X  {
+    public void testBoolToByteUnaryOp1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -469,7 +469,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteUnaryOperatorX<X> function = sutO.boolToByteUnaryOperator(thenFunction);
+        LByteUnaryOperatorX<X> function = sutO.boolToByteUnaryOp(thenFunction);
         byte finalValue = function.doApplyAsByte((byte)80);
 
         //then - finals
@@ -482,7 +482,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToByteToShortFunction2() throws X  {
+    public void testBoolToByteToShortFunc2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -503,7 +503,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteToShortFunctionX<X> function = sutO.boolToByteToShortFunction(thenFunction);
+        LByteToShortFunctionX<X> function = sutO.boolToByteToShortFunc(thenFunction);
         short finalValue = function.doApplyAsShort((byte)80);
 
         //then - finals
@@ -516,7 +516,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToByteToIntFunction3() throws X  {
+    public void testBoolToByteToIntFunc3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -537,7 +537,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteToIntFunctionX<X> function = sutO.boolToByteToIntFunction(thenFunction);
+        LByteToIntFunctionX<X> function = sutO.boolToByteToIntFunc(thenFunction);
         int finalValue = function.doApplyAsInt((byte)80);
 
         //then - finals
@@ -550,7 +550,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToByteToLongFunction4() throws X  {
+    public void testBoolToByteToLongFunc4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -571,7 +571,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteToLongFunctionX<X> function = sutO.boolToByteToLongFunction(thenFunction);
+        LByteToLongFunctionX<X> function = sutO.boolToByteToLongFunc(thenFunction);
         long finalValue = function.doApplyAsLong((byte)80);
 
         //then - finals
@@ -584,7 +584,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToByteToFloatFunction5() throws X  {
+    public void testBoolToByteToFloatFunc5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -605,7 +605,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteToFloatFunctionX<X> function = sutO.boolToByteToFloatFunction(thenFunction);
+        LByteToFloatFunctionX<X> function = sutO.boolToByteToFloatFunc(thenFunction);
         float finalValue = function.doApplyAsFloat((byte)80);
 
         //then - finals
@@ -618,7 +618,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToByteToDoubleFunction6() throws X  {
+    public void testBoolToByteToDoubleFunc6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -639,7 +639,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteToDoubleFunctionX<X> function = sutO.boolToByteToDoubleFunction(thenFunction);
+        LByteToDoubleFunctionX<X> function = sutO.boolToByteToDoubleFunc(thenFunction);
         double finalValue = function.doApplyAsDouble((byte)80);
 
         //then - finals
@@ -652,7 +652,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToByteToCharFunction7() throws X  {
+    public void testBoolToByteToCharFunc7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -673,7 +673,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LByteToCharFunctionX<X> function = sutO.boolToByteToCharFunction(thenFunction);
+        LByteToCharFunctionX<X> function = sutO.boolToByteToCharFunc(thenFunction);
         char finalValue = function.doApplyAsChar((byte)80);
 
         //then - finals
@@ -686,7 +686,7 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToBytePredicate8() throws X  {
+    public void testBoolToBytePred8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -707,7 +707,7 @@ public class LBytePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LBytePredicateX<X> function = sutO.boolToBytePredicate(thenFunction);
+        LBytePredicateX<X> function = sutO.boolToBytePred(thenFunction);
         boolean finalValue = function.doTest((byte)80);
 
         //then - finals

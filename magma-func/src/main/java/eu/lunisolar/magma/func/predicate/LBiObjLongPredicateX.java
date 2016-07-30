@@ -376,7 +376,7 @@ public interface LBiObjLongPredicateX<T1, T2, X extends Throwable> extends MetaP
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiObjLongFunctionX<T1, T2, V, X> boolToBiObjLongFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LBiObjLongFunctionX<T1, T2, V, X> boolToBiObjLongFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}

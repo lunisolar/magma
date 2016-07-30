@@ -376,7 +376,7 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiObjShortFunctionX<T1, T2, V, X> boolToBiObjShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LBiObjShortFunctionX<T1, T2, V, X> boolToBiObjShortFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}

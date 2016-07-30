@@ -422,7 +422,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToDoubleFunction0() throws X  {
+    public void testBoolToDoubleFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,7 +443,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleFunctionX<Integer,X> function = sutO.boolToDoubleFunction(thenFunction);
+        LDoubleFunctionX<Integer,X> function = sutO.boolToDoubleFunc(thenFunction);
         Integer finalValue = function.doApply(80d);
 
         //then - finals
@@ -456,7 +456,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoubleToByteFunction1() throws X  {
+    public void testBoolToDoubleToByteFunc1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -477,7 +477,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToByteFunctionX<X> function = sutO.boolToDoubleToByteFunction(thenFunction);
+        LDoubleToByteFunctionX<X> function = sutO.boolToDoubleToByteFunc(thenFunction);
         byte finalValue = function.doApplyAsByte(80d);
 
         //then - finals
@@ -490,7 +490,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoubleToShortFunction2() throws X  {
+    public void testBoolToDoubleToShortFunc2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -511,7 +511,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToShortFunctionX<X> function = sutO.boolToDoubleToShortFunction(thenFunction);
+        LDoubleToShortFunctionX<X> function = sutO.boolToDoubleToShortFunc(thenFunction);
         short finalValue = function.doApplyAsShort(80d);
 
         //then - finals
@@ -524,7 +524,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoubleToIntFunction3() throws X  {
+    public void testBoolToDoubleToIntFunc3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -545,7 +545,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToIntFunctionX<X> function = sutO.boolToDoubleToIntFunction(thenFunction);
+        LDoubleToIntFunctionX<X> function = sutO.boolToDoubleToIntFunc(thenFunction);
         int finalValue = function.doApplyAsInt(80d);
 
         //then - finals
@@ -558,7 +558,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoubleToLongFunction4() throws X  {
+    public void testBoolToDoubleToLongFunc4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -579,7 +579,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToLongFunctionX<X> function = sutO.boolToDoubleToLongFunction(thenFunction);
+        LDoubleToLongFunctionX<X> function = sutO.boolToDoubleToLongFunc(thenFunction);
         long finalValue = function.doApplyAsLong(80d);
 
         //then - finals
@@ -592,7 +592,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoubleToFloatFunction5() throws X  {
+    public void testBoolToDoubleToFloatFunc5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -613,7 +613,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToFloatFunctionX<X> function = sutO.boolToDoubleToFloatFunction(thenFunction);
+        LDoubleToFloatFunctionX<X> function = sutO.boolToDoubleToFloatFunc(thenFunction);
         float finalValue = function.doApplyAsFloat(80d);
 
         //then - finals
@@ -626,7 +626,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoubleUnaryOperator6() throws X  {
+    public void testBoolToDoubleUnaryOp6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -647,7 +647,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleUnaryOperatorX<X> function = sutO.boolToDoubleUnaryOperator(thenFunction);
+        LDoubleUnaryOperatorX<X> function = sutO.boolToDoubleUnaryOp(thenFunction);
         double finalValue = function.doApplyAsDouble(80d);
 
         //then - finals
@@ -660,7 +660,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoubleToCharFunction7() throws X  {
+    public void testBoolToDoubleToCharFunc7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -681,7 +681,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToCharFunctionX<X> function = sutO.boolToDoubleToCharFunction(thenFunction);
+        LDoubleToCharFunctionX<X> function = sutO.boolToDoubleToCharFunc(thenFunction);
         char finalValue = function.doApplyAsChar(80d);
 
         //then - finals
@@ -694,7 +694,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToDoublePredicate8() throws X  {
+    public void testBoolToDoublePred8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -715,7 +715,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         };
 
         //when
-        LDoublePredicateX<X> function = sutO.boolToDoublePredicate(thenFunction);
+        LDoublePredicateX<X> function = sutO.boolToDoublePred(thenFunction);
         boolean finalValue = function.doTest(80d);
 
         //then - finals

@@ -2060,223 +2060,223 @@ public interface FunctionalAssertions {
 	}
 
 	@Nonnull
-	public static <A extends Runnable> RunnableAssert.The<A> assertThat(Runnable func) {
-		return new RunnableAssert.The(func);
+	public static <A extends Runnable> JreRunnableAssert.The<A> assertThat(Runnable func) {
+		return new JreRunnableAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends BiConsumer<T1, T2>, T1, T2> BiConsumerAssert.The<A, T1, T2> assertThat(BiConsumer<T1, T2> func) {
-		return new BiConsumerAssert.The(func);
+	public static <A extends BiConsumer<T1, T2>, T1, T2> JreBiConsumerAssert.The<A, T1, T2> assertThat(BiConsumer<T1, T2> func) {
+		return new JreBiConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends Consumer<T>, T> ConsumerAssert.The<A, T> assertThat(Consumer<T> func) {
-		return new ConsumerAssert.The(func);
+	public static <A extends Consumer<T>, T> JreConsumerAssert.The<A, T> assertThat(Consumer<T> func) {
+		return new JreConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends DoubleConsumer> DoubleConsumerAssert.The<A> assertThat(DoubleConsumer func) {
-		return new DoubleConsumerAssert.The(func);
+	public static <A extends DoubleConsumer> JreDoubleConsumerAssert.The<A> assertThat(DoubleConsumer func) {
+		return new JreDoubleConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends IntConsumer> IntConsumerAssert.The<A> assertThat(IntConsumer func) {
-		return new IntConsumerAssert.The(func);
+	public static <A extends IntConsumer> JreIntConsumerAssert.The<A> assertThat(IntConsumer func) {
+		return new JreIntConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends LongConsumer> LongConsumerAssert.The<A> assertThat(LongConsumer func) {
-		return new LongConsumerAssert.The(func);
+	public static <A extends LongConsumer> JreLongConsumerAssert.The<A> assertThat(LongConsumer func) {
+		return new JreLongConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends ObjDoubleConsumer<T>, T> ObjDoubleConsumerAssert.The<A, T> assertThat(ObjDoubleConsumer<T> func) {
-		return new ObjDoubleConsumerAssert.The(func);
+	public static <A extends ObjDoubleConsumer<T>, T> JreObjDoubleConsumerAssert.The<A, T> assertThat(ObjDoubleConsumer<T> func) {
+		return new JreObjDoubleConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntConsumer<T>, T> ObjIntConsumerAssert.The<A, T> assertThat(ObjIntConsumer<T> func) {
-		return new ObjIntConsumerAssert.The(func);
+	public static <A extends ObjIntConsumer<T>, T> JreObjIntConsumerAssert.The<A, T> assertThat(ObjIntConsumer<T> func) {
+		return new JreObjIntConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends ObjLongConsumer<T>, T> ObjLongConsumerAssert.The<A, T> assertThat(ObjLongConsumer<T> func) {
-		return new ObjLongConsumerAssert.The(func);
+	public static <A extends ObjLongConsumer<T>, T> JreObjLongConsumerAssert.The<A, T> assertThat(ObjLongConsumer<T> func) {
+		return new JreObjLongConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	public static <A extends BinaryOperator<T>, RS extends Assert<RS, T>, T> BinaryOperatorAssert.The<A, RS, T> assertThat(BinaryOperator<T> func) {
-		return new BinaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends BinaryOperator<T>, RS extends Assert<RS, T>, T> JreBinaryOperatorAssert.The<A, RS, T> assertThat(BinaryOperator<T> func) {
+		return new JreBinaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> DoubleBinaryOperatorAssert.The<A, RS> assertThat(DoubleBinaryOperator func) {
-		return new DoubleBinaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends DoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> JreDoubleBinaryOperatorAssert.The<A, RS> assertThat(DoubleBinaryOperator func) {
+		return new JreDoubleBinaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> DoubleUnaryOperatorAssert.The<A, RS> assertThat(DoubleUnaryOperator func) {
-		return new DoubleUnaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> JreDoubleUnaryOperatorAssert.The<A, RS> assertThat(DoubleUnaryOperator func) {
+		return new JreDoubleUnaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> IntBinaryOperatorAssert.The<A, RS> assertThat(IntBinaryOperator func) {
-		return new IntBinaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> JreIntBinaryOperatorAssert.The<A, RS> assertThat(IntBinaryOperator func) {
+		return new JreIntBinaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntUnaryOperator, RS extends AbstractIntegerAssert<RS>> IntUnaryOperatorAssert.The<A, RS> assertThat(IntUnaryOperator func) {
-		return new IntUnaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends IntUnaryOperator, RS extends AbstractIntegerAssert<RS>> JreIntUnaryOperatorAssert.The<A, RS> assertThat(IntUnaryOperator func) {
+		return new JreIntUnaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongBinaryOperator, RS extends AbstractLongAssert<RS>> LongBinaryOperatorAssert.The<A, RS> assertThat(LongBinaryOperator func) {
-		return new LongBinaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends LongBinaryOperator, RS extends AbstractLongAssert<RS>> JreLongBinaryOperatorAssert.The<A, RS> assertThat(LongBinaryOperator func) {
+		return new JreLongBinaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongUnaryOperator, RS extends AbstractLongAssert<RS>> LongUnaryOperatorAssert.The<A, RS> assertThat(LongUnaryOperator func) {
-		return new LongUnaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends LongUnaryOperator, RS extends AbstractLongAssert<RS>> JreLongUnaryOperatorAssert.The<A, RS> assertThat(LongUnaryOperator func) {
+		return new JreLongUnaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends UnaryOperator<T>, RS extends Assert<RS, T>, T> UnaryOperatorAssert.The<A, RS, T> assertThat(UnaryOperator<T> func) {
-		return new UnaryOperatorAssert.The(func, Assertions::assertThat);
+	public static <A extends UnaryOperator<T>, RS extends Assert<RS, T>, T> JreUnaryOperatorAssert.The<A, RS, T> assertThat(UnaryOperator<T> func) {
+		return new JreUnaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> BiFunctionAssert.The<A, RS, T1, T2, R> assertThat(BiFunction<T1, T2, R> func) {
-		return new BiFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> JreBiFunctionAssert.The<A, RS, T1, T2, R> assertThat(BiFunction<T1, T2, R> func) {
+		return new JreBiFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> DoubleFunctionAssert.The<A, RS, R> assertThat(DoubleFunction<R> func) {
-		return new DoubleFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> JreDoubleFunctionAssert.The<A, RS, R> assertThat(DoubleFunction<R> func) {
+		return new JreDoubleFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> DoubleToIntFunctionAssert.The<A, RS> assertThat(DoubleToIntFunction func) {
-		return new DoubleToIntFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> JreDoubleToIntFunctionAssert.The<A, RS> assertThat(DoubleToIntFunction func) {
+		return new JreDoubleToIntFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> DoubleToLongFunctionAssert.The<A, RS> assertThat(DoubleToLongFunction func) {
-		return new DoubleToLongFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> JreDoubleToLongFunctionAssert.The<A, RS> assertThat(DoubleToLongFunction func) {
+		return new JreDoubleToLongFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends Function<T, R>, RS extends Assert<RS, R>, T, R> FunctionAssert.The<A, RS, T, R> assertThat(Function<T, R> func) {
-		return new FunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends Function<T, R>, RS extends Assert<RS, R>, T, R> JreFunctionAssert.The<A, RS, T, R> assertThat(Function<T, R> func) {
+		return new JreFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntFunction<R>, RS extends Assert<RS, R>, R> IntFunctionAssert.The<A, RS, R> assertThat(IntFunction<R> func) {
-		return new IntFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends IntFunction<R>, RS extends Assert<RS, R>, R> JreIntFunctionAssert.The<A, RS, R> assertThat(IntFunction<R> func) {
+		return new JreIntFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> IntToDoubleFunctionAssert.The<A, RS> assertThat(IntToDoubleFunction func) {
-		return new IntToDoubleFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> JreIntToDoubleFunctionAssert.The<A, RS> assertThat(IntToDoubleFunction func) {
+		return new JreIntToDoubleFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToLongFunction, RS extends AbstractLongAssert<RS>> IntToLongFunctionAssert.The<A, RS> assertThat(IntToLongFunction func) {
-		return new IntToLongFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends IntToLongFunction, RS extends AbstractLongAssert<RS>> JreIntToLongFunctionAssert.The<A, RS> assertThat(IntToLongFunction func) {
+		return new JreIntToLongFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongFunction<R>, RS extends Assert<RS, R>, R> LongFunctionAssert.The<A, RS, R> assertThat(LongFunction<R> func) {
-		return new LongFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends LongFunction<R>, RS extends Assert<RS, R>, R> JreLongFunctionAssert.The<A, RS, R> assertThat(LongFunction<R> func) {
+		return new JreLongFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LongToDoubleFunctionAssert.The<A, RS> assertThat(LongToDoubleFunction func) {
-		return new LongToDoubleFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> JreLongToDoubleFunctionAssert.The<A, RS> assertThat(LongToDoubleFunction func) {
+		return new JreLongToDoubleFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToIntFunction, RS extends AbstractIntegerAssert<RS>> LongToIntFunctionAssert.The<A, RS> assertThat(LongToIntFunction func) {
-		return new LongToIntFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends LongToIntFunction, RS extends AbstractIntegerAssert<RS>> JreLongToIntFunctionAssert.The<A, RS> assertThat(LongToIntFunction func) {
+		return new JreLongToIntFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> ToDoubleBiFunctionAssert.The<A, RS, T1, T2> assertThat(ToDoubleBiFunction<T1, T2> func) {
-		return new ToDoubleBiFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> JreToDoubleBiFunctionAssert.The<A, RS, T1, T2> assertThat(ToDoubleBiFunction<T1, T2> func) {
+		return new JreToDoubleBiFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> ToDoubleFunctionAssert.The<A, RS, T> assertThat(ToDoubleFunction<T> func) {
-		return new ToDoubleFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> JreToDoubleFunctionAssert.The<A, RS, T> assertThat(ToDoubleFunction<T> func) {
+		return new JreToDoubleFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> ToIntBiFunctionAssert.The<A, RS, T1, T2> assertThat(ToIntBiFunction<T1, T2> func) {
-		return new ToIntBiFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> JreToIntBiFunctionAssert.The<A, RS, T1, T2> assertThat(ToIntBiFunction<T1, T2> func) {
+		return new JreToIntBiFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> ToIntFunctionAssert.The<A, RS, T> assertThat(ToIntFunction<T> func) {
-		return new ToIntFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> JreToIntFunctionAssert.The<A, RS, T> assertThat(ToIntFunction<T> func) {
+		return new JreToIntFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> ToLongBiFunctionAssert.The<A, RS, T1, T2> assertThat(ToLongBiFunction<T1, T2> func) {
-		return new ToLongBiFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> JreToLongBiFunctionAssert.The<A, RS, T1, T2> assertThat(ToLongBiFunction<T1, T2> func) {
+		return new JreToLongBiFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> ToLongFunctionAssert.The<A, RS, T> assertThat(ToLongFunction<T> func) {
-		return new ToLongFunctionAssert.The(func, Assertions::assertThat);
+	public static <A extends ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> JreToLongFunctionAssert.The<A, RS, T> assertThat(ToLongFunction<T> func) {
+		return new JreToLongFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiPredicateAssert.The<A, RS, T1, T2> assertThat(BiPredicate<T1, T2> func) {
-		return new BiPredicateAssert.The(func, Assertions::assertThat);
+	public static <A extends BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> JreBiPredicateAssert.The<A, RS, T1, T2> assertThat(BiPredicate<T1, T2> func) {
+		return new JreBiPredicateAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> DoublePredicateAssert.The<A, RS> assertThat(DoublePredicate func) {
-		return new DoublePredicateAssert.The(func, Assertions::assertThat);
+	public static <A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> JreDoublePredicateAssert.The<A, RS> assertThat(DoublePredicate func) {
+		return new JreDoublePredicateAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntPredicate, RS extends AbstractBooleanAssert<RS>> IntPredicateAssert.The<A, RS> assertThat(IntPredicate func) {
-		return new IntPredicateAssert.The(func, Assertions::assertThat);
+	public static <A extends IntPredicate, RS extends AbstractBooleanAssert<RS>> JreIntPredicateAssert.The<A, RS> assertThat(IntPredicate func) {
+		return new JreIntPredicateAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongPredicate, RS extends AbstractBooleanAssert<RS>> LongPredicateAssert.The<A, RS> assertThat(LongPredicate func) {
-		return new LongPredicateAssert.The(func, Assertions::assertThat);
+	public static <A extends LongPredicate, RS extends AbstractBooleanAssert<RS>> JreLongPredicateAssert.The<A, RS> assertThat(LongPredicate func) {
+		return new JreLongPredicateAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> PredicateAssert.The<A, RS, T> assertThat(Predicate<T> func) {
-		return new PredicateAssert.The(func, Assertions::assertThat);
+	public static <A extends Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> JrePredicateAssert.The<A, RS, T> assertThat(Predicate<T> func) {
+		return new JrePredicateAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanSupplier, RS extends AbstractBooleanAssert<RS>> BooleanSupplierAssert.The<A, RS> assertThat(BooleanSupplier func) {
-		return new BooleanSupplierAssert.The(func, Assertions::assertThat);
+	public static <A extends BooleanSupplier, RS extends AbstractBooleanAssert<RS>> JreBooleanSupplierAssert.The<A, RS> assertThat(BooleanSupplier func) {
+		return new JreBooleanSupplierAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleSupplier, RS extends AbstractDoubleAssert<RS>> DoubleSupplierAssert.The<A, RS> assertThat(DoubleSupplier func) {
-		return new DoubleSupplierAssert.The(func, Assertions::assertThat);
+	public static <A extends DoubleSupplier, RS extends AbstractDoubleAssert<RS>> JreDoubleSupplierAssert.The<A, RS> assertThat(DoubleSupplier func) {
+		return new JreDoubleSupplierAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> IntSupplierAssert.The<A, RS> assertThat(IntSupplier func) {
-		return new IntSupplierAssert.The(func, Assertions::assertThat);
+	public static <A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> JreIntSupplierAssert.The<A, RS> assertThat(IntSupplier func) {
+		return new JreIntSupplierAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongSupplier, RS extends AbstractLongAssert<RS>> LongSupplierAssert.The<A, RS> assertThat(LongSupplier func) {
-		return new LongSupplierAssert.The(func, Assertions::assertThat);
+	public static <A extends LongSupplier, RS extends AbstractLongAssert<RS>> JreLongSupplierAssert.The<A, RS> assertThat(LongSupplier func) {
+		return new JreLongSupplierAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends Supplier<T>, RS extends Assert<RS, T>, T> SupplierAssert.The<A, RS, T> assertThat(Supplier<T> func) {
-		return new SupplierAssert.The(func, Assertions::assertThat);
+	public static <A extends Supplier<T>, RS extends Assert<RS, T>, T> JreSupplierAssert.The<A, RS, T> assertThat(Supplier<T> func) {
+		return new JreSupplierAssert.The(func, Assertions::assertThat);
 	}
 
 }

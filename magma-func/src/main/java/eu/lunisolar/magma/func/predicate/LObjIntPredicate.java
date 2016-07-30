@@ -266,7 +266,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LObjIntFunction<T, V> boolToObjIntFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LObjIntFunction<T, V> boolToObjIntFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

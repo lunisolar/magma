@@ -437,7 +437,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToBiByteFunction0() throws X  {
+    public void testBoolToBiByteFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -459,7 +459,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         };
 
         //when
-        LBiByteFunction<Integer> function = sutO.boolToBiByteFunction(thenFunction);
+        LBiByteFunction<Integer> function = sutO.boolToBiByteFunc(thenFunction);
         Integer finalValue = function.doApply((byte)80,(byte)81);
 
         //then - finals

@@ -159,63 +159,63 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> toSupplier(@Nonnull LShortFunction<? extends V> after) {
+	default <V> LSupplier<V> toSup(@Nonnull LShortFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteSupplier toByteSupplier(@Nonnull LShortToByteFunction after) {
+	default LByteSupplier toByteSup(@Nonnull LShortToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplier toShortSupplier(@Nonnull LShortUnaryOperator after) {
+	default LShortSupplier toShortSup(@Nonnull LShortUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntSupplier toIntSupplier(@Nonnull LShortToIntFunction after) {
+	default LIntSupplier toIntSup(@Nonnull LShortToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongSupplier toLongSupplier(@Nonnull LShortToLongFunction after) {
+	default LLongSupplier toLongSup(@Nonnull LShortToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplier toFloatSupplier(@Nonnull LShortToFloatFunction after) {
+	default LFloatSupplier toFloatSup(@Nonnull LShortToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplier toDoubleSupplier(@Nonnull LShortToDoubleFunction after) {
+	default LDoubleSupplier toDoubleSup(@Nonnull LShortToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharSupplier toCharSupplier(@Nonnull LShortToCharFunction after) {
+	default LCharSupplier toCharSup(@Nonnull LShortToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsShort());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolSupplier toBoolSupplier(@Nonnull LShortPredicate after) {
+	default LBoolSupplier toBoolSup(@Nonnull LShortPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsShort());
 	}

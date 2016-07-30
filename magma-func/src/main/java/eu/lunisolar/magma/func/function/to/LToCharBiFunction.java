@@ -105,13 +105,13 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
-	static <T1, T2> LToCharBiFunction<T1, T2> apply1stAsCharacter(@Nonnull LToCharFunction<T1> func) {
+	static <T1, T2> LToCharBiFunction<T1, T2> apply1stAsChar(@Nonnull LToCharFunction<T1> func) {
 		return (a1, a2) -> func.doApplyAsChar(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
-	static <T1, T2> LToCharBiFunction<T1, T2> apply2ndAsCharacter(@Nonnull LToCharFunction<T2> func) {
+	static <T1, T2> LToCharBiFunction<T1, T2> apply2ndAsChar(@Nonnull LToCharFunction<T2> func) {
 		return (a1, a2) -> func.doApplyAsChar(a2);
 	}
 

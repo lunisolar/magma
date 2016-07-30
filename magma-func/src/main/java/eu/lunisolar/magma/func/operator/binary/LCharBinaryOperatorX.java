@@ -121,13 +121,13 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
-	static <X extends Throwable> LCharBinaryOperatorX<X> apply1stAsCharacter(@Nonnull LCharUnaryOperatorX<X> func) {
+	static <X extends Throwable> LCharBinaryOperatorX<X> apply1stAsChar(@Nonnull LCharUnaryOperatorX<X> func) {
 		return (a1, a2) -> func.doApplyAsChar(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
-	static <X extends Throwable> LCharBinaryOperatorX<X> apply2ndAsCharacter(@Nonnull LCharUnaryOperatorX<X> func) {
+	static <X extends Throwable> LCharBinaryOperatorX<X> apply2ndAsChar(@Nonnull LCharUnaryOperatorX<X> func) {
 		return (a1, a2) -> func.doApplyAsChar(a2);
 	}
 

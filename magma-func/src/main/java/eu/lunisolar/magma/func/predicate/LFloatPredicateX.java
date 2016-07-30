@@ -279,63 +279,63 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Me
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LFloatFunctionX<V, X> boolToFloatFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LFloatFunctionX<V, X> boolToFloatFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToByteFunctionX<X> boolToFloatToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
+	default LFloatToByteFunctionX<X> boolToFloatToByteFunc(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToShortFunctionX<X> boolToFloatToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
+	default LFloatToShortFunctionX<X> boolToFloatToShortFunc(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToIntFunctionX<X> boolToFloatToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
+	default LFloatToIntFunctionX<X> boolToFloatToIntFunc(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToLongFunctionX<X> boolToFloatToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
+	default LFloatToLongFunctionX<X> boolToFloatToLongFunc(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatUnaryOperatorX<X> boolToFloatUnaryOperator(@Nonnull LBoolToFloatFunctionX<X> after) {
+	default LFloatUnaryOperatorX<X> boolToFloatUnaryOp(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToDoubleFunctionX<X> boolToFloatToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
+	default LFloatToDoubleFunctionX<X> boolToFloatToDoubleFunc(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToCharFunctionX<X> boolToFloatToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
+	default LFloatToCharFunctionX<X> boolToFloatToCharFunc(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatPredicateX<X> boolToFloatPredicate(@Nonnull LLogicalOperatorX<X> after) {
+	default LFloatPredicateX<X> boolToFloatPred(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}

@@ -311,7 +311,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Me
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiIntFunctionX<V, X> boolToBiIntFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LBiIntFunctionX<V, X> boolToBiIntFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

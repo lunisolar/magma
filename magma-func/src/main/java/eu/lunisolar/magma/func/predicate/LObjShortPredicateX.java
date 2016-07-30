@@ -311,7 +311,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LObjShortFunctionX<T, V, X> boolToObjShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LObjShortFunctionX<T, V, X> boolToObjShortFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

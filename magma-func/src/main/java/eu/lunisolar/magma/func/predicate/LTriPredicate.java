@@ -293,7 +293,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LTriFunction<T1, T2, T3, V> boolToTriFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LTriFunction<T1, T2, T3, V> boolToTriFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}

@@ -241,63 +241,63 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LFloatFunction<V> boolToFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LFloatFunction<V> boolToFloatFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToByteFunction boolToFloatToByteFunction(@Nonnull LBoolToByteFunction after) {
+	default LFloatToByteFunction boolToFloatToByteFunc(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToShortFunction boolToFloatToShortFunction(@Nonnull LBoolToShortFunction after) {
+	default LFloatToShortFunction boolToFloatToShortFunc(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToIntFunction boolToFloatToIntFunction(@Nonnull LBoolToIntFunction after) {
+	default LFloatToIntFunction boolToFloatToIntFunc(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToLongFunction boolToFloatToLongFunction(@Nonnull LBoolToLongFunction after) {
+	default LFloatToLongFunction boolToFloatToLongFunc(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatUnaryOperator boolToFloatUnaryOperator(@Nonnull LBoolToFloatFunction after) {
+	default LFloatUnaryOperator boolToFloatUnaryOp(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToDoubleFunction boolToFloatToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
+	default LFloatToDoubleFunction boolToFloatToDoubleFunc(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatToCharFunction boolToFloatToCharFunction(@Nonnull LBoolToCharFunction after) {
+	default LFloatToCharFunction boolToFloatToCharFunc(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatPredicate boolToFloatPredicate(@Nonnull LLogicalOperator after) {
+	default LFloatPredicate boolToFloatPred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}

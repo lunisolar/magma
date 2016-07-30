@@ -422,7 +422,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToIntFunction0() throws X  {
+    public void testBoolToIntFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,7 +443,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntFunctionX<Integer,X> function = sutO.boolToIntFunction(thenFunction);
+        LIntFunctionX<Integer,X> function = sutO.boolToIntFunc(thenFunction);
         Integer finalValue = function.doApply(80);
 
         //then - finals
@@ -456,7 +456,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntToByteFunction1() throws X  {
+    public void testBoolToIntToByteFunc1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -477,7 +477,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToByteFunctionX<X> function = sutO.boolToIntToByteFunction(thenFunction);
+        LIntToByteFunctionX<X> function = sutO.boolToIntToByteFunc(thenFunction);
         byte finalValue = function.doApplyAsByte(80);
 
         //then - finals
@@ -490,7 +490,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntToShortFunction2() throws X  {
+    public void testBoolToIntToShortFunc2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -511,7 +511,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToShortFunctionX<X> function = sutO.boolToIntToShortFunction(thenFunction);
+        LIntToShortFunctionX<X> function = sutO.boolToIntToShortFunc(thenFunction);
         short finalValue = function.doApplyAsShort(80);
 
         //then - finals
@@ -524,7 +524,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntUnaryOperator3() throws X  {
+    public void testBoolToIntUnaryOp3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -545,7 +545,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntUnaryOperatorX<X> function = sutO.boolToIntUnaryOperator(thenFunction);
+        LIntUnaryOperatorX<X> function = sutO.boolToIntUnaryOp(thenFunction);
         int finalValue = function.doApplyAsInt(80);
 
         //then - finals
@@ -558,7 +558,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntToLongFunction4() throws X  {
+    public void testBoolToIntToLongFunc4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -579,7 +579,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToLongFunctionX<X> function = sutO.boolToIntToLongFunction(thenFunction);
+        LIntToLongFunctionX<X> function = sutO.boolToIntToLongFunc(thenFunction);
         long finalValue = function.doApplyAsLong(80);
 
         //then - finals
@@ -592,7 +592,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntToFloatFunction5() throws X  {
+    public void testBoolToIntToFloatFunc5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -613,7 +613,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToFloatFunctionX<X> function = sutO.boolToIntToFloatFunction(thenFunction);
+        LIntToFloatFunctionX<X> function = sutO.boolToIntToFloatFunc(thenFunction);
         float finalValue = function.doApplyAsFloat(80);
 
         //then - finals
@@ -626,7 +626,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntToDoubleFunction6() throws X  {
+    public void testBoolToIntToDoubleFunc6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -647,7 +647,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToDoubleFunctionX<X> function = sutO.boolToIntToDoubleFunction(thenFunction);
+        LIntToDoubleFunctionX<X> function = sutO.boolToIntToDoubleFunc(thenFunction);
         double finalValue = function.doApplyAsDouble(80);
 
         //then - finals
@@ -660,7 +660,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntToCharFunction7() throws X  {
+    public void testBoolToIntToCharFunc7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -681,7 +681,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToCharFunctionX<X> function = sutO.boolToIntToCharFunction(thenFunction);
+        LIntToCharFunctionX<X> function = sutO.boolToIntToCharFunc(thenFunction);
         char finalValue = function.doApplyAsChar(80);
 
         //then - finals
@@ -694,7 +694,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToIntPredicate8() throws X  {
+    public void testBoolToIntPred8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -715,7 +715,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntPredicateX<X> function = sutO.boolToIntPredicate(thenFunction);
+        LIntPredicateX<X> function = sutO.boolToIntPred(thenFunction);
         boolean finalValue = function.doTest(80);
 
         //then - finals

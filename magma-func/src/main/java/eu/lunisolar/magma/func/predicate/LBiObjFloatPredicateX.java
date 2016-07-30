@@ -376,7 +376,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiObjFloatFunctionX<T1, T2, V, X> boolToBiObjFloatFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LBiObjFloatFunctionX<T1, T2, V, X> boolToBiObjFloatFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}

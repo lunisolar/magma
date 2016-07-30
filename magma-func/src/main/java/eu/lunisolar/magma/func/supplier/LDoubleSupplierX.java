@@ -213,63 +213,63 @@ public interface LDoubleSupplierX<X extends Throwable> extends DoubleSupplier, M
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> toSupplier(@Nonnull LDoubleFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSup(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> toByteSupplier(@Nonnull LDoubleToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSup(@Nonnull LDoubleToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> toShortSupplier(@Nonnull LDoubleToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSup(@Nonnull LDoubleToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> toIntSupplier(@Nonnull LDoubleToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSup(@Nonnull LDoubleToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> toLongSupplier(@Nonnull LDoubleToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSup(@Nonnull LDoubleToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LDoubleToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSup(@Nonnull LDoubleToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LDoubleUnaryOperatorX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSup(@Nonnull LDoubleUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> toCharSupplier(@Nonnull LDoubleToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSup(@Nonnull LDoubleToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsDouble());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LDoublePredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSup(@Nonnull LDoublePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsDouble());
 	}

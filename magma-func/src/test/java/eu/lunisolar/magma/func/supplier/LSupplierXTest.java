@@ -311,7 +311,7 @@ public class LSupplierXTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testToSupplier0() throws X  {
+    public void testToSup0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -331,7 +331,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LSupplierX<Integer,X> function = sutO.toSupplier(thenFunction);
+        LSupplierX<Integer,X> function = sutO.toSup(thenFunction);
         Integer finalValue = function.doGet();
 
         //then - finals
@@ -344,7 +344,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToAction1() throws X  {
+    public void testToAct1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -362,7 +362,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LActionX<X> function = sutO.toAction(thenFunction);
+        LActionX<X> function = sutO.toAct(thenFunction);
         function.doExecute();
 
         //then - finals
@@ -374,7 +374,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToByteSupplier2() throws X  {
+    public void testToByteSup2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -394,7 +394,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LByteSupplierX<X> function = sutO.toByteSupplier(thenFunction);
+        LByteSupplierX<X> function = sutO.toByteSup(thenFunction);
         byte finalValue = function.doGetAsByte();
 
         //then - finals
@@ -407,7 +407,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToShortSupplier3() throws X  {
+    public void testToShortSup3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -427,7 +427,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LShortSupplierX<X> function = sutO.toShortSupplier(thenFunction);
+        LShortSupplierX<X> function = sutO.toShortSup(thenFunction);
         short finalValue = function.doGetAsShort();
 
         //then - finals
@@ -440,7 +440,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToIntSupplier4() throws X  {
+    public void testToIntSup4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -460,7 +460,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LIntSupplierX<X> function = sutO.toIntSupplier(thenFunction);
+        LIntSupplierX<X> function = sutO.toIntSup(thenFunction);
         int finalValue = function.doGetAsInt();
 
         //then - finals
@@ -473,7 +473,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToLongSupplier5() throws X  {
+    public void testToLongSup5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -493,7 +493,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LLongSupplierX<X> function = sutO.toLongSupplier(thenFunction);
+        LLongSupplierX<X> function = sutO.toLongSup(thenFunction);
         long finalValue = function.doGetAsLong();
 
         //then - finals
@@ -506,7 +506,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToFloatSupplier6() throws X  {
+    public void testToFloatSup6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -526,7 +526,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LFloatSupplierX<X> function = sutO.toFloatSupplier(thenFunction);
+        LFloatSupplierX<X> function = sutO.toFloatSup(thenFunction);
         float finalValue = function.doGetAsFloat();
 
         //then - finals
@@ -539,7 +539,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToDoubleSupplier7() throws X  {
+    public void testToDoubleSup7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -559,7 +559,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LDoubleSupplierX<X> function = sutO.toDoubleSupplier(thenFunction);
+        LDoubleSupplierX<X> function = sutO.toDoubleSup(thenFunction);
         double finalValue = function.doGetAsDouble();
 
         //then - finals
@@ -572,7 +572,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToCharSupplier8() throws X  {
+    public void testToCharSup8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -592,7 +592,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LCharSupplierX<X> function = sutO.toCharSupplier(thenFunction);
+        LCharSupplierX<X> function = sutO.toCharSup(thenFunction);
         char finalValue = function.doGetAsChar();
 
         //then - finals
@@ -605,7 +605,7 @@ public class LSupplierXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToBoolSupplier9() throws X  {
+    public void testToBoolSup9() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -625,7 +625,7 @@ public class LSupplierXTest<T,X extends ParseException> {
         };
 
         //when
-        LBoolSupplierX<X> function = sutO.toBoolSupplier(thenFunction);
+        LBoolSupplierX<X> function = sutO.toBoolSup(thenFunction);
         boolean finalValue = function.doGetAsBool();
 
         //then - finals

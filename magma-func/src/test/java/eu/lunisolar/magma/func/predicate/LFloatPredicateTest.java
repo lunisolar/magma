@@ -425,7 +425,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToFloatFunction0() throws X  {
+    public void testBoolToFloatFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -446,7 +446,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatFunction<Integer> function = sutO.boolToFloatFunction(thenFunction);
+        LFloatFunction<Integer> function = sutO.boolToFloatFunc(thenFunction);
         Integer finalValue = function.doApply(80f);
 
         //then - finals
@@ -459,7 +459,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatToByteFunction1() throws X  {
+    public void testBoolToFloatToByteFunc1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -480,7 +480,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatToByteFunction function = sutO.boolToFloatToByteFunction(thenFunction);
+        LFloatToByteFunction function = sutO.boolToFloatToByteFunc(thenFunction);
         byte finalValue = function.doApplyAsByte(80f);
 
         //then - finals
@@ -493,7 +493,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatToShortFunction2() throws X  {
+    public void testBoolToFloatToShortFunc2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -514,7 +514,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatToShortFunction function = sutO.boolToFloatToShortFunction(thenFunction);
+        LFloatToShortFunction function = sutO.boolToFloatToShortFunc(thenFunction);
         short finalValue = function.doApplyAsShort(80f);
 
         //then - finals
@@ -527,7 +527,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatToIntFunction3() throws X  {
+    public void testBoolToFloatToIntFunc3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -548,7 +548,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatToIntFunction function = sutO.boolToFloatToIntFunction(thenFunction);
+        LFloatToIntFunction function = sutO.boolToFloatToIntFunc(thenFunction);
         int finalValue = function.doApplyAsInt(80f);
 
         //then - finals
@@ -561,7 +561,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatToLongFunction4() throws X  {
+    public void testBoolToFloatToLongFunc4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -582,7 +582,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatToLongFunction function = sutO.boolToFloatToLongFunction(thenFunction);
+        LFloatToLongFunction function = sutO.boolToFloatToLongFunc(thenFunction);
         long finalValue = function.doApplyAsLong(80f);
 
         //then - finals
@@ -595,7 +595,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatUnaryOperator5() throws X  {
+    public void testBoolToFloatUnaryOp5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -616,7 +616,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatUnaryOperator function = sutO.boolToFloatUnaryOperator(thenFunction);
+        LFloatUnaryOperator function = sutO.boolToFloatUnaryOp(thenFunction);
         float finalValue = function.doApplyAsFloat(80f);
 
         //then - finals
@@ -629,7 +629,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatToDoubleFunction6() throws X  {
+    public void testBoolToFloatToDoubleFunc6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -650,7 +650,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatToDoubleFunction function = sutO.boolToFloatToDoubleFunction(thenFunction);
+        LFloatToDoubleFunction function = sutO.boolToFloatToDoubleFunc(thenFunction);
         double finalValue = function.doApplyAsDouble(80f);
 
         //then - finals
@@ -663,7 +663,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatToCharFunction7() throws X  {
+    public void testBoolToFloatToCharFunc7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -684,7 +684,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatToCharFunction function = sutO.boolToFloatToCharFunction(thenFunction);
+        LFloatToCharFunction function = sutO.boolToFloatToCharFunc(thenFunction);
         char finalValue = function.doApplyAsChar(80f);
 
         //then - finals
@@ -697,7 +697,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToFloatPredicate8() throws X  {
+    public void testBoolToFloatPred8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -718,7 +718,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         };
 
         //when
-        LFloatPredicate function = sutO.boolToFloatPredicate(thenFunction);
+        LFloatPredicate function = sutO.boolToFloatPred(thenFunction);
         boolean finalValue = function.doTest(80f);
 
         //then - finals

@@ -266,7 +266,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiCharFunction<V> boolToBiCharFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LBiCharFunction<V> boolToBiCharFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

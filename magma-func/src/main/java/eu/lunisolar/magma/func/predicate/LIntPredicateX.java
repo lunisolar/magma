@@ -295,63 +295,63 @@ public interface LIntPredicateX<X extends Throwable> extends IntPredicate, MetaP
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LIntFunctionX<V, X> boolToIntFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LIntFunctionX<V, X> boolToIntFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToByteFunctionX<X> boolToIntToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
+	default LIntToByteFunctionX<X> boolToIntToByteFunc(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToShortFunctionX<X> boolToIntToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
+	default LIntToShortFunctionX<X> boolToIntToShortFunc(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntUnaryOperatorX<X> boolToIntUnaryOperator(@Nonnull LBoolToIntFunctionX<X> after) {
+	default LIntUnaryOperatorX<X> boolToIntUnaryOp(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToLongFunctionX<X> boolToIntToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
+	default LIntToLongFunctionX<X> boolToIntToLongFunc(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToFloatFunctionX<X> boolToIntToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
+	default LIntToFloatFunctionX<X> boolToIntToFloatFunc(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToDoubleFunctionX<X> boolToIntToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
+	default LIntToDoubleFunctionX<X> boolToIntToDoubleFunc(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToCharFunctionX<X> boolToIntToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
+	default LIntToCharFunctionX<X> boolToIntToCharFunc(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntPredicateX<X> boolToIntPredicate(@Nonnull LLogicalOperatorX<X> after) {
+	default LIntPredicateX<X> boolToIntPred(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}

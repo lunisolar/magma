@@ -197,63 +197,63 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, MetaI
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> toSupplier(@Nonnull LByteFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSup(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> toByteSupplier(@Nonnull LByteUnaryOperatorX<X> after) {
+	default LByteSupplierX<X> toByteSup(@Nonnull LByteUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> toShortSupplier(@Nonnull LByteToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSup(@Nonnull LByteToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> toIntSupplier(@Nonnull LByteToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSup(@Nonnull LByteToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> toLongSupplier(@Nonnull LByteToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSup(@Nonnull LByteToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LByteToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSup(@Nonnull LByteToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LByteToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSup(@Nonnull LByteToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> toCharSupplier(@Nonnull LByteToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSup(@Nonnull LByteToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LBytePredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSup(@Nonnull LBytePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsByte());
 	}

@@ -302,7 +302,7 @@ public interface LBiObjIntPredicate<T1, T2> extends LBiObjIntPredicateX<T1, T2, 
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiObjIntFunction<T1, T2, V> boolToBiObjIntFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LBiObjIntFunction<T1, T2, V> boolToBiObjIntFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}

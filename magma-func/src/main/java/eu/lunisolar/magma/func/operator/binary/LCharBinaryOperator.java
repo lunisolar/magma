@@ -105,13 +105,13 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
-	static LCharBinaryOperator apply1stAsCharacter(@Nonnull LCharUnaryOperator func) {
+	static LCharBinaryOperator apply1stAsChar(@Nonnull LCharUnaryOperator func) {
 		return (a1, a2) -> func.doApplyAsChar(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
-	static LCharBinaryOperator apply2ndAsCharacter(@Nonnull LCharUnaryOperator func) {
+	static LCharBinaryOperator apply2ndAsChar(@Nonnull LCharUnaryOperator func) {
 		return (a1, a2) -> func.doApplyAsChar(a2);
 	}
 

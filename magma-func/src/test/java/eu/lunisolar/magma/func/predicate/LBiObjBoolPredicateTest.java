@@ -449,7 +449,7 @@ public class LBiObjBoolPredicateTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToBiObjBoolFunction0() throws X  {
+    public void testBoolToBiObjBoolFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -472,7 +472,7 @@ public class LBiObjBoolPredicateTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LBiObjBoolFunction<Integer,Integer,Integer> function = sutO.boolToBiObjBoolFunction(thenFunction);
+        LBiObjBoolFunction<Integer,Integer,Integer> function = sutO.boolToBiObjBoolFunc(thenFunction);
         Integer finalValue = function.doApply(80,81,true);
 
         //then - finals

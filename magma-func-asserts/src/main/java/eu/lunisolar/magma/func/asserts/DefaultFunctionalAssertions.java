@@ -2798,266 +2798,266 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
-	default <A extends Runnable> RunnableAssert.The<A> assertThat(Runnable func) {
-		return new RunnableAssert.The(func);
+	default <A extends Runnable> JreRunnableAssert.The<A> assertThat(Runnable func) {
+		return new JreRunnableAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends BiConsumer<T1, T2>, T1, T2> BiConsumerAssert.The<A, T1, T2> assertThat(BiConsumer<T1, T2> func) {
-		return new BiConsumerAssert.The(func);
+	default <A extends BiConsumer<T1, T2>, T1, T2> JreBiConsumerAssert.The<A, T1, T2> assertThat(BiConsumer<T1, T2> func) {
+		return new JreBiConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends Consumer<T>, T> ConsumerAssert.The<A, T> assertThat(Consumer<T> func) {
-		return new ConsumerAssert.The(func);
+	default <A extends Consumer<T>, T> JreConsumerAssert.The<A, T> assertThat(Consumer<T> func) {
+		return new JreConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends DoubleConsumer> DoubleConsumerAssert.The<A> assertThat(DoubleConsumer func) {
-		return new DoubleConsumerAssert.The(func);
+	default <A extends DoubleConsumer> JreDoubleConsumerAssert.The<A> assertThat(DoubleConsumer func) {
+		return new JreDoubleConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends IntConsumer> IntConsumerAssert.The<A> assertThat(IntConsumer func) {
-		return new IntConsumerAssert.The(func);
+	default <A extends IntConsumer> JreIntConsumerAssert.The<A> assertThat(IntConsumer func) {
+		return new JreIntConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends LongConsumer> LongConsumerAssert.The<A> assertThat(LongConsumer func) {
-		return new LongConsumerAssert.The(func);
+	default <A extends LongConsumer> JreLongConsumerAssert.The<A> assertThat(LongConsumer func) {
+		return new JreLongConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends ObjDoubleConsumer<T>, T> ObjDoubleConsumerAssert.The<A, T> assertThat(ObjDoubleConsumer<T> func) {
-		return new ObjDoubleConsumerAssert.The(func);
+	default <A extends ObjDoubleConsumer<T>, T> JreObjDoubleConsumerAssert.The<A, T> assertThat(ObjDoubleConsumer<T> func) {
+		return new JreObjDoubleConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends ObjIntConsumer<T>, T> ObjIntConsumerAssert.The<A, T> assertThat(ObjIntConsumer<T> func) {
-		return new ObjIntConsumerAssert.The(func);
+	default <A extends ObjIntConsumer<T>, T> JreObjIntConsumerAssert.The<A, T> assertThat(ObjIntConsumer<T> func) {
+		return new JreObjIntConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends ObjLongConsumer<T>, T> ObjLongConsumerAssert.The<A, T> assertThat(ObjLongConsumer<T> func) {
-		return new ObjLongConsumerAssert.The(func);
+	default <A extends ObjLongConsumer<T>, T> JreObjLongConsumerAssert.The<A, T> assertThat(ObjLongConsumer<T> func) {
+		return new JreObjLongConsumerAssert.The(func);
 	}
 
 	@Nonnull
-	default <A extends BinaryOperator<T>, T> BinaryOperatorAssert.The<A, ? extends OS, T> assertThat(BinaryOperator<T> func) { // NOSONAR
+	default <A extends BinaryOperator<T>, T> JreBinaryOperatorAssert.The<A, ? extends OS, T> assertThat(BinaryOperator<T> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new BinaryOperatorAssert.The(func, assertFunc);
+		return new JreBinaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends DoubleBinaryOperator> DoubleBinaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(DoubleBinaryOperator func) {
+	default <A extends DoubleBinaryOperator> JreDoubleBinaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(DoubleBinaryOperator func) {
 		LDoubleFunction<AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new DoubleBinaryOperatorAssert.The(func, assertFunc);
+		return new JreDoubleBinaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends DoubleUnaryOperator> DoubleUnaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(DoubleUnaryOperator func) {
+	default <A extends DoubleUnaryOperator> JreDoubleUnaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(DoubleUnaryOperator func) {
 		LDoubleFunction<AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new DoubleUnaryOperatorAssert.The(func, assertFunc);
+		return new JreDoubleUnaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends IntBinaryOperator> IntBinaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(IntBinaryOperator func) {
+	default <A extends IntBinaryOperator> JreIntBinaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(IntBinaryOperator func) {
 		LIntFunction<AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new IntBinaryOperatorAssert.The(func, assertFunc);
+		return new JreIntBinaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends IntUnaryOperator> IntUnaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(IntUnaryOperator func) {
+	default <A extends IntUnaryOperator> JreIntUnaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(IntUnaryOperator func) {
 		LIntFunction<AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new IntUnaryOperatorAssert.The(func, assertFunc);
+		return new JreIntUnaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LongBinaryOperator> LongBinaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(LongBinaryOperator func) {
+	default <A extends LongBinaryOperator> JreLongBinaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(LongBinaryOperator func) {
 		LLongFunction<AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LongBinaryOperatorAssert.The(func, assertFunc);
+		return new JreLongBinaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LongUnaryOperator> LongUnaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(LongUnaryOperator func) {
+	default <A extends LongUnaryOperator> JreLongUnaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(LongUnaryOperator func) {
 		LLongFunction<AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LongUnaryOperatorAssert.The(func, assertFunc);
+		return new JreLongUnaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends UnaryOperator<T>, T> UnaryOperatorAssert.The<A, ? extends OS, T> assertThat(UnaryOperator<T> func) { // NOSONAR
+	default <A extends UnaryOperator<T>, T> JreUnaryOperatorAssert.The<A, ? extends OS, T> assertThat(UnaryOperator<T> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new UnaryOperatorAssert.The(func, assertFunc);
+		return new JreUnaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends BiFunction<T1, T2, R>, T1, T2, R> BiFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(BiFunction<T1, T2, R> func) { // NOSONAR
+	default <A extends BiFunction<T1, T2, R>, T1, T2, R> JreBiFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(BiFunction<T1, T2, R> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new BiFunctionAssert.The(func, assertFunc);
+		return new JreBiFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends DoubleFunction<R>, R> DoubleFunctionAssert.The<A, ? extends OS, R> assertThat(DoubleFunction<R> func) { // NOSONAR
+	default <A extends DoubleFunction<R>, R> JreDoubleFunctionAssert.The<A, ? extends OS, R> assertThat(DoubleFunction<R> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new DoubleFunctionAssert.The(func, assertFunc);
+		return new JreDoubleFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends DoubleToIntFunction> DoubleToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(DoubleToIntFunction func) {
+	default <A extends DoubleToIntFunction> JreDoubleToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(DoubleToIntFunction func) {
 		LIntFunction<AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new DoubleToIntFunctionAssert.The(func, assertFunc);
+		return new JreDoubleToIntFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends DoubleToLongFunction> DoubleToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(DoubleToLongFunction func) {
+	default <A extends DoubleToLongFunction> JreDoubleToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(DoubleToLongFunction func) {
 		LLongFunction<AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new DoubleToLongFunctionAssert.The(func, assertFunc);
+		return new JreDoubleToLongFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends Function<T, R>, T, R> FunctionAssert.The<A, ? extends OS, T, R> assertThat(Function<T, R> func) { // NOSONAR
+	default <A extends Function<T, R>, T, R> JreFunctionAssert.The<A, ? extends OS, T, R> assertThat(Function<T, R> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new FunctionAssert.The(func, assertFunc);
+		return new JreFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends IntFunction<R>, R> IntFunctionAssert.The<A, ? extends OS, R> assertThat(IntFunction<R> func) { // NOSONAR
+	default <A extends IntFunction<R>, R> JreIntFunctionAssert.The<A, ? extends OS, R> assertThat(IntFunction<R> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new IntFunctionAssert.The(func, assertFunc);
+		return new JreIntFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends IntToDoubleFunction> IntToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(IntToDoubleFunction func) {
+	default <A extends IntToDoubleFunction> JreIntToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(IntToDoubleFunction func) {
 		LDoubleFunction<AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new IntToDoubleFunctionAssert.The(func, assertFunc);
+		return new JreIntToDoubleFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends IntToLongFunction> IntToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(IntToLongFunction func) {
+	default <A extends IntToLongFunction> JreIntToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(IntToLongFunction func) {
 		LLongFunction<AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new IntToLongFunctionAssert.The(func, assertFunc);
+		return new JreIntToLongFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LongFunction<R>, R> LongFunctionAssert.The<A, ? extends OS, R> assertThat(LongFunction<R> func) { // NOSONAR
+	default <A extends LongFunction<R>, R> JreLongFunctionAssert.The<A, ? extends OS, R> assertThat(LongFunction<R> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new LongFunctionAssert.The(func, assertFunc);
+		return new JreLongFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LongToDoubleFunction> LongToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LongToDoubleFunction func) {
+	default <A extends LongToDoubleFunction> JreLongToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LongToDoubleFunction func) {
 		LDoubleFunction<AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LongToDoubleFunctionAssert.The(func, assertFunc);
+		return new JreLongToDoubleFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LongToIntFunction> LongToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LongToIntFunction func) {
+	default <A extends LongToIntFunction> JreLongToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LongToIntFunction func) {
 		LIntFunction<AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LongToIntFunctionAssert.The(func, assertFunc);
+		return new JreLongToIntFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends ToDoubleBiFunction<T1, T2>, T1, T2> ToDoubleBiFunctionAssert.The<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(ToDoubleBiFunction<T1, T2> func) {
+	default <A extends ToDoubleBiFunction<T1, T2>, T1, T2> JreToDoubleBiFunctionAssert.The<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(ToDoubleBiFunction<T1, T2> func) {
 		LDoubleFunction<AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new ToDoubleBiFunctionAssert.The(func, assertFunc);
+		return new JreToDoubleBiFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends ToDoubleFunction<T>, T> ToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert, T> assertThat(ToDoubleFunction<T> func) {
+	default <A extends ToDoubleFunction<T>, T> JreToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert, T> assertThat(ToDoubleFunction<T> func) {
 		LDoubleFunction<AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new ToDoubleFunctionAssert.The(func, assertFunc);
+		return new JreToDoubleFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends ToIntBiFunction<T1, T2>, T1, T2> ToIntBiFunctionAssert.The<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(ToIntBiFunction<T1, T2> func) {
+	default <A extends ToIntBiFunction<T1, T2>, T1, T2> JreToIntBiFunctionAssert.The<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(ToIntBiFunction<T1, T2> func) {
 		LIntFunction<AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new ToIntBiFunctionAssert.The(func, assertFunc);
+		return new JreToIntBiFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends ToIntFunction<T>, T> ToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert, T> assertThat(ToIntFunction<T> func) {
+	default <A extends ToIntFunction<T>, T> JreToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert, T> assertThat(ToIntFunction<T> func) {
 		LIntFunction<AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new ToIntFunctionAssert.The(func, assertFunc);
+		return new JreToIntFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends ToLongBiFunction<T1, T2>, T1, T2> ToLongBiFunctionAssert.The<A, ? extends AbstractLongAssert, T1, T2> assertThat(ToLongBiFunction<T1, T2> func) {
+	default <A extends ToLongBiFunction<T1, T2>, T1, T2> JreToLongBiFunctionAssert.The<A, ? extends AbstractLongAssert, T1, T2> assertThat(ToLongBiFunction<T1, T2> func) {
 		LLongFunction<AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new ToLongBiFunctionAssert.The(func, assertFunc);
+		return new JreToLongBiFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends ToLongFunction<T>, T> ToLongFunctionAssert.The<A, ? extends AbstractLongAssert, T> assertThat(ToLongFunction<T> func) {
+	default <A extends ToLongFunction<T>, T> JreToLongFunctionAssert.The<A, ? extends AbstractLongAssert, T> assertThat(ToLongFunction<T> func) {
 		LLongFunction<AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new ToLongFunctionAssert.The(func, assertFunc);
+		return new JreToLongFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends BiPredicate<T1, T2>, T1, T2> BiPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(BiPredicate<T1, T2> func) {
+	default <A extends BiPredicate<T1, T2>, T1, T2> JreBiPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(BiPredicate<T1, T2> func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
-		return new BiPredicateAssert.The(func, assertFunc);
+		return new JreBiPredicateAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends DoublePredicate> DoublePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(DoublePredicate func) {
+	default <A extends DoublePredicate> JreDoublePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(DoublePredicate func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
-		return new DoublePredicateAssert.The(func, assertFunc);
+		return new JreDoublePredicateAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends IntPredicate> IntPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(IntPredicate func) {
+	default <A extends IntPredicate> JreIntPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(IntPredicate func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
-		return new IntPredicateAssert.The(func, assertFunc);
+		return new JreIntPredicateAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LongPredicate> LongPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LongPredicate func) {
+	default <A extends LongPredicate> JreLongPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LongPredicate func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
-		return new LongPredicateAssert.The(func, assertFunc);
+		return new JreLongPredicateAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends Predicate<T>, T> PredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(Predicate<T> func) {
+	default <A extends Predicate<T>, T> JrePredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(Predicate<T> func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
-		return new PredicateAssert.The(func, assertFunc);
+		return new JrePredicateAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends BooleanSupplier> BooleanSupplierAssert.The<A, ? extends AbstractBooleanAssert> assertThat(BooleanSupplier func) {
+	default <A extends BooleanSupplier> JreBooleanSupplierAssert.The<A, ? extends AbstractBooleanAssert> assertThat(BooleanSupplier func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
-		return new BooleanSupplierAssert.The(func, assertFunc);
+		return new JreBooleanSupplierAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends DoubleSupplier> DoubleSupplierAssert.The<A, ? extends AbstractDoubleAssert> assertThat(DoubleSupplier func) {
+	default <A extends DoubleSupplier> JreDoubleSupplierAssert.The<A, ? extends AbstractDoubleAssert> assertThat(DoubleSupplier func) {
 		LDoubleFunction<AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new DoubleSupplierAssert.The(func, assertFunc);
+		return new JreDoubleSupplierAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends IntSupplier> IntSupplierAssert.The<A, ? extends AbstractIntegerAssert> assertThat(IntSupplier func) {
+	default <A extends IntSupplier> JreIntSupplierAssert.The<A, ? extends AbstractIntegerAssert> assertThat(IntSupplier func) {
 		LIntFunction<AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new IntSupplierAssert.The(func, assertFunc);
+		return new JreIntSupplierAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LongSupplier> LongSupplierAssert.The<A, ? extends AbstractLongAssert> assertThat(LongSupplier func) {
+	default <A extends LongSupplier> JreLongSupplierAssert.The<A, ? extends AbstractLongAssert> assertThat(LongSupplier func) {
 		LLongFunction<AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LongSupplierAssert.The(func, assertFunc);
+		return new JreLongSupplierAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends Supplier<T>, T> SupplierAssert.The<A, ? extends OS, T> assertThat(Supplier<T> func) { // NOSONAR
+	default <A extends Supplier<T>, T> JreSupplierAssert.The<A, ? extends OS, T> assertThat(Supplier<T> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
-		return new SupplierAssert.The(func, assertFunc);
+		return new JreSupplierAssert.The(func, assertFunc);
 	}
 
 }

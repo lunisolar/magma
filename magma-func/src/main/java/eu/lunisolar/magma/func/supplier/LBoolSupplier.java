@@ -175,63 +175,63 @@ public interface LBoolSupplier extends LBoolSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> toSupplier(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LSupplier<V> toSup(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteSupplier toByteSupplier(@Nonnull LBoolToByteFunction after) {
+	default LByteSupplier toByteSup(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplier toShortSupplier(@Nonnull LBoolToShortFunction after) {
+	default LShortSupplier toShortSup(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntSupplier toIntSupplier(@Nonnull LBoolToIntFunction after) {
+	default LIntSupplier toIntSup(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongSupplier toLongSupplier(@Nonnull LBoolToLongFunction after) {
+	default LLongSupplier toLongSup(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplier toFloatSupplier(@Nonnull LBoolToFloatFunction after) {
+	default LFloatSupplier toFloatSup(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplier toDoubleSupplier(@Nonnull LBoolToDoubleFunction after) {
+	default LDoubleSupplier toDoubleSup(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharSupplier toCharSupplier(@Nonnull LBoolToCharFunction after) {
+	default LCharSupplier toCharSup(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolSupplier toBoolSupplier(@Nonnull LLogicalOperator after) {
+	default LBoolSupplier toBoolSup(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsBool());
 	}

@@ -311,7 +311,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LObjDoubleFunctionX<T, V, X> boolToObjDoubleFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LObjDoubleFunctionX<T, V, X> boolToObjDoubleFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

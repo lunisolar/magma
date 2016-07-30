@@ -72,6 +72,8 @@
 
         <module>magma-func-supp</module>
 
+        <!--<module>magma-data</module>-->
+
         <module>magma-examples</module>
     </modules>
 

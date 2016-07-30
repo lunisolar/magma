@@ -295,63 +295,63 @@ public interface LLongPredicateX<X extends Throwable> extends LongPredicate, Met
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LLongFunctionX<V, X> boolToLongFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LLongFunctionX<V, X> boolToLongFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongToByteFunctionX<X> boolToLongToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
+	default LLongToByteFunctionX<X> boolToLongToByteFunc(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongToShortFunctionX<X> boolToLongToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
+	default LLongToShortFunctionX<X> boolToLongToShortFunc(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongToIntFunctionX<X> boolToLongToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
+	default LLongToIntFunctionX<X> boolToLongToIntFunc(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongUnaryOperatorX<X> boolToLongUnaryOperator(@Nonnull LBoolToLongFunctionX<X> after) {
+	default LLongUnaryOperatorX<X> boolToLongUnaryOp(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongToFloatFunctionX<X> boolToLongToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
+	default LLongToFloatFunctionX<X> boolToLongToFloatFunc(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongToDoubleFunctionX<X> boolToLongToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
+	default LLongToDoubleFunctionX<X> boolToLongToDoubleFunc(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongToCharFunctionX<X> boolToLongToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
+	default LLongToCharFunctionX<X> boolToLongToCharFunc(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LLongPredicateX<X> boolToLongPredicate(@Nonnull LLogicalOperatorX<X> after) {
+	default LLongPredicateX<X> boolToLongPred(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}

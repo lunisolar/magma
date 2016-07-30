@@ -426,7 +426,7 @@ public class LObjCharPredicateXTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToObjCharFunction0() throws X  {
+    public void testBoolToObjCharFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -448,7 +448,7 @@ public class LObjCharPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjCharFunctionX<Integer,Integer,X> function = sutO.boolToObjCharFunction(thenFunction);
+        LObjCharFunctionX<Integer,Integer,X> function = sutO.boolToObjCharFunc(thenFunction);
         Integer finalValue = function.doApply(80,'\u0081');
 
         //then - finals

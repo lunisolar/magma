@@ -425,7 +425,7 @@ public class LShortPredicateTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToShortFunction0() throws X  {
+    public void testBoolToShortFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -446,7 +446,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortFunction<Integer> function = sutO.boolToShortFunction(thenFunction);
+        LShortFunction<Integer> function = sutO.boolToShortFunc(thenFunction);
         Integer finalValue = function.doApply((short)80);
 
         //then - finals
@@ -459,7 +459,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortToByteFunction1() throws X  {
+    public void testBoolToShortToByteFunc1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -480,7 +480,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortToByteFunction function = sutO.boolToShortToByteFunction(thenFunction);
+        LShortToByteFunction function = sutO.boolToShortToByteFunc(thenFunction);
         byte finalValue = function.doApplyAsByte((short)80);
 
         //then - finals
@@ -493,7 +493,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortUnaryOperator2() throws X  {
+    public void testBoolToShortUnaryOp2() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -514,7 +514,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortUnaryOperator function = sutO.boolToShortUnaryOperator(thenFunction);
+        LShortUnaryOperator function = sutO.boolToShortUnaryOp(thenFunction);
         short finalValue = function.doApplyAsShort((short)80);
 
         //then - finals
@@ -527,7 +527,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortToIntFunction3() throws X  {
+    public void testBoolToShortToIntFunc3() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -548,7 +548,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortToIntFunction function = sutO.boolToShortToIntFunction(thenFunction);
+        LShortToIntFunction function = sutO.boolToShortToIntFunc(thenFunction);
         int finalValue = function.doApplyAsInt((short)80);
 
         //then - finals
@@ -561,7 +561,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortToLongFunction4() throws X  {
+    public void testBoolToShortToLongFunc4() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -582,7 +582,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortToLongFunction function = sutO.boolToShortToLongFunction(thenFunction);
+        LShortToLongFunction function = sutO.boolToShortToLongFunc(thenFunction);
         long finalValue = function.doApplyAsLong((short)80);
 
         //then - finals
@@ -595,7 +595,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortToFloatFunction5() throws X  {
+    public void testBoolToShortToFloatFunc5() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -616,7 +616,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortToFloatFunction function = sutO.boolToShortToFloatFunction(thenFunction);
+        LShortToFloatFunction function = sutO.boolToShortToFloatFunc(thenFunction);
         float finalValue = function.doApplyAsFloat((short)80);
 
         //then - finals
@@ -629,7 +629,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortToDoubleFunction6() throws X  {
+    public void testBoolToShortToDoubleFunc6() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -650,7 +650,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortToDoubleFunction function = sutO.boolToShortToDoubleFunction(thenFunction);
+        LShortToDoubleFunction function = sutO.boolToShortToDoubleFunc(thenFunction);
         double finalValue = function.doApplyAsDouble((short)80);
 
         //then - finals
@@ -663,7 +663,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortToCharFunction7() throws X  {
+    public void testBoolToShortToCharFunc7() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -684,7 +684,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortToCharFunction function = sutO.boolToShortToCharFunction(thenFunction);
+        LShortToCharFunction function = sutO.boolToShortToCharFunc(thenFunction);
         char finalValue = function.doApplyAsChar((short)80);
 
         //then - finals
@@ -697,7 +697,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToShortPredicate8() throws X  {
+    public void testBoolToShortPred8() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -718,7 +718,7 @@ public class LShortPredicateTest<X extends ParseException> {
         };
 
         //when
-        LShortPredicate function = sutO.boolToShortPredicate(thenFunction);
+        LShortPredicate function = sutO.boolToShortPred(thenFunction);
         boolean finalValue = function.doTest((short)80);
 
         //then - finals

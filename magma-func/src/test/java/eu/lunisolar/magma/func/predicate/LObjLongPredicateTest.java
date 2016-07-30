@@ -437,7 +437,7 @@ public class LObjLongPredicateTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToObjLongFunction0() throws X  {
+    public void testBoolToObjLongFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -459,7 +459,7 @@ public class LObjLongPredicateTest<T,X extends ParseException> {
         };
 
         //when
-        LObjLongFunction<Integer,Integer> function = sutO.boolToObjLongFunction(thenFunction);
+        LObjLongFunction<Integer,Integer> function = sutO.boolToObjLongFunc(thenFunction);
         Integer finalValue = function.doApply(80,81L);
 
         //then - finals

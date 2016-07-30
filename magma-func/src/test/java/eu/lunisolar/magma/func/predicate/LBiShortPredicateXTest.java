@@ -426,7 +426,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToBiShortFunction0() throws X  {
+    public void testBoolToBiShortFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -448,7 +448,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LBiShortFunctionX<Integer,X> function = sutO.boolToBiShortFunction(thenFunction);
+        LBiShortFunctionX<Integer,X> function = sutO.boolToBiShortFunc(thenFunction);
         Integer finalValue = function.doApply((short)80,(short)81);
 
         //then - finals

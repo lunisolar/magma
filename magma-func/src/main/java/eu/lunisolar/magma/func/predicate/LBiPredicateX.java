@@ -319,7 +319,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends BiPredicate<
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiFunctionX<T1, T2, V, X> boolToBiFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LBiFunctionX<T1, T2, V, X> boolToBiFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

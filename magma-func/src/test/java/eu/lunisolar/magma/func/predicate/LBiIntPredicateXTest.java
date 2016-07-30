@@ -426,7 +426,7 @@ public class LBiIntPredicateXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToBiIntFunction0() throws X  {
+    public void testBoolToBiIntFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -448,7 +448,7 @@ public class LBiIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LBiIntFunctionX<Integer,X> function = sutO.boolToBiIntFunction(thenFunction);
+        LBiIntFunctionX<Integer,X> function = sutO.boolToBiIntFunc(thenFunction);
         Integer finalValue = function.doApply(80,81);
 
         //then - finals

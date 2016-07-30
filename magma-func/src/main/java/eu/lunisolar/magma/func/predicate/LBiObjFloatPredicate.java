@@ -302,7 +302,7 @@ public interface LBiObjFloatPredicate<T1, T2> extends LBiObjFloatPredicateX<T1, 
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiObjFloatFunction<T1, T2, V> boolToBiObjFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LBiObjFloatFunction<T1, T2, V> boolToBiObjFloatFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
 	}

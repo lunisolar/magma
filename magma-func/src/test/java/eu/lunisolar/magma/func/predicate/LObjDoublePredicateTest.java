@@ -437,7 +437,7 @@ public class LObjDoublePredicateTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToObjDoubleFunction0() throws X  {
+    public void testBoolToObjDoubleFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -459,7 +459,7 @@ public class LObjDoublePredicateTest<T,X extends ParseException> {
         };
 
         //when
-        LObjDoubleFunction<Integer,Integer> function = sutO.boolToObjDoubleFunction(thenFunction);
+        LObjDoubleFunction<Integer,Integer> function = sutO.boolToObjDoubleFunc(thenFunction);
         Integer finalValue = function.doApply(80,81d);
 
         //then - finals

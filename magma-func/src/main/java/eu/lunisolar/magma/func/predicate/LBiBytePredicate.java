@@ -266,7 +266,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LBiByteFunction<V> boolToBiByteFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LBiByteFunction<V> boolToBiByteFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

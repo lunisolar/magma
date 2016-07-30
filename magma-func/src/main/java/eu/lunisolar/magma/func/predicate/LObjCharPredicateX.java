@@ -311,7 +311,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LObjCharFunctionX<T, V, X> boolToObjCharFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
+	default <V> LObjCharFunctionX<T, V, X> boolToObjCharFunc(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

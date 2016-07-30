@@ -241,63 +241,63 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LCharFunction<V> boolToCharFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LCharFunction<V> boolToCharFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToByteFunction boolToCharToByteFunction(@Nonnull LBoolToByteFunction after) {
+	default LCharToByteFunction boolToCharToByteFunc(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsByte(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToShortFunction boolToCharToShortFunction(@Nonnull LBoolToShortFunction after) {
+	default LCharToShortFunction boolToCharToShortFunc(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsShort(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToIntFunction boolToCharToIntFunction(@Nonnull LBoolToIntFunction after) {
+	default LCharToIntFunction boolToCharToIntFunc(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsInt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToLongFunction boolToCharToLongFunction(@Nonnull LBoolToLongFunction after) {
+	default LCharToLongFunction boolToCharToLongFunc(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsLong(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToFloatFunction boolToCharToFloatFunction(@Nonnull LBoolToFloatFunction after) {
+	default LCharToFloatFunction boolToCharToFloatFunc(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsFloat(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToDoubleFunction boolToCharToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
+	default LCharToDoubleFunction boolToCharToDoubleFunc(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsDouble(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharUnaryOperator boolToCharUnaryOperator(@Nonnull LBoolToCharFunction after) {
+	default LCharUnaryOperator boolToCharUnaryOp(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApplyAsChar(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharPredicate boolToCharPredicate(@Nonnull LLogicalOperator after) {
+	default LCharPredicate boolToCharPred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.doApply(this.doTest(a));
 	}

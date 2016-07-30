@@ -121,13 +121,13 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
-	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> apply1stAsCharacter(@Nonnull LToCharFunctionX<T1, X> func) {
+	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> apply1stAsChar(@Nonnull LToCharFunctionX<T1, X> func) {
 		return (a1, a2) -> func.doApplyAsChar(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
-	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> apply2ndAsCharacter(@Nonnull LToCharFunctionX<T2, X> func) {
+	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> apply2ndAsChar(@Nonnull LToCharFunctionX<T2, X> func) {
 		return (a1, a2) -> func.doApplyAsChar(a2);
 	}
 

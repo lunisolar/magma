@@ -426,7 +426,7 @@ public class LObjBytePredicateXTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToObjByteFunction0() throws X  {
+    public void testBoolToObjByteFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -448,7 +448,7 @@ public class LObjBytePredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjByteFunctionX<Integer,Integer,X> function = sutO.boolToObjByteFunction(thenFunction);
+        LObjByteFunctionX<Integer,Integer,X> function = sutO.boolToObjByteFunc(thenFunction);
         Integer finalValue = function.doApply(80,(byte)81);
 
         //then - finals

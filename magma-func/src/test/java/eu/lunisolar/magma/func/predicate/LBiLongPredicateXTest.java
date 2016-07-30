@@ -426,7 +426,7 @@ public class LBiLongPredicateXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToBiLongFunction0() throws X  {
+    public void testBoolToBiLongFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -448,7 +448,7 @@ public class LBiLongPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LBiLongFunctionX<Integer,X> function = sutO.boolToBiLongFunction(thenFunction);
+        LBiLongFunctionX<Integer,X> function = sutO.boolToBiLongFunc(thenFunction);
         Integer finalValue = function.doApply(80L,81L);
 
         //then - finals

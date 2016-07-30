@@ -437,7 +437,7 @@ public class LObjFloatPredicateTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToObjFloatFunction0() throws X  {
+    public void testBoolToObjFloatFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -459,7 +459,7 @@ public class LObjFloatPredicateTest<T,X extends ParseException> {
         };
 
         //when
-        LObjFloatFunction<Integer,Integer> function = sutO.boolToObjFloatFunction(thenFunction);
+        LObjFloatFunction<Integer,Integer> function = sutO.boolToObjFloatFunc(thenFunction);
         Integer finalValue = function.doApply(80,81f);
 
         //then - finals

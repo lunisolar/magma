@@ -266,7 +266,7 @@ public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeE
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LObjDoubleFunction<T, V> boolToObjDoubleFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LObjDoubleFunction<T, V> boolToObjDoubleFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

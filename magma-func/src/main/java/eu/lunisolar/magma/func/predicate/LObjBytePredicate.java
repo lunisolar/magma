@@ -266,7 +266,7 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default <V> LObjByteFunction<T, V> boolToObjByteFunction(@Nonnull LBoolFunction<? extends V> after) {
+	default <V> LObjByteFunction<T, V> boolToObjByteFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
 	}

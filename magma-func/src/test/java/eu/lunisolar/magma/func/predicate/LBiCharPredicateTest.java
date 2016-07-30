@@ -437,7 +437,7 @@ public class LBiCharPredicateTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToBiCharFunction0() throws X  {
+    public void testBoolToBiCharFunc0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -459,7 +459,7 @@ public class LBiCharPredicateTest<X extends ParseException> {
         };
 
         //when
-        LBiCharFunction<Integer> function = sutO.boolToBiCharFunction(thenFunction);
+        LBiCharFunction<Integer> function = sutO.boolToBiCharFunc(thenFunction);
         Integer finalValue = function.doApply('\u0080','\u0081');
 
         //then - finals
