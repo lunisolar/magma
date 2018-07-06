@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LByteBinaryOperator. */
+/**
+ * Builder for LByteBinaryOperator.
+ */
 public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProduct.Base<LByteBinaryOperatorBuilder, LBiBytePredicate, LByteBinaryOperator> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteBinaryOperator EVENTUALLY_THROW = LByteBinaryOperator.l((a1, a2) -> {
+	public static final LByteBinaryOperator EVENTUALLY_THROW = LByteBinaryOperator.byteBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 		LByteBinaryOperator retval;
 
 		final Case<LBiBytePredicate, LByteBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteBinaryOperator.l((a1, a2) -> {
+		retval = LByteBinaryOperator.byteBinaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiBytePredicate, LByteBinaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

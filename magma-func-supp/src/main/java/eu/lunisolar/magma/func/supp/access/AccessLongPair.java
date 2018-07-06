@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -80,14 +80,14 @@ public interface AccessLongPair {
 		accessFunction.doAccept(tuple.second(), tuple.first());
 	}
 
-	default void useWith(LBiLongConsumer.V1 accessFunction) {
+	default void useWith(LBiLongConsumer.LLong1Long0Cons accessFunction) {
 		LLongPair tuple = accessLongPair();
-		accessFunction.doAcceptV1(tuple.first(), tuple.second());
+		accessFunction.doAcceptLong1Long0(tuple.first(), tuple.second());
 	}
 
-	default void useWithO1(LBiLongConsumer.V1 accessFunction) {
+	default void useWithO1(LBiLongConsumer.LLong1Long0Cons accessFunction) {
 		LLongPair tuple = accessLongPair();
-		accessFunction.doAcceptV1(tuple.second(), tuple.first());
+		accessFunction.doAcceptLong1Long0(tuple.second(), tuple.first());
 	}
 
 	default long useWith(LLongBinaryOperator accessFunction) {
@@ -118,16 +118,16 @@ public interface AccessLongPair {
 		return retval;
 	}
 
-	default <R> R useWith(LBiLongFunction.V1<R> accessFunction) {
+	default <R> R useWith(LBiLongFunction.LLong1Long0Func<R> accessFunction) {
 		LLongPair tuple = accessLongPair();
-		R retval = accessFunction.doApplyV1(tuple.first(), tuple.second());
+		R retval = accessFunction.doApplyLong1Long0(tuple.first(), tuple.second());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
-	default <R> R useWithO1(LBiLongFunction.V1<R> accessFunction) {
+	default <R> R useWithO1(LBiLongFunction.LLong1Long0Func<R> accessFunction) {
 		LLongPair tuple = accessLongPair();
-		R retval = accessFunction.doApplyV1(tuple.second(), tuple.first());
+		R retval = accessFunction.doApplyLong1Long0(tuple.second(), tuple.first());
 		releaseLongPair(tuple);
 		return retval;
 	}
@@ -146,16 +146,16 @@ public interface AccessLongPair {
 		return retval;
 	}
 
-	default boolean useWith(LBiLongPredicate.V1 accessFunction) {
+	default boolean useWith(LBiLongPredicate.LLong1Long0Pred accessFunction) {
 		LLongPair tuple = accessLongPair();
-		boolean retval = accessFunction.doTestV1(tuple.first(), tuple.second());
+		boolean retval = accessFunction.doTestLong1Long0(tuple.first(), tuple.second());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
-	default boolean useWithO1(LBiLongPredicate.V1 accessFunction) {
+	default boolean useWithO1(LBiLongPredicate.LLong1Long0Pred accessFunction) {
 		LLongPair tuple = accessLongPair();
-		boolean retval = accessFunction.doTestV1(tuple.second(), tuple.first());
+		boolean retval = accessFunction.doTestLong1Long0(tuple.second(), tuple.first());
 		releaseLongPair(tuple);
 		return retval;
 	}

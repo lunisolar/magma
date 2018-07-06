@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiLongPredicateAssert<S extends LBiLongPredicateAssert<S, A, RS>, A extends LBiLongPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiLongConsumer, A, RS, Boolean> {
 
 	@Nonnull
+	public static <A extends LBiLongPredicate, RS extends AbstractBooleanAssert<RS>> LBiLongPredicateAssert.The<A, RS> assertBiLongPred(LBiLongPredicate func) {
+		return new LBiLongPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiLongConsumer, A, RS, Boolean> doesTest(long a1, long a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

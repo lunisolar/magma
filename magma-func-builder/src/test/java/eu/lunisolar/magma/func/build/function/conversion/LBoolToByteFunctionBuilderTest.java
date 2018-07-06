@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LBoolToByteFunctionBuilder.boolToByteFunction;
 import static eu.lunisolar.magma.func.build.function.conversion.LBoolToByteFunctionBuilder.boolToByteFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBoolToByteFunctionBuilderTest<X extends ParseException>{
+public class LBoolToByteFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -127,7 +126,7 @@ public class LBoolToByteFunctionBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertBoolToByteFunc(function)
             .doesApplyAsByte(false).when(null).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte(true).when(null).to(a -> a.isEqualTo((byte)1))
         ;

@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.ObjIntConsumerBuilder.objIntConsumer;
 import static eu.lunisolar.magma.func.build.std.ObjIntConsumerBuilder.objIntConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -129,7 +128,7 @@ public class ObjIntConsumerBuilderTest<T>{
         );
 
 
-        A.assertThat(function)
+        A.assertObjIntCons(function)
             .doesAccept(0,0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5,5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15,15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

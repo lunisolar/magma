@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LBiObjBoolPredicateBuilder.biObjBoolPredicate;
 import static eu.lunisolar.magma.func.build.predicate.LBiObjBoolPredicateBuilder.biObjBoolPredicateFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiObjBoolPredicateBuilderTest<T1,T2,X extends ParseException>{
+public class LBiObjBoolPredicateBuilderTest<T1,T2>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LBiObjBoolPredicateBuilderTest<T1,T2,X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertBiObjBoolPred(function)
             .doesTest(0,0,false).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5,5,true).when(null).to(a -> a.isEqualTo(true))
         ;

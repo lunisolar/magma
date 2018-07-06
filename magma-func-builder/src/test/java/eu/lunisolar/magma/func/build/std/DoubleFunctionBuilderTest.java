@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoubleFunctionBuilder.doubleFunction;
-import static eu.lunisolar.magma.func.build.std.DoubleFunctionBuilder.doubleFunctionFrom;
+import static eu.lunisolar.magma.func.build.std.DoubleFunctionBuilder.dblFunction;
+import static eu.lunisolar.magma.func.build.std.DoubleFunctionBuilder.dblFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoubleFunctionBuilderTest<R>{
@@ -66,7 +65,7 @@ public class DoubleFunctionBuilderTest<R>{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoubleFunction<Integer> function = doubleFunctionFrom(b-> b
+            DoubleFunction<Integer> function = dblFunctionFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoubleFunctionBuilderTest<R>{
 
 
         assertThatThrownBy(() -> {
-            DoubleFunction<Integer> function = doubleFunctionFrom(b-> b
+            DoubleFunction<Integer> function = dblFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoubleFunctionBuilderTest<R>{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoubleFunction<Integer> function = doubleFunctionFrom(b -> b
+            DoubleFunction<Integer> function = dblFunctionFrom(b -> b
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class DoubleFunctionBuilderTest<R>{
     @Test
     public void testBuild()  {
 
-        DoubleFunction<Integer> function = doubleFunctionFrom( b -> b
+        DoubleFunction<Integer> function = dblFunctionFrom( b -> b
             .aCase(ce -> ce.of(a -> a == 0d)
                              .evaluate(a -> 0))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1)
@@ -128,7 +127,7 @@ public class DoubleFunctionBuilderTest<R>{
         );
 
 
-        A.assertThat(function)
+        A.assertDblFunc(function)
             .doesApply(0d).when(null).to(a -> a.isEqualTo(0))
             .doesApply(5d).when(null).to(a -> a.isEqualTo(1))
             .doesApply(15d).when(null).to(a -> a.isEqualTo(2))

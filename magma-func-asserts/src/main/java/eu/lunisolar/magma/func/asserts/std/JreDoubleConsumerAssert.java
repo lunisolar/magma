@@ -49,10 +49,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for DoubleConsumer. */
-public interface JreDoubleConsumerAssert<S extends JreDoubleConsumerAssert<S, A>, A extends DoubleConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LDoubleConsumer, A> {
+public interface JreDoubleConsumerAssert<S extends JreDoubleConsumerAssert<S, A>, A extends DoubleConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LDblConsumer, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LDoubleConsumer, A> doesAccept(double a);
+	public static <A extends DoubleConsumer> JreDoubleConsumerAssert.The<A> assertDblCons(DoubleConsumer func) {
+		return new JreDoubleConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	SemiEvaluation<S, LDblConsumer, A> doesAccept(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoubleConsumer> extends Base<The<A>, A> {
@@ -63,14 +68,14 @@ public interface JreDoubleConsumerAssert<S extends JreDoubleConsumerAssert<S, A>
 	}
 
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
-	class Base<S extends Base<S, A>, A extends DoubleConsumer> extends FunctionalAssert.Simple.Base<S, LDoubleConsumer, A> implements JreDoubleConsumerAssert<S, A> {
+	class Base<S extends Base<S, A>, A extends DoubleConsumer> extends FunctionalAssert.Simple.Base<S, LDblConsumer, A> implements JreDoubleConsumerAssert<S, A> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LDoubleConsumer, A> doesAccept(double a) {
+		public SemiEvaluation<S, LDblConsumer, A> doesAccept(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

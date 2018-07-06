@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LObjBoolPredicate. */
+/**
+ * Builder for LObjBoolPredicate.
+ */
 public final class LObjBoolPredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Base<LObjBoolPredicateBuilder<T>, LObjBoolPredicate<T>, LObjBoolPredicate<T>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LObjBoolPredicateBuilder<T> extends PerCaseBuilderWithBoolPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjBoolPredicate EVENTUALLY_THROW = LObjBoolPredicate.l((a1, a2) -> {
+	public static final LObjBoolPredicate EVENTUALLY_THROW = LObjBoolPredicate.objBoolPred((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LObjBoolPredicateBuilder<T> extends PerCaseBuilderWithBoolPro
 		LObjBoolPredicate<T> retval;
 
 		final Case<LObjBoolPredicate<T>, LObjBoolPredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjBoolPredicate.<T> l((a1, a2) -> {
+		retval = LObjBoolPredicate.<T> objBoolPred((a1, a2) -> {
 			try {
 				for (Case<LObjBoolPredicate<T>, LObjBoolPredicate<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

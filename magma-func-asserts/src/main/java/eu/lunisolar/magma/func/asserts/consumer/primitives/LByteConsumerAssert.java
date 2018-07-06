@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteConsumerAssert<S extends LByteConsumerAssert<S, A>, A extends LByteConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LByteConsumer, A> {
 
 	@Nonnull
+	public static <A extends LByteConsumer> LByteConsumerAssert.The<A> assertByteCons(LByteConsumer func) {
+		return new LByteConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	SemiEvaluation<S, LByteConsumer, A> doesAccept(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

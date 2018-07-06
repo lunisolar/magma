@@ -25,13 +25,18 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,11 +63,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: none
  *
- * @see LLongConsumerX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface.NonThrowing {
 
 	String DESCRIPTION = "LLongConsumer: void doAccept(long a)";
 
@@ -73,30 +77,165 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	@Override
 	@Deprecated
 	default void accept(long a) {
-		this.nestingDoAccept(a);
+		this.doAccept(a);
 	}
 
-	void doAccept(long a);
+	// void doAccept(long a) ;
+	default void doAccept(long a) {
+		// nestingDoAccept(a);
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doAccept(long a)
+	 */
+	void doAcceptX(long a) throws Throwable;
 
 	default LTuple.Void tupleAccept(LLongSingle args) {
 		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(long a) {
-		this.doAccept(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default void handlingDoAccept(long a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default void tryDoAccept(long a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default void tryDoAccept(long a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default void tryDoAcceptThen(long a, @Nonnull LConsumer<Throwable> handler) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			handler.doAccept(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default void nestingDoAccept(long a) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default void shovingDoAccept(long a) {
-		this.doAccept(a);
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static void handlingDoAccept(long a, LLongConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		func.handlingDoAccept(a, handling);
+	}
+
+	static void tryDoAccept(long a, LLongConsumer func) {
+		tryDoAccept(a, func, null);
+	}
+
+	static void tryDoAccept(long a, LLongConsumer func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static void tryDoAccept(long a, LLongConsumer func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a, exceptionFactory);
+	}
+
+	static void tryDoAcceptThen(long a, LLongConsumer func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAcceptThen(a, handler);
+	}
+
+	default void failSafeDoAccept(long a, @Nonnull LLongConsumer failSafe) {
+		try {
+			doAccept(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			failSafe.doAccept(a);
+		}
+	}
+
+	static void failSafeDoAccept(long a, LLongConsumer func, @Nonnull LLongConsumer failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			failSafe.doAccept(a);
+		} else {
+			func.failSafeDoAccept(a, failSafe);
+		}
+	}
+
+	static LLongConsumer failSafeLongCons(LLongConsumer func, @Nonnull LLongConsumer failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoAccept(a, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongConsumer.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(long min_a, long max_a, LLongConsumer func) {
+		Null.nonNullArg(func, "func");
+		if (min_a <= min_a) {
+			for (long a = min_a; a <= max_a; a++) {
+				func.doAccept(a);
+			}
+		} else {
+			for (long a = min_a; a >= max_a; a--) {
+				func.doAccept(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(long min_a, long max_a, LLongConsumer func) {
+		Null.nonNullArg(func, "func");
+		if (min_a <= min_a) {
+			for (long a = min_a; a < max_a; a++) {
+				func.doAccept(a);
+			}
+		} else {
+			for (long a = min_a; a > max_a; a--) {
+				func.doAccept(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(long max_a, LLongConsumer func) {
+		fromTill(0, max_a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -106,9 +245,47 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LLongConsumer l(final @Nonnull LLongConsumer lambda) {
+	static LLongConsumer longCons(final @Nonnull LLongConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LLongConsumer recursive(final @Nonnull LFunction<LLongConsumer, LLongConsumer> selfLambda) {
+		final LLongConsumerSingle single = new LLongConsumerSingle();
+		LLongConsumer func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LLongConsumerSingle implements LSingle<LLongConsumer>, LLongConsumer {
+		private LLongConsumer target = null;
+
+		@Override
+		public void doAcceptX(long a) throws Throwable {
+			target.doAcceptX(a);
+		}
+
+		@Override
+		public LLongConsumer value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LLongConsumer longConsThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LLongConsumer longConsThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static void call(long a, final @Nonnull LLongConsumer lambda) {
@@ -123,13 +300,6 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	static LLongConsumer wrap(final LongConsumer other) {
 		return other::accept;
 	}
-
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LLongConsumer wrap(final @Nonnull LLongConsumerX<X> other) {
-		return other::nestingDoAccept;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
@@ -137,7 +307,7 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	/** Safe instance. */
 	@Nonnull
 	static LLongConsumer safe() {
-		return Function4U::doNothing;
+		return LLongConsumer::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -177,11 +347,19 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 		return v -> this.doAccept(before.doApplyAsLong(v));
 	}
 
+	public static LLongConsumer composedLong(@Nonnull final LLongUnaryOperator before, LLongConsumer after) {
+		return after.longConsComposeLong(before);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LConsumer<V> longConsCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.doAccept(before.doApplyAsLong(v));
+	}
+
+	public static <V> LConsumer<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongConsumer after) {
+		return after.longConsCompose(before);
 	}
 
 	// </editor-fold>
@@ -208,22 +386,44 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LLongConsumerX<RuntimeException> nestingLongConsX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongConsumer shovingLongCons() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongConsumerX<RuntimeException> shovingLongConsX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LLongConsumer) */
+	public static void doNothing(long a) {
+		// NOSONAR
 	}
 
-	// </editor-fold>
+	// JUST_CONSUME: FOR, [SourcePurpose{arg=long a, type=IA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	public static <C0> int forEach(IndexedRead<C0, aLong> ia, C0 source, LLongConsumer consumer) {
+		int size = ia.size(source);
+		LOiToLongFunction<Object> oiFunc0 = (LOiToLongFunction) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			long a = oiFunc0.doApplyAsLong(source, i);
+			consumer.doAccept(a);
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=long a, type=SA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	public static <C0, I0> int iterate(SequentialRead<C0, I0, aLong> sa, C0 source, LLongConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.getter();
+		int i = 0;
+		while (testFunc0.doTest(iterator0)) {
+			long a = nextFunc0.doApplyAsLong(iterator0);
+			consumer.doAccept(a);
+			i++;
+		}
+		return i;
+
+	}
 
 }

@@ -52,6 +52,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreIntBinaryOperatorAssert<S extends JreIntBinaryOperatorAssert<S, A, RS>, A extends IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiIntConsumer, A, RS, Integer> {
 
 	@Nonnull
+	public static <A extends IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> JreIntBinaryOperatorAssert.The<A, RS> assertIntBinaryOp(IntBinaryOperator func) {
+		return new JreIntBinaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiIntConsumer, A, RS, Integer> doesApplyAsInt(int a1, int a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

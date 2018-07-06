@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LByteToLongFunctionTest<X extends ParseException> {
+public class LByteToLongFunctionTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     private LByteToLongFunction sut = new LByteToLongFunction(){
-        public  long doApplyAsLong(byte a)  {
-            return testValue;
-        }
-    };
-
-    private LByteToLongFunctionX<X> opposite = new LByteToLongFunctionX<X>(){
-        public  long doApplyAsLong(byte a)  throws X {
+        public  long doApplyAsLongX(byte a)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
 
-    private LByteToLongFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LByteToLongFunction.l(a -> {
+    private LByteToLongFunction sutAlwaysThrowing = LByteToLongFunction.byteToLongFunc(a -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LByteToLongFunction sutAlwaysThrowingUnchecked = LByteToLongFunction.byteToLongFunc(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApplyAsLong((byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LByteSingle domainObject = Tuple4U.byteSingle((byte)100);
 
@@ -102,13 +100,13 @@ public class LByteToLongFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApplyAsLong() throws X {
+    public void testNonNullDoApplyAsLong() throws Throwable {
         assertThat(sut.nonNullDoApplyAsLong((byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsLongUnchecked() throws X {
+    public void testNestingDoApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsLongUnchecked() throws X {
+    public void testShovingDoApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
@@ -139,170 +137,26 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LByteToLongFunction: long doApplyAsLong(byte a)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LByteToLongFunction.l(a -> testValue ))
+    public void testByteToLongFuncMethod() throws Throwable {
+        assertThat(LByteToLongFunction.byteToLongFunc(a -> testValue ))
             .isInstanceOf(LByteToLongFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LByteToLongFunction.wrap(opposite))
-            .isInstanceOf(LByteToLongFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LByteToLongFunctionX<X> sutThrowing = LByteToLongFunctionX.lX(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LByteToLongFunction wrapped = LByteToLongFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsLong((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LByteToLongFunctionX<ParseException> sutThrowing = LByteToLongFunctionX.lX(a -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LByteToLongFunction wrapped = LByteToLongFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsLong((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyAsLongMethodWrapsTheException() throws X {
-
-        // given
-        LByteToLongFunction sutThrowing = LByteToLongFunction.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LByteToLongFunction wrapped = sutThrowing.handleByteToLongFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApplyAsLong((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleByteToLongFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LByteToLongFunction sutThrowing = LByteToLongFunction.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LByteToLongFunction wrapped = sutThrowing.handleByteToLongFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsLong((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleByteToLongFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LByteToLongFunction sutThrowing = LByteToLongFunction.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LByteToLongFunction wrapped = sutThrowing.handleByteToLongFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsLong((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleByteToLongFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LByteToLongFunction sutThrowing = LByteToLongFunction.l(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LByteToLongFunction wrapped = sutThrowing.handleByteToLongFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApplyAsLong((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteToLongFuncComposeByte() throws X {
+    public void testByteToLongFuncComposeByte() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -331,7 +185,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testByteToLongFuncCompose() throws X {
+    public void testByteToLongFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -365,7 +219,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -399,7 +253,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToByte1() throws X  {
+    public void testThenToByte1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -433,7 +287,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToShort2() throws X  {
+    public void testThenToSrt2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -445,7 +299,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
                 return 90L;
         };
 
-        LLongToShortFunction thenFunction = p -> {
+        LLongToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
                 assertThat(p).isEqualTo(90L);
@@ -454,8 +308,8 @@ public class LByteToLongFunctionTest<X extends ParseException> {
         };
 
         //when
-        LByteToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.doApplyAsShort((byte)80);
+        LByteToSrtFunction function = sutO.thenToSrt(thenFunction);
+        short finalValue = function.doApplyAsSrt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -467,7 +321,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToInt3() throws X  {
+    public void testThenToInt3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -501,7 +355,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToLong4() throws X  {
+    public void testThenToLong4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -535,7 +389,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToFloat5() throws X  {
+    public void testThenToFlt5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -547,7 +401,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
                 return 90L;
         };
 
-        LLongToFloatFunction thenFunction = p -> {
+        LLongToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
                 assertThat(p).isEqualTo(90L);
@@ -556,8 +410,8 @@ public class LByteToLongFunctionTest<X extends ParseException> {
         };
 
         //when
-        LByteToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.doApplyAsFloat((byte)80);
+        LByteToFltFunction function = sutO.thenToFlt(thenFunction);
+        float finalValue = function.doApplyAsFlt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -569,7 +423,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToDouble6() throws X  {
+    public void testThenToDbl6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -581,7 +435,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
                 return 90L;
         };
 
-        LLongToDoubleFunction thenFunction = p -> {
+        LLongToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
                 assertThat(p).isEqualTo(90L);
@@ -590,8 +444,8 @@ public class LByteToLongFunctionTest<X extends ParseException> {
         };
 
         //when
-        LByteToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.doApplyAsDouble((byte)80);
+        LByteToDblFunction function = sutO.thenToDbl(thenFunction);
+        double finalValue = function.doApplyAsDbl((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -603,7 +457,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToChar7() throws X  {
+    public void testThenToChar7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -637,7 +491,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToBool8() throws X  {
+    public void testThenToBool8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -686,25 +540,12 @@ public class LByteToLongFunctionTest<X extends ParseException> {
             .isInstanceOf(LByteToLongFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingByteToLongFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LByteToLongFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingByteToLongFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LByteToLongFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LByteToLongFunction sutThrowing = LByteToLongFunction.l(a -> {
+        LByteToLongFunction sutThrowing = LByteToLongFunction.byteToLongFunc(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -712,33 +553,9 @@ public class LByteToLongFunctionTest<X extends ParseException> {
         sutThrowing.shovingByteToLongFunc().doApplyAsLong((byte)100);
     }
 
-    @Test
-    public void testHandleByteToLongFunc() throws X {
-
-        // given
-        LByteToLongFunction sutThrowing = LByteToLongFunction.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LByteToLongFunction wrapped = sutThrowing.handleByteToLongFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApplyAsLong((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -758,7 +575,6 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LByteToLongFunction r1 = LByteToLongFunction.safe(sut); //NOSONAR
-        LByteToLongFunctionX r2 = LByteToLongFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -768,7 +584,7 @@ public class LByteToLongFunctionTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LByteToLongFunction.safe(null);
-        assertThat(result).isSameAs(LByteToLongFunction.l(LByteToLongFunction.safe()));
+        assertThat(result).isSameAs(LByteToLongFunction.byteToLongFunc(LByteToLongFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

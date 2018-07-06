@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LIntToByteFunctionTest<X extends ParseException> {
+public class LIntToByteFunctionTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     private LIntToByteFunction sut = new LIntToByteFunction(){
-        public  byte doApplyAsByte(int a)  {
-            return testValue;
-        }
-    };
-
-    private LIntToByteFunctionX<X> opposite = new LIntToByteFunctionX<X>(){
-        public  byte doApplyAsByte(int a)  throws X {
+        public  byte doApplyAsByteX(int a)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
 
-    private LIntToByteFunctionX<RuntimeException> sutAlwaysThrowingUnchecked = LIntToByteFunction.l(a -> {
+    private LIntToByteFunction sutAlwaysThrowing = LIntToByteFunction.intToByteFunc(a -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LIntToByteFunction sutAlwaysThrowingUnchecked = LIntToByteFunction.intToByteFunc(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApplyAsByte(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LIntSingle domainObject = Tuple4U.intSingle(100);
 
@@ -102,13 +100,13 @@ public class LIntToByteFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApplyAsByte() throws X {
+    public void testNonNullDoApplyAsByte() throws Throwable {
         assertThat(sut.nonNullDoApplyAsByte(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsByteUnchecked() throws X {
+    public void testNestingDoApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsByteUnchecked() throws X {
+    public void testShovingDoApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
@@ -139,170 +137,26 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LIntToByteFunction: byte doApplyAsByte(int a)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LIntToByteFunction.l(a -> testValue ))
+    public void testIntToByteFuncMethod() throws Throwable {
+        assertThat(LIntToByteFunction.intToByteFunc(a -> testValue ))
             .isInstanceOf(LIntToByteFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LIntToByteFunction.wrap(opposite))
-            .isInstanceOf(LIntToByteFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LIntToByteFunctionX<X> sutThrowing = LIntToByteFunctionX.lX(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LIntToByteFunction wrapped = LIntToByteFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsByte(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LIntToByteFunctionX<ParseException> sutThrowing = LIntToByteFunctionX.lX(a -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LIntToByteFunction wrapped = LIntToByteFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsByte(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyAsByteMethodWrapsTheException() throws X {
-
-        // given
-        LIntToByteFunction sutThrowing = LIntToByteFunction.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LIntToByteFunction wrapped = sutThrowing.handleIntToByteFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApplyAsByte(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleIntToByteFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LIntToByteFunction sutThrowing = LIntToByteFunction.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LIntToByteFunction wrapped = sutThrowing.handleIntToByteFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsByte(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleIntToByteFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LIntToByteFunction sutThrowing = LIntToByteFunction.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LIntToByteFunction wrapped = sutThrowing.handleIntToByteFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsByte(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleIntToByteFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LIntToByteFunction sutThrowing = LIntToByteFunction.l(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LIntToByteFunction wrapped = sutThrowing.handleIntToByteFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApplyAsByte(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testIntToByteFuncComposeInt() throws X {
+    public void testIntToByteFuncComposeInt() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -331,7 +185,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testIntToByteFuncCompose() throws X {
+    public void testIntToByteFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -365,7 +219,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -399,7 +253,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToByte1() throws X  {
+    public void testThenToByte1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -433,7 +287,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToShort2() throws X  {
+    public void testThenToSrt2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -445,7 +299,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
                 return (byte)90;
         };
 
-        LByteToShortFunction thenFunction = p -> {
+        LByteToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
                 assertThat(p).isEqualTo((byte)90);
@@ -454,8 +308,8 @@ public class LIntToByteFunctionTest<X extends ParseException> {
         };
 
         //when
-        LIntToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.doApplyAsShort(80);
+        LIntToSrtFunction function = sutO.thenToSrt(thenFunction);
+        short finalValue = function.doApplyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -467,7 +321,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToInt3() throws X  {
+    public void testThenToInt3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -501,7 +355,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToLong4() throws X  {
+    public void testThenToLong4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -535,7 +389,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToFloat5() throws X  {
+    public void testThenToFlt5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -547,7 +401,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
                 return (byte)90;
         };
 
-        LByteToFloatFunction thenFunction = p -> {
+        LByteToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
                 assertThat(p).isEqualTo((byte)90);
@@ -556,8 +410,8 @@ public class LIntToByteFunctionTest<X extends ParseException> {
         };
 
         //when
-        LIntToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.doApplyAsFloat(80);
+        LIntToFltFunction function = sutO.thenToFlt(thenFunction);
+        float finalValue = function.doApplyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -569,7 +423,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToDouble6() throws X  {
+    public void testThenToDbl6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -581,7 +435,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
                 return (byte)90;
         };
 
-        LByteToDoubleFunction thenFunction = p -> {
+        LByteToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
                 assertThat(p).isEqualTo((byte)90);
@@ -590,8 +444,8 @@ public class LIntToByteFunctionTest<X extends ParseException> {
         };
 
         //when
-        LIntToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.doApplyAsDouble(80);
+        LIntToDblFunction function = sutO.thenToDbl(thenFunction);
+        double finalValue = function.doApplyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -603,7 +457,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToChar7() throws X  {
+    public void testThenToChar7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -637,7 +491,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThenToBool8() throws X  {
+    public void testThenToBool8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -686,25 +540,12 @@ public class LIntToByteFunctionTest<X extends ParseException> {
             .isInstanceOf(LIntToByteFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingIntToByteFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LIntToByteFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingIntToByteFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LIntToByteFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LIntToByteFunction sutThrowing = LIntToByteFunction.l(a -> {
+        LIntToByteFunction sutThrowing = LIntToByteFunction.intToByteFunc(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -712,33 +553,9 @@ public class LIntToByteFunctionTest<X extends ParseException> {
         sutThrowing.shovingIntToByteFunc().doApplyAsByte(100);
     }
 
-    @Test
-    public void testHandleIntToByteFunc() throws X {
-
-        // given
-        LIntToByteFunction sutThrowing = LIntToByteFunction.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LIntToByteFunction wrapped = sutThrowing.handleIntToByteFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApplyAsByte(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -758,7 +575,6 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LIntToByteFunction r1 = LIntToByteFunction.safe(sut); //NOSONAR
-        LIntToByteFunctionX r2 = LIntToByteFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -768,7 +584,7 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LIntToByteFunction.safe(null);
-        assertThat(result).isSameAs(LIntToByteFunction.l(LIntToByteFunction.safe()));
+        assertThat(result).isSameAs(LIntToByteFunction.intToByteFunc(LIntToByteFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

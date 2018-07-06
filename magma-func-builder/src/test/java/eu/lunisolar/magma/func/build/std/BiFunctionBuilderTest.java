@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.BiFunctionBuilder.biFunction;
 import static eu.lunisolar.magma.func.build.std.BiFunctionBuilder.biFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -128,7 +127,7 @@ public class BiFunctionBuilderTest<T1,T2,R>{
         );
 
 
-        A.assertThat(function)
+        A.assertBiFunc(function)
             .doesApply(0,0).when(null).to(a -> a.isEqualTo(0))
             .doesApply(5,5).when(null).to(a -> a.isEqualTo(1))
             .doesApply(15,15).when(null).to(a -> a.isEqualTo(2))

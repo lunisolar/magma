@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Remembers the last fubction result.
+ * Remembers the last function result.
  */
 @SuppressWarnings("UnusedDeclaration")
 public class LToIntFuncMemento<T> implements LToIntFunction<T> {
@@ -72,7 +72,7 @@ public class LToIntFuncMemento<T> implements LToIntFunction<T> {
 	}
 
 	@Override
-	public int doApplyAsInt(T a) {
+	public int doApplyAsIntX(T a) {
 		return lastValue = function.doApplyAsInt(a);
 	}
 

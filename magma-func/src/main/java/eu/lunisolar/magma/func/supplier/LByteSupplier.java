@@ -25,12 +25,16 @@ import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -57,28 +61,129 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: byte
  *
- * @see LByteSupplierX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LByteSupplier: byte doGetAsByte()";
 
-	byte doGetAsByte();
+	// byte doGetAsByte() ;
+	default byte doGetAsByte() {
+		// return nestingDoGetAsByte();
+		try {
+			return this.doGetAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doGetAsByte()
+	 */
+	byte doGetAsByteX() throws Throwable;
 
 	default byte tupleGetAsByte(LTuple.Void args) {
 		return doGetAsByte();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default byte nestingDoGetAsByte() {
-		return this.doGetAsByte();
+	/** Function call that handles exceptions according to the instructions. */
+	default byte handlingDoGetAsByte(HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doGetAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default byte tryDoGetAsByte(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doGetAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default byte tryDoGetAsByte(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doGetAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default byte tryDoGetAsByteThen(@Nonnull LToByteFunction<Throwable> handler) {
+		try {
+			return this.doGetAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsByte(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default byte nestingDoGetAsByte() {
+		try {
+			return this.doGetAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default byte shovingDoGetAsByte() {
-		return this.doGetAsByte();
+		try {
+			return this.doGetAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static byte handlingDoGetAsByte(LByteSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoGetAsByte(handling);
+	}
+
+	static byte tryDoGetAsByte(LByteSupplier func) {
+		return tryDoGetAsByte(func, null);
+	}
+
+	static byte tryDoGetAsByte(LByteSupplier func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsByte(exceptionFactory, newMessage, messageParams);
+	}
+
+	static byte tryDoGetAsByte(LByteSupplier func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsByte(exceptionFactory);
+	}
+
+	static byte tryDoGetAsByteThen(LByteSupplier func, @Nonnull LToByteFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsByteThen(handler);
+	}
+
+	default byte failSafeDoGetAsByte(@Nonnull LByteSupplier failSafe) {
+		try {
+			return doGetAsByte();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doGetAsByte();
+		}
+	}
+
+	static byte failSafeDoGetAsByte(LByteSupplier func, @Nonnull LByteSupplier failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doGetAsByte();
+		} else {
+			return func.failSafeDoGetAsByte(failSafe);
+		}
+	}
+
+	static LByteSupplier failSafeByteSup(LByteSupplier func, @Nonnull LByteSupplier failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return () -> failSafeDoGetAsByte(func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -92,6 +197,39 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 		return LByteSupplier.DESCRIPTION;
 	}
 
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, LByteSupplier func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doGetAsByte();
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doGetAsByte();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, LByteSupplier func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doGetAsByte();
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doGetAsByte();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, LByteSupplier func) {
+		fromTill(0, max_i, func);
+	}
+
 	/** Creates function that always returns the same value. */
 	static LByteSupplier of(byte r) {
 		return () -> r;
@@ -99,9 +237,47 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LByteSupplier l(final @Nonnull LByteSupplier lambda) {
+	static LByteSupplier byteSup(final @Nonnull LByteSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LByteSupplier recursive(final @Nonnull LFunction<LByteSupplier, LByteSupplier> selfLambda) {
+		final LByteSupplierSingle single = new LByteSupplierSingle();
+		LByteSupplier func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LByteSupplierSingle implements LSingle<LByteSupplier>, LByteSupplier {
+		private LByteSupplier target = null;
+
+		@Override
+		public byte doGetAsByteX() throws Throwable {
+			return target.doGetAsByteX();
+		}
+
+		@Override
+		public LByteSupplier value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LByteSupplier byteSupThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LByteSupplier byteSupThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static byte call(final @Nonnull LByteSupplier lambda) {
@@ -111,20 +287,14 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LByteSupplier wrap(final @Nonnull LByteSupplierX<X> other) {
-		return other::nestingDoGetAsByte;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceByte). */
+	/** Safe instance. That always returns the same value (as produceByte). */
 	@Nonnull
 	static LByteSupplier safe() {
-		return Function4U::produceByte;
+		return LByteSupplier::produceByte;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -173,9 +343,9 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplier toShortSup(@Nonnull LByteToShortFunction after) {
+	default LSrtSupplier toSrtSup(@Nonnull LByteToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsShort(this.doGetAsByte());
+		return () -> after.doApplyAsSrt(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
@@ -194,16 +364,16 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplier toFloatSup(@Nonnull LByteToFloatFunction after) {
+	default LFltSupplier toFltSup(@Nonnull LByteToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFloat(this.doGetAsByte());
+		return () -> after.doApplyAsFlt(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplier toDoubleSup(@Nonnull LByteToDoubleFunction after) {
+	default LDblSupplier toDblSup(@Nonnull LByteToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDouble(this.doGetAsByte());
+		return () -> after.doApplyAsDbl(this.doGetAsByte());
 	}
 
 	/** Combines two functions together in a order. */
@@ -230,22 +400,16 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LByteSupplierX<RuntimeException> nestingByteSupX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteSupplier shovingByteSup() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteSupplierX<RuntimeException> shovingByteSupX() {
-		return this;
-	}
-
 	// </editor-fold>
+
+	/** Does nothing (LByteSupplier) Supplier */
+	public static byte produceByte() {
+		return Function4U.defaultByte;
+	}
 
 }

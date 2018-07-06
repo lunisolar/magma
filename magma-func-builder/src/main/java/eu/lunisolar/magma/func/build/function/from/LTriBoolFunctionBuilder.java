@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LTriBoolFunction. */
+/**
+ * Builder for LTriBoolFunction.
+ */
 public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LTriBoolFunctionBuilder<R>, LLogicalTernaryOperator, LTriBoolFunction<R>, R> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriBoolFunction EVENTUALLY_THROW = LTriBoolFunction.l((a1, a2, a3) -> {
+	public static final LTriBoolFunction EVENTUALLY_THROW = LTriBoolFunction.triBoolFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 		LTriBoolFunction<R> retval;
 
 		final Case<LLogicalTernaryOperator, LTriBoolFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriBoolFunction.<R> l((a1, a2, a3) -> {
+		retval = LTriBoolFunction.<R> triBoolFunc((a1, a2, a3) -> {
 			try {
 				for (Case<LLogicalTernaryOperator, LTriBoolFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(a1, a2, a3)) {

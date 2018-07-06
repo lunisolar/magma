@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTernaryOperatorAssert<S extends LTernaryOperatorAssert<S, A, RS, T>, A extends LTernaryOperator<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, LTriConsumer<T, T, T>, A, RS, T> {
 
 	@Nonnull
+	public static <A extends LTernaryOperator<T>, RS extends Assert<RS, T>, T> LTernaryOperatorAssert.The<A, RS, T> assertTernaryOp(LTernaryOperator<T> func) {
+		return new LTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LTriConsumer<T, T, T>, A, RS, T> doesApply(T a1, T a2, T a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

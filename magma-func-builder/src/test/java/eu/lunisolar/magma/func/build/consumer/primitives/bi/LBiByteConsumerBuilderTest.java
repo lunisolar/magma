@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.consumer.primitives.bi.LBiByteConsumerBuilder.biByteConsumer;
 import static eu.lunisolar.magma.func.build.consumer.primitives.bi.LBiByteConsumerBuilder.biByteConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiByteConsumerBuilderTest<X extends ParseException>{
+public class LBiByteConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -129,7 +128,7 @@ public class LBiByteConsumerBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertBiByteCons(function)
             .doesAccept((byte)0,(byte)0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept((byte)5,(byte)5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept((byte)15,(byte)15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

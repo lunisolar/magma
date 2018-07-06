@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.LongBinaryOperatorBuilder.longBinaryOperator;
 import static eu.lunisolar.magma.func.build.std.LongBinaryOperatorBuilder.longBinaryOperatorFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -128,7 +127,7 @@ public class LongBinaryOperatorBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertLongBinaryOp(function)
             .doesApplyAsLong(0L,0L).when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong(5L,5L).when(null).to(a -> a.isEqualTo(1L))
             .doesApplyAsLong(15L,15L).when(null).to(a -> a.isEqualTo(2L))

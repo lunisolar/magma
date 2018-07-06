@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LToCharFunction. */
+/**
+ * Builder for LToCharFunction.
+ */
 public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProduct.Base<LToCharFunctionBuilder<T>, LPredicate<T>, LToCharFunction<T>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToCharFunction EVENTUALLY_THROW = LToCharFunction.l(a -> {
+	public static final LToCharFunction EVENTUALLY_THROW = LToCharFunction.toCharFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 		LToCharFunction<T> retval;
 
 		final Case<LPredicate<T>, LToCharFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToCharFunction.<T> l(a -> {
+		retval = LToCharFunction.<T> toCharFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, LToCharFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

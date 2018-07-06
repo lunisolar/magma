@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTriConsumerAssert<S extends LTriConsumerAssert<S, A, T1, T2, T3>, A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> extends Assert<S, A>, FunctionalAssert.Simple<S, LTriConsumer<T1, T2, T3>, A> {
 
 	@Nonnull
+	public static <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.The<A, T1, T2, T3> assertTriCons(LTriConsumer<T1, T2, T3> func) {
+		return new LTriConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	SemiEvaluation<S, LTriConsumer<T1, T2, T3>, A> doesAccept(T1 a1, T2 a2, T3 a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

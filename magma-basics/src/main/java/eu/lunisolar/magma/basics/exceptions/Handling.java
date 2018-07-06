@@ -46,16 +46,16 @@ public class Handling implements Serializable {
     }
 
     public static void handleErrors(Throwable throwable) {
-        if (throwable instanceof Error) {
-            throw (Error) throwable;
+        if (!(throwable instanceof Exception)) {
+            throw shoveIt(throwable);
         }
     }
 
     static <X extends Throwable, Y extends Throwable> Handler.The<X, Y> handleInstructions(
-            @Nonnull X throwable, HandlingInstructions<X, Y> instructions) throws Y {
-        Null.nonNullArg(throwable, "instructions");
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+        Null.nonNullArg(throwable, "throwable");
         Null.nonNullArg(instructions, "instructions");
-        Handler.The<X, Y> handler = Handler.<X, Y>handler(throwable);
+        Handler.The<X, Y> handler = Handler.handler(throwable);
         instructions.processWith(handler);
         return handler;
     }
@@ -83,7 +83,7 @@ public class Handling implements Serializable {
     // <editor-fold desc="createAndThrow">
 
     public static <Y extends Throwable, X extends Throwable> Y throwReplacement(
-            @Nonnull ExceptionNewFactory<Y> factory,
+            @Nonnull ExceptionWithMessageFactory<Y> factory,
             @Nonnull String newMessage,
             @Nullable Object... messageParams) throws Y {
 
@@ -111,7 +111,7 @@ public class Handling implements Serializable {
 
     public static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
             boolean conditionMeet,
-            @Nonnull ExceptionNewFactory<Y> factory,
+            @Nonnull ExceptionWithMessageFactory<Y> factory,
             @Nonnull String newMessage,
             @Nullable Object... messageParams) throws Y {
 
@@ -144,7 +144,7 @@ public class Handling implements Serializable {
     public static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
             @Nonnull Predicate<X> condition,
             @Nonnull X throwable,
-            @Nonnull ExceptionNewFactory<Y> factory,
+            @Nonnull ExceptionWithMessageFactory<Y> factory,
             @Nonnull String newMessage,
             @Nullable Object... messageParams) throws Y {
 
@@ -174,7 +174,7 @@ public class Handling implements Serializable {
 
     @SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "unchecked"})
     public static <X extends Throwable> X create(
-            @Nonnull ExceptionNewFactory<X> exceptionFactory,
+            @Nonnull ExceptionWithMessageFactory<X> exceptionFactory,
             @Nonnull String newMessage, @Nullable Object... messageParams) {
 
         String message = constructMessage(null, newMessage, messageParams);
@@ -186,13 +186,14 @@ public class Handling implements Serializable {
     // <editor-fold desc="create or propagate">
 
     public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExceptionWrapFactory<X> exceptionFactory) {
+        handleErrors(e); 
         return exceptionFactory.produce(e); //NOSONAR
     }
 
     public static <X extends Throwable> X wrap(
             @Nullable Throwable e, @Nonnull ExceptionWrapWithMessageFactory<X> exceptionFactory,
             @Nonnull String newMessage, @Nullable Object... messageParams) {
-
+        handleErrors(e);
         String message = constructMessage(null, newMessage, messageParams);
         return exceptionFactory.produce(message, e);
     }
@@ -217,6 +218,16 @@ public class Handling implements Serializable {
     @FunctionalInterface
     private interface Thrower<X extends Throwable> {
         void throwThe(Throwable e) throws X;
+    }
+
+    public static RuntimeException nestCheckedAndThrow(Throwable throwable) {
+        handleErrors(throwable);
+        if (throwable instanceof RuntimeException) {
+            throw (RuntimeException) throwable;
+        } else if (throwable instanceof Exception) {
+            throw new NestedException(throwable);
+        }
+        throw shouldNeverBeenHere();
     }
 
     // <editor-fold desc="no-instance constructor">

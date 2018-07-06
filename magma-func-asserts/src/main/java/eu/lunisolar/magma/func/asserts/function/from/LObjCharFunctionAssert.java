@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LObjCharFunctionAssert<S extends LObjCharFunctionAssert<S, A, RS, T, R>, A extends LObjCharFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LObjCharConsumer<T>, A, RS, R> {
 
 	@Nonnull
+	public static <A extends LObjCharFunction<T, R>, RS extends Assert<RS, R>, T, R> LObjCharFunctionAssert.The<A, RS, T, R> assertObjCharFunc(LObjCharFunction<T, R> func) {
+		return new LObjCharFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LObjCharConsumer<T>, A, RS, R> doesApply(T a1, char a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

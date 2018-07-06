@@ -18,9 +18,12 @@
 
 package eu.lunisolar.magma.basics.probing;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.*;
+
+import static java.util.Objects.*;
 
 /**
  * The point is to not hide the object that is probed, but to provide some _probing_ methods that enclose some simple conditions into a nice named method.
@@ -28,27 +31,31 @@ import java.util.function.*;
 @SuppressWarnings("unused")
 public interface Probe<T> {
 
-    @Nullable T getTarget();
+    @Nullable T target();
+
+    default @Nonnull T nonNullTarget() {
+        return requireNonNull(target());
+    }
 
     default boolean isNotNull() {
-        return check(x -> x != null);
+        return check(Objects::nonNull);
     }
 
     default boolean isNull() {
-        return check(x -> x == null);
+        return check(Objects::isNull);
     }
 
     // <editor-fold desc="check">
 
     default boolean check(Predicate<T> predicate) {
-        return predicate.test(getTarget());
+        return predicate.test(target());
     }
 
     /**
      * BiPredicate allows to use non-capturing lambda when second argument is required.
      */
     default <A> boolean check(A argument, BiPredicate<T, A> predicate) {
-        return predicate.test(getTarget(), argument);
+        return predicate.test(target(), argument);
     }
 
     default boolean checkOnlyWhen(Predicate<T> predicateForWhen, Predicate<T> predicateForCheck) {
@@ -76,4 +83,16 @@ public interface Probe<T> {
         return checkWhenTargetNotNull(predicateForWhen) && check(argument, predicateForCheck);
     }
 
+    class Base<T> implements Probe<T> {
+
+        private final T target;
+
+        public Base(T target) {
+            this.target = target;
+        }
+
+        @Nullable @Override public T target() {
+            return target;
+        }
+    }
 }

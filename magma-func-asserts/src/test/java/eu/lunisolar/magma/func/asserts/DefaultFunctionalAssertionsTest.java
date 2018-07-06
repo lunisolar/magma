@@ -78,7 +78,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractOptionalAssert> specialized = initial.withinOptionalCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractOptionalAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -91,7 +91,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractBigDecimalAssert> specialized = initial.withinBigDecimalCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractBigDecimalAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -104,7 +104,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractBooleanAssert> specialized = initial.withinBooleanCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractBooleanAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -117,7 +117,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractBooleanArrayAssert> specialized = initial.withinBooleanArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractBooleanArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -130,7 +130,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractByteAssert> specialized = initial.withinByteCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractByteAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -143,7 +143,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractByteArrayAssert> specialized = initial.withinByteArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractByteArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -156,7 +156,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractCharacterAssert> specialized = initial.withinCharacterCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharacterAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -169,7 +169,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractCharArrayAssert> specialized = initial.withinCharArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -182,7 +182,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractClassAssert> specialized = initial.withinClassCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractClassAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -195,7 +195,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractComparableAssert> specialized = initial.withinComparableCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractComparableAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -208,7 +208,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractIterableAssert> specialized = initial.withinIterableCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIterableAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -221,7 +221,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractIterableAssert> specialized = initial.withinIteratorCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIterableAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -234,7 +234,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractDoubleAssert> specialized = initial.withinDoubleCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractDoubleAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -247,7 +247,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractDoubleArrayAssert> specialized = initial.withinDoubleArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractDoubleArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -260,7 +260,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractPathAssert> specialized = initial.withinPathCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractPathAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -273,7 +273,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractInputStreamAssert> specialized = initial.withinInputStreamCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractInputStreamAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -286,7 +286,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractFloatAssert> specialized = initial.withinFloatCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractFloatAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -299,7 +299,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractFloatArrayAssert> specialized = initial.withinFloatArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractFloatArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -312,7 +312,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractIntegerAssert> specialized = initial.withinIntegerCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIntegerAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -325,7 +325,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractIntArrayAssert> specialized = initial.withinIntArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIntArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -338,7 +338,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractListAssert> specialized = initial.withinListCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractListAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -351,7 +351,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractLongAssert> specialized = initial.withinLongCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLongAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -364,7 +364,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractLongArrayAssert> specialized = initial.withinLongArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLongArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -377,7 +377,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractMapAssert> specialized = initial.withinMapCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractMapAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -390,7 +390,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractShortAssert> specialized = initial.withinShortCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractShortAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -403,7 +403,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractShortArrayAssert> specialized = initial.withinShortArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractShortArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -416,7 +416,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractCharSequenceAssert> specialized = initial.withinCharSequenceCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharSequenceAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -429,7 +429,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractCharSequenceAssert> specialized = initial.withinStringCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharSequenceAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -442,7 +442,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractDateAssert> specialized = initial.withinDateCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractDateAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -455,7 +455,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractZonedDateTimeAssert> specialized = initial.withinZonedDateTimeCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractZonedDateTimeAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -468,7 +468,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractLocalDateTimeAssert> specialized = initial.withinLocalDateTimeCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLocalDateTimeAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -481,7 +481,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractLocalTimeAssert> specialized = initial.withinLocalTimeCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLocalTimeAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -494,7 +494,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractLocalDateAssert> specialized = initial.withinLocalDateCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLocalDateAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -507,7 +507,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractThrowableAssert> specialized = initial.withinThrowableCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractThrowableAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -520,7 +520,7 @@ public class DefaultFunctionalAssertionsTest {
 
         DefaultFunctionalAssertions<AbstractObjectArrayAssert> specialized = initial.withinTArrayCodomain();
 
-        specialized.assertThat(LFunctionX.lX(i->i))
+        specialized.assertFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractObjectArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }

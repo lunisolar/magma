@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.operator.binary.LCharBinaryOperatorBuilder.charBinaryOperator;
 import static eu.lunisolar.magma.func.build.operator.binary.LCharBinaryOperatorBuilder.charBinaryOperatorFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LCharBinaryOperatorBuilderTest<X extends ParseException>{
+public class LCharBinaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LCharBinaryOperatorBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertCharBinaryOp(function)
             .doesApplyAsChar('\u0000','\u0000').when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar('\u0005','\u0005').when(null).to(a -> a.isEqualTo('\u0001'))
             .doesApplyAsChar('\u0015','\u0015').when(null).to(a -> a.isEqualTo('\u0002'))

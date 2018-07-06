@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LTriBoolConsumerTest<X extends ParseException> {
+public class LTriBoolConsumerTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -63,28 +63,26 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
     private LTriBoolConsumer sut = new LTriBoolConsumer(){
-        public  void doAccept(boolean a1,boolean a2,boolean a3)  {
-            Function4U.doNothing();
-        }
-    };
-
-    private LTriBoolConsumerX<X> opposite = new LTriBoolConsumerX<X>(){
-        public  void doAccept(boolean a1,boolean a2,boolean a3)  throws X {
-            Function4U.doNothing();
+        public  void doAcceptX(boolean a1,boolean a2,boolean a3)  {
+            LTriBoolConsumer.doNothing(a1,a2,a3);
         }
     };
 
 
 
 
-    private LTriBoolConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LTriBoolConsumer.l((a1,a2,a3) -> {
+    private LTriBoolConsumer sutAlwaysThrowing = LTriBoolConsumer.triBoolCons((a1,a2,a3) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LTriBoolConsumer sutAlwaysThrowingUnchecked = LTriBoolConsumer.triBoolCons((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LBoolTriple domainObject = Tuple4U.boolTriple(true,true,true);
 
@@ -95,7 +93,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws X {
+    public void testNestingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -110,7 +108,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws X {
+    public void testShovingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -126,170 +124,26 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LTriBoolConsumer: void doAccept(boolean a1,boolean a2,boolean a3)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LTriBoolConsumer.l(Function4U::doNothing))
+    public void testTriBoolConsMethod() throws Throwable {
+        assertThat(LTriBoolConsumer.triBoolCons(LTriBoolConsumer::doNothing))
             .isInstanceOf(LTriBoolConsumer.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LTriBoolConsumer.wrap(opposite))
-            .isInstanceOf(LTriBoolConsumer.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LTriBoolConsumerX<X> sutThrowing = LTriBoolConsumerX.lX((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriBoolConsumer wrapped = LTriBoolConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LTriBoolConsumerX<ParseException> sutThrowing = LTriBoolConsumerX.lX((a1,a2,a3) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LTriBoolConsumer wrapped = LTriBoolConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
-
-        // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriBoolConsumer wrapped = sutThrowing.handleTriBoolCons(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doAccept(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleTriBoolConsMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriBoolConsumer wrapped = sutThrowing.handleTriBoolCons(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleTriBoolConsMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriBoolConsumer wrapped = sutThrowing.handleTriBoolCons(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleTriBoolConsMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriBoolConsumer wrapped = sutThrowing.handleTriBoolCons(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doAccept(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriBoolConsComposeBool() throws X {
+    public void testTriBoolConsComposeBool() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -329,7 +183,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testTriBoolConsCompose() throws X {
+    public void testTriBoolConsCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -370,7 +224,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws X {
+    public void testAndThen() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -414,25 +268,12 @@ public class LTriBoolConsumerTest<X extends ParseException> {
             .isInstanceOf(LTriBoolConsumer.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingTriBoolConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolConsumerX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingTriBoolConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolConsumerX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
+        LTriBoolConsumer sutThrowing = LTriBoolConsumer.triBoolCons((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -440,33 +281,9 @@ public class LTriBoolConsumerTest<X extends ParseException> {
         sutThrowing.shovingTriBoolCons().doAccept(true,true,true);
     }
 
-    @Test
-    public void testHandleTriBoolCons() throws X {
-
-        // given
-        LTriBoolConsumer sutThrowing = LTriBoolConsumer.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriBoolConsumer wrapped = sutThrowing.handleTriBoolCons(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doAccept(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -486,7 +303,6 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LTriBoolConsumer r1 = LTriBoolConsumer.safe(sut); //NOSONAR
-        LTriBoolConsumerX r2 = LTriBoolConsumer.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -496,7 +312,7 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LTriBoolConsumer.safe(null);
-        assertThat(result).isSameAs(LTriBoolConsumer.l(LTriBoolConsumer.safe()));
+        assertThat(result).isSameAs(LTriBoolConsumer.triBoolCons(LTriBoolConsumer.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

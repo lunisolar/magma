@@ -49,10 +49,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for DoubleFunction. */
-public interface JreDoubleFunctionAssert<S extends JreDoubleFunctionAssert<S, A, RS, R>, A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, R> {
+public interface JreDoubleFunctionAssert<S extends JreDoubleFunctionAssert<S, A, RS, R>, A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, R> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, R> doesApply(double a);
+	public static <A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> JreDoubleFunctionAssert.The<A, RS, R> assertDblFunc(DoubleFunction<R> func) {
+		return new JreDoubleFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LDblConsumer, A, RS, R> doesApply(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
@@ -63,7 +68,7 @@ public interface JreDoubleFunctionAssert<S extends JreDoubleFunctionAssert<S, A,
 	}
 
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
-	class Base<S extends Base<S, A, RS, R>, A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LDoubleConsumer, A, RS, R> implements JreDoubleFunctionAssert<S, A, RS, R> {
+	class Base<S extends Base<S, A, RS, R>, A extends DoubleFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LDblConsumer, A, RS, R> implements JreDoubleFunctionAssert<S, A, RS, R> {
 
 		protected final LFunction<R, RS> assertFactory;
 
@@ -73,7 +78,7 @@ public interface JreDoubleFunctionAssert<S extends JreDoubleFunctionAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, R> doesApply(double a) {
+		public Evaluation<S, LDblConsumer, A, RS, R> doesApply(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

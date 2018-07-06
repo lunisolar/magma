@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTriBoolFunctionAssert<S extends LTriBoolFunctionAssert<S, A, RS, R>, A extends LTriBoolFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LTriBoolConsumer, A, RS, R> {
 
 	@Nonnull
+	public static <A extends LTriBoolFunction<R>, RS extends Assert<RS, R>, R> LTriBoolFunctionAssert.The<A, RS, R> assertTriBoolFunc(LTriBoolFunction<R> func) {
+		return new LTriBoolFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LTriBoolConsumer, A, RS, R> doesApply(boolean a1, boolean a2, boolean a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

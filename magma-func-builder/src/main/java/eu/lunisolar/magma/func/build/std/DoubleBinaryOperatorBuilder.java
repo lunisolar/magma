@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoubleBinaryOperator. */
-public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleBinaryOperatorBuilder, LBiDoublePredicate, DoubleBinaryOperator> {
+/**
+ * Builder for DoubleBinaryOperator.
+ */
+public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDblProduct.Base<DoubleBinaryOperatorBuilder, LBiDblPredicate, DoubleBinaryOperator> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoubleBinaryOperator> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleBinaryOperator EVENTUALLY_THROW = Function4U.doubleBinaryOperator((a1, a2) -> {
+	public static final DoubleBinaryOperator EVENTUALLY_THROW = Function4U.dblBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleBinaryOperatorBuilder(@Nullable Consumer<DoubleBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDoubleBinaryOperator::constant, () -> new DoubleBinaryOperatorBuilder(null));
+		super(EVENTUALLY_THROW, LDblBinaryOperator::constant, () -> new DoubleBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static DoubleBinaryOperatorBuilder doubleBinaryOperator() {
+	public static DoubleBinaryOperatorBuilder dblBinaryOperator() {
 		return new DoubleBinaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleBinaryOperator doubleBinaryOperatorFrom(Function<DoubleBinaryOperatorBuilder, DoubleBinaryOperator> buildingFunction) {
+	public static DoubleBinaryOperator dblBinaryOperatorFrom(Function<DoubleBinaryOperatorBuilder, DoubleBinaryOperator> buildingFunction) {
 		return buildingFunction.apply(new DoubleBinaryOperatorBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleBinaryOperatorBuilder doubleBinaryOperator(Consumer<DoubleBinaryOperator> consumer) {
+	public static DoubleBinaryOperatorBuilder dblBinaryOperator(Consumer<DoubleBinaryOperator> consumer) {
 		return new DoubleBinaryOperatorBuilder(consumer);
 	}
 
@@ -107,10 +109,10 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 
 		DoubleBinaryOperator retval;
 
-		final Case<LBiDoublePredicate, DoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleBinaryOperator((a1, a2) -> {
+		final Case<LBiDblPredicate, DoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.dblBinaryOp((a1, a2) -> {
 			try {
-				for (Case<LBiDoublePredicate, DoubleBinaryOperator> aCase : casesArray) {
+				for (Case<LBiDblPredicate, DoubleBinaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {
 						return aCase.caseFunction().applyAsDouble(a1, a2);
 					}

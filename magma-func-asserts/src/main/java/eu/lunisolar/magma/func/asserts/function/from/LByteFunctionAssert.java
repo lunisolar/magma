@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteFunctionAssert<S extends LByteFunctionAssert<S, A, RS, R>, A extends LByteFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LByteConsumer, A, RS, R> {
 
 	@Nonnull
+	public static <A extends LByteFunction<R>, RS extends Assert<RS, R>, R> LByteFunctionAssert.The<A, RS, R> assertByteFunc(LByteFunction<R> func) {
+		return new LByteFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LByteConsumer, A, RS, R> doesApply(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

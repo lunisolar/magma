@@ -1,0 +1,161 @@
+/*
+ * This file is part of "lunisolar-magma".
+ *
+ * (C) Copyright 2014-2016 Lunisolar (http://lunisolar.eu/).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package eu.lunisolar.magma.examples;
+
+import eu.lunisolar.magma.examples.support.CheckedException;
+import eu.lunisolar.magma.func.consumer.LBiConsumer;
+import eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer;
+import eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer;
+import eu.lunisolar.magma.func.consumer.primitives.obj.LTieIntConsumer;
+import eu.lunisolar.magma.func.function.from.LObjIntFunction;
+import eu.lunisolar.magma.func.function.from.LOiFunction;
+import eu.lunisolar.magma.func.function.from.LTieFunction;
+import eu.lunisolar.magma.func.predicate.LBiObjIntPredicate;
+import eu.lunisolar.magma.func.predicate.LPredicate;
+import org.testng.annotations.Test;
+
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.function.*;
+
+import static eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer.objIntObj1Cons;
+import static java.util.stream.Collectors.*;
+
+@SuppressWarnings("SimplifyStreamApiCallChains")
+public class Example_Streams_Test {
+
+    int[] intArray = new int[0];
+    String[]  strArray = new String[0];
+
+    List<Integer> intList = new ArrayList<>();
+    List<String>  strList = new ArrayList<>();
+
+    List<Integer> intCollection = new ArrayList<>();
+    List<String>  strCollection = new ArrayList<>();
+
+    @Test
+    public void example_TIE_supplier() throws CheckedException {
+
+        //noinspection Convert2MethodRef
+        LOiFunction.<List<String>, String>oiFunc((source, index )-> source.get(index) );
+        LOiFunction.<List<String>, String>oiFunc(List::get);
+
+        LOiFunction.call(strList, 0, List::get);
+
+    }
+
+    @Test
+    public void example_noGC_copy() throws CheckedException {
+
+        int[] forTarget = new int[intList.size()];
+        // the initial approach is simply loop
+        for (int i = 0; i < intList.size(); i++) {
+            forTarget[i] = intList.get(i);
+        }
+
+        String[] targetStrArray = new String[intList.size()];
+        // it is not always possible but here should be no GC.
+        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, (tg, element, index) -> tg[index] = element);
+        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, objIntObj1Cons((tg, index, element) -> tg[index] = element));
+
+        //noinspection Convert2MethodRef
+        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, objIntObj1Cons((array, index, value) -> Array.set(array, index, value)));
+        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, objIntObj1Cons(Array::set));
+
+        //noinspection Convert2MethodRef
+        LTieConsumer.targetedForEach(targetStrArray, strList, (tg, index, element) -> Array.set(tg, index, element));
+        LTieConsumer.targetedForEach(targetStrArray, strList, Array::set);
+
+        int[] targetIntArray = new int[intList.size()];
+        //noinspection Convert2MethodRef
+        LTieIntConsumer.targetedForEach(targetIntArray, intArray, (tg, index, element) -> Array.setInt(tg, index, element));
+        LTieIntConsumer.targetedForEach(targetIntArray, intArray, Array::setInt);
+
+        //noinspection Convert2MethodRef
+        LTieConsumer.targetedIterate(targetStrArray, strCollection, (tg, index, element) -> Array.set(tg, index, element));
+        LTieConsumer.targetedIterate(targetStrArray, strCollection, Array::set);
+        
+        List<String> targetStrList = new ArrayList<>();
+        // it is not always possible but here should be no GC.
+        LBiObjIntConsumer.targetedForEach(targetStrList, strList, (tg, element, index) -> tg.add(element));
+        LBiObjIntConsumer.targetedForEach(targetStrList, strList, (tg, element, index) -> tg.add(index, element));
+
+        //noinspection Convert2MethodRef
+        LBiObjIntConsumer.targetedForEach(targetStrList, strList, objIntObj1Cons((tg, index, element) -> tg.add(index, element)));
+        LBiObjIntConsumer.targetedForEach(targetStrList, strList, objIntObj1Cons(List::set));  //TODO is this GC or not?
+        LBiObjIntConsumer.targetedForEach(targetStrList, strList, objIntObj1Cons((tg, index, element) -> tg.add(element)));
+        LBiObjIntConsumer.targetedForEach(targetStrList, strList, (tg, element, index) -> tg.add(index, element));
+        
+        //noinspection Convert2MethodRef
+        LTieConsumer.targetedForEach(targetStrList, strList, (tg, index, element) -> tg.add(index, element));
+        LTieConsumer.targetedForEach(targetStrList, strList, List::add);
+
+        //noinspection Convert2MethodRef
+        LBiConsumer.targetedForEach(targetStrList, strList, (tg, element)-> tg.add(element));
+        LBiConsumer.targetedForEach(targetStrList, strList, List::add);
+
+    }
+
+    @Test
+    public void example_filter() throws CheckedException {
+
+        List<Integer> streamResult = intList.stream()
+                                            .filter(i -> i > 0)
+                                            .collect(toList());
+
+        List<Integer> target = new ArrayList<>();
+        LPredicate.<Integer>pred(i -> i > 0).forEach(intList, target::add);
+    }
+
+    @Test
+    public void example_noGC_filtering() throws CheckedException {
+
+        List<Integer> streamResult = intList.stream()
+                                            .filter(i -> i > 0)
+                                            .collect(toList());
+
+        //int[] target = new int[source.size()];  //TODO primitives
+
+        List<Integer> target = new ArrayList<>();
+
+        // it is not always possible but here should be no GC.
+
+        LPredicate.<Integer>pred(i -> i > 0).tieForEach(intList, target, (tg, element, index) -> tg.add(element));
+        LPredicate.<Integer>pred(i -> i > 0).targetedForEach(intList, target, List::add);
+    }
+
+    @Test
+    public void example2_makesMoreSense() throws CheckedException {
+
+        Integer[] streamResult = intList.stream()
+                                        .filter(i -> i > 0)
+                                        .toArray(Integer[]::new);
+
+        int[] target = new int[intList.size()];
+
+        // it is not always possible but here should be no GC.
+        LBiObjIntConsumer.forEach(intList, target, (element, tg, index) -> tg[index] = element);
+
+        LBiObjIntConsumer<List<Integer>, Integer> toList = (list, element, index) -> list.set(index, element);
+        LBiObjIntPredicate<Integer, List<Integer>> filter;
+
+        filter.forEach(intList, new ArrayList<>(intList.size()));
+    }
+
+}

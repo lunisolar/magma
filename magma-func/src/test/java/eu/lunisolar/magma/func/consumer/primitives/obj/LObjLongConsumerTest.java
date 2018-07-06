@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LObjLongConsumerTest<T,X extends ParseException> {
+public class LObjLongConsumerTest<T> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -63,30 +63,28 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
 
 
     private LObjLongConsumer<Integer> sut = new LObjLongConsumer<Integer>(){
-        public  void doAccept(Integer a1,long a2)  {
-            Function4U.doNothing();
-        }
-    };
-
-    private LObjLongConsumerX<Integer,X> opposite = new LObjLongConsumerX<Integer,X>(){
-        public  void doAccept(Integer a1,long a2)  throws X {
-            Function4U.doNothing();
+        public  void doAcceptX(Integer a1,long a2)  {
+            LObjLongConsumer.doNothing(a1,a2);
         }
     };
 
 
-    private ObjLongConsumer<Integer> jre = (a1,a2) -> Function4U.doNothing();
+
+    private ObjLongConsumer<Integer> jre = (a1,a2) -> LObjLongConsumer.doNothing(a1,a2);
 
 
+    private LObjLongConsumer<Integer> sutAlwaysThrowing = LObjLongConsumer.objLongCons((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LObjLongConsumerX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LObjLongConsumer.l((a1,a2) -> {
+    private LObjLongConsumer<Integer> sutAlwaysThrowingUnchecked = LObjLongConsumer.objLongCons((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LObjLongPair<Integer> domainObject = Tuple4U.objLongPair(100,100L);
 
@@ -97,7 +95,7 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws X {
+    public void testNestingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -112,7 +110,7 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws X {
+    public void testShovingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -128,176 +126,32 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LObjLongConsumer: void doAccept(T a1,long a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LObjLongConsumer.l(Function4U::doNothing))
+    public void testObjLongConsMethod() throws Throwable {
+        assertThat(LObjLongConsumer.objLongCons(LObjLongConsumer::doNothing))
             .isInstanceOf(LObjLongConsumer.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LObjLongConsumer.wrap(opposite))
-            .isInstanceOf(LObjLongConsumer.class);
-    }
 
     @Test
-    public void testWrapStdMethod() throws X {
+    public void testWrapStdMethod() throws Throwable {
         assertThat(LObjLongConsumer.wrap(jre))
             .isInstanceOf(LObjLongConsumer.class);
     }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LObjLongConsumerX<Integer,X> sutThrowing = LObjLongConsumerX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LObjLongConsumer<Integer> wrapped = LObjLongConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept(100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LObjLongConsumerX<Integer,ParseException> sutThrowing = LObjLongConsumerX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LObjLongConsumer<Integer> wrapped = LObjLongConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept(100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
-
-        // given
-        LObjLongConsumer<Integer> sutThrowing = LObjLongConsumer.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LObjLongConsumer<Integer> wrapped = sutThrowing.handleObjLongCons(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doAccept(100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleObjLongConsMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LObjLongConsumer<Integer> sutThrowing = LObjLongConsumer.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LObjLongConsumer<Integer> wrapped = sutThrowing.handleObjLongCons(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept(100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleObjLongConsMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LObjLongConsumer<Integer> sutThrowing = LObjLongConsumer.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LObjLongConsumer<Integer> wrapped = sutThrowing.handleObjLongCons(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept(100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleObjLongConsMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LObjLongConsumer<Integer> sutThrowing = LObjLongConsumer.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LObjLongConsumer<Integer> wrapped = sutThrowing.handleObjLongCons(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doAccept(100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjLongConsComposeLong() throws X {
+    public void testObjLongConsComposeLong() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -331,7 +185,7 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testObjLongConsCompose() throws X {
+    public void testObjLongConsCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -366,7 +220,7 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws X {
+    public void testAndThen() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -408,25 +262,12 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
             .isInstanceOf(LObjLongConsumer.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingObjLongConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongConsumerX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingObjLongConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongConsumerX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LObjLongConsumer<Integer> sutThrowing = LObjLongConsumer.l((a1,a2) -> {
+        LObjLongConsumer<Integer> sutThrowing = LObjLongConsumer.objLongCons((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -434,33 +275,9 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
         sutThrowing.shovingObjLongCons().doAccept(100,100L);
     }
 
-    @Test
-    public void testHandleObjLongCons() throws X {
-
-        // given
-        LObjLongConsumer<Integer> sutThrowing = LObjLongConsumer.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LObjLongConsumer<Integer> wrapped = sutThrowing.handleObjLongCons(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doAccept(100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -480,14 +297,14 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private void variantV1(long a2,Integer a1) {
+    private void variantLLongObjCons(long a2,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LObjLongConsumer lambda = LObjLongConsumer./*<T>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLLongObjCons() {
+        LObjLongConsumer lambda = LObjLongConsumer./*<T>*/longObjCons(this::variantLLongObjCons);
 
-        assertThat(lambda).isInstanceOf(LObjLongConsumer.V1.class);
+        assertThat(lambda).isInstanceOf(LObjLongConsumer.LLongObjCons.class);
     }
 
     //</editor-fold>
@@ -495,7 +312,6 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
 
     @Test void safeCompiles() {
         LObjLongConsumer r1 = LObjLongConsumer.safe(sut); //NOSONAR
-        LObjLongConsumerX r2 = LObjLongConsumer.safe(sut); //NOSONAR
         ObjLongConsumer r3 = LObjLongConsumer.safe(sut); //NOSONAR
     }
 
@@ -506,7 +322,7 @@ public class LObjLongConsumerTest<T,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LObjLongConsumer.safe(null);
-        assertThat(result).isSameAs(LObjLongConsumer.l(LObjLongConsumer.safe()));
+        assertThat(result).isSameAs(LObjLongConsumer.objLongCons(LObjLongConsumer.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

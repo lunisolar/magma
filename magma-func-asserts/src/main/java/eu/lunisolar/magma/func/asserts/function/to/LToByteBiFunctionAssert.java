@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LToByteBiFunctionAssert<S extends LToByteBiFunctionAssert<S, A, RS, T1, T2>, A extends LToByteBiFunction<T1, T2>, RS extends AbstractByteAssert<RS>, T1, T2> extends Assert<S, A>, FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Byte> {
 
 	@Nonnull
+	public static <A extends LToByteBiFunction<T1, T2>, RS extends AbstractByteAssert<RS>, T1, T2> LToByteBiFunctionAssert.The<A, RS, T1, T2> assertToByteBiFunc(LToByteBiFunction<T1, T2> func) {
+		return new LToByteBiFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Byte> doesApplyAsByte(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

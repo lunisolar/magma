@@ -44,13 +44,8 @@
             <groupId>eu.lunisolar.magma</groupId>
             <artifactId>magma-basics</artifactId>
         </dependency>
-        <dependency>
-            <groupId>eu.lunisolar.magma</groupId>
-            <artifactId>magma-struct</artifactId>
-        </dependency>
     </dependencies>
-
-
+    
     <build>
         <plugins>
 

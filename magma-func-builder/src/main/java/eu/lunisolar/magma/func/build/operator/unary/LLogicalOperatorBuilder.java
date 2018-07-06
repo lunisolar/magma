@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LLogicalOperator. */
+/**
+ * Builder for LLogicalOperator.
+ */
 public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct.Base<LLogicalOperatorBuilder, LLogicalOperator, LLogicalOperator> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLogicalOperator EVENTUALLY_THROW = LLogicalOperator.l(a -> {
+	public static final LLogicalOperator EVENTUALLY_THROW = LLogicalOperator.logicalOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 		LLogicalOperator retval;
 
 		final Case<LLogicalOperator, LLogicalOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLogicalOperator.l(a -> {
+		retval = LLogicalOperator.logicalOp(a -> {
 			try {
 				for (Case<LLogicalOperator, LLogicalOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(a)) {

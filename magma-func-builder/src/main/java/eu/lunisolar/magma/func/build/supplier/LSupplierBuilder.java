@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LSupplier. */
+/**
+ * Builder for LSupplier.
+ */
 public final class LSupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<LSupplierBuilder<T>, LBoolSupplier, LSupplier<T>, T> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LSupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<LS
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSupplier EVENTUALLY_THROW = LSupplier.l(() -> {
+	public static final LSupplier EVENTUALLY_THROW = LSupplier.sup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LSupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<LS
 		LSupplier<T> retval;
 
 		final Case<LBoolSupplier, LSupplier<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LSupplier.<T> l(() -> {
+		retval = LSupplier.<T> sup(() -> {
 			try {
 				for (Case<LBoolSupplier, LSupplier<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBool()) {

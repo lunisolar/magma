@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoubleToLongFunctionBuilder.doubleToLongFunction;
-import static eu.lunisolar.magma.func.build.std.DoubleToLongFunctionBuilder.doubleToLongFunctionFrom;
+import static eu.lunisolar.magma.func.build.std.DoubleToLongFunctionBuilder.dblToLongFunction;
+import static eu.lunisolar.magma.func.build.std.DoubleToLongFunctionBuilder.dblToLongFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoubleToLongFunctionBuilderTest{
@@ -66,7 +65,7 @@ public class DoubleToLongFunctionBuilderTest{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoubleToLongFunction function = doubleToLongFunctionFrom(b-> b
+            DoubleToLongFunction function = dblToLongFunctionFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoubleToLongFunctionBuilderTest{
 
 
         assertThatThrownBy(() -> {
-            DoubleToLongFunction function = doubleToLongFunctionFrom(b-> b
+            DoubleToLongFunction function = dblToLongFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoubleToLongFunctionBuilderTest{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoubleToLongFunction function = doubleToLongFunctionFrom(b -> b
+            DoubleToLongFunction function = dblToLongFunctionFrom(b -> b
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class DoubleToLongFunctionBuilderTest{
     @Test
     public void testBuild()  {
 
-        DoubleToLongFunction function = doubleToLongFunctionFrom( b -> b
+        DoubleToLongFunction function = dblToLongFunctionFrom( b -> b
             .aCase(ce -> ce.of(a -> a == 0d)
                              .evaluate(a -> 0L))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1L)
@@ -128,7 +127,7 @@ public class DoubleToLongFunctionBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertDblToLongFunc(function)
             .doesApplyAsLong(0d).when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong(5d).when(null).to(a -> a.isEqualTo(1L))
             .doesApplyAsLong(15d).when(null).to(a -> a.isEqualTo(2L))

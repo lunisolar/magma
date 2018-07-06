@@ -30,7 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*;
+import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -62,6 +62,10 @@ public class LazyChar extends LCharSupMemento implements LCharSingle {
 		return new LazyChar(supplier);
 	}
 
+	public static <E> LazyChar lazyValue(E e, LToCharFunction<E> function) {
+		return new LazyChar(() -> function.doApplyAsChar(e));
+	}
+
 	@Override
 	public char doGetAsChar() {
 		if (function != null) {
@@ -73,7 +77,7 @@ public class LazyChar extends LCharSupMemento implements LCharSingle {
 	}
 
 	public char value() {
-		return shovingDoGetAsChar();
+		return doGetAsChar();
 	}
 
 	public static boolean argEquals(LazyChar the, Object that) {

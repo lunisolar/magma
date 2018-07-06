@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LBiByteConsumerTest<X extends ParseException> {
+public class LBiByteConsumerTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -63,28 +63,26 @@ public class LBiByteConsumerTest<X extends ParseException> {
 
 
     private LBiByteConsumer sut = new LBiByteConsumer(){
-        public  void doAccept(byte a1,byte a2)  {
-            Function4U.doNothing();
-        }
-    };
-
-    private LBiByteConsumerX<X> opposite = new LBiByteConsumerX<X>(){
-        public  void doAccept(byte a1,byte a2)  throws X {
-            Function4U.doNothing();
+        public  void doAcceptX(byte a1,byte a2)  {
+            LBiByteConsumer.doNothing(a1,a2);
         }
     };
 
 
 
 
-    private LBiByteConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBiByteConsumer.l((a1,a2) -> {
+    private LBiByteConsumer sutAlwaysThrowing = LBiByteConsumer.biByteCons((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBiByteConsumer sutAlwaysThrowingUnchecked = LBiByteConsumer.biByteCons((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LBytePair domainObject = Tuple4U.bytePair((byte)100,(byte)100);
 
@@ -95,7 +93,7 @@ public class LBiByteConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws X {
+    public void testNestingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -110,7 +108,7 @@ public class LBiByteConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws X {
+    public void testShovingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -126,170 +124,26 @@ public class LBiByteConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBiByteConsumer: void doAccept(byte a1,byte a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LBiByteConsumer.l(Function4U::doNothing))
+    public void testBiByteConsMethod() throws Throwable {
+        assertThat(LBiByteConsumer.biByteCons(LBiByteConsumer::doNothing))
             .isInstanceOf(LBiByteConsumer.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LBiByteConsumer.wrap(opposite))
-            .isInstanceOf(LBiByteConsumer.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LBiByteConsumerX<X> sutThrowing = LBiByteConsumerX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBiByteConsumer wrapped = LBiByteConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LBiByteConsumerX<ParseException> sutThrowing = LBiByteConsumerX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LBiByteConsumer wrapped = LBiByteConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
-
-        // given
-        LBiByteConsumer sutThrowing = LBiByteConsumer.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiByteConsumer wrapped = sutThrowing.handleBiByteCons(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleBiByteConsMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LBiByteConsumer sutThrowing = LBiByteConsumer.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiByteConsumer wrapped = sutThrowing.handleBiByteCons(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleBiByteConsMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LBiByteConsumer sutThrowing = LBiByteConsumer.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiByteConsumer wrapped = sutThrowing.handleBiByteCons(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleBiByteConsMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LBiByteConsumer sutThrowing = LBiByteConsumer.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBiByteConsumer wrapped = sutThrowing.handleBiByteCons(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiByteConsComposeByte() throws X {
+    public void testBiByteConsComposeByte() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -323,7 +177,7 @@ public class LBiByteConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testBiByteConsCompose() throws X {
+    public void testBiByteConsCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -358,7 +212,7 @@ public class LBiByteConsumerTest<X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws X {
+    public void testAndThen() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -400,25 +254,12 @@ public class LBiByteConsumerTest<X extends ParseException> {
             .isInstanceOf(LBiByteConsumer.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingBiByteConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiByteConsumerX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingBiByteConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiByteConsumerX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LBiByteConsumer sutThrowing = LBiByteConsumer.l((a1,a2) -> {
+        LBiByteConsumer sutThrowing = LBiByteConsumer.biByteCons((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -426,33 +267,9 @@ public class LBiByteConsumerTest<X extends ParseException> {
         sutThrowing.shovingBiByteCons().doAccept((byte)100,(byte)100);
     }
 
-    @Test
-    public void testHandleBiByteCons() throws X {
-
-        // given
-        LBiByteConsumer sutThrowing = LBiByteConsumer.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiByteConsumer wrapped = sutThrowing.handleBiByteCons(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -472,14 +289,14 @@ public class LBiByteConsumerTest<X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private void variantV1(byte a2,byte a1) {
+    private void variantLByte1Byte0Cons(byte a2,byte a1) {
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LBiByteConsumer lambda = LBiByteConsumer./**/l1(this::variantV1);
+    public void compilerSubstituteVariantLByte1Byte0Cons() {
+        LBiByteConsumer lambda = LBiByteConsumer./**/byte1Byte0Cons(this::variantLByte1Byte0Cons);
 
-        assertThat(lambda).isInstanceOf(LBiByteConsumer.V1.class);
+        assertThat(lambda).isInstanceOf(LBiByteConsumer.LByte1Byte0Cons.class);
     }
 
     //</editor-fold>
@@ -487,7 +304,6 @@ public class LBiByteConsumerTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LBiByteConsumer r1 = LBiByteConsumer.safe(sut); //NOSONAR
-        LBiByteConsumerX r2 = LBiByteConsumer.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -497,7 +313,7 @@ public class LBiByteConsumerTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LBiByteConsumer.safe(null);
-        assertThat(result).isSameAs(LBiByteConsumer.l(LBiByteConsumer.safe()));
+        assertThat(result).isSameAs(LBiByteConsumer.biByteCons(LBiByteConsumer.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

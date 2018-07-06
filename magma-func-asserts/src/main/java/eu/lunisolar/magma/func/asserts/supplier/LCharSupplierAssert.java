@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharSupplierAssert<S extends LCharSupplierAssert<S, A, RS>, A extends LCharSupplier, RS extends AbstractCharacterAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LAction, A, RS, Character> {
 
 	@Nonnull
+	public static <A extends LCharSupplier, RS extends AbstractCharacterAssert<RS>> LCharSupplierAssert.The<A, RS> assertCharSup(LCharSupplier func) {
+		return new LCharSupplierAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LAction, A, RS, Character> doesGetAsChar();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

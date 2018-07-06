@@ -56,7 +56,7 @@ public class JreIntFunctionAssertTest<R> {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
+        A.assertIntFunc(function)
          .doesApply(100)
             .to(a -> a.isEqualTo(testValue));
 
@@ -65,7 +65,7 @@ public class JreIntFunctionAssertTest<R> {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
+        A.assertIntFunc(function)
          .doesApply(100)
             .to( a -> a.isEqualTo(2));
 
@@ -74,7 +74,7 @@ public class JreIntFunctionAssertTest<R> {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertIntFunc(functionThrowing)
          .doesApply(100)
             .to( a -> a.isEqualTo(1));
     }
@@ -82,7 +82,7 @@ public class JreIntFunctionAssertTest<R> {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertIntFunc(functionThrowing)
          .doesApply(100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -94,7 +94,7 @@ public class JreIntFunctionAssertTest<R> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertIntFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
@@ -112,7 +112,7 @@ public class JreIntFunctionAssertTest<R> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertIntFunc(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

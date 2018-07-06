@@ -25,13 +25,18 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,11 +63,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: none
  *
- * @see LConsumerX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.NonThrowing {
 
 	String DESCRIPTION = "LConsumer: void doAccept(T a)";
 
@@ -73,30 +77,165 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	@Override
 	@Deprecated
 	default void accept(T a) {
-		this.nestingDoAccept(a);
+		this.doAccept(a);
 	}
 
-	void doAccept(T a);
+	// void doAccept(T a) ;
+	default void doAccept(T a) {
+		// nestingDoAccept(a);
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doAccept(T a)
+	 */
+	void doAcceptX(T a) throws Throwable;
 
 	default LTuple.Void tupleAccept(LSingle<T> args) {
 		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(T a) {
-		this.doAccept(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default void handlingDoAccept(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default void tryDoAccept(T a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default void tryDoAccept(T a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default void tryDoAcceptThen(T a, @Nonnull LConsumer<Throwable> handler) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			handler.doAccept(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default void nestingDoAccept(T a) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default void shovingDoAccept(T a) {
-		this.doAccept(a);
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static <T> void handlingDoAccept(T a, LConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		func.handlingDoAccept(a, handling);
+	}
+
+	static <T> void tryDoAccept(T a, LConsumer<T> func) {
+		tryDoAccept(a, func, null);
+	}
+
+	static <T> void tryDoAccept(T a, LConsumer<T> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static <T> void tryDoAccept(T a, LConsumer<T> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a, exceptionFactory);
+	}
+
+	static <T> void tryDoAcceptThen(T a, LConsumer<T> func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAcceptThen(a, handler);
+	}
+
+	default void failSafeDoAccept(T a, @Nonnull LConsumer<T> failSafe) {
+		try {
+			doAccept(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			failSafe.doAccept(a);
+		}
+	}
+
+	static <T> void failSafeDoAccept(T a, LConsumer<T> func, @Nonnull LConsumer<T> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			failSafe.doAccept(a);
+		} else {
+			func.failSafeDoAccept(a, failSafe);
+		}
+	}
+
+	static <T> LConsumer<T> failSafeCons(LConsumer<T> func, @Nonnull LConsumer<T> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoAccept(a, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LConsumer.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void fromTo(int min_i, int max_i, T a, LConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doAccept(a);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doAccept(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void fromTill(int min_i, int max_i, T a, LConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doAccept(a);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doAccept(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void times(int max_i, T a, LConsumer<T> func) {
+		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -106,9 +245,47 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LConsumer<T> l(final @Nonnull LConsumer<T> lambda) {
+	static <T> LConsumer<T> cons(final @Nonnull LConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static <T> LConsumer<T> recursive(final @Nonnull LFunction<LConsumer<T>, LConsumer<T>> selfLambda) {
+		final LConsumerSingle<T> single = new LConsumerSingle();
+		LConsumer<T> func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LConsumerSingle<T> implements LSingle<LConsumer<T>>, LConsumer<T> {
+		private LConsumer<T> target = null;
+
+		@Override
+		public void doAcceptX(T a) throws Throwable {
+			target.doAcceptX(a);
+		}
+
+		@Override
+		public LConsumer<T> value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static <T> LConsumer<T> consThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static <T> LConsumer<T> consThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static <T> void call(T a, final @Nonnull LConsumer<T> lambda) {
@@ -123,13 +300,6 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	static <T> LConsumer<T> wrap(final Consumer<T> other) {
 		return other::accept;
 	}
-
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <T, X extends Throwable> LConsumer<T> wrap(final @Nonnull LConsumerX<T, X> other) {
-		return other::nestingDoAccept;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
@@ -137,7 +307,7 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	/** Safe instance. */
 	@Nonnull
 	static <T> LConsumer<T> safe() {
-		return Function4U::doNothing;
+		return LConsumer::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -177,6 +347,10 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 		return v -> this.doAccept(before.doApply(v));
 	}
 
+	public static <V, T> LConsumer<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LConsumer<T> after) {
+		return after.consCompose(before);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="andThen (consumer/action)">
@@ -201,22 +375,44 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LConsumerX<T, RuntimeException> nestingConsX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LConsumer<T> shovingCons() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LConsumerX<T, RuntimeException> shovingConsX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LConsumer) */
+	public static <T> void doNothing(T a) {
+		// NOSONAR
 	}
 
-	// </editor-fold>
+	// JUST_CONSUME: FOR, [SourcePurpose{arg=T a, type=IA}, SourcePurpose{arg=LConsumer<? super T> consumer, type=CONST}]
+	public static <C0, T> int forEach(IndexedRead<C0, a<T>> ia, C0 source, LConsumer<? super T> consumer) {
+		int size = ia.size(source);
+		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			T a = oiFunc0.doApply(source, i);
+			consumer.doAccept(a);
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T a, type=SA}, SourcePurpose{arg=LConsumer<? super T> consumer, type=CONST}]
+	public static <C0, I0, T> int iterate(SequentialRead<C0, I0, a<T>> sa, C0 source, LConsumer<? super T> consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LFunction<Object, T> nextFunc0 = (LFunction) sa.getter();
+		int i = 0;
+		while (testFunc0.doTest(iterator0)) {
+			T a = nextFunc0.doApply(iterator0);
+			consumer.doAccept(a);
+			i++;
+		}
+		return i;
+
+	}
 
 }

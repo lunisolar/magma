@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LSupplierAssert<S extends LSupplierAssert<S, A, RS, T>, A extends LSupplier<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, LAction, A, RS, T> {
 
 	@Nonnull
+	public static <A extends LSupplier<T>, RS extends Assert<RS, T>, T> LSupplierAssert.The<A, RS, T> assertSup(LSupplier<T> func) {
+		return new LSupplierAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LAction, A, RS, T> doesGet();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

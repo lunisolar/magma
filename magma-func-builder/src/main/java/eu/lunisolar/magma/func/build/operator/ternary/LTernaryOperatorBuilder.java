@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LTernaryOperator. */
+/**
+ * Builder for LTernaryOperator.
+ */
 public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<LTernaryOperatorBuilder<T>, LTriPredicate<T, T, T>, LTernaryOperator<T>, T> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTernaryOperator EVENTUALLY_THROW = LTernaryOperator.l((a1, a2, a3) -> {
+	public static final LTernaryOperator EVENTUALLY_THROW = LTernaryOperator.ternaryOp((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 		LTernaryOperator<T> retval;
 
 		final Case<LTriPredicate<T, T, T>, LTernaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTernaryOperator.<T> l((a1, a2, a3) -> {
+		retval = LTernaryOperator.<T> ternaryOp((a1, a2, a3) -> {
 			try {
 				for (Case<LTriPredicate<T, T, T>, LTernaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2, a3)) {

@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
+public class LTriFunctionTest<T1,T2,T3,R> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,39 +65,37 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
     private LTriFunction<Integer,Integer,Integer,Integer> sut = new LTriFunction<Integer,Integer,Integer,Integer>(){
-        public @Nullable Integer doApply(Integer a1,Integer a2,Integer a3)  {
+        public @Nullable Integer doApplyX(Integer a1,Integer a2,Integer a3)  {
             return testValue;
         }
     };
 
-    private LTriFunctionX<Integer,Integer,Integer,Integer,X> opposite = new LTriFunctionX<Integer,Integer,Integer,Integer,X>(){
-        public @Nullable Integer doApply(Integer a1,Integer a2,Integer a3)  throws X {
-            return testValue;
-        }
-    };
 
     private LTriFunction<Integer,Integer,Integer,Integer> sutNull = new LTriFunction<Integer,Integer,Integer,Integer>(){
-        public @Nullable Integer doApply(Integer a1,Integer a2,Integer a3)  {
+        public @Nullable Integer doApplyX(Integer a1,Integer a2,Integer a3)  {
             return null;
         }
     };
 
 
 
+    private LTriFunction<Integer,Integer,Integer,Integer> sutAlwaysThrowing = LTriFunction.triFunc((a1,a2,a3) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LTriFunctionX<Integer,Integer,Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LTriFunction.l((a1,a2,a3) -> {
+    private LTriFunction<Integer,Integer,Integer,Integer> sutAlwaysThrowingUnchecked = LTriFunction.triFunc((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply(100,100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LTriple<Integer,Integer,Integer> domainObject = Tuple4U.triple(100,100,100);
 
@@ -108,13 +106,13 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply(100,100,100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -129,7 +127,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -144,176 +142,32 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoApply(100,100,100);
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LTriFunction.l((a1,a2,a3) -> testValue ))
+    public void testTriFuncMethod() throws Throwable {
+        assertThat(LTriFunction.triFunc((a1,a2,a3) -> testValue ))
             .isInstanceOf(LTriFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LTriFunction.wrap(opposite))
-            .isInstanceOf(LTriFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LTriFunctionX<Integer,Integer,Integer,Integer,X> sutThrowing = LTriFunctionX.lX((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriFunction<Integer,Integer,Integer,Integer> wrapped = LTriFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LTriFunctionX<Integer,Integer,Integer,Integer,ParseException> sutThrowing = LTriFunctionX.lX((a1,a2,a3) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LTriFunction<Integer,Integer,Integer,Integer> wrapped = LTriFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LTriFunction<Integer,Integer,Integer,Integer> sutThrowing = LTriFunction.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriFunction<Integer,Integer,Integer,Integer> wrapped = sutThrowing.handleTriFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleTriFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LTriFunction<Integer,Integer,Integer,Integer> sutThrowing = LTriFunction.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriFunction<Integer,Integer,Integer,Integer> wrapped = sutThrowing.handleTriFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleTriFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LTriFunction<Integer,Integer,Integer,Integer> sutThrowing = LTriFunction.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriFunction<Integer,Integer,Integer,Integer> wrapped = sutThrowing.handleTriFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleTriFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LTriFunction<Integer,Integer,Integer,Integer> sutThrowing = LTriFunction.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriFunction<Integer,Integer,Integer,Integer> wrapped = sutThrowing.handleTriFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriFuncCompose() throws X {
+    public void testTriFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -359,7 +213,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -395,7 +249,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws X  {
+    public void testThenConsume1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -416,10 +270,82 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         };
 
         //when
-        LTriConsumer<Integer,Integer,Integer> function = sutO.then(thenFunction);
+        LTriConsumer<Integer,Integer,Integer> function = sutO.thenConsume(thenFunction);
         function.doAccept(80,81,82);
 
         //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToInt2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriFunction<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82);
+                return 90;
+        };
+
+        LToIntFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // int
+                return 100;
+        };
+
+        //when
+        LToIntTriFunction<Integer,Integer,Integer> function = sutO.thenToInt(thenFunction);
+        int finalValue = function.doApplyAsInt(80,81,82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool3() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriFunction<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82);
+                return 90;
+        };
+
+        LPredicate<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // boolean
+                return true;
+        };
+
+        //when
+        LTriPredicate<Integer,Integer,Integer> function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doTest(80,81,82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -443,25 +369,12 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
             .isInstanceOf(LTriFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingTriFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingTriFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LTriFunction<Integer,Integer,Integer,Integer> sutThrowing = LTriFunction.l((a1,a2,a3) -> {
+        LTriFunction<Integer,Integer,Integer,Integer> sutThrowing = LTriFunction.triFunc((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -469,33 +382,9 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         sutThrowing.shovingTriFunc().doApply(100,100,100);
     }
 
-    @Test
-    public void testHandleTriFunc() throws X {
-
-        // given
-        LTriFunction<Integer,Integer,Integer,Integer> sutThrowing = LTriFunction.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriFunction<Integer,Integer,Integer,Integer> wrapped = sutThrowing.handleTriFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -515,63 +404,63 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantV1(Integer a1,Integer a3,Integer a2) {
+    private Integer variantLObjObj2Obj1Func(Integer a1,Integer a3,Integer a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLObjObj2Obj1Func() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/objObj2Obj1Func(this::variantLObjObj2Obj1Func);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.V1.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LObjObj2Obj1Func.class);
     }
 
 
-    private Integer variantV2(Integer a2,Integer a1,Integer a3) {
+    private Integer variantLObj1BiObjFunc(Integer a2,Integer a1,Integer a3) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV2() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/l2(this::variantV2);
+    public void compilerSubstituteVariantLObj1BiObjFunc() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/obj1BiObjFunc(this::variantLObj1BiObjFunc);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.V2.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LObj1BiObjFunc.class);
     }
 
 
-    private Integer variantV3(Integer a2,Integer a3,Integer a1) {
+    private Integer variantLObj1Obj2Obj0Func(Integer a2,Integer a3,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV3() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/l3(this::variantV3);
+    public void compilerSubstituteVariantLObj1Obj2Obj0Func() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/obj1Obj2Obj0Func(this::variantLObj1Obj2Obj0Func);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.V3.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LObj1Obj2Obj0Func.class);
     }
 
 
-    private Integer variantV4(Integer a3,Integer a1,Integer a2) {
+    private Integer variantLObj2Obj0Obj1Func(Integer a3,Integer a1,Integer a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV4() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/l4(this::variantV4);
+    public void compilerSubstituteVariantLObj2Obj0Obj1Func() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/obj2Obj0Obj1Func(this::variantLObj2Obj0Obj1Func);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.V4.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LObj2Obj0Obj1Func.class);
     }
 
 
-    private Integer variantV5(Integer a3,Integer a2,Integer a1) {
+    private Integer variantLBiObjObj0Func(Integer a3,Integer a2,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV5() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/l5(this::variantV5);
+    public void compilerSubstituteVariantLBiObjObj0Func() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/biObjObj0Func(this::variantLBiObjObj0Func);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.V5.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LBiObjObj0Func.class);
     }
 
     //</editor-fold>
@@ -579,7 +468,6 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
     @Test void safeCompiles() {
         LTriFunction r1 = LTriFunction.safe(sut); //NOSONAR
-        LTriFunctionX r2 = LTriFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -589,7 +477,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LTriFunction.safe(null);
-        assertThat(result).isSameAs(LTriFunction.l(LTriFunction.safe()));
+        assertThat(result).isSameAs(LTriFunction.triFunc(LTriFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

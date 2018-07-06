@@ -25,12 +25,16 @@ import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -57,28 +61,129 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: char
  *
- * @see LCharSupplierX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LCharSupplier: char doGetAsChar()";
 
-	char doGetAsChar();
+	// char doGetAsChar() ;
+	default char doGetAsChar() {
+		// return nestingDoGetAsChar();
+		try {
+			return this.doGetAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doGetAsChar()
+	 */
+	char doGetAsCharX() throws Throwable;
 
 	default char tupleGetAsChar(LTuple.Void args) {
 		return doGetAsChar();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoGetAsChar() {
-		return this.doGetAsChar();
+	/** Function call that handles exceptions according to the instructions. */
+	default char handlingDoGetAsChar(HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doGetAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default char tryDoGetAsChar(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doGetAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default char tryDoGetAsChar(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doGetAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default char tryDoGetAsCharThen(@Nonnull LToCharFunction<Throwable> handler) {
+		try {
+			return this.doGetAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsChar(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default char nestingDoGetAsChar() {
+		try {
+			return this.doGetAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default char shovingDoGetAsChar() {
-		return this.doGetAsChar();
+		try {
+			return this.doGetAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static char handlingDoGetAsChar(LCharSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoGetAsChar(handling);
+	}
+
+	static char tryDoGetAsChar(LCharSupplier func) {
+		return tryDoGetAsChar(func, null);
+	}
+
+	static char tryDoGetAsChar(LCharSupplier func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsChar(exceptionFactory, newMessage, messageParams);
+	}
+
+	static char tryDoGetAsChar(LCharSupplier func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsChar(exceptionFactory);
+	}
+
+	static char tryDoGetAsCharThen(LCharSupplier func, @Nonnull LToCharFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsCharThen(handler);
+	}
+
+	default char failSafeDoGetAsChar(@Nonnull LCharSupplier failSafe) {
+		try {
+			return doGetAsChar();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doGetAsChar();
+		}
+	}
+
+	static char failSafeDoGetAsChar(LCharSupplier func, @Nonnull LCharSupplier failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doGetAsChar();
+		} else {
+			return func.failSafeDoGetAsChar(failSafe);
+		}
+	}
+
+	static LCharSupplier failSafeCharSup(LCharSupplier func, @Nonnull LCharSupplier failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return () -> failSafeDoGetAsChar(func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -92,6 +197,39 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 		return LCharSupplier.DESCRIPTION;
 	}
 
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, LCharSupplier func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doGetAsChar();
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doGetAsChar();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, LCharSupplier func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doGetAsChar();
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doGetAsChar();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, LCharSupplier func) {
+		fromTill(0, max_i, func);
+	}
+
 	/** Creates function that always returns the same value. */
 	static LCharSupplier of(char r) {
 		return () -> r;
@@ -99,9 +237,47 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LCharSupplier l(final @Nonnull LCharSupplier lambda) {
+	static LCharSupplier charSup(final @Nonnull LCharSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LCharSupplier recursive(final @Nonnull LFunction<LCharSupplier, LCharSupplier> selfLambda) {
+		final LCharSupplierSingle single = new LCharSupplierSingle();
+		LCharSupplier func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LCharSupplierSingle implements LSingle<LCharSupplier>, LCharSupplier {
+		private LCharSupplier target = null;
+
+		@Override
+		public char doGetAsCharX() throws Throwable {
+			return target.doGetAsCharX();
+		}
+
+		@Override
+		public LCharSupplier value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LCharSupplier charSupThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LCharSupplier charSupThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static char call(final @Nonnull LCharSupplier lambda) {
@@ -111,20 +287,14 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LCharSupplier wrap(final @Nonnull LCharSupplierX<X> other) {
-		return other::nestingDoGetAsChar;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceChar). */
+	/** Safe instance. That always returns the same value (as produceChar). */
 	@Nonnull
 	static LCharSupplier safe() {
-		return Function4U::produceChar;
+		return LCharSupplier::produceChar;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -173,9 +343,9 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplier toShortSup(@Nonnull LCharToShortFunction after) {
+	default LSrtSupplier toSrtSup(@Nonnull LCharToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsShort(this.doGetAsChar());
+		return () -> after.doApplyAsSrt(this.doGetAsChar());
 	}
 
 	/** Combines two functions together in a order. */
@@ -194,16 +364,16 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplier toFloatSup(@Nonnull LCharToFloatFunction after) {
+	default LFltSupplier toFltSup(@Nonnull LCharToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFloat(this.doGetAsChar());
+		return () -> after.doApplyAsFlt(this.doGetAsChar());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplier toDoubleSup(@Nonnull LCharToDoubleFunction after) {
+	default LDblSupplier toDblSup(@Nonnull LCharToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDouble(this.doGetAsChar());
+		return () -> after.doApplyAsDbl(this.doGetAsChar());
 	}
 
 	/** Combines two functions together in a order. */
@@ -230,22 +400,16 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LCharSupplierX<RuntimeException> nestingCharSupX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharSupplier shovingCharSup() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharSupplierX<RuntimeException> shovingCharSupX() {
-		return this;
-	}
-
 	// </editor-fold>
+
+	/** Does nothing (LCharSupplier) Supplier */
+	public static char produceChar() {
+		return Function4U.defaultCharacter;
+	}
 
 }

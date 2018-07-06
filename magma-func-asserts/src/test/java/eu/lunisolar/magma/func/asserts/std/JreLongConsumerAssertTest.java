@@ -57,7 +57,7 @@ public class JreLongConsumerAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
+        A.assertLongCons(function)
          .doesAccept(100L)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
@@ -66,7 +66,7 @@ public class JreLongConsumerAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
+        A.assertLongCons(function)
          .doesAccept(100L)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
@@ -75,7 +75,7 @@ public class JreLongConsumerAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertLongCons(functionThrowing)
          .doesAccept(100L)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
@@ -83,7 +83,7 @@ public class JreLongConsumerAssertTest {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertLongCons(functionThrowing)
          .doesAccept(100L).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -95,7 +95,7 @@ public class JreLongConsumerAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertLongCons(function)
          .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
@@ -113,7 +113,7 @@ public class JreLongConsumerAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertLongCons(function)
          .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.ObjDoubleConsumerBuilder.objDoubleConsumer;
-import static eu.lunisolar.magma.func.build.std.ObjDoubleConsumerBuilder.objDoubleConsumerFrom;
+import static eu.lunisolar.magma.func.build.std.ObjDoubleConsumerBuilder.objDblConsumer;
+import static eu.lunisolar.magma.func.build.std.ObjDoubleConsumerBuilder.objDblConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class ObjDoubleConsumerBuilderTest<T>{
@@ -66,7 +65,7 @@ public class ObjDoubleConsumerBuilderTest<T>{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            ObjDoubleConsumer<Integer> function = objDoubleConsumerFrom(b-> b
+            ObjDoubleConsumer<Integer> function = objDblConsumerFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class ObjDoubleConsumerBuilderTest<T>{
 
 
         assertThatThrownBy(() -> {
-            ObjDoubleConsumer<Integer> function = objDoubleConsumerFrom(b-> b
+            ObjDoubleConsumer<Integer> function = objDblConsumerFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class ObjDoubleConsumerBuilderTest<T>{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            ObjDoubleConsumer<Integer> function = objDoubleConsumerFrom(b -> b
+            ObjDoubleConsumer<Integer> function = objDblConsumerFrom(b -> b
                 .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -119,7 +118,7 @@ public class ObjDoubleConsumerBuilderTest<T>{
     public void testBuild()  {
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
-        ObjDoubleConsumer<Integer> function = objDoubleConsumerFrom( b -> b
+        ObjDoubleConsumer<Integer> function = objDblConsumerFrom( b -> b
             .aCase(ce -> ce.of((a1,a2) -> a1 == 0)
                              .evaluate((a1,a2) -> externalEffect.set(0)))
             .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> externalEffect.set(1))
@@ -129,7 +128,7 @@ public class ObjDoubleConsumerBuilderTest<T>{
         );
 
 
-        A.assertThat(function)
+        A.assertObjDblCons(function)
             .doesAccept(0,0d).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5,5d).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15,15d).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

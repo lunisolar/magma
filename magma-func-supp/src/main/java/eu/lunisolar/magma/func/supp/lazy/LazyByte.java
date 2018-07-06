@@ -30,7 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*;
+import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -62,6 +62,10 @@ public class LazyByte extends LByteSupMemento implements LByteSingle {
 		return new LazyByte(supplier);
 	}
 
+	public static <E> LazyByte lazyValue(E e, LToByteFunction<E> function) {
+		return new LazyByte(() -> function.doApplyAsByte(e));
+	}
+
 	@Override
 	public byte doGetAsByte() {
 		if (function != null) {
@@ -73,7 +77,7 @@ public class LazyByte extends LByteSupMemento implements LByteSingle {
 	}
 
 	public byte value() {
-		return shovingDoGetAsByte();
+		return doGetAsByte();
 	}
 
 	public static boolean argEquals(LazyByte the, Object that) {

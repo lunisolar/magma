@@ -56,8 +56,8 @@ public class JreDoubleSupplierAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
-         .doesGetAsDouble()
+        A.assertDblSup(function)
+         .doesGetAsDbl()
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -65,8 +65,8 @@ public class JreDoubleSupplierAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
-         .doesGetAsDouble()
+        A.assertDblSup(function)
+         .doesGetAsDbl()
             .to( a -> a.isEqualTo(2));
 
     }
@@ -74,16 +74,16 @@ public class JreDoubleSupplierAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
-         .doesGetAsDouble()
+        A.assertDblSup(functionThrowing)
+         .doesGetAsDbl()
             .to( a -> a.isEqualTo(1));
     }
 
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
-         .doesGetAsDouble().withException(a -> a
+        A.assertDblSup(functionThrowing)
+         .doesGetAsDbl().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -94,14 +94,14 @@ public class JreDoubleSupplierAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblSup(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsDouble()
+         .doesGetAsDbl()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsDouble()
+         .doesGetAsDbl()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -112,16 +112,16 @@ public class JreDoubleSupplierAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblSup(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsDouble()
+         .doesGetAsDbl()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsDouble()
+         .doesGetAsDbl()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

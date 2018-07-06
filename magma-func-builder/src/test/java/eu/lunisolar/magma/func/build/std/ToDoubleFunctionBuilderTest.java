@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.ToDoubleFunctionBuilder.toDoubleFunction;
-import static eu.lunisolar.magma.func.build.std.ToDoubleFunctionBuilder.toDoubleFunctionFrom;
+import static eu.lunisolar.magma.func.build.std.ToDoubleFunctionBuilder.toDblFunction;
+import static eu.lunisolar.magma.func.build.std.ToDoubleFunctionBuilder.toDblFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class ToDoubleFunctionBuilderTest<T>{
@@ -66,7 +65,7 @@ public class ToDoubleFunctionBuilderTest<T>{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            ToDoubleFunction<Integer> function = toDoubleFunctionFrom(b-> b
+            ToDoubleFunction<Integer> function = toDblFunctionFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class ToDoubleFunctionBuilderTest<T>{
 
 
         assertThatThrownBy(() -> {
-            ToDoubleFunction<Integer> function = toDoubleFunctionFrom(b-> b
+            ToDoubleFunction<Integer> function = toDblFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class ToDoubleFunctionBuilderTest<T>{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            ToDoubleFunction<Integer> function = toDoubleFunctionFrom(b -> b
+            ToDoubleFunction<Integer> function = toDblFunctionFrom(b -> b
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class ToDoubleFunctionBuilderTest<T>{
     @Test
     public void testBuild()  {
 
-        ToDoubleFunction<Integer> function = toDoubleFunctionFrom( b -> b
+        ToDoubleFunction<Integer> function = toDblFunctionFrom( b -> b
             .aCase(ce -> ce.of(a -> a == 0)
                              .evaluate(a -> 0d))
             .inCase(a -> a > 0 && a < 10).evaluate(a -> 1d)
@@ -128,11 +127,11 @@ public class ToDoubleFunctionBuilderTest<T>{
         );
 
 
-        A.assertThat(function)
-            .doesApplyAsDouble(0).when(null).to(a -> a.isEqualTo(0d))
-            .doesApplyAsDouble(5).when(null).to(a -> a.isEqualTo(1d))
-            .doesApplyAsDouble(15).when(null).to(a -> a.isEqualTo(2d))
-            .doesApplyAsDouble(10).when(null).to(a -> a.isEqualTo(99d))
+        A.assertToDblFunc(function)
+            .doesApplyAsDbl(0).when(null).to(a -> a.isEqualTo(0d))
+            .doesApplyAsDbl(5).when(null).to(a -> a.isEqualTo(1d))
+            .doesApplyAsDbl(15).when(null).to(a -> a.isEqualTo(2d))
+            .doesApplyAsDbl(10).when(null).to(a -> a.isEqualTo(99d))
         ;
 
     }

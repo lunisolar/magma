@@ -23,403 +23,261 @@
  * | Name                                                                              | Domain                                   | Co-domain  |
  * |:----------------------------------------------------------------------------------|:-----------------------------------------|:-----------|
  * | {@link eu.lunisolar.magma.func.action.LAction}                                   |                                          | void       |
- * | {@link eu.lunisolar.magma.func.action.LActionX}                                  |                                          | void       |
  * | {@link eu.lunisolar.magma.func.consumer.LBiConsumer}                             | T1 a1,T2 a2                              | void       |
- * | {@link eu.lunisolar.magma.func.consumer.LBiConsumerX}                            | T1 a1,T2 a2                              | void       |
  * | {@link eu.lunisolar.magma.func.consumer.LConsumer}                               | T a                                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.LConsumerX}                              | T a                                      | void       |
  * | {@link eu.lunisolar.magma.func.consumer.LTriConsumer}                            | T1 a1,T2 a2,T3 a3                        | void       |
- * | {@link eu.lunisolar.magma.func.consumer.LTriConsumerX}                           | T1 a1,T2 a2,T3 a3                        | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LBoolConsumer}                | boolean a                                | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LBoolConsumerX}               | boolean a                                | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LByteConsumer}                | byte a                                   | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LByteConsumerX}               | byte a                                   | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LCharConsumer}                | char a                                   | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LCharConsumerX}               | char a                                   | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LDoubleConsumer}              | double a                                 | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LDoubleConsumerX}             | double a                                 | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LFloatConsumer}               | float a                                  | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LFloatConsumerX}              | float a                                  | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.LDblConsumer}                 | double a                                 | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.LFltConsumer}                 | float a                                  | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LIntConsumer}                 | int a                                    | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LIntConsumerX}                | int a                                    | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LLongConsumer}                | long a                                   | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LLongConsumerX}               | long a                                   | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LShortConsumer}               | short a                                  | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LShortConsumerX}              | short a                                  | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.LSrtConsumer}                 | short a                                  | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBoolConsumer}           | boolean a1,boolean a2                    | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBoolConsumerX}          | boolean a1,boolean a2                    | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiByteConsumer}           | byte a1,byte a2                          | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiByteConsumerX}          | byte a1,byte a2                          | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiCharConsumer}           | char a1,char a2                          | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiCharConsumerX}          | char a1,char a2                          | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiDoubleConsumer}         | double a1,double a2                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiDoubleConsumerX}        | double a1,double a2                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiFloatConsumer}          | float a1,float a2                        | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiFloatConsumerX}         | float a1,float a2                        | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiDblConsumer}            | double a1,double a2                      | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiFltConsumer}            | float a1,float a2                        | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiIntConsumer}            | int a1,int a2                            | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiIntConsumerX}           | int a1,int a2                            | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiLongConsumer}           | long a1,long a2                          | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiLongConsumerX}          | long a1,long a2                          | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiShortConsumer}          | short a1,short a2                        | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiShortConsumerX}         | short a1,short a2                        | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiSrtConsumer}            | short a1,short a2                        | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBoolIntConsumer}          | boolean a1,int a2                        | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LByteIntConsumer}          | byte a1,int a2                           | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LCharIntConsumer}          | char a1,int a2                           | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LDblIntConsumer}           | double a1,int a2                         | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LFltIntConsumer}           | float a1,int a2                          | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LLongIntConsumer}          | long a1,int a2                           | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LSrtIntConsumer}           | short a1,int a2                          | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjBoolConsumer}       | T1 a1,T2 a2,boolean a3                   | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjBoolConsumerX}      | T1 a1,T2 a2,boolean a3                   | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjByteConsumer}       | T1 a1,T2 a2,byte a3                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjByteConsumerX}      | T1 a1,T2 a2,byte a3                      | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjCharConsumer}       | T1 a1,T2 a2,char a3                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjCharConsumerX}      | T1 a1,T2 a2,char a3                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjDoubleConsumer}     | T1 a1,T2 a2,double a3                    | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjDoubleConsumerX}    | T1 a1,T2 a2,double a3                    | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjFloatConsumer}      | T1 a1,T2 a2,float a3                     | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjFloatConsumerX}     | T1 a1,T2 a2,float a3                     | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjDblConsumer}        | T1 a1,T2 a2,double a3                    | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjFltConsumer}        | T1 a1,T2 a2,float a3                     | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer}        | T1 a1,T2 a2,int a3                       | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumerX}       | T1 a1,T2 a2,int a3                       | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjLongConsumer}       | T1 a1,T2 a2,long a3                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjLongConsumerX}      | T1 a1,T2 a2,long a3                      | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjShortConsumer}      | T1 a1,T2 a2,short a3                     | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjShortConsumerX}     | T1 a1,T2 a2,short a3                     | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjSrtConsumer}        | T1 a1,T2 a2,short a3                     | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBoolConsumer}         | T a1,boolean a2                          | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBoolConsumerX}        | T a1,boolean a2                          | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjByteConsumer}         | T a1,byte a2                             | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjByteConsumerX}        | T a1,byte a2                             | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjCharConsumer}         | T a1,char a2                             | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjCharConsumerX}        | T a1,char a2                             | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjDoubleConsumer}       | T a1,double a2                           | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjDoubleConsumerX}      | T a1,double a2                           | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjFloatConsumer}        | T a1,float a2                            | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjFloatConsumerX}       | T a1,float a2                            | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjDblConsumer}          | T a1,double a2                           | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjFltConsumer}          | T a1,float a2                            | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjIntConsumer}          | T a1,int a2                              | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjIntConsumerX}         | T a1,int a2                              | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjLongConsumer}         | T a1,long a2                             | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjLongConsumerX}        | T a1,long a2                             | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjShortConsumer}        | T a1,short a2                            | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjShortConsumerX}       | T a1,short a2                            | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjSrtConsumer}          | T a1,short a2                            | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieBoolConsumer}         | T a1,int a2,boolean a3                   | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieByteConsumer}         | T a1,int a2,byte a3                      | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieCharConsumer}         | T a1,int a2,char a3                      | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer}             | T1 a1,int a2,T2 a3                       | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieDblConsumer}          | T a1,int a2,double a3                    | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieFltConsumer}          | T a1,int a2,float a3                     | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieIntConsumer}          | T a1,int a2,int a3                       | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieLongConsumer}         | T a1,int a2,long a3                      | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieSrtConsumer}          | T a1,int a2,short a3                     | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBoolConsumer}         | boolean a1,boolean a2,boolean a3         | void       |
- * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBoolConsumerX}        | boolean a1,boolean a2,boolean a3         | void       |
  * | {@link eu.lunisolar.magma.func.operator.binary.LBinaryOperator}                  | T a1,T a2                                | T          |
- * | {@link eu.lunisolar.magma.func.operator.binary.LBinaryOperatorX}                 | T a1,T a2                                | T          |
  * | {@link eu.lunisolar.magma.func.operator.binary.LByteBinaryOperator}              | byte a1,byte a2                          | byte       |
- * | {@link eu.lunisolar.magma.func.operator.binary.LByteBinaryOperatorX}             | byte a1,byte a2                          | byte       |
  * | {@link eu.lunisolar.magma.func.operator.binary.LCharBinaryOperator}              | char a1,char a2                          | char       |
- * | {@link eu.lunisolar.magma.func.operator.binary.LCharBinaryOperatorX}             | char a1,char a2                          | char       |
- * | {@link eu.lunisolar.magma.func.operator.binary.LDoubleBinaryOperator}            | double a1,double a2                      | double     |
- * | {@link eu.lunisolar.magma.func.operator.binary.LDoubleBinaryOperatorX}           | double a1,double a2                      | double     |
- * | {@link eu.lunisolar.magma.func.operator.binary.LFloatBinaryOperator}             | float a1,float a2                        | float      |
- * | {@link eu.lunisolar.magma.func.operator.binary.LFloatBinaryOperatorX}            | float a1,float a2                        | float      |
+ * | {@link eu.lunisolar.magma.func.operator.binary.LDblBinaryOperator}               | double a1,double a2                      | double     |
+ * | {@link eu.lunisolar.magma.func.operator.binary.LFltBinaryOperator}               | float a1,float a2                        | float      |
  * | {@link eu.lunisolar.magma.func.operator.binary.LIntBinaryOperator}               | int a1,int a2                            | int        |
- * | {@link eu.lunisolar.magma.func.operator.binary.LIntBinaryOperatorX}              | int a1,int a2                            | int        |
  * | {@link eu.lunisolar.magma.func.operator.binary.LLogicalBinaryOperator}           | boolean a1,boolean a2                    | boolean    |
- * | {@link eu.lunisolar.magma.func.operator.binary.LLogicalBinaryOperatorX}          | boolean a1,boolean a2                    | boolean    |
  * | {@link eu.lunisolar.magma.func.operator.binary.LLongBinaryOperator}              | long a1,long a2                          | long       |
- * | {@link eu.lunisolar.magma.func.operator.binary.LLongBinaryOperatorX}             | long a1,long a2                          | long       |
- * | {@link eu.lunisolar.magma.func.operator.binary.LShortBinaryOperator}             | short a1,short a2                        | short      |
- * | {@link eu.lunisolar.magma.func.operator.binary.LShortBinaryOperatorX}            | short a1,short a2                        | short      |
+ * | {@link eu.lunisolar.magma.func.operator.binary.LSrtBinaryOperator}               | short a1,short a2                        | short      |
  * | {@link eu.lunisolar.magma.func.operator.ternary.LLogicalTernaryOperator}         | boolean a1,boolean a2,boolean a3         | boolean    |
- * | {@link eu.lunisolar.magma.func.operator.ternary.LLogicalTernaryOperatorX}        | boolean a1,boolean a2,boolean a3         | boolean    |
  * | {@link eu.lunisolar.magma.func.operator.ternary.LTernaryOperator}                | T a1,T a2,T a3                           | T          |
- * | {@link eu.lunisolar.magma.func.operator.ternary.LTernaryOperatorX}               | T a1,T a2,T a3                           | T          |
  * | {@link eu.lunisolar.magma.func.operator.unary.LByteUnaryOperator}                | byte a                                   | byte       |
- * | {@link eu.lunisolar.magma.func.operator.unary.LByteUnaryOperatorX}               | byte a                                   | byte       |
  * | {@link eu.lunisolar.magma.func.operator.unary.LCharUnaryOperator}                | char a                                   | char       |
- * | {@link eu.lunisolar.magma.func.operator.unary.LCharUnaryOperatorX}               | char a                                   | char       |
- * | {@link eu.lunisolar.magma.func.operator.unary.LDoubleUnaryOperator}              | double a                                 | double     |
- * | {@link eu.lunisolar.magma.func.operator.unary.LDoubleUnaryOperatorX}             | double a                                 | double     |
- * | {@link eu.lunisolar.magma.func.operator.unary.LFloatUnaryOperator}               | float a                                  | float      |
- * | {@link eu.lunisolar.magma.func.operator.unary.LFloatUnaryOperatorX}              | float a                                  | float      |
+ * | {@link eu.lunisolar.magma.func.operator.unary.LDblUnaryOperator}                 | double a                                 | double     |
+ * | {@link eu.lunisolar.magma.func.operator.unary.LFltUnaryOperator}                 | float a                                  | float      |
  * | {@link eu.lunisolar.magma.func.operator.unary.LIntUnaryOperator}                 | int a                                    | int        |
- * | {@link eu.lunisolar.magma.func.operator.unary.LIntUnaryOperatorX}                | int a                                    | int        |
  * | {@link eu.lunisolar.magma.func.operator.unary.LLogicalOperator}                  | boolean a                                | boolean    |
- * | {@link eu.lunisolar.magma.func.operator.unary.LLogicalOperatorX}                 | boolean a                                | boolean    |
  * | {@link eu.lunisolar.magma.func.operator.unary.LLongUnaryOperator}                | long a                                   | long       |
- * | {@link eu.lunisolar.magma.func.operator.unary.LLongUnaryOperatorX}               | long a                                   | long       |
- * | {@link eu.lunisolar.magma.func.operator.unary.LShortUnaryOperator}               | short a                                  | short      |
- * | {@link eu.lunisolar.magma.func.operator.unary.LShortUnaryOperatorX}              | short a                                  | short      |
+ * | {@link eu.lunisolar.magma.func.operator.unary.LSrtUnaryOperator}                 | short a                                  | short      |
  * | {@link eu.lunisolar.magma.func.operator.unary.LUnaryOperator}                    | T a                                      | T          |
- * | {@link eu.lunisolar.magma.func.operator.unary.LUnaryOperatorX}                   | T a                                      | T          |
  * | {@link eu.lunisolar.magma.func.function.LBiFunction}                             | T1 a1,T2 a2                              | R          |
- * | {@link eu.lunisolar.magma.func.function.LBiFunctionX}                            | T1 a1,T2 a2                              | R          |
  * | {@link eu.lunisolar.magma.func.function.LFunction}                               | T a                                      | R          |
- * | {@link eu.lunisolar.magma.func.function.LFunctionX}                              | T a                                      | R          |
  * | {@link eu.lunisolar.magma.func.function.LTriFunction}                            | T1 a1,T2 a2,T3 a3                        | R          |
- * | {@link eu.lunisolar.magma.func.function.LTriFunctionX}                           | T1 a1,T2 a2,T3 a3                        | R          |
  * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToByteFunction}          | boolean a                                | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToByteFunctionX}         | boolean a                                | byte       |
  * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToCharFunction}          | boolean a                                | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToCharFunctionX}         | boolean a                                | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToDoubleFunction}        | boolean a                                | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToDoubleFunctionX}       | boolean a                                | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToFloatFunction}         | boolean a                                | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToFloatFunctionX}        | boolean a                                | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToDblFunction}           | boolean a                                | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToFltFunction}           | boolean a                                | float      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToIntFunction}           | boolean a                                | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToIntFunctionX}          | boolean a                                | int        |
  * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToLongFunction}          | boolean a                                | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToLongFunctionX}         | boolean a                                | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToShortFunction}         | boolean a                                | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToShortFunctionX}        | boolean a                                | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToSrtFunction}           | boolean a                                | short      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LByteToCharFunction}          | byte a                                   | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToCharFunctionX}         | byte a                                   | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToDoubleFunction}        | byte a                                   | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToDoubleFunctionX}       | byte a                                   | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToFloatFunction}         | byte a                                   | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToFloatFunctionX}        | byte a                                   | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LByteToDblFunction}           | byte a                                   | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LByteToFltFunction}           | byte a                                   | float      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LByteToIntFunction}           | byte a                                   | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToIntFunctionX}          | byte a                                   | int        |
  * | {@link eu.lunisolar.magma.func.function.conversion.LByteToLongFunction}          | byte a                                   | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToLongFunctionX}         | byte a                                   | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToShortFunction}         | byte a                                   | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LByteToShortFunctionX}        | byte a                                   | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LByteToSrtFunction}           | byte a                                   | short      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LCharToByteFunction}          | char a                                   | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToByteFunctionX}         | char a                                   | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToDoubleFunction}        | char a                                   | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToDoubleFunctionX}       | char a                                   | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToFloatFunction}         | char a                                   | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToFloatFunctionX}        | char a                                   | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LCharToDblFunction}           | char a                                   | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LCharToFltFunction}           | char a                                   | float      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LCharToIntFunction}           | char a                                   | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToIntFunctionX}          | char a                                   | int        |
  * | {@link eu.lunisolar.magma.func.function.conversion.LCharToLongFunction}          | char a                                   | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToLongFunctionX}         | char a                                   | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToShortFunction}         | char a                                   | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LCharToShortFunctionX}        | char a                                   | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToByteFunction}        | double a                                 | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToByteFunctionX}       | double a                                 | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToCharFunction}        | double a                                 | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToCharFunctionX}       | double a                                 | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToFloatFunction}       | double a                                 | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToFloatFunctionX}      | double a                                 | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToIntFunction}         | double a                                 | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToIntFunctionX}        | double a                                 | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToLongFunction}        | double a                                 | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToLongFunctionX}       | double a                                 | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToShortFunction}       | double a                                 | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LDoubleToShortFunctionX}      | double a                                 | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToByteFunction}         | float a                                  | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToByteFunctionX}        | float a                                  | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToCharFunction}         | float a                                  | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToCharFunctionX}        | float a                                  | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToDoubleFunction}       | float a                                  | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToDoubleFunctionX}      | float a                                  | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToIntFunction}          | float a                                  | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToIntFunctionX}         | float a                                  | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToLongFunction}         | float a                                  | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToLongFunctionX}        | float a                                  | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToShortFunction}        | float a                                  | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LFloatToShortFunctionX}       | float a                                  | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LCharToSrtFunction}           | char a                                   | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LDblToByteFunction}           | double a                                 | byte       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LDblToCharFunction}           | double a                                 | char       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LDblToFltFunction}            | double a                                 | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LDblToIntFunction}            | double a                                 | int        |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LDblToLongFunction}           | double a                                 | long       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LDblToSrtFunction}            | double a                                 | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LFltToByteFunction}           | float a                                  | byte       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LFltToCharFunction}           | float a                                  | char       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LFltToDblFunction}            | float a                                  | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LFltToIntFunction}            | float a                                  | int        |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LFltToLongFunction}           | float a                                  | long       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LFltToSrtFunction}            | float a                                  | short      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LIntToByteFunction}           | int a                                    | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToByteFunctionX}          | int a                                    | byte       |
  * | {@link eu.lunisolar.magma.func.function.conversion.LIntToCharFunction}           | int a                                    | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToCharFunctionX}          | int a                                    | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToDoubleFunction}         | int a                                    | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToDoubleFunctionX}        | int a                                    | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToFloatFunction}          | int a                                    | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToFloatFunctionX}         | int a                                    | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LIntToDblFunction}            | int a                                    | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LIntToFltFunction}            | int a                                    | float      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LIntToLongFunction}           | int a                                    | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToLongFunctionX}          | int a                                    | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToShortFunction}          | int a                                    | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LIntToShortFunctionX}         | int a                                    | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LIntToSrtFunction}            | int a                                    | short      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LLongToByteFunction}          | long a                                   | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToByteFunctionX}         | long a                                   | byte       |
  * | {@link eu.lunisolar.magma.func.function.conversion.LLongToCharFunction}          | long a                                   | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToCharFunctionX}         | long a                                   | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToDoubleFunction}        | long a                                   | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToDoubleFunctionX}       | long a                                   | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToFloatFunction}         | long a                                   | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToFloatFunctionX}        | long a                                   | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LLongToDblFunction}           | long a                                   | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LLongToFltFunction}           | long a                                   | float      |
  * | {@link eu.lunisolar.magma.func.function.conversion.LLongToIntFunction}           | long a                                   | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToIntFunctionX}          | long a                                   | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToShortFunction}         | long a                                   | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LLongToShortFunctionX}        | long a                                   | short      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToByteFunction}         | short a                                  | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToByteFunctionX}        | short a                                  | byte       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToCharFunction}         | short a                                  | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToCharFunctionX}        | short a                                  | char       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToDoubleFunction}       | short a                                  | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToDoubleFunctionX}      | short a                                  | double     |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToFloatFunction}        | short a                                  | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToFloatFunctionX}       | short a                                  | float      |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToIntFunction}          | short a                                  | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToIntFunctionX}         | short a                                  | int        |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToLongFunction}         | short a                                  | long       |
- * | {@link eu.lunisolar.magma.func.function.conversion.LShortToLongFunctionX}        | short a                                  | long       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LLongToSrtFunction}           | long a                                   | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LSrtToByteFunction}           | short a                                  | byte       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LSrtToCharFunction}           | short a                                  | char       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LSrtToDblFunction}            | short a                                  | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LSrtToFltFunction}            | short a                                  | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LSrtToIntFunction}            | short a                                  | int        |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LSrtToLongFunction}           | short a                                  | long       |
  * | {@link eu.lunisolar.magma.func.function.from.LBiBoolFunction}                    | boolean a1,boolean a2                    | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiBoolFunctionX}                   | boolean a1,boolean a2                    | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiByteFunction}                    | byte a1,byte a2                          | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiByteFunctionX}                   | byte a1,byte a2                          | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiCharFunction}                    | char a1,char a2                          | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiCharFunctionX}                   | char a1,char a2                          | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiDoubleFunction}                  | double a1,double a2                      | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiDoubleFunctionX}                 | double a1,double a2                      | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiFloatFunction}                   | float a1,float a2                        | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiFloatFunctionX}                  | float a1,float a2                        | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiDblFunction}                     | double a1,double a2                      | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiFltFunction}                     | float a1,float a2                        | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiIntFunction}                     | int a1,int a2                            | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiIntFunctionX}                    | int a1,int a2                            | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiLongFunction}                    | long a1,long a2                          | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiLongFunctionX}                   | long a1,long a2                          | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiObjBoolFunction}                 | T1 a1,T2 a2,boolean a3                   | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjBoolFunctionX}                | T1 a1,T2 a2,boolean a3                   | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiObjByteFunction}                 | T1 a1,T2 a2,byte a3                      | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjByteFunctionX}                | T1 a1,T2 a2,byte a3                      | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiObjCharFunction}                 | T1 a1,T2 a2,char a3                      | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjCharFunctionX}                | T1 a1,T2 a2,char a3                      | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjDoubleFunction}               | T1 a1,T2 a2,double a3                    | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjDoubleFunctionX}              | T1 a1,T2 a2,double a3                    | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjFloatFunction}                | T1 a1,T2 a2,float a3                     | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjFloatFunctionX}               | T1 a1,T2 a2,float a3                     | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiObjDblFunction}                  | T1 a1,T2 a2,double a3                    | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiObjFltFunction}                  | T1 a1,T2 a2,float a3                     | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiObjIntFunction}                  | T1 a1,T2 a2,int a3                       | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjIntFunctionX}                 | T1 a1,T2 a2,int a3                       | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBiObjLongFunction}                 | T1 a1,T2 a2,long a3                      | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjLongFunctionX}                | T1 a1,T2 a2,long a3                      | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjShortFunction}                | T1 a1,T2 a2,short a3                     | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjShortFunctionX}               | T1 a1,T2 a2,short a3                     | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiShortFunction}                   | short a1,short a2                        | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBiShortFunctionX}                  | short a1,short a2                        | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiObjSrtFunction}                  | T1 a1,T2 a2,short a3                     | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiSrtFunction}                     | short a1,short a2                        | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LBoolFunction}                      | boolean a                                | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LBoolFunctionX}                     | boolean a                                | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LByteFunction}                      | byte a                                   | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LByteFunctionX}                     | byte a                                   | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LCharFunction}                      | char a                                   | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LCharFunctionX}                     | char a                                   | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LDoubleFunction}                    | double a                                 | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LDoubleFunctionX}                   | double a                                 | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LFloatFunction}                     | float a                                  | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LFloatFunctionX}                    | float a                                  | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LDblFunction}                       | double a                                 | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LFltFunction}                       | float a                                  | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LIntFunction}                       | int a                                    | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LIntFunctionX}                      | int a                                    | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LLongFunction}                      | long a                                   | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LLongFunctionX}                     | long a                                   | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjBiIntFunction}                  | T a1,int a2,int a3                       | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjBoolFunction}                   | T a1,boolean a2                          | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjBoolFunctionX}                  | T a1,boolean a2                          | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjByteFunction}                   | T a1,byte a2                             | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjByteFunctionX}                  | T a1,byte a2                             | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjCharFunction}                   | T a1,char a2                             | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjCharFunctionX}                  | T a1,char a2                             | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjDoubleFunction}                 | T a1,double a2                           | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjDoubleFunctionX}                | T a1,double a2                           | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjFloatFunction}                  | T a1,float a2                            | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjFloatFunctionX}                 | T a1,float a2                            | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjIntFunction}                    | T a1,int a2                              | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjIntFunctionX}                   | T a1,int a2                              | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjDblFunction}                    | T a1,double a2                           | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjFltFunction}                    | T a1,float a2                            | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntBoolFunction}                | T a1,int a2,boolean a3                   | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntByteFunction}                | T a1,int a2,byte a3                      | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntCharFunction}                | T a1,int a2,char a3                      | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntDblFunction}                 | T a1,int a2,double a3                    | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntFltFunction}                 | T a1,int a2,float a3                     | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntLongFunction}                | T a1,int a2,long a3                      | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntObjFunction}                 | T1 a1,int a2,T2 a3                       | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjIntSrtFunction}                 | T a1,int a2,short a3                     | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjLongFunction}                   | T a1,long a2                             | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjLongFunctionX}                  | T a1,long a2                             | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjShortFunction}                  | T a1,short a2                            | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LObjShortFunctionX}                 | T a1,short a2                            | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LShortFunction}                     | short a                                  | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LShortFunctionX}                    | short a                                  | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjSrtFunction}                    | T a1,short a2                            | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LOiFunction}                        | T a1,int a2                              | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LSrtFunction}                       | short a                                  | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LTriBoolFunction}                   | boolean a1,boolean a2,boolean a3         | R          |
- * | {@link eu.lunisolar.magma.func.function.from.LTriBoolFunctionX}                  | boolean a1,boolean a2,boolean a3         | R          |
- * | {@link eu.lunisolar.magma.func.function.to.LObjIntToIntFunction}                 | T a1,int a2                              | int        |
- * | {@link eu.lunisolar.magma.func.function.to.LObjIntToIntFunctionX}                | T a1,int a2                              | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LOiToByteFunction}                    | T a1,int a2                              | byte       |
+ * | {@link eu.lunisolar.magma.func.function.to.LOiToCharFunction}                    | T a1,int a2                              | char       |
+ * | {@link eu.lunisolar.magma.func.function.to.LOiToDblFunction}                     | T a1,int a2                              | double     |
+ * | {@link eu.lunisolar.magma.func.function.to.LOiToFltFunction}                     | T a1,int a2                              | float      |
+ * | {@link eu.lunisolar.magma.func.function.to.LOiToIntFunction}                     | T a1,int a2                              | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LOiToLongFunction}                    | T a1,int a2                              | long       |
+ * | {@link eu.lunisolar.magma.func.function.to.LOiToSrtFunction}                     | T a1,int a2                              | short      |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieBoolFunction}                     | T a1,int a2,boolean a3                   | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieByteFunction}                     | T a1,int a2,byte a3                      | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieCharFunction}                     | T a1,int a2,char a3                      | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieDblFunction}                      | T a1,int a2,double a3                    | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieFltFunction}                      | T a1,int a2,float a3                     | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieFunction}                         | T1 a1,int a2,T2 a3                       | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieIntFunction}                      | T a1,int a2,int a3                       | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieLongFunction}                     | T a1,int a2,long a3                      | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LTieSrtFunction}                      | T a1,int a2,short a3                     | int        |
  * | {@link eu.lunisolar.magma.func.function.to.LToByteBiFunction}                    | T1 a1,T2 a2                              | byte       |
- * | {@link eu.lunisolar.magma.func.function.to.LToByteBiFunctionX}                   | T1 a1,T2 a2                              | byte       |
  * | {@link eu.lunisolar.magma.func.function.to.LToByteFunction}                      | T a                                      | byte       |
- * | {@link eu.lunisolar.magma.func.function.to.LToByteFunctionX}                     | T a                                      | byte       |
  * | {@link eu.lunisolar.magma.func.function.to.LToCharBiFunction}                    | T1 a1,T2 a2                              | char       |
- * | {@link eu.lunisolar.magma.func.function.to.LToCharBiFunctionX}                   | T1 a1,T2 a2                              | char       |
  * | {@link eu.lunisolar.magma.func.function.to.LToCharFunction}                      | T a                                      | char       |
- * | {@link eu.lunisolar.magma.func.function.to.LToCharFunctionX}                     | T a                                      | char       |
- * | {@link eu.lunisolar.magma.func.function.to.LToDoubleBiFunction}                  | T1 a1,T2 a2                              | double     |
- * | {@link eu.lunisolar.magma.func.function.to.LToDoubleBiFunctionX}                 | T1 a1,T2 a2                              | double     |
- * | {@link eu.lunisolar.magma.func.function.to.LToDoubleFunction}                    | T a                                      | double     |
- * | {@link eu.lunisolar.magma.func.function.to.LToDoubleFunctionX}                   | T a                                      | double     |
- * | {@link eu.lunisolar.magma.func.function.to.LToFloatBiFunction}                   | T1 a1,T2 a2                              | float      |
- * | {@link eu.lunisolar.magma.func.function.to.LToFloatBiFunctionX}                  | T1 a1,T2 a2                              | float      |
- * | {@link eu.lunisolar.magma.func.function.to.LToFloatFunction}                     | T a                                      | float      |
- * | {@link eu.lunisolar.magma.func.function.to.LToFloatFunctionX}                    | T a                                      | float      |
+ * | {@link eu.lunisolar.magma.func.function.to.LToDblBiFunction}                     | T1 a1,T2 a2                              | double     |
+ * | {@link eu.lunisolar.magma.func.function.to.LToDblFunction}                       | T a                                      | double     |
+ * | {@link eu.lunisolar.magma.func.function.to.LToFltBiFunction}                     | T1 a1,T2 a2                              | float      |
+ * | {@link eu.lunisolar.magma.func.function.to.LToFltFunction}                       | T a                                      | float      |
  * | {@link eu.lunisolar.magma.func.function.to.LToIntBiFunction}                     | T1 a1,T2 a2                              | int        |
- * | {@link eu.lunisolar.magma.func.function.to.LToIntBiFunctionX}                    | T1 a1,T2 a2                              | int        |
  * | {@link eu.lunisolar.magma.func.function.to.LToIntFunction}                       | T a                                      | int        |
- * | {@link eu.lunisolar.magma.func.function.to.LToIntFunctionX}                      | T a                                      | int        |
+ * | {@link eu.lunisolar.magma.func.function.to.LToIntTriFunction}                    | T1 a1,T2 a2,T3 a3                        | int        |
  * | {@link eu.lunisolar.magma.func.function.to.LToLongBiFunction}                    | T1 a1,T2 a2                              | long       |
- * | {@link eu.lunisolar.magma.func.function.to.LToLongBiFunctionX}                   | T1 a1,T2 a2                              | long       |
  * | {@link eu.lunisolar.magma.func.function.to.LToLongFunction}                      | T a                                      | long       |
- * | {@link eu.lunisolar.magma.func.function.to.LToLongFunctionX}                     | T a                                      | long       |
- * | {@link eu.lunisolar.magma.func.function.to.LToShortBiFunction}                   | T1 a1,T2 a2                              | short      |
- * | {@link eu.lunisolar.magma.func.function.to.LToShortBiFunctionX}                  | T1 a1,T2 a2                              | short      |
- * | {@link eu.lunisolar.magma.func.function.to.LToShortFunction}                     | T a                                      | short      |
- * | {@link eu.lunisolar.magma.func.function.to.LToShortFunctionX}                    | T a                                      | short      |
+ * | {@link eu.lunisolar.magma.func.function.to.LToSrtBiFunction}                     | T1 a1,T2 a2                              | short      |
+ * | {@link eu.lunisolar.magma.func.function.to.LToSrtFunction}                       | T a                                      | short      |
  * | {@link eu.lunisolar.magma.func.predicate.LBiBytePredicate}                       | byte a1,byte a2                          | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiBytePredicateX}                      | byte a1,byte a2                          | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiCharPredicate}                       | char a1,char a2                          | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiCharPredicateX}                      | char a1,char a2                          | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiDoublePredicate}                     | double a1,double a2                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiDoublePredicateX}                    | double a1,double a2                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiFloatPredicate}                      | float a1,float a2                        | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiFloatPredicateX}                     | float a1,float a2                        | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiDblPredicate}                        | double a1,double a2                      | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiFltPredicate}                        | float a1,float a2                        | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiIntPredicate}                        | int a1,int a2                            | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiIntPredicateX}                       | int a1,int a2                            | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiLongPredicate}                       | long a1,long a2                          | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiLongPredicateX}                      | long a1,long a2                          | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiObjBoolPredicate}                    | T1 a1,T2 a2,boolean a3                   | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjBoolPredicateX}                   | T1 a1,T2 a2,boolean a3                   | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiObjBytePredicate}                    | T1 a1,T2 a2,byte a3                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjBytePredicateX}                   | T1 a1,T2 a2,byte a3                      | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiObjCharPredicate}                    | T1 a1,T2 a2,char a3                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjCharPredicateX}                   | T1 a1,T2 a2,char a3                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjDoublePredicate}                  | T1 a1,T2 a2,double a3                    | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjDoublePredicateX}                 | T1 a1,T2 a2,double a3                    | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjFloatPredicate}                   | T1 a1,T2 a2,float a3                     | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjFloatPredicateX}                  | T1 a1,T2 a2,float a3                     | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiObjDblPredicate}                     | T1 a1,T2 a2,double a3                    | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiObjFltPredicate}                     | T1 a1,T2 a2,float a3                     | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiObjIntPredicate}                     | T1 a1,T2 a2,int a3                       | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjIntPredicateX}                    | T1 a1,T2 a2,int a3                       | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiObjLongPredicate}                    | T1 a1,T2 a2,long a3                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjLongPredicateX}                   | T1 a1,T2 a2,long a3                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjShortPredicate}                   | T1 a1,T2 a2,short a3                     | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjShortPredicateX}                  | T1 a1,T2 a2,short a3                     | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiObjSrtPredicate}                     | T1 a1,T2 a2,short a3                     | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBiPredicate}                           | T1 a1,T2 a2                              | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiPredicateX}                          | T1 a1,T2 a2                              | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiShortPredicate}                      | short a1,short a2                        | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBiShortPredicateX}                     | short a1,short a2                        | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiSrtPredicate}                        | short a1,short a2                        | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBoolIntPredicate}                      | boolean a1,int a2                        | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LByteIntPredicate}                      | byte a1,int a2                           | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LBytePredicate}                         | byte a                                   | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LBytePredicateX}                        | byte a                                   | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LCharIntPredicate}                      | char a1,int a2                           | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LCharPredicate}                         | char a                                   | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LCharPredicateX}                        | char a                                   | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LDoublePredicate}                       | double a                                 | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LDoublePredicateX}                      | double a                                 | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LFloatPredicate}                        | float a                                  | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LFloatPredicateX}                       | float a                                  | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LDblIntPredicate}                       | double a1,int a2                         | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LDblPredicate}                          | double a                                 | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LFltIntPredicate}                       | float a1,int a2                          | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LFltPredicate}                          | float a                                  | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LIntPredicate}                          | int a                                    | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LIntPredicateX}                         | int a                                    | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LLongIntPredicate}                      | long a1,int a2                           | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LLongPredicate}                         | long a                                   | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LLongPredicateX}                        | long a                                   | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjBiIntPredicate}                     | T a1,int a2,int a3                       | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjBoolPredicate}                      | T a1,boolean a2                          | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjBoolPredicateX}                     | T a1,boolean a2                          | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjBytePredicate}                      | T a1,byte a2                             | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjBytePredicateX}                     | T a1,byte a2                             | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjCharPredicate}                      | T a1,char a2                             | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjCharPredicateX}                     | T a1,char a2                             | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjDoublePredicate}                    | T a1,double a2                           | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjDoublePredicateX}                   | T a1,double a2                           | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjFloatPredicate}                     | T a1,float a2                            | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjFloatPredicateX}                    | T a1,float a2                            | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjDblPredicate}                       | T a1,double a2                           | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjFltPredicate}                       | T a1,float a2                            | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntBoolPredicate}                   | T a1,int a2,boolean a3                   | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntBytePredicate}                   | T a1,int a2,byte a3                      | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntCharPredicate}                   | T a1,int a2,char a3                      | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntDblPredicate}                    | T a1,int a2,double a3                    | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntFltPredicate}                    | T a1,int a2,float a3                     | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntLongPredicate}                   | T a1,int a2,long a3                      | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntObjPredicate}                    | T1 a1,int a2,T2 a3                       | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjIntPredicate}                       | T a1,int a2                              | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjIntPredicateX}                      | T a1,int a2                              | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjIntSrtPredicate}                    | T a1,int a2,short a3                     | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjLongPredicate}                      | T a1,long a2                             | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjLongPredicateX}                     | T a1,long a2                             | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjShortPredicate}                     | T a1,short a2                            | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LObjShortPredicateX}                    | T a1,short a2                            | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjSrtPredicate}                       | T a1,short a2                            | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LPredicate}                             | T a                                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LPredicateX}                            | T a                                      | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LShortPredicate}                        | short a                                  | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LShortPredicateX}                       | short a                                  | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LSrtIntPredicate}                       | short a1,int a2                          | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LSrtPredicate}                          | short a                                  | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LTriPredicate}                          | T1 a1,T2 a2,T3 a3                        | boolean    |
- * | {@link eu.lunisolar.magma.func.predicate.LTriPredicateX}                         | T1 a1,T2 a2,T3 a3                        | boolean    |
  * | {@link eu.lunisolar.magma.func.supplier.LBoolSupplier}                           |                                          | boolean    |
- * | {@link eu.lunisolar.magma.func.supplier.LBoolSupplierX}                          |                                          | boolean    |
  * | {@link eu.lunisolar.magma.func.supplier.LByteSupplier}                           |                                          | byte       |
- * | {@link eu.lunisolar.magma.func.supplier.LByteSupplierX}                          |                                          | byte       |
  * | {@link eu.lunisolar.magma.func.supplier.LCharSupplier}                           |                                          | char       |
- * | {@link eu.lunisolar.magma.func.supplier.LCharSupplierX}                          |                                          | char       |
- * | {@link eu.lunisolar.magma.func.supplier.LDoubleSupplier}                         |                                          | double     |
- * | {@link eu.lunisolar.magma.func.supplier.LDoubleSupplierX}                        |                                          | double     |
- * | {@link eu.lunisolar.magma.func.supplier.LFloatSupplier}                          |                                          | float      |
- * | {@link eu.lunisolar.magma.func.supplier.LFloatSupplierX}                         |                                          | float      |
+ * | {@link eu.lunisolar.magma.func.supplier.LDblSupplier}                            |                                          | double     |
+ * | {@link eu.lunisolar.magma.func.supplier.LFltSupplier}                            |                                          | float      |
  * | {@link eu.lunisolar.magma.func.supplier.LIntSupplier}                            |                                          | int        |
- * | {@link eu.lunisolar.magma.func.supplier.LIntSupplierX}                           |                                          | int        |
  * | {@link eu.lunisolar.magma.func.supplier.LLongSupplier}                           |                                          | long       |
- * | {@link eu.lunisolar.magma.func.supplier.LLongSupplierX}                          |                                          | long       |
- * | {@link eu.lunisolar.magma.func.supplier.LShortSupplier}                          |                                          | short      |
- * | {@link eu.lunisolar.magma.func.supplier.LShortSupplierX}                         |                                          | short      |
+ * | {@link eu.lunisolar.magma.func.supplier.LSrtSupplier}                            |                                          | short      |
  * | {@link eu.lunisolar.magma.func.supplier.LSupplier}                               |                                          | T          |
- * | {@link eu.lunisolar.magma.func.supplier.LSupplierX}                              |                                          | T          |
  * | Runnable                                                                                                                 |                                                                                  | void       |
  * | BiConsumer                                                                                                               | T1 a1,T2 a2                                                                      | void       |
  * | Consumer                                                                                                                 | T a                                                                              | void       |

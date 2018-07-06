@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.ToDoubleBiFunctionBuilder.toDoubleBiFunction;
-import static eu.lunisolar.magma.func.build.std.ToDoubleBiFunctionBuilder.toDoubleBiFunctionFrom;
+import static eu.lunisolar.magma.func.build.std.ToDoubleBiFunctionBuilder.toDblBiFunction;
+import static eu.lunisolar.magma.func.build.std.ToDoubleBiFunctionBuilder.toDblBiFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class ToDoubleBiFunctionBuilderTest<T1,T2>{
@@ -66,7 +65,7 @@ public class ToDoubleBiFunctionBuilderTest<T1,T2>{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            ToDoubleBiFunction<Integer,Integer> function = toDoubleBiFunctionFrom(b-> b
+            ToDoubleBiFunction<Integer,Integer> function = toDblBiFunctionFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class ToDoubleBiFunctionBuilderTest<T1,T2>{
 
 
         assertThatThrownBy(() -> {
-            ToDoubleBiFunction<Integer,Integer> function = toDoubleBiFunctionFrom(b-> b
+            ToDoubleBiFunction<Integer,Integer> function = toDblBiFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class ToDoubleBiFunctionBuilderTest<T1,T2>{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            ToDoubleBiFunction<Integer,Integer> function = toDoubleBiFunctionFrom(b -> b
+            ToDoubleBiFunction<Integer,Integer> function = toDblBiFunctionFrom(b -> b
                 .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class ToDoubleBiFunctionBuilderTest<T1,T2>{
     @Test
     public void testBuild()  {
 
-        ToDoubleBiFunction<Integer,Integer> function = toDoubleBiFunctionFrom( b -> b
+        ToDoubleBiFunction<Integer,Integer> function = toDblBiFunctionFrom( b -> b
             .aCase(ce -> ce.of((a1,a2) -> a1 == 0)
                              .evaluate((a1,a2) -> 0d))
             .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> 1d)
@@ -128,11 +127,11 @@ public class ToDoubleBiFunctionBuilderTest<T1,T2>{
         );
 
 
-        A.assertThat(function)
-            .doesApplyAsDouble(0,0).when(null).to(a -> a.isEqualTo(0d))
-            .doesApplyAsDouble(5,5).when(null).to(a -> a.isEqualTo(1d))
-            .doesApplyAsDouble(15,15).when(null).to(a -> a.isEqualTo(2d))
-            .doesApplyAsDouble(10,10).when(null).to(a -> a.isEqualTo(99d))
+        A.assertToDblBiFunc(function)
+            .doesApplyAsDbl(0,0).when(null).to(a -> a.isEqualTo(0d))
+            .doesApplyAsDbl(5,5).when(null).to(a -> a.isEqualTo(1d))
+            .doesApplyAsDbl(15,15).when(null).to(a -> a.isEqualTo(2d))
+            .doesApplyAsDbl(10,10).when(null).to(a -> a.isEqualTo(99d))
         ;
 
     }

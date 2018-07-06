@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for Predicate. */
+/**
+ * Builder for Predicate.
+ */
 public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Base<PredicateBuilder<T>, LPredicate<T>, Predicate<T>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final Predicate EVENTUALLY_THROW = Function4U.predicate(a -> {
+	public static final Predicate EVENTUALLY_THROW = Function4U.pred(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 		Predicate<T> retval;
 
 		final Case<LPredicate<T>, Predicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> predicate(a -> {
+		retval = Function4U.<T> pred(a -> {
 			try {
 				for (Case<LPredicate<T>, Predicate<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

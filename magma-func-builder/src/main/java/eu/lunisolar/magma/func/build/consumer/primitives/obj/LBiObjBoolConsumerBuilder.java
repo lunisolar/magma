@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LBiObjBoolConsumer. */
+/**
+ * Builder for LBiObjBoolConsumer.
+ */
 public final class LBiObjBoolConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<LBiObjBoolConsumerBuilder<T1, T2>, LBiObjBoolPredicate<T1, T2>, LBiObjBoolConsumer<T1, T2>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LBiObjBoolConsumerBuilder<T1, T2> extends PerCaseBuilder.Base
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiObjBoolConsumer EVENTUALLY_THROW = LBiObjBoolConsumer.l((a1, a2, a3) -> {
+	public static final LBiObjBoolConsumer EVENTUALLY_THROW = LBiObjBoolConsumer.biObjBoolCons((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LBiObjBoolConsumerBuilder<T1, T2> extends PerCaseBuilder.Base
 		LBiObjBoolConsumer<T1, T2> retval;
 
 		final Case<LBiObjBoolPredicate<T1, T2>, LBiObjBoolConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjBoolConsumer.<T1, T2> l((a1, a2, a3) -> {
+		retval = LBiObjBoolConsumer.<T1, T2> biObjBoolCons((a1, a2, a3) -> {
 			try {
 				for (Case<LBiObjBoolPredicate<T1, T2>, LBiObjBoolConsumer<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2, a3)) {

@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LLongSupplierTest<X extends ParseException> {
+public class LLongSupplierTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,35 +65,33 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     private LLongSupplier sut = new LLongSupplier(){
-        public  long doGetAsLong()  {
+        public  long doGetAsLongX()  {
             return testValue;
         }
     };
 
-    private LLongSupplierX<X> opposite = new LLongSupplierX<X>(){
-        public  long doGetAsLong()  throws X {
-            return testValue;
-        }
-    };
 
 
     private LongSupplier jre = () -> testValue;
 
 
+    private LLongSupplier sutAlwaysThrowing = LLongSupplier.longSup(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LLongSupplierX<RuntimeException> sutAlwaysThrowingUnchecked = LLongSupplier.l(() -> {
+    private LLongSupplier sutAlwaysThrowingUnchecked = LLongSupplier.longSup(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doGetAsLong())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LTuple.Void domainObject = Tuple4U.tuple();
 
@@ -104,13 +102,13 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoGetAsLong() throws X {
+    public void testNonNullDoGetAsLong() throws Throwable {
         assertThat(sut.nonNullDoGetAsLong())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsLongUnchecked() throws X {
+    public void testNestingDoGetAsLongUnchecked() throws Throwable {
 
         // then
         try {
@@ -125,7 +123,7 @@ public class LLongSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsLongUnchecked() throws X {
+    public void testShovingDoGetAsLongUnchecked() throws Throwable {
 
         // then
         try {
@@ -141,169 +139,25 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LLongSupplier: long doGetAsLong()");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LLongSupplier.l(() -> testValue ))
+    public void testLongSupMethod() throws Throwable {
+        assertThat(LLongSupplier.longSup(() -> testValue ))
             .isInstanceOf(LLongSupplier.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LLongSupplier.wrap(opposite))
-            .isInstanceOf(LLongSupplier.class);
-    }
 
     @Test
-    public void testWrapStdMethod() throws X {
+    public void testWrapStdMethod() throws Throwable {
         assertThat(LLongSupplier.wrap(jre))
             .isInstanceOf(LLongSupplier.class);
     }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LLongSupplierX<X> sutThrowing = LLongSupplierX.lX(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LLongSupplier wrapped = LLongSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LLongSupplierX<ParseException> sutThrowing = LLongSupplierX.lX(() -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LLongSupplier wrapped = LLongSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void testHandlingDoGetAsLongMethodWrapsTheException() throws X {
-
-        // given
-        LLongSupplier sutThrowing = LLongSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LLongSupplier wrapped = sutThrowing.handleLongSup(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleLongSupMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LLongSupplier sutThrowing = LLongSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LLongSupplier wrapped = sutThrowing.handleLongSup(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleLongSupMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LLongSupplier sutThrowing = LLongSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LLongSupplier wrapped = sutThrowing.handleLongSup(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleLongSupMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LLongSupplier sutThrowing = LLongSupplier.l(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LLongSupplier wrapped = sutThrowing.handleLongSup(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
@@ -311,7 +165,7 @@ public class LLongSupplierTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testToSup0() throws X  {
+    public void testToSup0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -344,7 +198,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToByteSup1() throws X  {
+    public void testToByteSup1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -377,7 +231,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToShortSup2() throws X  {
+    public void testToSrtSup2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -388,7 +242,7 @@ public class LLongSupplierTest<X extends ParseException> {
                 return 90L;
         };
 
-        LLongToShortFunction thenFunction = p -> {
+        LLongToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
                 assertThat(p).isEqualTo(90L);
@@ -397,8 +251,8 @@ public class LLongSupplierTest<X extends ParseException> {
         };
 
         //when
-        LShortSupplier function = sutO.toShortSup(thenFunction);
-        short finalValue = function.doGetAsShort();
+        LSrtSupplier function = sutO.toSrtSup(thenFunction);
+        short finalValue = function.doGetAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -410,7 +264,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToIntSup3() throws X  {
+    public void testToIntSup3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,7 +297,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToLongSup4() throws X  {
+    public void testToLongSup4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -476,7 +330,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToFloatSup5() throws X  {
+    public void testToFltSup5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -487,7 +341,7 @@ public class LLongSupplierTest<X extends ParseException> {
                 return 90L;
         };
 
-        LLongToFloatFunction thenFunction = p -> {
+        LLongToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
                 assertThat(p).isEqualTo(90L);
@@ -496,8 +350,8 @@ public class LLongSupplierTest<X extends ParseException> {
         };
 
         //when
-        LFloatSupplier function = sutO.toFloatSup(thenFunction);
-        float finalValue = function.doGetAsFloat();
+        LFltSupplier function = sutO.toFltSup(thenFunction);
+        float finalValue = function.doGetAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -509,7 +363,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToDoubleSup6() throws X  {
+    public void testToDblSup6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -520,7 +374,7 @@ public class LLongSupplierTest<X extends ParseException> {
                 return 90L;
         };
 
-        LLongToDoubleFunction thenFunction = p -> {
+        LLongToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
                 assertThat(p).isEqualTo(90L);
@@ -529,8 +383,8 @@ public class LLongSupplierTest<X extends ParseException> {
         };
 
         //when
-        LDoubleSupplier function = sutO.toDoubleSup(thenFunction);
-        double finalValue = function.doGetAsDouble();
+        LDblSupplier function = sutO.toDblSup(thenFunction);
+        double finalValue = function.doGetAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -542,7 +396,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToCharSup7() throws X  {
+    public void testToCharSup7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -575,7 +429,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToBoolSup8() throws X  {
+    public void testToBoolSup8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -623,25 +477,12 @@ public class LLongSupplierTest<X extends ParseException> {
             .isInstanceOf(LLongSupplier.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingLongSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LLongSupplierX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingLongSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LLongSupplierX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LLongSupplier sutThrowing = LLongSupplier.l(() -> {
+        LLongSupplier sutThrowing = LLongSupplier.longSup(() -> {
             throw new UnsupportedOperationException();
         });
 
@@ -649,33 +490,9 @@ public class LLongSupplierTest<X extends ParseException> {
         sutThrowing.shovingLongSup().doGetAsLong();
     }
 
-    @Test
-    public void testHandleLongSup() throws X {
-
-        // given
-        LLongSupplier sutThrowing = LLongSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LLongSupplier wrapped = sutThrowing.handleLongSup(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -695,7 +512,6 @@ public class LLongSupplierTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LLongSupplier r1 = LLongSupplier.safe(sut); //NOSONAR
-        LLongSupplierX r2 = LLongSupplier.safe(sut); //NOSONAR
         LongSupplier r3 = LLongSupplier.safe(sut); //NOSONAR
     }
 
@@ -706,7 +522,7 @@ public class LLongSupplierTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LLongSupplier.safe(null);
-        assertThat(result).isSameAs(LLongSupplier.l(LLongSupplier.safe()));
+        assertThat(result).isSameAs(LLongSupplier.longSup(LLongSupplier.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

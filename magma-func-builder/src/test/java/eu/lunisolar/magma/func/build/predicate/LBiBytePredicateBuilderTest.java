@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LBiBytePredicateBuilder.biBytePredicate;
 import static eu.lunisolar.magma.func.build.predicate.LBiBytePredicateBuilder.biBytePredicateFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiBytePredicateBuilderTest<X extends ParseException>{
+public class LBiBytePredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LBiBytePredicateBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertBiBytePred(function)
             .doesTest((byte)0,(byte)0).when(null).to(a -> a.isEqualTo(false))
             .doesTest((byte)5,(byte)5).when(null).to(a -> a.isEqualTo(true))
         ;

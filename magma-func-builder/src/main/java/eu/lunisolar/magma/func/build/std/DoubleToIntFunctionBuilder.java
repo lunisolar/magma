@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoubleToIntFunction. */
-public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<DoubleToIntFunctionBuilder, LDoublePredicate, DoubleToIntFunction> {
+/**
+ * Builder for DoubleToIntFunction.
+ */
+public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<DoubleToIntFunctionBuilder, LDblPredicate, DoubleToIntFunction> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoubleToIntFunction> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleToIntFunction EVENTUALLY_THROW = Function4U.doubleToIntFunction(a -> {
+	public static final DoubleToIntFunction EVENTUALLY_THROW = Function4U.dblToIntFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleToIntFunctionBuilder(@Nullable Consumer<DoubleToIntFunction> consumer) {
-		super(EVENTUALLY_THROW, LDoubleToIntFunction::constant, () -> new DoubleToIntFunctionBuilder(null));
+		super(EVENTUALLY_THROW, LDblToIntFunction::constant, () -> new DoubleToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static DoubleToIntFunctionBuilder doubleToIntFunction() {
+	public static DoubleToIntFunctionBuilder dblToIntFunction() {
 		return new DoubleToIntFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleToIntFunction doubleToIntFunctionFrom(Function<DoubleToIntFunctionBuilder, DoubleToIntFunction> buildingFunction) {
+	public static DoubleToIntFunction dblToIntFunctionFrom(Function<DoubleToIntFunctionBuilder, DoubleToIntFunction> buildingFunction) {
 		return buildingFunction.apply(new DoubleToIntFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleToIntFunctionBuilder doubleToIntFunction(Consumer<DoubleToIntFunction> consumer) {
+	public static DoubleToIntFunctionBuilder dblToIntFunction(Consumer<DoubleToIntFunction> consumer) {
 		return new DoubleToIntFunctionBuilder(consumer);
 	}
 
@@ -107,10 +109,10 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 
 		DoubleToIntFunction retval;
 
-		final Case<LDoublePredicate, DoubleToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleToIntFunction(a -> {
+		final Case<LDblPredicate, DoubleToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.dblToIntFunc(a -> {
 			try {
-				for (Case<LDoublePredicate, DoubleToIntFunction> aCase : casesArray) {
+				for (Case<LDblPredicate, DoubleToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {
 						return aCase.caseFunction().applyAsInt(a);
 					}

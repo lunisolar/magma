@@ -52,12 +52,17 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreLongToDoubleFunctionAssert<S extends JreLongToDoubleFunctionAssert<S, A, RS>, A extends LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LLongConsumer, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDouble(long a);
+	public static <A extends LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> JreLongToDoubleFunctionAssert.The<A, RS> assertLongToDblFunc(LongToDoubleFunction func) {
+		return new JreLongToDoubleFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDbl(long a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public The(A actual, LDoubleFunction<RS> assertFactory) {
+		public The(A actual, LDblFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
@@ -65,15 +70,15 @@ public interface JreLongToDoubleFunctionAssert<S extends JreLongToDoubleFunction
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
 	class Base<S extends Base<S, A, RS>, A extends LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LLongConsumer, A, RS, Double> implements JreLongToDoubleFunctionAssert<S, A, RS> {
 
-		protected final LDoubleFunction<RS> assertFactory;
+		protected final LDblFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, LDoubleFunction<RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LDblFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDouble(long a) {
+		public Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDbl(long a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

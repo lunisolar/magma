@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.from.LBoolFunctionBuilder.boolFunction;
 import static eu.lunisolar.magma.func.build.function.from.LBoolFunctionBuilder.boolFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBoolFunctionBuilderTest<R,X extends ParseException>{
+public class LBoolFunctionBuilderTest<R>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -127,7 +126,7 @@ public class LBoolFunctionBuilderTest<R,X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertBoolFunc(function)
             .doesApply(false).when(null).to(a -> a.isEqualTo(0))
             .doesApply(true).when(null).to(a -> a.isEqualTo(1))
         ;

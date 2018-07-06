@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LUnaryOperatorTest<T,X extends ParseException> {
+public class LUnaryOperatorTest<T> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,19 +65,14 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     private LUnaryOperator<Integer> sut = new LUnaryOperator<Integer>(){
-        public @Nullable Integer doApply(Integer a)  {
+        public @Nullable Integer doApplyX(Integer a)  {
             return testValue;
         }
     };
 
-    private LUnaryOperatorX<Integer,X> opposite = new LUnaryOperatorX<Integer,X>(){
-        public @Nullable Integer doApply(Integer a)  throws X {
-            return testValue;
-        }
-    };
 
     private LUnaryOperator<Integer> sutNull = new LUnaryOperator<Integer>(){
-        public @Nullable Integer doApply(Integer a)  {
+        public @Nullable Integer doApplyX(Integer a)  {
             return null;
         }
     };
@@ -86,20 +81,23 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     private UnaryOperator<Integer> jre = a -> testValue;
 
 
+    private LUnaryOperator<Integer> sutAlwaysThrowing = LUnaryOperator.unaryOp(a -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LUnaryOperatorX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LUnaryOperator.l(a -> {
+    private LUnaryOperator<Integer> sutAlwaysThrowingUnchecked = LUnaryOperator.unaryOp(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LSingle<Integer> domainObject = Tuple4U.single(100);
 
@@ -110,13 +108,13 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply(100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -131,7 +129,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -146,175 +144,31 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LUnaryOperator: T doApply(T a)).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoApply(100);
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LUnaryOperator: T doApply(T a)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LUnaryOperator.l(a -> testValue ))
+    public void testUnaryOpMethod() throws Throwable {
+        assertThat(LUnaryOperator.unaryOp(a -> testValue ))
             .isInstanceOf(LUnaryOperator.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LUnaryOperator.wrap(opposite))
-            .isInstanceOf(LUnaryOperator.class);
-    }
 
     @Test
-    public void testWrapStdMethod() throws X {
+    public void testWrapStdMethod() throws Throwable {
         assertThat(LUnaryOperator.wrap(jre))
             .isInstanceOf(LUnaryOperator.class);
     }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LUnaryOperatorX<Integer,X> sutThrowing = LUnaryOperatorX.lX(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LUnaryOperator<Integer> wrapped = LUnaryOperator.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LUnaryOperatorX<Integer,ParseException> sutThrowing = LUnaryOperatorX.lX(a -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LUnaryOperator<Integer> wrapped = LUnaryOperator.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LUnaryOperator<Integer> wrapped = sutThrowing.handleUnaryOp(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleUnaryOpMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LUnaryOperator<Integer> wrapped = sutThrowing.handleUnaryOp(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleUnaryOpMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LUnaryOperator<Integer> wrapped = sutThrowing.handleUnaryOp(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleUnaryOpMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LUnaryOperator<Integer> wrapped = sutThrowing.handleUnaryOp(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
@@ -322,7 +176,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -356,7 +210,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToByte1() throws X  {
+    public void testThenToByte1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -390,7 +244,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToShort2() throws X  {
+    public void testThenToSrt2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -402,7 +256,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
                 return 90;
         };
 
-        LToShortFunction<Integer> thenFunction = p -> {
+        LToSrtFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
                 assertThat(p).isEqualTo(90);
@@ -411,8 +265,8 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         };
 
         //when
-        LToShortFunction<Integer> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.doApplyAsShort(80);
+        LToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
+        short finalValue = function.doApplyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -424,7 +278,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToInt3() throws X  {
+    public void testThenToInt3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -458,7 +312,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToLong4() throws X  {
+    public void testThenToLong4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -492,7 +346,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToFloat5() throws X  {
+    public void testThenToFlt5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -504,7 +358,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
                 return 90;
         };
 
-        LToFloatFunction<Integer> thenFunction = p -> {
+        LToFltFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
                 assertThat(p).isEqualTo(90);
@@ -513,8 +367,8 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         };
 
         //when
-        LToFloatFunction<Integer> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.doApplyAsFloat(80);
+        LToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
+        float finalValue = function.doApplyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -526,7 +380,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToDouble6() throws X  {
+    public void testThenToDbl6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -538,7 +392,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
                 return 90;
         };
 
-        LToDoubleFunction<Integer> thenFunction = p -> {
+        LToDblFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
                 assertThat(p).isEqualTo(90);
@@ -547,8 +401,8 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         };
 
         //when
-        LToDoubleFunction<Integer> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.doApplyAsDouble(80);
+        LToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
+        double finalValue = function.doApplyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -560,7 +414,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToChar7() throws X  {
+    public void testThenToChar7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -594,7 +448,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToBool8() throws X  {
+    public void testThenToBool8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -629,7 +483,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
     // </editor-fold>
     @Test
-    public void identity() throws X {
+    public void identity() throws Throwable {
         LUnaryOperator<Integer> identityFunction = LUnaryOperator.identity();
 
         assertThat(identityFunction.doApply(8)).isEqualTo(8);
@@ -650,25 +504,12 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
             .isInstanceOf(LUnaryOperator.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingUnaryOpX())
-            .isSameAs(sut)
-            .isInstanceOf(LUnaryOperatorX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingUnaryOpX())
-            .isSameAs(sut)
-            .isInstanceOf(LUnaryOperatorX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
+        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.unaryOp(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -676,33 +517,9 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
         sutThrowing.shovingUnaryOp().doApply(100);
     }
 
-    @Test
-    public void testHandleUnaryOp() throws X {
-
-        // given
-        LUnaryOperator<Integer> sutThrowing = LUnaryOperator.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LUnaryOperator<Integer> wrapped = sutThrowing.handleUnaryOp(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -722,7 +539,6 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
     @Test void safeCompiles() {
         LUnaryOperator r1 = LUnaryOperator.safe(sut); //NOSONAR
-        LUnaryOperatorX r2 = LUnaryOperator.safe(sut); //NOSONAR
         UnaryOperator r3 = LUnaryOperator.safe(sut); //NOSONAR
     }
 
@@ -733,7 +549,7 @@ public class LUnaryOperatorTest<T,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LUnaryOperator.safe(null);
-        assertThat(result).isSameAs(LUnaryOperator.l(LUnaryOperator.safe()));
+        assertThat(result).isSameAs(LUnaryOperator.unaryOp(LUnaryOperator.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

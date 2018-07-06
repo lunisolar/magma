@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LObjBoolFunctionAssert<S extends LObjBoolFunctionAssert<S, A, RS, T, R>, A extends LObjBoolFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LObjBoolConsumer<T>, A, RS, R> {
 
 	@Nonnull
+	public static <A extends LObjBoolFunction<T, R>, RS extends Assert<RS, R>, T, R> LObjBoolFunctionAssert.The<A, RS, T, R> assertObjBoolFunc(LObjBoolFunction<T, R> func) {
+		return new LObjBoolFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LObjBoolConsumer<T>, A, RS, R> doesApply(T a1, boolean a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

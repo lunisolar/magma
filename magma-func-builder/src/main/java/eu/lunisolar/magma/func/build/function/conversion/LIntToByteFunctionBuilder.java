@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LIntToByteFunction. */
+/**
+ * Builder for LIntToByteFunction.
+ */
 public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<LIntToByteFunctionBuilder, LIntPredicate, LIntToByteFunction> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToByteFunction EVENTUALLY_THROW = LIntToByteFunction.l(a -> {
+	public static final LIntToByteFunction EVENTUALLY_THROW = LIntToByteFunction.intToByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 		LIntToByteFunction retval;
 
 		final Case<LIntPredicate, LIntToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToByteFunction.l(a -> {
+		retval = LIntToByteFunction.intToByteFunc(a -> {
 			try {
 				for (Case<LIntPredicate, LIntToByteFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

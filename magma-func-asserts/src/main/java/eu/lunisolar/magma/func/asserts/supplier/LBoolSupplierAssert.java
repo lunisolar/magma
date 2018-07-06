@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolSupplierAssert<S extends LBoolSupplierAssert<S, A, RS>, A extends LBoolSupplier, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LAction, A, RS, Boolean> {
 
 	@Nonnull
+	public static <A extends LBoolSupplier, RS extends AbstractBooleanAssert<RS>> LBoolSupplierAssert.The<A, RS> assertBoolSup(LBoolSupplier func) {
+		return new LBoolSupplierAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LAction, A, RS, Boolean> doesGetAsBool();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

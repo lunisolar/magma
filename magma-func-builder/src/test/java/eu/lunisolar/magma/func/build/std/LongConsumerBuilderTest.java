@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.LongConsumerBuilder.longConsumer;
 import static eu.lunisolar.magma.func.build.std.LongConsumerBuilder.longConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -129,7 +128,7 @@ public class LongConsumerBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertLongCons(function)
             .doesAccept(0L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

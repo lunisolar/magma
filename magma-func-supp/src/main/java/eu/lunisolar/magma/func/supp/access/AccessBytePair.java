@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -80,14 +80,14 @@ public interface AccessBytePair {
 		accessFunction.doAccept(tuple.second(), tuple.first());
 	}
 
-	default void useWith(LBiByteConsumer.V1 accessFunction) {
+	default void useWith(LBiByteConsumer.LByte1Byte0Cons accessFunction) {
 		LBytePair tuple = accessBytePair();
-		accessFunction.doAcceptV1(tuple.first(), tuple.second());
+		accessFunction.doAcceptByte1Byte0(tuple.first(), tuple.second());
 	}
 
-	default void useWithO1(LBiByteConsumer.V1 accessFunction) {
+	default void useWithO1(LBiByteConsumer.LByte1Byte0Cons accessFunction) {
 		LBytePair tuple = accessBytePair();
-		accessFunction.doAcceptV1(tuple.second(), tuple.first());
+		accessFunction.doAcceptByte1Byte0(tuple.second(), tuple.first());
 	}
 
 	default byte useWith(LByteBinaryOperator accessFunction) {
@@ -118,16 +118,16 @@ public interface AccessBytePair {
 		return retval;
 	}
 
-	default <R> R useWith(LBiByteFunction.V1<R> accessFunction) {
+	default <R> R useWith(LBiByteFunction.LByte1Byte0Func<R> accessFunction) {
 		LBytePair tuple = accessBytePair();
-		R retval = accessFunction.doApplyV1(tuple.first(), tuple.second());
+		R retval = accessFunction.doApplyByte1Byte0(tuple.first(), tuple.second());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
-	default <R> R useWithO1(LBiByteFunction.V1<R> accessFunction) {
+	default <R> R useWithO1(LBiByteFunction.LByte1Byte0Func<R> accessFunction) {
 		LBytePair tuple = accessBytePair();
-		R retval = accessFunction.doApplyV1(tuple.second(), tuple.first());
+		R retval = accessFunction.doApplyByte1Byte0(tuple.second(), tuple.first());
 		releaseBytePair(tuple);
 		return retval;
 	}
@@ -146,16 +146,16 @@ public interface AccessBytePair {
 		return retval;
 	}
 
-	default boolean useWith(LBiBytePredicate.V1 accessFunction) {
+	default boolean useWith(LBiBytePredicate.LByte1Byte0Pred accessFunction) {
 		LBytePair tuple = accessBytePair();
-		boolean retval = accessFunction.doTestV1(tuple.first(), tuple.second());
+		boolean retval = accessFunction.doTestByte1Byte0(tuple.first(), tuple.second());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
-	default boolean useWithO1(LBiBytePredicate.V1 accessFunction) {
+	default boolean useWithO1(LBiBytePredicate.LByte1Byte0Pred accessFunction) {
 		LBytePair tuple = accessBytePair();
-		boolean retval = accessFunction.doTestV1(tuple.second(), tuple.first());
+		boolean retval = accessFunction.doTestByte1Byte0(tuple.second(), tuple.first());
 		releaseBytePair(tuple);
 		return retval;
 	}

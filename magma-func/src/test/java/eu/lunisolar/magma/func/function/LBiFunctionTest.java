@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
+public class LBiFunctionTest<T1,T2,R> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,19 +65,14 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
 
 
     private LBiFunction<Integer,Integer,Integer> sut = new LBiFunction<Integer,Integer,Integer>(){
-        public @Nullable Integer doApply(Integer a1,Integer a2)  {
+        public @Nullable Integer doApplyX(Integer a1,Integer a2)  {
             return testValue;
         }
     };
 
-    private LBiFunctionX<Integer,Integer,Integer,X> opposite = new LBiFunctionX<Integer,Integer,Integer,X>(){
-        public @Nullable Integer doApply(Integer a1,Integer a2)  throws X {
-            return testValue;
-        }
-    };
 
     private LBiFunction<Integer,Integer,Integer> sutNull = new LBiFunction<Integer,Integer,Integer>(){
-        public @Nullable Integer doApply(Integer a1,Integer a2)  {
+        public @Nullable Integer doApplyX(Integer a1,Integer a2)  {
             return null;
         }
     };
@@ -86,20 +81,23 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     private BiFunction<Integer,Integer,Integer> jre = (a1,a2) -> testValue;
 
 
+    private LBiFunction<Integer,Integer,Integer> sutAlwaysThrowing = LBiFunction.biFunc((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LBiFunctionX<Integer,Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LBiFunction.l((a1,a2) -> {
+    private LBiFunction<Integer,Integer,Integer> sutAlwaysThrowingUnchecked = LBiFunction.biFunc((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply(100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LPair<Integer,Integer> domainObject = Tuple4U.pair(100,100);
 
@@ -110,13 +108,13 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply(100,100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -131,7 +129,7 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -146,182 +144,38 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiFunction: R doApply(T1 a1,T2 a2)).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoApply(100,100);
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBiFunction: R doApply(T1 a1,T2 a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LBiFunction.l((a1,a2) -> testValue ))
+    public void testBiFuncMethod() throws Throwable {
+        assertThat(LBiFunction.biFunc((a1,a2) -> testValue ))
             .isInstanceOf(LBiFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LBiFunction.wrap(opposite))
-            .isInstanceOf(LBiFunction.class);
-    }
 
     @Test
-    public void testWrapStdMethod() throws X {
+    public void testWrapStdMethod() throws Throwable {
         assertThat(LBiFunction.wrap(jre))
             .isInstanceOf(LBiFunction.class);
     }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LBiFunctionX<Integer,Integer,Integer,X> sutThrowing = LBiFunctionX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LBiFunction<Integer,Integer,Integer> wrapped = LBiFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LBiFunctionX<Integer,Integer,Integer,ParseException> sutThrowing = LBiFunctionX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LBiFunction<Integer,Integer,Integer> wrapped = LBiFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LBiFunction<Integer,Integer,Integer> sutThrowing = LBiFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiFunction<Integer,Integer,Integer> wrapped = sutThrowing.handleBiFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleBiFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LBiFunction<Integer,Integer,Integer> sutThrowing = LBiFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiFunction<Integer,Integer,Integer> wrapped = sutThrowing.handleBiFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleBiFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LBiFunction<Integer,Integer,Integer> sutThrowing = LBiFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiFunction<Integer,Integer,Integer> wrapped = sutThrowing.handleBiFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleBiFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LBiFunction<Integer,Integer,Integer> sutThrowing = LBiFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBiFunction<Integer,Integer,Integer> wrapped = sutThrowing.handleBiFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiFuncCompose() throws X {
+    public void testBiFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -361,7 +215,7 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -396,7 +250,7 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws X  {
+    public void testThenConsume1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -416,10 +270,290 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
         };
 
         //when
-        LBiConsumer<Integer,Integer> function = sutO.then(thenFunction);
+        LBiConsumer<Integer,Integer> function = sutO.thenConsume(thenFunction);
         function.doAccept(80,81);
 
         //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToByte2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LToByteFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // byte
+                return (byte)100;
+        };
+
+        //when
+        LToByteBiFunction<Integer,Integer> function = sutO.thenToByte(thenFunction);
+        byte finalValue = function.doApplyAsByte(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo((byte)100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToSrt3() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LToSrtFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // short
+                return (short)100;
+        };
+
+        //when
+        LToSrtBiFunction<Integer,Integer> function = sutO.thenToSrt(thenFunction);
+        short finalValue = function.doApplyAsSrt(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo((short)100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToInt4() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LToIntFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // int
+                return 100;
+        };
+
+        //when
+        LToIntBiFunction<Integer,Integer> function = sutO.thenToInt(thenFunction);
+        int finalValue = function.doApplyAsInt(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToLong5() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LToLongFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // long
+                return 100L;
+        };
+
+        //when
+        LToLongBiFunction<Integer,Integer> function = sutO.thenToLong(thenFunction);
+        long finalValue = function.doApplyAsLong(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100L);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToFlt6() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LToFltFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // float
+                return 100f;
+        };
+
+        //when
+        LToFltBiFunction<Integer,Integer> function = sutO.thenToFlt(thenFunction);
+        float finalValue = function.doApplyAsFlt(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100f);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToDbl7() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LToDblFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // double
+                return 100d;
+        };
+
+        //when
+        LToDblBiFunction<Integer,Integer> function = sutO.thenToDbl(thenFunction);
+        double finalValue = function.doApplyAsDbl(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100d);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToChar8() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LToCharFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // char
+                return '\u0100';
+        };
+
+        //when
+        LToCharBiFunction<Integer,Integer> function = sutO.thenToChar(thenFunction);
+        char finalValue = function.doApplyAsChar(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo('\u0100');
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool9() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiFunction<Integer,Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90;
+        };
+
+        LPredicate<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // boolean
+                return true;
+        };
+
+        //when
+        LBiPredicate<Integer,Integer> function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doTest(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -443,25 +577,12 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
             .isInstanceOf(LBiFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingBiFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingBiFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LBiFunction<Integer,Integer,Integer> sutThrowing = LBiFunction.l((a1,a2) -> {
+        LBiFunction<Integer,Integer,Integer> sutThrowing = LBiFunction.biFunc((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -469,33 +590,9 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
         sutThrowing.shovingBiFunc().doApply(100,100);
     }
 
-    @Test
-    public void testHandleBiFunc() throws X {
-
-        // given
-        LBiFunction<Integer,Integer,Integer> sutThrowing = LBiFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiFunction<Integer,Integer,Integer> wrapped = sutThrowing.handleBiFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -515,15 +612,15 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantV1(Integer a2,Integer a1) {
+    private Integer variantLObj1Obj0Func(Integer a2,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LBiFunction lambda = LBiFunction./*<T1,T2,R>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLObj1Obj0Func() {
+        LBiFunction lambda = LBiFunction./*<T1,T2,R>*/obj1Obj0Func(this::variantLObj1Obj0Func);
 
-        assertThat(lambda).isInstanceOf(LBiFunction.V1.class);
+        assertThat(lambda).isInstanceOf(LBiFunction.LObj1Obj0Func.class);
     }
 
     //</editor-fold>
@@ -531,7 +628,6 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
 
     @Test void safeCompiles() {
         LBiFunction r1 = LBiFunction.safe(sut); //NOSONAR
-        LBiFunctionX r2 = LBiFunction.safe(sut); //NOSONAR
         BiFunction r3 = LBiFunction.safe(sut); //NOSONAR
     }
 
@@ -542,7 +638,7 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LBiFunction.safe(null);
-        assertThat(result).isSameAs(LBiFunction.l(LBiFunction.safe()));
+        assertThat(result).isSameAs(LBiFunction.biFunc(LBiFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

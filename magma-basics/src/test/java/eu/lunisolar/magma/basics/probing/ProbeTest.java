@@ -31,7 +31,7 @@ public class ProbeTest {
     private <T> Probe<T> probeOf(T o) {
 
         return new Probe<T>() {
-            @Nullable @Override public T getTarget() {
+            @Nullable @Override public T target() {
                 return o;
             }
         };
@@ -39,7 +39,7 @@ public class ProbeTest {
 
     @Test
     public void testGetTarget() throws Exception {
-        assertThat(probeOf(TEXT).getTarget())
+        assertThat(probeOf(TEXT).target())
                 .isNotNull()
                 .isSameAs(TEXT);
     }

@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.from.LObjCharFunctionBuilder.objCharFunction;
 import static eu.lunisolar.magma.func.build.function.from.LObjCharFunctionBuilder.objCharFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LObjCharFunctionBuilderTest<T,R,X extends ParseException>{
+public class LObjCharFunctionBuilderTest<T,R>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LObjCharFunctionBuilderTest<T,R,X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertObjCharFunc(function)
             .doesApply(0,'\u0000').when(null).to(a -> a.isEqualTo(0))
             .doesApply(5,'\u0005').when(null).to(a -> a.isEqualTo(1))
             .doesApply(15,'\u0015').when(null).to(a -> a.isEqualTo(2))

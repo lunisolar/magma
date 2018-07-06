@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LObjByteConsumer. */
+/**
+ * Builder for LObjByteConsumer.
+ */
 public final class LObjByteConsumerBuilder<T> extends PerCaseBuilder.Base<LObjByteConsumerBuilder<T>, LObjBytePredicate<T>, LObjByteConsumer<T>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LObjByteConsumerBuilder<T> extends PerCaseBuilder.Base<LObjBy
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjByteConsumer EVENTUALLY_THROW = LObjByteConsumer.l((a1, a2) -> {
+	public static final LObjByteConsumer EVENTUALLY_THROW = LObjByteConsumer.objByteCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LObjByteConsumerBuilder<T> extends PerCaseBuilder.Base<LObjBy
 		LObjByteConsumer<T> retval;
 
 		final Case<LObjBytePredicate<T>, LObjByteConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjByteConsumer.<T> l((a1, a2) -> {
+		retval = LObjByteConsumer.<T> objByteCons((a1, a2) -> {
 			try {
 				for (Case<LObjBytePredicate<T>, LObjByteConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

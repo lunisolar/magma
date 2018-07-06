@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for ObjIntConsumer. */
+/**
+ * Builder for ObjIntConsumer.
+ */
 public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntConsumerBuilder<T>, LObjIntPredicate<T>, ObjIntConsumer<T>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ObjIntConsumer EVENTUALLY_THROW = Function4U.objIntConsumer((a1, a2) -> {
+	public static final ObjIntConsumer EVENTUALLY_THROW = Function4U.objIntCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 		ObjIntConsumer<T> retval;
 
 		final Case<LObjIntPredicate<T>, ObjIntConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> objIntConsumer((a1, a2) -> {
+		retval = Function4U.<T> objIntCons((a1, a2) -> {
 			try {
 				for (Case<LObjIntPredicate<T>, ObjIntConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

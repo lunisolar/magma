@@ -56,8 +56,8 @@ public class JreLongToDoubleFunctionAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
-         .doesApplyAsDouble(100L)
+        A.assertLongToDblFunc(function)
+         .doesApplyAsDbl(100L)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -65,8 +65,8 @@ public class JreLongToDoubleFunctionAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
-         .doesApplyAsDouble(100L)
+        A.assertLongToDblFunc(function)
+         .doesApplyAsDbl(100L)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -74,16 +74,16 @@ public class JreLongToDoubleFunctionAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
-         .doesApplyAsDouble(100L)
+        A.assertLongToDblFunc(functionThrowing)
+         .doesApplyAsDbl(100L)
             .to( a -> a.isEqualTo(1));
     }
 
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
-         .doesApplyAsDouble(100L).withException(a -> a
+        A.assertLongToDblFunc(functionThrowing)
+         .doesApplyAsDbl(100L).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -94,14 +94,14 @@ public class JreLongToDoubleFunctionAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertLongToDblFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApplyAsDouble(100L)
+         .doesApplyAsDbl(100L)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsDouble(100L)
+         .doesApplyAsDbl(100L)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -112,16 +112,16 @@ public class JreLongToDoubleFunctionAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertLongToDblFunc(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
                 a.isEqualTo(0);
             }
          })
-         .doesApplyAsDouble(100L)
+         .doesApplyAsDbl(100L)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsDouble(100L)
+         .doesApplyAsDbl(100L)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

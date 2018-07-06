@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LIntFunctionAssert<S extends LIntFunctionAssert<S, A, RS, R>, A extends LIntFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumer, A, RS, R> {
 
 	@Nonnull
+	public static <A extends LIntFunction<R>, RS extends Assert<RS, R>, R> LIntFunctionAssert.The<A, RS, R> assertIntFunc(LIntFunction<R> func) {
+		return new LIntFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LIntConsumer, A, RS, R> doesApply(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LCharPredicateTest<X extends ParseException> {
+public class LCharPredicateTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     private LCharPredicate sut = new LCharPredicate(){
-        public  boolean doTest(char a)  {
-            return testValue;
-        }
-    };
-
-    private LCharPredicateX<X> opposite = new LCharPredicateX<X>(){
-        public  boolean doTest(char a)  throws X {
+        public  boolean doTestX(char a)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
 
-    private LCharPredicateX<RuntimeException> sutAlwaysThrowingUnchecked = LCharPredicate.l(a -> {
+    private LCharPredicate sutAlwaysThrowing = LCharPredicate.charPred(a -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LCharPredicate sutAlwaysThrowingUnchecked = LCharPredicate.charPred(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doTest('\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LCharSingle domainObject = Tuple4U.charSingle('\u0100');
 
@@ -102,13 +100,13 @@ public class LCharPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoTest() throws X {
+    public void testNonNullDoTest() throws Throwable {
         assertThat(sut.nonNullDoTest('\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws X {
+    public void testNestingDoTestUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LCharPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws X {
+    public void testShovingDoTestUnchecked() throws Throwable {
 
         // then
         try {
@@ -138,7 +136,7 @@ public class LCharPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testApplyAsBooleanShouldNotModifyValue() throws X {
+    public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
         assertThat(sut.doApplyAsBoolean('\u0100'))
             .isEqualTo(testValue);
 
@@ -146,166 +144,22 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LCharPredicate: boolean doTest(char a)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LCharPredicate.l(a -> testValue ))
+    public void testCharPredMethod() throws Throwable {
+        assertThat(LCharPredicate.charPred(a -> testValue ))
             .isInstanceOf(LCharPredicate.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LCharPredicate.wrap(opposite))
-            .isInstanceOf(LCharPredicate.class);
-    }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LCharPredicate wrapped = LCharPredicate.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doTest('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LCharPredicateX<ParseException> sutThrowing = LCharPredicateX.lX(a -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LCharPredicate wrapped = LCharPredicate.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doTest('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
     @Test
-    public void testHandlingDoTestMethodWrapsTheException() throws X {
-
-        // given
-        LCharPredicate sutThrowing = LCharPredicate.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LCharPredicate wrapped = sutThrowing.handleCharPred(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doTest('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleCharPredMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LCharPredicate sutThrowing = LCharPredicate.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LCharPredicate wrapped = sutThrowing.handleCharPred(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doTest('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleCharPredMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LCharPredicate sutThrowing = LCharPredicate.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LCharPredicate wrapped = sutThrowing.handleCharPred(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doTest('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleCharPredMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LCharPredicate sutThrowing = LCharPredicate.l(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LCharPredicate wrapped = sutThrowing.handleCharPred(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doTest('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testnegate() throws X {
+    public void testnegate() throws Throwable {
         assertThat(sut.negate().doTest('\u0100'))
             .isEqualTo(!testValue);
     }
@@ -322,11 +176,11 @@ public class LCharPredicateTest<X extends ParseException> {
     }
 
     @Test(dataProvider="boolean permutations")
-    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
+    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws Throwable {
 
         //given
-        LCharPredicate fun1 = LCharPredicate.l(a -> f1Result);
-        LCharPredicate fun2 = LCharPredicate.l(a -> f2Result);
+        LCharPredicate fun1 = LCharPredicate.charPred(a -> f1Result);
+        LCharPredicate fun2 = LCharPredicate.charPred(a -> f2Result);
 
         //when
         LCharPredicate andFunction = fun1.and(fun2);
@@ -345,7 +199,7 @@ public class LCharPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testIsEqual() throws X  {
+    public void testIsEqual() throws Throwable  {
         //when
         LCharPredicate equals = LCharPredicate.isEqual('\u0001');
 
@@ -362,7 +216,7 @@ public class LCharPredicateTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharPredComposeChar() throws X {
+    public void testCharPredComposeChar() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -391,7 +245,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testCharPredCompose() throws X {
+    public void testCharPredCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -425,7 +279,7 @@ public class LCharPredicateTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToCharFunc0() throws X  {
+    public void testBoolToCharFunc0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -459,7 +313,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharToByteFunc1() throws X  {
+    public void testBoolToCharToByteFunc1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -493,7 +347,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharToShortFunc2() throws X  {
+    public void testBoolToCharToSrtFunc2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -505,7 +359,7 @@ public class LCharPredicateTest<X extends ParseException> {
                 return true;
         };
 
-        LBoolToShortFunction thenFunction = p -> {
+        LBoolToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
                 assertThat(p).isEqualTo(true);
@@ -514,8 +368,8 @@ public class LCharPredicateTest<X extends ParseException> {
         };
 
         //when
-        LCharToShortFunction function = sutO.boolToCharToShortFunc(thenFunction);
-        short finalValue = function.doApplyAsShort('\u0080');
+        LCharToSrtFunction function = sutO.boolToCharToSrtFunc(thenFunction);
+        short finalValue = function.doApplyAsSrt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -527,7 +381,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharToIntFunc3() throws X  {
+    public void testBoolToCharToIntFunc3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -561,7 +415,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharToLongFunc4() throws X  {
+    public void testBoolToCharToLongFunc4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -595,7 +449,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharToFloatFunc5() throws X  {
+    public void testBoolToCharToFltFunc5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -607,7 +461,7 @@ public class LCharPredicateTest<X extends ParseException> {
                 return true;
         };
 
-        LBoolToFloatFunction thenFunction = p -> {
+        LBoolToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
                 assertThat(p).isEqualTo(true);
@@ -616,8 +470,8 @@ public class LCharPredicateTest<X extends ParseException> {
         };
 
         //when
-        LCharToFloatFunction function = sutO.boolToCharToFloatFunc(thenFunction);
-        float finalValue = function.doApplyAsFloat('\u0080');
+        LCharToFltFunction function = sutO.boolToCharToFltFunc(thenFunction);
+        float finalValue = function.doApplyAsFlt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -629,7 +483,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharToDoubleFunc6() throws X  {
+    public void testBoolToCharToDblFunc6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -641,7 +495,7 @@ public class LCharPredicateTest<X extends ParseException> {
                 return true;
         };
 
-        LBoolToDoubleFunction thenFunction = p -> {
+        LBoolToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
                 assertThat(p).isEqualTo(true);
@@ -650,8 +504,8 @@ public class LCharPredicateTest<X extends ParseException> {
         };
 
         //when
-        LCharToDoubleFunction function = sutO.boolToCharToDoubleFunc(thenFunction);
-        double finalValue = function.doApplyAsDouble('\u0080');
+        LCharToDblFunction function = sutO.boolToCharToDblFunc(thenFunction);
+        double finalValue = function.doApplyAsDbl('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -663,7 +517,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharUnaryOp7() throws X  {
+    public void testBoolToCharUnaryOp7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -697,7 +551,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolToCharPred8() throws X  {
+    public void testBoolToCharPred8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -746,25 +600,12 @@ public class LCharPredicateTest<X extends ParseException> {
             .isInstanceOf(LCharPredicate.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingCharPredX())
-            .isSameAs(sut)
-            .isInstanceOf(LCharPredicateX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingCharPredX())
-            .isSameAs(sut)
-            .isInstanceOf(LCharPredicateX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LCharPredicate sutThrowing = LCharPredicate.l(a -> {
+        LCharPredicate sutThrowing = LCharPredicate.charPred(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -772,33 +613,9 @@ public class LCharPredicateTest<X extends ParseException> {
         sutThrowing.shovingCharPred().doTest('\u0100');
     }
 
-    @Test
-    public void testHandleCharPred() throws X {
-
-        // given
-        LCharPredicate sutThrowing = LCharPredicate.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LCharPredicate wrapped = sutThrowing.handleCharPred(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doTest('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -818,7 +635,6 @@ public class LCharPredicateTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LCharPredicate r1 = LCharPredicate.safe(sut); //NOSONAR
-        LCharPredicateX r2 = LCharPredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -828,7 +644,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LCharPredicate.safe(null);
-        assertThat(result).isSameAs(LCharPredicate.l(LCharPredicate.safe()));
+        assertThat(result).isSameAs(LCharPredicate.charPred(LCharPredicate.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

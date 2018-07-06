@@ -57,6 +57,11 @@ public interface LBiObjCharFunctionAssert<S extends LBiObjCharFunctionAssert<S, 
 			FullFunctionalAssert<S, LBiObjCharConsumer<T1, T2>, A, RS, R> {
 
 	@Nonnull
+	public static <A extends LBiObjCharFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> LBiObjCharFunctionAssert.The<A, RS, T1, T2, R> assertBiObjCharFunc(LBiObjCharFunction<T1, T2, R> func) {
+		return new LBiObjCharFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiObjCharConsumer<T1, T2>, A, RS, R> doesApply(T1 a1, T2 a2, char a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

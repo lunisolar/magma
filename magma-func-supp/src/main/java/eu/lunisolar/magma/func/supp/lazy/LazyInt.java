@@ -30,7 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*;
+import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -62,6 +62,10 @@ public class LazyInt extends LIntSupMemento implements LIntSingle {
 		return new LazyInt(supplier);
 	}
 
+	public static <E> LazyInt lazyValue(E e, LToIntFunction<E> function) {
+		return new LazyInt(() -> function.doApplyAsInt(e));
+	}
+
 	@Override
 	public int doGetAsInt() {
 		if (function != null) {
@@ -73,7 +77,7 @@ public class LazyInt extends LIntSupMemento implements LIntSingle {
 	}
 
 	public int value() {
-		return shovingDoGetAsInt();
+		return doGetAsInt();
 	}
 
 	public static boolean argEquals(LazyInt the, Object that) {

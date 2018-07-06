@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLongUnaryOperatorAssert<S extends LLongUnaryOperatorAssert<S, A, RS>, A extends LLongUnaryOperator, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LLongConsumer, A, RS, Long> {
 
 	@Nonnull
+	public static <A extends LLongUnaryOperator, RS extends AbstractLongAssert<RS>> LLongUnaryOperatorAssert.The<A, RS> assertLongUnaryOp(LLongUnaryOperator func) {
+		return new LLongUnaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LLongConsumer, A, RS, Long> doesApplyAsLong(long a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

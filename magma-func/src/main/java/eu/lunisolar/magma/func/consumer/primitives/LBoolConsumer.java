@@ -25,13 +25,18 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,35 +63,169 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: none
  *
- * @see LBoolConsumerX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing {
 
 	String DESCRIPTION = "LBoolConsumer: void doAccept(boolean a)";
 
-	void doAccept(boolean a);
+	// void doAccept(boolean a) ;
+	default void doAccept(boolean a) {
+		// nestingDoAccept(a);
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doAccept(boolean a)
+	 */
+	void doAcceptX(boolean a) throws Throwable;
 
 	default LTuple.Void tupleAccept(LBoolSingle args) {
 		doAccept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(boolean a) {
-		this.doAccept(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default void handlingDoAccept(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default void tryDoAccept(boolean a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default void tryDoAccept(boolean a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default void tryDoAcceptThen(boolean a, @Nonnull LConsumer<Throwable> handler) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			handler.doAccept(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default void nestingDoAccept(boolean a) {
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default void shovingDoAccept(boolean a) {
-		this.doAccept(a);
+		try {
+			this.doAcceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static void handlingDoAccept(boolean a, LBoolConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		func.handlingDoAccept(a, handling);
+	}
+
+	static void tryDoAccept(boolean a, LBoolConsumer func) {
+		tryDoAccept(a, func, null);
+	}
+
+	static void tryDoAccept(boolean a, LBoolConsumer func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static void tryDoAccept(boolean a, LBoolConsumer func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a, exceptionFactory);
+	}
+
+	static void tryDoAcceptThen(boolean a, LBoolConsumer func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAcceptThen(a, handler);
+	}
+
+	default void failSafeDoAccept(boolean a, @Nonnull LBoolConsumer failSafe) {
+		try {
+			doAccept(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			failSafe.doAccept(a);
+		}
+	}
+
+	static void failSafeDoAccept(boolean a, LBoolConsumer func, @Nonnull LBoolConsumer failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			failSafe.doAccept(a);
+		} else {
+			func.failSafeDoAccept(a, failSafe);
+		}
+	}
+
+	static LBoolConsumer failSafeBoolCons(LBoolConsumer func, @Nonnull LBoolConsumer failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoAccept(a, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBoolConsumer.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, boolean a, LBoolConsumer func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doAccept(a);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doAccept(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, boolean a, LBoolConsumer func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doAccept(a);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doAccept(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, boolean a, LBoolConsumer func) {
+		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -96,9 +235,47 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LBoolConsumer l(final @Nonnull LBoolConsumer lambda) {
+	static LBoolConsumer boolCons(final @Nonnull LBoolConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LBoolConsumer recursive(final @Nonnull LFunction<LBoolConsumer, LBoolConsumer> selfLambda) {
+		final LBoolConsumerSingle single = new LBoolConsumerSingle();
+		LBoolConsumer func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LBoolConsumerSingle implements LSingle<LBoolConsumer>, LBoolConsumer {
+		private LBoolConsumer target = null;
+
+		@Override
+		public void doAcceptX(boolean a) throws Throwable {
+			target.doAcceptX(a);
+		}
+
+		@Override
+		public LBoolConsumer value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LBoolConsumer boolConsThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LBoolConsumer boolConsThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static void call(boolean a, final @Nonnull LBoolConsumer lambda) {
@@ -108,12 +285,6 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LBoolConsumer wrap(final @Nonnull LBoolConsumerX<X> other) {
-		return other::nestingDoAccept;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
@@ -121,7 +292,7 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 	/** Safe instance. */
 	@Nonnull
 	static LBoolConsumer safe() {
-		return Function4U::doNothing;
+		return LBoolConsumer::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -161,11 +332,19 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 		return v -> this.doAccept(before.doApply(v));
 	}
 
+	public static LBoolConsumer composedBool(@Nonnull final LLogicalOperator before, LBoolConsumer after) {
+		return after.boolConsComposeBool(before);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LConsumer<V> boolConsCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.doAccept(before.doTest(v));
+	}
+
+	public static <V> LConsumer<V> composed(@Nonnull final LPredicate<? super V> before, LBoolConsumer after) {
+		return after.boolConsCompose(before);
 	}
 
 	// </editor-fold>
@@ -192,22 +371,44 @@ public interface LBoolConsumer extends LBoolConsumerX<RuntimeException>, MetaCon
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LBoolConsumerX<RuntimeException> nestingBoolConsX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBoolConsumer shovingBoolCons() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBoolConsumerX<RuntimeException> shovingBoolConsX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LBoolConsumer) */
+	public static void doNothing(boolean a) {
+		// NOSONAR
 	}
 
-	// </editor-fold>
+	// JUST_CONSUME: FOR, [SourcePurpose{arg=boolean a, type=IA}, SourcePurpose{arg=LBoolConsumer consumer, type=CONST}]
+	public static <C0> int forEach(IndexedRead<C0, aBool> ia, C0 source, LBoolConsumer consumer) {
+		int size = ia.size(source);
+		LObjIntPredicate<Object> oiFunc0 = (LObjIntPredicate) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			boolean a = oiFunc0.doTest(source, i);
+			consumer.doAccept(a);
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=boolean a, type=SA}, SourcePurpose{arg=LBoolConsumer consumer, type=CONST}]
+	public static <C0, I0> int iterate(SequentialRead<C0, I0, aBool> sa, C0 source, LBoolConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LPredicate<Object> nextFunc0 = (LPredicate) sa.getter();
+		int i = 0;
+		while (testFunc0.doTest(iterator0)) {
+			boolean a = nextFunc0.doTest(iterator0);
+			consumer.doAccept(a);
+			i++;
+		}
+		return i;
+
+	}
 
 }

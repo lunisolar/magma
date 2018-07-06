@@ -19,7 +19,6 @@
 package eu.lunisolar.magma.basics.meta.functional.type;
 
 import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
-import eu.lunisolar.magma.basics.meta.functional.domain.Domain;
 
 public interface MetaConsumer extends MetaFunctionalInterface {
 

@@ -49,10 +49,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for ObjDoubleConsumer. */
-public interface JreObjDoubleConsumerAssert<S extends JreObjDoubleConsumerAssert<S, A, T>, A extends ObjDoubleConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjDoubleConsumer<T>, A> {
+public interface JreObjDoubleConsumerAssert<S extends JreObjDoubleConsumerAssert<S, A, T>, A extends ObjDoubleConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjDblConsumer<T>, A> {
 
 	@Nonnull
-	SemiEvaluation<S, LObjDoubleConsumer<T>, A> doesAccept(T a1, double a2);
+	public static <A extends ObjDoubleConsumer<T>, T> JreObjDoubleConsumerAssert.The<A, T> assertObjDblCons(ObjDoubleConsumer<T> func) {
+		return new JreObjDoubleConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	SemiEvaluation<S, LObjDblConsumer<T>, A> doesAccept(T a1, double a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends ObjDoubleConsumer<T>, T> extends Base<The<A, T>, A, T> {
@@ -63,14 +68,14 @@ public interface JreObjDoubleConsumerAssert<S extends JreObjDoubleConsumerAssert
 	}
 
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
-	class Base<S extends Base<S, A, T>, A extends ObjDoubleConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, LObjDoubleConsumer<T>, A> implements JreObjDoubleConsumerAssert<S, A, T> {
+	class Base<S extends Base<S, A, T>, A extends ObjDoubleConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, LObjDblConsumer<T>, A> implements JreObjDoubleConsumerAssert<S, A, T> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, LObjDoubleConsumer<T>, A> doesAccept(T a1, double a2) {
+		public SemiEvaluation<S, LObjDblConsumer<T>, A> doesAccept(T a1, double a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

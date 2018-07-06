@@ -57,6 +57,11 @@ public interface LTriPredicateAssert<S extends LTriPredicateAssert<S, A, RS, T1,
 			FullFunctionalAssert<S, LTriConsumer<T1, T2, T3>, A, RS, Boolean> {
 
 	@Nonnull
+	public static <A extends LTriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3> LTriPredicateAssert.The<A, RS, T1, T2, T3> assertTriPred(LTriPredicate<T1, T2, T3> func) {
+		return new LTriPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LTriConsumer<T1, T2, T3>, A, RS, Boolean> doesTest(T1 a1, T2 a2, T3 a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

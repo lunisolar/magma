@@ -52,6 +52,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreIntPredicateAssert<S extends JreIntPredicateAssert<S, A, RS>, A extends IntPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumer, A, RS, Boolean> {
 
 	@Nonnull
+	public static <A extends IntPredicate, RS extends AbstractBooleanAssert<RS>> JreIntPredicateAssert.The<A, RS> assertIntPred(IntPredicate func) {
+		return new JreIntPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LIntConsumer, A, RS, Boolean> doesTest(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

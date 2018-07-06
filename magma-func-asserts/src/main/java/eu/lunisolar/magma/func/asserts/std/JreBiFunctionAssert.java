@@ -52,6 +52,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreBiFunctionAssert<S extends JreBiFunctionAssert<S, A, RS, T1, T2, R>, A extends BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, R> {
 
 	@Nonnull
+	public static <A extends BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> JreBiFunctionAssert.The<A, RS, T1, T2, R> assertBiFunc(BiFunction<T1, T2, R> func) {
+		return new JreBiFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiConsumer<T1, T2>, A, RS, R> doesApply(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

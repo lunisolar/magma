@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,11 +63,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: int
  *
- * @see LIntUnaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int a)";
 
@@ -73,23 +77,125 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	@Override
 	@Deprecated
 	default int applyAsInt(int a) {
-		return this.nestingDoApplyAsInt(a);
+		return this.doApplyAsInt(a);
 	}
 
-	int doApplyAsInt(int a);
+	// int doApplyAsInt(int a) ;
+	default int doApplyAsInt(int a) {
+		// return nestingDoApplyAsInt(a);
+		try {
+			return this.doApplyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doApplyAsInt(int a)
+	 */
+	int doApplyAsIntX(int a) throws Throwable;
 
 	default int tupleApplyAsInt(LIntSingle args) {
 		return doApplyAsInt(args.value());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(int a) {
-		return this.doApplyAsInt(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default int handlingDoApplyAsInt(int a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doApplyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default int tryDoApplyAsInt(int a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doApplyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default int tryDoApplyAsInt(int a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doApplyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default int tryDoApplyAsIntThen(int a, @Nonnull LToIntFunction<Throwable> handler) {
+		try {
+			return this.doApplyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsInt(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default int nestingDoApplyAsInt(int a) {
+		try {
+			return this.doApplyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(int a) {
-		return this.doApplyAsInt(a);
+		try {
+			return this.doApplyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static int handlingDoApplyAsInt(int a, LIntUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoApplyAsInt(a, handling);
+	}
+
+	static int tryDoApplyAsInt(int a, LIntUnaryOperator func) {
+		return tryDoApplyAsInt(a, func, null);
+	}
+
+	static int tryDoApplyAsInt(int a, LIntUnaryOperator func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsInt(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static int tryDoApplyAsInt(int a, LIntUnaryOperator func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsInt(a, exceptionFactory);
+	}
+
+	static int tryDoApplyAsIntThen(int a, LIntUnaryOperator func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsIntThen(a, handler);
+	}
+
+	default int failSafeDoApplyAsInt(int a, @Nonnull LIntUnaryOperator failSafe) {
+		try {
+			return doApplyAsInt(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doApplyAsInt(a);
+		}
+	}
+
+	static int failSafeDoApplyAsInt(int a, LIntUnaryOperator func, @Nonnull LIntUnaryOperator failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doApplyAsInt(a);
+		} else {
+			return func.failSafeDoApplyAsInt(a, failSafe);
+		}
+	}
+
+	static LIntUnaryOperator failSafeIntUnaryOp(LIntUnaryOperator func, @Nonnull LIntUnaryOperator failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoApplyAsInt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -101,6 +207,39 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntUnaryOperator.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_a, int max_a, LIntUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		if (min_a <= min_a) {
+			for (int a = min_a; a <= max_a; a++) {
+				func.doApplyAsInt(a);
+			}
+		} else {
+			for (int a = min_a; a >= max_a; a--) {
+				func.doApplyAsInt(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_a, int max_a, LIntUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		if (min_a <= min_a) {
+			for (int a = min_a; a < max_a; a++) {
+				func.doApplyAsInt(a);
+			}
+		} else {
+			for (int a = min_a; a > max_a; a--) {
+				func.doApplyAsInt(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_a, LIntUnaryOperator func) {
+		fromTill(0, max_a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -115,9 +254,47 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntUnaryOperator l(final @Nonnull LIntUnaryOperator lambda) {
+	static LIntUnaryOperator intUnaryOp(final @Nonnull LIntUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LIntUnaryOperator recursive(final @Nonnull LFunction<LIntUnaryOperator, LIntUnaryOperator> selfLambda) {
+		final LIntUnaryOperatorSingle single = new LIntUnaryOperatorSingle();
+		LIntUnaryOperator func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LIntUnaryOperatorSingle implements LSingle<LIntUnaryOperator>, LIntUnaryOperator {
+		private LIntUnaryOperator target = null;
+
+		@Override
+		public int doApplyAsIntX(int a) throws Throwable {
+			return target.doApplyAsIntX(a);
+		}
+
+		@Override
+		public LIntUnaryOperator value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LIntUnaryOperator intUnaryOpThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LIntUnaryOperator intUnaryOpThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static int call(int a, final @Nonnull LIntUnaryOperator lambda) {
@@ -132,21 +309,14 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	static LIntUnaryOperator wrap(final IntUnaryOperator other) {
 		return other::applyAsInt;
 	}
-
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
-		return other::nestingDoApplyAsInt;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceInt). */
+	/** Safe instance. That always returns the same value (as produceInt). */
 	@Nonnull
 	static LIntUnaryOperator safe() {
-		return Function4U::produceInt;
+		return LIntUnaryOperator::produceInt;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -186,11 +356,19 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 		return v -> this.doApplyAsInt(before.doApplyAsInt(v));
 	}
 
+	public static LIntUnaryOperator composedInt(@Nonnull final LIntUnaryOperator before, LIntUnaryOperator after) {
+		return after.intUnaryOpComposeInt(before);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToIntFunction<V> intUnaryOpCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.doApplyAsInt(before.doApplyAsInt(v));
+	}
+
+	public static <V> LToIntFunction<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntUnaryOperator after) {
+		return after.intUnaryOpCompose(before);
 	}
 
 	// </editor-fold>
@@ -213,9 +391,9 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
+	default LIntToSrtFunction thenToSrt(@Nonnull LIntToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsShort(this.doApplyAsInt(a));
+		return a -> after.doApplyAsSrt(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -234,16 +412,16 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
+	default LIntToFltFunction thenToFlt(@Nonnull LIntToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFloat(this.doApplyAsInt(a));
+		return a -> after.doApplyAsFlt(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LIntToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
+	default LIntToDblFunction thenToDbl(@Nonnull LIntToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDouble(this.doApplyAsInt(a));
+		return a -> after.doApplyAsDbl(this.doApplyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -276,22 +454,38 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LIntUnaryOperatorX<RuntimeException> nestingIntUnaryOpX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntUnaryOperator shovingIntUnaryOp() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntUnaryOperatorX<RuntimeException> shovingIntUnaryOpX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LIntUnaryOperator) Operator */
+	public static int produceInt(int a) {
+		return Function4U.defaultInteger;
 	}
 
-	// </editor-fold>
+	// MAP: FOR, [SourcePurpose{arg=int a, type=IA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	default <C0> void forEach(IndexedRead<C0, aInt> ia, C0 source, LIntConsumer consumer) {
+		int size = ia.size(source);
+		LOiToIntFunction<Object> oiFunc0 = (LOiToIntFunction) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			int a = oiFunc0.doApplyAsInt(source, i);
+			consumer.doAccept(this.doApplyAsInt(a));
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=int a, type=SA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	default <C0, I0> void iterate(SequentialRead<C0, I0, aInt> sa, C0 source, LIntConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LToIntFunction<Object> nextFunc0 = (LToIntFunction) sa.getter();
+		while (testFunc0.doTest(iterator0)) {
+			int a = nextFunc0.doApplyAsInt(iterator0);
+			consumer.doAccept(this.doApplyAsInt(a));
+		}
+	}
 
 }

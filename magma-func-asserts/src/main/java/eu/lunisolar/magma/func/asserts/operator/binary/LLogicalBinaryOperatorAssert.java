@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAssert<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiBoolConsumer, A, RS, Boolean> {
 
 	@Nonnull
+	public static <A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> LLogicalBinaryOperatorAssert.The<A, RS> assertLogicalBinaryOp(LLogicalBinaryOperator func) {
+		return new LLogicalBinaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiBoolConsumer, A, RS, Boolean> doesApply(boolean a1, boolean a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

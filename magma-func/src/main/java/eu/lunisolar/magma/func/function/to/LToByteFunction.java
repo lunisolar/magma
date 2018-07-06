@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,28 +63,131 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: byte
  *
- * @see LToByteFunctionX
+ * Special case of function that corresponds to expressions like (iterator) -> Iterator::next
+ *
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OFunction<T, aByte> { // NOSONAR
 
 	String DESCRIPTION = "LToByteFunction: byte doApplyAsByte(T a)";
 
-	byte doApplyAsByte(T a);
+	// byte doApplyAsByte(T a) ;
+	default byte doApplyAsByte(T a) {
+		// return nestingDoApplyAsByte(a);
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doApplyAsByte(T a)
+	 */
+	byte doApplyAsByteX(T a) throws Throwable;
 
 	default byte tupleApplyAsByte(LSingle<T> args) {
 		return doApplyAsByte(args.value());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default byte nestingDoApplyAsByte(T a) {
-		return this.doApplyAsByte(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default byte handlingDoApplyAsByte(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default byte tryDoApplyAsByte(T a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default byte tryDoApplyAsByte(T a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default byte tryDoApplyAsByteThen(T a, @Nonnull LToByteFunction<Throwable> handler) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsByte(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default byte nestingDoApplyAsByte(T a) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(T a) {
-		return this.doApplyAsByte(a);
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static <T> byte handlingDoApplyAsByte(T a, LToByteFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoApplyAsByte(a, handling);
+	}
+
+	static <T> byte tryDoApplyAsByte(T a, LToByteFunction<T> func) {
+		return tryDoApplyAsByte(a, func, null);
+	}
+
+	static <T> byte tryDoApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsByte(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static <T> byte tryDoApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsByte(a, exceptionFactory);
+	}
+
+	static <T> byte tryDoApplyAsByteThen(T a, LToByteFunction<T> func, @Nonnull LToByteFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsByteThen(a, handler);
+	}
+
+	default byte failSafeDoApplyAsByte(T a, @Nonnull LToByteFunction<T> failSafe) {
+		try {
+			return doApplyAsByte(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doApplyAsByte(a);
+		}
+	}
+
+	static <T> byte failSafeDoApplyAsByte(T a, LToByteFunction<T> func, @Nonnull LToByteFunction<T> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doApplyAsByte(a);
+		} else {
+			return func.failSafeDoApplyAsByte(a, failSafe);
+		}
+	}
+
+	static <T> LToByteFunction<T> failSafeToByteFunc(LToByteFunction<T> func, @Nonnull LToByteFunction<T> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoApplyAsByte(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -91,6 +199,39 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToByteFunction.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void fromTo(int min_i, int max_i, T a, LToByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doApplyAsByte(a);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doApplyAsByte(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void fromTill(int min_i, int max_i, T a, LToByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doApplyAsByte(a);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doApplyAsByte(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void times(int max_i, T a, LToByteFunction<T> func) {
+		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -105,9 +246,47 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LToByteFunction<T> l(final @Nonnull LToByteFunction<T> lambda) {
+	static <T> LToByteFunction<T> toByteFunc(final @Nonnull LToByteFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static <T> LToByteFunction<T> recursive(final @Nonnull LFunction<LToByteFunction<T>, LToByteFunction<T>> selfLambda) {
+		final LToByteFunctionSingle<T> single = new LToByteFunctionSingle();
+		LToByteFunction<T> func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LToByteFunctionSingle<T> implements LSingle<LToByteFunction<T>>, LToByteFunction<T> {
+		private LToByteFunction<T> target = null;
+
+		@Override
+		public byte doApplyAsByteX(T a) throws Throwable {
+			return target.doApplyAsByteX(a);
+		}
+
+		@Override
+		public LToByteFunction<T> value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static <T> LToByteFunction<T> toByteFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static <T> LToByteFunction<T> toByteFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static <T> byte call(T a, final @Nonnull LToByteFunction<T> lambda) {
@@ -117,20 +296,14 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <T, X extends Throwable> LToByteFunction<T> wrap(final @Nonnull LToByteFunctionX<T, X> other) {
-		return other::nestingDoApplyAsByte;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceByte). */
+	/** Safe instance. That always returns the same value (as produceByte). */
 	@Nonnull
 	static <T> LToByteFunction<T> safe() {
-		return Function4U::produceByte;
+		return LToByteFunction::produceByte;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -170,6 +343,10 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 		return v -> this.doApplyAsByte(before.doApply(v));
 	}
 
+	public static <V, T> LToByteFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToByteFunction<T> after) {
+		return after.toByteFuncCompose(before);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">
@@ -190,9 +367,9 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LToShortFunction<T> thenToShort(@Nonnull LByteToShortFunction after) {
+	default LToSrtFunction<T> thenToSrt(@Nonnull LByteToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsShort(this.doApplyAsByte(a));
+		return a -> after.doApplyAsSrt(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -211,16 +388,16 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LToFloatFunction<T> thenToFloat(@Nonnull LByteToFloatFunction after) {
+	default LToFltFunction<T> thenToFlt(@Nonnull LByteToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFloat(this.doApplyAsByte(a));
+		return a -> after.doApplyAsFlt(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LToDoubleFunction<T> thenToDouble(@Nonnull LByteToDoubleFunction after) {
+	default LToDblFunction<T> thenToDbl(@Nonnull LByteToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDouble(this.doApplyAsByte(a));
+		return a -> after.doApplyAsDbl(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -247,22 +424,38 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LToByteFunctionX<T, RuntimeException> nestingToByteFuncX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToByteFunction<T> shovingToByteFunc() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteFunctionX<T, RuntimeException> shovingToByteFuncX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LToByteFunction) Function */
+	public static <T> byte produceByte(T a) {
+		return Function4U.defaultByte;
 	}
 
-	// </editor-fold>
+	// MAP: FOR, [SourcePurpose{arg=T a, type=IA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
+	default <C0> void forEach(IndexedRead<C0, a<T>> ia, C0 source, LByteConsumer consumer) {
+		int size = ia.size(source);
+		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			T a = oiFunc0.doApply(source, i);
+			consumer.doAccept(this.doApplyAsByte(a));
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=T a, type=SA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
+	default <C0, I0> void iterate(SequentialRead<C0, I0, a<T>> sa, C0 source, LByteConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LFunction<Object, T> nextFunc0 = (LFunction) sa.getter();
+		while (testFunc0.doTest(iterator0)) {
+			T a = nextFunc0.doApply(iterator0);
+			consumer.doAccept(this.doApplyAsByte(a));
+		}
+	}
 
 }

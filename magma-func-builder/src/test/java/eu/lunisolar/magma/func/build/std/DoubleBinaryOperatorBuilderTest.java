@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoubleBinaryOperatorBuilder.doubleBinaryOperator;
-import static eu.lunisolar.magma.func.build.std.DoubleBinaryOperatorBuilder.doubleBinaryOperatorFrom;
+import static eu.lunisolar.magma.func.build.std.DoubleBinaryOperatorBuilder.dblBinaryOperator;
+import static eu.lunisolar.magma.func.build.std.DoubleBinaryOperatorBuilder.dblBinaryOperatorFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoubleBinaryOperatorBuilderTest{
@@ -66,7 +65,7 @@ public class DoubleBinaryOperatorBuilderTest{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoubleBinaryOperator function = doubleBinaryOperatorFrom(b-> b
+            DoubleBinaryOperator function = dblBinaryOperatorFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoubleBinaryOperatorBuilderTest{
 
 
         assertThatThrownBy(() -> {
-            DoubleBinaryOperator function = doubleBinaryOperatorFrom(b-> b
+            DoubleBinaryOperator function = dblBinaryOperatorFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoubleBinaryOperatorBuilderTest{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoubleBinaryOperator function = doubleBinaryOperatorFrom(b -> b
+            DoubleBinaryOperator function = dblBinaryOperatorFrom(b -> b
                 .eventually((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class DoubleBinaryOperatorBuilderTest{
     @Test
     public void testBuild()  {
 
-        DoubleBinaryOperator function = doubleBinaryOperatorFrom( b -> b
+        DoubleBinaryOperator function = dblBinaryOperatorFrom( b -> b
             .aCase(ce -> ce.of((a1,a2) -> a1 == 0d)
                              .evaluate((a1,a2) -> 0d))
             .inCase((a1,a2) -> a1 > 0d && a1 < 10d).evaluate((a1,a2) -> 1d)
@@ -128,11 +127,11 @@ public class DoubleBinaryOperatorBuilderTest{
         );
 
 
-        A.assertThat(function)
-            .doesApplyAsDouble(0d,0d).when(null).to(a -> a.isEqualTo(0d))
-            .doesApplyAsDouble(5d,5d).when(null).to(a -> a.isEqualTo(1d))
-            .doesApplyAsDouble(15d,15d).when(null).to(a -> a.isEqualTo(2d))
-            .doesApplyAsDouble(10d,10d).when(null).to(a -> a.isEqualTo(99d))
+        A.assertDblBinaryOp(function)
+            .doesApplyAsDbl(0d,0d).when(null).to(a -> a.isEqualTo(0d))
+            .doesApplyAsDbl(5d,5d).when(null).to(a -> a.isEqualTo(1d))
+            .doesApplyAsDbl(15d,15d).when(null).to(a -> a.isEqualTo(2d))
+            .doesApplyAsDbl(10d,10d).when(null).to(a -> a.isEqualTo(99d))
         ;
 
     }

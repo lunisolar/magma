@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoubleToIntFunctionBuilder.doubleToIntFunction;
-import static eu.lunisolar.magma.func.build.std.DoubleToIntFunctionBuilder.doubleToIntFunctionFrom;
+import static eu.lunisolar.magma.func.build.std.DoubleToIntFunctionBuilder.dblToIntFunction;
+import static eu.lunisolar.magma.func.build.std.DoubleToIntFunctionBuilder.dblToIntFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoubleToIntFunctionBuilderTest{
@@ -66,7 +65,7 @@ public class DoubleToIntFunctionBuilderTest{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoubleToIntFunction function = doubleToIntFunctionFrom(b-> b
+            DoubleToIntFunction function = dblToIntFunctionFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoubleToIntFunctionBuilderTest{
 
 
         assertThatThrownBy(() -> {
-            DoubleToIntFunction function = doubleToIntFunctionFrom(b-> b
+            DoubleToIntFunction function = dblToIntFunctionFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoubleToIntFunctionBuilderTest{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoubleToIntFunction function = doubleToIntFunctionFrom(b -> b
+            DoubleToIntFunction function = dblToIntFunctionFrom(b -> b
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class DoubleToIntFunctionBuilderTest{
     @Test
     public void testBuild()  {
 
-        DoubleToIntFunction function = doubleToIntFunctionFrom( b -> b
+        DoubleToIntFunction function = dblToIntFunctionFrom( b -> b
             .aCase(ce -> ce.of(a -> a == 0d)
                              .evaluate(a -> 0))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1)
@@ -128,7 +127,7 @@ public class DoubleToIntFunctionBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertDblToIntFunc(function)
             .doesApplyAsInt(0d).when(null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5d).when(null).to(a -> a.isEqualTo(1))
             .doesApplyAsInt(15d).when(null).to(a -> a.isEqualTo(2))

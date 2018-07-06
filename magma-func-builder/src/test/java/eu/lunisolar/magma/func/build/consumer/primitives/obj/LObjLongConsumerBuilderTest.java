@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.consumer.primitives.obj.LObjLongConsumerBuilder.objLongConsumer;
 import static eu.lunisolar.magma.func.build.consumer.primitives.obj.LObjLongConsumerBuilder.objLongConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LObjLongConsumerBuilderTest<T,X extends ParseException>{
+public class LObjLongConsumerBuilderTest<T>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -129,7 +128,7 @@ public class LObjLongConsumerBuilderTest<T,X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertObjLongCons(function)
             .doesAccept(0,0L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5,5L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15,15L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

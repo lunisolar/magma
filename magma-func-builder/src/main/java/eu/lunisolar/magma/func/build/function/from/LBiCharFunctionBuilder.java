@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LBiCharFunction. */
+/**
+ * Builder for LBiCharFunction.
+ */
 public final class LBiCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBiCharFunctionBuilder<R>, LBiCharPredicate, LBiCharFunction<R>, R> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LBiCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiCharFunction EVENTUALLY_THROW = LBiCharFunction.l((a1, a2) -> {
+	public static final LBiCharFunction EVENTUALLY_THROW = LBiCharFunction.biCharFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LBiCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 		LBiCharFunction<R> retval;
 
 		final Case<LBiCharPredicate, LBiCharFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiCharFunction.<R> l((a1, a2) -> {
+		retval = LBiCharFunction.<R> biCharFunc((a1, a2) -> {
 			try {
 				for (Case<LBiCharPredicate, LBiCharFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

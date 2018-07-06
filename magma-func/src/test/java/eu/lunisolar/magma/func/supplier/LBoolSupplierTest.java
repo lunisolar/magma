@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LBoolSupplierTest<X extends ParseException> {
+public class LBoolSupplierTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,35 +65,33 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     private LBoolSupplier sut = new LBoolSupplier(){
-        public  boolean doGetAsBool()  {
+        public  boolean doGetAsBoolX()  {
             return testValue;
         }
     };
 
-    private LBoolSupplierX<X> opposite = new LBoolSupplierX<X>(){
-        public  boolean doGetAsBool()  throws X {
-            return testValue;
-        }
-    };
 
 
     private BooleanSupplier jre = () -> testValue;
 
 
+    private LBoolSupplier sutAlwaysThrowing = LBoolSupplier.boolSup(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LBoolSupplierX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolSupplier.l(() -> {
+    private LBoolSupplier sutAlwaysThrowingUnchecked = LBoolSupplier.boolSup(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doGetAsBool())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LTuple.Void domainObject = Tuple4U.tuple();
 
@@ -104,13 +102,13 @@ public class LBoolSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoGetAsBool() throws X {
+    public void testNonNullDoGetAsBool() throws Throwable {
         assertThat(sut.nonNullDoGetAsBool())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsBoolUnchecked() throws X {
+    public void testNestingDoGetAsBoolUnchecked() throws Throwable {
 
         // then
         try {
@@ -125,7 +123,7 @@ public class LBoolSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsBoolUnchecked() throws X {
+    public void testShovingDoGetAsBoolUnchecked() throws Throwable {
 
         // then
         try {
@@ -141,169 +139,25 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBoolSupplier: boolean doGetAsBool()");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LBoolSupplier.l(() -> testValue ))
+    public void testBoolSupMethod() throws Throwable {
+        assertThat(LBoolSupplier.boolSup(() -> testValue ))
             .isInstanceOf(LBoolSupplier.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LBoolSupplier.wrap(opposite))
-            .isInstanceOf(LBoolSupplier.class);
-    }
 
     @Test
-    public void testWrapStdMethod() throws X {
+    public void testWrapStdMethod() throws Throwable {
         assertThat(LBoolSupplier.wrap(jre))
             .isInstanceOf(LBoolSupplier.class);
     }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LBoolSupplierX<X> sutThrowing = LBoolSupplierX.lX(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LBoolSupplier wrapped = LBoolSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsBool();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LBoolSupplierX<ParseException> sutThrowing = LBoolSupplierX.lX(() -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LBoolSupplier wrapped = LBoolSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsBool();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void testHandlingDoGetAsBoolMethodWrapsTheException() throws X {
-
-        // given
-        LBoolSupplier sutThrowing = LBoolSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBoolSupplier wrapped = sutThrowing.handleBoolSup(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doGetAsBool();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleBoolSupMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LBoolSupplier sutThrowing = LBoolSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBoolSupplier wrapped = sutThrowing.handleBoolSup(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsBool();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleBoolSupMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LBoolSupplier sutThrowing = LBoolSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBoolSupplier wrapped = sutThrowing.handleBoolSup(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsBool();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleBoolSupMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LBoolSupplier sutThrowing = LBoolSupplier.l(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBoolSupplier wrapped = sutThrowing.handleBoolSup(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doGetAsBool();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
@@ -311,7 +165,7 @@ public class LBoolSupplierTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testToSup0() throws X  {
+    public void testToSup0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -344,7 +198,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToByteSup1() throws X  {
+    public void testToByteSup1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -377,7 +231,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToShortSup2() throws X  {
+    public void testToSrtSup2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -388,7 +242,7 @@ public class LBoolSupplierTest<X extends ParseException> {
                 return true;
         };
 
-        LBoolToShortFunction thenFunction = p -> {
+        LBoolToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
                 assertThat(p).isEqualTo(true);
@@ -397,8 +251,8 @@ public class LBoolSupplierTest<X extends ParseException> {
         };
 
         //when
-        LShortSupplier function = sutO.toShortSup(thenFunction);
-        short finalValue = function.doGetAsShort();
+        LSrtSupplier function = sutO.toSrtSup(thenFunction);
+        short finalValue = function.doGetAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -410,7 +264,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToIntSup3() throws X  {
+    public void testToIntSup3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,7 +297,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToLongSup4() throws X  {
+    public void testToLongSup4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -476,7 +330,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToFloatSup5() throws X  {
+    public void testToFltSup5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -487,7 +341,7 @@ public class LBoolSupplierTest<X extends ParseException> {
                 return true;
         };
 
-        LBoolToFloatFunction thenFunction = p -> {
+        LBoolToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
                 assertThat(p).isEqualTo(true);
@@ -496,8 +350,8 @@ public class LBoolSupplierTest<X extends ParseException> {
         };
 
         //when
-        LFloatSupplier function = sutO.toFloatSup(thenFunction);
-        float finalValue = function.doGetAsFloat();
+        LFltSupplier function = sutO.toFltSup(thenFunction);
+        float finalValue = function.doGetAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -509,7 +363,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToDoubleSup6() throws X  {
+    public void testToDblSup6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -520,7 +374,7 @@ public class LBoolSupplierTest<X extends ParseException> {
                 return true;
         };
 
-        LBoolToDoubleFunction thenFunction = p -> {
+        LBoolToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
                 assertThat(p).isEqualTo(true);
@@ -529,8 +383,8 @@ public class LBoolSupplierTest<X extends ParseException> {
         };
 
         //when
-        LDoubleSupplier function = sutO.toDoubleSup(thenFunction);
-        double finalValue = function.doGetAsDouble();
+        LDblSupplier function = sutO.toDblSup(thenFunction);
+        double finalValue = function.doGetAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -542,7 +396,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToCharSup7() throws X  {
+    public void testToCharSup7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -575,7 +429,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToBoolSup8() throws X  {
+    public void testToBoolSup8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -623,25 +477,12 @@ public class LBoolSupplierTest<X extends ParseException> {
             .isInstanceOf(LBoolSupplier.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingBoolSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolSupplierX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingBoolSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolSupplierX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LBoolSupplier sutThrowing = LBoolSupplier.l(() -> {
+        LBoolSupplier sutThrowing = LBoolSupplier.boolSup(() -> {
             throw new UnsupportedOperationException();
         });
 
@@ -649,33 +490,9 @@ public class LBoolSupplierTest<X extends ParseException> {
         sutThrowing.shovingBoolSup().doGetAsBool();
     }
 
-    @Test
-    public void testHandleBoolSup() throws X {
-
-        // given
-        LBoolSupplier sutThrowing = LBoolSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBoolSupplier wrapped = sutThrowing.handleBoolSup(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doGetAsBool();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -695,7 +512,6 @@ public class LBoolSupplierTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LBoolSupplier r1 = LBoolSupplier.safe(sut); //NOSONAR
-        LBoolSupplierX r2 = LBoolSupplier.safe(sut); //NOSONAR
         BooleanSupplier r3 = LBoolSupplier.safe(sut); //NOSONAR
     }
 
@@ -706,7 +522,7 @@ public class LBoolSupplierTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LBoolSupplier.safe(null);
-        assertThat(result).isSameAs(LBoolSupplier.l(LBoolSupplier.safe()));
+        assertThat(result).isSameAs(LBoolSupplier.boolSup(LBoolSupplier.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

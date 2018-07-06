@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LByteBinaryOperatorTest<X extends ParseException> {
+public class LByteBinaryOperatorTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
 
     private LByteBinaryOperator sut = new LByteBinaryOperator(){
-        public  byte doApplyAsByte(byte a1,byte a2)  {
-            return testValue;
-        }
-    };
-
-    private LByteBinaryOperatorX<X> opposite = new LByteBinaryOperatorX<X>(){
-        public  byte doApplyAsByte(byte a1,byte a2)  throws X {
+        public  byte doApplyAsByteX(byte a1,byte a2)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
 
 
-    private LByteBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LByteBinaryOperator.l((a1,a2) -> {
+    private LByteBinaryOperator sutAlwaysThrowing = LByteBinaryOperator.byteBinaryOp((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LByteBinaryOperator sutAlwaysThrowingUnchecked = LByteBinaryOperator.byteBinaryOp((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApplyAsByte((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LBytePair domainObject = Tuple4U.bytePair((byte)100,(byte)100);
 
@@ -102,13 +100,13 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApplyAsByte() throws X {
+    public void testNonNullDoApplyAsByte() throws Throwable {
         assertThat(sut.nonNullDoApplyAsByte((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsByteUnchecked() throws X {
+    public void testNestingDoApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsByteUnchecked() throws X {
+    public void testShovingDoApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
@@ -139,167 +137,23 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LByteBinaryOperator: byte doApplyAsByte(byte a1,byte a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LByteBinaryOperator.l((a1,a2) -> testValue ))
+    public void testByteBinaryOpMethod() throws Throwable {
+        assertThat(LByteBinaryOperator.byteBinaryOp((a1,a2) -> testValue ))
             .isInstanceOf(LByteBinaryOperator.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LByteBinaryOperator.wrap(opposite))
-            .isInstanceOf(LByteBinaryOperator.class);
-    }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LByteBinaryOperatorX<X> sutThrowing = LByteBinaryOperatorX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LByteBinaryOperator wrapped = LByteBinaryOperator.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsByte((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LByteBinaryOperatorX<ParseException> sutThrowing = LByteBinaryOperatorX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LByteBinaryOperator wrapped = LByteBinaryOperator.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsByte((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
     @Test
-    public void testHandlingDoApplyAsByteMethodWrapsTheException() throws X {
-
-        // given
-        LByteBinaryOperator sutThrowing = LByteBinaryOperator.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LByteBinaryOperator wrapped = sutThrowing.handleByteBinaryOp(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApplyAsByte((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleByteBinaryOpMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LByteBinaryOperator sutThrowing = LByteBinaryOperator.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LByteBinaryOperator wrapped = sutThrowing.handleByteBinaryOp(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsByte((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleByteBinaryOpMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LByteBinaryOperator sutThrowing = LByteBinaryOperator.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LByteBinaryOperator wrapped = sutThrowing.handleByteBinaryOp(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsByte((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleByteBinaryOpMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LByteBinaryOperator sutThrowing = LByteBinaryOperator.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LByteBinaryOperator wrapped = sutThrowing.handleByteBinaryOp(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApplyAsByte((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void minBy() throws X  {
+    public void minBy() throws Throwable  {
         //when
         LByteBinaryOperator min =  LByteBinaryOperator.minBy(Byte::compare);
 
@@ -312,7 +166,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void maxBy() throws X  {
+    public void maxBy() throws Throwable  {
         //when
         LByteBinaryOperator max =  LByteBinaryOperator.maxBy(Byte::compare);
 
@@ -325,7 +179,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testMin() throws X {
+    public void testMin() throws Throwable {
         //given
         byte valueSmall = (byte)10;
         byte valueBig = (byte)100;
@@ -342,7 +196,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testMax() throws X {
+    public void testMax() throws Throwable {
         //given
         byte valueSmall = (byte)10;
         byte valueBig = (byte)100;
@@ -362,7 +216,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteBinaryOpComposeByte() throws X {
+    public void testByteBinaryOpComposeByte() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -397,7 +251,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testByteBinaryOpCompose() throws X {
+    public void testByteBinaryOpCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -437,7 +291,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -471,6 +325,76 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
 
 
+    @Test
+    public void testThenToByte1() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LByteBinaryOperator sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
+                return (byte)90;
+        };
+
+        LByteUnaryOperator thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // byte
+                assertThat(p).isEqualTo((byte)90);
+                // byte
+                return (byte)100;
+        };
+
+        //when
+        LByteBinaryOperator function = sutO.thenToByte(thenFunction);
+        byte finalValue = function.doApplyAsByte((byte)80,(byte)81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo((byte)100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LByteBinaryOperator sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
+                return (byte)90;
+        };
+
+        LBytePredicate thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // byte
+                assertThat(p).isEqualTo((byte)90);
+                // boolean
+                return true;
+        };
+
+        //when
+        LBiBytePredicate function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doTest((byte)80,(byte)81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
     // </editor-fold>
 
     @Test
@@ -487,25 +411,12 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
             .isInstanceOf(LByteBinaryOperator.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingByteBinaryOpX())
-            .isSameAs(sut)
-            .isInstanceOf(LByteBinaryOperatorX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingByteBinaryOpX())
-            .isSameAs(sut)
-            .isInstanceOf(LByteBinaryOperatorX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LByteBinaryOperator sutThrowing = LByteBinaryOperator.l((a1,a2) -> {
+        LByteBinaryOperator sutThrowing = LByteBinaryOperator.byteBinaryOp((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -513,33 +424,9 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
         sutThrowing.shovingByteBinaryOp().doApplyAsByte((byte)100,(byte)100);
     }
 
-    @Test
-    public void testHandleByteBinaryOp() throws X {
-
-        // given
-        LByteBinaryOperator sutThrowing = LByteBinaryOperator.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LByteBinaryOperator wrapped = sutThrowing.handleByteBinaryOp(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApplyAsByte((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -559,7 +446,6 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LByteBinaryOperator r1 = LByteBinaryOperator.safe(sut); //NOSONAR
-        LByteBinaryOperatorX r2 = LByteBinaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -569,7 +455,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LByteBinaryOperator.safe(null);
-        assertThat(result).isSameAs(LByteBinaryOperator.l(LByteBinaryOperator.safe()));
+        assertThat(result).isSameAs(LByteBinaryOperator.byteBinaryOp(LByteBinaryOperator.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

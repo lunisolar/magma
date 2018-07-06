@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LByteSupplierTest<X extends ParseException> {
+public class LByteSupplierTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     private LByteSupplier sut = new LByteSupplier(){
-        public  byte doGetAsByte()  {
-            return testValue;
-        }
-    };
-
-    private LByteSupplierX<X> opposite = new LByteSupplierX<X>(){
-        public  byte doGetAsByte()  throws X {
+        public  byte doGetAsByteX()  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
 
-    private LByteSupplierX<RuntimeException> sutAlwaysThrowingUnchecked = LByteSupplier.l(() -> {
+    private LByteSupplier sutAlwaysThrowing = LByteSupplier.byteSup(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LByteSupplier sutAlwaysThrowingUnchecked = LByteSupplier.byteSup(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doGetAsByte())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LTuple.Void domainObject = Tuple4U.tuple();
 
@@ -102,13 +100,13 @@ public class LByteSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoGetAsByte() throws X {
+    public void testNonNullDoGetAsByte() throws Throwable {
         assertThat(sut.nonNullDoGetAsByte())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsByteUnchecked() throws X {
+    public void testNestingDoGetAsByteUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LByteSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsByteUnchecked() throws X {
+    public void testShovingDoGetAsByteUnchecked() throws Throwable {
 
         // then
         try {
@@ -139,163 +137,19 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LByteSupplier: byte doGetAsByte()");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LByteSupplier.l(() -> testValue ))
+    public void testByteSupMethod() throws Throwable {
+        assertThat(LByteSupplier.byteSup(() -> testValue ))
             .isInstanceOf(LByteSupplier.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LByteSupplier.wrap(opposite))
-            .isInstanceOf(LByteSupplier.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LByteSupplierX<X> sutThrowing = LByteSupplierX.lX(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LByteSupplier wrapped = LByteSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsByte();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LByteSupplierX<ParseException> sutThrowing = LByteSupplierX.lX(() -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LByteSupplier wrapped = LByteSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsByte();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoGetAsByteMethodWrapsTheException() throws X {
-
-        // given
-        LByteSupplier sutThrowing = LByteSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LByteSupplier wrapped = sutThrowing.handleByteSup(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doGetAsByte();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleByteSupMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LByteSupplier sutThrowing = LByteSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LByteSupplier wrapped = sutThrowing.handleByteSup(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsByte();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleByteSupMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LByteSupplier sutThrowing = LByteSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LByteSupplier wrapped = sutThrowing.handleByteSup(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsByte();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleByteSupMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LByteSupplier sutThrowing = LByteSupplier.l(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LByteSupplier wrapped = sutThrowing.handleByteSup(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doGetAsByte();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
@@ -303,7 +157,7 @@ public class LByteSupplierTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testToSup0() throws X  {
+    public void testToSup0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -336,7 +190,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToByteSup1() throws X  {
+    public void testToByteSup1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -369,7 +223,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToShortSup2() throws X  {
+    public void testToSrtSup2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -380,7 +234,7 @@ public class LByteSupplierTest<X extends ParseException> {
                 return (byte)90;
         };
 
-        LByteToShortFunction thenFunction = p -> {
+        LByteToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
                 assertThat(p).isEqualTo((byte)90);
@@ -389,8 +243,8 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LShortSupplier function = sutO.toShortSup(thenFunction);
-        short finalValue = function.doGetAsShort();
+        LSrtSupplier function = sutO.toSrtSup(thenFunction);
+        short finalValue = function.doGetAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -402,7 +256,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToIntSup3() throws X  {
+    public void testToIntSup3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -435,7 +289,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToLongSup4() throws X  {
+    public void testToLongSup4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -468,7 +322,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToFloatSup5() throws X  {
+    public void testToFltSup5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -479,7 +333,7 @@ public class LByteSupplierTest<X extends ParseException> {
                 return (byte)90;
         };
 
-        LByteToFloatFunction thenFunction = p -> {
+        LByteToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
                 assertThat(p).isEqualTo((byte)90);
@@ -488,8 +342,8 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LFloatSupplier function = sutO.toFloatSup(thenFunction);
-        float finalValue = function.doGetAsFloat();
+        LFltSupplier function = sutO.toFltSup(thenFunction);
+        float finalValue = function.doGetAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -501,7 +355,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToDoubleSup6() throws X  {
+    public void testToDblSup6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -512,7 +366,7 @@ public class LByteSupplierTest<X extends ParseException> {
                 return (byte)90;
         };
 
-        LByteToDoubleFunction thenFunction = p -> {
+        LByteToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
                 assertThat(p).isEqualTo((byte)90);
@@ -521,8 +375,8 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LDoubleSupplier function = sutO.toDoubleSup(thenFunction);
-        double finalValue = function.doGetAsDouble();
+        LDblSupplier function = sutO.toDblSup(thenFunction);
+        double finalValue = function.doGetAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -534,7 +388,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToCharSup7() throws X  {
+    public void testToCharSup7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -567,7 +421,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToBoolSup8() throws X  {
+    public void testToBoolSup8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -615,25 +469,12 @@ public class LByteSupplierTest<X extends ParseException> {
             .isInstanceOf(LByteSupplier.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingByteSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LByteSupplierX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingByteSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LByteSupplierX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LByteSupplier sutThrowing = LByteSupplier.l(() -> {
+        LByteSupplier sutThrowing = LByteSupplier.byteSup(() -> {
             throw new UnsupportedOperationException();
         });
 
@@ -641,33 +482,9 @@ public class LByteSupplierTest<X extends ParseException> {
         sutThrowing.shovingByteSup().doGetAsByte();
     }
 
-    @Test
-    public void testHandleByteSup() throws X {
-
-        // given
-        LByteSupplier sutThrowing = LByteSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LByteSupplier wrapped = sutThrowing.handleByteSup(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doGetAsByte();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -687,7 +504,6 @@ public class LByteSupplierTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LByteSupplier r1 = LByteSupplier.safe(sut); //NOSONAR
-        LByteSupplierX r2 = LByteSupplier.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -697,7 +513,7 @@ public class LByteSupplierTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LByteSupplier.safe(null);
-        assertThat(result).isSameAs(LByteSupplier.l(LByteSupplier.safe()));
+        assertThat(result).isSameAs(LByteSupplier.byteSup(LByteSupplier.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

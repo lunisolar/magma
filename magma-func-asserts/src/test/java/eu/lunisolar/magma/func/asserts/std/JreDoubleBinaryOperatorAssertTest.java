@@ -56,8 +56,8 @@ public class JreDoubleBinaryOperatorAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
-         .doesApplyAsDouble(100d,100d)
+        A.assertDblBinaryOp(function)
+         .doesApplyAsDbl(100d,100d)
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -65,8 +65,8 @@ public class JreDoubleBinaryOperatorAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
-         .doesApplyAsDouble(100d,100d)
+        A.assertDblBinaryOp(function)
+         .doesApplyAsDbl(100d,100d)
             .to( a -> a.isEqualTo(2));
 
     }
@@ -74,16 +74,16 @@ public class JreDoubleBinaryOperatorAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
-         .doesApplyAsDouble(100d,100d)
+        A.assertDblBinaryOp(functionThrowing)
+         .doesApplyAsDbl(100d,100d)
             .to( a -> a.isEqualTo(1));
     }
 
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
-         .doesApplyAsDouble(100d,100d).withException(a -> a
+        A.assertDblBinaryOp(functionThrowing)
+         .doesApplyAsDbl(100d,100d).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -94,14 +94,14 @@ public class JreDoubleBinaryOperatorAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblBinaryOp(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApplyAsDouble(100d,100d)
+         .doesApplyAsDbl(100d,100d)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsDouble(100d,100d)
+         .doesApplyAsDbl(100d,100d)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -112,16 +112,16 @@ public class JreDoubleBinaryOperatorAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblBinaryOp(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
                 a.isEqualTo(0);
             }
          })
-         .doesApplyAsDouble(100d,100d)
+         .doesApplyAsDbl(100d,100d)
             .to(a -> a.isEqualTo(testValue))
-         .doesApplyAsDouble(100d,100d)
+         .doesApplyAsDbl(100d,100d)
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

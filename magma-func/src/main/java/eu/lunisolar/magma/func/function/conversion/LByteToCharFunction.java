@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,28 +63,129 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: char
  *
- * @see LByteToCharFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LByteToCharFunction: char doApplyAsChar(byte a)";
 
-	char doApplyAsChar(byte a);
+	// char doApplyAsChar(byte a) ;
+	default char doApplyAsChar(byte a) {
+		// return nestingDoApplyAsChar(a);
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doApplyAsChar(byte a)
+	 */
+	char doApplyAsCharX(byte a) throws Throwable;
 
 	default char tupleApplyAsChar(LByteSingle args) {
 		return doApplyAsChar(args.value());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoApplyAsChar(byte a) {
-		return this.doApplyAsChar(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default char handlingDoApplyAsChar(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default char tryDoApplyAsChar(byte a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default char tryDoApplyAsChar(byte a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default char tryDoApplyAsCharThen(byte a, @Nonnull LToCharFunction<Throwable> handler) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsChar(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default char nestingDoApplyAsChar(byte a) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(byte a) {
-		return this.doApplyAsChar(a);
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static char handlingDoApplyAsChar(byte a, LByteToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoApplyAsChar(a, handling);
+	}
+
+	static char tryDoApplyAsChar(byte a, LByteToCharFunction func) {
+		return tryDoApplyAsChar(a, func, null);
+	}
+
+	static char tryDoApplyAsChar(byte a, LByteToCharFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsChar(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static char tryDoApplyAsChar(byte a, LByteToCharFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsChar(a, exceptionFactory);
+	}
+
+	static char tryDoApplyAsCharThen(byte a, LByteToCharFunction func, @Nonnull LToCharFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsCharThen(a, handler);
+	}
+
+	default char failSafeDoApplyAsChar(byte a, @Nonnull LByteToCharFunction failSafe) {
+		try {
+			return doApplyAsChar(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doApplyAsChar(a);
+		}
+	}
+
+	static char failSafeDoApplyAsChar(byte a, LByteToCharFunction func, @Nonnull LByteToCharFunction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doApplyAsChar(a);
+		} else {
+			return func.failSafeDoApplyAsChar(a, failSafe);
+		}
+	}
+
+	static LByteToCharFunction failSafeByteToCharFunc(LByteToCharFunction func, @Nonnull LByteToCharFunction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoApplyAsChar(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -91,6 +197,39 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteToCharFunction.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, byte a, LByteToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doApplyAsChar(a);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doApplyAsChar(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, byte a, LByteToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doApplyAsChar(a);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doApplyAsChar(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, byte a, LByteToCharFunction func) {
+		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -105,9 +244,47 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LByteToCharFunction l(final @Nonnull LByteToCharFunction lambda) {
+	static LByteToCharFunction byteToCharFunc(final @Nonnull LByteToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LByteToCharFunction recursive(final @Nonnull LFunction<LByteToCharFunction, LByteToCharFunction> selfLambda) {
+		final LByteToCharFunctionSingle single = new LByteToCharFunctionSingle();
+		LByteToCharFunction func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LByteToCharFunctionSingle implements LSingle<LByteToCharFunction>, LByteToCharFunction {
+		private LByteToCharFunction target = null;
+
+		@Override
+		public char doApplyAsCharX(byte a) throws Throwable {
+			return target.doApplyAsCharX(a);
+		}
+
+		@Override
+		public LByteToCharFunction value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LByteToCharFunction byteToCharFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LByteToCharFunction byteToCharFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static char call(byte a, final @Nonnull LByteToCharFunction lambda) {
@@ -117,20 +294,14 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LByteToCharFunction wrap(final @Nonnull LByteToCharFunctionX<X> other) {
-		return other::nestingDoApplyAsChar;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceChar). */
+	/** Safe instance. That always returns the same value (as produceChar). */
 	@Nonnull
 	static LByteToCharFunction safe() {
-		return Function4U::produceChar;
+		return LByteToCharFunction::produceChar;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -170,11 +341,19 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 		return v -> this.doApplyAsChar(before.doApplyAsByte(v));
 	}
 
+	public static LByteToCharFunction composedByte(@Nonnull final LByteUnaryOperator before, LByteToCharFunction after) {
+		return after.byteToCharFuncComposeByte(before);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToCharFunction<V> byteToCharFuncCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.doApplyAsChar(before.doApplyAsByte(v));
+	}
+
+	public static <V> LToCharFunction<V> composed(@Nonnull final LToByteFunction<? super V> before, LByteToCharFunction after) {
+		return after.byteToCharFuncCompose(before);
 	}
 
 	// </editor-fold>
@@ -197,9 +376,9 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteToShortFunction thenToShort(@Nonnull LCharToShortFunction after) {
+	default LByteToSrtFunction thenToSrt(@Nonnull LCharToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsShort(this.doApplyAsChar(a));
+		return a -> after.doApplyAsSrt(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -218,16 +397,16 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteToFloatFunction thenToFloat(@Nonnull LCharToFloatFunction after) {
+	default LByteToFltFunction thenToFlt(@Nonnull LCharToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFloat(this.doApplyAsChar(a));
+		return a -> after.doApplyAsFlt(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LByteToDoubleFunction thenToDouble(@Nonnull LCharToDoubleFunction after) {
+	default LByteToDblFunction thenToDbl(@Nonnull LCharToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDouble(this.doApplyAsChar(a));
+		return a -> after.doApplyAsDbl(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -254,22 +433,38 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LByteToCharFunctionX<RuntimeException> nestingByteToCharFuncX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteToCharFunction shovingByteToCharFunc() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToCharFunctionX<RuntimeException> shovingByteToCharFuncX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LByteToCharFunction) Function */
+	public static char produceChar(byte a) {
+		return Function4U.defaultCharacter;
 	}
 
-	// </editor-fold>
+	// MAP: FOR, [SourcePurpose{arg=byte a, type=IA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	default <C0> void forEach(IndexedRead<C0, aByte> ia, C0 source, LCharConsumer consumer) {
+		int size = ia.size(source);
+		LOiToByteFunction<Object> oiFunc0 = (LOiToByteFunction) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			byte a = oiFunc0.doApplyAsByte(source, i);
+			consumer.doAccept(this.doApplyAsChar(a));
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=byte a, type=SA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	default <C0, I0> void iterate(SequentialRead<C0, I0, aByte> sa, C0 source, LCharConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.getter();
+		while (testFunc0.doTest(iterator0)) {
+			byte a = nextFunc0.doApplyAsByte(iterator0);
+			consumer.doAccept(this.doApplyAsChar(a));
+		}
+	}
 
 }

@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LObjLongPredicateBuilder.objLongPredicate;
 import static eu.lunisolar.magma.func.build.predicate.LObjLongPredicateBuilder.objLongPredicateFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LObjLongPredicateBuilderTest<T,X extends ParseException>{
+public class LObjLongPredicateBuilderTest<T>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LObjLongPredicateBuilderTest<T,X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertObjLongPred(function)
             .doesTest(0,0L).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5,5L).when(null).to(a -> a.isEqualTo(true))
         ;

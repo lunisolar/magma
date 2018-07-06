@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LIntToLongFunction. */
+/**
+ * Builder for LIntToLongFunction.
+ */
 public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<LIntToLongFunctionBuilder, LIntPredicate, LIntToLongFunction> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToLongFunction EVENTUALLY_THROW = LIntToLongFunction.l(a -> {
+	public static final LIntToLongFunction EVENTUALLY_THROW = LIntToLongFunction.intToLongFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 		LIntToLongFunction retval;
 
 		final Case<LIntPredicate, LIntToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToLongFunction.l(a -> {
+		retval = LIntToLongFunction.intToLongFunc(a -> {
 			try {
 				for (Case<LIntPredicate, LIntToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

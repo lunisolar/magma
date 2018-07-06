@@ -49,31 +49,36 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for DoubleUnaryOperator. */
-public interface JreDoubleUnaryOperatorAssert<S extends JreDoubleUnaryOperatorAssert<S, A, RS>, A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, Double> {
+public interface JreDoubleUnaryOperatorAssert<S extends JreDoubleUnaryOperatorAssert<S, A, RS>, A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, Double> doesApplyAsDouble(double a);
+	public static <A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> JreDoubleUnaryOperatorAssert.The<A, RS> assertDblUnaryOp(DoubleUnaryOperator func) {
+		return new JreDoubleUnaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LDblConsumer, A, RS, Double> doesApplyAsDbl(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public The(A actual, LDoubleFunction<RS> assertFactory) {
+		public The(A actual, LDblFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
-	class Base<S extends Base<S, A, RS>, A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LDoubleConsumer, A, RS, Double> implements JreDoubleUnaryOperatorAssert<S, A, RS> {
+	class Base<S extends Base<S, A, RS>, A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LDblConsumer, A, RS, Double> implements JreDoubleUnaryOperatorAssert<S, A, RS> {
 
-		protected final LDoubleFunction<RS> assertFactory;
+		protected final LDblFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, LDoubleFunction<RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LDblFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, Double> doesApplyAsDouble(double a) {
+		public Evaluation<S, LDblConsumer, A, RS, Double> doesApplyAsDbl(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

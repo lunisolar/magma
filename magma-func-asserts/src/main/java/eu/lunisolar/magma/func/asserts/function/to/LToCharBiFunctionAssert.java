@@ -57,6 +57,11 @@ public interface LToCharBiFunctionAssert<S extends LToCharBiFunctionAssert<S, A,
 			FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Character> {
 
 	@Nonnull
+	public static <A extends LToCharBiFunction<T1, T2>, RS extends AbstractCharacterAssert<RS>, T1, T2> LToCharBiFunctionAssert.The<A, RS, T1, T2> assertToCharBiFunc(LToCharBiFunction<T1, T2> func) {
+		return new LToCharBiFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Character> doesApplyAsChar(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

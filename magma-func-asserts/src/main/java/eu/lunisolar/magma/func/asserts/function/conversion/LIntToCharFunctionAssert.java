@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LIntToCharFunctionAssert<S extends LIntToCharFunctionAssert<S, A, RS>, A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumer, A, RS, Character> {
 
 	@Nonnull
+	public static <A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>> LIntToCharFunctionAssert.The<A, RS> assertIntToCharFunc(LIntToCharFunction func) {
+		return new LIntToCharFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LIntConsumer, A, RS, Character> doesApplyAsChar(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

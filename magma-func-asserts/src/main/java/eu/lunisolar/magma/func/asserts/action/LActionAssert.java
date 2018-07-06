@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LActionAssert<S extends LActionAssert<S, A>, A extends LAction> extends Assert<S, A>, FunctionalAssert.Simple<S, LAction, A> {
 
 	@Nonnull
+	public static <A extends LAction> LActionAssert.The<A> assertAct(LAction func) {
+		return new LActionAssert.The(func);
+	}
+
+	@Nonnull
 	SemiEvaluation<S, LAction, A> doesExecute();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

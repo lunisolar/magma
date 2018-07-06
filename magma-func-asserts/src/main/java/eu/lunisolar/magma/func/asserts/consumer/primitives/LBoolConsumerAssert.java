@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolConsumerAssert<S extends LBoolConsumerAssert<S, A>, A extends LBoolConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LBoolConsumer, A> {
 
 	@Nonnull
+	public static <A extends LBoolConsumer> LBoolConsumerAssert.The<A> assertBoolCons(LBoolConsumer func) {
+		return new LBoolConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	SemiEvaluation<S, LBoolConsumer, A> doesAccept(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

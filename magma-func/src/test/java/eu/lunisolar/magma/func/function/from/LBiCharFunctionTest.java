@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LBiCharFunctionTest<R,X extends ParseException> {
+public class LBiCharFunctionTest<R> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,39 +65,37 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
 
 
     private LBiCharFunction<Integer> sut = new LBiCharFunction<Integer>(){
-        public @Nullable Integer doApply(char a1,char a2)  {
+        public @Nullable Integer doApplyX(char a1,char a2)  {
             return testValue;
         }
     };
 
-    private LBiCharFunctionX<Integer,X> opposite = new LBiCharFunctionX<Integer,X>(){
-        public @Nullable Integer doApply(char a1,char a2)  throws X {
-            return testValue;
-        }
-    };
 
     private LBiCharFunction<Integer> sutNull = new LBiCharFunction<Integer>(){
-        public @Nullable Integer doApply(char a1,char a2)  {
+        public @Nullable Integer doApplyX(char a1,char a2)  {
             return null;
         }
     };
 
 
 
+    private LBiCharFunction<Integer> sutAlwaysThrowing = LBiCharFunction.biCharFunc((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LBiCharFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LBiCharFunction.l((a1,a2) -> {
+    private LBiCharFunction<Integer> sutAlwaysThrowingUnchecked = LBiCharFunction.biCharFunc((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply('\u0100','\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LCharPair domainObject = Tuple4U.charPair('\u0100','\u0100');
 
@@ -108,13 +106,13 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply('\u0100','\u0100'))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -129,7 +127,7 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -144,176 +142,32 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiCharFunction: R doApply(char a1,char a2)).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoApply('\u0100','\u0100');
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBiCharFunction: R doApply(char a1,char a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LBiCharFunction.l((a1,a2) -> testValue ))
+    public void testBiCharFuncMethod() throws Throwable {
+        assertThat(LBiCharFunction.biCharFunc((a1,a2) -> testValue ))
             .isInstanceOf(LBiCharFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LBiCharFunction.wrap(opposite))
-            .isInstanceOf(LBiCharFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LBiCharFunctionX<Integer,X> sutThrowing = LBiCharFunctionX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBiCharFunction<Integer> wrapped = LBiCharFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LBiCharFunctionX<Integer,ParseException> sutThrowing = LBiCharFunctionX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LBiCharFunction<Integer> wrapped = LBiCharFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LBiCharFunction<Integer> sutThrowing = LBiCharFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiCharFunction<Integer> wrapped = sutThrowing.handleBiCharFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleBiCharFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LBiCharFunction<Integer> sutThrowing = LBiCharFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiCharFunction<Integer> wrapped = sutThrowing.handleBiCharFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleBiCharFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LBiCharFunction<Integer> sutThrowing = LBiCharFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiCharFunction<Integer> wrapped = sutThrowing.handleBiCharFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleBiCharFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LBiCharFunction<Integer> sutThrowing = LBiCharFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBiCharFunction<Integer> wrapped = sutThrowing.handleBiCharFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiCharFuncComposeChar() throws X {
+    public void testBiCharFuncComposeChar() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -348,7 +202,7 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testBiCharFuncCompose() throws X {
+    public void testBiCharFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -388,7 +242,7 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -423,7 +277,7 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws X  {
+    public void testThenConsume1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,10 +297,80 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LBiCharConsumer function = sutO.then(thenFunction);
+        LBiCharConsumer function = sutO.thenConsume(thenFunction);
         function.doAccept('\u0080','\u0081');
 
         //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToChar2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiCharFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a2).isEqualTo('\u0081');
+                return 90;
+        };
+
+        LToCharFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // char
+                return '\u0100';
+        };
+
+        //when
+        LCharBinaryOperator function = sutO.thenToChar(thenFunction);
+        char finalValue = function.doApplyAsChar('\u0080','\u0081');
+
+        //then - finals
+        assertThat(finalValue).isEqualTo('\u0100');
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool3() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiCharFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a2).isEqualTo('\u0081');
+                return 90;
+        };
+
+        LPredicate<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // boolean
+                return true;
+        };
+
+        //when
+        LBiCharPredicate function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doTest('\u0080','\u0081');
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -470,25 +394,12 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
             .isInstanceOf(LBiCharFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingBiCharFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingBiCharFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LBiCharFunction<Integer> sutThrowing = LBiCharFunction.l((a1,a2) -> {
+        LBiCharFunction<Integer> sutThrowing = LBiCharFunction.biCharFunc((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -496,33 +407,9 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
         sutThrowing.shovingBiCharFunc().doApply('\u0100','\u0100');
     }
 
-    @Test
-    public void testHandleBiCharFunc() throws X {
-
-        // given
-        LBiCharFunction<Integer> sutThrowing = LBiCharFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiCharFunction<Integer> wrapped = sutThrowing.handleBiCharFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -542,15 +429,15 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantV1(char a2,char a1) {
+    private Integer variantLChar1Char0Func(char a2,char a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LBiCharFunction lambda = LBiCharFunction./*<R>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLChar1Char0Func() {
+        LBiCharFunction lambda = LBiCharFunction./*<R>*/char1Char0Func(this::variantLChar1Char0Func);
 
-        assertThat(lambda).isInstanceOf(LBiCharFunction.V1.class);
+        assertThat(lambda).isInstanceOf(LBiCharFunction.LChar1Char0Func.class);
     }
 
     //</editor-fold>
@@ -558,7 +445,6 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
 
     @Test void safeCompiles() {
         LBiCharFunction r1 = LBiCharFunction.safe(sut); //NOSONAR
-        LBiCharFunctionX r2 = LBiCharFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -568,7 +454,7 @@ public class LBiCharFunctionTest<R,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LBiCharFunction.safe(null);
-        assertThat(result).isSameAs(LBiCharFunction.l(LBiCharFunction.safe()));
+        assertThat(result).isSameAs(LBiCharFunction.biCharFunc(LBiCharFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

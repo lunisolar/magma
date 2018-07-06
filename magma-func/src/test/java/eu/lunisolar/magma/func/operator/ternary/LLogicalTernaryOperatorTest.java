@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LLogicalTernaryOperatorTest<X extends ParseException> {
+public class LLogicalTernaryOperatorTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
 
     private LLogicalTernaryOperator sut = new LLogicalTernaryOperator(){
-        public  boolean doApply(boolean a1,boolean a2,boolean a3)  {
-            return testValue;
-        }
-    };
-
-    private LLogicalTernaryOperatorX<X> opposite = new LLogicalTernaryOperatorX<X>(){
-        public  boolean doApply(boolean a1,boolean a2,boolean a3)  throws X {
+        public  boolean doApplyX(boolean a1,boolean a2,boolean a3)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
 
 
-    private LLogicalTernaryOperatorX<RuntimeException> sutAlwaysThrowingUnchecked = LLogicalTernaryOperator.l((a1,a2,a3) -> {
+    private LLogicalTernaryOperator sutAlwaysThrowing = LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LLogicalTernaryOperator sutAlwaysThrowingUnchecked = LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply(true,true,true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LBoolTriple domainObject = Tuple4U.boolTriple(true,true,true);
 
@@ -102,13 +100,13 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply(true,true,true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -139,166 +137,22 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LLogicalTernaryOperator: boolean doApply(boolean a1,boolean a2,boolean a3)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LLogicalTernaryOperator.l((a1,a2,a3) -> testValue ))
+    public void testLogicalTernaryOpMethod() throws Throwable {
+        assertThat(LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> testValue ))
             .isInstanceOf(LLogicalTernaryOperator.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LLogicalTernaryOperator.wrap(opposite))
-            .isInstanceOf(LLogicalTernaryOperator.class);
-    }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LLogicalTernaryOperatorX<X> sutThrowing = LLogicalTernaryOperatorX.lX((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LLogicalTernaryOperator wrapped = LLogicalTernaryOperator.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LLogicalTernaryOperatorX<ParseException> sutThrowing = LLogicalTernaryOperatorX.lX((a1,a2,a3) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LLogicalTernaryOperator wrapped = LLogicalTernaryOperator.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
     @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LLogicalTernaryOperator sutThrowing = LLogicalTernaryOperator.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LLogicalTernaryOperator wrapped = sutThrowing.handleLogicalTernaryOp(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleLogicalTernaryOpMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LLogicalTernaryOperator sutThrowing = LLogicalTernaryOperator.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LLogicalTernaryOperator wrapped = sutThrowing.handleLogicalTernaryOp(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleLogicalTernaryOpMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LLogicalTernaryOperator sutThrowing = LLogicalTernaryOperator.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LLogicalTernaryOperator wrapped = sutThrowing.handleLogicalTernaryOp(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleLogicalTernaryOpMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LLogicalTernaryOperator sutThrowing = LLogicalTernaryOperator.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LLogicalTernaryOperator wrapped = sutThrowing.handleLogicalTernaryOp(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testnegate() throws X {
+    public void testnegate() throws Throwable {
         assertThat(sut.negate().doApply(true,true,true))
             .isEqualTo(!testValue);
     }
@@ -315,11 +169,11 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
     }
 
     @Test(dataProvider="boolean permutations")
-    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
+    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws Throwable {
 
         //given
-        LLogicalTernaryOperator fun1 = LLogicalTernaryOperator.l((a1,a2,a3) -> f1Result);
-        LLogicalTernaryOperator fun2 = LLogicalTernaryOperator.l((a1,a2,a3) -> f2Result);
+        LLogicalTernaryOperator fun1 = LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> f1Result);
+        LLogicalTernaryOperator fun2 = LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> f2Result);
 
         //when
         LLogicalTernaryOperator andFunction = fun1.and(fun2);
@@ -338,7 +192,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testIsEqual() throws X  {
+    public void testIsEqual() throws Throwable  {
         //when
         LLogicalTernaryOperator equals = LLogicalTernaryOperator.isEqual(true,true,true);
 
@@ -355,7 +209,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLogicalTernaryOpComposeBool() throws X {
+    public void testLogicalTernaryOpComposeBool() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -396,7 +250,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testLogicalTernaryOpCompose() throws X {
+    public void testLogicalTernaryOpCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -442,7 +296,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -477,6 +331,42 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
 
 
+    @Test
+    public void testThenToBool1() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LLogicalTernaryOperator sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
+                assertThat(a3).isEqualTo(true);
+                return true;
+        };
+
+        LLogicalOperator thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // boolean
+                return true;
+        };
+
+        //when
+        LLogicalTernaryOperator function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doApply(true,true,true);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
     // </editor-fold>
 
     @Test
@@ -493,25 +383,12 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
             .isInstanceOf(LLogicalTernaryOperator.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingLogicalTernaryOpX())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalTernaryOperatorX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingLogicalTernaryOpX())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalTernaryOperatorX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LLogicalTernaryOperator sutThrowing = LLogicalTernaryOperator.l((a1,a2,a3) -> {
+        LLogicalTernaryOperator sutThrowing = LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -519,33 +396,9 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
         sutThrowing.shovingLogicalTernaryOp().doApply(true,true,true);
     }
 
-    @Test
-    public void testHandleLogicalTernaryOp() throws X {
-
-        // given
-        LLogicalTernaryOperator sutThrowing = LLogicalTernaryOperator.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LLogicalTernaryOperator wrapped = sutThrowing.handleLogicalTernaryOp(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -565,7 +418,6 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LLogicalTernaryOperator r1 = LLogicalTernaryOperator.safe(sut); //NOSONAR
-        LLogicalTernaryOperatorX r2 = LLogicalTernaryOperator.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -575,7 +427,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LLogicalTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LLogicalTernaryOperator.l(LLogicalTernaryOperator.safe()));
+        assertThat(result).isSameAs(LLogicalTernaryOperator.logicalTernaryOp(LLogicalTernaryOperator.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

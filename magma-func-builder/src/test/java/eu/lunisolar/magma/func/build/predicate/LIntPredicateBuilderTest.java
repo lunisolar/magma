@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LIntPredicateBuilder.intPredicate;
 import static eu.lunisolar.magma.func.build.predicate.LIntPredicateBuilder.intPredicateFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LIntPredicateBuilderTest<X extends ParseException>{
+public class LIntPredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LIntPredicateBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertIntPred(function)
             .doesTest(0).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5).when(null).to(a -> a.isEqualTo(true))
         ;

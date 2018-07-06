@@ -52,6 +52,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreConsumerAssert<S extends JreConsumerAssert<S, A, T>, A extends Consumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LConsumer<T>, A> {
 
 	@Nonnull
+	public static <A extends Consumer<T>, T> JreConsumerAssert.The<A, T> assertCons(Consumer<T> func) {
+		return new JreConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	SemiEvaluation<S, LConsumer<T>, A> doesAccept(T a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

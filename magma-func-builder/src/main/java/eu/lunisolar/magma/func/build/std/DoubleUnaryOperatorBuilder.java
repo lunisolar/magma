@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoubleUnaryOperator. */
-public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleUnaryOperatorBuilder, LDoublePredicate, DoubleUnaryOperator> {
+/**
+ * Builder for DoubleUnaryOperator.
+ */
+public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDblProduct.Base<DoubleUnaryOperatorBuilder, LDblPredicate, DoubleUnaryOperator> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoubleUnaryOperator> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleUnaryOperator EVENTUALLY_THROW = Function4U.doubleUnaryOperator(a -> {
+	public static final DoubleUnaryOperator EVENTUALLY_THROW = Function4U.dblUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleUnaryOperatorBuilder(@Nullable Consumer<DoubleUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDoubleUnaryOperator::constant, () -> new DoubleUnaryOperatorBuilder(null));
+		super(EVENTUALLY_THROW, LDblUnaryOperator::constant, () -> new DoubleUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static DoubleUnaryOperatorBuilder doubleUnaryOperator() {
+	public static DoubleUnaryOperatorBuilder dblUnaryOperator() {
 		return new DoubleUnaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleUnaryOperator doubleUnaryOperatorFrom(Function<DoubleUnaryOperatorBuilder, DoubleUnaryOperator> buildingFunction) {
+	public static DoubleUnaryOperator dblUnaryOperatorFrom(Function<DoubleUnaryOperatorBuilder, DoubleUnaryOperator> buildingFunction) {
 		return buildingFunction.apply(new DoubleUnaryOperatorBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleUnaryOperatorBuilder doubleUnaryOperator(Consumer<DoubleUnaryOperator> consumer) {
+	public static DoubleUnaryOperatorBuilder dblUnaryOperator(Consumer<DoubleUnaryOperator> consumer) {
 		return new DoubleUnaryOperatorBuilder(consumer);
 	}
 
@@ -107,10 +109,10 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 
 		DoubleUnaryOperator retval;
 
-		final Case<LDoublePredicate, DoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleUnaryOperator(a -> {
+		final Case<LDblPredicate, DoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.dblUnaryOp(a -> {
 			try {
-				for (Case<LDoublePredicate, DoubleUnaryOperator> aCase : casesArray) {
+				for (Case<LDblPredicate, DoubleUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {
 						return aCase.caseFunction().applyAsDouble(a);
 					}

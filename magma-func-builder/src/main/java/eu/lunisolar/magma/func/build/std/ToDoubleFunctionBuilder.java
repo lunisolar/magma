@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for ToDoubleFunction. */
-public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoubleProduct.Base<ToDoubleFunctionBuilder<T>, LPredicate<T>, ToDoubleFunction<T>> {
+/**
+ * Builder for ToDoubleFunction.
+ */
+public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDblProduct.Base<ToDoubleFunctionBuilder<T>, LPredicate<T>, ToDoubleFunction<T>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<ToDoubleFunction<T>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ToDoubleFunction EVENTUALLY_THROW = Function4U.toDoubleFunction(a -> {
+	public static final ToDoubleFunction EVENTUALLY_THROW = Function4U.toDblFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ToDoubleFunctionBuilder(@Nullable Consumer<ToDoubleFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToDoubleFunction::constant, () -> new ToDoubleFunctionBuilder(null));
+		super(EVENTUALLY_THROW, LToDblFunction::constant, () -> new ToDoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoublePr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static <T> ToDoubleFunctionBuilder<T> toDoubleFunction() {
+	public static <T> ToDoubleFunctionBuilder<T> toDblFunction() {
 		return new ToDoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> ToDoubleFunction<T> toDoubleFunctionFrom(Function<ToDoubleFunctionBuilder<T>, ToDoubleFunction<T>> buildingFunction) {
+	public static <T> ToDoubleFunction<T> toDblFunctionFrom(Function<ToDoubleFunctionBuilder<T>, ToDoubleFunction<T>> buildingFunction) {
 		return buildingFunction.apply(new ToDoubleFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <T> ToDoubleFunctionBuilder<T> toDoubleFunction(Consumer<ToDoubleFunction<T>> consumer) {
+	public static <T> ToDoubleFunctionBuilder<T> toDblFunction(Consumer<ToDoubleFunction<T>> consumer) {
 		return new ToDoubleFunctionBuilder(consumer);
 	}
 
@@ -102,7 +104,7 @@ public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoublePr
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V extends T> ToDoubleFunctionBuilder<T> casesOf(Class<V> argC, Consumer<ToDoubleFunctionBuilder<V>> pcpConsumer) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
+		PartialCaseWithDblProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoublePr
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <V extends T> ToDoubleFunctionBuilder<T> aCase(Class<V> argC, ToDoubleFunction<V> function) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
+		PartialCaseWithDblProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,7 +128,7 @@ public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoublePr
 		ToDoubleFunction<T> retval;
 
 		final Case<LPredicate<T>, ToDoubleFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> toDoubleFunction(a -> {
+		retval = Function4U.<T> toDblFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, ToDoubleFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

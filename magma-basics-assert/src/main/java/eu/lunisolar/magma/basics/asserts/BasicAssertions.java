@@ -36,6 +36,9 @@ public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
 
     @Nonnull
     default OS assertThatObj(Object actual) {
+        
+        Class a = Assertions.class;
+
         return (OS) Assertions.assertThat(actual);
     }
 
@@ -50,12 +53,12 @@ public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
     }
 
     @Nonnull
-    default AbstractDoubleAssert assertThatDouble(Double actual) {
+    default AbstractDoubleAssert assertThatDbl(Double actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractFloatAssert assertThatFloat(Float actual) {
+    default AbstractFloatAssert assertThatFlt(Float actual) {
         return Assertions.assertThat(actual);
     }
 
@@ -70,7 +73,7 @@ public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
     }
 
     @Nonnull
-    default AbstractShortAssert assertThatShort(Short actual) {
+    default AbstractShortAssert assertThatSrt(Short actual) {
         return Assertions.assertThat(actual);
     }
 

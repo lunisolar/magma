@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LTriPredicateBuilder.triPredicate;
 import static eu.lunisolar.magma.func.build.predicate.LTriPredicateBuilder.triPredicateFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LTriPredicateBuilderTest<T1,T2,T3,X extends ParseException>{
+public class LTriPredicateBuilderTest<T1,T2,T3>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LTriPredicateBuilderTest<T1,T2,T3,X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertTriPred(function)
             .doesTest(0,0,0).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5,5,5).when(null).to(a -> a.isEqualTo(true))
         ;

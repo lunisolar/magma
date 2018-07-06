@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LToCharFunctionTest<T,X extends ParseException> {
+public class LToCharFunctionTest<T> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     private LToCharFunction<Integer> sut = new LToCharFunction<Integer>(){
-        public  char doApplyAsChar(Integer a)  {
-            return testValue;
-        }
-    };
-
-    private LToCharFunctionX<Integer,X> opposite = new LToCharFunctionX<Integer,X>(){
-        public  char doApplyAsChar(Integer a)  throws X {
+        public  char doApplyAsCharX(Integer a)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
 
-    private LToCharFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LToCharFunction.l(a -> {
+    private LToCharFunction<Integer> sutAlwaysThrowing = LToCharFunction.toCharFunc(a -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LToCharFunction<Integer> sutAlwaysThrowingUnchecked = LToCharFunction.toCharFunc(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApplyAsChar(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LSingle<Integer> domainObject = Tuple4U.single(100);
 
@@ -102,13 +100,13 @@ public class LToCharFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApplyAsChar() throws X {
+    public void testNonNullDoApplyAsChar() throws Throwable {
         assertThat(sut.nonNullDoApplyAsChar(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsCharUnchecked() throws X {
+    public void testNestingDoApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsCharUnchecked() throws X {
+    public void testShovingDoApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
@@ -139,170 +137,26 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LToCharFunction: char doApplyAsChar(T a)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LToCharFunction.l(a -> testValue ))
+    public void testToCharFuncMethod() throws Throwable {
+        assertThat(LToCharFunction.toCharFunc(a -> testValue ))
             .isInstanceOf(LToCharFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LToCharFunction.wrap(opposite))
-            .isInstanceOf(LToCharFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LToCharFunctionX<Integer,X> sutThrowing = LToCharFunctionX.lX(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LToCharFunction<Integer> wrapped = LToCharFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LToCharFunctionX<Integer,ParseException> sutThrowing = LToCharFunctionX.lX(a -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LToCharFunction<Integer> wrapped = LToCharFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyAsCharMethodWrapsTheException() throws X {
-
-        // given
-        LToCharFunction<Integer> sutThrowing = LToCharFunction.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LToCharFunction<Integer> wrapped = sutThrowing.handleToCharFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleToCharFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LToCharFunction<Integer> sutThrowing = LToCharFunction.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LToCharFunction<Integer> wrapped = sutThrowing.handleToCharFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleToCharFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LToCharFunction<Integer> sutThrowing = LToCharFunction.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LToCharFunction<Integer> wrapped = sutThrowing.handleToCharFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleToCharFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LToCharFunction<Integer> sutThrowing = LToCharFunction.l(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LToCharFunction<Integer> wrapped = sutThrowing.handleToCharFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testToCharFuncCompose() throws X {
+    public void testToCharFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -336,7 +190,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -370,7 +224,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToByte1() throws X  {
+    public void testThenToByte1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -404,7 +258,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToShort2() throws X  {
+    public void testThenToSrt2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -416,7 +270,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
                 return '\u0090';
         };
 
-        LCharToShortFunction thenFunction = p -> {
+        LCharToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
                 assertThat(p).isEqualTo('\u0090');
@@ -425,8 +279,8 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToShortFunction<Integer> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.doApplyAsShort(80);
+        LToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
+        short finalValue = function.doApplyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -438,7 +292,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToInt3() throws X  {
+    public void testThenToInt3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -472,7 +326,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToLong4() throws X  {
+    public void testThenToLong4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -506,7 +360,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToFloat5() throws X  {
+    public void testThenToFlt5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -518,7 +372,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
                 return '\u0090';
         };
 
-        LCharToFloatFunction thenFunction = p -> {
+        LCharToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
                 assertThat(p).isEqualTo('\u0090');
@@ -527,8 +381,8 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToFloatFunction<Integer> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.doApplyAsFloat(80);
+        LToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
+        float finalValue = function.doApplyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -540,7 +394,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToDouble6() throws X  {
+    public void testThenToDbl6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -552,7 +406,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
                 return '\u0090';
         };
 
-        LCharToDoubleFunction thenFunction = p -> {
+        LCharToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
                 assertThat(p).isEqualTo('\u0090');
@@ -561,8 +415,8 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToDoubleFunction<Integer> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.doApplyAsDouble(80);
+        LToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
+        double finalValue = function.doApplyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -574,7 +428,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToChar7() throws X  {
+    public void testThenToChar7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -608,7 +462,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     @Test
-    public void testThenToBool8() throws X  {
+    public void testThenToBool8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -657,25 +511,12 @@ public class LToCharFunctionTest<T,X extends ParseException> {
             .isInstanceOf(LToCharFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingToCharFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LToCharFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingToCharFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LToCharFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LToCharFunction<Integer> sutThrowing = LToCharFunction.l(a -> {
+        LToCharFunction<Integer> sutThrowing = LToCharFunction.toCharFunc(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -683,33 +524,9 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         sutThrowing.shovingToCharFunc().doApplyAsChar(100);
     }
 
-    @Test
-    public void testHandleToCharFunc() throws X {
-
-        // given
-        LToCharFunction<Integer> sutThrowing = LToCharFunction.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LToCharFunction<Integer> wrapped = sutThrowing.handleToCharFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -729,7 +546,6 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
     @Test void safeCompiles() {
         LToCharFunction r1 = LToCharFunction.safe(sut); //NOSONAR
-        LToCharFunctionX r2 = LToCharFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -739,7 +555,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LToCharFunction.safe(null);
-        assertThat(result).isSameAs(LToCharFunction.l(LToCharFunction.safe()));
+        assertThat(result).isSameAs(LToCharFunction.toCharFunc(LToCharFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

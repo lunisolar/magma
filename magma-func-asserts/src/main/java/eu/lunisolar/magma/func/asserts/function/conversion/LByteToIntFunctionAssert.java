@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteToIntFunctionAssert<S extends LByteToIntFunctionAssert<S, A, RS>, A extends LByteToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LByteConsumer, A, RS, Integer> {
 
 	@Nonnull
+	public static <A extends LByteToIntFunction, RS extends AbstractIntegerAssert<RS>> LByteToIntFunctionAssert.The<A, RS> assertByteToIntFunc(LByteToIntFunction func) {
+		return new LByteToIntFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LByteConsumer, A, RS, Integer> doesApplyAsInt(byte a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

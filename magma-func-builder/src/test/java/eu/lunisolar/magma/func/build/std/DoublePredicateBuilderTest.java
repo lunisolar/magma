@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoublePredicateBuilder.doublePredicate;
-import static eu.lunisolar.magma.func.build.std.DoublePredicateBuilder.doublePredicateFrom;
+import static eu.lunisolar.magma.func.build.std.DoublePredicateBuilder.dblPredicate;
+import static eu.lunisolar.magma.func.build.std.DoublePredicateBuilder.dblPredicateFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoublePredicateBuilderTest{
@@ -66,7 +65,7 @@ public class DoublePredicateBuilderTest{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoublePredicate function = doublePredicateFrom(b-> b
+            DoublePredicate function = dblPredicateFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoublePredicateBuilderTest{
 
 
         assertThatThrownBy(() -> {
-            DoublePredicate function = doublePredicateFrom(b-> b
+            DoublePredicate function = dblPredicateFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoublePredicateBuilderTest{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoublePredicate function = doublePredicateFrom(b -> b
+            DoublePredicate function = dblPredicateFrom(b -> b
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class DoublePredicateBuilderTest{
     @Test
     public void testBuild()  {
 
-        DoublePredicate function = doublePredicateFrom( b -> b
+        DoublePredicate function = dblPredicateFrom( b -> b
             .aCase(ce -> ce.of(a -> a == 0d)
                              .evaluate(a -> false))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> true)
@@ -128,7 +127,7 @@ public class DoublePredicateBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertDblPred(function)
             .doesTest(0d).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5d).when(null).to(a -> a.isEqualTo(true))
         ;

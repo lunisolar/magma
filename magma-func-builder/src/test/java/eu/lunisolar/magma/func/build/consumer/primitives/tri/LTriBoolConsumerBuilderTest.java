@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.consumer.primitives.tri.LTriBoolConsumerBuilder.triBoolConsumer;
 import static eu.lunisolar.magma.func.build.consumer.primitives.tri.LTriBoolConsumerBuilder.triBoolConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LTriBoolConsumerBuilderTest<X extends ParseException>{
+public class LTriBoolConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LTriBoolConsumerBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertTriBoolCons(function)
             .doesAccept(false,false,false).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(true,true,true).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
         ;

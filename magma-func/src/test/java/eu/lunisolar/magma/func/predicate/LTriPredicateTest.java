@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
+public class LTriPredicateTest<T1,T2,T3> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
 
 
     private LTriPredicate<Integer,Integer,Integer> sut = new LTriPredicate<Integer,Integer,Integer>(){
-        public  boolean doTest(Integer a1,Integer a2,Integer a3)  {
-            return testValue;
-        }
-    };
-
-    private LTriPredicateX<Integer,Integer,Integer,X> opposite = new LTriPredicateX<Integer,Integer,Integer,X>(){
-        public  boolean doTest(Integer a1,Integer a2,Integer a3)  throws X {
+        public  boolean doTestX(Integer a1,Integer a2,Integer a3)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
 
 
 
-    private LTriPredicateX<Integer,Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LTriPredicate.l((a1,a2,a3) -> {
+    private LTriPredicate<Integer,Integer,Integer> sutAlwaysThrowing = LTriPredicate.triPred((a1,a2,a3) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LTriPredicate<Integer,Integer,Integer> sutAlwaysThrowingUnchecked = LTriPredicate.triPred((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doTest(100,100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LTriple<Integer,Integer,Integer> domainObject = Tuple4U.triple(100,100,100);
 
@@ -102,13 +100,13 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoTest() throws X {
+    public void testNonNullDoTest() throws Throwable {
         assertThat(sut.nonNullDoTest(100,100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws X {
+    public void testNestingDoTestUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws X {
+    public void testShovingDoTestUnchecked() throws Throwable {
 
         // then
         try {
@@ -138,7 +136,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testApplyAsBooleanShouldNotModifyValue() throws X {
+    public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
         assertThat(sut.doApplyAsBoolean(100,100,100))
             .isEqualTo(testValue);
 
@@ -146,166 +144,22 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LTriPredicate: boolean doTest(T1 a1,T2 a2,T3 a3)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LTriPredicate.l((a1,a2,a3) -> testValue ))
+    public void testTriPredMethod() throws Throwable {
+        assertThat(LTriPredicate.triPred((a1,a2,a3) -> testValue ))
             .isInstanceOf(LTriPredicate.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LTriPredicate.wrap(opposite))
-            .isInstanceOf(LTriPredicate.class);
-    }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LTriPredicateX<Integer,Integer,Integer,X> sutThrowing = LTriPredicateX.lX((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriPredicate<Integer,Integer,Integer> wrapped = LTriPredicate.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doTest(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LTriPredicateX<Integer,Integer,Integer,ParseException> sutThrowing = LTriPredicateX.lX((a1,a2,a3) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LTriPredicate<Integer,Integer,Integer> wrapped = LTriPredicate.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doTest(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
     @Test
-    public void testHandlingDoTestMethodWrapsTheException() throws X {
-
-        // given
-        LTriPredicate<Integer,Integer,Integer> sutThrowing = LTriPredicate.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriPredicate<Integer,Integer,Integer> wrapped = sutThrowing.handleTriPred(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doTest(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleTriPredMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LTriPredicate<Integer,Integer,Integer> sutThrowing = LTriPredicate.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriPredicate<Integer,Integer,Integer> wrapped = sutThrowing.handleTriPred(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doTest(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleTriPredMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LTriPredicate<Integer,Integer,Integer> sutThrowing = LTriPredicate.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriPredicate<Integer,Integer,Integer> wrapped = sutThrowing.handleTriPred(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doTest(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleTriPredMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LTriPredicate<Integer,Integer,Integer> sutThrowing = LTriPredicate.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriPredicate<Integer,Integer,Integer> wrapped = sutThrowing.handleTriPred(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doTest(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testnegate() throws X {
+    public void testnegate() throws Throwable {
         assertThat(sut.negate().doTest(100,100,100))
             .isEqualTo(!testValue);
     }
@@ -322,11 +176,11 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test(dataProvider="boolean permutations")
-    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
+    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws Throwable {
 
         //given
-        LTriPredicate<Integer,Integer,Integer> fun1 = LTriPredicate.l((a1,a2,a3) -> f1Result);
-        LTriPredicate<Integer,Integer,Integer> fun2 = LTriPredicate.l((a1,a2,a3) -> f2Result);
+        LTriPredicate<Integer,Integer,Integer> fun1 = LTriPredicate.triPred((a1,a2,a3) -> f1Result);
+        LTriPredicate<Integer,Integer,Integer> fun2 = LTriPredicate.triPred((a1,a2,a3) -> f2Result);
 
         //when
         LTriPredicate<Integer,Integer,Integer> andFunction = fun1.and(fun2);
@@ -345,7 +199,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testIsEqual() throws X  {
+    public void testIsEqual() throws Throwable  {
         //when
         LTriPredicate<Integer,Integer,Integer> equals = LTriPredicate.isEqual(1,1,1);
 
@@ -362,7 +216,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriPredCompose() throws X {
+    public void testTriPredCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -408,7 +262,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToTriFunc0() throws X  {
+    public void testBoolToTriFunc0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,6 +297,78 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
 
 
 
+    @Test
+    public void testBoolToToIntTriFunc1() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriPredicate<Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82);
+                return true;
+        };
+
+        LBoolToIntFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // int
+                return 100;
+        };
+
+        //when
+        LToIntTriFunction<Integer,Integer,Integer> function = sutO.boolToToIntTriFunc(thenFunction);
+        int finalValue = function.doApplyAsInt(80,81,82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testBoolToTriPred2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriPredicate<Integer,Integer,Integer> sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82);
+                return true;
+        };
+
+        LLogicalOperator thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // boolean
+                return true;
+        };
+
+        //when
+        LTriPredicate<Integer,Integer,Integer> function = sutO.boolToTriPred(thenFunction);
+        boolean finalValue = function.doTest(80,81,82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
     // </editor-fold>
 
     @Test
@@ -459,25 +385,12 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
             .isInstanceOf(LTriPredicate.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingTriPredX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriPredicateX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingTriPredX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriPredicateX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LTriPredicate<Integer,Integer,Integer> sutThrowing = LTriPredicate.l((a1,a2,a3) -> {
+        LTriPredicate<Integer,Integer,Integer> sutThrowing = LTriPredicate.triPred((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -485,33 +398,9 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
         sutThrowing.shovingTriPred().doTest(100,100,100);
     }
 
-    @Test
-    public void testHandleTriPred() throws X {
-
-        // given
-        LTriPredicate<Integer,Integer,Integer> sutThrowing = LTriPredicate.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriPredicate<Integer,Integer,Integer> wrapped = sutThrowing.handleTriPred(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doTest(100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -531,63 +420,63 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variantV1(Integer a1,Integer a3,Integer a2) {
+    private boolean variantLObjObj2Obj1Pred(Integer a1,Integer a3,Integer a2) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLObjObj2Obj1Pred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/objObj2Obj1Pred(this::variantLObjObj2Obj1Pred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.V1.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LObjObj2Obj1Pred.class);
     }
 
 
-    private boolean variantV2(Integer a2,Integer a1,Integer a3) {
+    private boolean variantLObj1BiObjPred(Integer a2,Integer a1,Integer a3) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantV2() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/l2(this::variantV2);
+    public void compilerSubstituteVariantLObj1BiObjPred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/obj1BiObjPred(this::variantLObj1BiObjPred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.V2.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LObj1BiObjPred.class);
     }
 
 
-    private boolean variantV3(Integer a2,Integer a3,Integer a1) {
+    private boolean variantLObj1Obj2Obj0Pred(Integer a2,Integer a3,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantV3() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/l3(this::variantV3);
+    public void compilerSubstituteVariantLObj1Obj2Obj0Pred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/obj1Obj2Obj0Pred(this::variantLObj1Obj2Obj0Pred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.V3.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LObj1Obj2Obj0Pred.class);
     }
 
 
-    private boolean variantV4(Integer a3,Integer a1,Integer a2) {
+    private boolean variantLObj2Obj0Obj1Pred(Integer a3,Integer a1,Integer a2) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantV4() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/l4(this::variantV4);
+    public void compilerSubstituteVariantLObj2Obj0Obj1Pred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/obj2Obj0Obj1Pred(this::variantLObj2Obj0Obj1Pred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.V4.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LObj2Obj0Obj1Pred.class);
     }
 
 
-    private boolean variantV5(Integer a3,Integer a2,Integer a1) {
+    private boolean variantLBiObjObj0Pred(Integer a3,Integer a2,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantV5() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/l5(this::variantV5);
+    public void compilerSubstituteVariantLBiObjObj0Pred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/biObjObj0Pred(this::variantLBiObjObj0Pred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.V5.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LBiObjObj0Pred.class);
     }
 
     //</editor-fold>
@@ -595,7 +484,6 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
 
     @Test void safeCompiles() {
         LTriPredicate r1 = LTriPredicate.safe(sut); //NOSONAR
-        LTriPredicateX r2 = LTriPredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -605,7 +493,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LTriPredicate.safe(null);
-        assertThat(result).isSameAs(LTriPredicate.l(LTriPredicate.safe()));
+        assertThat(result).isSameAs(LTriPredicate.triPred(LTriPredicate.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

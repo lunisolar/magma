@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLongBinaryOperatorAssert<S extends LLongBinaryOperatorAssert<S, A, RS>, A extends LLongBinaryOperator, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiLongConsumer, A, RS, Long> {
 
 	@Nonnull
+	public static <A extends LLongBinaryOperator, RS extends AbstractLongAssert<RS>> LLongBinaryOperatorAssert.The<A, RS> assertLongBinaryOp(LLongBinaryOperator func) {
+		return new LLongBinaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiLongConsumer, A, RS, Long> doesApplyAsLong(long a1, long a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

@@ -57,6 +57,11 @@ public interface LBiObjBoolPredicateAssert<S extends LBiObjBoolPredicateAssert<S
 			FullFunctionalAssert<S, LBiObjBoolConsumer<T1, T2>, A, RS, Boolean> {
 
 	@Nonnull
+	public static <A extends LBiObjBoolPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjBoolPredicateAssert.The<A, RS, T1, T2> assertBiObjBoolPred(LBiObjBoolPredicate<T1, T2> func) {
+		return new LBiObjBoolPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiObjBoolConsumer<T1, T2>, A, RS, Boolean> doesTest(T1 a1, T2 a2, boolean a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

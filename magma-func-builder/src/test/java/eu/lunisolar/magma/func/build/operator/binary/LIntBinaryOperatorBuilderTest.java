@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.operator.binary.LIntBinaryOperatorBuilder.intBinaryOperator;
 import static eu.lunisolar.magma.func.build.operator.binary.LIntBinaryOperatorBuilder.intBinaryOperatorFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LIntBinaryOperatorBuilderTest<X extends ParseException>{
+public class LIntBinaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LIntBinaryOperatorBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertIntBinaryOp(function)
             .doesApplyAsInt(0,0).when(null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5,5).when(null).to(a -> a.isEqualTo(1))
             .doesApplyAsInt(15,15).when(null).to(a -> a.isEqualTo(2))

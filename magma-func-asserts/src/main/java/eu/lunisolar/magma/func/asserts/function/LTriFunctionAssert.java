@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTriFunctionAssert<S extends LTriFunctionAssert<S, A, RS, T1, T2, T3, R>, A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> extends Assert<S, A>, FullFunctionalAssert<S, LTriConsumer<T1, T2, T3>, A, RS, R> {
 
 	@Nonnull
+	public static <A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> LTriFunctionAssert.The<A, RS, T1, T2, T3, R> assertTriFunc(LTriFunction<T1, T2, T3, R> func) {
+		return new LTriFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LTriConsumer<T1, T2, T3>, A, RS, R> doesApply(T1 a1, T2 a2, T3 a3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

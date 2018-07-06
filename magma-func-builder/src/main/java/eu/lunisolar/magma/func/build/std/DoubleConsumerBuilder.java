@@ -47,15 +47,17 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoubleConsumer. */
-public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsumerBuilder, LDoublePredicate, DoubleConsumer> {
+/**
+ * Builder for DoubleConsumer.
+ */
+public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsumerBuilder, LDblPredicate, DoubleConsumer> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoubleConsumer> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleConsumer EVENTUALLY_THROW = Function4U.doubleConsumer(a -> {
+	public static final DoubleConsumer EVENTUALLY_THROW = Function4U.dblCons(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -72,19 +74,19 @@ public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static DoubleConsumerBuilder doubleConsumer() {
+	public static DoubleConsumerBuilder dblConsumer() {
 		return new DoubleConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleConsumer doubleConsumerFrom(Function<DoubleConsumerBuilder, DoubleConsumer> buildingFunction) {
+	public static DoubleConsumer dblConsumerFrom(Function<DoubleConsumerBuilder, DoubleConsumer> buildingFunction) {
 		return buildingFunction.apply(new DoubleConsumerBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleConsumerBuilder doubleConsumer(Consumer<DoubleConsumer> consumer) {
+	public static DoubleConsumerBuilder dblConsumer(Consumer<DoubleConsumer> consumer) {
 		return new DoubleConsumerBuilder(consumer);
 	}
 
@@ -107,10 +109,10 @@ public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsu
 
 		DoubleConsumer retval;
 
-		final Case<LDoublePredicate, DoubleConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleConsumer(a -> {
+		final Case<LDblPredicate, DoubleConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.dblCons(a -> {
 			try {
-				for (Case<LDoublePredicate, DoubleConsumer> aCase : casesArray) {
+				for (Case<LDblPredicate, DoubleConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {
 						aCase.caseFunction().accept(a);
 						return;

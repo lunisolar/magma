@@ -26,13 +26,16 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*;
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 
 /**
@@ -50,11 +53,10 @@ import java.util.function.*; // NOSONAR
  *
  * Co-domain: none
  *
- * @see LActionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInterface.NonThrowing {
+public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing {
 
 	String DESCRIPTION = "LAction: void doExecute()";
 
@@ -65,24 +67,126 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 	@Override
 	@Deprecated
 	default void run() {
-		this.nestingDoExecute();
+		this.doExecute();
 	}
 
-	void doExecute();
+	// void doExecute() ;
+	default void doExecute() {
+		// nestingDoExecute();
+		try {
+			this.doExecuteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doExecute()
+	 */
+	void doExecuteX() throws Throwable;
 
 	default LTuple.Void tupleExecute(LTuple.Void args) {
 		doExecute();
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoExecute() {
-		this.doExecute();
+	/** Function call that handles exceptions according to the instructions. */
+	default void handlingDoExecute(HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			this.doExecuteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default void tryDoExecute(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			this.doExecuteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default void tryDoExecute(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			this.doExecuteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default void tryDoExecuteThen(@Nonnull LConsumer<Throwable> handler) {
+		try {
+			this.doExecuteX();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			handler.doAccept(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default void nestingDoExecute() {
+		try {
+			this.doExecuteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default void shovingDoExecute() {
-		this.doExecute();
+		try {
+			this.doExecuteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static void handlingDoExecute(LAction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		func.handlingDoExecute(handling);
+	}
+
+	static void tryDoExecute(LAction func) {
+		tryDoExecute(func, null);
+	}
+
+	static void tryDoExecute(LAction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		func.tryDoExecute(exceptionFactory, newMessage, messageParams);
+	}
+
+	static void tryDoExecute(LAction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		func.tryDoExecute(exceptionFactory);
+	}
+
+	static void tryDoExecuteThen(LAction func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.tryDoExecuteThen(handler);
+	}
+
+	default void failSafeDoExecute(@Nonnull LAction failSafe) {
+		try {
+			doExecute();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			failSafe.doExecute();
+		}
+	}
+
+	static void failSafeDoExecute(LAction func, @Nonnull LAction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			failSafe.doExecute();
+		} else {
+			func.failSafeDoExecute(failSafe);
+		}
+	}
+
+	static LAction failSafeAct(LAction func, @Nonnull LAction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return () -> failSafeDoExecute(func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
@@ -91,11 +195,82 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 		return LAction.DESCRIPTION;
 	}
 
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, LAction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doExecute();
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doExecute();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, LAction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doExecute();
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doExecute();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, LAction func) {
+		fromTill(0, max_i, func);
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LAction l(final @Nonnull LAction lambda) {
+	static LAction act(final @Nonnull LAction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LAction recursive(final @Nonnull LFunction<LAction, LAction> selfLambda) {
+		final LActionSingle single = new LActionSingle();
+		LAction func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LActionSingle implements LSingle<LAction>, LAction {
+		private LAction target = null;
+
+		@Override
+		public void doExecuteX() throws Throwable {
+			target.doExecuteX();
+		}
+
+		@Override
+		public LAction value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LAction actThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LAction actThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static void call(final @Nonnull LAction lambda) {
@@ -110,13 +285,6 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 	static LAction wrap(final Runnable other) {
 		return other::run;
 	}
-
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LAction wrap(final @Nonnull LActionX<X> other) {
-		return other::nestingDoExecute;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
@@ -124,7 +292,7 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 	/** Safe instance. */
 	@Nonnull
 	static LAction safe() {
-		return Function4U::doNothing;
+		return LAction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -177,22 +345,16 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LActionX<RuntimeException> nestingActX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LAction shovingAct() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LActionX<RuntimeException> shovingActX() {
-		return this;
-	}
-
 	// </editor-fold>
+
+	/** You can use this as a reference method whenever nothing should be done. */
+	public static void doNothing() {
+		// NOSONAR
+	}
 
 }

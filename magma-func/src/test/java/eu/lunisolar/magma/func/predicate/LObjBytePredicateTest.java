@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LObjBytePredicateTest<T,X extends ParseException> {
+public class LObjBytePredicateTest<T> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,13 +65,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
 
     private LObjBytePredicate<Integer> sut = new LObjBytePredicate<Integer>(){
-        public  boolean doTest(Integer a1,byte a2)  {
-            return testValue;
-        }
-    };
-
-    private LObjBytePredicateX<Integer,X> opposite = new LObjBytePredicateX<Integer,X>(){
-        public  boolean doTest(Integer a1,byte a2)  throws X {
+        public  boolean doTestX(Integer a1,byte a2)  {
             return testValue;
         }
     };
@@ -79,19 +73,23 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
 
 
-    private LObjBytePredicateX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LObjBytePredicate.l((a1,a2) -> {
+    private LObjBytePredicate<Integer> sutAlwaysThrowing = LObjBytePredicate.objBytePred((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LObjBytePredicate<Integer> sutAlwaysThrowingUnchecked = LObjBytePredicate.objBytePred((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doTest(100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LObjBytePair<Integer> domainObject = Tuple4U.objBytePair(100,(byte)100);
 
@@ -102,13 +100,13 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoTest() throws X {
+    public void testNonNullDoTest() throws Throwable {
         assertThat(sut.nonNullDoTest(100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws X {
+    public void testNestingDoTestUnchecked() throws Throwable {
 
         // then
         try {
@@ -123,7 +121,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws X {
+    public void testShovingDoTestUnchecked() throws Throwable {
 
         // then
         try {
@@ -138,7 +136,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testApplyAsBooleanShouldNotModifyValue() throws X {
+    public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
         assertThat(sut.doApplyAsBoolean(100,(byte)100))
             .isEqualTo(testValue);
 
@@ -146,166 +144,22 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LObjBytePredicate: boolean doTest(T a1,byte a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LObjBytePredicate.l((a1,a2) -> testValue ))
+    public void testObjBytePredMethod() throws Throwable {
+        assertThat(LObjBytePredicate.objBytePred((a1,a2) -> testValue ))
             .isInstanceOf(LObjBytePredicate.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LObjBytePredicate.wrap(opposite))
-            .isInstanceOf(LObjBytePredicate.class);
-    }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LObjBytePredicateX<Integer,X> sutThrowing = LObjBytePredicateX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LObjBytePredicate<Integer> wrapped = LObjBytePredicate.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LObjBytePredicateX<Integer,ParseException> sutThrowing = LObjBytePredicateX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LObjBytePredicate<Integer> wrapped = LObjBytePredicate.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
     @Test
-    public void testHandlingDoTestMethodWrapsTheException() throws X {
-
-        // given
-        LObjBytePredicate<Integer> sutThrowing = LObjBytePredicate.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LObjBytePredicate<Integer> wrapped = sutThrowing.handleObjBytePred(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleObjBytePredMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LObjBytePredicate<Integer> sutThrowing = LObjBytePredicate.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LObjBytePredicate<Integer> wrapped = sutThrowing.handleObjBytePred(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleObjBytePredMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LObjBytePredicate<Integer> sutThrowing = LObjBytePredicate.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LObjBytePredicate<Integer> wrapped = sutThrowing.handleObjBytePred(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleObjBytePredMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LObjBytePredicate<Integer> sutThrowing = LObjBytePredicate.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LObjBytePredicate<Integer> wrapped = sutThrowing.handleObjBytePred(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testnegate() throws X {
+    public void testnegate() throws Throwable {
         assertThat(sut.negate().doTest(100,(byte)100))
             .isEqualTo(!testValue);
     }
@@ -322,11 +176,11 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     }
 
     @Test(dataProvider="boolean permutations")
-    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
+    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws Throwable {
 
         //given
-        LObjBytePredicate<Integer> fun1 = LObjBytePredicate.l((a1,a2) -> f1Result);
-        LObjBytePredicate<Integer> fun2 = LObjBytePredicate.l((a1,a2) -> f2Result);
+        LObjBytePredicate<Integer> fun1 = LObjBytePredicate.objBytePred((a1,a2) -> f1Result);
+        LObjBytePredicate<Integer> fun2 = LObjBytePredicate.objBytePred((a1,a2) -> f2Result);
 
         //when
         LObjBytePredicate<Integer> andFunction = fun1.and(fun2);
@@ -345,7 +199,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testIsEqual() throws X  {
+    public void testIsEqual() throws Throwable  {
         //when
         LObjBytePredicate<Integer> equals = LObjBytePredicate.isEqual(1,(byte)1);
 
@@ -362,7 +216,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjBytePredComposeByte() throws X {
+    public void testObjBytePredComposeByte() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -397,7 +251,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
 
     @Test
-    public void testObjBytePredCompose() throws X {
+    public void testObjBytePredCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -437,7 +291,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToObjByteFunc0() throws X  {
+    public void testBoolToObjByteFunc0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -471,6 +325,41 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
 
 
+    @Test
+    public void testBoolToObjBytePred1() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LObjBytePredicate<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo((byte)81);
+                return true;
+        };
+
+        LLogicalOperator thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // boolean
+                return true;
+        };
+
+        //when
+        LObjBytePredicate<Integer> function = sutO.boolToObjBytePred(thenFunction);
+        boolean finalValue = function.doTest(80,(byte)81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
     // </editor-fold>
 
     @Test
@@ -487,25 +376,12 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
             .isInstanceOf(LObjBytePredicate.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingObjBytePredX())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBytePredicateX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingObjBytePredX())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBytePredicateX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LObjBytePredicate<Integer> sutThrowing = LObjBytePredicate.l((a1,a2) -> {
+        LObjBytePredicate<Integer> sutThrowing = LObjBytePredicate.objBytePred((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -513,33 +389,9 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
         sutThrowing.shovingObjBytePred().doTest(100,(byte)100);
     }
 
-    @Test
-    public void testHandleObjBytePred() throws X {
-
-        // given
-        LObjBytePredicate<Integer> sutThrowing = LObjBytePredicate.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LObjBytePredicate<Integer> wrapped = sutThrowing.handleObjBytePred(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -559,15 +411,15 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variantV1(byte a2,Integer a1) {
+    private boolean variantLByteObjPred(byte a2,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LObjBytePredicate lambda = LObjBytePredicate./*<T>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLByteObjPred() {
+        LObjBytePredicate lambda = LObjBytePredicate./*<T>*/byteObjPred(this::variantLByteObjPred);
 
-        assertThat(lambda).isInstanceOf(LObjBytePredicate.V1.class);
+        assertThat(lambda).isInstanceOf(LObjBytePredicate.LByteObjPred.class);
     }
 
     //</editor-fold>
@@ -575,7 +427,6 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
     @Test void safeCompiles() {
         LObjBytePredicate r1 = LObjBytePredicate.safe(sut); //NOSONAR
-        LObjBytePredicateX r2 = LObjBytePredicate.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -585,7 +436,7 @@ public class LObjBytePredicateTest<T,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LObjBytePredicate.safe(null);
-        assertThat(result).isSameAs(LObjBytePredicate.l(LObjBytePredicate.safe()));
+        assertThat(result).isSameAs(LObjBytePredicate.objBytePred(LObjBytePredicate.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

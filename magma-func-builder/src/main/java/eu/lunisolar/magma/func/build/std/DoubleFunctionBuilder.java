@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoubleFunction. */
-public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<DoubleFunctionBuilder<R>, LDoublePredicate, DoubleFunction<R>, R> {
+/**
+ * Builder for DoubleFunction.
+ */
+public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<DoubleFunctionBuilder<R>, LDblPredicate, DoubleFunction<R>, R> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoubleFunction<R>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleFunction EVENTUALLY_THROW = Function4U.doubleFunction(a -> {
+	public static final DoubleFunction EVENTUALLY_THROW = Function4U.dblFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleFunctionBuilder(@Nullable Consumer<DoubleFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LDoubleFunction::constant, () -> new DoubleFunctionBuilder(null));
+		super(EVENTUALLY_THROW, LDblFunction::constant, () -> new DoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static <R> DoubleFunctionBuilder<R> doubleFunction() {
+	public static <R> DoubleFunctionBuilder<R> dblFunction() {
 		return new DoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <R> DoubleFunction<R> doubleFunctionFrom(Function<DoubleFunctionBuilder<R>, DoubleFunction<R>> buildingFunction) {
+	public static <R> DoubleFunction<R> dblFunctionFrom(Function<DoubleFunctionBuilder<R>, DoubleFunction<R>> buildingFunction) {
 		return buildingFunction.apply(new DoubleFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <R> DoubleFunctionBuilder<R> doubleFunction(Consumer<DoubleFunction<R>> consumer) {
+	public static <R> DoubleFunctionBuilder<R> dblFunction(Consumer<DoubleFunction<R>> consumer) {
 		return new DoubleFunctionBuilder(consumer);
 	}
 
@@ -107,10 +109,10 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 		DoubleFunction<R> retval;
 
-		final Case<LDoublePredicate, DoubleFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<R> doubleFunction(a -> {
+		final Case<LDblPredicate, DoubleFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.<R> dblFunc(a -> {
 			try {
-				for (Case<LDoublePredicate, DoubleFunction<R>> aCase : casesArray) {
+				for (Case<LDblPredicate, DoubleFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {
 						return aCase.caseFunction().apply(a);
 					}

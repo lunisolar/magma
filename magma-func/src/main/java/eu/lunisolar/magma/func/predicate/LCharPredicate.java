@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,28 +63,159 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: boolean
  *
- * @see LCharPredicateX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LCharPredicate: boolean doTest(char a)";
 
-	boolean doTest(char a);
+	// boolean doTest(char a) ;
+	default boolean doTest(char a) {
+		// return nestingDoTest(a);
+		try {
+			return this.doTestX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doTest(char a)
+	 */
+	boolean doTestX(char a) throws Throwable;
 
 	default boolean tupleTest(LCharSingle args) {
 		return doTest(args.value());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(char a) {
-		return this.doTest(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default boolean handlingDoTest(char a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doTestX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default boolean tryDoTest(char a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doTestX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default boolean tryDoTest(char a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doTestX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default boolean tryDoTestThen(char a, @Nonnull LPredicate<Throwable> handler) {
+		try {
+			return this.doTestX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doTest(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default boolean nestingDoTest(char a) {
+		try {
+			return this.doTestX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default boolean shovingDoTest(char a) {
-		return this.doTest(a);
+		try {
+			return this.doTestX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static boolean handlingDoTest(char a, LCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoTest(a, handling);
+	}
+
+	static boolean tryDoTest(char a, LCharPredicate func) {
+		return tryDoTest(a, func, null);
+	}
+
+	static boolean tryDoTest(char a, LCharPredicate func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoTest(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static boolean tryDoTest(char a, LCharPredicate func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoTest(a, exceptionFactory);
+	}
+
+	static boolean tryDoTestThen(char a, LCharPredicate func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoTestThen(a, handler);
+	}
+
+	default boolean failSafeDoTest(char a, @Nonnull LCharPredicate failSafe) {
+		try {
+			return doTest(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doTest(a);
+		}
+	}
+
+	static boolean failSafeDoTest(char a, LCharPredicate func, @Nonnull LCharPredicate failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doTest(a);
+		} else {
+			return func.failSafeDoTest(a, failSafe);
+		}
+	}
+
+	static LCharPredicate failSafeCharPred(LCharPredicate func, @Nonnull LCharPredicate failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoTest(a, func, failSafe);
+	}
+
+	default boolean doIf(char a, LAction action) {
+		if (doTest(a)) {
+			action.doExecute();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	default boolean doIf(char a, LCharConsumer consumer) {
+		if (doTest(a)) {
+			consumer.doAccept(a);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	static void throwIf(char a, LCharPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.doTest(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	static void throwIfNot(char a, LCharPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.doTest(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -99,6 +235,65 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return LCharPredicate.DESCRIPTION;
 	}
 
+	public default <V> boolean doIf(V a1, char a2, LObjCharConsumer<V> consumer) {
+		if (doTest(a2)) {
+			consumer.doAccept(a1, a2);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public default <V> boolean doIf(V a1, int a2, char a3, LTieCharConsumer<? super V> consumer) {
+		if (doTest(a3)) {
+			consumer.doAccept(a1, a2, a3);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public default <V> int doIf(V a1, int a2, char a3, LTieCharFunction<? super V> consumer) {
+		if (doTest(a3)) {
+			return consumer.doApplyAsInt(a1, a2, a3);
+		} else {
+			return 0;
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, char a, LCharPredicate func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doTest(a);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doTest(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, char a, LCharPredicate func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doTest(a);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doTest(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, char a, LCharPredicate func) {
+		fromTill(0, max_i, a, func);
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier captureCharPred(char a) {
 		return () -> this.doTest(a);
@@ -111,9 +306,47 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LCharPredicate l(final @Nonnull LCharPredicate lambda) {
+	static LCharPredicate charPred(final @Nonnull LCharPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LCharPredicate recursive(final @Nonnull LFunction<LCharPredicate, LCharPredicate> selfLambda) {
+		final LCharPredicateSingle single = new LCharPredicateSingle();
+		LCharPredicate func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LCharPredicateSingle implements LSingle<LCharPredicate>, LCharPredicate {
+		private LCharPredicate target = null;
+
+		@Override
+		public boolean doTestX(char a) throws Throwable {
+			return target.doTestX(a);
+		}
+
+		@Override
+		public LCharPredicate value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LCharPredicate charPredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LCharPredicate charPredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static boolean call(char a, final @Nonnull LCharPredicate lambda) {
@@ -123,20 +356,14 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LCharPredicate wrap(final @Nonnull LCharPredicateX<X> other) {
-		return other::nestingDoTest;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::alwaysFalse). */
+	/** Safe instance. That always returns the same value (as alwaysFalse). */
 	@Nonnull
 	static LCharPredicate safe() {
-		return Function4U::alwaysFalse;
+		return LCharPredicate::alwaysFalse;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -228,11 +455,19 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return v -> this.doTest(before.doApplyAsChar(v));
 	}
 
+	public static LCharPredicate composedChar(@Nonnull final LCharUnaryOperator before, LCharPredicate after) {
+		return after.charPredComposeChar(before);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LPredicate<V> charPredCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.doTest(before.doApplyAsChar(v));
+	}
+
+	public static <V> LPredicate<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharPredicate after) {
+		return after.charPredCompose(before);
 	}
 
 	// </editor-fold>
@@ -255,9 +490,9 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToShortFunction boolToCharToShortFunc(@Nonnull LBoolToShortFunction after) {
+	default LCharToSrtFunction boolToCharToSrtFunc(@Nonnull LBoolToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsShort(this.doTest(a));
+		return a -> after.doApplyAsSrt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -276,16 +511,16 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToFloatFunction boolToCharToFloatFunc(@Nonnull LBoolToFloatFunction after) {
+	default LCharToFltFunction boolToCharToFltFunc(@Nonnull LBoolToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFloat(this.doTest(a));
+		return a -> after.doApplyAsFlt(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LCharToDoubleFunction boolToCharToDoubleFunc(@Nonnull LBoolToDoubleFunction after) {
+	default LCharToDblFunction boolToCharToDblFunc(@Nonnull LBoolToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDouble(this.doTest(a));
+		return a -> after.doApplyAsDbl(this.doTest(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -312,22 +547,77 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LCharPredicateX<RuntimeException> nestingCharPredX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharPredicate shovingCharPred() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharPredicateX<RuntimeException> shovingCharPredX() {
-		return this;
+	// </editor-fold>
+
+	// >>> LCharPredicate
+
+	/** Returns TRUE. */
+	public static boolean alwaysTrue(char a) {
+		return true;
 	}
 
-	// </editor-fold>
+	/** Returns FALSE. */
+	public static boolean alwaysFalse(char a) {
+		return false;
+	}
+
+	// FILTER: FOR, [SourcePurpose{arg=char a, type=IA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	default <C0> void forEach(IndexedRead<C0, aChar> ia, C0 source, LCharConsumer consumer) {
+		int size = ia.size(source);
+		LOiToCharFunction<Object> oiFunc0 = (LOiToCharFunction) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			char a = oiFunc0.doApplyAsChar(source, i);
+			doIf(a, consumer);
+		}
+	}
+
+	// FILTER: WHILE, [SourcePurpose{arg=char a, type=SA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	default <C0, I0> void iterate(SequentialRead<C0, I0, aChar> sa, C0 source, LCharConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.getter();
+		while (testFunc0.doTest(iterator0)) {
+			char a = nextFunc0.doApplyAsChar(iterator0);
+			doIf(a, consumer);
+		}
+	}
+
+	// FILTER_WITH_TARGET_AND_INDEX: FOR, [SourcePurpose{arg=V v, type=CONST}, SourcePurpose{arg=char a, type=IA}, SourcePurpose{arg=LTieCharConsumer<V>
+	// consumer, type=CONST}]
+	default <V, C0> int tieForEach(V v, IndexedRead<C0, aChar> ia, C0 source, LTieCharConsumer<V> consumer) {
+		int size = ia.size(source);
+		LOiToCharFunction<Object> oiFunc0 = (LOiToCharFunction) ia.getter();
+		int acceptedIndex = 0;
+		int i = 0;
+		for (; i < size; i++) {
+			char a = oiFunc0.doApplyAsChar(source, i);
+			acceptedIndex += doIf(v, acceptedIndex, a, consumer) ? 1 : 0;
+		}
+		return acceptedIndex;
+
+	}
+
+	// FILTER_WITH_TARGET_AND_INDEX: WHILE, [SourcePurpose{arg=V v, type=CONST}, SourcePurpose{arg=char a, type=SA}, SourcePurpose{arg=LTieCharConsumer<V>
+	// consumer, type=CONST}]
+	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, aChar> sa, C0 source, LTieCharConsumer<V> consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.getter();
+		int acceptedIndex = 0;
+		int i = 0;
+		while (testFunc0.doTest(iterator0)) {
+			char a = nextFunc0.doApplyAsChar(iterator0);
+			acceptedIndex += doIf(v, acceptedIndex, a, consumer) ? 1 : 0;
+			i++;
+		}
+		return acceptedIndex;
+
+	}
 
 }

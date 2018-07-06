@@ -25,12 +25,16 @@ import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -57,11 +61,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: int
  *
- * @see LIntSupplierX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LIntSupplier: int doGetAsInt()";
 
@@ -72,23 +75,125 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 	@Override
 	@Deprecated
 	default int getAsInt() {
-		return this.nestingDoGetAsInt();
+		return this.doGetAsInt();
 	}
 
-	int doGetAsInt();
+	// int doGetAsInt() ;
+	default int doGetAsInt() {
+		// return nestingDoGetAsInt();
+		try {
+			return this.doGetAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doGetAsInt()
+	 */
+	int doGetAsIntX() throws Throwable;
 
 	default int tupleGetAsInt(LTuple.Void args) {
 		return doGetAsInt();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoGetAsInt() {
-		return this.doGetAsInt();
+	/** Function call that handles exceptions according to the instructions. */
+	default int handlingDoGetAsInt(HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doGetAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default int tryDoGetAsInt(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doGetAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default int tryDoGetAsInt(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doGetAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default int tryDoGetAsIntThen(@Nonnull LToIntFunction<Throwable> handler) {
+		try {
+			return this.doGetAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsInt(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default int nestingDoGetAsInt() {
+		try {
+			return this.doGetAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default int shovingDoGetAsInt() {
-		return this.doGetAsInt();
+		try {
+			return this.doGetAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static int handlingDoGetAsInt(LIntSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoGetAsInt(handling);
+	}
+
+	static int tryDoGetAsInt(LIntSupplier func) {
+		return tryDoGetAsInt(func, null);
+	}
+
+	static int tryDoGetAsInt(LIntSupplier func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsInt(exceptionFactory, newMessage, messageParams);
+	}
+
+	static int tryDoGetAsInt(LIntSupplier func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsInt(exceptionFactory);
+	}
+
+	static int tryDoGetAsIntThen(LIntSupplier func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetAsIntThen(handler);
+	}
+
+	default int failSafeDoGetAsInt(@Nonnull LIntSupplier failSafe) {
+		try {
+			return doGetAsInt();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doGetAsInt();
+		}
+	}
+
+	static int failSafeDoGetAsInt(LIntSupplier func, @Nonnull LIntSupplier failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doGetAsInt();
+		} else {
+			return func.failSafeDoGetAsInt(failSafe);
+		}
+	}
+
+	static LIntSupplier failSafeIntSup(LIntSupplier func, @Nonnull LIntSupplier failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return () -> failSafeDoGetAsInt(func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -102,6 +207,39 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return LIntSupplier.DESCRIPTION;
 	}
 
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, LIntSupplier func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doGetAsInt();
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doGetAsInt();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, LIntSupplier func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doGetAsInt();
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doGetAsInt();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, LIntSupplier func) {
+		fromTill(0, max_i, func);
+	}
+
 	/** Creates function that always returns the same value. */
 	static LIntSupplier of(int r) {
 		return () -> r;
@@ -109,9 +247,47 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntSupplier l(final @Nonnull LIntSupplier lambda) {
+	static LIntSupplier intSup(final @Nonnull LIntSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LIntSupplier recursive(final @Nonnull LFunction<LIntSupplier, LIntSupplier> selfLambda) {
+		final LIntSupplierSingle single = new LIntSupplierSingle();
+		LIntSupplier func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LIntSupplierSingle implements LSingle<LIntSupplier>, LIntSupplier {
+		private LIntSupplier target = null;
+
+		@Override
+		public int doGetAsIntX() throws Throwable {
+			return target.doGetAsIntX();
+		}
+
+		@Override
+		public LIntSupplier value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LIntSupplier intSupThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LIntSupplier intSupThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static int call(final @Nonnull LIntSupplier lambda) {
@@ -126,21 +302,14 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 	static LIntSupplier wrap(final IntSupplier other) {
 		return other::getAsInt;
 	}
-
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LIntSupplier wrap(final @Nonnull LIntSupplierX<X> other) {
-		return other::nestingDoGetAsInt;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceInt). */
+	/** Safe instance. That always returns the same value (as produceInt). */
 	@Nonnull
 	static LIntSupplier safe() {
-		return Function4U::produceInt;
+		return LIntSupplier::produceInt;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -189,9 +358,9 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplier toShortSup(@Nonnull LIntToShortFunction after) {
+	default LSrtSupplier toSrtSup(@Nonnull LIntToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsShort(this.doGetAsInt());
+		return () -> after.doApplyAsSrt(this.doGetAsInt());
 	}
 
 	/** Combines two functions together in a order. */
@@ -210,16 +379,16 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplier toFloatSup(@Nonnull LIntToFloatFunction after) {
+	default LFltSupplier toFltSup(@Nonnull LIntToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFloat(this.doGetAsInt());
+		return () -> after.doApplyAsFlt(this.doGetAsInt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplier toDoubleSup(@Nonnull LIntToDoubleFunction after) {
+	default LDblSupplier toDblSup(@Nonnull LIntToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDouble(this.doGetAsInt());
+		return () -> after.doApplyAsDbl(this.doGetAsInt());
 	}
 
 	/** Combines two functions together in a order. */
@@ -246,22 +415,16 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LIntSupplierX<RuntimeException> nestingIntSupX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntSupplier shovingIntSup() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntSupplierX<RuntimeException> shovingIntSupX() {
-		return this;
-	}
-
 	// </editor-fold>
+
+	/** Does nothing (LIntSupplier) Supplier */
+	public static int produceInt() {
+		return Function4U.defaultInteger;
+	}
 
 }

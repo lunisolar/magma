@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LBytePredicate. */
+/**
+ * Builder for LBytePredicate.
+ */
 public final class LBytePredicateBuilder extends PerCaseBuilderWithBoolProduct.Base<LBytePredicateBuilder, LBytePredicate, LBytePredicate> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBytePredicate EVENTUALLY_THROW = LBytePredicate.l(a -> {
+	public static final LBytePredicate EVENTUALLY_THROW = LBytePredicate.bytePred(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 		LBytePredicate retval;
 
 		final Case<LBytePredicate, LBytePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBytePredicate.l(a -> {
+		retval = LBytePredicate.bytePred(a -> {
 			try {
 				for (Case<LBytePredicate, LBytePredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

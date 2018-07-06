@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LCharConsumerTest<X extends ParseException> {
+public class LCharConsumerTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -63,28 +63,26 @@ public class LCharConsumerTest<X extends ParseException> {
 
 
     private LCharConsumer sut = new LCharConsumer(){
-        public  void doAccept(char a)  {
-            Function4U.doNothing();
-        }
-    };
-
-    private LCharConsumerX<X> opposite = new LCharConsumerX<X>(){
-        public  void doAccept(char a)  throws X {
-            Function4U.doNothing();
+        public  void doAcceptX(char a)  {
+            LCharConsumer.doNothing(a);
         }
     };
 
 
 
 
-    private LCharConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LCharConsumer.l(a -> {
+    private LCharConsumer sutAlwaysThrowing = LCharConsumer.charCons(a -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LCharConsumer sutAlwaysThrowingUnchecked = LCharConsumer.charCons(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LCharSingle domainObject = Tuple4U.charSingle('\u0100');
 
@@ -95,7 +93,7 @@ public class LCharConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws X {
+    public void testNestingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -110,7 +108,7 @@ public class LCharConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws X {
+    public void testShovingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -126,170 +124,26 @@ public class LCharConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LCharConsumer: void doAccept(char a)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LCharConsumer.l(Function4U::doNothing))
+    public void testCharConsMethod() throws Throwable {
+        assertThat(LCharConsumer.charCons(LCharConsumer::doNothing))
             .isInstanceOf(LCharConsumer.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LCharConsumer.wrap(opposite))
-            .isInstanceOf(LCharConsumer.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LCharConsumerX<X> sutThrowing = LCharConsumerX.lX(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LCharConsumer wrapped = LCharConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LCharConsumerX<ParseException> sutThrowing = LCharConsumerX.lX(a -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LCharConsumer wrapped = LCharConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
-
-        // given
-        LCharConsumer sutThrowing = LCharConsumer.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LCharConsumer wrapped = sutThrowing.handleCharCons(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doAccept('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleCharConsMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LCharConsumer sutThrowing = LCharConsumer.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LCharConsumer wrapped = sutThrowing.handleCharCons(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleCharConsMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LCharConsumer sutThrowing = LCharConsumer.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LCharConsumer wrapped = sutThrowing.handleCharCons(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleCharConsMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LCharConsumer sutThrowing = LCharConsumer.l(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LCharConsumer wrapped = sutThrowing.handleCharCons(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doAccept('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharConsComposeChar() throws X {
+    public void testCharConsComposeChar() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -317,7 +171,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testCharConsCompose() throws X {
+    public void testCharConsCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -346,7 +200,7 @@ public class LCharConsumerTest<X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws X {
+    public void testAndThen() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -386,25 +240,12 @@ public class LCharConsumerTest<X extends ParseException> {
             .isInstanceOf(LCharConsumer.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingCharConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LCharConsumerX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingCharConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LCharConsumerX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LCharConsumer sutThrowing = LCharConsumer.l(a -> {
+        LCharConsumer sutThrowing = LCharConsumer.charCons(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -412,33 +253,9 @@ public class LCharConsumerTest<X extends ParseException> {
         sutThrowing.shovingCharCons().doAccept('\u0100');
     }
 
-    @Test
-    public void testHandleCharCons() throws X {
-
-        // given
-        LCharConsumer sutThrowing = LCharConsumer.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LCharConsumer wrapped = sutThrowing.handleCharCons(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doAccept('\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -458,7 +275,6 @@ public class LCharConsumerTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LCharConsumer r1 = LCharConsumer.safe(sut); //NOSONAR
-        LCharConsumerX r2 = LCharConsumer.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -468,7 +284,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LCharConsumer.safe(null);
-        assertThat(result).isSameAs(LCharConsumer.l(LCharConsumer.safe()));
+        assertThat(result).isSameAs(LCharConsumer.charCons(LCharConsumer.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

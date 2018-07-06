@@ -76,7 +76,7 @@ public interface ThrowableProbe<X extends Throwable> extends ObjectProbe<X> {
             this.target = target;
         }
 
-        @Nullable @Override public T getTarget() {
+        @Nullable @Override public T target() {
             return target;
         }
     }

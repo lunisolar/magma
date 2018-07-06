@@ -30,7 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*;
+import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -62,6 +62,10 @@ public class Lazy<T> extends LSupMemento<T> implements LSingle<T> {
 		return new Lazy<T>(supplier);
 	}
 
+	public static <E, T> Lazy<T> lazyValue(E e, LFunction<E, T> function) {
+		return new Lazy<T>(() -> function.doApply(e));
+	}
+
 	@Override
 	public T doGet() {
 		if (function != null) {
@@ -73,7 +77,7 @@ public class Lazy<T> extends LSupMemento<T> implements LSingle<T> {
 	}
 
 	public T value() {
-		return shovingDoGet();
+		return doGet();
 	}
 
 	public static boolean argEquals(Lazy the, Object that) {

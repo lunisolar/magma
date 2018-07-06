@@ -55,12 +55,17 @@ public interface JreToDoubleBiFunctionAssert<S extends JreToDoubleBiFunctionAsse
 			FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Double> doesApplyAsDouble(T1 a1, T2 a2);
+	public static <A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> JreToDoubleBiFunctionAssert.The<A, RS, T1, T2> assertToDblBiFunc(ToDoubleBiFunction<T1, T2> func) {
+		return new JreToDoubleBiFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Double> doesApplyAsDbl(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
 
-		public The(A actual, LDoubleFunction<RS> assertFactory) {
+		public The(A actual, LDblFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
@@ -70,15 +75,15 @@ public interface JreToDoubleBiFunctionAssert<S extends JreToDoubleBiFunctionAsse
 			implements
 				JreToDoubleBiFunctionAssert<S, A, RS, T1, T2> {
 
-		protected final LDoubleFunction<RS> assertFactory;
+		protected final LDblFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, LDoubleFunction<RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LDblFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiConsumer<T1, T2>, A, RS, Double> doesApplyAsDouble(T1 a1, T2 a2) {
+		public Evaluation<S, LBiConsumer<T1, T2>, A, RS, Double> doesApplyAsDbl(T1 a1, T2 a2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

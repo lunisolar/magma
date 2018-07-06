@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,11 +63,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: R
  *
- * @see LBiFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LBiFunction: R doApply(T1 a1,T2 a2)";
 
@@ -73,24 +77,126 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	@Override
 	@Deprecated
 	default R apply(T1 a1, T2 a2) {
-		return this.nestingDoApply(a1, a2);
+		return this.doApply(a1, a2);
 	}
 
 	@Nullable
-	R doApply(T1 a1, T2 a2);
+	// R doApply(T1 a1,T2 a2) ;
+	default R doApply(T1 a1, T2 a2) {
+		// return nestingDoApply(a1,a2);
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doApply(T1 a1,T2 a2)
+	 */
+	R doApplyX(T1 a1, T2 a2) throws Throwable;
 
 	default R tupleApply(LPair<T1, T2> args) {
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(T1 a1, T2 a2) {
-		return this.doApply(a1, a2);
+	/** Function call that handles exceptions according to the instructions. */
+	default R handlingDoApply(T1 a1, T2 a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default R tryDoApply(T1 a1, T2 a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default R tryDoApply(T1 a1, T2 a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default R tryDoApplyThen(T1 a1, T2 a2, @Nonnull LFunction<Throwable, R> handler) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApply(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default R nestingDoApply(T1 a1, T2 a2) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 a1, T2 a2) {
-		return this.doApply(a1, a2);
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static <T1, T2, R> R handlingDoApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoApply(a1, a2, handling);
+	}
+
+	static <T1, T2, R> R tryDoApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+		return tryDoApply(a1, a2, func, null);
+	}
+
+	static <T1, T2, R> R tryDoApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApply(a1, a2, exceptionFactory, newMessage, messageParams);
+	}
+
+	static <T1, T2, R> R tryDoApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApply(a1, a2, exceptionFactory);
+	}
+
+	static <T1, T2, R> R tryDoApplyThen(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyThen(a1, a2, handler);
+	}
+
+	default R failSafeDoApply(T1 a1, T2 a2, @Nonnull LBiFunction<T1, T2, R> failSafe) {
+		try {
+			return doApply(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doApply(a1, a2);
+		}
+	}
+
+	static <T1, T2, R> R failSafeDoApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, @Nonnull LBiFunction<T1, T2, R> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doApply(a1, a2);
+		} else {
+			return func.failSafeDoApply(a1, a2, failSafe);
+		}
+	}
+
+	static <T1, T2, R> LBiFunction<T1, T2, R> failSafeBiFunc(LBiFunction<T1, T2, R> func, @Nonnull LBiFunction<T1, T2, R> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return (a1, a2) -> failSafeDoApply(a1, a2, func, failSafe);
 	}
 
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
@@ -105,6 +211,76 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiFunction.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T1, T2, R> void fromTo(int min_i, int max_i, T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doApply(a1, a2);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doApply(a1, a2);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T1, T2, R> void fromTill(int min_i, int max_i, T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doApply(a1, a2);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doApply(a1, a2);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T1, T2, R> void times(int max_i, T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+		fromTill(0, max_i, a1, a2, func);
+	}
+
+	public default LFunction<T2, R> lShrink(LFunction<T2, T1> left) {
+		return a2 -> doApply(left.doApply(a2), a2);
+	}
+
+	public default LFunction<T2, R> lShrinkc(T1 a1) {
+		return a2 -> doApply(a1, a2);
+	}
+
+	public static <T2, R, T1> LFunction<T2, R> lShrinked(LFunction<T2, T1> left, LBiFunction<T1, T2, R> func) {
+		return func.lShrink(left);
+	}
+
+	public static <T2, R, T1> LFunction<T2, R> lShrinkedc(T1 a1, LBiFunction<T1, T2, R> func) {
+		return func.lShrinkc(a1);
+	}
+
+	public default LFunction<T1, R> rShrink(LFunction<T1, T2> right) {
+		return a1 -> doApply(a1, right.doApply(a1));
+	}
+
+	public default LFunction<T1, R> rShrinkc(T2 a2) {
+		return a1 -> doApply(a1, a2);
+	}
+
+	public static <T1, R, T2> LFunction<T1, R> rShrinked(LFunction<T1, T2> right, LBiFunction<T1, T2, R> func) {
+		return func.rShrink(right);
+	}
+
+	public static <T1, R, T2> LFunction<T1, R> rShrinkedc(T2 a2, LBiFunction<T1, T2, R> func) {
+		return func.rShrinkc(a2);
+	}
+
+	/**  */
+	public static <T1, T2, R> LBiFunction<T1, T2, R> uncurryBiFunc(LFunction<T1, LFunction<T2, R>> func) {
+		return (T1 a1, T2 a2) -> func.doApply(a1).doApply(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -131,16 +307,54 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2, R> LBiFunction<T1, T2, R> l(final @Nonnull LBiFunction<T1, T2, R> lambda) {
+	static <T1, T2, R> LBiFunction<T1, T2, R> biFunc(final @Nonnull LBiFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> recursive(final @Nonnull LFunction<LBiFunction<T1, T2, R>, LBiFunction<T1, T2, R>> selfLambda) {
+		final LBiFunctionSingle<T1, T2, R> single = new LBiFunctionSingle();
+		LBiFunction<T1, T2, R> func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LBiFunctionSingle<T1, T2, R> implements LSingle<LBiFunction<T1, T2, R>>, LBiFunction<T1, T2, R> {
+		private LBiFunction<T1, T2, R> target = null;
+
+		@Override
+		public R doApplyX(T1 a1, T2 a2) throws Throwable {
+			return target.doApplyX(a1, a2);
+		}
+
+		@Override
+		public LBiFunction<T1, T2, R> value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> biFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return (a1, a2) -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> biFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return (a1, a2) -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	// <editor-fold desc="wrap variants">
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> V1<T2, T1, R> l1(final @Nonnull V1<T2, T1, R> lambda) {
+	static <T2, T1, R> LObj1Obj0Func<T2, T1, R> obj1Obj0Func(final @Nonnull LObj1Obj0Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -159,21 +373,14 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	static <T1, T2, R> LBiFunction<T1, T2, R> wrap(final BiFunction<T1, T2, R> other) {
 		return other::apply;
 	}
-
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <T1, T2, R, X extends Throwable> LBiFunction<T1, T2, R> wrap(final @Nonnull LBiFunctionX<T1, T2, R, X> other) {
-		return other::nestingDoApply;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produce). */
+	/** Safe instance. That always returns the same value (as produce). */
 	@Nonnull
 	static <T1, T2, R> LBiFunction<T1, T2, R> safe() {
-		return Function4U::produce;
+		return LBiFunction::produce;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -214,6 +421,10 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
+	public static <V1, V2, T1, T2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, LBiFunction<T1, T2, R> after) {
+		return after.biFuncCompose(before1, before2);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">
@@ -227,9 +438,84 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBiConsumer<T1, T2> then(@Nonnull LConsumer<? super R> after) {
+	default LBiConsumer<T1, T2> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
+	}
+
+	@Nonnull
+	default LBiFunction<T1, T2, R> before(@Nonnull LBiConsumer<? super T1, ? super T2> before) {
+		Null.nonNullArg(before, "before");
+		return (a1, a2) -> {
+			before.doAccept(a1, a2);
+			return this.doApply(a1, a2);
+		};
+	}
+
+	@Nonnull
+	default LBiFunction<T1, T2, R> after(@Nonnull LConsumer<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> {
+			R result = this.doApply(a1, a2);
+			after.doAccept(result);
+			return result;
+		};
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LToByteBiFunction<T1, T2> thenToByte(@Nonnull LToByteFunction<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doApplyAsByte(this.doApply(a1, a2));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LToSrtBiFunction<T1, T2> thenToSrt(@Nonnull LToSrtFunction<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doApplyAsSrt(this.doApply(a1, a2));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LToIntBiFunction<T1, T2> thenToInt(@Nonnull LToIntFunction<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doApplyAsInt(this.doApply(a1, a2));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LToLongBiFunction<T1, T2> thenToLong(@Nonnull LToLongFunction<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doApplyAsLong(this.doApply(a1, a2));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LToFltBiFunction<T1, T2> thenToFlt(@Nonnull LToFltFunction<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doApplyAsFlt(this.doApply(a1, a2));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LToDblBiFunction<T1, T2> thenToDbl(@Nonnull LToDblFunction<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doApplyAsDbl(this.doApply(a1, a2));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LToCharBiFunction<T1, T2> thenToChar(@Nonnull LToCharFunction<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doApplyAsChar(this.doApply(a1, a2));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LBiPredicate<T1, T2> thenToBool(@Nonnull LPredicate<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doTest(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -242,19 +528,8 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LBiFunctionX<T1, T2, R, RuntimeException> nestingBiFuncX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiFunction<T1, T2, R> shovingBiFunc() {
-		return this;
-	}
-
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFunctionX<T1, T2, R, RuntimeException> shovingBiFuncX() {
 		return this;
 	}
 
@@ -270,16 +545,82 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 
 	/** Permutation of LBiFunction for method references. */
 	@FunctionalInterface
-	interface V1<T2, T1, R> extends LBiFunction<T1, T2, R> {
+	interface LObj1Obj0Func<T2, T1, R> extends LBiFunction<T1, T2, R> {
 		@Nullable
-		R doApplyV1(T2 a2, T1 a1);
+		R doApplyObj1Obj0(T2 a2, T1 a1);
 
 		@Override
-		default R doApply(T1 a1, T2 a2) {
-			return this.doApplyV1(a2, a1);
+		default R doApplyX(T1 a1, T2 a2) {
+			return this.doApplyObj1Obj0(a2, a1);
 		}
 	}
 
 	// </editor-fold>
+
+	/** Does nothing (LBiFunction) Function */
+	public static <T1, T2, R> R produce(T1 a1, T2 a2) {
+		return (R) Function4U.defaultObject;
+	}
+
+	// MAP: FOR, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, C2> void forEach(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, LConsumer<? super R> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
+		size = Integer.min(size, ia2.size(source2));
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			T1 a1 = oiFunc1.doApply(source1, i);
+			T2 a2 = oiFunc2.doApply(source2, i);
+			consumer.doAccept(this.doApply(a1, a2));
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, LConsumer<? super R> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		int size = ia2.size(source2);
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		int i = 0;
+		while (testFunc1.doTest(iterator1) && i < size) {
+			T1 a1 = nextFunc1.doApply(iterator1);
+			T2 a2 = oiFunc2.doApply(source2, i);
+			consumer.doAccept(this.doApply(a1, a2));
+			i++;
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, C2, I2> void iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, LConsumer<? super R> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		int i = 0;
+		while (i < size && testFunc2.doTest(iterator2)) {
+			T1 a1 = oiFunc1.doApply(source1, i);
+			T2 a2 = nextFunc2.doApply(iterator2);
+			consumer.doAccept(this.doApply(a1, a2));
+			i++;
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, LConsumer<? super R> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
+			T1 a1 = nextFunc1.doApply(iterator1);
+			T2 a2 = nextFunc2.doApply(iterator2);
+			consumer.doAccept(this.doApply(a1, a2));
+		}
+	}
 
 }

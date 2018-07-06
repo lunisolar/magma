@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LLongPredicateAssertTest<X extends ParseException> {
+public class LLongPredicateAssertTest {
 
     private boolean testValue = true;
 
@@ -57,7 +57,7 @@ public class LLongPredicateAssertTest<X extends ParseException> {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
+        A.assertLongPred(function)
          .doesTest(100L)
             .to(a -> a.isEqualTo(testValue));
 
@@ -66,7 +66,7 @@ public class LLongPredicateAssertTest<X extends ParseException> {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
+        A.assertLongPred(function)
          .doesTest(100L)
             .to( a -> a.isEqualTo(2));
 
@@ -75,7 +75,7 @@ public class LLongPredicateAssertTest<X extends ParseException> {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertLongPred(functionThrowing)
          .doesTest(100L)
             .to( a -> a.isEqualTo(1));
     }
@@ -83,7 +83,7 @@ public class LLongPredicateAssertTest<X extends ParseException> {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertLongPred(functionThrowing)
          .doesTest(100L).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -95,7 +95,7 @@ public class LLongPredicateAssertTest<X extends ParseException> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertLongPred(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
@@ -113,7 +113,7 @@ public class LLongPredicateAssertTest<X extends ParseException> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertLongPred(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

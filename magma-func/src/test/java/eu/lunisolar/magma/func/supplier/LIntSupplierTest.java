@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LIntSupplierTest<X extends ParseException> {
+public class LIntSupplierTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,35 +65,33 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     private LIntSupplier sut = new LIntSupplier(){
-        public  int doGetAsInt()  {
+        public  int doGetAsIntX()  {
             return testValue;
         }
     };
 
-    private LIntSupplierX<X> opposite = new LIntSupplierX<X>(){
-        public  int doGetAsInt()  throws X {
-            return testValue;
-        }
-    };
 
 
     private IntSupplier jre = () -> testValue;
 
 
+    private LIntSupplier sutAlwaysThrowing = LIntSupplier.intSup(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LIntSupplierX<RuntimeException> sutAlwaysThrowingUnchecked = LIntSupplier.l(() -> {
+    private LIntSupplier sutAlwaysThrowingUnchecked = LIntSupplier.intSup(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doGetAsInt())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LTuple.Void domainObject = Tuple4U.tuple();
 
@@ -104,13 +102,13 @@ public class LIntSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoGetAsInt() throws X {
+    public void testNonNullDoGetAsInt() throws Throwable {
         assertThat(sut.nonNullDoGetAsInt())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsIntUnchecked() throws X {
+    public void testNestingDoGetAsIntUnchecked() throws Throwable {
 
         // then
         try {
@@ -125,7 +123,7 @@ public class LIntSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsIntUnchecked() throws X {
+    public void testShovingDoGetAsIntUnchecked() throws Throwable {
 
         // then
         try {
@@ -141,169 +139,25 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LIntSupplier: int doGetAsInt()");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LIntSupplier.l(() -> testValue ))
+    public void testIntSupMethod() throws Throwable {
+        assertThat(LIntSupplier.intSup(() -> testValue ))
             .isInstanceOf(LIntSupplier.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LIntSupplier.wrap(opposite))
-            .isInstanceOf(LIntSupplier.class);
-    }
 
     @Test
-    public void testWrapStdMethod() throws X {
+    public void testWrapStdMethod() throws Throwable {
         assertThat(LIntSupplier.wrap(jre))
             .isInstanceOf(LIntSupplier.class);
     }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LIntSupplierX<X> sutThrowing = LIntSupplierX.lX(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LIntSupplier wrapped = LIntSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsInt();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LIntSupplierX<ParseException> sutThrowing = LIntSupplierX.lX(() -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LIntSupplier wrapped = LIntSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGetAsInt();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void testHandlingDoGetAsIntMethodWrapsTheException() throws X {
-
-        // given
-        LIntSupplier sutThrowing = LIntSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LIntSupplier wrapped = sutThrowing.handleIntSup(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doGetAsInt();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleIntSupMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LIntSupplier sutThrowing = LIntSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LIntSupplier wrapped = sutThrowing.handleIntSup(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsInt();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleIntSupMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LIntSupplier sutThrowing = LIntSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LIntSupplier wrapped = sutThrowing.handleIntSup(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGetAsInt();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleIntSupMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LIntSupplier sutThrowing = LIntSupplier.l(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LIntSupplier wrapped = sutThrowing.handleIntSup(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doGetAsInt();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
@@ -311,7 +165,7 @@ public class LIntSupplierTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testToSup0() throws X  {
+    public void testToSup0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -344,7 +198,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToByteSup1() throws X  {
+    public void testToByteSup1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -377,7 +231,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToShortSup2() throws X  {
+    public void testToSrtSup2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -388,7 +242,7 @@ public class LIntSupplierTest<X extends ParseException> {
                 return 90;
         };
 
-        LIntToShortFunction thenFunction = p -> {
+        LIntToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
                 assertThat(p).isEqualTo(90);
@@ -397,8 +251,8 @@ public class LIntSupplierTest<X extends ParseException> {
         };
 
         //when
-        LShortSupplier function = sutO.toShortSup(thenFunction);
-        short finalValue = function.doGetAsShort();
+        LSrtSupplier function = sutO.toSrtSup(thenFunction);
+        short finalValue = function.doGetAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -410,7 +264,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToIntSup3() throws X  {
+    public void testToIntSup3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,7 +297,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToLongSup4() throws X  {
+    public void testToLongSup4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -476,7 +330,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToFloatSup5() throws X  {
+    public void testToFltSup5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -487,7 +341,7 @@ public class LIntSupplierTest<X extends ParseException> {
                 return 90;
         };
 
-        LIntToFloatFunction thenFunction = p -> {
+        LIntToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
                 assertThat(p).isEqualTo(90);
@@ -496,8 +350,8 @@ public class LIntSupplierTest<X extends ParseException> {
         };
 
         //when
-        LFloatSupplier function = sutO.toFloatSup(thenFunction);
-        float finalValue = function.doGetAsFloat();
+        LFltSupplier function = sutO.toFltSup(thenFunction);
+        float finalValue = function.doGetAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -509,7 +363,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToDoubleSup6() throws X  {
+    public void testToDblSup6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -520,7 +374,7 @@ public class LIntSupplierTest<X extends ParseException> {
                 return 90;
         };
 
-        LIntToDoubleFunction thenFunction = p -> {
+        LIntToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
                 assertThat(p).isEqualTo(90);
@@ -529,8 +383,8 @@ public class LIntSupplierTest<X extends ParseException> {
         };
 
         //when
-        LDoubleSupplier function = sutO.toDoubleSup(thenFunction);
-        double finalValue = function.doGetAsDouble();
+        LDblSupplier function = sutO.toDblSup(thenFunction);
+        double finalValue = function.doGetAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -542,7 +396,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToCharSup7() throws X  {
+    public void testToCharSup7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -575,7 +429,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
 
     @Test
-    public void testToBoolSup8() throws X  {
+    public void testToBoolSup8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -623,25 +477,12 @@ public class LIntSupplierTest<X extends ParseException> {
             .isInstanceOf(LIntSupplier.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingIntSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LIntSupplierX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingIntSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LIntSupplierX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LIntSupplier sutThrowing = LIntSupplier.l(() -> {
+        LIntSupplier sutThrowing = LIntSupplier.intSup(() -> {
             throw new UnsupportedOperationException();
         });
 
@@ -649,33 +490,9 @@ public class LIntSupplierTest<X extends ParseException> {
         sutThrowing.shovingIntSup().doGetAsInt();
     }
 
-    @Test
-    public void testHandleIntSup() throws X {
-
-        // given
-        LIntSupplier sutThrowing = LIntSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LIntSupplier wrapped = sutThrowing.handleIntSup(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doGetAsInt();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -695,7 +512,6 @@ public class LIntSupplierTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LIntSupplier r1 = LIntSupplier.safe(sut); //NOSONAR
-        LIntSupplierX r2 = LIntSupplier.safe(sut); //NOSONAR
         IntSupplier r3 = LIntSupplier.safe(sut); //NOSONAR
     }
 
@@ -706,7 +522,7 @@ public class LIntSupplierTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LIntSupplier.safe(null);
-        assertThat(result).isSameAs(LIntSupplier.l(LIntSupplier.safe()));
+        assertThat(result).isSameAs(LIntSupplier.intSup(LIntSupplier.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

@@ -55,6 +55,11 @@ public interface JreToLongBiFunctionAssert<S extends JreToLongBiFunctionAssert<S
 			FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Long> {
 
 	@Nonnull
+	public static <A extends ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> JreToLongBiFunctionAssert.The<A, RS, T1, T2> assertToLongBiFunc(ToLongBiFunction<T1, T2> func) {
+		return new JreToLongBiFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Long> doesApplyAsLong(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

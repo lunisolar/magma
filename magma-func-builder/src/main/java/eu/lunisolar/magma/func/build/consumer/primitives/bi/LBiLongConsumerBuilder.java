@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LBiLongConsumer. */
+/**
+ * Builder for LBiLongConsumer.
+ */
 public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongConsumerBuilder, LBiLongPredicate, LBiLongConsumer> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongCon
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiLongConsumer EVENTUALLY_THROW = LBiLongConsumer.l((a1, a2) -> {
+	public static final LBiLongConsumer EVENTUALLY_THROW = LBiLongConsumer.biLongCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongCon
 		LBiLongConsumer retval;
 
 		final Case<LBiLongPredicate, LBiLongConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiLongConsumer.l((a1, a2) -> {
+		retval = LBiLongConsumer.biLongCons((a1, a2) -> {
 			try {
 				for (Case<LBiLongPredicate, LBiLongConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

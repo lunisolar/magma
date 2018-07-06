@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LObjLongFunction. */
+/**
+ * Builder for LObjLongFunction.
+ */
 public final class LObjLongFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<LObjLongFunctionBuilder<T, R>, LObjLongPredicate<T>, LObjLongFunction<T, R>, R> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LObjLongFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjLongFunction EVENTUALLY_THROW = LObjLongFunction.l((a1, a2) -> {
+	public static final LObjLongFunction EVENTUALLY_THROW = LObjLongFunction.objLongFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LObjLongFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 		LObjLongFunction<T, R> retval;
 
 		final Case<LObjLongPredicate<T>, LObjLongFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjLongFunction.<T, R> l((a1, a2) -> {
+		retval = LObjLongFunction.<T, R> objLongFunc((a1, a2) -> {
 			try {
 				for (Case<LObjLongPredicate<T>, LObjLongFunction<T, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

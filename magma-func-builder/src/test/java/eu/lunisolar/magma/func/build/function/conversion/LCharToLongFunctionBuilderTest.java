@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LCharToLongFunctionBuilder.charToLongFunction;
 import static eu.lunisolar.magma.func.build.function.conversion.LCharToLongFunctionBuilder.charToLongFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LCharToLongFunctionBuilderTest<X extends ParseException>{
+public class LCharToLongFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LCharToLongFunctionBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertCharToLongFunc(function)
             .doesApplyAsLong('\u0000').when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong('\u0005').when(null).to(a -> a.isEqualTo(1L))
             .doesApplyAsLong('\u0015').when(null).to(a -> a.isEqualTo(2L))

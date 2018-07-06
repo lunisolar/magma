@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LTriBoolFunctionTest<R,X extends ParseException> {
+public class LTriBoolFunctionTest<R> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,39 +65,37 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
 
 
     private LTriBoolFunction<Integer> sut = new LTriBoolFunction<Integer>(){
-        public @Nullable Integer doApply(boolean a1,boolean a2,boolean a3)  {
+        public @Nullable Integer doApplyX(boolean a1,boolean a2,boolean a3)  {
             return testValue;
         }
     };
 
-    private LTriBoolFunctionX<Integer,X> opposite = new LTriBoolFunctionX<Integer,X>(){
-        public @Nullable Integer doApply(boolean a1,boolean a2,boolean a3)  throws X {
-            return testValue;
-        }
-    };
 
     private LTriBoolFunction<Integer> sutNull = new LTriBoolFunction<Integer>(){
-        public @Nullable Integer doApply(boolean a1,boolean a2,boolean a3)  {
+        public @Nullable Integer doApplyX(boolean a1,boolean a2,boolean a3)  {
             return null;
         }
     };
 
 
 
+    private LTriBoolFunction<Integer> sutAlwaysThrowing = LTriBoolFunction.triBoolFunc((a1,a2,a3) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LTriBoolFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LTriBoolFunction.l((a1,a2,a3) -> {
+    private LTriBoolFunction<Integer> sutAlwaysThrowingUnchecked = LTriBoolFunction.triBoolFunc((a1,a2,a3) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply(true,true,true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LBoolTriple domainObject = Tuple4U.boolTriple(true,true,true);
 
@@ -108,13 +106,13 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply(true,true,true))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -129,7 +127,7 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -144,176 +142,32 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriBoolFunction: R doApply(boolean a1,boolean a2,boolean a3)).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoApply(true,true,true);
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LTriBoolFunction: R doApply(boolean a1,boolean a2,boolean a3)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LTriBoolFunction.l((a1,a2,a3) -> testValue ))
+    public void testTriBoolFuncMethod() throws Throwable {
+        assertThat(LTriBoolFunction.triBoolFunc((a1,a2,a3) -> testValue ))
             .isInstanceOf(LTriBoolFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LTriBoolFunction.wrap(opposite))
-            .isInstanceOf(LTriBoolFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LTriBoolFunctionX<Integer,X> sutThrowing = LTriBoolFunctionX.lX((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriBoolFunction<Integer> wrapped = LTriBoolFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LTriBoolFunctionX<Integer,ParseException> sutThrowing = LTriBoolFunctionX.lX((a1,a2,a3) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LTriBoolFunction<Integer> wrapped = LTriBoolFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LTriBoolFunction<Integer> sutThrowing = LTriBoolFunction.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriBoolFunction<Integer> wrapped = sutThrowing.handleTriBoolFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleTriBoolFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LTriBoolFunction<Integer> sutThrowing = LTriBoolFunction.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriBoolFunction<Integer> wrapped = sutThrowing.handleTriBoolFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleTriBoolFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LTriBoolFunction<Integer> sutThrowing = LTriBoolFunction.l((a1,a2,a3) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LTriBoolFunction<Integer> wrapped = sutThrowing.handleTriBoolFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleTriBoolFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LTriBoolFunction<Integer> sutThrowing = LTriBoolFunction.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LTriBoolFunction<Integer> wrapped = sutThrowing.handleTriBoolFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriBoolFuncComposeBool() throws X {
+    public void testTriBoolFuncComposeBool() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -354,7 +208,7 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testTriBoolFuncCompose() throws X {
+    public void testTriBoolFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -400,7 +254,7 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -436,7 +290,7 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws X  {
+    public void testThenConsume1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -457,10 +311,46 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LTriBoolConsumer function = sutO.then(thenFunction);
+        LTriBoolConsumer function = sutO.thenConsume(thenFunction);
         function.doAccept(true,true,true);
 
         //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriBoolFunction<Integer> sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(true);
+                assertThat(a2).isEqualTo(true);
+                assertThat(a3).isEqualTo(true);
+                return 90;
+        };
+
+        LPredicate<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // boolean
+                return true;
+        };
+
+        //when
+        LLogicalTernaryOperator function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doApply(true,true,true);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -484,25 +374,12 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
             .isInstanceOf(LTriBoolFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingTriBoolFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingTriBoolFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LTriBoolFunction<Integer> sutThrowing = LTriBoolFunction.l((a1,a2,a3) -> {
+        LTriBoolFunction<Integer> sutThrowing = LTriBoolFunction.triBoolFunc((a1,a2,a3) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -510,33 +387,9 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
         sutThrowing.shovingTriBoolFunc().doApply(true,true,true);
     }
 
-    @Test
-    public void testHandleTriBoolFunc() throws X {
-
-        // given
-        LTriBoolFunction<Integer> sutThrowing = LTriBoolFunction.l((a1,a2,a3) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LTriBoolFunction<Integer> wrapped = sutThrowing.handleTriBoolFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -556,7 +409,6 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
 
     @Test void safeCompiles() {
         LTriBoolFunction r1 = LTriBoolFunction.safe(sut); //NOSONAR
-        LTriBoolFunctionX r2 = LTriBoolFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -566,7 +418,7 @@ public class LTriBoolFunctionTest<R,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LTriBoolFunction.safe(null);
-        assertThat(result).isSameAs(LTriBoolFunction.l(LTriBoolFunction.safe()));
+        assertThat(result).isSameAs(LTriBoolFunction.triBoolFunc(LTriBoolFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LUnaryOperatorAssert<S extends LUnaryOperatorAssert<S, A, RS, T>, A extends LUnaryOperator<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, LConsumer<T>, A, RS, T> {
 
 	@Nonnull
+	public static <A extends LUnaryOperator<T>, RS extends Assert<RS, T>, T> LUnaryOperatorAssert.The<A, RS, T> assertUnaryOp(LUnaryOperator<T> func) {
+		return new LUnaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LConsumer<T>, A, RS, T> doesApply(T a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

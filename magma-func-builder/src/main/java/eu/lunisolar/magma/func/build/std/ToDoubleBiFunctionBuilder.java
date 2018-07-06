@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for ToDoubleBiFunction. */
-public final class ToDoubleBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithDoubleProduct.Base<ToDoubleBiFunctionBuilder<T1, T2>, LBiPredicate<T1, T2>, ToDoubleBiFunction<T1, T2>> {
+/**
+ * Builder for ToDoubleBiFunction.
+ */
+public final class ToDoubleBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithDblProduct.Base<ToDoubleBiFunctionBuilder<T1, T2>, LBiPredicate<T1, T2>, ToDoubleBiFunction<T1, T2>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<ToDoubleBiFunction<T1, T2>> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ToDoubleBiFunction EVENTUALLY_THROW = Function4U.toDoubleBiFunction((a1, a2) -> {
+	public static final ToDoubleBiFunction EVENTUALLY_THROW = Function4U.toDblBiFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ToDoubleBiFunctionBuilder(@Nullable Consumer<ToDoubleBiFunction<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LToDoubleBiFunction::constant, () -> new ToDoubleBiFunctionBuilder(null));
+		super(EVENTUALLY_THROW, LToDblBiFunction::constant, () -> new ToDoubleBiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class ToDoubleBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithD
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static <T1, T2> ToDoubleBiFunctionBuilder<T1, T2> toDoubleBiFunction() {
+	public static <T1, T2> ToDoubleBiFunctionBuilder<T1, T2> toDblBiFunction() {
 		return new ToDoubleBiFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2> ToDoubleBiFunction<T1, T2> toDoubleBiFunctionFrom(Function<ToDoubleBiFunctionBuilder<T1, T2>, ToDoubleBiFunction<T1, T2>> buildingFunction) {
+	public static <T1, T2> ToDoubleBiFunction<T1, T2> toDblBiFunctionFrom(Function<ToDoubleBiFunctionBuilder<T1, T2>, ToDoubleBiFunction<T1, T2>> buildingFunction) {
 		return buildingFunction.apply(new ToDoubleBiFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static <T1, T2> ToDoubleBiFunctionBuilder<T1, T2> toDoubleBiFunction(Consumer<ToDoubleBiFunction<T1, T2>> consumer) {
+	public static <T1, T2> ToDoubleBiFunctionBuilder<T1, T2> toDblBiFunction(Consumer<ToDoubleBiFunction<T1, T2>> consumer) {
 		return new ToDoubleBiFunctionBuilder(consumer);
 	}
 
@@ -102,7 +104,7 @@ public final class ToDoubleBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithD
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V1 extends T1, V2 extends T2> ToDoubleBiFunctionBuilder<T1, T2> casesOf(Class<V1> argC1, Class<V2> argC2, Consumer<ToDoubleBiFunctionBuilder<V1, V2>> pcpConsumer) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+		PartialCaseWithDblProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return self();
@@ -111,7 +113,7 @@ public final class ToDoubleBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithD
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <V1 extends T1, V2 extends T2> ToDoubleBiFunctionBuilder<T1, T2> aCase(Class<V1> argC1, Class<V2> argC2, ToDoubleBiFunction<V1, V2> function) {
-		PartialCaseWithDoubleProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
+		PartialCaseWithDblProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)));
 
 		pc.evaluate(function);
 		return self();
@@ -126,7 +128,7 @@ public final class ToDoubleBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithD
 		ToDoubleBiFunction<T1, T2> retval;
 
 		final Case<LBiPredicate<T1, T2>, ToDoubleBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T1, T2> toDoubleBiFunction((a1, a2) -> {
+		retval = Function4U.<T1, T2> toDblBiFunc((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, ToDoubleBiFunction<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

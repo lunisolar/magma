@@ -49,10 +49,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for DoublePredicate. */
-public interface JreDoublePredicateAssert<S extends JreDoublePredicateAssert<S, A, RS>, A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, Boolean> {
+public interface JreDoublePredicateAssert<S extends JreDoublePredicateAssert<S, A, RS>, A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, Boolean> doesTest(double a);
+	public static <A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> JreDoublePredicateAssert.The<A, RS> assertDblPred(DoublePredicate func) {
+		return new JreDoublePredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LDblConsumer, A, RS, Boolean> doesTest(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -63,7 +68,7 @@ public interface JreDoublePredicateAssert<S extends JreDoublePredicateAssert<S, 
 	}
 
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
-	class Base<S extends Base<S, A, RS>, A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LDoubleConsumer, A, RS, Boolean> implements JreDoublePredicateAssert<S, A, RS> {
+	class Base<S extends Base<S, A, RS>, A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LDblConsumer, A, RS, Boolean> implements JreDoublePredicateAssert<S, A, RS> {
 
 		protected final LBoolFunction<RS> assertFactory;
 
@@ -73,7 +78,7 @@ public interface JreDoublePredicateAssert<S extends JreDoublePredicateAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, Boolean> doesTest(double a) {
+		public Evaluation<S, LDblConsumer, A, RS, Boolean> doesTest(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

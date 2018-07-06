@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -75,9 +75,39 @@ public interface AccessObjBoolPair<T> {
 		accessFunction.doAccept(tuple.first(), tuple.second());
 	}
 
-	default void useWith(LObjBoolConsumer.V1<T> accessFunction) {
+	default void useWith(LObjBoolConsumer.LBoolObjCons<T> accessFunction) {
 		LObjBoolPair<T> tuple = accessObjBoolPair();
-		accessFunction.doAcceptV1(tuple.second(), tuple.first());
+		accessFunction.doAcceptBoolObj(tuple.second(), tuple.first());
+	}
+
+	default void useWith(int a2, LTieBoolConsumer<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		accessFunction.doAccept(tuple.first(), a2, tuple.second());
+	}
+
+	default void useWith(int a2, LTieBoolConsumer.LObjBoolIntCons<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		accessFunction.doAcceptObjBoolInt(tuple.first(), tuple.second(), a2);
+	}
+
+	default void useWith(int a2, LTieBoolConsumer.LIntObjBoolCons<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		accessFunction.doAcceptIntObjBool(a2, tuple.first(), tuple.second());
+	}
+
+	default void useWith(int a2, LTieBoolConsumer.LIntBoolObjCons<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		accessFunction.doAcceptIntBoolObj(a2, tuple.second(), tuple.first());
+	}
+
+	default void useWith(int a2, LTieBoolConsumer.LBoolObjIntCons<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		accessFunction.doAcceptBoolObjInt(tuple.second(), tuple.first(), a2);
+	}
+
+	default void useWith(int a2, LTieBoolConsumer.LBoolIntObjCons<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		accessFunction.doAcceptBoolIntObj(tuple.second(), a2, tuple.first());
 	}
 
 	default <R> R useWith(LObjBoolFunction<T, R> accessFunction) {
@@ -87,9 +117,93 @@ public interface AccessObjBoolPair<T> {
 		return retval;
 	}
 
-	default <R> R useWith(LObjBoolFunction.V1<T, R> accessFunction) {
+	default <R> R useWith(LObjBoolFunction.LBoolObjFunc<T, R> accessFunction) {
 		LObjBoolPair<T> tuple = accessObjBoolPair();
-		R retval = accessFunction.doApplyV1(tuple.second(), tuple.first());
+		R retval = accessFunction.doApplyBoolObj(tuple.second(), tuple.first());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(int a2, LObjIntBoolFunction<T, R> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		R retval = accessFunction.doApply(tuple.first(), a2, tuple.second());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(int a2, LObjIntBoolFunction.LObjBoolIntFunc<T, R> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		R retval = accessFunction.doApplyObjBoolInt(tuple.first(), tuple.second(), a2);
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(int a2, LObjIntBoolFunction.LIntObjBoolFunc<T, R> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		R retval = accessFunction.doApplyIntObjBool(a2, tuple.first(), tuple.second());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(int a2, LObjIntBoolFunction.LIntBoolObjFunc<T, R> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		R retval = accessFunction.doApplyIntBoolObj(a2, tuple.second(), tuple.first());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(int a2, LObjIntBoolFunction.LBoolObjIntFunc<T, R> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		R retval = accessFunction.doApplyBoolObjInt(tuple.second(), tuple.first(), a2);
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(int a2, LObjIntBoolFunction.LBoolIntObjFunc<T, R> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		R retval = accessFunction.doApplyBoolIntObj(tuple.second(), a2, tuple.first());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default int useWith(int a2, LTieBoolFunction<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		int retval = accessFunction.doApplyAsInt(tuple.first(), a2, tuple.second());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default int useWith(int a2, LTieBoolFunction.LObjBoolIntToIntFunc<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		int retval = accessFunction.doApplyAsIntObjBoolInt(tuple.first(), tuple.second(), a2);
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default int useWith(int a2, LTieBoolFunction.LIntObjBoolToIntFunc<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		int retval = accessFunction.doApplyAsIntIntObjBool(a2, tuple.first(), tuple.second());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default int useWith(int a2, LTieBoolFunction.LIntBoolObjToIntFunc<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		int retval = accessFunction.doApplyAsIntIntBoolObj(a2, tuple.second(), tuple.first());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default int useWith(int a2, LTieBoolFunction.LBoolObjIntToIntFunc<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		int retval = accessFunction.doApplyAsIntBoolObjInt(tuple.second(), tuple.first(), a2);
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default int useWith(int a2, LTieBoolFunction.LBoolIntObjToIntFunc<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		int retval = accessFunction.doApplyAsIntBoolIntObj(tuple.second(), a2, tuple.first());
 		releaseObjBoolPair(tuple);
 		return retval;
 	}
@@ -101,9 +215,51 @@ public interface AccessObjBoolPair<T> {
 		return retval;
 	}
 
-	default boolean useWith(LObjBoolPredicate.V1<T> accessFunction) {
+	default boolean useWith(LObjBoolPredicate.LBoolObjPred<T> accessFunction) {
 		LObjBoolPair<T> tuple = accessObjBoolPair();
-		boolean retval = accessFunction.doTestV1(tuple.second(), tuple.first());
+		boolean retval = accessFunction.doTestBoolObj(tuple.second(), tuple.first());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a2, LObjIntBoolPredicate<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		boolean retval = accessFunction.doTest(tuple.first(), a2, tuple.second());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a2, LObjIntBoolPredicate.LObjBoolIntPred<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		boolean retval = accessFunction.doTestObjBoolInt(tuple.first(), tuple.second(), a2);
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a2, LObjIntBoolPredicate.LIntObjBoolPred<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		boolean retval = accessFunction.doTestIntObjBool(a2, tuple.first(), tuple.second());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a2, LObjIntBoolPredicate.LIntBoolObjPred<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		boolean retval = accessFunction.doTestIntBoolObj(a2, tuple.second(), tuple.first());
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a2, LObjIntBoolPredicate.LBoolObjIntPred<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		boolean retval = accessFunction.doTestBoolObjInt(tuple.second(), tuple.first(), a2);
+		releaseObjBoolPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a2, LObjIntBoolPredicate.LBoolIntObjPred<T> accessFunction) {
+		LObjBoolPair<T> tuple = accessObjBoolPair();
+		boolean retval = accessFunction.doTestBoolIntObj(tuple.second(), a2, tuple.first());
 		releaseObjBoolPair(tuple);
 		return retval;
 	}

@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class LBiIntConsumerAssertTest<X extends ParseException> {
+public class LBiIntConsumerAssertTest {
 
     private Integer testValue = 100;
     private AtomicReference<Object> externalEffect = new AtomicReference(null);
@@ -58,7 +58,7 @@ public class LBiIntConsumerAssertTest<X extends ParseException> {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
+        A.assertBiIntCons(function)
          .doesAccept(100,100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
@@ -67,7 +67,7 @@ public class LBiIntConsumerAssertTest<X extends ParseException> {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
+        A.assertBiIntCons(function)
          .doesAccept(100,100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
@@ -76,7 +76,7 @@ public class LBiIntConsumerAssertTest<X extends ParseException> {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertBiIntCons(functionThrowing)
          .doesAccept(100,100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
@@ -84,7 +84,7 @@ public class LBiIntConsumerAssertTest<X extends ParseException> {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertBiIntCons(functionThrowing)
          .doesAccept(100,100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -96,7 +96,7 @@ public class LBiIntConsumerAssertTest<X extends ParseException> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertBiIntCons(function)
          .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
@@ -114,7 +114,7 @@ public class LBiIntConsumerAssertTest<X extends ParseException> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertBiIntCons(function)
          .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

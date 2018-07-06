@@ -56,7 +56,7 @@ public class JreDoubleFunctionAssertTest<R> {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
+        A.assertDblFunc(function)
          .doesApply(100d)
             .to(a -> a.isEqualTo(testValue));
 
@@ -65,7 +65,7 @@ public class JreDoubleFunctionAssertTest<R> {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
+        A.assertDblFunc(function)
          .doesApply(100d)
             .to( a -> a.isEqualTo(2));
 
@@ -74,7 +74,7 @@ public class JreDoubleFunctionAssertTest<R> {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertDblFunc(functionThrowing)
          .doesApply(100d)
             .to( a -> a.isEqualTo(1));
     }
@@ -82,7 +82,7 @@ public class JreDoubleFunctionAssertTest<R> {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertDblFunc(functionThrowing)
          .doesApply(100d).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -94,7 +94,7 @@ public class JreDoubleFunctionAssertTest<R> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
@@ -112,7 +112,7 @@ public class JreDoubleFunctionAssertTest<R> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblFunc(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

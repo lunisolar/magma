@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoubleConsumerBuilder.doubleConsumer;
-import static eu.lunisolar.magma.func.build.std.DoubleConsumerBuilder.doubleConsumerFrom;
+import static eu.lunisolar.magma.func.build.std.DoubleConsumerBuilder.dblConsumer;
+import static eu.lunisolar.magma.func.build.std.DoubleConsumerBuilder.dblConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoubleConsumerBuilderTest{
@@ -66,7 +65,7 @@ public class DoubleConsumerBuilderTest{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoubleConsumer function = doubleConsumerFrom(b-> b
+            DoubleConsumer function = dblConsumerFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoubleConsumerBuilderTest{
 
 
         assertThatThrownBy(() -> {
-            DoubleConsumer function = doubleConsumerFrom(b-> b
+            DoubleConsumer function = dblConsumerFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoubleConsumerBuilderTest{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoubleConsumer function = doubleConsumerFrom(b -> b
+            DoubleConsumer function = dblConsumerFrom(b -> b
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -119,7 +118,7 @@ public class DoubleConsumerBuilderTest{
     public void testBuild()  {
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
-        DoubleConsumer function = doubleConsumerFrom( b -> b
+        DoubleConsumer function = dblConsumerFrom( b -> b
             .aCase(ce -> ce.of(a -> a == 0d)
                              .evaluate(a -> externalEffect.set(0)))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> externalEffect.set(1))
@@ -129,7 +128,7 @@ public class DoubleConsumerBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertDblCons(function)
             .doesAccept(0d).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5d).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15d).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

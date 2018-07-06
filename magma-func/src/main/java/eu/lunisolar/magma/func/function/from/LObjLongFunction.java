@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,29 +63,130 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: R
  *
- * @see LObjLongFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LObjLongFunction: R doApply(T a1,long a2)";
 
 	@Nullable
-	R doApply(T a1, long a2);
+	// R doApply(T a1,long a2) ;
+	default R doApply(T a1, long a2) {
+		// return nestingDoApply(a1,a2);
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doApply(T a1,long a2)
+	 */
+	R doApplyX(T a1, long a2) throws Throwable;
 
 	default R tupleApply(LObjLongPair<T> args) {
 		return doApply(args.first(), args.second());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(T a1, long a2) {
-		return this.doApply(a1, a2);
+	/** Function call that handles exceptions according to the instructions. */
+	default R handlingDoApply(T a1, long a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default R tryDoApply(T a1, long a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default R tryDoApply(T a1, long a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default R tryDoApplyThen(T a1, long a2, @Nonnull LFunction<Throwable, R> handler) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApply(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default R nestingDoApply(T a1, long a2) {
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default R shovingDoApply(T a1, long a2) {
-		return this.doApply(a1, a2);
+		try {
+			return this.doApplyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static <T, R> R handlingDoApply(T a1, long a2, LObjLongFunction<T, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoApply(a1, a2, handling);
+	}
+
+	static <T, R> R tryDoApply(T a1, long a2, LObjLongFunction<T, R> func) {
+		return tryDoApply(a1, a2, func, null);
+	}
+
+	static <T, R> R tryDoApply(T a1, long a2, LObjLongFunction<T, R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApply(a1, a2, exceptionFactory, newMessage, messageParams);
+	}
+
+	static <T, R> R tryDoApply(T a1, long a2, LObjLongFunction<T, R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApply(a1, a2, exceptionFactory);
+	}
+
+	static <T, R> R tryDoApplyThen(T a1, long a2, LObjLongFunction<T, R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyThen(a1, a2, handler);
+	}
+
+	default R failSafeDoApply(T a1, long a2, @Nonnull LObjLongFunction<T, R> failSafe) {
+		try {
+			return doApply(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doApply(a1, a2);
+		}
+	}
+
+	static <T, R> R failSafeDoApply(T a1, long a2, LObjLongFunction<T, R> func, @Nonnull LObjLongFunction<T, R> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doApply(a1, a2);
+		} else {
+			return func.failSafeDoApply(a1, a2, failSafe);
+		}
+	}
+
+	static <T, R> LObjLongFunction<T, R> failSafeObjLongFunc(LObjLongFunction<T, R> func, @Nonnull LObjLongFunction<T, R> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return (a1, a2) -> failSafeDoApply(a1, a2, func, failSafe);
 	}
 
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
@@ -95,6 +201,76 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjLongFunction.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T, R> void fromTo(long min_a2, long max_a2, T a1, LObjLongFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		if (min_a2 <= min_a2) {
+			for (long a2 = min_a2; a2 <= max_a2; a2++) {
+				func.doApply(a1, a2);
+			}
+		} else {
+			for (long a2 = min_a2; a2 >= max_a2; a2--) {
+				func.doApply(a1, a2);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T, R> void fromTill(long min_a2, long max_a2, T a1, LObjLongFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		if (min_a2 <= min_a2) {
+			for (long a2 = min_a2; a2 < max_a2; a2++) {
+				func.doApply(a1, a2);
+			}
+		} else {
+			for (long a2 = min_a2; a2 > max_a2; a2--) {
+				func.doApply(a1, a2);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T, R> void times(long max_a2, T a1, LObjLongFunction<T, R> func) {
+		fromTill(0, max_a2, a1, func);
+	}
+
+	public default LLongFunction<R> lShrink(LLongFunction<T> left) {
+		return a2 -> doApply(left.doApply(a2), a2);
+	}
+
+	public default LLongFunction<R> lShrinkc(T a1) {
+		return a2 -> doApply(a1, a2);
+	}
+
+	public static <R, T> LLongFunction<R> lShrinked(LLongFunction<T> left, LObjLongFunction<T, R> func) {
+		return func.lShrink(left);
+	}
+
+	public static <R, T> LLongFunction<R> lShrinkedc(T a1, LObjLongFunction<T, R> func) {
+		return func.lShrinkc(a1);
+	}
+
+	public default LFunction<T, R> rShrink(LToLongFunction<T> right) {
+		return a1 -> doApply(a1, right.doApplyAsLong(a1));
+	}
+
+	public default LFunction<T, R> rShrinkc(long a2) {
+		return a1 -> doApply(a1, a2);
+	}
+
+	public static <T, R> LFunction<T, R> rShrinked(LToLongFunction<T> right, LObjLongFunction<T, R> func) {
+		return func.rShrink(right);
+	}
+
+	public static <T, R> LFunction<T, R> rShrinkedc(long a2, LObjLongFunction<T, R> func) {
+		return func.rShrinkc(a2);
+	}
+
+	/**  */
+	public static <T, R> LObjLongFunction<T, R> uncurryObjLongFunc(LFunction<T, LLongFunction<R>> func) {
+		return (T a1, long a2) -> func.doApply(a1).doApply(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -121,16 +297,54 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjLongFunction<T, R> l(final @Nonnull LObjLongFunction<T, R> lambda) {
+	static <T, R> LObjLongFunction<T, R> objLongFunc(final @Nonnull LObjLongFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static <T, R> LObjLongFunction<T, R> recursive(final @Nonnull LFunction<LObjLongFunction<T, R>, LObjLongFunction<T, R>> selfLambda) {
+		final LObjLongFunctionSingle<T, R> single = new LObjLongFunctionSingle();
+		LObjLongFunction<T, R> func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LObjLongFunctionSingle<T, R> implements LSingle<LObjLongFunction<T, R>>, LObjLongFunction<T, R> {
+		private LObjLongFunction<T, R> target = null;
+
+		@Override
+		public R doApplyX(T a1, long a2) throws Throwable {
+			return target.doApplyX(a1, a2);
+		}
+
+		@Override
+		public LObjLongFunction<T, R> value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static <T, R> LObjLongFunction<T, R> objLongFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return (a1, a2) -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static <T, R> LObjLongFunction<T, R> objLongFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return (a1, a2) -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	// <editor-fold desc="wrap variants">
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> V1<T, R> l1(final @Nonnull V1<T, R> lambda) {
+	static <T, R> LLongObjFunc<T, R> longObjFunc(final @Nonnull LLongObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -144,20 +358,14 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <T, R, X extends Throwable> LObjLongFunction<T, R> wrap(final @Nonnull LObjLongFunctionX<T, R, X> other) {
-		return other::nestingDoApply;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produce). */
+	/** Safe instance. That always returns the same value (as produce). */
 	@Nonnull
 	static <T, R> LObjLongFunction<T, R> safe() {
-		return Function4U::produce;
+		return LObjLongFunction::produce;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -198,12 +406,20 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
+	public static <V1, T, R> LObjLongFunction<V1, R> composedLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2, LObjLongFunction<T, R> after) {
+		return after.objLongFuncComposeLong(before1, before2);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V1, V2> LBiFunction<V1, V2, R> objLongFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
+	}
+
+	public static <V1, V2, T, R> LBiFunction<V1, V2, R> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2, LObjLongFunction<T, R> after) {
+		return after.objLongFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>
@@ -219,9 +435,35 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LObjLongConsumer<T> then(@Nonnull LConsumer<? super R> after) {
+	default LObjLongConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
+	}
+
+	@Nonnull
+	default LObjLongFunction<T, R> before(@Nonnull LObjLongConsumer<? super T> before) {
+		Null.nonNullArg(before, "before");
+		return (a1, a2) -> {
+			before.doAccept(a1, a2);
+			return this.doApply(a1, a2);
+		};
+	}
+
+	@Nonnull
+	default LObjLongFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> {
+			R result = this.doApply(a1, a2);
+			after.doAccept(result);
+			return result;
+		};
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LObjLongPredicate<T> thenToBool(@Nonnull LPredicate<? super R> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2) -> after.doTest(this.doApply(a1, a2));
 	}
 
 	// </editor-fold>
@@ -234,19 +476,8 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LObjLongFunctionX<T, R, RuntimeException> nestingObjLongFuncX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongFunction<T, R> shovingObjLongFunc() {
-		return this;
-	}
-
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongFunctionX<T, R, RuntimeException> shovingObjLongFuncX() {
 		return this;
 	}
 
@@ -262,16 +493,87 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	/** Permutation of LObjLongFunction for method references. */
 	@FunctionalInterface
-	interface V1<T, R> extends LObjLongFunction<T, R> {
+	interface LLongObjFunc<T, R> extends LObjLongFunction<T, R> {
 		@Nullable
-		R doApplyV1(long a2, T a1);
+		R doApplyLongObj(long a2, T a1);
 
 		@Override
-		default R doApply(T a1, long a2) {
-			return this.doApplyV1(a2, a1);
+		default R doApplyX(T a1, long a2) {
+			return this.doApplyLongObj(a2, a1);
 		}
 	}
 
 	// </editor-fold>
+
+	/** Does nothing (LObjLongFunction) Function */
+	public static <T, R> R produce(T a1, long a2) {
+		return (R) Function4U.defaultObject;
+	}
+
+	/** Does nothing (LObjLongFunction.LLongObjFunc) Function */
+	public static <T, R> R produce(long a2, T a1) {
+		return (R) Function4U.defaultObject;
+	}
+
+	// MAP: FOR, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=long a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, C2> void forEach(IndexedRead<C1, a<T>> ia1, C1 source1, IndexedRead<C2, aLong> ia2, C2 source2, LConsumer<? super R> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
+		size = Integer.min(size, ia2.size(source2));
+		LOiToLongFunction<Object> oiFunc2 = (LOiToLongFunction) ia2.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			T a1 = oiFunc1.doApply(source1, i);
+			long a2 = oiFunc2.doApplyAsLong(source2, i);
+			consumer.doAccept(this.doApply(a1, a2));
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=long a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, IndexedRead<C2, aLong> ia2, C2 source2, LConsumer<? super R> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
+		int size = ia2.size(source2);
+		LOiToLongFunction<Object> oiFunc2 = (LOiToLongFunction) ia2.getter();
+		int i = 0;
+		while (testFunc1.doTest(iterator1) && i < size) {
+			T a1 = nextFunc1.doApply(iterator1);
+			long a2 = oiFunc2.doApplyAsLong(source2, i);
+			consumer.doAccept(this.doApply(a1, a2));
+			i++;
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=long a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, C2, I2> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, SequentialRead<C2, I2, aLong> sa2, C2 source2, LConsumer<? super R> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.getter();
+		int i = 0;
+		while (i < size && testFunc2.doTest(iterator2)) {
+			T a1 = oiFunc1.doApply(source1, i);
+			long a2 = nextFunc2.doApplyAsLong(iterator2);
+			consumer.doAccept(this.doApply(a1, a2));
+			i++;
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=long a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, SequentialRead<C2, I2, aLong> sa2, C2 source2, LConsumer<? super R> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.getter();
+		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
+			T a1 = nextFunc1.doApply(iterator1);
+			long a2 = nextFunc2.doApplyAsLong(iterator2);
+			consumer.doAccept(this.doApply(a1, a2));
+		}
+	}
 
 }

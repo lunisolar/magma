@@ -52,12 +52,17 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreToDoubleFunctionAssert<S extends JreToDoubleFunctionAssert<S, A, RS, T>, A extends ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, LConsumer<T>, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LConsumer<T>, A, RS, Double> doesApplyAsDouble(T a);
+	public static <A extends ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> JreToDoubleFunctionAssert.The<A, RS, T> assertToDblFunc(ToDoubleFunction<T> func) {
+		return new JreToDoubleFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LConsumer<T>, A, RS, Double> doesApplyAsDbl(T a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends Base<The<A, RS, T>, A, RS, T> {
 
-		public The(A actual, LDoubleFunction<RS> assertFactory) {
+		public The(A actual, LDblFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
@@ -65,15 +70,15 @@ public interface JreToDoubleFunctionAssert<S extends JreToDoubleFunctionAssert<S
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
 	class Base<S extends Base<S, A, RS, T>, A extends ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends FullFunctionalAssert.Base<S, LConsumer<T>, A, RS, Double> implements JreToDoubleFunctionAssert<S, A, RS, T> {
 
-		protected final LDoubleFunction<RS> assertFactory;
+		protected final LDblFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, LDoubleFunction<RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LDblFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LConsumer<T>, A, RS, Double> doesApplyAsDouble(T a) {
+		public Evaluation<S, LConsumer<T>, A, RS, Double> doesApplyAsDbl(T a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

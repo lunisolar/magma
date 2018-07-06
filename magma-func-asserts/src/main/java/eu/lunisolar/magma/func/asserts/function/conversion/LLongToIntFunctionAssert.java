@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLongToIntFunctionAssert<S extends LLongToIntFunctionAssert<S, A, RS>, A extends LLongToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LLongConsumer, A, RS, Integer> {
 
 	@Nonnull
+	public static <A extends LLongToIntFunction, RS extends AbstractIntegerAssert<RS>> LLongToIntFunctionAssert.The<A, RS> assertLongToIntFunc(LLongToIntFunction func) {
+		return new LLongToIntFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LLongConsumer, A, RS, Integer> doesApplyAsInt(long a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

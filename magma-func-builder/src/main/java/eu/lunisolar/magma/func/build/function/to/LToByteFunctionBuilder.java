@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LToByteFunction. */
+/**
+ * Builder for LToByteFunction.
+ */
 public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProduct.Base<LToByteFunctionBuilder<T>, LPredicate<T>, LToByteFunction<T>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToByteFunction EVENTUALLY_THROW = LToByteFunction.l(a -> {
+	public static final LToByteFunction EVENTUALLY_THROW = LToByteFunction.toByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 		LToByteFunction<T> retval;
 
 		final Case<LPredicate<T>, LToByteFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToByteFunction.<T> l(a -> {
+		retval = LToByteFunction.<T> toByteFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, LToByteFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

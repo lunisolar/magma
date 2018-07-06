@@ -49,10 +49,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for DoubleToIntFunction. */
-public interface JreDoubleToIntFunctionAssert<S extends JreDoubleToIntFunctionAssert<S, A, RS>, A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, Integer> {
+public interface JreDoubleToIntFunctionAssert<S extends JreDoubleToIntFunctionAssert<S, A, RS>, A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Integer> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, Integer> doesApplyAsInt(double a);
+	public static <A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> JreDoubleToIntFunctionAssert.The<A, RS> assertDblToIntFunc(DoubleToIntFunction func) {
+		return new JreDoubleToIntFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LDblConsumer, A, RS, Integer> doesApplyAsInt(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -63,7 +68,7 @@ public interface JreDoubleToIntFunctionAssert<S extends JreDoubleToIntFunctionAs
 	}
 
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
-	class Base<S extends Base<S, A, RS>, A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, LDoubleConsumer, A, RS, Integer> implements JreDoubleToIntFunctionAssert<S, A, RS> {
+	class Base<S extends Base<S, A, RS>, A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, LDblConsumer, A, RS, Integer> implements JreDoubleToIntFunctionAssert<S, A, RS> {
 
 		protected final LIntFunction<RS> assertFactory;
 
@@ -73,7 +78,7 @@ public interface JreDoubleToIntFunctionAssert<S extends JreDoubleToIntFunctionAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, Integer> doesApplyAsInt(double a) {
+		public Evaluation<S, LDblConsumer, A, RS, Integer> doesApplyAsInt(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

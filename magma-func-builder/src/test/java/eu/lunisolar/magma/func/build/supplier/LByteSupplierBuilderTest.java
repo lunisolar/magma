@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.supplier.LByteSupplierBuilder.byteSupplier;
 import static eu.lunisolar.magma.func.build.supplier.LByteSupplierBuilder.byteSupplierFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LByteSupplierBuilderTest<X extends ParseException>{
+public class LByteSupplierBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -129,7 +128,7 @@ public class LByteSupplierBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertByteSup(function)
             .doesGetAsByte().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((byte)0))
             .doesGetAsByte().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((byte)1))
             .doesGetAsByte().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((byte)2))

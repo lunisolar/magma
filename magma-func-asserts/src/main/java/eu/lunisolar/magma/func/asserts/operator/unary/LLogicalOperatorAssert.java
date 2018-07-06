@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalOperatorAssert<S extends LLogicalOperatorAssert<S, A, RS>, A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBoolConsumer, A, RS, Boolean> {
 
 	@Nonnull
+	public static <A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> LLogicalOperatorAssert.The<A, RS> assertLogicalOp(LLogicalOperator func) {
+		return new LLogicalOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBoolConsumer, A, RS, Boolean> doesApply(boolean a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

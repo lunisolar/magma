@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoubleUnaryOperatorBuilder.doubleUnaryOperator;
-import static eu.lunisolar.magma.func.build.std.DoubleUnaryOperatorBuilder.doubleUnaryOperatorFrom;
+import static eu.lunisolar.magma.func.build.std.DoubleUnaryOperatorBuilder.dblUnaryOperator;
+import static eu.lunisolar.magma.func.build.std.DoubleUnaryOperatorBuilder.dblUnaryOperatorFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoubleUnaryOperatorBuilderTest{
@@ -66,7 +65,7 @@ public class DoubleUnaryOperatorBuilderTest{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoubleUnaryOperator function = doubleUnaryOperatorFrom(b-> b
+            DoubleUnaryOperator function = dblUnaryOperatorFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoubleUnaryOperatorBuilderTest{
 
 
         assertThatThrownBy(() -> {
-            DoubleUnaryOperator function = doubleUnaryOperatorFrom(b-> b
+            DoubleUnaryOperator function = dblUnaryOperatorFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoubleUnaryOperatorBuilderTest{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoubleUnaryOperator function = doubleUnaryOperatorFrom(b -> b
+            DoubleUnaryOperator function = dblUnaryOperatorFrom(b -> b
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -118,7 +117,7 @@ public class DoubleUnaryOperatorBuilderTest{
     @Test
     public void testBuild()  {
 
-        DoubleUnaryOperator function = doubleUnaryOperatorFrom( b -> b
+        DoubleUnaryOperator function = dblUnaryOperatorFrom( b -> b
             .aCase(ce -> ce.of(a -> a == 0d)
                              .evaluate(a -> 0d))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1d)
@@ -128,11 +127,11 @@ public class DoubleUnaryOperatorBuilderTest{
         );
 
 
-        A.assertThat(function)
-            .doesApplyAsDouble(0d).when(null).to(a -> a.isEqualTo(0d))
-            .doesApplyAsDouble(5d).when(null).to(a -> a.isEqualTo(1d))
-            .doesApplyAsDouble(15d).when(null).to(a -> a.isEqualTo(2d))
-            .doesApplyAsDouble(10d).when(null).to(a -> a.isEqualTo(99d))
+        A.assertDblUnaryOp(function)
+            .doesApplyAsDbl(0d).when(null).to(a -> a.isEqualTo(0d))
+            .doesApplyAsDbl(5d).when(null).to(a -> a.isEqualTo(1d))
+            .doesApplyAsDbl(15d).when(null).to(a -> a.isEqualTo(2d))
+            .doesApplyAsDbl(10d).when(null).to(a -> a.isEqualTo(99d))
         ;
 
     }

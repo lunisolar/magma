@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.SupplierBuilder.supplier;
 import static eu.lunisolar.magma.func.build.std.SupplierBuilder.supplierFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -129,7 +128,7 @@ public class SupplierBuilderTest<T>{
         );
 
 
-        A.assertThat(function)
+        A.assertSup(function)
             .doesGet().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(0))
             .doesGet().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(1))
             .doesGet().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(2))

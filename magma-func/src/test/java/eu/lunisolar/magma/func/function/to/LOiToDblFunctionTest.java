@@ -1,0 +1,642 @@
+/*
+ * This file is part of "lunisolar-magma".
+ *
+ * (C) Copyright 2014-2016 Lunisolar (http://lunisolar.eu/).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package eu.lunisolar.magma.func.function.to;
+
+import eu.lunisolar.magma.func.*; // NOSONAR
+import javax.annotation.Nonnull; // NOSONAR
+import javax.annotation.Nullable; // NOSONAR
+import java.util.Objects;// NOSONAR
+import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
+import eu.lunisolar.magma.func.function.*; // NOSONAR
+import eu.lunisolar.magma.func.function.conversion.*; // NOSONAR
+import eu.lunisolar.magma.func.function.from.*; // NOSONAR
+import eu.lunisolar.magma.func.function.to.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
+import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
+import eu.lunisolar.magma.func.predicate.*; // NOSONAR
+import eu.lunisolar.magma.func.supplier.*; // NOSONAR
+
+import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.annotations.*;      //NOSONAR
+import java.util.regex.Pattern;          //NOSONAR
+import java.text.ParseException;         //NOSONAR
+import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
+import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+import static org.assertj.core.api.Assertions.*; //NOSONAR
+import java.util.function.*; // NOSONAR
+
+/** The test obviously concentrate on the interface methods the function it self is very simple.  */
+public class LOiToDblFunctionTest<T> {
+    private static final String ORIGINAL_MESSAGE = "Original message";
+    private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
+    private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
+
+    private double testValue = 100d;
+
+
+
+    private LOiToDblFunction<Integer> sut = new LOiToDblFunction<Integer>(){
+        public  double doApplyAsDblX(Integer a1,int a2)  {
+            return testValue;
+        }
+    };
+
+
+
+
+    private LOiToDblFunction<Integer> sutAlwaysThrowing = LOiToDblFunction.oiToDblFunc((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LOiToDblFunction<Integer> sutAlwaysThrowingUnchecked = LOiToDblFunction.oiToDblFunc((a1,a2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
+    @Test
+    public void testTheResult() throws Throwable {
+        assertThat(sut.doApplyAsDbl(100,100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testTupleCall() throws Throwable {
+
+        LObjIntPair<Integer> domainObject = Tuple4U.objIntPair(100,100);
+
+        Object result = sut.tupleApplyAsDbl(domainObject);
+
+        assertThat(result)
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testNonNullDoApplyAsDbl() throws Throwable {
+        assertThat(sut.nonNullDoApplyAsDbl(100,100))
+            .isEqualTo(testValue);
+    }
+
+    @Test
+    public void testNestingDoApplyAsDblUnchecked() throws Throwable {
+
+        // then
+        try {
+            sutAlwaysThrowingUnchecked.nestingDoApplyAsDbl(100,100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsDblUnchecked() throws Throwable {
+
+        // then
+        try {
+            sutAlwaysThrowingUnchecked.shovingDoApplyAsDbl(100,100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test
+    public void testFunctionalInterfaceDescription() throws Throwable {
+        assertThat(sut.functionalInterfaceDescription())
+            .isEqualTo("LOiToDblFunction: double doApplyAsDbl(T a1,int a2)");
+    }
+
+    @Test
+    public void testOiToDblFuncMethod() throws Throwable {
+        assertThat(LOiToDblFunction.oiToDblFunc((a1,a2) -> testValue ))
+            .isInstanceOf(LOiToDblFunction.class);
+    }
+
+
+
+
+
+
+    // <editor-fold desc="compose (functional)">
+
+    @Test
+    public void testOiToDblFuncComposeInt() throws Throwable {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final AtomicInteger beforeCalls = new AtomicInteger(0);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91);
+                return 100d;
+        };
+
+        LFunction<Integer,Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
+            beforeCalls.incrementAndGet();
+            return 90;
+        };
+        LIntUnaryOperator before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
+            beforeCalls.incrementAndGet();
+            return 91;
+        };
+
+        //when
+        LOiToDblFunction<Integer> function = sutO.oiToDblFuncComposeInt(before1,before2);
+        function.doApplyAsDbl(80,81);
+
+        //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(beforeCalls.get()).isEqualTo(2);
+    }
+
+
+    @Test
+    public void testOiToDblFuncCompose() throws Throwable {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final AtomicInteger beforeCalls = new AtomicInteger(0);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(90);
+                assertThat(a2).isEqualTo(91);
+                return 100d;
+        };
+
+        LFunction<Integer,Integer> before1 = p0 -> {
+            assertThat(p0).isEqualTo(80);
+            beforeCalls.incrementAndGet();
+            return 90;
+        };
+        LToIntFunction<Integer> before2 = p1 -> {
+            assertThat(p1).isEqualTo(81);
+            beforeCalls.incrementAndGet();
+            return 91;
+        };
+
+        //when
+        LToDblBiFunction<Integer,Integer> function = sutO.oiToDblFuncCompose(before1,before2);
+        function.doApplyAsDbl(80,81);
+
+        //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(beforeCalls.get()).isEqualTo(2);
+    }
+
+    // </editor-fold>
+
+
+
+    // <editor-fold desc="then (functional)">
+
+    @Test
+    public void testThen0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LOiFunction<Integer,Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.doApply(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToByte1() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblToByteFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // byte
+                return (byte)100;
+        };
+
+        //when
+        LOiToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
+        byte finalValue = function.doApplyAsByte(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo((byte)100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToSrt2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblToSrtFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // short
+                return (short)100;
+        };
+
+        //when
+        LOiToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
+        short finalValue = function.doApplyAsSrt(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo((short)100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToInt3() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblToIntFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // int
+                return 100;
+        };
+
+        //when
+        LOiToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
+        int finalValue = function.doApplyAsInt(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToLong4() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblToLongFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // long
+                return 100L;
+        };
+
+        //when
+        LOiToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
+        long finalValue = function.doApplyAsLong(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100L);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToFlt5() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblToFltFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // float
+                return 100f;
+        };
+
+        //when
+        LOiToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
+        float finalValue = function.doApplyAsFlt(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100f);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToDbl6() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblUnaryOperator thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // double
+                return 100d;
+        };
+
+        //when
+        LOiToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
+        double finalValue = function.doApplyAsDbl(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100d);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToChar7() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblToCharFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // char
+                return '\u0100';
+        };
+
+        //when
+        LOiToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
+        char finalValue = function.doApplyAsChar(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo('\u0100');
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool8() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LOiToDblFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                return 90d;
+        };
+
+        LDblPredicate thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // boolean
+                return true;
+        };
+
+        //when
+        LObjIntPredicate<Integer> function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doTest(80,81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    // </editor-fold>
+
+    @Test
+    public void testNesting() {
+        assertThat(sut.nestingOiToDblFunc())
+            .isSameAs(sut)
+            .isInstanceOf(LOiToDblFunction.class);
+    }
+
+    @Test
+    public void testShoving() {
+        assertThat(sut.shovingOiToDblFunc())
+            .isSameAs(sut)
+            .isInstanceOf(LOiToDblFunction.class);
+    }
+
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        LOiToDblFunction<Integer> sutThrowing = LOiToDblFunction.oiToDblFunc((a1,a2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shovingOiToDblFunc().doApplyAsDbl(100,100);
+    }
+
+
+    @Test
+    public void testToString() throws Throwable {
+
+        assertThat(sut.toString())
+                .isInstanceOf(String.class)
+                .startsWith(this.getClass().getName()+"$");
+
+        assertThat(String.format("%s", sut))
+                .isInstanceOf(String.class)
+                .contains("LOiToDblFunction: double doApplyAsDbl(T a1,int a2)");
+    }
+
+
+    @Test
+    public void isThrowing() {
+        assertThat(sut.isThrowing())
+            .isFalse();
+    }
+
+    //<editor-fold desc="Variants">
+
+    private double variantLIntObjToDblFunc(int a2,Integer a1) {
+        return 100d;
+    }
+
+    @Test
+    public void compilerSubstituteVariantLIntObjToDblFunc() {
+        LOiToDblFunction lambda = LOiToDblFunction./*<T>*/intObjToDblFunc(this::variantLIntObjToDblFunc);
+
+        assertThat(lambda).isInstanceOf(LOiToDblFunction.LIntObjToDblFunc.class);
+    }
+
+    //</editor-fold>
+
+
+    @Test void safeCompiles() {
+        LOiToDblFunction r1 = LOiToDblFunction.safe(sut); //NOSONAR
+    }
+
+    @Test void safePropagates() {
+        Object result = LOiToDblFunction.safe(sut);
+        assertThat(result).isSameAs(sut);
+    }
+
+    @Test void safeProtectsAgainstNpe() {
+        Object result = LOiToDblFunction.safe(null);
+        assertThat(result).isSameAs(LOiToDblFunction.oiToDblFunc(LOiToDblFunction.safe()));
+    }
+
+    @Test  void safeSupplierPropagates() {
+        LSupplier<LOiToDblFunction<Integer>> supplier = ()->sut;
+        Object result = LOiToDblFunction.safeSupplier(supplier);
+        assertThat(result).isSameAs(supplier);
+    }
+
+    @Test  void safeSupplierProtectsAgainstNpe() {
+        Object result = LOiToDblFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LOiToDblFunction.safeSupplier());
+    }
+
+    @Test  void safeSupplierCompiles() {
+        LSupplier<LOiToDblFunction<Integer>> r1 = LOiToDblFunction.safeSupplier(()->sut);  //NOSONAR
+    }
+
+}

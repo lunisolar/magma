@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.action.LActionBuilder.action;
 import static eu.lunisolar.magma.func.build.action.LActionBuilder.actionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LActionBuilderTest<X extends ParseException>{
+public class LActionBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -130,7 +129,7 @@ public class LActionBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertAct(function)
             .doesExecute().when(()->externalInfluence.set(0)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesExecute().when(()->externalInfluence.set(5)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesExecute().when(()->externalInfluence.set(15)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

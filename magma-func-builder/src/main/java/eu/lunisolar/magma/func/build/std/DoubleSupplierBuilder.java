@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoubleSupplier. */
-public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleSupplierBuilder, LBoolSupplier, DoubleSupplier> {
+/**
+ * Builder for DoubleSupplier.
+ */
+public final class DoubleSupplierBuilder extends PerCaseBuilderWithDblProduct.Base<DoubleSupplierBuilder, LBoolSupplier, DoubleSupplier> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoubleSupplier> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleSupplier EVENTUALLY_THROW = Function4U.doubleSupplier(() -> {
+	public static final DoubleSupplier EVENTUALLY_THROW = Function4U.dblSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleSupplierBuilder(@Nullable Consumer<DoubleSupplier> consumer) {
-		super(EVENTUALLY_THROW, LDoubleSupplier::of, () -> new DoubleSupplierBuilder(null));
+		super(EVENTUALLY_THROW, LDblSupplier::of, () -> new DoubleSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static DoubleSupplierBuilder doubleSupplier() {
+	public static DoubleSupplierBuilder dblSupplier() {
 		return new DoubleSupplierBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleSupplier doubleSupplierFrom(Function<DoubleSupplierBuilder, DoubleSupplier> buildingFunction) {
+	public static DoubleSupplier dblSupplierFrom(Function<DoubleSupplierBuilder, DoubleSupplier> buildingFunction) {
 		return buildingFunction.apply(new DoubleSupplierBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleSupplierBuilder doubleSupplier(Consumer<DoubleSupplier> consumer) {
+	public static DoubleSupplierBuilder dblSupplier(Consumer<DoubleSupplier> consumer) {
 		return new DoubleSupplierBuilder(consumer);
 	}
 
@@ -108,7 +110,7 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct
 		DoubleSupplier retval;
 
 		final Case<LBoolSupplier, DoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleSupplier(() -> {
+		retval = Function4U.dblSup(() -> {
 			try {
 				for (Case<LBoolSupplier, DoubleSupplier> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBool()) {

@@ -30,7 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*;
+import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -62,6 +62,10 @@ public class LazyBool extends LBoolSupMemento implements LBoolSingle {
 		return new LazyBool(supplier);
 	}
 
+	public static <E> LazyBool lazyValue(E e, LPredicate<E> function) {
+		return new LazyBool(() -> function.doTest(e));
+	}
+
 	@Override
 	public boolean doGetAsBool() {
 		if (function != null) {
@@ -73,7 +77,7 @@ public class LazyBool extends LBoolSupMemento implements LBoolSingle {
 	}
 
 	public boolean value() {
-		return shovingDoGetAsBool();
+		return doGetAsBool();
 	}
 
 	public static boolean argEquals(LazyBool the, Object that) {

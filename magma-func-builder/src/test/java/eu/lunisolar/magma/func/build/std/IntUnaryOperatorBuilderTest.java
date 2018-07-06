@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.IntUnaryOperatorBuilder.intUnaryOperator;
 import static eu.lunisolar.magma.func.build.std.IntUnaryOperatorBuilder.intUnaryOperatorFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -128,7 +127,7 @@ public class IntUnaryOperatorBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertIntUnaryOp(function)
             .doesApplyAsInt(0).when(null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5).when(null).to(a -> a.isEqualTo(1))
             .doesApplyAsInt(15).when(null).to(a -> a.isEqualTo(2))

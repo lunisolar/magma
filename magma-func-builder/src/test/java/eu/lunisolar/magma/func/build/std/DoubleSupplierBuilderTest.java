@@ -51,9 +51,8 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
-import static eu.lunisolar.magma.func.build.std.DoubleSupplierBuilder.doubleSupplier;
-import static eu.lunisolar.magma.func.build.std.DoubleSupplierBuilder.doubleSupplierFrom;
+import static eu.lunisolar.magma.func.build.std.DoubleSupplierBuilder.dblSupplier;
+import static eu.lunisolar.magma.func.build.std.DoubleSupplierBuilder.dblSupplierFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class DoubleSupplierBuilderTest{
@@ -66,7 +65,7 @@ public class DoubleSupplierBuilderTest{
     public void testEventuallyThrow()  {
 
         assertThatThrownBy(() -> {
-            DoubleSupplier function = doubleSupplierFrom(b-> b
+            DoubleSupplier function = dblSupplierFrom(b-> b
                 .build()
             );
 
@@ -83,7 +82,7 @@ public class DoubleSupplierBuilderTest{
 
 
         assertThatThrownBy(() -> {
-            DoubleSupplier function = doubleSupplierFrom(b-> b
+            DoubleSupplier function = dblSupplierFrom(b-> b
                 .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
                 .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
             );
@@ -98,7 +97,7 @@ public class DoubleSupplierBuilderTest{
     public void testHandling()  {
 
         assertThatThrownBy(() -> {
-            DoubleSupplier function = doubleSupplierFrom(b -> b
+            DoubleSupplier function = dblSupplierFrom(b -> b
                 .eventually(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
@@ -119,7 +118,7 @@ public class DoubleSupplierBuilderTest{
     public void testBuild()  {
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-        DoubleSupplier function = doubleSupplierFrom( b -> b
+        DoubleSupplier function = dblSupplierFrom( b -> b
             .aCase(ce -> ce.of(() -> externalInfluence.get() == 0)
                              .evaluate(() -> 0d))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> 1d)
@@ -129,11 +128,11 @@ public class DoubleSupplierBuilderTest{
         );
 
 
-        A.assertThat(function)
-            .doesGetAsDouble().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(0d))
-            .doesGetAsDouble().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(1d))
-            .doesGetAsDouble().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(2d))
-            .doesGetAsDouble().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo(99d))
+        A.assertDblSup(function)
+            .doesGetAsDbl().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(0d))
+            .doesGetAsDbl().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(1d))
+            .doesGetAsDbl().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(2d))
+            .doesGetAsDbl().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo(99d))
         ;
 
     }

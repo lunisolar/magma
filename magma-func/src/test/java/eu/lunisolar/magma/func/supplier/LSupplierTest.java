@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LSupplierTest<T,X extends ParseException> {
+public class LSupplierTest<T> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,19 +65,14 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     private LSupplier<Integer> sut = new LSupplier<Integer>(){
-        public @Nullable Integer doGet()  {
+        public @Nullable Integer doGetX()  {
             return testValue;
         }
     };
 
-    private LSupplierX<Integer,X> opposite = new LSupplierX<Integer,X>(){
-        public @Nullable Integer doGet()  throws X {
-            return testValue;
-        }
-    };
 
     private LSupplier<Integer> sutNull = new LSupplier<Integer>(){
-        public @Nullable Integer doGet()  {
+        public @Nullable Integer doGetX()  {
             return null;
         }
     };
@@ -86,20 +81,23 @@ public class LSupplierTest<T,X extends ParseException> {
     private Supplier<Integer> jre = () -> testValue;
 
 
+    private LSupplier<Integer> sutAlwaysThrowing = LSupplier.sup(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LSupplierX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LSupplier.l(() -> {
+    private LSupplier<Integer> sutAlwaysThrowingUnchecked = LSupplier.sup(() -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doGet())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LTuple.Void domainObject = Tuple4U.tuple();
 
@@ -110,13 +108,13 @@ public class LSupplierTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoGet() throws X {
+    public void testNonNullDoGet() throws Throwable {
         assertThat(sut.nonNullDoGet())
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoGetUnchecked() throws X {
+    public void testNestingDoGetUnchecked() throws Throwable {
 
         // then
         try {
@@ -131,7 +129,7 @@ public class LSupplierTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetUnchecked() throws X {
+    public void testShovingDoGetUnchecked() throws Throwable {
 
         // then
         try {
@@ -146,175 +144,31 @@ public class LSupplierTest<T,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoGet() method cannot be null (LSupplier: T doGet()).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoGet();
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LSupplier: T doGet()");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LSupplier.l(() -> testValue ))
+    public void testSupMethod() throws Throwable {
+        assertThat(LSupplier.sup(() -> testValue ))
             .isInstanceOf(LSupplier.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LSupplier.wrap(opposite))
-            .isInstanceOf(LSupplier.class);
-    }
 
     @Test
-    public void testWrapStdMethod() throws X {
+    public void testWrapStdMethod() throws Throwable {
         assertThat(LSupplier.wrap(jre))
             .isInstanceOf(LSupplier.class);
     }
 
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LSupplierX<Integer,X> sutThrowing = LSupplierX.lX(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
 
-        // when
-        LSupplier<Integer> wrapped = LSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGet();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LSupplierX<Integer,ParseException> sutThrowing = LSupplierX.lX(() -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LSupplier<Integer> wrapped = LSupplier.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doGet();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-
-    @Test
-    public void testHandlingDoGetMethodWrapsTheException() throws X {
-
-        // given
-        LSupplier<Integer> sutThrowing = LSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LSupplier<Integer> wrapped = sutThrowing.handleSup(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doGet();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleSupMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LSupplier<Integer> sutThrowing = LSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LSupplier<Integer> wrapped = sutThrowing.handleSup(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGet();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleSupMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LSupplier<Integer> sutThrowing = LSupplier.l(() -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LSupplier<Integer> wrapped = sutThrowing.handleSup(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doGet();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleSupMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LSupplier<Integer> sutThrowing = LSupplier.l(() -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LSupplier<Integer> wrapped = sutThrowing.handleSup(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doGet();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
@@ -322,7 +176,7 @@ public class LSupplierTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testToSup0() throws X  {
+    public void testToSup0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -355,7 +209,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToAct1() throws X  {
+    public void testToAct1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -385,7 +239,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToByteSup2() throws X  {
+    public void testToByteSup2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -418,7 +272,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToShortSup3() throws X  {
+    public void testToSrtSup3() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -429,7 +283,7 @@ public class LSupplierTest<T,X extends ParseException> {
                 return 90;
         };
 
-        LToShortFunction<Integer> thenFunction = p -> {
+        LToSrtFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
                 assertThat(p).isEqualTo(90);
@@ -438,8 +292,8 @@ public class LSupplierTest<T,X extends ParseException> {
         };
 
         //when
-        LShortSupplier function = sutO.toShortSup(thenFunction);
-        short finalValue = function.doGetAsShort();
+        LSrtSupplier function = sutO.toSrtSup(thenFunction);
+        short finalValue = function.doGetAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -451,7 +305,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToIntSup4() throws X  {
+    public void testToIntSup4() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -484,7 +338,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToLongSup5() throws X  {
+    public void testToLongSup5() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -517,7 +371,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToFloatSup6() throws X  {
+    public void testToFltSup6() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -528,7 +382,7 @@ public class LSupplierTest<T,X extends ParseException> {
                 return 90;
         };
 
-        LToFloatFunction<Integer> thenFunction = p -> {
+        LToFltFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
                 assertThat(p).isEqualTo(90);
@@ -537,8 +391,8 @@ public class LSupplierTest<T,X extends ParseException> {
         };
 
         //when
-        LFloatSupplier function = sutO.toFloatSup(thenFunction);
-        float finalValue = function.doGetAsFloat();
+        LFltSupplier function = sutO.toFltSup(thenFunction);
+        float finalValue = function.doGetAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -550,7 +404,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToDoubleSup7() throws X  {
+    public void testToDblSup7() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -561,7 +415,7 @@ public class LSupplierTest<T,X extends ParseException> {
                 return 90;
         };
 
-        LToDoubleFunction<Integer> thenFunction = p -> {
+        LToDblFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
                 assertThat(p).isEqualTo(90);
@@ -570,8 +424,8 @@ public class LSupplierTest<T,X extends ParseException> {
         };
 
         //when
-        LDoubleSupplier function = sutO.toDoubleSup(thenFunction);
-        double finalValue = function.doGetAsDouble();
+        LDblSupplier function = sutO.toDblSup(thenFunction);
+        double finalValue = function.doGetAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -583,7 +437,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToCharSup8() throws X  {
+    public void testToCharSup8() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -616,7 +470,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
 
     @Test
-    public void testToBoolSup9() throws X  {
+    public void testToBoolSup9() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -664,25 +518,12 @@ public class LSupplierTest<T,X extends ParseException> {
             .isInstanceOf(LSupplier.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LSupplierX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingSupX())
-            .isSameAs(sut)
-            .isInstanceOf(LSupplierX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LSupplier<Integer> sutThrowing = LSupplier.l(() -> {
+        LSupplier<Integer> sutThrowing = LSupplier.sup(() -> {
             throw new UnsupportedOperationException();
         });
 
@@ -690,33 +531,9 @@ public class LSupplierTest<T,X extends ParseException> {
         sutThrowing.shovingSup().doGet();
     }
 
-    @Test
-    public void testHandleSup() throws X {
-
-        // given
-        LSupplier<Integer> sutThrowing = LSupplier.l(() -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LSupplier<Integer> wrapped = sutThrowing.handleSup(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doGet();
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -736,7 +553,6 @@ public class LSupplierTest<T,X extends ParseException> {
 
     @Test void safeCompiles() {
         LSupplier r1 = LSupplier.safe(sut); //NOSONAR
-        LSupplierX r2 = LSupplier.safe(sut); //NOSONAR
         Supplier r3 = LSupplier.safe(sut); //NOSONAR
     }
 
@@ -747,7 +563,7 @@ public class LSupplierTest<T,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LSupplier.safe(null);
-        assertThat(result).isSameAs(LSupplier.l(LSupplier.safe()));
+        assertThat(result).isSameAs(LSupplier.sup(LSupplier.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoubleToLongFunction. */
-public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<DoubleToLongFunctionBuilder, LDoublePredicate, DoubleToLongFunction> {
+/**
+ * Builder for DoubleToLongFunction.
+ */
+public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<DoubleToLongFunctionBuilder, LDblPredicate, DoubleToLongFunction> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoubleToLongFunction> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleToLongFunction EVENTUALLY_THROW = Function4U.doubleToLongFunction(a -> {
+	public static final DoubleToLongFunction EVENTUALLY_THROW = Function4U.dblToLongFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleToLongFunctionBuilder(@Nullable Consumer<DoubleToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LDoubleToLongFunction::constant, () -> new DoubleToLongFunctionBuilder(null));
+		super(EVENTUALLY_THROW, LDblToLongFunction::constant, () -> new DoubleToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static DoubleToLongFunctionBuilder doubleToLongFunction() {
+	public static DoubleToLongFunctionBuilder dblToLongFunction() {
 		return new DoubleToLongFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleToLongFunction doubleToLongFunctionFrom(Function<DoubleToLongFunctionBuilder, DoubleToLongFunction> buildingFunction) {
+	public static DoubleToLongFunction dblToLongFunctionFrom(Function<DoubleToLongFunctionBuilder, DoubleToLongFunction> buildingFunction) {
 		return buildingFunction.apply(new DoubleToLongFunctionBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoubleToLongFunctionBuilder doubleToLongFunction(Consumer<DoubleToLongFunction> consumer) {
+	public static DoubleToLongFunctionBuilder dblToLongFunction(Consumer<DoubleToLongFunction> consumer) {
 		return new DoubleToLongFunctionBuilder(consumer);
 	}
 
@@ -107,10 +109,10 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 		DoubleToLongFunction retval;
 
-		final Case<LDoublePredicate, DoubleToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doubleToLongFunction(a -> {
+		final Case<LDblPredicate, DoubleToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.dblToLongFunc(a -> {
 			try {
-				for (Case<LDoublePredicate, DoubleToLongFunction> aCase : casesArray) {
+				for (Case<LDblPredicate, DoubleToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {
 						return aCase.caseFunction().applyAsLong(a);
 					}

@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Remembers the last fubction result.
+ * Remembers the last function result.
  */
 @SuppressWarnings("UnusedDeclaration")
 public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
@@ -72,7 +72,7 @@ public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
 	}
 
 	@Override
-	public T doApply(T a1, T a2, T a3) {
+	public T doApplyX(T a1, T a2, T a3) {
 		return lastValue = function.doApply(a1, a2, a3);
 	}
 

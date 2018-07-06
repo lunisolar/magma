@@ -57,7 +57,7 @@ public class JreDoubleConsumerAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertThat(function)
+        A.assertDblCons(function)
          .doesAccept(100d)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
@@ -66,7 +66,7 @@ public class JreDoubleConsumerAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertThat(function)
+        A.assertDblCons(function)
          .doesAccept(100d)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
@@ -75,7 +75,7 @@ public class JreDoubleConsumerAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertDblCons(functionThrowing)
          .doesAccept(100d)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
@@ -83,7 +83,7 @@ public class JreDoubleConsumerAssertTest {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertThat(functionThrowing)
+        A.assertDblCons(functionThrowing)
          .doesAccept(100d).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -95,7 +95,7 @@ public class JreDoubleConsumerAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblCons(function)
          .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
@@ -113,7 +113,7 @@ public class JreDoubleConsumerAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertThat(function)
+        A.assertDblCons(function)
          .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

@@ -43,7 +43,7 @@ public interface ObjectProbe<T> extends Probe<T> {
     }
 
     default boolean isEqualTo(@Nullable Object other) {
-        return check(other, (x, o) -> Objects.equals(getTarget(), o));
+        return check(other, (x, o) -> Objects.equals(target(), o));
     }
 
     default boolean isNotEqualTo(@Nullable Object other) {
@@ -51,7 +51,7 @@ public interface ObjectProbe<T> extends Probe<T> {
     }
 
     default boolean isIn(@Nullable Object... values) {
-        return check(values, (x, v) -> Internal.isItemInArray(getTarget(), v));
+        return check(values, (x, v) -> Internal.isItemInArray(target(), v));
     }
 
     default boolean isNotIn(@Nullable Object... values) {
@@ -112,7 +112,7 @@ public interface ObjectProbe<T> extends Probe<T> {
             this.target = target;
         }
 
-        @Nullable @Override public T getTarget() {
+        @Nullable @Override public T target() {
             return target;
         }
     }

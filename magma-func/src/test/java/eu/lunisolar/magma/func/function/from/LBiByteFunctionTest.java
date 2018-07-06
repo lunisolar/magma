@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LBiByteFunctionTest<R,X extends ParseException> {
+public class LBiByteFunctionTest<R> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,39 +65,37 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
 
     private LBiByteFunction<Integer> sut = new LBiByteFunction<Integer>(){
-        public @Nullable Integer doApply(byte a1,byte a2)  {
+        public @Nullable Integer doApplyX(byte a1,byte a2)  {
             return testValue;
         }
     };
 
-    private LBiByteFunctionX<Integer,X> opposite = new LBiByteFunctionX<Integer,X>(){
-        public @Nullable Integer doApply(byte a1,byte a2)  throws X {
-            return testValue;
-        }
-    };
 
     private LBiByteFunction<Integer> sutNull = new LBiByteFunction<Integer>(){
-        public @Nullable Integer doApply(byte a1,byte a2)  {
+        public @Nullable Integer doApplyX(byte a1,byte a2)  {
             return null;
         }
     };
 
 
 
+    private LBiByteFunction<Integer> sutAlwaysThrowing = LBiByteFunction.biByteFunc((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LBiByteFunctionX<Integer,RuntimeException> sutAlwaysThrowingUnchecked = LBiByteFunction.l((a1,a2) -> {
+    private LBiByteFunction<Integer> sutAlwaysThrowingUnchecked = LBiByteFunction.biByteFunc((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LBytePair domainObject = Tuple4U.bytePair((byte)100,(byte)100);
 
@@ -108,13 +106,13 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply((byte)100,(byte)100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -129,7 +127,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -144,176 +142,32 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiByteFunction: R doApply(byte a1,byte a2)).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoApply((byte)100,(byte)100);
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBiByteFunction: R doApply(byte a1,byte a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LBiByteFunction.l((a1,a2) -> testValue ))
+    public void testBiByteFuncMethod() throws Throwable {
+        assertThat(LBiByteFunction.biByteFunc((a1,a2) -> testValue ))
             .isInstanceOf(LBiByteFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LBiByteFunction.wrap(opposite))
-            .isInstanceOf(LBiByteFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LBiByteFunctionX<Integer,X> sutThrowing = LBiByteFunctionX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBiByteFunction<Integer> wrapped = LBiByteFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LBiByteFunctionX<Integer,ParseException> sutThrowing = LBiByteFunctionX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LBiByteFunction<Integer> wrapped = LBiByteFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LBiByteFunction<Integer> sutThrowing = LBiByteFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiByteFunction<Integer> wrapped = sutThrowing.handleBiByteFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleBiByteFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LBiByteFunction<Integer> sutThrowing = LBiByteFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiByteFunction<Integer> wrapped = sutThrowing.handleBiByteFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleBiByteFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LBiByteFunction<Integer> sutThrowing = LBiByteFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBiByteFunction<Integer> wrapped = sutThrowing.handleBiByteFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleBiByteFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LBiByteFunction<Integer> sutThrowing = LBiByteFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBiByteFunction<Integer> wrapped = sutThrowing.handleBiByteFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiByteFuncComposeByte() throws X {
+    public void testBiByteFuncComposeByte() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -348,7 +202,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testBiByteFuncCompose() throws X {
+    public void testBiByteFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -388,7 +242,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -423,7 +277,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws X  {
+    public void testThenConsume1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,10 +297,80 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LBiByteConsumer function = sutO.then(thenFunction);
+        LBiByteConsumer function = sutO.thenConsume(thenFunction);
         function.doAccept((byte)80,(byte)81);
 
         //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToByte2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiByteFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
+                return 90;
+        };
+
+        LToByteFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // byte
+                return (byte)100;
+        };
+
+        //when
+        LByteBinaryOperator function = sutO.thenToByte(thenFunction);
+        byte finalValue = function.doApplyAsByte((byte)80,(byte)81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo((byte)100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool3() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LBiByteFunction<Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
+                return 90;
+        };
+
+        LPredicate<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // boolean
+                return true;
+        };
+
+        //when
+        LBiBytePredicate function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doTest((byte)80,(byte)81);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -470,25 +394,12 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
             .isInstanceOf(LBiByteFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingBiByteFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiByteFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingBiByteFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LBiByteFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LBiByteFunction<Integer> sutThrowing = LBiByteFunction.l((a1,a2) -> {
+        LBiByteFunction<Integer> sutThrowing = LBiByteFunction.biByteFunc((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -496,33 +407,9 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
         sutThrowing.shovingBiByteFunc().doApply((byte)100,(byte)100);
     }
 
-    @Test
-    public void testHandleBiByteFunc() throws X {
-
-        // given
-        LBiByteFunction<Integer> sutThrowing = LBiByteFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBiByteFunction<Integer> wrapped = sutThrowing.handleBiByteFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -542,15 +429,15 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantV1(byte a2,byte a1) {
+    private Integer variantLByte1Byte0Func(byte a2,byte a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LBiByteFunction lambda = LBiByteFunction./*<R>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLByte1Byte0Func() {
+        LBiByteFunction lambda = LBiByteFunction./*<R>*/byte1Byte0Func(this::variantLByte1Byte0Func);
 
-        assertThat(lambda).isInstanceOf(LBiByteFunction.V1.class);
+        assertThat(lambda).isInstanceOf(LBiByteFunction.LByte1Byte0Func.class);
     }
 
     //</editor-fold>
@@ -558,7 +445,6 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
     @Test void safeCompiles() {
         LBiByteFunction r1 = LBiByteFunction.safe(sut); //NOSONAR
-        LBiByteFunctionX r2 = LBiByteFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -568,7 +454,7 @@ public class LBiByteFunctionTest<R,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LBiByteFunction.safe(null);
-        assertThat(result).isSameAs(LBiByteFunction.l(LBiByteFunction.safe()));
+        assertThat(result).isSameAs(LBiByteFunction.biByteFunc(LBiByteFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

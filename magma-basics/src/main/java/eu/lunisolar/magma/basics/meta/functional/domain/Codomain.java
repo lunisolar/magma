@@ -18,5 +18,7 @@
 
 package eu.lunisolar.magma.basics.meta.functional.domain;
 
-public interface Codomain<R> {
+import eu.lunisolar.magma.basics.meta.aType;
+
+public interface Codomain<T extends aType> {
 }

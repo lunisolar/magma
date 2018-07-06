@@ -54,6 +54,11 @@ import static org.assertj.core.api.Fail.fail;
 public interface LToLongBiFunctionAssert<S extends LToLongBiFunctionAssert<S, A, RS, T1, T2>, A extends LToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> extends Assert<S, A>, FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Long> {
 
 	@Nonnull
+	public static <A extends LToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> LToLongBiFunctionAssert.The<A, RS, T1, T2> assertToLongBiFunc(LToLongBiFunction<T1, T2> func) {
+		return new LToLongBiFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Long> doesApplyAsLong(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

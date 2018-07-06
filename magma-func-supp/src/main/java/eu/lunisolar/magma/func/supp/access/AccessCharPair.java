@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -80,14 +80,14 @@ public interface AccessCharPair {
 		accessFunction.doAccept(tuple.second(), tuple.first());
 	}
 
-	default void useWith(LBiCharConsumer.V1 accessFunction) {
+	default void useWith(LBiCharConsumer.LChar1Char0Cons accessFunction) {
 		LCharPair tuple = accessCharPair();
-		accessFunction.doAcceptV1(tuple.first(), tuple.second());
+		accessFunction.doAcceptChar1Char0(tuple.first(), tuple.second());
 	}
 
-	default void useWithO1(LBiCharConsumer.V1 accessFunction) {
+	default void useWithO1(LBiCharConsumer.LChar1Char0Cons accessFunction) {
 		LCharPair tuple = accessCharPair();
-		accessFunction.doAcceptV1(tuple.second(), tuple.first());
+		accessFunction.doAcceptChar1Char0(tuple.second(), tuple.first());
 	}
 
 	default char useWith(LCharBinaryOperator accessFunction) {
@@ -118,16 +118,16 @@ public interface AccessCharPair {
 		return retval;
 	}
 
-	default <R> R useWith(LBiCharFunction.V1<R> accessFunction) {
+	default <R> R useWith(LBiCharFunction.LChar1Char0Func<R> accessFunction) {
 		LCharPair tuple = accessCharPair();
-		R retval = accessFunction.doApplyV1(tuple.first(), tuple.second());
+		R retval = accessFunction.doApplyChar1Char0(tuple.first(), tuple.second());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
-	default <R> R useWithO1(LBiCharFunction.V1<R> accessFunction) {
+	default <R> R useWithO1(LBiCharFunction.LChar1Char0Func<R> accessFunction) {
 		LCharPair tuple = accessCharPair();
-		R retval = accessFunction.doApplyV1(tuple.second(), tuple.first());
+		R retval = accessFunction.doApplyChar1Char0(tuple.second(), tuple.first());
 		releaseCharPair(tuple);
 		return retval;
 	}
@@ -146,16 +146,16 @@ public interface AccessCharPair {
 		return retval;
 	}
 
-	default boolean useWith(LBiCharPredicate.V1 accessFunction) {
+	default boolean useWith(LBiCharPredicate.LChar1Char0Pred accessFunction) {
 		LCharPair tuple = accessCharPair();
-		boolean retval = accessFunction.doTestV1(tuple.first(), tuple.second());
+		boolean retval = accessFunction.doTestChar1Char0(tuple.first(), tuple.second());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
-	default boolean useWithO1(LBiCharPredicate.V1 accessFunction) {
+	default boolean useWithO1(LBiCharPredicate.LChar1Char0Pred accessFunction) {
 		LCharPair tuple = accessCharPair();
-		boolean retval = accessFunction.doTestV1(tuple.second(), tuple.first());
+		boolean retval = accessFunction.doTestChar1Char0(tuple.second(), tuple.first());
 		releaseCharPair(tuple);
 		return retval;
 	}

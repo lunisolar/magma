@@ -52,12 +52,17 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreIntToDoubleFunctionAssert<S extends JreIntToDoubleFunctionAssert<S, A, RS>, A extends IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntConsumer, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LIntConsumer, A, RS, Double> doesApplyAsDouble(int a);
+	public static <A extends IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> JreIntToDoubleFunctionAssert.The<A, RS> assertIntToDblFunc(IntToDoubleFunction func) {
+		return new JreIntToDoubleFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LIntConsumer, A, RS, Double> doesApplyAsDbl(int a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public The(A actual, LDoubleFunction<RS> assertFactory) {
+		public The(A actual, LDblFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
@@ -65,15 +70,15 @@ public interface JreIntToDoubleFunctionAssert<S extends JreIntToDoubleFunctionAs
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
 	class Base<S extends Base<S, A, RS>, A extends IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LIntConsumer, A, RS, Double> implements JreIntToDoubleFunctionAssert<S, A, RS> {
 
-		protected final LDoubleFunction<RS> assertFactory;
+		protected final LDblFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, LDoubleFunction<RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LDblFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntConsumer, A, RS, Double> doesApplyAsDouble(int a) {
+		public Evaluation<S, LIntConsumer, A, RS, Double> doesApplyAsDbl(int a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

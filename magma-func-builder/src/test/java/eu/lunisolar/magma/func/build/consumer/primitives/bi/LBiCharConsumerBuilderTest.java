@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.consumer.primitives.bi.LBiCharConsumerBuilder.biCharConsumer;
 import static eu.lunisolar.magma.func.build.consumer.primitives.bi.LBiCharConsumerBuilder.biCharConsumerFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiCharConsumerBuilderTest<X extends ParseException>{
+public class LBiCharConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -129,7 +128,7 @@ public class LBiCharConsumerBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertBiCharCons(function)
             .doesAccept('\u0000','\u0000').when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept('\u0005','\u0005').when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept('\u0015','\u0015').when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

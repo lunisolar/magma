@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -75,29 +75,59 @@ public interface AccessBiObjIntTriple<T1, T2> {
 		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
 	}
 
-	default void useWith(LBiObjIntConsumer.V1<T1, T2> accessFunction) {
+	default void useWith(LBiObjIntConsumer.LObjIntObj1Cons<T1, T2> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		accessFunction.doAcceptV1(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.doAcceptObjIntObj1(tuple.first(), tuple.third(), tuple.second());
 	}
 
-	default void useWith(LBiObjIntConsumer.V2<T2, T1> accessFunction) {
+	default void useWith(LBiObjIntConsumer.LObj1Obj0IntCons<T2, T1> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		accessFunction.doAcceptV2(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.doAcceptObj1Obj0Int(tuple.second(), tuple.first(), tuple.third());
 	}
 
-	default void useWith(LBiObjIntConsumer.V3<T2, T1> accessFunction) {
+	default void useWith(LBiObjIntConsumer.LObj1IntObj0Cons<T2, T1> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		accessFunction.doAcceptV3(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.doAcceptObj1IntObj0(tuple.second(), tuple.third(), tuple.first());
 	}
 
-	default void useWith(LBiObjIntConsumer.V4<T1, T2> accessFunction) {
+	default void useWith(LBiObjIntConsumer.LIntObj0Obj1Cons<T1, T2> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		accessFunction.doAcceptV4(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.doAcceptIntObj0Obj1(tuple.third(), tuple.first(), tuple.second());
 	}
 
-	default void useWith(LBiObjIntConsumer.V5<T2, T1> accessFunction) {
+	default void useWith(LBiObjIntConsumer.LIntObjObj0Cons<T2, T1> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		accessFunction.doAcceptV5(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.doAcceptIntObjObj0(tuple.third(), tuple.second(), tuple.first());
+	}
+
+	default void useWith(LTieConsumer<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		accessFunction.doAccept(tuple.first(), tuple.third(), tuple.second());
+	}
+
+	default void useWith(LTieConsumer.LObjObj2IntCons<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		accessFunction.doAcceptObjObj2Int(tuple.first(), tuple.second(), tuple.third());
+	}
+
+	default void useWith(LTieConsumer.LIntBiObjCons<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		accessFunction.doAcceptIntBiObj(tuple.third(), tuple.first(), tuple.second());
+	}
+
+	default void useWith(LTieConsumer.LIntObj2Obj0Cons<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		accessFunction.doAcceptIntObj2Obj0(tuple.third(), tuple.second(), tuple.first());
+	}
+
+	default void useWith(LTieConsumer.LObj2Obj0IntCons<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		accessFunction.doAcceptObj2Obj0Int(tuple.second(), tuple.first(), tuple.third());
+	}
+
+	default void useWith(LTieConsumer.LObj2IntObj0Cons<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		accessFunction.doAcceptObj2IntObj0(tuple.second(), tuple.third(), tuple.first());
 	}
 
 	default <R> R useWith(LBiObjIntFunction<T1, T2, R> accessFunction) {
@@ -107,37 +137,121 @@ public interface AccessBiObjIntTriple<T1, T2> {
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjIntFunction.V1<T1, T2, R> accessFunction) {
+	default <R> R useWith(LBiObjIntFunction.LObjIntObj1Func<T1, T2, R> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		R retval = accessFunction.doApplyV1(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.doApplyObjIntObj1(tuple.first(), tuple.third(), tuple.second());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjIntFunction.V2<T2, T1, R> accessFunction) {
+	default <R> R useWith(LBiObjIntFunction.LObj1Obj0IntFunc<T2, T1, R> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		R retval = accessFunction.doApplyV2(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.doApplyObj1Obj0Int(tuple.second(), tuple.first(), tuple.third());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjIntFunction.V3<T2, T1, R> accessFunction) {
+	default <R> R useWith(LBiObjIntFunction.LObj1IntObj0Func<T2, T1, R> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		R retval = accessFunction.doApplyV3(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.doApplyObj1IntObj0(tuple.second(), tuple.third(), tuple.first());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjIntFunction.V4<T1, T2, R> accessFunction) {
+	default <R> R useWith(LBiObjIntFunction.LIntObj0Obj1Func<T1, T2, R> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		R retval = accessFunction.doApplyV4(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.doApplyIntObj0Obj1(tuple.third(), tuple.first(), tuple.second());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjIntFunction.V5<T2, T1, R> accessFunction) {
+	default <R> R useWith(LBiObjIntFunction.LIntObjObj0Func<T2, T1, R> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		R retval = accessFunction.doApplyV5(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.doApplyIntObjObj0(tuple.third(), tuple.second(), tuple.first());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(LObjIntObjFunction<T1, T2, R> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		R retval = accessFunction.doApply(tuple.first(), tuple.third(), tuple.second());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(LObjIntObjFunction.LObjObj2IntFunc<T1, T2, R> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		R retval = accessFunction.doApplyObjObj2Int(tuple.first(), tuple.second(), tuple.third());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(LObjIntObjFunction.LIntBiObjFunc<T1, T2, R> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		R retval = accessFunction.doApplyIntBiObj(tuple.third(), tuple.first(), tuple.second());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(LObjIntObjFunction.LIntObj2Obj0Func<T2, T1, R> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		R retval = accessFunction.doApplyIntObj2Obj0(tuple.third(), tuple.second(), tuple.first());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(LObjIntObjFunction.LObj2Obj0IntFunc<T2, T1, R> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		R retval = accessFunction.doApplyObj2Obj0Int(tuple.second(), tuple.first(), tuple.third());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default <R> R useWith(LObjIntObjFunction.LObj2IntObj0Func<T2, T1, R> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		R retval = accessFunction.doApplyObj2IntObj0(tuple.second(), tuple.third(), tuple.first());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default int useWith(LTieFunction<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		int retval = accessFunction.doApplyAsInt(tuple.first(), tuple.third(), tuple.second());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default int useWith(LTieFunction.LObjObj2IntToIntFunc<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		int retval = accessFunction.doApplyAsIntObjObj2Int(tuple.first(), tuple.second(), tuple.third());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default int useWith(LTieFunction.LIntBiObjToIntFunc<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		int retval = accessFunction.doApplyAsIntIntBiObj(tuple.third(), tuple.first(), tuple.second());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default int useWith(LTieFunction.LIntObj2Obj0ToIntFunc<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		int retval = accessFunction.doApplyAsIntIntObj2Obj0(tuple.third(), tuple.second(), tuple.first());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default int useWith(LTieFunction.LObj2Obj0IntToIntFunc<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		int retval = accessFunction.doApplyAsIntObj2Obj0Int(tuple.second(), tuple.first(), tuple.third());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default int useWith(LTieFunction.LObj2IntObj0ToIntFunc<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		int retval = accessFunction.doApplyAsIntObj2IntObj0(tuple.second(), tuple.third(), tuple.first());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
@@ -149,37 +263,79 @@ public interface AccessBiObjIntTriple<T1, T2> {
 		return retval;
 	}
 
-	default boolean useWith(LBiObjIntPredicate.V1<T1, T2> accessFunction) {
+	default boolean useWith(LBiObjIntPredicate.LObjIntObj1Pred<T1, T2> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		boolean retval = accessFunction.doTestV1(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.doTestObjIntObj1(tuple.first(), tuple.third(), tuple.second());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjIntPredicate.V2<T2, T1> accessFunction) {
+	default boolean useWith(LBiObjIntPredicate.LObj1Obj0IntPred<T2, T1> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		boolean retval = accessFunction.doTestV2(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.doTestObj1Obj0Int(tuple.second(), tuple.first(), tuple.third());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjIntPredicate.V3<T2, T1> accessFunction) {
+	default boolean useWith(LBiObjIntPredicate.LObj1IntObj0Pred<T2, T1> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		boolean retval = accessFunction.doTestV3(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.doTestObj1IntObj0(tuple.second(), tuple.third(), tuple.first());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjIntPredicate.V4<T1, T2> accessFunction) {
+	default boolean useWith(LBiObjIntPredicate.LIntObj0Obj1Pred<T1, T2> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		boolean retval = accessFunction.doTestV4(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.doTestIntObj0Obj1(tuple.third(), tuple.first(), tuple.second());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjIntPredicate.V5<T2, T1> accessFunction) {
+	default boolean useWith(LBiObjIntPredicate.LIntObjObj0Pred<T2, T1> accessFunction) {
 		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
-		boolean retval = accessFunction.doTestV5(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.doTestIntObjObj0(tuple.third(), tuple.second(), tuple.first());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default boolean useWith(LObjIntObjPredicate<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		boolean retval = accessFunction.doTest(tuple.first(), tuple.third(), tuple.second());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default boolean useWith(LObjIntObjPredicate.LObjObj2IntPred<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		boolean retval = accessFunction.doTestObjObj2Int(tuple.first(), tuple.second(), tuple.third());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default boolean useWith(LObjIntObjPredicate.LIntBiObjPred<T1, T2> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		boolean retval = accessFunction.doTestIntBiObj(tuple.third(), tuple.first(), tuple.second());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default boolean useWith(LObjIntObjPredicate.LIntObj2Obj0Pred<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		boolean retval = accessFunction.doTestIntObj2Obj0(tuple.third(), tuple.second(), tuple.first());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default boolean useWith(LObjIntObjPredicate.LObj2Obj0IntPred<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		boolean retval = accessFunction.doTestObj2Obj0Int(tuple.second(), tuple.first(), tuple.third());
+		releaseBiObjIntTriple(tuple);
+		return retval;
+	}
+
+	default boolean useWith(LObjIntObjPredicate.LObj2IntObj0Pred<T2, T1> accessFunction) {
+		LBiObjIntTriple<T1, T2> tuple = accessBiObjIntTriple();
+		boolean retval = accessFunction.doTestObj2IntObj0(tuple.second(), tuple.third(), tuple.first());
 		releaseBiObjIntTriple(tuple);
 		return retval;
 	}

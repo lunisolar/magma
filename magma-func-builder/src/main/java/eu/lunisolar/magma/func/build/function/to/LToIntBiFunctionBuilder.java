@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LToIntBiFunction. */
+/**
+ * Builder for LToIntBiFunction.
+ */
 public final class LToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntProduct.Base<LToIntBiFunctionBuilder<T1, T2>, LBiPredicate<T1, T2>, LToIntBiFunction<T1, T2>> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithInt
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToIntBiFunction EVENTUALLY_THROW = LToIntBiFunction.l((a1, a2) -> {
+	public static final LToIntBiFunction EVENTUALLY_THROW = LToIntBiFunction.toIntBiFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithInt
 		LToIntBiFunction<T1, T2> retval;
 
 		final Case<LBiPredicate<T1, T2>, LToIntBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToIntBiFunction.<T1, T2> l((a1, a2) -> {
+		retval = LToIntBiFunction.<T1, T2> toIntBiFunc((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LToIntBiFunction<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

@@ -57,6 +57,11 @@ public interface LToIntBiFunctionAssert<S extends LToIntBiFunctionAssert<S, A, R
 			FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Integer> {
 
 	@Nonnull
+	public static <A extends LToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> LToIntBiFunctionAssert.The<A, RS, T1, T2> assertToIntBiFunc(LToIntBiFunction<T1, T2> func) {
+		return new LToIntBiFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	Evaluation<S, LBiConsumer<T1, T2>, A, RS, Integer> doesApplyAsInt(T1 a1, T2 a2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */

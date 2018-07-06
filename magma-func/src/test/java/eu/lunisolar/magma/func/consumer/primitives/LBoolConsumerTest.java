@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LBoolConsumerTest<X extends ParseException> {
+public class LBoolConsumerTest {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -63,28 +63,26 @@ public class LBoolConsumerTest<X extends ParseException> {
 
 
     private LBoolConsumer sut = new LBoolConsumer(){
-        public  void doAccept(boolean a)  {
-            Function4U.doNothing();
-        }
-    };
-
-    private LBoolConsumerX<X> opposite = new LBoolConsumerX<X>(){
-        public  void doAccept(boolean a)  throws X {
-            Function4U.doNothing();
+        public  void doAcceptX(boolean a)  {
+            LBoolConsumer.doNothing(a);
         }
     };
 
 
 
 
-    private LBoolConsumerX<RuntimeException> sutAlwaysThrowingUnchecked = LBoolConsumer.l(a -> {
+    private LBoolConsumer sutAlwaysThrowing = LBoolConsumer.boolCons(a -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBoolConsumer sutAlwaysThrowingUnchecked = LBoolConsumer.boolCons(a -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LBoolSingle domainObject = Tuple4U.boolSingle(true);
 
@@ -95,7 +93,7 @@ public class LBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws X {
+    public void testNestingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -110,7 +108,7 @@ public class LBoolConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws X {
+    public void testShovingDoAcceptUnchecked() throws Throwable {
 
         // then
         try {
@@ -126,170 +124,26 @@ public class LBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBoolConsumer: void doAccept(boolean a)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LBoolConsumer.l(Function4U::doNothing))
+    public void testBoolConsMethod() throws Throwable {
+        assertThat(LBoolConsumer.boolCons(LBoolConsumer::doNothing))
             .isInstanceOf(LBoolConsumer.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LBoolConsumer.wrap(opposite))
-            .isInstanceOf(LBoolConsumer.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LBoolConsumerX<X> sutThrowing = LBoolConsumerX.lX(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBoolConsumer wrapped = LBoolConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LBoolConsumerX<ParseException> sutThrowing = LBoolConsumerX.lX(a -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LBoolConsumer wrapped = LBoolConsumer.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doAccept(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoAcceptMethodWrapsTheException() throws X {
-
-        // given
-        LBoolConsumer sutThrowing = LBoolConsumer.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBoolConsumer wrapped = sutThrowing.handleBoolCons(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doAccept(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleBoolConsMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LBoolConsumer sutThrowing = LBoolConsumer.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBoolConsumer wrapped = sutThrowing.handleBoolCons(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleBoolConsMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LBoolConsumer sutThrowing = LBoolConsumer.l(a -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LBoolConsumer wrapped = sutThrowing.handleBoolCons(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doAccept(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleBoolConsMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LBoolConsumer sutThrowing = LBoolConsumer.l(a -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LBoolConsumer wrapped = sutThrowing.handleBoolCons(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doAccept(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBoolConsComposeBool() throws X {
+    public void testBoolConsComposeBool() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -317,7 +171,7 @@ public class LBoolConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testBoolConsCompose() throws X {
+    public void testBoolConsCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -346,7 +200,7 @@ public class LBoolConsumerTest<X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws X {
+    public void testAndThen() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -386,25 +240,12 @@ public class LBoolConsumerTest<X extends ParseException> {
             .isInstanceOf(LBoolConsumer.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingBoolConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolConsumerX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingBoolConsX())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolConsumerX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LBoolConsumer sutThrowing = LBoolConsumer.l(a -> {
+        LBoolConsumer sutThrowing = LBoolConsumer.boolCons(a -> {
             throw new UnsupportedOperationException();
         });
 
@@ -412,33 +253,9 @@ public class LBoolConsumerTest<X extends ParseException> {
         sutThrowing.shovingBoolCons().doAccept(true);
     }
 
-    @Test
-    public void testHandleBoolCons() throws X {
-
-        // given
-        LBoolConsumer sutThrowing = LBoolConsumer.l(a -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LBoolConsumer wrapped = sutThrowing.handleBoolCons(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doAccept(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -458,7 +275,6 @@ public class LBoolConsumerTest<X extends ParseException> {
 
     @Test void safeCompiles() {
         LBoolConsumer r1 = LBoolConsumer.safe(sut); //NOSONAR
-        LBoolConsumerX r2 = LBoolConsumer.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -468,7 +284,7 @@ public class LBoolConsumerTest<X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LBoolConsumer.safe(null);
-        assertThat(result).isSameAs(LBoolConsumer.l(LBoolConsumer.safe()));
+        assertThat(result).isSameAs(LBoolConsumer.boolCons(LBoolConsumer.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

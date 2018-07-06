@@ -47,20 +47,22 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for DoublePredicate. */
-public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.Base<DoublePredicateBuilder, LDoublePredicate, DoublePredicate> {
+/**
+ * Builder for DoublePredicate.
+ */
+public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.Base<DoublePredicateBuilder, LDblPredicate, DoublePredicate> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<DoublePredicate> consumer;
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoublePredicate EVENTUALLY_THROW = Function4U.doublePredicate(a -> {
+	public static final DoublePredicate EVENTUALLY_THROW = Function4U.dblPred(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoublePredicateBuilder(@Nullable Consumer<DoublePredicate> consumer) {
-		super(EVENTUALLY_THROW, LDoublePredicate::constant, () -> new DoublePredicateBuilder(null));
+		super(EVENTUALLY_THROW, LDblPredicate::constant, () -> new DoublePredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -72,19 +74,19 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static DoublePredicateBuilder doublePredicate() {
+	public static DoublePredicateBuilder dblPredicate() {
 		return new DoublePredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoublePredicate doublePredicateFrom(Function<DoublePredicateBuilder, DoublePredicate> buildingFunction) {
+	public static DoublePredicate dblPredicateFrom(Function<DoublePredicateBuilder, DoublePredicate> buildingFunction) {
 		return buildingFunction.apply(new DoublePredicateBuilder());
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static DoublePredicateBuilder doublePredicate(Consumer<DoublePredicate> consumer) {
+	public static DoublePredicateBuilder dblPredicate(Consumer<DoublePredicate> consumer) {
 		return new DoublePredicateBuilder(consumer);
 	}
 
@@ -107,10 +109,10 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.
 
 		DoublePredicate retval;
 
-		final Case<LDoublePredicate, DoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.doublePredicate(a -> {
+		final Case<LDblPredicate, DoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.dblPred(a -> {
 			try {
-				for (Case<LDoublePredicate, DoublePredicate> aCase : casesArray) {
+				for (Case<LDblPredicate, DoublePredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {
 						return aCase.caseFunction().test(a);
 					}

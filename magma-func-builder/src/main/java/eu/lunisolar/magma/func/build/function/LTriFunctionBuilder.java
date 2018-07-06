@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LTriFunction. */
+/**
+ * Builder for LTriFunction.
+ */
 public final class LTriFunctionBuilder<T1, T2, T3, R> extends PerCaseBuilderWithProduct.Base<LTriFunctionBuilder<T1, T2, T3, R>, LTriPredicate<T1, T2, T3>, LTriFunction<T1, T2, T3, R>, R> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LTriFunctionBuilder<T1, T2, T3, R> extends PerCaseBuilderWith
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriFunction EVENTUALLY_THROW = LTriFunction.l((a1, a2, a3) -> {
+	public static final LTriFunction EVENTUALLY_THROW = LTriFunction.triFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class LTriFunctionBuilder<T1, T2, T3, R> extends PerCaseBuilderWith
 		LTriFunction<T1, T2, T3, R> retval;
 
 		final Case<LTriPredicate<T1, T2, T3>, LTriFunction<T1, T2, T3, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriFunction.<T1, T2, T3, R> l((a1, a2, a3) -> {
+		retval = LTriFunction.<T1, T2, T3, R> triFunc((a1, a2, a3) -> {
 			try {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriFunction<T1, T2, T3, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2, a3)) {

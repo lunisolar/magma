@@ -25,12 +25,16 @@ import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -57,11 +61,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: T
  *
- * @see LSupplierX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LSupplier: T doGet()";
 
@@ -72,24 +75,126 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 	@Override
 	@Deprecated
 	default T get() {
-		return this.nestingDoGet();
+		return this.doGet();
 	}
 
 	@Nullable
-	T doGet();
+	// T doGet() ;
+	default T doGet() {
+		// return nestingDoGet();
+		try {
+			return this.doGetX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doGet()
+	 */
+	T doGetX() throws Throwable;
 
 	default T tupleGet(LTuple.Void args) {
 		return doGet();
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default T nestingDoGet() {
-		return this.doGet();
+	/** Function call that handles exceptions according to the instructions. */
+	default T handlingDoGet(HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doGetX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default T tryDoGet(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doGetX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default T tryDoGet(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doGetX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default T tryDoGetThen(@Nonnull LFunction<Throwable, T> handler) {
+		try {
+			return this.doGetX();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApply(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default T nestingDoGet() {
+		try {
+			return this.doGetX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default T shovingDoGet() {
-		return this.doGet();
+		try {
+			return this.doGetX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static <T> T handlingDoGet(LSupplier<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoGet(handling);
+	}
+
+	static <T> T tryDoGet(LSupplier<T> func) {
+		return tryDoGet(func, null);
+	}
+
+	static <T> T tryDoGet(LSupplier<T> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGet(exceptionFactory, newMessage, messageParams);
+	}
+
+	static <T> T tryDoGet(LSupplier<T> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGet(exceptionFactory);
+	}
+
+	static <T> T tryDoGetThen(LSupplier<T> func, @Nonnull LFunction<Throwable, T> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoGetThen(handler);
+	}
+
+	default T failSafeDoGet(@Nonnull LSupplier<T> failSafe) {
+		try {
+			return doGet();
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doGet();
+		}
+	}
+
+	static <T> T failSafeDoGet(LSupplier<T> func, @Nonnull LSupplier<T> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doGet();
+		} else {
+			return func.failSafeDoGet(failSafe);
+		}
+	}
+
+	static <T> LSupplier<T> failSafeSup(LSupplier<T> func, @Nonnull LSupplier<T> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return () -> failSafeDoGet(func, failSafe);
 	}
 
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
@@ -106,6 +211,39 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 		return LSupplier.DESCRIPTION;
 	}
 
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void fromTo(int min_i, int max_i, LSupplier<T> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doGet();
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doGet();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void fromTill(int min_i, int max_i, LSupplier<T> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doGet();
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doGet();
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T> void times(int max_i, LSupplier<T> func) {
+		fromTill(0, max_i, func);
+	}
+
 	/** Creates function that always returns the same value. */
 	static <T> LSupplier<T> of(T r) {
 		return () -> r;
@@ -113,9 +251,47 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSupplier<T> l(final @Nonnull LSupplier<T> lambda) {
+	static <T> LSupplier<T> sup(final @Nonnull LSupplier<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static <T> LSupplier<T> recursive(final @Nonnull LFunction<LSupplier<T>, LSupplier<T>> selfLambda) {
+		final LSupplierSingle<T> single = new LSupplierSingle();
+		LSupplier<T> func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LSupplierSingle<T> implements LSingle<LSupplier<T>>, LSupplier<T> {
+		private LSupplier<T> target = null;
+
+		@Override
+		public T doGetX() throws Throwable {
+			return target.doGetX();
+		}
+
+		@Override
+		public LSupplier<T> value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static <T> LSupplier<T> supThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static <T> LSupplier<T> supThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return () -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static <T> T call(final @Nonnull LSupplier<T> lambda) {
@@ -130,21 +306,14 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 	static <T> LSupplier<T> wrap(final Supplier<T> other) {
 		return other::get;
 	}
-
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <T, X extends Throwable> LSupplier<T> wrap(final @Nonnull LSupplierX<T, X> other) {
-		return other::nestingDoGet;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produce). */
+	/** Safe instance. That always returns the same value (as produce). */
 	@Nonnull
 	static <T> LSupplier<T> safe() {
-		return Function4U::produce;
+		return LSupplier::produce;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -191,6 +360,25 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 		return () -> after.doAccept(this.doGet());
 	}
 
+	@Nonnull
+	default LSupplier<T> before(@Nonnull LAction before) {
+		Null.nonNullArg(before, "before");
+		return () -> {
+			before.doExecute();
+			return this.doGet();
+		};
+	}
+
+	@Nonnull
+	default LSupplier<T> after(@Nonnull LConsumer<? super T> after) {
+		Null.nonNullArg(after, "after");
+		return () -> {
+			T result = this.doGet();
+			after.doAccept(result);
+			return result;
+		};
+	}
+
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteSupplier toByteSup(@Nonnull LToByteFunction<? super T> after) {
@@ -200,9 +388,9 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LShortSupplier toShortSup(@Nonnull LToShortFunction<? super T> after) {
+	default LSrtSupplier toSrtSup(@Nonnull LToSrtFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsShort(this.doGet());
+		return () -> after.doApplyAsSrt(this.doGet());
 	}
 
 	/** Combines two functions together in a order. */
@@ -221,16 +409,16 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LFloatSupplier toFloatSup(@Nonnull LToFloatFunction<? super T> after) {
+	default LFltSupplier toFltSup(@Nonnull LToFltFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFloat(this.doGet());
+		return () -> after.doApplyAsFlt(this.doGet());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LDoubleSupplier toDoubleSup(@Nonnull LToDoubleFunction<? super T> after) {
+	default LDblSupplier toDblSup(@Nonnull LToDblFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDouble(this.doGet());
+		return () -> after.doApplyAsDbl(this.doGet());
 	}
 
 	/** Combines two functions together in a order. */
@@ -257,19 +445,8 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LSupplierX<T, RuntimeException> nestingSupX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LSupplier<T> shovingSup() {
-		return this;
-	}
-
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSupplierX<T, RuntimeException> shovingSupX() {
 		return this;
 	}
 
@@ -279,6 +456,11 @@ public interface LSupplier<T> extends LSupplierX<T, RuntimeException>, MetaSuppl
 	@Nonnull
 	default LSupplier<T> nonNullSup() {
 		return this::nonNullDoGet;
+	}
+
+	/** Does nothing (LSupplier) Supplier */
+	public static <T> T produce() {
+		return (T) Function4U.defaultObject;
 	}
 
 }

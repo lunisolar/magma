@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LBoolConsumer. */
+/**
+ * Builder for LBoolConsumer.
+ */
 public final class LBoolConsumerBuilder extends PerCaseBuilder.Base<LBoolConsumerBuilder, LLogicalOperator, LBoolConsumer> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LBoolConsumerBuilder extends PerCaseBuilder.Base<LBoolConsume
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolConsumer EVENTUALLY_THROW = LBoolConsumer.l(a -> {
+	public static final LBoolConsumer EVENTUALLY_THROW = LBoolConsumer.boolCons(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LBoolConsumerBuilder extends PerCaseBuilder.Base<LBoolConsume
 		LBoolConsumer retval;
 
 		final Case<LLogicalOperator, LBoolConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolConsumer.l(a -> {
+		retval = LBoolConsumer.boolCons(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(a)) {

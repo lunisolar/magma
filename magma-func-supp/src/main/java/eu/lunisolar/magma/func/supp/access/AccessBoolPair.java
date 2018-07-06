@@ -29,7 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -80,14 +80,14 @@ public interface AccessBoolPair {
 		accessFunction.doAccept(tuple.second(), tuple.first());
 	}
 
-	default void useWith(LBiBoolConsumer.V1 accessFunction) {
+	default void useWith(LBiBoolConsumer.LBool1Bool0Cons accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAcceptV1(tuple.first(), tuple.second());
+		accessFunction.doAcceptBool1Bool0(tuple.first(), tuple.second());
 	}
 
-	default void useWithO1(LBiBoolConsumer.V1 accessFunction) {
+	default void useWithO1(LBiBoolConsumer.LBool1Bool0Cons accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAcceptV1(tuple.second(), tuple.first());
+		accessFunction.doAcceptBool1Bool0(tuple.second(), tuple.first());
 	}
 
 	default void useWith(boolean a3, LTriBoolConsumer accessFunction) {
@@ -142,16 +142,16 @@ public interface AccessBoolPair {
 		return retval;
 	}
 
-	default <R> R useWith(LBiBoolFunction.V1<R> accessFunction) {
+	default <R> R useWith(LBiBoolFunction.LBool1Bool0Func<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApplyV1(tuple.first(), tuple.second());
+		R retval = accessFunction.doApplyBool1Bool0(tuple.first(), tuple.second());
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
-	default <R> R useWithO1(LBiBoolFunction.V1<R> accessFunction) {
+	default <R> R useWithO1(LBiBoolFunction.LBool1Bool0Func<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApplyV1(tuple.second(), tuple.first());
+		R retval = accessFunction.doApplyBool1Bool0(tuple.second(), tuple.first());
 		releaseBoolPair(tuple);
 		return retval;
 	}

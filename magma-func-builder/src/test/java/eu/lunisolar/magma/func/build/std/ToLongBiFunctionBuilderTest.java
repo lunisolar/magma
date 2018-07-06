@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.ToLongBiFunctionBuilder.toLongBiFunction;
 import static eu.lunisolar.magma.func.build.std.ToLongBiFunctionBuilder.toLongBiFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -128,7 +127,7 @@ public class ToLongBiFunctionBuilderTest<T1,T2>{
         );
 
 
-        A.assertThat(function)
+        A.assertToLongBiFunc(function)
             .doesApplyAsLong(0,0).when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong(5,5).when(null).to(a -> a.isEqualTo(1L))
             .doesApplyAsLong(15,15).when(null).to(a -> a.isEqualTo(2L))

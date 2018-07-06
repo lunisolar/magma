@@ -37,7 +37,7 @@ public class HandlerTest {
 
     @Test
     public void testGetTarget() throws Exception {
-        assertThat(Handler.handler(RUNTIME).getTarget())
+        assertThat(Handler.handler(RUNTIME).target())
                 .isSameAs(RUNTIME);
     }
 

@@ -25,13 +25,18 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*;
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,35 +63,206 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: none
  *
- * @see LBiObjByteConsumerX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LBiObjByteConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThrowing {
 
 	String DESCRIPTION = "LBiObjByteConsumer: void doAccept(T1 a1,T2 a2,byte a3)";
 
-	void doAccept(T1 a1, T2 a2, byte a3);
+	// void doAccept(T1 a1,T2 a2,byte a3) ;
+	default void doAccept(T1 a1, T2 a2, byte a3) {
+		// nestingDoAccept(a1,a2,a3);
+		try {
+			this.doAcceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doAccept(T1 a1,T2 a2,byte a3)
+	 */
+	void doAcceptX(T1 a1, T2 a2, byte a3) throws Throwable;
 
 	default LTuple.Void tupleAccept(LBiObjByteTriple<T1, T2> args) {
 		doAccept(args.first(), args.second(), args.third());
 		return LTuple.Void.INSTANCE;
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(T1 a1, T2 a2, byte a3) {
-		this.doAccept(a1, a2, a3);
+	/** Function call that handles exceptions according to the instructions. */
+	default void handlingDoAccept(T1 a1, T2 a2, byte a3, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			this.doAcceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default void tryDoAccept(T1 a1, T2 a2, byte a3, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			this.doAcceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default void tryDoAccept(T1 a1, T2 a2, byte a3, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			this.doAcceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default void tryDoAcceptThen(T1 a1, T2 a2, byte a3, @Nonnull LConsumer<Throwable> handler) {
+		try {
+			this.doAcceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			handler.doAccept(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default void nestingDoAccept(T1 a1, T2 a2, byte a3) {
+		try {
+			this.doAcceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default void shovingDoAccept(T1 a1, T2 a2, byte a3) {
-		this.doAccept(a1, a2, a3);
+		try {
+			this.doAcceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static <T1, T2> void handlingDoAccept(T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		func.handlingDoAccept(a1, a2, a3, handling);
+	}
+
+	static <T1, T2> void tryDoAccept(T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func) {
+		tryDoAccept(a1, a2, a3, func, null);
+	}
+
+	static <T1, T2> void tryDoAccept(T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a1, a2, a3, exceptionFactory, newMessage, messageParams);
+	}
+
+	static <T1, T2> void tryDoAccept(T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAccept(a1, a2, a3, exceptionFactory);
+	}
+
+	static <T1, T2> void tryDoAcceptThen(T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.tryDoAcceptThen(a1, a2, a3, handler);
+	}
+
+	default void failSafeDoAccept(T1 a1, T2 a2, byte a3, @Nonnull LBiObjByteConsumer<T1, T2> failSafe) {
+		try {
+			doAccept(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			failSafe.doAccept(a1, a2, a3);
+		}
+	}
+
+	static <T1, T2> void failSafeDoAccept(T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func, @Nonnull LBiObjByteConsumer<T1, T2> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			failSafe.doAccept(a1, a2, a3);
+		} else {
+			func.failSafeDoAccept(a1, a2, a3, failSafe);
+		}
+	}
+
+	static <T1, T2> LBiObjByteConsumer<T1, T2> failSafeBiObjByteCons(LBiObjByteConsumer<T1, T2> func, @Nonnull LBiObjByteConsumer<T1, T2> failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return (a1, a2, a3) -> failSafeDoAccept(a1, a2, a3, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjByteConsumer.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doAccept(a1, a2, a3);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doAccept(a1, a2, a3);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doAccept(a1, a2, a3);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doAccept(a1, a2, a3);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, byte a3, LBiObjByteConsumer<T1, T2> func) {
+		fromTill(0, max_i, a1, a2, a3, func);
+	}
+
+	public default LObjByteConsumer<T2> lShrink(LObjByteFunction<T2, T1> left) {
+		return (a2, a3) -> doAccept(left.doApply(a2, a3), a2, a3);
+	}
+
+	public default LObjByteConsumer<T2> lShrinkc(T1 a1) {
+		return (a2, a3) -> doAccept(a1, a2, a3);
+	}
+
+	public static <T2, T1> LObjByteConsumer<T2> lShrinked(LObjByteFunction<T2, T1> left, LBiObjByteConsumer<T1, T2> func) {
+		return func.lShrink(left);
+	}
+
+	public static <T2, T1> LObjByteConsumer<T2> lShrinkedc(T1 a1, LBiObjByteConsumer<T1, T2> func) {
+		return func.lShrinkc(a1);
+	}
+
+	public default LBiConsumer<T1, T2> rShrink(LToByteBiFunction<T1, T2> right) {
+		return (a1, a2) -> doAccept(a1, a2, right.doApplyAsByte(a1, a2));
+	}
+
+	public default LBiConsumer<T1, T2> rShrinkc(byte a3) {
+		return (a1, a2) -> doAccept(a1, a2, a3);
+	}
+
+	public static <T1, T2> LBiConsumer<T1, T2> rShrinked(LToByteBiFunction<T1, T2> right, LBiObjByteConsumer<T1, T2> func) {
+		return func.rShrink(right);
+	}
+
+	public static <T1, T2> LBiConsumer<T1, T2> rShrinkedc(byte a3, LBiObjByteConsumer<T1, T2> func) {
+		return func.rShrinkc(a3);
+	}
+
+	/**  */
+	public static <T1, T2> LBiObjByteConsumer<T1, T2> uncurryBiObjByteCons(LFunction<T1, LFunction<T2, LByteConsumer>> func) {
+		return (T1 a1, T2 a2, byte a3) -> func.doApply(a1).doApply(a2).doAccept(a3);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -114,44 +290,82 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LBiObjByteConsumer<T1, T2> l(final @Nonnull LBiObjByteConsumer<T1, T2> lambda) {
+	static <T1, T2> LBiObjByteConsumer<T1, T2> biObjByteCons(final @Nonnull LBiObjByteConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static <T1, T2> LBiObjByteConsumer<T1, T2> recursive(final @Nonnull LFunction<LBiObjByteConsumer<T1, T2>, LBiObjByteConsumer<T1, T2>> selfLambda) {
+		final LBiObjByteConsumerSingle<T1, T2> single = new LBiObjByteConsumerSingle();
+		LBiObjByteConsumer<T1, T2> func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LBiObjByteConsumerSingle<T1, T2> implements LSingle<LBiObjByteConsumer<T1, T2>>, LBiObjByteConsumer<T1, T2> {
+		private LBiObjByteConsumer<T1, T2> target = null;
+
+		@Override
+		public void doAcceptX(T1 a1, T2 a2, byte a3) throws Throwable {
+			target.doAcceptX(a1, a2, a3);
+		}
+
+		@Override
+		public LBiObjByteConsumer<T1, T2> value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static <T1, T2> LBiObjByteConsumer<T1, T2> biObjByteConsThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return (a1, a2, a3) -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static <T1, T2> LBiObjByteConsumer<T1, T2> biObjByteConsThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return (a1, a2, a3) -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	// <editor-fold desc="wrap variants">
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> V1<T1, T2> l1(final @Nonnull V1<T1, T2> lambda) {
+	static <T1, T2> LObjByteObj1Cons<T1, T2> objByteObj1Cons(final @Nonnull LObjByteObj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> V2<T2, T1> l2(final @Nonnull V2<T2, T1> lambda) {
+	static <T2, T1> LObj1Obj0ByteCons<T2, T1> obj1Obj0ByteCons(final @Nonnull LObj1Obj0ByteCons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> V3<T2, T1> l3(final @Nonnull V3<T2, T1> lambda) {
+	static <T2, T1> LObj1ByteObj0Cons<T2, T1> obj1ByteObj0Cons(final @Nonnull LObj1ByteObj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> V4<T1, T2> l4(final @Nonnull V4<T1, T2> lambda) {
+	static <T1, T2> LByteObj0Obj1Cons<T1, T2> byteObj0Obj1Cons(final @Nonnull LByteObj0Obj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> V5<T2, T1> l5(final @Nonnull V5<T2, T1> lambda) {
+	static <T2, T1> LByteObjObj0Cons<T2, T1> byteObjObj0Cons(final @Nonnull LByteObjObj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -165,12 +379,6 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <T1, T2, X extends Throwable> LBiObjByteConsumer<T1, T2> wrap(final @Nonnull LBiObjByteConsumerX<T1, T2, X> other) {
-		return other::nestingDoAccept;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
@@ -178,7 +386,7 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 	/** Safe instance. */
 	@Nonnull
 	static <T1, T2> LBiObjByteConsumer<T1, T2> safe() {
-		return Function4U::doNothing;
+		return LBiObjByteConsumer::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -220,6 +428,11 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
 	}
 
+	public static <V1, V2, T1, T2> LBiObjByteConsumer<V1, V2> composedByte(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LByteUnaryOperator before3,
+			LBiObjByteConsumer<T1, T2> after) {
+		return after.biObjByteConsComposeByte(before1, before2, before3);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V1, V2, V3> LTriConsumer<V1, V2, V3> biObjByteConsCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToByteFunction<? super V3> before3) {
@@ -227,6 +440,11 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
+	}
+
+	public static <V1, V2, V3, T1, T2> LTriConsumer<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToByteFunction<? super V3> before3,
+			LBiObjByteConsumer<T1, T2> after) {
+		return after.biObjByteConsCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>
@@ -253,19 +471,8 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LBiObjByteConsumerX<T1, T2, RuntimeException> nestingBiObjByteConsX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjByteConsumer<T1, T2> shovingBiObjByteCons() {
-		return this;
-	}
-
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjByteConsumerX<T1, T2, RuntimeException> shovingBiObjByteConsX() {
 		return this;
 	}
 
@@ -275,64 +482,331 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V1<T1, T2> extends LBiObjByteConsumer<T1, T2> {
+	interface LObjByteObj1Cons<T1, T2> extends LBiObjByteConsumer<T1, T2> {
 
-		void doAcceptV1(T1 a1, byte a3, T2 a2);
+		void doAcceptObjByteObj1(T1 a1, byte a3, T2 a2);
 
 		@Override
-		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.doAcceptV1(a1, a3, a2);
+		default void doAcceptX(T1 a1, T2 a2, byte a3) {
+			this.doAcceptObjByteObj1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V2<T2, T1> extends LBiObjByteConsumer<T1, T2> {
+	interface LObj1Obj0ByteCons<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void doAcceptV2(T2 a2, T1 a1, byte a3);
+		void doAcceptObj1Obj0Byte(T2 a2, T1 a1, byte a3);
 
 		@Override
-		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.doAcceptV2(a2, a1, a3);
+		default void doAcceptX(T1 a1, T2 a2, byte a3) {
+			this.doAcceptObj1Obj0Byte(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V3<T2, T1> extends LBiObjByteConsumer<T1, T2> {
+	interface LObj1ByteObj0Cons<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void doAcceptV3(T2 a2, byte a3, T1 a1);
+		void doAcceptObj1ByteObj0(T2 a2, byte a3, T1 a1);
 
 		@Override
-		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.doAcceptV3(a2, a3, a1);
+		default void doAcceptX(T1 a1, T2 a2, byte a3) {
+			this.doAcceptObj1ByteObj0(a2, a3, a1);
 		}
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V4<T1, T2> extends LBiObjByteConsumer<T1, T2> {
+	interface LByteObj0Obj1Cons<T1, T2> extends LBiObjByteConsumer<T1, T2> {
 
-		void doAcceptV4(byte a3, T1 a1, T2 a2);
+		void doAcceptByteObj0Obj1(byte a3, T1 a1, T2 a2);
 
 		@Override
-		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.doAcceptV4(a3, a1, a2);
+		default void doAcceptX(T1 a1, T2 a2, byte a3) {
+			this.doAcceptByteObj0Obj1(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
-	interface V5<T2, T1> extends LBiObjByteConsumer<T1, T2> {
+	interface LByteObjObj0Cons<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void doAcceptV5(byte a3, T2 a2, T1 a1);
+		void doAcceptByteObjObj0(byte a3, T2 a2, T1 a1);
 
 		@Override
-		default void doAccept(T1 a1, T2 a2, byte a3) {
-			this.doAcceptV5(a3, a2, a1);
+		default void doAcceptX(T1 a1, T2 a2, byte a3) {
+			this.doAcceptByteObjObj0(a3, a2, a1);
 		}
 	}
 
 	// </editor-fold>
+
+	/** Does nothing (LBiObjByteConsumer) */
+	public static <T1, T2> void doNothing(T1 a1, T2 a2, byte a3) {
+		// NOSONAR
+	}
+
+	/** Does nothing (LBiObjByteConsumer.LObjByteObj1Cons) */
+	public static <T1, T2> void doNothing(T1 a1, byte a3, T2 a2) {
+		// NOSONAR
+	}
+
+	/** Does nothing (LBiObjByteConsumer.LByteObj0Obj1Cons) */
+	public static <T1, T2> void doNothing(byte a3, T1 a1, T2 a2) {
+		// NOSONAR
+	}
+
+	// JUST_CONSUME: FOR, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=byte a3, type=IA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, C2, C3, T1, T2> int forEach(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aByte> ia3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
+		size = Integer.min(size, ia2.size(source2));
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		size = Integer.min(size, ia3.size(source3));
+		LOiToByteFunction<Object> oiFunc3 = (LOiToByteFunction) ia3.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			T1 a1 = oiFunc1.doApply(source1, i);
+			T2 a2 = oiFunc2.doApply(source2, i);
+			byte a3 = oiFunc3.doApplyAsByte(source3, i);
+			consumer.doAccept(a1, a2, a3);
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=byte a3, type=IA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, I1, C2, C3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aByte> ia3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		int size = ia2.size(source2);
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		size = Integer.min(size, ia3.size(source3));
+		LOiToByteFunction<Object> oiFunc3 = (LOiToByteFunction) ia3.getter();
+		int i = 0;
+		while (testFunc1.doTest(iterator1) && i < size) {
+			T1 a1 = nextFunc1.doApply(iterator1);
+			T2 a2 = oiFunc2.doApply(source2, i);
+			byte a3 = oiFunc3.doApplyAsByte(source3, i);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=byte a3, type=IA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, C2, I2, C3, T1, T2> int iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aByte> ia3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		size = Integer.min(size, ia3.size(source3));
+		LOiToByteFunction<Object> oiFunc3 = (LOiToByteFunction) ia3.getter();
+		int i = 0;
+		while (i < size && testFunc2.doTest(iterator2)) {
+			T1 a1 = oiFunc1.doApply(source1, i);
+			T2 a2 = nextFunc2.doApply(iterator2);
+			byte a3 = oiFunc3.doApplyAsByte(source3, i);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=byte a3, type=IA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, I1, C2, I2, C3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aByte> ia3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		int size = ia3.size(source3);
+		LOiToByteFunction<Object> oiFunc3 = (LOiToByteFunction) ia3.getter();
+		int i = 0;
+		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && i < size) {
+			T1 a1 = nextFunc1.doApply(iterator1);
+			T2 a2 = nextFunc2.doApply(iterator2);
+			byte a3 = oiFunc3.doApplyAsByte(source3, i);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=byte a3, type=SA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, C2, C3, I3, T1, T2> int iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aByte> sa3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
+		size = Integer.min(size, ia2.size(source2));
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
+		LToByteFunction<Object> nextFunc3 = (LToByteFunction) sa3.getter();
+		int i = 0;
+		while (i < size && testFunc3.doTest(iterator3)) {
+			T1 a1 = oiFunc1.doApply(source1, i);
+			T2 a2 = oiFunc2.doApply(source2, i);
+			byte a3 = nextFunc3.doApplyAsByte(iterator3);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=byte a3, type=SA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, I1, C2, C3, I3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aByte> sa3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		int size = ia2.size(source2);
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
+		LToByteFunction<Object> nextFunc3 = (LToByteFunction) sa3.getter();
+		int i = 0;
+		while (testFunc1.doTest(iterator1) && i < size && testFunc3.doTest(iterator3)) {
+			T1 a1 = nextFunc1.doApply(iterator1);
+			T2 a2 = oiFunc2.doApply(source2, i);
+			byte a3 = nextFunc3.doApplyAsByte(iterator3);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=byte a3, type=SA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, C2, I2, C3, I3, T1, T2> int iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aByte> sa3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		int size = ia1.size(source1);
+		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
+		LToByteFunction<Object> nextFunc3 = (LToByteFunction) sa3.getter();
+		int i = 0;
+		while (i < size && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
+			T1 a1 = oiFunc1.doApply(source1, i);
+			T2 a2 = nextFunc2.doApply(iterator2);
+			byte a3 = nextFunc3.doApplyAsByte(iterator3);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return i;
+
+	}
+
+	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=byte a3, type=SA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <C1, I1, C2, I2, C3, I3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aByte> sa3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
+		LToByteFunction<Object> nextFunc3 = (LToByteFunction) sa3.getter();
+		int i = 0;
+		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
+			T1 a1 = nextFunc1.doApply(iterator1);
+			T2 a2 = nextFunc2.doApply(iterator2);
+			byte a3 = nextFunc3.doApplyAsByte(iterator3);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return i;
+
+	}
+
+	// CONSUME_WITH_TARGET: FOR, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=byte a3, type=IA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <T1, C2, C3, T2> T1 targetedForEach(T1 a1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aByte> ia3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		int size = ia2.size(source2);
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		size = Integer.min(size, ia3.size(source3));
+		LOiToByteFunction<Object> oiFunc3 = (LOiToByteFunction) ia3.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			T2 a2 = oiFunc2.doApply(source2, i);
+			byte a3 = oiFunc3.doApplyAsByte(source3, i);
+			consumer.doAccept(a1, a2, a3);
+		}
+		return a1;
+
+	}
+
+	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=byte a3, type=IA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <T1, C2, I2, C3, T2> T1 targetedIterate(T1 a1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aByte> ia3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		int size = ia3.size(source3);
+		LOiToByteFunction<Object> oiFunc3 = (LOiToByteFunction) ia3.getter();
+		int i = 0;
+		while (testFunc2.doTest(iterator2) && i < size) {
+			T2 a2 = nextFunc2.doApply(iterator2);
+			byte a3 = oiFunc3.doApplyAsByte(source3, i);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return a1;
+
+	}
+
+	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=byte a3, type=SA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <T1, C2, C3, I3, T2> T1 targetedIterate(T1 a1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aByte> sa3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		int size = ia2.size(source2);
+		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
+		LToByteFunction<Object> nextFunc3 = (LToByteFunction) sa3.getter();
+		int i = 0;
+		while (i < size && testFunc3.doTest(iterator3)) {
+			T2 a2 = oiFunc2.doApply(source2, i);
+			byte a3 = nextFunc3.doApplyAsByte(iterator3);
+			consumer.doAccept(a1, a2, a3);
+			i++;
+		}
+		return a1;
+
+	}
+
+	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=byte a3, type=SA},
+	// SourcePurpose{arg=LBiObjByteConsumer<? super T1,? super T2> consumer, type=CONST}]
+	public static <T1, C2, I2, C3, I3, T2> T1 targetedIterate(T1 a1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aByte> sa3, C3 source3, LBiObjByteConsumer<? super T1, ? super T2> consumer) {
+		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
+		LToByteFunction<Object> nextFunc3 = (LToByteFunction) sa3.getter();
+		while (testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
+			T2 a2 = nextFunc2.doApply(iterator2);
+			byte a3 = nextFunc3.doApplyAsByte(iterator3);
+			consumer.doAccept(a1, a2, a3);
+		}
+		return a1;
+
+	}
 
 }

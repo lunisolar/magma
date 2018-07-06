@@ -49,10 +49,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for DoubleToLongFunction. */
-public interface JreDoubleToLongFunctionAssert<S extends JreDoubleToLongFunctionAssert<S, A, RS>, A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDoubleConsumer, A, RS, Long> {
+public interface JreDoubleToLongFunctionAssert<S extends JreDoubleToLongFunctionAssert<S, A, RS>, A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Long> {
 
 	@Nonnull
-	Evaluation<S, LDoubleConsumer, A, RS, Long> doesApplyAsLong(double a);
+	public static <A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> JreDoubleToLongFunctionAssert.The<A, RS> assertDblToLongFunc(DoubleToLongFunction func) {
+		return new JreDoubleToLongFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LDblConsumer, A, RS, Long> doesApplyAsLong(double a);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -63,7 +68,7 @@ public interface JreDoubleToLongFunctionAssert<S extends JreDoubleToLongFunction
 	}
 
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
-	class Base<S extends Base<S, A, RS>, A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> extends FullFunctionalAssert.Base<S, LDoubleConsumer, A, RS, Long> implements JreDoubleToLongFunctionAssert<S, A, RS> {
+	class Base<S extends Base<S, A, RS>, A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> extends FullFunctionalAssert.Base<S, LDblConsumer, A, RS, Long> implements JreDoubleToLongFunctionAssert<S, A, RS> {
 
 		protected final LLongFunction<RS> assertFactory;
 
@@ -73,7 +78,7 @@ public interface JreDoubleToLongFunctionAssert<S extends JreDoubleToLongFunction
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleConsumer, A, RS, Long> doesApplyAsLong(double a) {
+		public Evaluation<S, LDblConsumer, A, RS, Long> doesApplyAsLong(double a) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

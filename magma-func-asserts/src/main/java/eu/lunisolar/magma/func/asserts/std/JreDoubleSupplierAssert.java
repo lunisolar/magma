@@ -52,12 +52,17 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreDoubleSupplierAssert<S extends JreDoubleSupplierAssert<S, A, RS>, A extends DoubleSupplier, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LAction, A, RS, Double> {
 
 	@Nonnull
-	Evaluation<S, LAction, A, RS, Double> doesGetAsDouble();
+	public static <A extends DoubleSupplier, RS extends AbstractDoubleAssert<RS>> JreDoubleSupplierAssert.The<A, RS> assertDblSup(DoubleSupplier func) {
+		return new JreDoubleSupplierAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	Evaluation<S, LAction, A, RS, Double> doesGetAsDbl();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	final class The<A extends DoubleSupplier, RS extends AbstractDoubleAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public The(A actual, LDoubleFunction<RS> assertFactory) {
+		public The(A actual, LDblFunction<RS> assertFactory) {
 			super(actual, The.class, assertFactory);
 		}
 	}
@@ -65,15 +70,15 @@ public interface JreDoubleSupplierAssert<S extends JreDoubleSupplierAssert<S, A,
 	/** Base implementation. For potential extending (requires to define all generic parameters). */
 	class Base<S extends Base<S, A, RS>, A extends DoubleSupplier, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LAction, A, RS, Double> implements JreDoubleSupplierAssert<S, A, RS> {
 
-		protected final LDoubleFunction<RS> assertFactory;
+		protected final LDblFunction<RS> assertFactory;
 
-		public Base(A actual, Class<?> selfType, LDoubleFunction<RS> assertFactory) {
+		public Base(A actual, Class<?> selfType, LDblFunction<RS> assertFactory) {
 			super(actual, selfType);
 			this.assertFactory = assertFactory;
 		}
 
 		@Nonnull
-		public Evaluation<S, LAction, A, RS, Double> doesGetAsDouble() {
+		public Evaluation<S, LAction, A, RS, Double> doesGetAsDbl() {
 
 			return evaluation(pc -> {
 				if (pc != null) {
@@ -86,7 +91,7 @@ public interface JreDoubleSupplierAssert<S extends JreDoubleSupplierAssert<S, A,
 
 		@Nonnull
 		public S doesReturn(double value) {
-			doesGetAsDouble().asEqualTo(value);
+			doesGetAsDbl().asEqualTo(value);
 			return self();
 		}
 

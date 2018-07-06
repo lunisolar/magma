@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.std.IntToLongFunctionBuilder.intToLongFunction;
 import static eu.lunisolar.magma.func.build.std.IntToLongFunctionBuilder.intToLongFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
@@ -128,7 +127,7 @@ public class IntToLongFunctionBuilderTest{
         );
 
 
-        A.assertThat(function)
+        A.assertIntToLongFunc(function)
             .doesApplyAsLong(0).when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong(5).when(null).to(a -> a.isEqualTo(1L))
             .doesApplyAsLong(15).when(null).to(a -> a.isEqualTo(2L))

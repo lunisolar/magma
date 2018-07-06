@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for LIntUnaryOperator. */
+/**
+ * Builder for LIntUnaryOperator.
+ */
 public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<LIntUnaryOperatorBuilder, LIntPredicate, LIntUnaryOperator> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntUnaryOperator EVENTUALLY_THROW = LIntUnaryOperator.l(a -> {
+	public static final LIntUnaryOperator EVENTUALLY_THROW = LIntUnaryOperator.intUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -108,7 +110,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		LIntUnaryOperator retval;
 
 		final Case<LIntPredicate, LIntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntUnaryOperator.l(a -> {
+		retval = LIntUnaryOperator.intUnaryOp(a -> {
 			try {
 				for (Case<LIntPredicate, LIntUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a)) {

@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,28 +63,129 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: byte
  *
- * @see LBoolToByteFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LBoolToByteFunction: byte doApplyAsByte(boolean a)";
 
-	byte doApplyAsByte(boolean a);
+	// byte doApplyAsByte(boolean a) ;
+	default byte doApplyAsByte(boolean a) {
+		// return nestingDoApplyAsByte(a);
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doApplyAsByte(boolean a)
+	 */
+	byte doApplyAsByteX(boolean a) throws Throwable;
 
 	default byte tupleApplyAsByte(LBoolSingle args) {
 		return doApplyAsByte(args.value());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default byte nestingDoApplyAsByte(boolean a) {
-		return this.doApplyAsByte(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default byte handlingDoApplyAsByte(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default byte tryDoApplyAsByte(boolean a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default byte tryDoApplyAsByte(boolean a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default byte tryDoApplyAsByteThen(boolean a, @Nonnull LToByteFunction<Throwable> handler) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsByte(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default byte nestingDoApplyAsByte(boolean a) {
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(boolean a) {
-		return this.doApplyAsByte(a);
+		try {
+			return this.doApplyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static byte handlingDoApplyAsByte(boolean a, LBoolToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoApplyAsByte(a, handling);
+	}
+
+	static byte tryDoApplyAsByte(boolean a, LBoolToByteFunction func) {
+		return tryDoApplyAsByte(a, func, null);
+	}
+
+	static byte tryDoApplyAsByte(boolean a, LBoolToByteFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsByte(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static byte tryDoApplyAsByte(boolean a, LBoolToByteFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsByte(a, exceptionFactory);
+	}
+
+	static byte tryDoApplyAsByteThen(boolean a, LBoolToByteFunction func, @Nonnull LToByteFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsByteThen(a, handler);
+	}
+
+	default byte failSafeDoApplyAsByte(boolean a, @Nonnull LBoolToByteFunction failSafe) {
+		try {
+			return doApplyAsByte(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doApplyAsByte(a);
+		}
+	}
+
+	static byte failSafeDoApplyAsByte(boolean a, LBoolToByteFunction func, @Nonnull LBoolToByteFunction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doApplyAsByte(a);
+		} else {
+			return func.failSafeDoApplyAsByte(a, failSafe);
+		}
+	}
+
+	static LBoolToByteFunction failSafeBoolToByteFunc(LBoolToByteFunction func, @Nonnull LBoolToByteFunction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoApplyAsByte(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -91,6 +197,39 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBoolToByteFunction.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, boolean a, LBoolToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doApplyAsByte(a);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doApplyAsByte(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, boolean a, LBoolToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doApplyAsByte(a);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doApplyAsByte(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, boolean a, LBoolToByteFunction func) {
+		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -105,9 +244,47 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LBoolToByteFunction l(final @Nonnull LBoolToByteFunction lambda) {
+	static LBoolToByteFunction boolToByteFunc(final @Nonnull LBoolToByteFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LBoolToByteFunction recursive(final @Nonnull LFunction<LBoolToByteFunction, LBoolToByteFunction> selfLambda) {
+		final LBoolToByteFunctionSingle single = new LBoolToByteFunctionSingle();
+		LBoolToByteFunction func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LBoolToByteFunctionSingle implements LSingle<LBoolToByteFunction>, LBoolToByteFunction {
+		private LBoolToByteFunction target = null;
+
+		@Override
+		public byte doApplyAsByteX(boolean a) throws Throwable {
+			return target.doApplyAsByteX(a);
+		}
+
+		@Override
+		public LBoolToByteFunction value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LBoolToByteFunction boolToByteFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LBoolToByteFunction boolToByteFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static byte call(boolean a, final @Nonnull LBoolToByteFunction lambda) {
@@ -117,20 +294,14 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LBoolToByteFunction wrap(final @Nonnull LBoolToByteFunctionX<X> other) {
-		return other::nestingDoApplyAsByte;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceByte). */
+	/** Safe instance. That always returns the same value (as produceByte). */
 	@Nonnull
 	static LBoolToByteFunction safe() {
-		return Function4U::produceByte;
+		return LBoolToByteFunction::produceByte;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -170,11 +341,19 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 		return v -> this.doApplyAsByte(before.doApply(v));
 	}
 
+	public static LBoolToByteFunction composedBool(@Nonnull final LLogicalOperator before, LBoolToByteFunction after) {
+		return after.boolToByteFuncComposeBool(before);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToByteFunction<V> boolToByteFuncCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.doApplyAsByte(before.doTest(v));
+	}
+
+	public static <V> LToByteFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToByteFunction after) {
+		return after.boolToByteFuncCompose(before);
 	}
 
 	// </editor-fold>
@@ -197,9 +376,9 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
+	default LBoolToSrtFunction thenToSrt(@Nonnull LByteToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsShort(this.doApplyAsByte(a));
+		return a -> after.doApplyAsSrt(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -218,16 +397,16 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
+	default LBoolToFltFunction thenToFlt(@Nonnull LByteToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFloat(this.doApplyAsByte(a));
+		return a -> after.doApplyAsFlt(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
+	default LBoolToDblFunction thenToDbl(@Nonnull LByteToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDouble(this.doApplyAsByte(a));
+		return a -> after.doApplyAsDbl(this.doApplyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -254,22 +433,38 @@ public interface LBoolToByteFunction extends LBoolToByteFunctionX<RuntimeExcepti
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LBoolToByteFunctionX<RuntimeException> nestingBoolToByteFuncX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBoolToByteFunction shovingBoolToByteFunc() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBoolToByteFunctionX<RuntimeException> shovingBoolToByteFuncX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LBoolToByteFunction) Function */
+	public static byte produceByte(boolean a) {
+		return Function4U.defaultByte;
 	}
 
-	// </editor-fold>
+	// MAP: FOR, [SourcePurpose{arg=boolean a, type=IA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
+	default <C0> void forEach(IndexedRead<C0, aBool> ia, C0 source, LByteConsumer consumer) {
+		int size = ia.size(source);
+		LObjIntPredicate<Object> oiFunc0 = (LObjIntPredicate) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			boolean a = oiFunc0.doTest(source, i);
+			consumer.doAccept(this.doApplyAsByte(a));
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=boolean a, type=SA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
+	default <C0, I0> void iterate(SequentialRead<C0, I0, aBool> sa, C0 source, LByteConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LPredicate<Object> nextFunc0 = (LPredicate) sa.getter();
+		while (testFunc0.doTest(iterator0)) {
+			boolean a = nextFunc0.doTest(iterator0);
+			consumer.doAccept(this.doApplyAsByte(a));
+		}
+	}
 
 }

@@ -50,12 +50,12 @@ import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LObjCharFunctionTest<T,R,X extends ParseException> {
+public class LObjCharFunctionTest<T,R> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
@@ -65,39 +65,37 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
 
 
     private LObjCharFunction<Integer,Integer> sut = new LObjCharFunction<Integer,Integer>(){
-        public @Nullable Integer doApply(Integer a1,char a2)  {
+        public @Nullable Integer doApplyX(Integer a1,char a2)  {
             return testValue;
         }
     };
 
-    private LObjCharFunctionX<Integer,Integer,X> opposite = new LObjCharFunctionX<Integer,Integer,X>(){
-        public @Nullable Integer doApply(Integer a1,char a2)  throws X {
-            return testValue;
-        }
-    };
 
     private LObjCharFunction<Integer,Integer> sutNull = new LObjCharFunction<Integer,Integer>(){
-        public @Nullable Integer doApply(Integer a1,char a2)  {
+        public @Nullable Integer doApplyX(Integer a1,char a2)  {
             return null;
         }
     };
 
 
 
+    private LObjCharFunction<Integer,Integer> sutAlwaysThrowing = LObjCharFunction.objCharFunc((a1,a2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
 
-    private LObjCharFunctionX<Integer,Integer,RuntimeException> sutAlwaysThrowingUnchecked = LObjCharFunction.l((a1,a2) -> {
+    private LObjCharFunction<Integer,Integer> sutAlwaysThrowingUnchecked = LObjCharFunction.objCharFunc((a1,a2) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
     @Test
-    public void testTheResult() throws X {
+    public void testTheResult() throws Throwable {
         assertThat(sut.doApply(100,'\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testTupleCall() throws X {
+    public void testTupleCall() throws Throwable {
 
         LObjCharPair<Integer> domainObject = Tuple4U.objCharPair(100,'\u0100');
 
@@ -108,13 +106,13 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullDoApply() throws X {
+    public void testNonNullDoApply() throws Throwable {
         assertThat(sut.nonNullDoApply(100,'\u0100'))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws X {
+    public void testNestingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -129,7 +127,7 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws X {
+    public void testShovingDoApplyUnchecked() throws Throwable {
 
         // then
         try {
@@ -144,176 +142,32 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
     }
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjCharFunction: R doApply(T a1,char a2)).\\E")
-    public void testNonNullCapturesNull() throws X {
+    public void testNonNullCapturesNull() throws Throwable {
         sutNull.nonNullDoApply(100,'\u0100');
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws X {
+    public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LObjCharFunction: R doApply(T a1,char a2)");
     }
 
     @Test
-    public void testLMethod() throws X {
-        assertThat(LObjCharFunction.l((a1,a2) -> testValue ))
+    public void testObjCharFuncMethod() throws Throwable {
+        assertThat(LObjCharFunction.objCharFunc((a1,a2) -> testValue ))
             .isInstanceOf(LObjCharFunction.class);
     }
 
-    @Test
-    public void testWrapMethod() throws X {
-        assertThat(LObjCharFunction.wrap(opposite))
-            .isInstanceOf(LObjCharFunction.class);
-    }
-
-    @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
-        // given
-        LObjCharFunctionX<Integer,Integer,X> sutThrowing = LObjCharFunctionX.lX((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LObjCharFunction<Integer,Integer> wrapped = LObjCharFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
-
-    @Test
-    public void testWrapMethodWrapsCheckedException() throws X {
-        // given
-        LObjCharFunctionX<Integer,Integer,ParseException> sutThrowing = LObjCharFunctionX.lX((a1,a2) -> {
-            throw new ParseException(ORIGINAL_MESSAGE, 0);
-        });
-
-        // when
-        LObjCharFunction<Integer,Integer> wrapped = LObjCharFunction.wrap(sutThrowing);
-
-        // then
-        try {
-            wrapped.doApply(100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(NestedException.class)
-                    .hasCauseExactlyInstanceOf(ParseException.class)
-                    .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
-    @Test
-    public void testHandlingDoApplyMethodWrapsTheException() throws X {
-
-        // given
-        LObjCharFunction<Integer,Integer> sutThrowing = LObjCharFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LObjCharFunction<Integer,Integer> wrapped = sutThrowing.handleObjCharFunc(handler -> handler
-            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
-
-        // then
-        try {
-            wrapped.doApply(100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
-
-    @Test
-    public void testHandleObjCharFuncMethodDoNotWrapsOtherExceptionIf() throws X {
-
-        // given
-        LObjCharFunction<Integer,Integer> sutThrowing = LObjCharFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LObjCharFunction<Integer,Integer> wrapped = sutThrowing.handleObjCharFunc(handler -> handler
-                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-@Test
-    public void testHandleObjCharFuncMethodDoNotWrapsOtherExceptionWhen() throws X {
-
-        // given
-        LObjCharFunction<Integer,Integer> sutThrowing = LObjCharFunction.l((a1,a2) -> {
-            throw new IndexOutOfBoundsException();
-        });
-
-        // when
-        LObjCharFunction<Integer,Integer> wrapped = sutThrowing.handleObjCharFunc(handler -> handler
-                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
-                .throwIf(IndexOutOfBoundsException.class));
-
-        // then
-        try {
-            wrapped.doApply(100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause();
-        }
-    }
-
-
-    @Test
-    public void testHandleObjCharFuncMishandlingExceptionIsAllowed() throws X {
-
-        // given
-        LObjCharFunction<Integer,Integer> sutThrowing = LObjCharFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
-        });
-
-        // when
-        LObjCharFunction<Integer,Integer> wrapped = sutThrowing.handleObjCharFunc(h -> Function4U.doNothing());
-
-        // then
-        try {
-            wrapped.doApply(100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-             .isExactlyInstanceOf(UnsupportedOperationException.class)
-             .hasNoCause()
-             .hasMessage(ORIGINAL_MESSAGE);
-        }
-    }
 
 
 
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjCharFuncComposeChar() throws X {
+    public void testObjCharFuncComposeChar() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -348,7 +202,7 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testObjCharFuncCompose() throws X {
+    public void testObjCharFuncCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -388,7 +242,7 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws X  {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -423,7 +277,7 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws X  {
+    public void testThenConsume1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -443,10 +297,45 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
         };
 
         //when
-        LObjCharConsumer<Integer> function = sutO.then(thenFunction);
+        LObjCharConsumer<Integer> function = sutO.thenConsume(thenFunction);
         function.doAccept(80,'\u0081');
 
         //then - finals
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToBool2() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LObjCharFunction<Integer,Integer> sutO = (a1,a2) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo('\u0081');
+                return 90;
+        };
+
+        LPredicate<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // boolean
+                return true;
+        };
+
+        //when
+        LObjCharPredicate<Integer> function = sutO.thenToBool(thenFunction);
+        boolean finalValue = function.doTest(80,'\u0081');
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(true);
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
 
@@ -470,25 +359,12 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
             .isInstanceOf(LObjCharFunction.class);
     }
 
-    @Test
-    public void testNestingX() {
-        assertThat(sut.nestingObjCharFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LObjCharFunctionX.class);
-    }
-
-    @Test
-    public void testShovingX() {
-        assertThat(sut.shovingObjCharFuncX())
-            .isSameAs(sut)
-            .isInstanceOf(LObjCharFunctionX.class);
-    }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LObjCharFunction<Integer,Integer> sutThrowing = LObjCharFunction.l((a1,a2) -> {
+        LObjCharFunction<Integer,Integer> sutThrowing = LObjCharFunction.objCharFunc((a1,a2) -> {
             throw new UnsupportedOperationException();
         });
 
@@ -496,33 +372,9 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
         sutThrowing.shovingObjCharFunc().doApply(100,'\u0100');
     }
 
-    @Test
-    public void testHandleObjCharFunc() throws X {
-
-        // given
-        LObjCharFunction<Integer,Integer> sutThrowing = LObjCharFunction.l((a1,a2) -> {
-            throw new UnsupportedOperationException();
-        });
-
-        // when
-        LObjCharFunction<Integer,Integer> wrapped = sutThrowing.handleObjCharFunc(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
-
-        // then
-        try {
-            wrapped.doApply(100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage(EXCEPTION_WAS_WRAPPED);
-        }
-    }
 
     @Test
-    public void testToString() throws X {
+    public void testToString() throws Throwable {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)
@@ -542,15 +394,15 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantV1(char a2,Integer a1) {
+    private Integer variantLCharObjFunc(char a2,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantV1() {
-        LObjCharFunction lambda = LObjCharFunction./*<T,R>*/l1(this::variantV1);
+    public void compilerSubstituteVariantLCharObjFunc() {
+        LObjCharFunction lambda = LObjCharFunction./*<T,R>*/charObjFunc(this::variantLCharObjFunc);
 
-        assertThat(lambda).isInstanceOf(LObjCharFunction.V1.class);
+        assertThat(lambda).isInstanceOf(LObjCharFunction.LCharObjFunc.class);
     }
 
     //</editor-fold>
@@ -558,7 +410,6 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
 
     @Test void safeCompiles() {
         LObjCharFunction r1 = LObjCharFunction.safe(sut); //NOSONAR
-        LObjCharFunctionX r2 = LObjCharFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
@@ -568,7 +419,7 @@ public class LObjCharFunctionTest<T,R,X extends ParseException> {
 
     @Test void safeProtectsAgainstNpe() {
         Object result = LObjCharFunction.safe(null);
-        assertThat(result).isSameAs(LObjCharFunction.l(LObjCharFunction.safe()));
+        assertThat(result).isSameAs(LObjCharFunction.objCharFunc(LObjCharFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {

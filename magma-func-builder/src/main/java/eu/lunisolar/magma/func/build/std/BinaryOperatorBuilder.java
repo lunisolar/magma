@@ -47,7 +47,9 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/** Builder for BinaryOperator. */
+/**
+ * Builder for BinaryOperator.
+ */
 public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<BinaryOperatorBuilder<T>, LBiPredicate<T, T>, BinaryOperator<T>, T> {
 	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
@@ -55,7 +57,7 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final BinaryOperator EVENTUALLY_THROW = Function4U.binaryOperator((a1, a2) -> {
+	public static final BinaryOperator EVENTUALLY_THROW = Function4U.binaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
@@ -126,7 +128,7 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		BinaryOperator<T> retval;
 
 		final Case<LBiPredicate<T, T>, BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.<T> binaryOperator((a1, a2) -> {
+		retval = Function4U.<T> binaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T, T>, BinaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(a1, a2)) {

@@ -51,12 +51,11 @@ import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import java.util.function.*; //NOSONAR
 
-import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LByteToCharFunctionBuilder.byteToCharFunction;
 import static eu.lunisolar.magma.func.build.function.conversion.LByteToCharFunctionBuilder.byteToCharFunctionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LByteToCharFunctionBuilderTest<X extends ParseException>{
+public class LByteToCharFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
@@ -128,7 +127,7 @@ public class LByteToCharFunctionBuilderTest<X extends ParseException>{
         );
 
 
-        A.assertThat(function)
+        A.assertByteToCharFunc(function)
             .doesApplyAsChar((byte)0).when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar((byte)5).when(null).to(a -> a.isEqualTo('\u0001'))
             .doesApplyAsChar((byte)15).when(null).to(a -> a.isEqualTo('\u0002'))

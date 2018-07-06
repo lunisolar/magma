@@ -26,12 +26,17 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.struct.tuple.*; // NOSONAR
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -58,28 +63,129 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * Co-domain: char
  *
- * @see LBoolToCharFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	String DESCRIPTION = "LBoolToCharFunction: char doApplyAsChar(boolean a)";
 
-	char doApplyAsChar(boolean a);
+	// char doApplyAsChar(boolean a) ;
+	default char doApplyAsChar(boolean a) {
+		// return nestingDoApplyAsChar(a);
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/**
+	 * Implement this, but call doApplyAsChar(boolean a)
+	 */
+	char doApplyAsCharX(boolean a) throws Throwable;
 
 	default char tupleApplyAsChar(LBoolSingle args) {
 		return doApplyAsChar(args.value());
 	}
 
-	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoApplyAsChar(boolean a) {
-		return this.doApplyAsChar(a);
+	/** Function call that handles exceptions according to the instructions. */
+	default char handlingDoApplyAsChar(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
-	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
+	default char tryDoApplyAsChar(boolean a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+		}
+	}
+
+	default char tryDoApplyAsChar(boolean a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exceptionFactory);
+		}
+	}
+
+	default char tryDoApplyAsCharThen(boolean a, @Nonnull LToCharFunction<Throwable> handler) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return handler.doApplyAsChar(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
+	default char nestingDoApplyAsChar(boolean a) {
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(boolean a) {
-		return this.doApplyAsChar(a);
+		try {
+			return this.doApplyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.shoveIt(e);
+		}
+	}
+
+	static char handlingDoApplyAsChar(boolean a, LBoolToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+		Null.nonNullArg(func, "func");
+		return func.handlingDoApplyAsChar(a, handling);
+	}
+
+	static char tryDoApplyAsChar(boolean a, LBoolToCharFunction func) {
+		return tryDoApplyAsChar(a, func, null);
+	}
+
+	static char tryDoApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsChar(a, exceptionFactory, newMessage, messageParams);
+	}
+
+	static char tryDoApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsChar(a, exceptionFactory);
+	}
+
+	static char tryDoApplyAsCharThen(boolean a, LBoolToCharFunction func, @Nonnull LToCharFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.tryDoApplyAsCharThen(a, handler);
+	}
+
+	default char failSafeDoApplyAsChar(boolean a, @Nonnull LBoolToCharFunction failSafe) {
+		try {
+			return doApplyAsChar(a);
+		} catch (Throwable e) { // NOSONAR
+			Handling.handleErrors(e);
+			return failSafe.doApplyAsChar(a);
+		}
+	}
+
+	static char failSafeDoApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull LBoolToCharFunction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		if (func == null) {
+			return failSafe.doApplyAsChar(a);
+		} else {
+			return func.failSafeDoApplyAsChar(a, failSafe);
+		}
+	}
+
+	static LBoolToCharFunction failSafeBoolToCharFunc(LBoolToCharFunction func, @Nonnull LBoolToCharFunction failSafe) {
+		Null.nonNullArg(failSafe, "failSafe");
+		return a -> failSafeDoApplyAsChar(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -91,6 +197,39 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBoolToCharFunction.DESCRIPTION;
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTo(int min_i, int max_i, boolean a, LBoolToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i <= max_i; i++) {
+				func.doApplyAsChar(a);
+			}
+		} else {
+			for (int i = min_i; i >= max_i; i--) {
+				func.doApplyAsChar(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void fromTill(int min_i, int max_i, boolean a, LBoolToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		if (min_i <= min_i) {
+			for (int i = min_i; i < max_i; i++) {
+				func.doApplyAsChar(a);
+			}
+		} else {
+			for (int i = min_i; i > max_i; i--) {
+				func.doApplyAsChar(a);
+			}
+		}
+	}
+
+	/** From-To. Intended to be used with non-capturing lambda. */
+	public static void times(int max_i, boolean a, LBoolToCharFunction func) {
+		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -105,9 +244,47 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LBoolToCharFunction l(final @Nonnull LBoolToCharFunction lambda) {
+	static LBoolToCharFunction boolToCharFunc(final @Nonnull LBoolToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
+	}
+
+	@Nonnull
+	static LBoolToCharFunction recursive(final @Nonnull LFunction<LBoolToCharFunction, LBoolToCharFunction> selfLambda) {
+		final LBoolToCharFunctionSingle single = new LBoolToCharFunctionSingle();
+		LBoolToCharFunction func = selfLambda.doApply(single);
+		single.target = func;
+		return func;
+	}
+
+	final class LBoolToCharFunctionSingle implements LSingle<LBoolToCharFunction>, LBoolToCharFunction {
+		private LBoolToCharFunction target = null;
+
+		@Override
+		public char doApplyAsCharX(boolean a) throws Throwable {
+			return target.doApplyAsCharX(a);
+		}
+
+		@Override
+		public LBoolToCharFunction value() {
+			return target;
+		}
+	}
+
+	@Nonnull
+	static LBoolToCharFunction boolToCharFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce();
+		};
+	}
+
+	@Nonnull
+	static LBoolToCharFunction boolToCharFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
+		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+		return a -> {
+			throw exceptionFactory.produce(message);
+		};
 	}
 
 	static char call(boolean a, final @Nonnull LBoolToCharFunction lambda) {
@@ -117,20 +294,14 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing vs non-throwing) instance. */
-	@Nonnull
-	static <X extends Throwable> LBoolToCharFunction wrap(final @Nonnull LBoolToCharFunctionX<X> other) {
-		return other::nestingDoApplyAsChar;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as Function4U::produceChar). */
+	/** Safe instance. That always returns the same value (as produceChar). */
 	@Nonnull
 	static LBoolToCharFunction safe() {
-		return Function4U::produceChar;
+		return LBoolToCharFunction::produceChar;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -170,11 +341,19 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 		return v -> this.doApplyAsChar(before.doApply(v));
 	}
 
+	public static LBoolToCharFunction composedBool(@Nonnull final LLogicalOperator before, LBoolToCharFunction after) {
+		return after.boolToCharFuncComposeBool(before);
+	}
+
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToCharFunction<V> boolToCharFuncCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.doApplyAsChar(before.doTest(v));
+	}
+
+	public static <V> LToCharFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToCharFunction after) {
+		return after.boolToCharFuncCompose(before);
 	}
 
 	// </editor-fold>
@@ -197,9 +376,9 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolToShortFunction thenToShort(@Nonnull LCharToShortFunction after) {
+	default LBoolToSrtFunction thenToSrt(@Nonnull LCharToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsShort(this.doApplyAsChar(a));
+		return a -> after.doApplyAsSrt(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -218,16 +397,16 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolToFloatFunction thenToFloat(@Nonnull LCharToFloatFunction after) {
+	default LBoolToFltFunction thenToFlt(@Nonnull LCharToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFloat(this.doApplyAsChar(a));
+		return a -> after.doApplyAsFlt(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBoolToDoubleFunction thenToDouble(@Nonnull LCharToDoubleFunction after) {
+	default LBoolToDblFunction thenToDbl(@Nonnull LCharToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDouble(this.doApplyAsChar(a));
+		return a -> after.doApplyAsDbl(this.doApplyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
@@ -254,22 +433,38 @@ public interface LBoolToCharFunction extends LBoolToCharFunctionX<RuntimeExcepti
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException). */
-	@Nonnull
-	default LBoolToCharFunctionX<RuntimeException> nestingBoolToCharFuncX() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBoolToCharFunction shovingBoolToCharFunc() {
 		return this;
 	}
 
-	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBoolToCharFunctionX<RuntimeException> shovingBoolToCharFuncX() {
-		return this;
+	// </editor-fold>
+
+	/** Does nothing (LBoolToCharFunction) Function */
+	public static char produceChar(boolean a) {
+		return Function4U.defaultCharacter;
 	}
 
-	// </editor-fold>
+	// MAP: FOR, [SourcePurpose{arg=boolean a, type=IA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	default <C0> void forEach(IndexedRead<C0, aBool> ia, C0 source, LCharConsumer consumer) {
+		int size = ia.size(source);
+		LObjIntPredicate<Object> oiFunc0 = (LObjIntPredicate) ia.getter();
+		int i = 0;
+		for (; i < size; i++) {
+			boolean a = oiFunc0.doTest(source, i);
+			consumer.doAccept(this.doApplyAsChar(a));
+		}
+	}
+
+	// MAP: WHILE, [SourcePurpose{arg=boolean a, type=SA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	default <C0, I0> void iterate(SequentialRead<C0, I0, aBool> sa, C0 source, LCharConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
+		LPredicate<Object> nextFunc0 = (LPredicate) sa.getter();
+		while (testFunc0.doTest(iterator0)) {
+			boolean a = nextFunc0.doTest(iterator0);
+			consumer.doAccept(this.doApplyAsChar(a));
+		}
+	}
 
 }
