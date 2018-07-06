@@ -24,6 +24,7 @@ import eu.lunisolar.magma.basics.meta.functional.SequentialRead;
 import eu.lunisolar.magma.basics.meta.functional.SequentialWrite;
 import eu.lunisolar.magma.basics.meta.functional.type.OFunction;
 import eu.lunisolar.magma.basics.meta.functional.type.TeConsumer;
+import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 import eu.lunisolar.magma.func.predicate.LPredicate;

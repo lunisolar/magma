@@ -27,6 +27,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.TieConsumer;
 import eu.lunisolar.magma.basics.meta.functional.type.TieFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 
+import java.lang.reflect.*;
 import java.util.*;
 
 import static eu.lunisolar.magma.func.consumer.primitives.obj.LTieBoolConsumer.tieBoolCons;
