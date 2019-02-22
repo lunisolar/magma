@@ -65,7 +65,7 @@ public class LByteUnaryOperatorTest {
 
 
     private LByteUnaryOperator sut = new LByteUnaryOperator(){
-        public  byte doApplyAsByteX(byte a)  {
+        public  byte applyAsByteX(byte a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LByteUnaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsByte((byte)100))
+        assertThat(sut.applyAsByte((byte)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LByteUnaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsByte() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsByte((byte)100))
+    public void testNonNullApplyAsByte() throws Throwable {
+        assertThat(sut.nonNullApplyAsByte((byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsByteUnchecked() throws Throwable {
+    public void testNestingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsByte((byte)100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsByte((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LByteUnaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsByteUnchecked() throws Throwable {
+    public void testShovingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsByte((byte)100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsByte((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LByteUnaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteUnaryOperator: byte doApplyAsByte(byte a)");
+            .isEqualTo("LByteUnaryOperator: byte applyAsByte(byte a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LByteUnaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteUnaryOpComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LByteUnaryOperatorTest {
         };
 
         //when
-        LByteUnaryOperator function = sutO.byteUnaryOpComposeByte(before);
-        function.doApplyAsByte((byte)80);
+        LByteUnaryOperator function = sutO.compose(before);
+        function.applyAsByte((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LToByteFunction<Integer> function = sutO.byteUnaryOpCompose(before);
-        function.doApplyAsByte(80);
+        function.applyAsByte(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((byte)80);
+        Integer finalValue = function.apply((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteUnaryOperator function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((byte)80);
+        byte finalValue = function.applyAsByte((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((byte)80);
+        short finalValue = function.applyAsSrt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((byte)80);
+        int finalValue = function.applyAsInt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((byte)80);
+        long finalValue = function.applyAsLong((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt((byte)80);
+        float finalValue = function.applyAsFlt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl((byte)80);
+        double finalValue = function.applyAsDbl((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LByteToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((byte)80);
+        char finalValue = function.applyAsChar((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LByteUnaryOperatorTest {
 
         //when
         LBytePredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((byte)80);
+        boolean finalValue = function.test((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -529,23 +529,9 @@ public class LByteUnaryOperatorTest {
     public void identity() throws Throwable {
         LByteUnaryOperator identityFunction = LByteUnaryOperator.identity();
 
-        assertThat(identityFunction.doApplyAsByte((byte)8)).isEqualTo((byte)8);
+        assertThat(identityFunction.applyAsByte((byte)8)).isEqualTo((byte)8);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingByteUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LByteUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingByteUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LByteUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -557,7 +543,7 @@ public class LByteUnaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingByteUnaryOp().doApplyAsByte((byte)100);
+        sutThrowing.shovingApplyAsByte((byte)100);
     }
 
 
@@ -570,7 +556,7 @@ public class LByteUnaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteUnaryOperator: byte doApplyAsByte(byte a)");
+                .contains("LByteUnaryOperator: byte applyAsByte(byte a)");
     }
 
 

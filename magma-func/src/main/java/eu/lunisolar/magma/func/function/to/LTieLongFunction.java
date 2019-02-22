@@ -68,131 +68,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThrowing, TieFunction<T, aLong> { // NOSONAR
+public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThrowing, TieFunction<T, aLong>, Codomain<aInt>, Domain3<a<T>, aInt, aLong> { // NOSONAR
 
-	String DESCRIPTION = "LTieLongFunction: int doApplyAsInt(T a1,int a2,long a3)";
+	String DESCRIPTION = "LTieLongFunction: int applyAsInt(T a1,int a2,long a3)";
 
-	// int doApplyAsInt(T a1,int a2,long a3) ;
-	default int doApplyAsInt(T a1, int a2, long a3) {
-		// return nestingDoApplyAsInt(a1,a2,a3);
+	// int applyAsInt(T a1,int a2,long a3) ;
+	default int applyAsInt(T a1, int a2, long a3) {
+		// return nestingApplyAsInt(a1,a2,a3);
 		try {
-			return this.doApplyAsIntX(a1, a2, a3);
+			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsInt(T a1,int a2,long a3)
+	 * Implement this, but call applyAsInt(T a1,int a2,long a3)
 	 */
-	int doApplyAsIntX(T a1, int a2, long a3) throws Throwable;
+	int applyAsIntX(T a1, int a2, long a3) throws Throwable;
 
 	default int tupleApplyAsInt(LObjIntLongTriple<T> args) {
-		return doApplyAsInt(args.first(), args.second(), args.third());
+		return applyAsInt(args.first(), args.second(), args.third());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default int handlingDoApplyAsInt(T a1, int a2, long a3, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default int handlingApplyAsInt(T a1, int a2, long a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsIntX(a1, a2, a3);
+			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default int tryDoApplyAsInt(T a1, int a2, long a3, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LTieLongFunction<T> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2, a3) -> handlingApplyAsInt(a1, a2, a3, handling);
+	}
+
+	default int applyAsInt(T a1, int a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsIntX(a1, a2, a3);
+			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default int tryDoApplyAsInt(T a1, int a2, long a3, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LTieLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2, a3) -> applyAsInt(a1, a2, a3, exF, newMessage, messageParams);
+	}
+
+	default int applyAsInt(T a1, int a2, long a3, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsIntX(a1, a2, a3);
+			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default int tryDoApplyAsIntThen(T a1, int a2, long a3, @Nonnull LToIntFunction<Throwable> handler) {
+	default LTieLongFunction<T> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2, a3) -> applyAsInt(a1, a2, a3, exF);
+	}
+
+	default int applyAsIntThen(T a1, int a2, long a3, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsIntX(a1, a2, a3);
+			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsInt(e);
+			return handler.applyAsInt(e);
 		}
+	}
+
+	default LTieLongFunction<T> tryingThen(@Nonnull LToIntFunction<Throwable> handler) {
+		return (a1, a2, a3) -> applyAsIntThen(a1, a2, a3, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(T a1, int a2, long a3) {
+	default int nestingApplyAsInt(T a1, int a2, long a3) {
 		try {
-			return this.doApplyAsIntX(a1, a2, a3);
+			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(T a1, int a2, long a3) {
+	default int shovingApplyAsInt(T a1, int a2, long a3) {
 		try {
-			return this.doApplyAsIntX(a1, a2, a3);
+			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <T> int handlingDoApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> int handlingApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsInt(a1, a2, a3, handling);
+		return func.handlingApplyAsInt(a1, a2, a3, handling);
 	}
 
-	static <T> int tryDoApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func) {
-		return tryDoApplyAsInt(a1, a2, a3, func, null);
-	}
-
-	static <T> int tryDoApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> int tryApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a1, a2, a3, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsInt(a1, a2, a3);
 	}
 
-	static <T> int tryDoApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <T> int tryApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a1, a2, a3, exceptionFactory);
+		return func.applyAsInt(a1, a2, a3, exF, newMessage, messageParams);
 	}
 
-	static <T> int tryDoApplyAsIntThen(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull LToIntFunction<Throwable> handler) {
+	static <T> int tryApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsIntThen(a1, a2, a3, handler);
+		return func.applyAsInt(a1, a2, a3, exF);
 	}
 
-	default int failSafeDoApplyAsInt(T a1, int a2, long a3, @Nonnull LTieLongFunction<T> failSafe) {
+	static <T> int tryApplyAsIntThen(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsIntThen(a1, a2, a3, handler);
+	}
+
+	default int failSafeApplyAsInt(T a1, int a2, long a3, @Nonnull LTieLongFunction<T> failSafe) {
 		try {
-			return doApplyAsInt(a1, a2, a3);
+			return applyAsInt(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsInt(a1, a2, a3);
+			return failSafe.applyAsInt(a1, a2, a3);
 		}
 	}
 
-	static <T> int failSafeDoApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull LTieLongFunction<T> failSafe) {
+	static <T> int failSafeApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, @Nonnull LTieLongFunction<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsInt(a1, a2, a3);
+			return failSafe.applyAsInt(a1, a2, a3);
 		} else {
-			return func.failSafeDoApplyAsInt(a1, a2, a3, failSafe);
+			return func.failSafeApplyAsInt(a1, a2, a3, failSafe);
 		}
 	}
 
-	static <T> LTieLongFunction<T> failSafeTieLongFunc(LTieLongFunction<T> func, @Nonnull LTieLongFunction<T> failSafe) {
+	static <T> LTieLongFunction<T> failSafe(LTieLongFunction<T> func, @Nonnull LTieLongFunction<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeDoApplyAsInt(a1, a2, a3, func, failSafe);
+		return (a1, a2, a3) -> failSafeApplyAsInt(a1, a2, a3, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(T a1, int a2, long a3) {
-		return doApplyAsInt(a1, a2, a3);
+	default int nonNullApplyAsInt(T a1, int a2, long a3) {
+		return applyAsInt(a1, a2, a3);
 	}
 
 	/** Returns description of the functional interface. */
@@ -204,13 +221,13 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, long a3, LTieLongFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsInt(a1, a2, a3);
+				func.applyAsInt(a1, a2, a3);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsInt(a1, a2, a3);
+				func.applyAsInt(a1, a2, a3);
 			}
 		}
 	}
@@ -218,30 +235,47 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, long a3, LTieLongFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsInt(a1, a2, a3);
+				func.applyAsInt(a1, a2, a3);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsInt(a1, a2, a3);
+				func.applyAsInt(a1, a2, a3);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void times(int max_i, T a1, int a2, long a3, LTieLongFunction<T> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/**  */
-	public static <T> LTieLongFunction<T> uncurryTieLongFunc(LFunction<T, LIntFunction<LLongToIntFunction>> func) {
-		return (T a1, int a2, long a3) -> func.doApply(a1).doApply(a2).doApplyAsInt(a3);
+	public static <T> LTieLongFunction<T> uncurry(LFunction<T, LIntFunction<LLongToIntFunction>> func) {
+		return (T a1, int a2, long a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
+	}
+
+	/** Cast that removes generics. */
+	public default LTieLongFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LTieLongFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, T> LTieLongFunction<V2> cast(LTieLongFunction<T> function) {
+		return (LTieLongFunction) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureTieLongFunc(T a1, int a2, long a3) {
-		return () -> this.doApplyAsInt(a1, a2, a3);
+	default LIntSupplier capture(T a1, int a2, long a3) {
+		return () -> this.applyAsInt(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,19 +286,19 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T> LTieLongFunction<T> apply1stAsInt(@Nonnull LToIntFunction<T> func) {
-		return (a1, a2, a3) -> func.doApplyAsInt(a1);
+		return (a1, a2, a3) -> func.applyAsInt(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T> LTieLongFunction<T> apply2ndAsInt(@Nonnull LIntUnaryOperator func) {
-		return (a1, a2, a3) -> func.doApplyAsInt(a2);
+		return (a1, a2, a3) -> func.applyAsInt(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T> LTieLongFunction<T> apply3rdAsInt(@Nonnull LLongToIntFunction func) {
-		return (a1, a2, a3) -> func.doApplyAsInt(a3);
+		return (a1, a2, a3) -> func.applyAsInt(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -277,7 +311,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	static <T> LTieLongFunction<T> recursive(final @Nonnull LFunction<LTieLongFunction<T>, LTieLongFunction<T>> selfLambda) {
 		final LTieLongFunctionSingle<T> single = new LTieLongFunctionSingle();
-		LTieLongFunction<T> func = selfLambda.doApply(single);
+		LTieLongFunction<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -286,8 +320,8 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		private LTieLongFunction<T> target = null;
 
 		@Override
-		public int doApplyAsIntX(T a1, int a2, long a3) throws Throwable {
-			return target.doApplyAsIntX(a1, a2, a3);
+		public int applyAsIntX(T a1, int a2, long a3) throws Throwable {
+			return target.applyAsIntX(a1, a2, a3);
 		}
 
 		@Override
@@ -297,18 +331,18 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	@Nonnull
-	static <T> LTieLongFunction<T> tieLongFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LTieLongFunction<T> tieLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <T> LTieLongFunction<T> tieLongFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LTieLongFunction<T> tieLongFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -353,7 +387,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	static <T> int call(T a1, int a2, long a3, final @Nonnull LTieLongFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a1, a2, a3);
+		return lambda.applyAsInt(a1, a2, a3);
 	}
 
 	// <editor-fold desc="wrap">
@@ -400,15 +434,15 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LTieLongFunction<V1> tieLongFuncComposeIntLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LLongUnaryOperator before3) {
+	default <V1> LTieLongFunction<V1> compose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LLongUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2), before3.doApplyAsLong(v3));
+		return (v1, v2, v3) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsLong(v3));
 	}
 
-	public static <V1, T> LTieLongFunction<V1> composedIntLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LLongUnaryOperator before3, LTieLongFunction<T> after) {
-		return after.tieLongFuncComposeIntLong(before1, before2, before3);
+	public static <V1, T> LTieLongFunction<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LLongUnaryOperator before3, LTieLongFunction<T> after) {
+		return after.compose(before1, before2, before3);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -417,7 +451,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2), before3.doApplyAsLong(v3));
+		return (v1, v2, v3) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsLong(v3));
 	}
 
 	public static <V1, V2, V3, T> LToIntTriFunction<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3,
@@ -433,37 +467,26 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	default <V> LObjIntLongFunction<T, V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doApply(this.doApplyAsInt(a1, a2, a3));
+		return (a1, a2, a3) -> after.apply(this.applyAsInt(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTieLongFunction<T> thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doApplyAsInt(this.doApplyAsInt(a1, a2, a3));
+		return (a1, a2, a3) -> after.applyAsInt(this.applyAsInt(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjIntLongPredicate<T> thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doTest(this.doApplyAsInt(a1, a2, a3));
+		return (a1, a2, a3) -> after.test(this.applyAsInt(a1, a2, a3));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LTieLongFunction<T> nestingTieLongFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTieLongFunction<T> shovingTieLongFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -473,11 +496,11 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjLongIntToIntFunc<T> extends LTieLongFunction<T> {
 
-		int doApplyAsIntObjLongInt(T a1, long a3, int a2);
+		int applyAsIntObjLongInt(T a1, long a3, int a2);
 
 		@Override
-		default int doApplyAsIntX(T a1, int a2, long a3) {
-			return this.doApplyAsIntObjLongInt(a1, a3, a2);
+		default int applyAsIntX(T a1, int a2, long a3) {
+			return this.applyAsIntObjLongInt(a1, a3, a2);
 		}
 	}
 
@@ -485,11 +508,11 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LIntObjLongToIntFunc<T> extends LTieLongFunction<T> {
 
-		int doApplyAsIntIntObjLong(int a2, T a1, long a3);
+		int applyAsIntIntObjLong(int a2, T a1, long a3);
 
 		@Override
-		default int doApplyAsIntX(T a1, int a2, long a3) {
-			return this.doApplyAsIntIntObjLong(a2, a1, a3);
+		default int applyAsIntX(T a1, int a2, long a3) {
+			return this.applyAsIntIntObjLong(a2, a1, a3);
 		}
 	}
 
@@ -497,11 +520,11 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LIntLongObjToIntFunc<T> extends LTieLongFunction<T> {
 
-		int doApplyAsIntIntLongObj(int a2, long a3, T a1);
+		int applyAsIntIntLongObj(int a2, long a3, T a1);
 
 		@Override
-		default int doApplyAsIntX(T a1, int a2, long a3) {
-			return this.doApplyAsIntIntLongObj(a2, a3, a1);
+		default int applyAsIntX(T a1, int a2, long a3) {
+			return this.applyAsIntIntLongObj(a2, a3, a1);
 		}
 	}
 
@@ -509,11 +532,11 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LLongObjIntToIntFunc<T> extends LTieLongFunction<T> {
 
-		int doApplyAsIntLongObjInt(long a3, T a1, int a2);
+		int applyAsIntLongObjInt(long a3, T a1, int a2);
 
 		@Override
-		default int doApplyAsIntX(T a1, int a2, long a3) {
-			return this.doApplyAsIntLongObjInt(a3, a1, a2);
+		default int applyAsIntX(T a1, int a2, long a3) {
+			return this.applyAsIntLongObjInt(a3, a1, a2);
 		}
 	}
 
@@ -521,11 +544,11 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LLongIntObjToIntFunc<T> extends LTieLongFunction<T> {
 
-		int doApplyAsIntLongIntObj(long a3, int a2, T a1);
+		int applyAsIntLongIntObj(long a3, int a2, T a1);
 
 		@Override
-		default int doApplyAsIntX(T a1, int a2, long a3) {
-			return this.doApplyAsIntLongIntObj(a3, a2, a1);
+		default int applyAsIntX(T a1, int a2, long a3) {
+			return this.applyAsIntLongIntObj(a3, a2, a1);
 		}
 	}
 
@@ -561,15 +584,13 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return Function4U.defaultInteger;
 	}
 
-	// TIE_CONSUMER_GEN: FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int sEnd, type=CONST}, SourcePurpose{arg=int tStart, type=CONST},
-	// SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=TIE_SOURCE}, SourcePurpose{arg=long a3, type=TIE_GEN_SUPPLIER}]
+	/** ***ITERATION:    TIE_CONSUMER_GEN:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int sEnd, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=TIE_SOURCE}, SourcePurpose{arg=long a3, type=TIE_GEN_SUPPLIER}] */
 	default <SRC> int genericTieForEach(int sStart, int sEnd, int tStart, T trg1, SRC src3, OiFunction<SRC, aLong> srcAcc3) {
 		return tieForEach(sStart, sEnd, tStart, trg1, src3, (LOiToLongFunction<SRC>) srcAcc3, this);
 
 	}
 
-	// TARGETED_INDEXED_FOR_EACH: FOR, [SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LTieLongFunction<? super
-	// T> consumer, type=CONST}]
+	/** ***ITERATION:    TARGETED_INDEXED_FOR_EACH:  FOR, [SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}] */
 	public static <T, C3> T tiForEach(T trg1, IndexedRead<C3, aLong> ia3, C3 source3, LTieLongFunction<? super T> consumer) {
 
 		tieForEach(trg1, ia3, source3, consumer);
@@ -578,57 +599,61 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	}
 
-	// TARGETED_INDEXED_FOR_EACH_NEW: FOR, [SourcePurpose{arg=T trg1, type=SIZE_FACTORY}, SourcePurpose{arg=long a3, type=IA},
-	// SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}]
+	/** ***ITERATION:    TARGETED_INDEXED_FOR_EACH_NEW:  FOR, [SourcePurpose{arg=T trg1, type=SIZE_FACTORY}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}] */
 	public static <T, C3> T ntiForEach(LIntFunction<T> trgFactory1, IndexedRead<C3, aLong> ia3, C3 source3, LTieLongFunction<? super T> consumer) {
 		int size = ia3.size(source3);
-		T trg1 = trgFactory1.doApply(size);
+		T trg1 = trgFactory1.apply(size);
 		tieForEach(0, size, 0, trg1, source3, ia3.getter(), consumer);
 		return trg1;
 	}
 
-	// TIE_CONSUMER_SHORT: FOR, [SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LTieLongFunction<? super T>
-	// consumer, type=CONST}]
+	/** ***ITERATION:    TIE_CONSUMER_SHORT:  FOR, [SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}] */
 	public static <T, C3> int tieForEach(T trg1, IndexedRead<C3, aLong> ia3, C3 source3, LTieLongFunction<? super T> consumer) {
 		int size = ia3.size(source3);
 		return tieForEach(0, size, 0, trg1, source3, ia3.getter(), consumer);
 	}
 
-	// TIE_CONSUMER: FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int sEnd, type=CONST}, SourcePurpose{arg=int tStart, type=CONST},
-	// SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=TIE_SOURCE}, SourcePurpose{arg=long a3, type=TIE_SUPPLIER},
-	// SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}]
+	/** ***ITERATION:    TIE_CONSUMER:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int sEnd, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=TIE_SOURCE}, SourcePurpose{arg=long a3, type=TIE_SUPPLIER}, SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}] */
 	public static <T, SRC> int tieForEach(int sStart, int sEnd, int tStart, T trg1, SRC src3, LOiToLongFunction<SRC> srcAcc3, LTieLongFunction<? super T> consumer) {
 		int tIndex = tStart;
 		for (int sIndex = sStart; sIndex < sEnd; sIndex++) {
-			long a3 = srcAcc3.doApplyAsLong(src3, sIndex);
-			tIndex += consumer.doApplyAsInt(trg1, tIndex, a3);
+			long a3 = srcAcc3.applyAsLong(src3, sIndex);
+			tIndex += consumer.applyAsInt(trg1, tIndex, a3);
 		}
 		return tIndex - tStart;
 
 	}
 
-	// TIE_CONSUMER2: FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T trg1, type=CONST},
-	// SourcePurpose{arg=long a3, type=TIE_SOURCE}, SourcePurpose{arg=long a3, type=TE_PREDICATE}, SourcePurpose{arg=long a3, type=TE_SUPPLIER},
-	// SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with TIE: 'target', index, element). First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns increment count based on consumer function
+	*/
 	public static <T, SRC> int tieForEach(int sStart, int tStart, T trg1, SRC src3, LPredicate<SRC> srcTest3, LToLongFunction<SRC> srcAcc3, LTieLongFunction<? super T> consumer) {
 		int tIndex = tStart;
-		for (; srcTest3.doTest(src3); tIndex++) {
-			long a3 = srcAcc3.doApplyAsLong(src3);
-			tIndex += consumer.doApplyAsInt(trg1, tIndex, a3);
+		for (; srcTest3.test(src3); tIndex++) {
+			long a3 = srcAcc3.applyAsLong(src3);
+			tIndex += consumer.applyAsInt(trg1, tIndex, a3);
 		}
 		return tIndex - sStart;
 
 	}
 
-	// TIE_CONSUMER2_SHORT: WHILE, [SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LTieLongFunction<? super T>
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with TIE: 'target', index, element). First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns increment count based on consumer function
+	*/
 	public static <T, C3, I3> int tieIterate(T trg1, SequentialRead<C3, I3, aLong> sa3, C3 source3, LTieLongFunction<? super T> consumer) {
 		LFunction<C3, I3> toIntermediate = sa3.adapter();
-		return tieForEach(0, 0, trg1, toIntermediate.doApply(source3), sa3.tester(), sa3.getter(), consumer);
+		return tieForEach(0, 0, trg1, toIntermediate.apply(source3), sa3.tester(), sa3.supplier(), consumer);
 	}
 
-	// TARGETED_INDEXED_ITERATE: WHILE, [SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LTieLongFunction<? super
-	// T> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with TIE: 'target', index, element). First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns 'target' object
+	*/
 	public static <T, C3, I3> T tiIterate(T trg1, SequentialRead<C3, I3, aLong> sa3, C3 source3, LTieLongFunction<? super T> consumer) {
 
 		tieIterate(trg1, sa3, source3, consumer);
@@ -637,18 +662,19 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	}
 
-	// TARGETED_INDEXED_ITERATE_NEW: WHILE, [SourcePurpose{arg=T trg1, type=SUPPLIER}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LTieLongFunction<?
-	// super T> consumer, type=CONST}]
+	/** ***ITERATION:    TARGETED_INDEXED_ITERATE_NEW:  WHILE, [SourcePurpose{arg=T trg1, type=SUPPLIER}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LTieLongFunction<? super T> consumer, type=CONST}] */
 	public static <T, C3, I3> T ntiIterate(LSupplier<T> source1, SequentialRead<C3, I3, aLong> sa3, C3 source3, LTieLongFunction<? super T> consumer) {
-		T trg1 = source1.doGet();
+		T trg1 = source1.get();
 		tieIterate(trg1, sa3, source3, consumer);
 
 		return trg1;
 
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, C3> void forEach(IndexedRead<C1, a<T>> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, IndexedRead<C3, aLong> ia3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
@@ -658,153 +684,167 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		LOiToLongFunction<Object> oiFunc3 = (LOiToLongFunction) ia3.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T a1 = oiFunc1.doApply(source1, i);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			long a3 = oiFunc3.doApplyAsLong(source3, i);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+			T a1 = oiFunc1.apply(source1, i);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			long a3 = oiFunc3.applyAsLong(source3, i);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2, C3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, IndexedRead<C3, aLong> ia3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
 		size = Integer.min(size, ia3.size(source3));
 		LOiToLongFunction<Object> oiFunc3 = (LOiToLongFunction) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			T a1 = nextFunc1.doApply(iterator1);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			long a3 = oiFunc3.doApplyAsLong(source3, i);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+		while (testFunc1.test(iterator1) && i < size) {
+			T a1 = nextFunc1.apply(iterator1);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			long a3 = oiFunc3.applyAsLong(source3, i);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2, C3> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, IndexedRead<C3, aLong> ia3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
 		size = Integer.min(size, ia3.size(source3));
 		LOiToLongFunction<Object> oiFunc3 = (LOiToLongFunction) ia3.getter();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			T a1 = oiFunc1.doApply(source1, i);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			long a3 = oiFunc3.doApplyAsLong(source3, i);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+		while (i < size && testFunc2.test(iterator2)) {
+			T a1 = oiFunc1.apply(source1, i);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			long a3 = oiFunc3.applyAsLong(source3, i);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=long a3, type=IA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2, I2, C3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, IndexedRead<C3, aLong> ia3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
 		int size = ia3.size(source3);
 		LOiToLongFunction<Object> oiFunc3 = (LOiToLongFunction) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && i < size) {
-			T a1 = nextFunc1.doApply(iterator1);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			long a3 = oiFunc3.doApplyAsLong(source3, i);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && i < size) {
+			T a1 = nextFunc1.apply(iterator1);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			long a3 = oiFunc3.applyAsLong(source3, i);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, C3, I3> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, SequentialRead<C3, I3, aLong> sa3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.getter();
+		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc3.doTest(iterator3)) {
-			T a1 = oiFunc1.doApply(source1, i);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			long a3 = nextFunc3.doApplyAsLong(iterator3);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+		while (i < size && testFunc3.test(iterator3)) {
+			T a1 = oiFunc1.apply(source1, i);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			long a3 = nextFunc3.applyAsLong(iterator3);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2, C3, I3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, SequentialRead<C3, I3, aLong> sa3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.getter();
+		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.supplier();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size && testFunc3.doTest(iterator3)) {
-			T a1 = nextFunc1.doApply(iterator1);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			long a3 = nextFunc3.doApplyAsLong(iterator3);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+		while (testFunc1.test(iterator1) && i < size && testFunc3.test(iterator3)) {
+			T a1 = nextFunc1.apply(iterator1);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			long a3 = nextFunc3.applyAsLong(iterator3);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2, C3, I3> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, SequentialRead<C3, I3, aLong> sa3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.getter();
+		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T a1 = oiFunc1.doApply(source1, i);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			long a3 = nextFunc3.doApplyAsLong(iterator3);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+		while (i < size && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T a1 = oiFunc1.apply(source1, i);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			long a3 = nextFunc3.applyAsLong(iterator3);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=long a3, type=SA}, SourcePurpose{arg=LIntConsumer
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2, C3, I3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, SequentialRead<C3, I3, aLong> sa3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T a1 = nextFunc1.doApply(iterator1);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			long a3 = nextFunc3.doApplyAsLong(iterator3);
-			consumer.doAccept(this.doApplyAsInt(a1, a2, a3));
+		LToLongFunction<Object> nextFunc3 = (LToLongFunction) sa3.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T a1 = nextFunc1.apply(iterator1);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			long a3 = nextFunc3.applyAsLong(iterator3);
+			consumer.accept(this.applyAsInt(a1, a2, a3));
 		}
 	}
 

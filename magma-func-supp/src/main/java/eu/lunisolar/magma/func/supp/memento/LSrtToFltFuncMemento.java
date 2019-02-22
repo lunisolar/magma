@@ -72,8 +72,8 @@ public class LSrtToFltFuncMemento implements LSrtToFltFunction {
 	}
 
 	@Override
-	public float doApplyAsFltX(short a) {
-		return lastValue = function.doApplyAsFlt(a);
+	public float applyAsFltX(short a) {
+		return lastValue = function.applyAsFlt(a);
 	}
 
 	public float lastValue() {

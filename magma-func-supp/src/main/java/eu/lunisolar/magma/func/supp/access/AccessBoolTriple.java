@@ -72,114 +72,114 @@ public interface AccessBoolTriple {
 
 	default void useWith(LTriBoolConsumer accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	default void useWithO1(LTriBoolConsumer accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		accessFunction.doAccept(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.accept(tuple.second(), tuple.first(), tuple.third());
 	}
 
 	default void useWithO2(LTriBoolConsumer accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		accessFunction.doAccept(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.third(), tuple.second());
 	}
 
 	default void useWithO3(LTriBoolConsumer accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		accessFunction.doAccept(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.accept(tuple.third(), tuple.first(), tuple.second());
 	}
 
 	default void useWithO4(LTriBoolConsumer accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		accessFunction.doAccept(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.third(), tuple.first());
 	}
 
 	default void useWithO5(LTriBoolConsumer accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		accessFunction.doAccept(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.accept(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default boolean useWith(LLogicalTernaryOperator accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		boolean retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		boolean retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LLogicalTernaryOperator accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		boolean retval = accessFunction.doApply(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.apply(tuple.second(), tuple.first(), tuple.third());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWithO2(LLogicalTernaryOperator accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		boolean retval = accessFunction.doApply(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.apply(tuple.first(), tuple.third(), tuple.second());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWithO3(LLogicalTernaryOperator accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		boolean retval = accessFunction.doApply(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.apply(tuple.third(), tuple.first(), tuple.second());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWithO4(LLogicalTernaryOperator accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		boolean retval = accessFunction.doApply(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.apply(tuple.second(), tuple.third(), tuple.first());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWithO5(LLogicalTernaryOperator accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		boolean retval = accessFunction.doApply(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.apply(tuple.third(), tuple.second(), tuple.first());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LTriBoolFunction<R> accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LTriBoolFunction<R> accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.apply(tuple.second(), tuple.first(), tuple.third());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO2(LTriBoolFunction<R> accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.third(), tuple.second());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO3(LTriBoolFunction<R> accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		R retval = accessFunction.doApply(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.third(), tuple.first(), tuple.second());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO4(LTriBoolFunction<R> accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		R retval = accessFunction.doApply(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.third(), tuple.first());
 		releaseBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO5(LTriBoolFunction<R> accessFunction) {
 		LBoolTriple tuple = accessBoolTriple();
-		R retval = accessFunction.doApply(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.third(), tuple.second(), tuple.first());
 		releaseBoolTriple(tuple);
 		return retval;
 	}

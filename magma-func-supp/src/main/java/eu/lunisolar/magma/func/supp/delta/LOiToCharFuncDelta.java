@@ -89,8 +89,8 @@ public class LOiToCharFuncDelta<T> extends LOiToCharFuncMemento<T> {
 	}
 
 	@Override
-	public char doApplyAsChar(T a1, int a2) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1, a2));
+	public char applyAsChar(T a1, int a2) {
+		return deltaFunction.applyAsChar(lastValue(), super.applyAsChar(a1, a2));
 	}
 
 	// <editor-fold desc="object">

@@ -72,8 +72,8 @@ public class LDblUnaryOpMemento implements LDblUnaryOperator {
 	}
 
 	@Override
-	public double doApplyAsDblX(double a) {
-		return lastValue = function.doApplyAsDbl(a);
+	public double applyAsDblX(double a) {
+		return lastValue = function.applyAsDbl(a);
 	}
 
 	public double lastValue() {

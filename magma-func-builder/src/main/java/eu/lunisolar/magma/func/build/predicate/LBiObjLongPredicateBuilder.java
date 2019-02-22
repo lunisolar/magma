@@ -80,8 +80,10 @@ public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2> LBiObjLongPredicate<T1, T2> biObjLongPredicateFrom(Function<LBiObjLongPredicateBuilder<T1, T2>, LBiObjLongPredicate<T1, T2>> buildingFunction) {
-		return buildingFunction.apply(new LBiObjLongPredicateBuilder());
+	public static <T1, T2> LBiObjLongPredicate<T1, T2> biObjLongPredicateFrom(Consumer<LBiObjLongPredicateBuilder<T1, T2>> buildingFunction) {
+		LBiObjLongPredicateBuilder builder = new LBiObjLongPredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 		retval = LBiObjLongPredicate.<T1, T2> biObjLongPred((a1, a2, a3) -> {
 			try {
 				for (Case<LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2, a3)) {
-						return aCase.caseFunction().doTest(a1, a2, a3);
+					if (aCase.casePredicate().test(a1, a2, a3)) {
+						return aCase.caseFunction().test(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doTest(a1, a2, a3);
+				return eventuallyFinal.test(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

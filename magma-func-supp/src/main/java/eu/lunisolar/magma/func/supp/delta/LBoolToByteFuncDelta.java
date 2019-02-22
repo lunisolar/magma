@@ -89,8 +89,8 @@ public class LBoolToByteFuncDelta extends LBoolToByteFuncMemento {
 	}
 
 	@Override
-	public byte doApplyAsByte(boolean a) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
+	public byte applyAsByte(boolean a) {
+		return deltaFunction.applyAsByte(lastValue(), super.applyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

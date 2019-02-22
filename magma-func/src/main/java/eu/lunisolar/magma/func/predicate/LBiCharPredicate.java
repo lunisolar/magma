@@ -66,167 +66,196 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain2<aChar, aChar> { // NOSONAR
 
-	String DESCRIPTION = "LBiCharPredicate: boolean doTest(char a1,char a2)";
+	String DESCRIPTION = "LBiCharPredicate: boolean test(char a1,char a2)";
 
-	// boolean doTest(char a1,char a2) ;
-	default boolean doTest(char a1, char a2) {
-		// return nestingDoTest(a1,a2);
+	// boolean test(char a1,char a2) ;
+	default boolean test(char a1, char a2) {
+		// return nestingTest(a1,a2);
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doTest(char a1,char a2)
+	 * Implement this, but call test(char a1,char a2)
 	 */
-	boolean doTestX(char a1, char a2) throws Throwable;
+	boolean testX(char a1, char a2) throws Throwable;
 
 	default boolean tupleTest(LCharPair args) {
-		return doTest(args.first(), args.second());
+		return test(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoTest(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingTest(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoTest(char a1, char a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiCharPredicate handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingTest(a1, a2, handling);
+	}
+
+	default boolean test(char a1, char a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoTest(char a1, char a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiCharPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> test(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default boolean test(char a1, char a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoTestThen(char a1, char a2, @Nonnull LPredicate<Throwable> handler) {
+	default LBiCharPredicate trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> test(a1, a2, exF);
+	}
+
+	default boolean testThen(char a1, char a2, @Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LBiCharPredicate tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return (a1, a2) -> testThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(char a1, char a2) {
+	default boolean nestingTest(char a1, char a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoTest(char a1, char a2) {
+	default boolean shovingTest(char a1, char a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static boolean handlingDoTest(char a1, char a2, LBiCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(char a1, char a2, LBiCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoTest(a1, a2, handling);
+		return func.handlingTest(a1, a2, handling);
 	}
 
-	static boolean tryDoTest(char a1, char a2, LBiCharPredicate func) {
-		return tryDoTest(a1, a2, func, null);
-	}
-
-	static boolean tryDoTest(char a1, char a2, LBiCharPredicate func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryTest(char a1, char a2, LBiCharPredicate func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingTest(a1, a2);
 	}
 
-	static boolean tryDoTest(char a1, char a2, LBiCharPredicate func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static boolean tryTest(char a1, char a2, LBiCharPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory);
+		return func.test(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static boolean tryDoTestThen(char a1, char a2, LBiCharPredicate func, @Nonnull LPredicate<Throwable> handler) {
+	static boolean tryTest(char a1, char a2, LBiCharPredicate func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTestThen(a1, a2, handler);
+		return func.test(a1, a2, exF);
 	}
 
-	default boolean failSafeDoTest(char a1, char a2, @Nonnull LBiCharPredicate failSafe) {
+	static boolean tryTestThen(char a1, char a2, LBiCharPredicate func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.testThen(a1, a2, handler);
+	}
+
+	default boolean failSafeTest(char a1, char a2, @Nonnull LBiCharPredicate failSafe) {
 		try {
-			return doTest(a1, a2);
+			return test(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		}
 	}
 
-	static boolean failSafeDoTest(char a1, char a2, LBiCharPredicate func, @Nonnull LBiCharPredicate failSafe) {
+	static boolean failSafeTest(char a1, char a2, LBiCharPredicate func, @Nonnull LBiCharPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		} else {
-			return func.failSafeDoTest(a1, a2, failSafe);
+			return func.failSafeTest(a1, a2, failSafe);
 		}
 	}
 
-	static LBiCharPredicate failSafeBiCharPred(LBiCharPredicate func, @Nonnull LBiCharPredicate failSafe) {
+	static LBiCharPredicate failSafe(LBiCharPredicate func, @Nonnull LBiCharPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoTest(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeTest(a1, a2, func, failSafe);
 	}
 
 	default boolean doIf(char a1, char a2, LAction action) {
-		if (doTest(a1, a2)) {
-			action.doExecute();
+		Null.nonNullArg(action, "action");
+		if (test(a1, a2)) {
+			action.execute();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	default boolean doIf(char a1, char a2, LBiCharConsumer consumer) {
-		if (doTest(a1, a2)) {
-			consumer.doAccept(a1, a2);
+	static boolean doIf(char a1, char a2, @Nonnull LBiCharPredicate predicate, @Nonnull LAction action) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, action);
+	}
+
+	static boolean doIf(char a1, char a2, @Nonnull LBiCharPredicate predicate, @Nonnull LBiCharConsumer consumer) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, consumer);
+	}
+
+	default boolean doIf(char a1, char a2, @Nonnull LBiCharConsumer consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a1, a2)) {
+			consumer.accept(a1, a2);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	static void throwIf(char a1, char a2, LBiCharPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.doTest(a1, a2)) {
+	static void throwIf(char a1, char a2, LBiCharPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
-	static void throwIfNot(char a1, char a2, LBiCharPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.doTest(a1, a2)) {
+	static void throwIfNot(char a1, char a2, LBiCharPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(char a1, char a2) {
-		return doTest(a1, a2);
+	default boolean nonNullTest(char a1, char a2) {
+		return test(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(char a1, char a2) {
-		return doTest(a1, a2);
+		return test(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -238,13 +267,13 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, char a1, char a2, LBiCharPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
@@ -252,28 +281,30 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, char a1, char a2, LBiCharPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, char a1, char a2, LBiCharPredicate func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LCharPredicate lShrink(LCharUnaryOperator left) {
-		return a2 -> doTest(left.doApplyAsChar(a2), a2);
+		return a2 -> test(left.applyAsChar(a2), a2);
 	}
 
 	public default LCharPredicate lShrinkc(char a1) {
-		return a2 -> doTest(a1, a2);
+		return a2 -> test(a1, a2);
 	}
 
 	public static LCharPredicate lShrinked(LCharUnaryOperator left, LBiCharPredicate func) {
@@ -285,11 +316,11 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	public default LCharPredicate rShrink(LCharUnaryOperator right) {
-		return a1 -> doTest(a1, right.doApplyAsChar(a1));
+		return a1 -> test(a1, right.applyAsChar(a1));
 	}
 
 	public default LCharPredicate rShrinkc(char a2) {
-		return a1 -> doTest(a1, a2);
+		return a1 -> test(a1, a2);
 	}
 
 	public static LCharPredicate rShrinked(LCharUnaryOperator right, LBiCharPredicate func) {
@@ -301,13 +332,13 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/**  */
-	public static LBiCharPredicate uncurryBiCharPred(LCharFunction<LCharPredicate> func) {
-		return (char a1, char a2) -> func.doApply(a1).doTest(a2);
+	public static LBiCharPredicate uncurry(LCharFunction<LCharPredicate> func) {
+		return (char a1, char a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiCharPred(char a1, char a2) {
-		return () -> this.doTest(a1, a2);
+	default LBoolSupplier capture(char a1, char a2) {
+		return () -> this.test(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -318,13 +349,13 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiCharPredicate test1st(@Nonnull LCharPredicate func) {
-		return (a1, a2) -> func.doTest(a1);
+		return (a1, a2) -> func.test(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiCharPredicate test2nd(@Nonnull LCharPredicate func) {
-		return (a1, a2) -> func.doTest(a2);
+		return (a1, a2) -> func.test(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -337,7 +368,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	static LBiCharPredicate recursive(final @Nonnull LFunction<LBiCharPredicate, LBiCharPredicate> selfLambda) {
 		final LBiCharPredicateSingle single = new LBiCharPredicateSingle();
-		LBiCharPredicate func = selfLambda.doApply(single);
+		LBiCharPredicate func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -346,8 +377,8 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		private LBiCharPredicate target = null;
 
 		@Override
-		public boolean doTestX(char a1, char a2) throws Throwable {
-			return target.doTestX(a1, a2);
+		public boolean testX(char a1, char a2) throws Throwable {
+			return target.testX(a1, a2);
 		}
 
 		@Override
@@ -357,18 +388,18 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static LBiCharPredicate biCharPredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiCharPredicate biCharPredThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBiCharPredicate biCharPredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiCharPredicate biCharPredThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -385,7 +416,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	static boolean call(char a1, char a2, final @Nonnull LBiCharPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1, a2);
+		return lambda.test(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -436,7 +467,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	 */
 	@Nonnull
 	default LBiCharPredicate negate() {
-		return (a1, a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !test(a1, a2);
 	}
 
 	/**
@@ -446,7 +477,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default LBiCharPredicate and(@Nonnull LBiCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) && other.test(a1, a2);
 	}
 
 	/**
@@ -456,7 +487,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default LBiCharPredicate or(@Nonnull LBiCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) || other.test(a1, a2);
 	}
 
 	/**
@@ -466,7 +497,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default LBiCharPredicate xor(@Nonnull LBiCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) ^ other.test(a1, a2);
 	}
 
 	/**
@@ -484,14 +515,14 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiCharPredicate biCharPredComposeChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LBiCharPredicate compose(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.test(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
-	public static LBiCharPredicate composedChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LBiCharPredicate after) {
-		return after.biCharPredComposeChar(before1, before2);
+	public static LBiCharPredicate composed(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LBiCharPredicate after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -499,7 +530,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default <V1, V2> LBiPredicate<V1, V2> biCharPredCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.test(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
 	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2, LBiCharPredicate after) {
@@ -514,37 +545,26 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LBiCharFunction<V> boolToBiCharFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.apply(this.test(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharBinaryOperator boolToCharBinaryOp(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsChar(this.doTest(a1, a2));
+		return (a1, a2) -> after.applyAsChar(this.test(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiCharPredicate boolToBiCharPred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.apply(this.test(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiCharPredicate nestingBiCharPred() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiCharPredicate shovingBiCharPred() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -554,11 +574,11 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@FunctionalInterface
 	interface LChar1Char0Pred extends LBiCharPredicate {
 
-		boolean doTestChar1Char0(char a2, char a1);
+		boolean testChar1Char0(char a2, char a1);
 
 		@Override
-		default boolean doTestX(char a1, char a2) {
-			return this.doTestChar1Char0(a2, a1);
+		default boolean testX(char a1, char a2) {
+			return this.testChar1Char0(a2, a1);
 		}
 	}
 
@@ -576,63 +596,75 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return false;
 	}
 
-	// FILTER: FOR, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
-	default <C1, C2> void forEach(IndexedRead<C1, aChar> ia1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LBiCharConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2> void filterForEach(IndexedRead<C1, aChar> ia1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LBiCharConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = oiFunc2.applyAsChar(source2, i);
 			doIf(a1, a2, consumer);
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
-	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LBiCharConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, I1, C2> void filterIterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LBiCharConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
+		while (testFunc1.test(iterator1) && i < size) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = oiFunc2.applyAsChar(source2, i);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
-	default <C1, C2, I2> void iterate(IndexedRead<C1, aChar> ia1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LBiCharConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, I2> void filterIterate(IndexedRead<C1, aChar> ia1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LBiCharConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
+		while (i < size && testFunc2.test(iterator2)) {
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = nextFunc2.applyAsChar(iterator2);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
-	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LBiCharConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
+	default <C1, I1, C2, I2> void filterIterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LBiCharConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = nextFunc2.applyAsChar(iterator2);
 			doIf(a1, a2, consumer);
 		}
 	}

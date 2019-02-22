@@ -80,8 +80,10 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <R> LIntFunction<R> intFunctionFrom(Function<LIntFunctionBuilder<R>, LIntFunction<R>> buildingFunction) {
-		return buildingFunction.apply(new LIntFunctionBuilder());
+	public static <R> LIntFunction<R> intFunctionFrom(Consumer<LIntFunctionBuilder<R>> buildingFunction) {
+		LIntFunctionBuilder builder = new LIntFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		retval = LIntFunction.<R> intFunc(a -> {
 			try {
 				for (Case<LIntPredicate, LIntFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApply(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

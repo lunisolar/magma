@@ -65,14 +65,14 @@ public class LUnaryOperatorTest<T> {
 
 
     private LUnaryOperator<Integer> sut = new LUnaryOperator<Integer>(){
-        public @Nullable Integer doApplyX(Integer a)  {
+        public @Nullable Integer applyX(Integer a)  {
             return testValue;
         }
     };
 
 
     private LUnaryOperator<Integer> sutNull = new LUnaryOperator<Integer>(){
-        public @Nullable Integer doApplyX(Integer a)  {
+        public @Nullable Integer applyX(Integer a)  {
             return null;
         }
     };
@@ -92,7 +92,7 @@ public class LUnaryOperatorTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100))
+        assertThat(sut.apply(100))
             .isEqualTo(testValue);
     }
 
@@ -108,17 +108,17 @@ public class LUnaryOperatorTest<T> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100);
+            sutAlwaysThrowingUnchecked.nestingApply(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -129,11 +129,11 @@ public class LUnaryOperatorTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100);
+            sutAlwaysThrowingUnchecked.shovingApply(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -143,16 +143,16 @@ public class LUnaryOperatorTest<T> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LUnaryOperator: T doApply(T a)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LUnaryOperator: T apply(T a)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100);
+        sutNull.nonNullApply(100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LUnaryOperator: T doApply(T a)");
+            .isEqualTo("LUnaryOperator: T apply(T a)");
     }
 
     @Test
@@ -198,7 +198,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -232,7 +232,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -266,7 +266,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -300,7 +300,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -334,7 +334,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -368,7 +368,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -402,7 +402,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -436,7 +436,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -470,7 +470,7 @@ public class LUnaryOperatorTest<T> {
 
         //when
         LPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -486,23 +486,9 @@ public class LUnaryOperatorTest<T> {
     public void identity() throws Throwable {
         LUnaryOperator<Integer> identityFunction = LUnaryOperator.identity();
 
-        assertThat(identityFunction.doApply(8)).isEqualTo(8);
+        assertThat(identityFunction.apply(8)).isEqualTo(8);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -514,7 +500,7 @@ public class LUnaryOperatorTest<T> {
         });
 
         // when
-        sutThrowing.shovingUnaryOp().doApply(100);
+        sutThrowing.shovingApply(100);
     }
 
 
@@ -527,7 +513,7 @@ public class LUnaryOperatorTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LUnaryOperator: T doApply(T a)");
+                .contains("LUnaryOperator: T apply(T a)");
     }
 
 

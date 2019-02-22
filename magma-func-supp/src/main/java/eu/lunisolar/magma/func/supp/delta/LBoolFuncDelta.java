@@ -77,8 +77,8 @@ public class LBoolFuncDelta<R> extends LBoolFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(boolean a) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a));
+	public R apply(boolean a) {
+		return deltaFunction.apply(lastValue(), super.apply(a));
 	}
 
 	// <editor-fold desc="object">

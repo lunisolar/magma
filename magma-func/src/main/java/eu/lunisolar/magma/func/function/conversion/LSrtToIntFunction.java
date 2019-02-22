@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aShort> { // NOSONAR
 
-	String DESCRIPTION = "LSrtToIntFunction: int doApplyAsInt(short a)";
+	String DESCRIPTION = "LSrtToIntFunction: int applyAsInt(short a)";
 
-	// int doApplyAsInt(short a) ;
-	default int doApplyAsInt(short a) {
-		// return nestingDoApplyAsInt(a);
+	// int applyAsInt(short a) ;
+	default int applyAsInt(short a) {
+		// return nestingApplyAsInt(a);
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsInt(short a)
+	 * Implement this, but call applyAsInt(short a)
 	 */
-	int doApplyAsIntX(short a) throws Throwable;
+	int applyAsIntX(short a) throws Throwable;
 
 	default int tupleApplyAsInt(LSrtSingle args) {
-		return doApplyAsInt(args.value());
+		return applyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default int handlingDoApplyAsInt(short a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default int handlingApplyAsInt(short a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default int tryDoApplyAsInt(short a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LSrtToIntFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsInt(a, handling);
+	}
+
+	default int applyAsInt(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default int tryDoApplyAsInt(short a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LSrtToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsInt(a, exF, newMessage, messageParams);
+	}
+
+	default int applyAsInt(short a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default int tryDoApplyAsIntThen(short a, @Nonnull LToIntFunction<Throwable> handler) {
+	default LSrtToIntFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsInt(a, exF);
+	}
+
+	default int applyAsIntThen(short a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsInt(e);
+			return handler.applyAsInt(e);
 		}
+	}
+
+	default LSrtToIntFunction tryingThen(@Nonnull LToIntFunction<Throwable> handler) {
+		return a -> applyAsIntThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(short a) {
+	default int nestingApplyAsInt(short a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(short a) {
+	default int shovingApplyAsInt(short a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static int handlingDoApplyAsInt(short a, LSrtToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(short a, LSrtToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsInt(a, handling);
+		return func.handlingApplyAsInt(a, handling);
 	}
 
-	static int tryDoApplyAsInt(short a, LSrtToIntFunction func) {
-		return tryDoApplyAsInt(a, func, null);
-	}
-
-	static int tryDoApplyAsInt(short a, LSrtToIntFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static int tryApplyAsInt(short a, LSrtToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryDoApplyAsInt(short a, LSrtToIntFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static int tryApplyAsInt(short a, LSrtToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory);
+		return func.applyAsInt(a, exF, newMessage, messageParams);
 	}
 
-	static int tryDoApplyAsIntThen(short a, LSrtToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+	static int tryApplyAsInt(short a, LSrtToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsIntThen(a, handler);
+		return func.applyAsInt(a, exF);
 	}
 
-	default int failSafeDoApplyAsInt(short a, @Nonnull LSrtToIntFunction failSafe) {
+	static int tryApplyAsIntThen(short a, LSrtToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsIntThen(a, handler);
+	}
+
+	default int failSafeApplyAsInt(short a, @Nonnull LSrtToIntFunction failSafe) {
 		try {
-			return doApplyAsInt(a);
+			return applyAsInt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		}
 	}
 
-	static int failSafeDoApplyAsInt(short a, LSrtToIntFunction func, @Nonnull LSrtToIntFunction failSafe) {
+	static int failSafeApplyAsInt(short a, LSrtToIntFunction func, @Nonnull LSrtToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		} else {
-			return func.failSafeDoApplyAsInt(a, failSafe);
+			return func.failSafeApplyAsInt(a, failSafe);
 		}
 	}
 
-	static LSrtToIntFunction failSafeSrtToIntFunc(LSrtToIntFunction func, @Nonnull LSrtToIntFunction failSafe) {
+	static LSrtToIntFunction failSafe(LSrtToIntFunction func, @Nonnull LSrtToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsInt(a, func, failSafe);
+		return a -> failSafeApplyAsInt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(short a) {
-		return doApplyAsInt(a);
+	default int nonNullApplyAsInt(short a) {
+		return applyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, short a, LSrtToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, short a, LSrtToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, short a, LSrtToIntFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureSrtToIntFunc(short a) {
-		return () -> this.doApplyAsInt(a);
+	default LIntSupplier capture(short a) {
+		return () -> this.applyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	static LSrtToIntFunction recursive(final @Nonnull LFunction<LSrtToIntFunction, LSrtToIntFunction> selfLambda) {
 		final LSrtToIntFunctionSingle single = new LSrtToIntFunctionSingle();
-		LSrtToIntFunction func = selfLambda.doApply(single);
+		LSrtToIntFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		private LSrtToIntFunction target = null;
 
 		@Override
-		public int doApplyAsIntX(short a) throws Throwable {
-			return target.doApplyAsIntX(a);
+		public int applyAsIntX(short a) throws Throwable {
+			return target.applyAsIntX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static LSrtToIntFunction srtToIntFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LSrtToIntFunction srtToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LSrtToIntFunction srtToIntFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LSrtToIntFunction srtToIntFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static int call(short a, final @Nonnull LSrtToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a);
+		return lambda.applyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LSrtToIntFunction srtToIntFuncComposeSrt(@Nonnull final LSrtUnaryOperator before) {
+	default LSrtToIntFunction compose(@Nonnull final LSrtUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsSrt(v));
+		return v -> this.applyAsInt(before.applyAsSrt(v));
 	}
 
-	public static LSrtToIntFunction composedSrt(@Nonnull final LSrtUnaryOperator before, LSrtToIntFunction after) {
-		return after.srtToIntFuncComposeSrt(before);
+	public static LSrtToIntFunction composed(@Nonnull final LSrtUnaryOperator before, LSrtToIntFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToIntFunction<V> srtToIntFuncCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsSrt(v));
+		return v -> this.applyAsInt(before.applyAsSrt(v));
 	}
 
 	public static <V> LToIntFunction<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtToIntFunction after) {
@@ -364,79 +383,68 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LSrtFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsInt(a));
+		return a -> after.apply(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
+		return a -> after.applyAsByte(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtUnaryOperator thenToSrt(@Nonnull LIntToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsInt(a));
+		return a -> after.applyAsSrt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
+		return a -> after.applyAsInt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
+		return a -> after.applyAsLong(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToFltFunction thenToFlt(@Nonnull LIntToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsInt(a));
+		return a -> after.applyAsFlt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToDblFunction thenToDbl(@Nonnull LIntToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsInt(a));
+		return a -> after.applyAsDbl(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
+		return a -> after.applyAsChar(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsInt(a));
+		return a -> after.test(this.applyAsInt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LSrtToIntFunction nestingSrtToIntFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSrtToIntFunction shovingSrtToIntFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		return Function4U.defaultInteger;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=short a, type=IA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aShort> ia, C0 source, LIntConsumer consumer) {
 		int size = ia.size(source);
 		LOiToSrtFunction<Object> oiFunc0 = (LOiToSrtFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			short a = oiFunc0.doApplyAsSrt(source, i);
-			consumer.doAccept(this.doApplyAsInt(a));
+			short a = oiFunc0.applyAsSrt(source, i);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=short a, type=SA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aShort> sa, C0 source, LIntConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToSrtFunction<Object> nextFunc0 = (LToSrtFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			short a = nextFunc0.doApplyAsSrt(iterator0);
-			consumer.doAccept(this.doApplyAsInt(a));
+		LToSrtFunction<Object> nextFunc0 = (LToSrtFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			short a = nextFunc0.applyAsSrt(iterator0);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 

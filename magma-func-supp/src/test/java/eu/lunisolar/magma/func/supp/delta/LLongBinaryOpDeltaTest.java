@@ -55,7 +55,7 @@ public class LLongBinaryOpDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsLong(100L,100L))
+        assertThat(sut.applyAsLong(100L,100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LLongBinaryOpDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong(100L,100L))
+        assertThat(sut.applyAsLong(100L,100L))
             .isEqualTo(9L);
 
         assertThat(functionCallCount).isEqualTo(2);

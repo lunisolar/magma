@@ -63,13 +63,13 @@ public class Lazy<T> extends LSupMemento<T> implements LSingle<T> {
 	}
 
 	public static <E, T> Lazy<T> lazyValue(E e, LFunction<E, T> function) {
-		return new Lazy<T>(() -> function.doApply(e));
+		return new Lazy<T>(() -> function.apply(e));
 	}
 
 	@Override
-	public T doGet() {
+	public T get() {
 		if (function != null) {
-			lastValue = function.doGet();
+			lastValue = function.get();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class Lazy<T> extends LSupMemento<T> implements LSingle<T> {
 	}
 
 	public T value() {
-		return doGet();
+		return get();
 	}
 
 	public static boolean argEquals(Lazy the, Object that) {

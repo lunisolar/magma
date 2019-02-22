@@ -66,145 +66,152 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain1<aInt> { // NOSONAR
 
-	String DESCRIPTION = "LIntFunction: R doApply(int a)";
-
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LIntFunction interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
-	default R apply(int a) {
-		return this.doApply(a);
-	}
+	String DESCRIPTION = "LIntFunction: R apply(int a)";
 
 	@Nullable
-	// R doApply(int a) ;
-	default R doApply(int a) {
-		// return nestingDoApply(a);
+	// R apply(int a) ;
+	default R apply(int a) {
+		// return nestingApply(a);
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApply(int a)
+	 * Implement this, but call apply(int a)
 	 */
-	R doApplyX(int a) throws Throwable;
+	R applyX(int a) throws Throwable;
 
 	default R tupleApply(LIntSingle args) {
-		return doApply(args.value());
+		return apply(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default R handlingDoApply(int a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default R handlingApply(int a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default R tryDoApply(int a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LIntFunction<R> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApply(a, handling);
+	}
+
+	default R apply(int a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default R tryDoApply(int a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LIntFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> apply(a, exF, newMessage, messageParams);
+	}
+
+	default R apply(int a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default R tryDoApplyThen(int a, @Nonnull LFunction<Throwable, R> handler) {
+	default LIntFunction<R> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> apply(a, exF);
+	}
+
+	default R applyThen(int a, @Nonnull LFunction<Throwable, R> handler) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApply(e);
+			return handler.apply(e);
 		}
+	}
+
+	default LIntFunction<R> tryingThen(@Nonnull LFunction<Throwable, R> handler) {
+		return a -> applyThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(int a) {
+	default R nestingApply(int a) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default R shovingDoApply(int a) {
+	default R shovingApply(int a) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <R> R handlingDoApply(int a, LIntFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(int a, LIntFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApply(a, handling);
+		return func.handlingApply(a, handling);
 	}
 
-	static <R> R tryDoApply(int a, LIntFunction<R> func) {
-		return tryDoApply(a, func, null);
-	}
-
-	static <R> R tryDoApply(int a, LIntFunction<R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <R> R tryApply(int a, LIntFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApply(a);
 	}
 
-	static <R> R tryDoApply(int a, LIntFunction<R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <R> R tryApply(int a, LIntFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a, exceptionFactory);
+		return func.apply(a, exF, newMessage, messageParams);
 	}
 
-	static <R> R tryDoApplyThen(int a, LIntFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+	static <R> R tryApply(int a, LIntFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyThen(a, handler);
+		return func.apply(a, exF);
 	}
 
-	default R failSafeDoApply(int a, @Nonnull LIntFunction<R> failSafe) {
+	static <R> R tryApplyThen(int a, LIntFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyThen(a, handler);
+	}
+
+	default R failSafeApply(int a, @Nonnull LIntFunction<R> failSafe) {
 		try {
-			return doApply(a);
+			return apply(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApply(a);
+			return failSafe.apply(a);
 		}
 	}
 
-	static <R> R failSafeDoApply(int a, LIntFunction<R> func, @Nonnull LIntFunction<R> failSafe) {
+	static <R> R failSafeApply(int a, LIntFunction<R> func, @Nonnull LIntFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApply(a);
+			return failSafe.apply(a);
 		} else {
-			return func.failSafeDoApply(a, failSafe);
+			return func.failSafeApply(a, failSafe);
 		}
 	}
 
-	static <R> LIntFunction<R> failSafeIntFunc(LIntFunction<R> func, @Nonnull LIntFunction<R> failSafe) {
+	static <R> LIntFunction<R> failSafe(LIntFunction<R> func, @Nonnull LIntFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApply(a, func, failSafe);
+		return a -> failSafeApply(a, func, failSafe);
 	}
 
-	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(int a) {
-		return Null.requireNonNull(doApply(a), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullApply(int a) {
+		return Null.requireNonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -216,13 +223,13 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTo(int min_a, int max_a, LIntFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		} else {
 			for (int a = min_a; a >= max_a; a--) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		}
 	}
@@ -230,25 +237,42 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTill(int min_a, int max_a, LIntFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		} else {
 			for (int a = min_a; a > max_a; a--) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void times(int max_a, LIntFunction<R> func) {
+		if (max_a < 0)
+			return;
 		fromTill(0, max_a, func);
 	}
 
+	/** Cast that removes generics. */
+	public default LIntFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LIntFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, R> LIntFunction<V2> cast(LIntFunction<R> function) {
+		return (LIntFunction) function;
+	}
+
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureIntFunc(int a) {
-		return () -> this.doApply(a);
+	default LSupplier<R> capture(int a) {
+		return () -> this.apply(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -266,7 +290,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	@Nonnull
 	static <R> LIntFunction<R> recursive(final @Nonnull LFunction<LIntFunction<R>, LIntFunction<R>> selfLambda) {
 		final LIntFunctionSingle<R> single = new LIntFunctionSingle();
-		LIntFunction<R> func = selfLambda.doApply(single);
+		LIntFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -275,8 +299,8 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		private LIntFunction<R> target = null;
 
 		@Override
-		public R doApplyX(int a) throws Throwable {
-			return target.doApplyX(a);
+		public R applyX(int a) throws Throwable {
+			return target.applyX(a);
 		}
 
 		@Override
@@ -286,24 +310,24 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	@Nonnull
-	static <R> LIntFunction<R> intFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LIntFunction<R> intFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <R> LIntFunction<R> intFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LIntFunction<R> intFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static <R> R call(int a, final @Nonnull LIntFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a);
+		return lambda.apply(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -355,20 +379,20 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntFunction<R> intFuncComposeInt(@Nonnull final LIntUnaryOperator before) {
+	default LIntFunction<R> compose(@Nonnull final LIntUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApply(before.doApplyAsInt(v));
+		return v -> this.apply(before.applyAsInt(v));
 	}
 
-	public static <R> LIntFunction<R> composedInt(@Nonnull final LIntUnaryOperator before, LIntFunction<R> after) {
-		return after.intFuncComposeInt(before);
+	public static <R> LIntFunction<R> composed(@Nonnull final LIntUnaryOperator before, LIntFunction<R> after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LFunction<V, R> intFuncCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApply(before.doApplyAsInt(v));
+		return v -> this.apply(before.applyAsInt(v));
 	}
 
 	public static <V, R> LFunction<V, R> composed(@Nonnull final LToIntFunction<? super V> before, LIntFunction<R> after) {
@@ -383,22 +407,22 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApply(a));
+		return a -> after.apply(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doAccept(this.doApply(a));
+		return a -> after.accept(this.apply(a));
 	}
 
 	@Nonnull
 	default LIntFunction<R> before(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return a -> {
-			before.doAccept(a);
-			return this.doApply(a);
+			before.accept(a);
+			return this.apply(a);
 		};
 	}
 
@@ -406,8 +430,8 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	default LIntFunction<R> after(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> {
-			R result = this.doApply(a);
-			after.doAccept(result);
+			R result = this.apply(a);
+			after.accept(result);
 			return result;
 		};
 	}
@@ -416,79 +440,68 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApply(a));
+		return a -> after.applyAsByte(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToSrtFunction thenToSrt(@Nonnull LToSrtFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApply(a));
+		return a -> after.applyAsSrt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApply(a));
+		return a -> after.applyAsInt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApply(a));
+		return a -> after.applyAsLong(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFltFunction thenToFlt(@Nonnull LToFltFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApply(a));
+		return a -> after.applyAsFlt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDblFunction thenToDbl(@Nonnull LToDblFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApply(a));
+		return a -> after.applyAsDbl(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApply(a));
+		return a -> after.applyAsChar(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBool(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApply(a));
+		return a -> after.test(this.apply(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LIntFunction<R> nestingIntFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntFunction<R> shovingIntFunc() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LIntFunction<R> nonNullIntFunc() {
-		return this::nonNullDoApply;
+	default LIntFunction<R> nonNullable() {
+		return this::nonNullApply;
 	}
 
 	/** Does nothing (LIntFunction) Function */
@@ -496,25 +509,31 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		return (R) Function4U.defaultObject;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=int a, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aInt> ia, C0 source, LConsumer<? super R> consumer) {
 		int size = ia.size(source);
 		LOiToIntFunction<Object> oiFunc0 = (LOiToIntFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			int a = oiFunc0.doApplyAsInt(source, i);
-			consumer.doAccept(this.doApply(a));
+			int a = oiFunc0.applyAsInt(source, i);
+			consumer.accept(this.apply(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=int a, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aInt> sa, C0 source, LConsumer<? super R> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToIntFunction<Object> nextFunc0 = (LToIntFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			int a = nextFunc0.doApplyAsInt(iterator0);
-			consumer.doAccept(this.doApply(a));
+		LToIntFunction<Object> nextFunc0 = (LToIntFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			int a = nextFunc0.applyAsInt(iterator0);
+			consumer.accept(this.apply(a));
 		}
 	}
 

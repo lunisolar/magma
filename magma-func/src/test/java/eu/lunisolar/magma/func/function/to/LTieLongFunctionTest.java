@@ -65,7 +65,7 @@ public class LTieLongFunctionTest<T> {
 
 
     private LTieLongFunction<Integer> sut = new LTieLongFunction<Integer>(){
-        public  int doApplyAsIntX(Integer a1,int a2,long a3)  {
+        public  int applyAsIntX(Integer a1,int a2,long a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LTieLongFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100,100,100L))
+        assertThat(sut.applyAsInt(100,100,100L))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LTieLongFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100,100,100L))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100,100,100L))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100,100,100L);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LTieLongFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100,100,100L);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LTieLongFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieLongFunction: int doApplyAsInt(T a1,int a2,long a3)");
+            .isEqualTo("LTieLongFunction: int applyAsInt(T a1,int a2,long a3)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LTieLongFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieLongFuncComposeIntLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -187,8 +187,8 @@ public class LTieLongFunctionTest<T> {
         };
 
         //when
-        LTieLongFunction<Integer> function = sutO.tieLongFuncComposeIntLong(before1,before2,before3);
-        function.doApplyAsInt(80,81,82L);
+        LTieLongFunction<Integer> function = sutO.compose(before1,before2,before3);
+        function.applyAsInt(80,81,82L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -229,7 +229,7 @@ public class LTieLongFunctionTest<T> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.tieLongFuncCompose(before1,before2,before3);
-        function.doApplyAsInt(80,81,82);
+        function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -267,7 +267,7 @@ public class LTieLongFunctionTest<T> {
 
         //when
         LObjIntLongFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,82L);
+        Integer finalValue = function.apply(80,81,82L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -303,7 +303,7 @@ public class LTieLongFunctionTest<T> {
 
         //when
         LTieLongFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,82L);
+        int finalValue = function.applyAsInt(80,81,82L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -339,7 +339,7 @@ public class LTieLongFunctionTest<T> {
 
         //when
         LObjIntLongPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,82L);
+        boolean finalValue = function.test(80,81,82L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -352,20 +352,6 @@ public class LTieLongFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieLongFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieLongFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -376,7 +362,7 @@ public class LTieLongFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieLongFunc().doApplyAsInt(100,100,100L);
+        sutThrowing.shovingApplyAsInt(100,100,100L);
     }
 
 
@@ -389,7 +375,7 @@ public class LTieLongFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieLongFunction: int doApplyAsInt(T a1,int a2,long a3)");
+                .contains("LTieLongFunction: int applyAsInt(T a1,int a2,long a3)");
     }
 
 

@@ -65,14 +65,14 @@ public class LObjIntCharFunctionTest<T,R> {
 
 
     private LObjIntCharFunction<Integer,Integer> sut = new LObjIntCharFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,int a2,char a3)  {
+        public @Nullable Integer applyX(Integer a1,int a2,char a3)  {
             return testValue;
         }
     };
 
 
     private LObjIntCharFunction<Integer,Integer> sutNull = new LObjIntCharFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,int a2,char a3)  {
+        public @Nullable Integer applyX(Integer a1,int a2,char a3)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LObjIntCharFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100,'\u0100'))
+        assertThat(sut.apply(100,100,'\u0100'))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LObjIntCharFunctionTest<T,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100,'\u0100'))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100,'\u0100'))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100,'\u0100');
+            sutAlwaysThrowingUnchecked.nestingApply(100,100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LObjIntCharFunctionTest<T,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100,'\u0100');
+            sutAlwaysThrowingUnchecked.shovingApply(100,100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LObjIntCharFunctionTest<T,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjIntCharFunction: R doApply(T a1,int a2,char a3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LObjIntCharFunction: R apply(T a1,int a2,char a3)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100,'\u0100');
+        sutNull.nonNullApply(100,100,'\u0100');
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjIntCharFunction: R doApply(T a1,int a2,char a3)");
+            .isEqualTo("LObjIntCharFunction: R apply(T a1,int a2,char a3)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LObjIntCharFunctionTest<T,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjIntCharFuncComposeIntChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -198,8 +198,8 @@ public class LObjIntCharFunctionTest<T,R> {
         };
 
         //when
-        LObjIntCharFunction<Integer,Integer> function = sutO.objIntCharFuncComposeIntChar(before1,before2,before3);
-        function.doApply(80,81,'\u0082');
+        LObjIntCharFunction<Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.apply(80,81,'\u0082');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -240,7 +240,7 @@ public class LObjIntCharFunctionTest<T,R> {
 
         //when
         LTriFunction<Integer,Integer,Integer,Integer> function = sutO.objIntCharFuncCompose(before1,before2,before3);
-        function.doApply(80,81,82);
+        function.apply(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LObjIntCharFunctionTest<T,R> {
 
         //when
         LObjIntCharFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,'\u0082');
+        Integer finalValue = function.apply(80,81,'\u0082');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -312,7 +312,7 @@ public class LObjIntCharFunctionTest<T,R> {
 
         //when
         LTieCharConsumer<Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81,'\u0082');
+        function.accept(80,81,'\u0082');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -347,7 +347,7 @@ public class LObjIntCharFunctionTest<T,R> {
 
         //when
         LTieCharFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,'\u0082');
+        int finalValue = function.applyAsInt(80,81,'\u0082');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -383,7 +383,7 @@ public class LObjIntCharFunctionTest<T,R> {
 
         //when
         LObjIntCharPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,'\u0082');
+        boolean finalValue = function.test(80,81,'\u0082');
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -396,20 +396,6 @@ public class LObjIntCharFunctionTest<T,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjIntCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjIntCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjIntCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjIntCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -420,7 +406,7 @@ public class LObjIntCharFunctionTest<T,R> {
         });
 
         // when
-        sutThrowing.shovingObjIntCharFunc().doApply(100,100,'\u0100');
+        sutThrowing.shovingApply(100,100,'\u0100');
     }
 
 
@@ -433,7 +419,7 @@ public class LObjIntCharFunctionTest<T,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjIntCharFunction: R doApply(T a1,int a2,char a3)");
+                .contains("LObjIntCharFunction: R apply(T a1,int a2,char a3)");
     }
 
 

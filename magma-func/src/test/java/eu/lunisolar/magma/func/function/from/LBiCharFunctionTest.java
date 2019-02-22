@@ -65,14 +65,14 @@ public class LBiCharFunctionTest<R> {
 
 
     private LBiCharFunction<Integer> sut = new LBiCharFunction<Integer>(){
-        public @Nullable Integer doApplyX(char a1,char a2)  {
+        public @Nullable Integer applyX(char a1,char a2)  {
             return testValue;
         }
     };
 
 
     private LBiCharFunction<Integer> sutNull = new LBiCharFunction<Integer>(){
-        public @Nullable Integer doApplyX(char a1,char a2)  {
+        public @Nullable Integer applyX(char a1,char a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBiCharFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply('\u0100','\u0100'))
+        assertThat(sut.apply('\u0100','\u0100'))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBiCharFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply('\u0100','\u0100'))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply('\u0100','\u0100'))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply('\u0100','\u0100');
+            sutAlwaysThrowingUnchecked.nestingApply('\u0100','\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBiCharFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply('\u0100','\u0100');
+            sutAlwaysThrowingUnchecked.shovingApply('\u0100','\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBiCharFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiCharFunction: R doApply(char a1,char a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiCharFunction: R apply(char a1,char a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply('\u0100','\u0100');
+        sutNull.nonNullApply('\u0100','\u0100');
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiCharFunction: R doApply(char a1,char a2)");
+            .isEqualTo("LBiCharFunction: R apply(char a1,char a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBiCharFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiCharFuncComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LBiCharFunctionTest<R> {
         };
 
         //when
-        LBiCharFunction<Integer> function = sutO.biCharFuncComposeChar(before1,before2);
-        function.doApply('\u0080','\u0081');
+        LBiCharFunction<Integer> function = sutO.compose(before1,before2);
+        function.apply('\u0080','\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LBiCharFunctionTest<R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.biCharFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LBiCharFunctionTest<R> {
 
         //when
         LBiCharFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply('\u0080','\u0081');
+        Integer finalValue = function.apply('\u0080','\u0081');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LBiCharFunctionTest<R> {
 
         //when
         LBiCharConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept('\u0080','\u0081');
+        function.accept('\u0080','\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LBiCharFunctionTest<R> {
 
         //when
         LCharBinaryOperator function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar('\u0080','\u0081');
+        char finalValue = function.applyAsChar('\u0080','\u0081');
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -367,7 +367,7 @@ public class LBiCharFunctionTest<R> {
 
         //when
         LBiCharPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest('\u0080','\u0081');
+        boolean finalValue = function.test('\u0080','\u0081');
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -380,20 +380,6 @@ public class LBiCharFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -404,7 +390,7 @@ public class LBiCharFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingBiCharFunc().doApply('\u0100','\u0100');
+        sutThrowing.shovingApply('\u0100','\u0100');
     }
 
 
@@ -417,7 +403,7 @@ public class LBiCharFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiCharFunction: R doApply(char a1,char a2)");
+                .contains("LBiCharFunction: R apply(char a1,char a2)");
     }
 
 

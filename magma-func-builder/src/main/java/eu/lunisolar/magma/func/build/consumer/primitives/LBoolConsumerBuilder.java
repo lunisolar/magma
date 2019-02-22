@@ -80,8 +80,10 @@ public final class LBoolConsumerBuilder extends PerCaseBuilder.Base<LBoolConsume
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBoolConsumer boolConsumerFrom(Function<LBoolConsumerBuilder, LBoolConsumer> buildingFunction) {
-		return buildingFunction.apply(new LBoolConsumerBuilder());
+	public static LBoolConsumer boolConsumerFrom(Consumer<LBoolConsumerBuilder> buildingFunction) {
+		LBoolConsumerBuilder builder = new LBoolConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,13 +115,13 @@ public final class LBoolConsumerBuilder extends PerCaseBuilder.Base<LBoolConsume
 		retval = LBoolConsumer.boolCons(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a)) {
-						aCase.caseFunction().doAccept(a);
+					if (aCase.casePredicate().apply(a)) {
+						aCase.caseFunction().accept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a);
+				eventuallyFinal.accept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

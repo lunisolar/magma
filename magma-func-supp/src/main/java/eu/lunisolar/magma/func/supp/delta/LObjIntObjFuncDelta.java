@@ -77,8 +77,8 @@ public class LObjIntObjFuncDelta<T1, T2, R> extends LObjIntObjFuncMemento<T1, T2
 	}
 
 	@Override
-	public R doApply(T1 a1, int a2, T2 a3) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2, a3));
+	public R apply(T1 a1, int a2, T2 a3) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));
 	}
 
 	// <editor-fold desc="object">

@@ -34,34 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiCharConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharPair extends LTuple<Character> {
+public interface LCharPair extends LTuple<Object>, LCharSingle {
 
 	int SIZE = 2;
 
 	char first();
 
-	char second();
-
-	default char getFirst() {
+	default char value() {
 		return first();
 	}
 
-	default char getSecond() {
-		return second();
-	}
+	char second();
 
-	default Character get(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default char getChar(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -110,69 +95,8 @@ public interface LCharPair extends LTuple<Character> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Character[] toVoArray(Character[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Character[] toVoArray(Character[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Character[] toVoArray() {
-		Character[] array = new Character[size()];
-
-		return toVoArray(array);
-	}
-
-	default char[] toCharArray(char[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default char[] toCharArray(char[] array) {
-		return toCharArray(array, 0);
-	}
-
-	default char[] toCharArray() {
-		char[] array = new char[size()];
-
-		return toCharArray(array);
-	}
-
-	@Override
-	default Iterator<Character> iterator() {
-		return new Iterator<Character>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -182,27 +106,9 @@ public interface LCharPair extends LTuple<Character> {
 			}
 
 			@Override
-			public Character next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public int nextInt() {
-				index++;
-				return getChar(index);
 			}
 		};
 	}
@@ -237,9 +143,9 @@ public interface LCharPair extends LTuple<Character> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -292,7 +198,7 @@ public interface LCharPair extends LTuple<Character> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCharPair setFirstIfArg(char first, LCharPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -301,14 +207,14 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCharPair setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsChar(arg);
+				this.first = func.applyAsChar(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCharPair setFirstIf(LCharPredicate predicate, char first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -317,7 +223,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCharPair setFirstIf(char first, LBiCharPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -326,7 +232,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCharPair setFirstIf(LBiCharPredicate predicate, char first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -339,7 +245,7 @@ public interface LCharPair extends LTuple<Character> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCharPair setSecondIfArg(char second, LCharPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -348,14 +254,14 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCharPair setSecondIfArgNotNull(R arg, LToCharFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsChar(arg);
+				this.second = func.applyAsChar(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCharPair setSecondIf(LCharPredicate predicate, char second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -364,7 +270,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCharPair setSecondIf(char second, LBiCharPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -373,7 +279,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCharPair setSecondIf(LBiCharPredicate predicate, char second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -431,7 +337,7 @@ public interface LCharPair extends LTuple<Character> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompCharPair setFirstIfArg(char first, LCharPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -440,14 +346,14 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompCharPair setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsChar(arg);
+				this.first = func.applyAsChar(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompCharPair setFirstIf(LCharPredicate predicate, char first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -456,7 +362,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompCharPair setFirstIf(char first, LBiCharPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -465,7 +371,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompCharPair setFirstIf(LBiCharPredicate predicate, char first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -478,7 +384,7 @@ public interface LCharPair extends LTuple<Character> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompCharPair setSecondIfArg(char second, LCharPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -487,14 +393,14 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompCharPair setSecondIfArgNotNull(R arg, LToCharFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsChar(arg);
+				this.second = func.applyAsChar(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompCharPair setSecondIf(LCharPredicate predicate, char second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -503,7 +409,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompCharPair setSecondIf(char second, LBiCharPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -512,7 +418,7 @@ public interface LCharPair extends LTuple<Character> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompCharPair setSecondIf(LBiCharPredicate predicate, char second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;

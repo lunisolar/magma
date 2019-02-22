@@ -55,7 +55,7 @@ public class LDblSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsDbl())
+        assertThat(sut.getAsDbl())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LDblSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsDbl())
+        assertThat(sut.getAsDbl())
             .isEqualTo(9d);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -54,7 +54,7 @@ public class LToFltBiFuncMementoTest <T1,T2> {
         assertThat(sut.lastValue())
             .isEqualTo(0f);
 
-        assertThat(sut.doApplyAsFlt(100,100))
+        assertThat(sut.applyAsFlt(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LToFltBiFuncMementoTest <T1,T2> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt(100,100))
+        assertThat(sut.applyAsFlt(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

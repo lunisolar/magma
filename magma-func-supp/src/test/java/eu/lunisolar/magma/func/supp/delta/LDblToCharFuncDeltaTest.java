@@ -55,7 +55,7 @@ public class LDblToCharFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar(100d))
+        assertThat(sut.applyAsChar(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LDblToCharFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar(100d))
+        assertThat(sut.applyAsChar(100d))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

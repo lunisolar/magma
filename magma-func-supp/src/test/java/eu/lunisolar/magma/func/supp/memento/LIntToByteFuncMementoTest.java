@@ -54,7 +54,7 @@ public class LIntToByteFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo((byte)0);
 
-        assertThat(sut.doApplyAsByte(100))
+        assertThat(sut.applyAsByte(100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LIntToByteFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte(100))
+        assertThat(sut.applyAsByte(100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

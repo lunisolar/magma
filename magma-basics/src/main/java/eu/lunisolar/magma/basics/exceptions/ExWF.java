@@ -19,14 +19,12 @@
 package eu.lunisolar.magma.basics.exceptions;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
- * Equivalent of Exception(String message, Throwable cause)
+ *
  */
 @FunctionalInterface
-public interface ExceptionWrapWithMessageFactory<X extends Throwable> {
-
+public interface ExWF<X extends Throwable> {
     @Nonnull
-    X produce(@Nonnull String message, @Nullable Throwable cause);
+    X produce(@Nonnull Throwable t);
 }

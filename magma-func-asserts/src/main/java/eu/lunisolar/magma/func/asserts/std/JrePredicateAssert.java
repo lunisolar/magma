@@ -80,13 +80,12 @@ public interface JrePredicateAssert<S extends JrePredicateAssert<S, A, RS, T>, A
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, Boolean> doesTest(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.test(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

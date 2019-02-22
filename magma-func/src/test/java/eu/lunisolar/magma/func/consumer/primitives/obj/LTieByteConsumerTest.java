@@ -63,7 +63,7 @@ public class LTieByteConsumerTest<T> {
 
 
     private LTieByteConsumer<Integer> sut = new LTieByteConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,int a2,byte a3)  {
+        public  void acceptX(Integer a1,int a2,byte a3)  {
             LTieByteConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTieByteConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,(byte)100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTieByteConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,(byte)100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTieByteConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieByteConsumer: void doAccept(T a1,int a2,byte a3)");
+            .isEqualTo("LTieByteConsumer: void accept(T a1,int a2,byte a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTieByteConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieByteConsComposeIntByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTieByteConsumerTest<T> {
         };
 
         //when
-        LTieByteConsumer<Integer> function = sutO.tieByteConsComposeIntByte(before1,before2,before3);
-        function.doAccept(80,81,(byte)82);
+        LTieByteConsumer<Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,(byte)82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTieByteConsumerTest<T> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.tieByteConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTieByteConsumerTest<T> {
 
         //when
         LTieByteConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,(byte)82);
+        function.accept(80,81,(byte)82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieByteCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieByteConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieByteCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieByteConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTieByteConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieByteCons().doAccept(100,100,(byte)100);
+        sutThrowing.shovingAccept(100,100,(byte)100);
     }
 
 
@@ -291,7 +277,7 @@ public class LTieByteConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieByteConsumer: void doAccept(T a1,int a2,byte a3)");
+                .contains("LTieByteConsumer: void accept(T a1,int a2,byte a3)");
     }
 
 

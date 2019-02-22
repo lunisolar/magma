@@ -77,8 +77,8 @@ public class LBiByteFuncDelta<R> extends LBiByteFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(byte a1, byte a2) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2));
+	public R apply(byte a1, byte a2) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2));
 	}
 
 	// <editor-fold desc="object">

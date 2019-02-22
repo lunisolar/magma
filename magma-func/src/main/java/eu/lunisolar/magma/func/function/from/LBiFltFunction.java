@@ -66,135 +66,152 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain2<aFloat, aFloat> { // NOSONAR
 
-	String DESCRIPTION = "LBiFltFunction: R doApply(float a1,float a2)";
+	String DESCRIPTION = "LBiFltFunction: R apply(float a1,float a2)";
 
 	@Nullable
-	// R doApply(float a1,float a2) ;
-	default R doApply(float a1, float a2) {
-		// return nestingDoApply(a1,a2);
+	// R apply(float a1,float a2) ;
+	default R apply(float a1, float a2) {
+		// return nestingApply(a1,a2);
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApply(float a1,float a2)
+	 * Implement this, but call apply(float a1,float a2)
 	 */
-	R doApplyX(float a1, float a2) throws Throwable;
+	R applyX(float a1, float a2) throws Throwable;
 
 	default R tupleApply(LFltPair args) {
-		return doApply(args.first(), args.second());
+		return apply(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default R handlingDoApply(float a1, float a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default R handlingApply(float a1, float a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default R tryDoApply(float a1, float a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiFltFunction<R> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingApply(a1, a2, handling);
+	}
+
+	default R apply(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default R tryDoApply(float a1, float a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiFltFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default R apply(float a1, float a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default R tryDoApplyThen(float a1, float a2, @Nonnull LFunction<Throwable, R> handler) {
+	default LBiFltFunction<R> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> apply(a1, a2, exF);
+	}
+
+	default R applyThen(float a1, float a2, @Nonnull LFunction<Throwable, R> handler) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApply(e);
+			return handler.apply(e);
 		}
+	}
+
+	default LBiFltFunction<R> tryingThen(@Nonnull LFunction<Throwable, R> handler) {
+		return (a1, a2) -> applyThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(float a1, float a2) {
+	default R nestingApply(float a1, float a2) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default R shovingDoApply(float a1, float a2) {
+	default R shovingApply(float a1, float a2) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <R> R handlingDoApply(float a1, float a2, LBiFltFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(float a1, float a2, LBiFltFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApply(a1, a2, handling);
+		return func.handlingApply(a1, a2, handling);
 	}
 
-	static <R> R tryDoApply(float a1, float a2, LBiFltFunction<R> func) {
-		return tryDoApply(a1, a2, func, null);
-	}
-
-	static <R> R tryDoApply(float a1, float a2, LBiFltFunction<R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <R> R tryApply(float a1, float a2, LBiFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingApply(a1, a2);
 	}
 
-	static <R> R tryDoApply(float a1, float a2, LBiFltFunction<R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <R> R tryApply(float a1, float a2, LBiFltFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, exceptionFactory);
+		return func.apply(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static <R> R tryDoApplyThen(float a1, float a2, LBiFltFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+	static <R> R tryApply(float a1, float a2, LBiFltFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyThen(a1, a2, handler);
+		return func.apply(a1, a2, exF);
 	}
 
-	default R failSafeDoApply(float a1, float a2, @Nonnull LBiFltFunction<R> failSafe) {
+	static <R> R tryApplyThen(float a1, float a2, LBiFltFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyThen(a1, a2, handler);
+	}
+
+	default R failSafeApply(float a1, float a2, @Nonnull LBiFltFunction<R> failSafe) {
 		try {
-			return doApply(a1, a2);
+			return apply(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApply(a1, a2);
+			return failSafe.apply(a1, a2);
 		}
 	}
 
-	static <R> R failSafeDoApply(float a1, float a2, LBiFltFunction<R> func, @Nonnull LBiFltFunction<R> failSafe) {
+	static <R> R failSafeApply(float a1, float a2, LBiFltFunction<R> func, @Nonnull LBiFltFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApply(a1, a2);
+			return failSafe.apply(a1, a2);
 		} else {
-			return func.failSafeDoApply(a1, a2, failSafe);
+			return func.failSafeApply(a1, a2, failSafe);
 		}
 	}
 
-	static <R> LBiFltFunction<R> failSafeBiFltFunc(LBiFltFunction<R> func, @Nonnull LBiFltFunction<R> failSafe) {
+	static <R> LBiFltFunction<R> failSafe(LBiFltFunction<R> func, @Nonnull LBiFltFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoApply(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeApply(a1, a2, func, failSafe);
 	}
 
-	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(float a1, float a2) {
-		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullApply(float a1, float a2) {
+		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -206,13 +223,13 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTo(int min_i, int max_i, float a1, float a2, LBiFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		}
 	}
@@ -220,28 +237,30 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTill(int min_i, int max_i, float a1, float a2, LBiFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void times(int max_i, float a1, float a2, LBiFltFunction<R> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LFltFunction<R> lShrink(LFltUnaryOperator left) {
-		return a2 -> doApply(left.doApplyAsFlt(a2), a2);
+		return a2 -> apply(left.applyAsFlt(a2), a2);
 	}
 
 	public default LFltFunction<R> lShrinkc(float a1) {
-		return a2 -> doApply(a1, a2);
+		return a2 -> apply(a1, a2);
 	}
 
 	public static <R> LFltFunction<R> lShrinked(LFltUnaryOperator left, LBiFltFunction<R> func) {
@@ -253,11 +272,11 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	public default LFltFunction<R> rShrink(LFltUnaryOperator right) {
-		return a1 -> doApply(a1, right.doApplyAsFlt(a1));
+		return a1 -> apply(a1, right.applyAsFlt(a1));
 	}
 
 	public default LFltFunction<R> rShrinkc(float a2) {
-		return a1 -> doApply(a1, a2);
+		return a1 -> apply(a1, a2);
 	}
 
 	public static <R> LFltFunction<R> rShrinked(LFltUnaryOperator right, LBiFltFunction<R> func) {
@@ -269,13 +288,28 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/**  */
-	public static <R> LBiFltFunction<R> uncurryBiFltFunc(LFltFunction<LFltFunction<R>> func) {
-		return (float a1, float a2) -> func.doApply(a1).doApply(a2);
+	public static <R> LBiFltFunction<R> uncurry(LFltFunction<LFltFunction<R>> func) {
+		return (float a1, float a2) -> func.apply(a1).apply(a2);
+	}
+
+	/** Cast that removes generics. */
+	public default LBiFltFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LBiFltFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, R> LBiFltFunction<V2> cast(LBiFltFunction<R> function) {
+		return (LBiFltFunction) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureBiFltFunc(float a1, float a2) {
-		return () -> this.doApply(a1, a2);
+	default LSupplier<R> capture(float a1, float a2) {
+		return () -> this.apply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -286,13 +320,13 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <R> LBiFltFunction<R> apply1st(@Nonnull LFltFunction<R> func) {
-		return (a1, a2) -> func.doApply(a1);
+		return (a1, a2) -> func.apply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <R> LBiFltFunction<R> apply2nd(@Nonnull LFltFunction<R> func) {
-		return (a1, a2) -> func.doApply(a2);
+		return (a1, a2) -> func.apply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -305,7 +339,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	static <R> LBiFltFunction<R> recursive(final @Nonnull LFunction<LBiFltFunction<R>, LBiFltFunction<R>> selfLambda) {
 		final LBiFltFunctionSingle<R> single = new LBiFltFunctionSingle();
-		LBiFltFunction<R> func = selfLambda.doApply(single);
+		LBiFltFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -314,8 +348,8 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		private LBiFltFunction<R> target = null;
 
 		@Override
-		public R doApplyX(float a1, float a2) throws Throwable {
-			return target.doApplyX(a1, a2);
+		public R applyX(float a1, float a2) throws Throwable {
+			return target.applyX(a1, a2);
 		}
 
 		@Override
@@ -325,18 +359,18 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static <R> LBiFltFunction<R> biFltFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LBiFltFunction<R> biFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <R> LBiFltFunction<R> biFltFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LBiFltFunction<R> biFltFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -353,7 +387,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	static <R> R call(float a1, float a2, final @Nonnull LBiFltFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a1, a2);
+		return lambda.apply(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -400,14 +434,14 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiFltFunction<R> biFltFuncComposeFlt(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2) {
+	default LBiFltFunction<R> compose(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApply(before1.doApplyAsFlt(v1), before2.doApplyAsFlt(v2));
+		return (v1, v2) -> this.apply(before1.applyAsFlt(v1), before2.applyAsFlt(v2));
 	}
 
-	public static <R> LBiFltFunction<R> composedFlt(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2, LBiFltFunction<R> after) {
-		return after.biFltFuncComposeFlt(before1, before2);
+	public static <R> LBiFltFunction<R> composed(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2, LBiFltFunction<R> after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -415,7 +449,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default <V1, V2> LBiFunction<V1, V2, R> biFltFuncCompose(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApply(before1.doApplyAsFlt(v1), before2.doApplyAsFlt(v2));
+		return (v1, v2) -> this.apply(before1.applyAsFlt(v1), before2.applyAsFlt(v2));
 	}
 
 	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2, LBiFltFunction<R> after) {
@@ -430,22 +464,22 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LBiFltFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.apply(this.apply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiFltConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.accept(this.apply(a1, a2));
 	}
 
 	@Nonnull
 	default LBiFltFunction<R> before(@Nonnull LBiFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (a1, a2) -> {
-			before.doAccept(a1, a2);
-			return this.doApply(a1, a2);
+			before.accept(a1, a2);
+			return this.apply(a1, a2);
 		};
 	}
 
@@ -453,8 +487,8 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default LBiFltFunction<R> after(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> {
-			R result = this.doApply(a1, a2);
-			after.doAccept(result);
+			R result = this.apply(a1, a2);
+			after.accept(result);
 			return result;
 		};
 	}
@@ -463,37 +497,26 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	default LFltBinaryOperator thenToFlt(@Nonnull LToFltFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsFlt(this.doApply(a1, a2));
+		return (a1, a2) -> after.applyAsFlt(this.apply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiFltPredicate thenToBool(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doTest(this.doApply(a1, a2));
+		return (a1, a2) -> after.test(this.apply(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiFltFunction<R> nestingBiFltFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFltFunction<R> shovingBiFltFunc() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LBiFltFunction<R> nonNullBiFltFunc() {
-		return this::nonNullDoApply;
+	default LBiFltFunction<R> nonNullable() {
+		return this::nonNullApply;
 	}
 
 	// <editor-fold desc="interface variants">
@@ -502,11 +525,11 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	@FunctionalInterface
 	interface LFlt1Flt0Func<R> extends LBiFltFunction<R> {
 		@Nullable
-		R doApplyFlt1Flt0(float a2, float a1);
+		R applyFlt1Flt0(float a2, float a1);
 
 		@Override
-		default R doApplyX(float a1, float a2) {
-			return this.doApplyFlt1Flt0(a2, a1);
+		default R applyX(float a1, float a2) {
+			return this.applyFlt1Flt0(a2, a1);
 		}
 	}
 
@@ -517,7 +540,10 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (R) Function4U.defaultObject;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=float a1, type=IA}, SourcePurpose{arg=float a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2> void forEach(IndexedRead<C1, aFloat> ia1, C1 source1, IndexedRead<C2, aFloat> ia2, C2 source2, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiToFltFunction<Object> oiFunc1 = (LOiToFltFunction) ia1.getter();
@@ -525,56 +551,65 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		LOiToFltFunction<Object> oiFunc2 = (LOiToFltFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			float a1 = oiFunc1.doApplyAsFlt(source1, i);
-			float a2 = oiFunc2.doApplyAsFlt(source2, i);
-			consumer.doAccept(this.doApply(a1, a2));
+			float a1 = oiFunc1.applyAsFlt(source1, i);
+			float a2 = oiFunc2.applyAsFlt(source2, i);
+			consumer.accept(this.apply(a1, a2));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=float a1, type=SA}, SourcePurpose{arg=float a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aFloat> sa1, C1 source1, IndexedRead<C2, aFloat> ia2, C2 source2, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToFltFunction<Object> nextFunc1 = (LToFltFunction) sa1.getter();
+		LToFltFunction<Object> nextFunc1 = (LToFltFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToFltFunction<Object> oiFunc2 = (LOiToFltFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			float a1 = nextFunc1.doApplyAsFlt(iterator1);
-			float a2 = oiFunc2.doApplyAsFlt(source2, i);
-			consumer.doAccept(this.doApply(a1, a2));
+		while (testFunc1.test(iterator1) && i < size) {
+			float a1 = nextFunc1.applyAsFlt(iterator1);
+			float a2 = oiFunc2.applyAsFlt(source2, i);
+			consumer.accept(this.apply(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=float a1, type=IA}, SourcePurpose{arg=float a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2> void iterate(IndexedRead<C1, aFloat> ia1, C1 source1, SequentialRead<C2, I2, aFloat> sa2, C2 source2, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiToFltFunction<Object> oiFunc1 = (LOiToFltFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToFltFunction<Object> nextFunc2 = (LToFltFunction) sa2.getter();
+		LToFltFunction<Object> nextFunc2 = (LToFltFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			float a1 = oiFunc1.doApplyAsFlt(source1, i);
-			float a2 = nextFunc2.doApplyAsFlt(iterator2);
-			consumer.doAccept(this.doApply(a1, a2));
+		while (i < size && testFunc2.test(iterator2)) {
+			float a1 = oiFunc1.applyAsFlt(source1, i);
+			float a2 = nextFunc2.applyAsFlt(iterator2);
+			consumer.accept(this.apply(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=float a1, type=SA}, SourcePurpose{arg=float a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aFloat> sa1, C1 source1, SequentialRead<C2, I2, aFloat> sa2, C2 source2, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToFltFunction<Object> nextFunc1 = (LToFltFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToFltFunction<Object> nextFunc1 = (LToFltFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToFltFunction<Object> nextFunc2 = (LToFltFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			float a1 = nextFunc1.doApplyAsFlt(iterator1);
-			float a2 = nextFunc2.doApplyAsFlt(iterator2);
-			consumer.doAccept(this.doApply(a1, a2));
+		LToFltFunction<Object> nextFunc2 = (LToFltFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			float a1 = nextFunc1.applyAsFlt(iterator1);
+			float a2 = nextFunc2.applyAsFlt(iterator2);
+			consumer.accept(this.apply(a1, a2));
 		}
 	}
 

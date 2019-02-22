@@ -80,8 +80,10 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LByteSupplier byteSupplierFrom(Function<LByteSupplierBuilder, LByteSupplier> buildingFunction) {
-		return buildingFunction.apply(new LByteSupplierBuilder());
+	public static LByteSupplier byteSupplierFrom(Consumer<LByteSupplierBuilder> buildingFunction) {
+		LByteSupplierBuilder builder = new LByteSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 		retval = LByteSupplier.byteSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LByteSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsByte();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsByte();
 					}
 				}
 
-				return eventuallyFinal.doGetAsByte();
+				return eventuallyFinal.getAsByte();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

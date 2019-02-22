@@ -89,8 +89,8 @@ public class LFltSupDelta extends LFltSupMemento {
 	}
 
 	@Override
-	public float doGetAsFlt() {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doGetAsFlt());
+	public float getAsFlt() {
+		return deltaFunction.applyAsFlt(lastValue(), super.getAsFlt());
 	}
 
 	// <editor-fold desc="object">

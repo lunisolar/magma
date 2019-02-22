@@ -82,13 +82,12 @@ public interface LLongToDblFunctionAssert<S extends LLongToDblFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LLongConsumer, A, RS, Double> doesApplyAsDbl(long a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsDbl(a));
+				return assertFactory.apply(actual.applyAsDbl(a));
 			});
-
 		}
 
 	}

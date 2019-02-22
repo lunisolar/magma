@@ -72,8 +72,8 @@ public class LBoolSupMemento implements LBoolSupplier {
 	}
 
 	@Override
-	public boolean doGetAsBoolX() {
-		return lastValue = function.doGetAsBool();
+	public boolean getAsBoolX() {
+		return lastValue = function.getAsBool();
 	}
 
 	public boolean lastValue() {

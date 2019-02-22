@@ -82,13 +82,12 @@ public interface LFunctionAssert<S extends LFunctionAssert<S, A, RS, T, R>, A ex
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, R> doesApply(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApply(a));
+				return assertFactory.apply(actual.apply(a));
 			});
-
 		}
 
 	}

@@ -69,7 +69,7 @@ public class LToFltBiFunctionBuilderTest<T1,T2>{
                 .build()
             );
 
-            function.doApplyAsFlt(100,100);
+            function.applyAsFlt(100,100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LToFltBiFunctionBuilderTest<T1,T2>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsFlt(100,100);
+            function.applyAsFlt(100,100);
 
             fail("No exception were thrown.");
         })

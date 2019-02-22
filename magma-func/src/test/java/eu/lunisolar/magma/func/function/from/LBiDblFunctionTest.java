@@ -65,14 +65,14 @@ public class LBiDblFunctionTest<R> {
 
 
     private LBiDblFunction<Integer> sut = new LBiDblFunction<Integer>(){
-        public @Nullable Integer doApplyX(double a1,double a2)  {
+        public @Nullable Integer applyX(double a1,double a2)  {
             return testValue;
         }
     };
 
 
     private LBiDblFunction<Integer> sutNull = new LBiDblFunction<Integer>(){
-        public @Nullable Integer doApplyX(double a1,double a2)  {
+        public @Nullable Integer applyX(double a1,double a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBiDblFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100d,100d))
+        assertThat(sut.apply(100d,100d))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBiDblFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100d,100d))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100d,100d))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100d,100d);
+            sutAlwaysThrowingUnchecked.nestingApply(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBiDblFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100d,100d);
+            sutAlwaysThrowingUnchecked.shovingApply(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBiDblFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiDblFunction: R doApply(double a1,double a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiDblFunction: R apply(double a1,double a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100d,100d);
+        sutNull.nonNullApply(100d,100d);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiDblFunction: R doApply(double a1,double a2)");
+            .isEqualTo("LBiDblFunction: R apply(double a1,double a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBiDblFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiDblFuncComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LBiDblFunctionTest<R> {
         };
 
         //when
-        LBiDblFunction<Integer> function = sutO.biDblFuncComposeDbl(before1,before2);
-        function.doApply(80d,81d);
+        LBiDblFunction<Integer> function = sutO.compose(before1,before2);
+        function.apply(80d,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LBiDblFunctionTest<R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.biDblFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LBiDblFunctionTest<R> {
 
         //when
         LBiDblFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80d,81d);
+        Integer finalValue = function.apply(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LBiDblFunctionTest<R> {
 
         //when
         LBiDblConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(80d,81d);
+        function.accept(80d,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LBiDblFunctionTest<R> {
 
         //when
         LDblBinaryOperator function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d,81d);
+        double finalValue = function.applyAsDbl(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -367,7 +367,7 @@ public class LBiDblFunctionTest<R> {
 
         //when
         LBiDblPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80d,81d);
+        boolean finalValue = function.test(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -380,20 +380,6 @@ public class LBiDblFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiDblFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiDblFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -404,7 +390,7 @@ public class LBiDblFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingBiDblFunc().doApply(100d,100d);
+        sutThrowing.shovingApply(100d,100d);
     }
 
 
@@ -417,7 +403,7 @@ public class LBiDblFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiDblFunction: R doApply(double a1,double a2)");
+                .contains("LBiDblFunction: R apply(double a1,double a2)");
     }
 
 

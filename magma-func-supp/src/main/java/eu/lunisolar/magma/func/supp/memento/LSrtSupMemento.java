@@ -72,8 +72,8 @@ public class LSrtSupMemento implements LSrtSupplier {
 	}
 
 	@Override
-	public short doGetAsSrtX() {
-		return lastValue = function.doGetAsSrt();
+	public short getAsSrtX() {
+		return lastValue = function.getAsSrt();
 	}
 
 	public short lastValue() {

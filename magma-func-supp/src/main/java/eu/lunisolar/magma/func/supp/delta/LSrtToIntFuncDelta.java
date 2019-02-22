@@ -89,8 +89,8 @@ public class LSrtToIntFuncDelta extends LSrtToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(short a) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
+	public int applyAsInt(short a) {
+		return deltaFunction.applyAsInt(lastValue(), super.applyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

@@ -69,7 +69,7 @@ public class LByteToIntFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsInt((byte)100);
+            function.applyAsInt((byte)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LByteToIntFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt((byte)100);
+            function.applyAsInt((byte)100);
 
             fail("No exception were thrown.");
         })

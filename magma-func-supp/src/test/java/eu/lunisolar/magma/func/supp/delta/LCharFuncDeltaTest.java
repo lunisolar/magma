@@ -55,7 +55,7 @@ public class LCharFuncDeltaTest <R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply('\u0100'))
+        assertThat(sut.apply('\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LCharFuncDeltaTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply('\u0100'))
+        assertThat(sut.apply('\u0100'))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -69,7 +69,7 @@ public class LLongToByteFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsByte(100L);
+            function.applyAsByte(100L);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLongToByteFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsByte(100L);
+            function.applyAsByte(100L);
 
             fail("No exception were thrown.");
         })

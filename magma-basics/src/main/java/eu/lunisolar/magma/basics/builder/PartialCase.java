@@ -56,6 +56,11 @@ public class PartialCase<SELF extends PartialCase<SELF, PCB, P, F>, PCB extends 
         return superContext;
     }
 
+    /** Finalize the case build by providing second required value for the Case. */
+    public final PCB eval(@Nonnull F caseFunction) {
+        return evaluate(caseFunction);
+    }
+
     public static final class The<PCB extends PerCaseBuilder.Base<PCB, P, F>, P, F> extends PartialCase<The<PCB, P, F>, PCB, P, F> {
 
         public The(@Nonnull PCB superContext, @Nonnull P casePredicate, Supplier<PCB> subCasesFactory) {

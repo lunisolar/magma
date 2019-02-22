@@ -65,7 +65,7 @@ public class LLongToCharFunctionTest {
 
 
     private LLongToCharFunction sut = new LLongToCharFunction(){
-        public  char doApplyAsCharX(long a)  {
+        public  char applyAsCharX(long a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LLongToCharFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsChar(100L))
+        assertThat(sut.applyAsChar(100L))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LLongToCharFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsChar(100L))
+    public void testNonNullApplyAsChar() throws Throwable {
+        assertThat(sut.nonNullApplyAsChar(100L))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsCharUnchecked() throws Throwable {
+    public void testNestingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsChar(100L);
+            sutAlwaysThrowingUnchecked.nestingApplyAsChar(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LLongToCharFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsCharUnchecked() throws Throwable {
+    public void testShovingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsChar(100L);
+            sutAlwaysThrowingUnchecked.shovingApplyAsChar(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LLongToCharFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongToCharFunction: char doApplyAsChar(long a)");
+            .isEqualTo("LLongToCharFunction: char applyAsChar(long a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LLongToCharFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLongToCharFuncComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LLongToCharFunctionTest {
         };
 
         //when
-        LLongToCharFunction function = sutO.longToCharFuncComposeLong(before);
-        function.doApplyAsChar(80L);
+        LLongToCharFunction function = sutO.compose(before);
+        function.applyAsChar(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LToCharFunction<Integer> function = sutO.longToCharFuncCompose(before);
-        function.doApplyAsChar(80);
+        function.applyAsChar(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80L);
+        Integer finalValue = function.apply(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80L);
+        byte finalValue = function.applyAsByte(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80L);
+        short finalValue = function.applyAsSrt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80L);
+        int finalValue = function.applyAsInt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongUnaryOperator function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80L);
+        long finalValue = function.applyAsLong(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80L);
+        float finalValue = function.applyAsFlt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80L);
+        double finalValue = function.applyAsDbl(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80L);
+        char finalValue = function.applyAsChar(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LLongToCharFunctionTest {
 
         //when
         LLongPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80L);
+        boolean finalValue = function.test(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LLongToCharFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLongToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LLongToCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLongToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LLongToCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LLongToCharFunctionTest {
         });
 
         // when
-        sutThrowing.shovingLongToCharFunc().doApplyAsChar(100L);
+        sutThrowing.shovingApplyAsChar(100L);
     }
 
 
@@ -563,7 +549,7 @@ public class LLongToCharFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongToCharFunction: char doApplyAsChar(long a)");
+                .contains("LLongToCharFunction: char applyAsChar(long a)");
     }
 
 

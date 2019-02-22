@@ -54,7 +54,7 @@ public class LSrtUnaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo((short)0);
 
-        assertThat(sut.doApplyAsSrt((short)100))
+        assertThat(sut.applyAsSrt((short)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LSrtUnaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsSrt((short)100))
+        assertThat(sut.applyAsSrt((short)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

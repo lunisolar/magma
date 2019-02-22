@@ -80,8 +80,10 @@ public final class LByteFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <R> LByteFunction<R> byteFunctionFrom(Function<LByteFunctionBuilder<R>, LByteFunction<R>> buildingFunction) {
-		return buildingFunction.apply(new LByteFunctionBuilder());
+	public static <R> LByteFunction<R> byteFunctionFrom(Consumer<LByteFunctionBuilder<R>> buildingFunction) {
+		LByteFunctionBuilder builder = new LByteFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LByteFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 		retval = LByteFunction.<R> byteFunc(a -> {
 			try {
 				for (Case<LBytePredicate, LByteFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApply(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

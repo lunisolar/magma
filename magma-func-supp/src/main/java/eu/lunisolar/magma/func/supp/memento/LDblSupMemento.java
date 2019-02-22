@@ -72,8 +72,8 @@ public class LDblSupMemento implements LDblSupplier {
 	}
 
 	@Override
-	public double doGetAsDblX() {
-		return lastValue = function.doGetAsDbl();
+	public double getAsDblX() {
+		return lastValue = function.getAsDbl();
 	}
 
 	public double lastValue() {

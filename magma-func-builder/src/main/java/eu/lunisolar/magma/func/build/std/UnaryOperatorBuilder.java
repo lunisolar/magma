@@ -80,8 +80,10 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> UnaryOperator<T> unaryOperatorFrom(Function<UnaryOperatorBuilder<T>, UnaryOperator<T>> buildingFunction) {
-		return buildingFunction.apply(new UnaryOperatorBuilder());
+	public static <T> UnaryOperator<T> unaryOperatorFrom(Consumer<UnaryOperatorBuilder<T>> buildingFunction) {
+		UnaryOperatorBuilder builder = new UnaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 		retval = Function4U.<T> unaryOp(a -> {
 			try {
 				for (Case<LPredicate<T>, UnaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().apply(a);
 					}
 				}

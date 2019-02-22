@@ -72,8 +72,8 @@ public class LCharSupMemento implements LCharSupplier {
 	}
 
 	@Override
-	public char doGetAsCharX() {
-		return lastValue = function.doGetAsChar();
+	public char getAsCharX() {
+		return lastValue = function.getAsChar();
 	}
 
 	public char lastValue() {

@@ -63,7 +63,7 @@ public class LIntConsumerTest {
 
 
     private LIntConsumer sut = new LIntConsumer(){
-        public  void doAcceptX(int a)  {
+        public  void acceptX(int a)  {
             LIntConsumer.doNothing(a);
         }
     };
@@ -95,11 +95,11 @@ public class LIntConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -110,11 +110,11 @@ public class LIntConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -128,7 +128,7 @@ public class LIntConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntConsumer: void doAccept(int a)");
+            .isEqualTo("LIntConsumer: void accept(int a)");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class LIntConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testIntConsComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -169,8 +169,8 @@ public class LIntConsumerTest {
         };
 
         //when
-        LIntConsumer function = sutO.intConsComposeInt(before);
-        function.doAccept(80);
+        LIntConsumer function = sutO.compose(before);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -198,7 +198,7 @@ public class LIntConsumerTest {
 
         //when
         LConsumer<Integer> function = sutO.intConsCompose(before);
-        function.doAccept(80);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -226,27 +226,13 @@ public class LIntConsumerTest {
 
         //when
         LIntConsumer function = sutO.andThen(thenFunction);
-        function.doAccept(80);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LIntConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LIntConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -258,7 +244,7 @@ public class LIntConsumerTest {
         });
 
         // when
-        sutThrowing.shovingIntCons().doAccept(100);
+        sutThrowing.shovingAccept(100);
     }
 
 
@@ -271,7 +257,7 @@ public class LIntConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntConsumer: void doAccept(int a)");
+                .contains("LIntConsumer: void accept(int a)");
     }
 
 

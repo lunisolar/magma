@@ -63,13 +63,13 @@ public class LazyInt extends LIntSupMemento implements LIntSingle {
 	}
 
 	public static <E> LazyInt lazyValue(E e, LToIntFunction<E> function) {
-		return new LazyInt(() -> function.doApplyAsInt(e));
+		return new LazyInt(() -> function.applyAsInt(e));
 	}
 
 	@Override
-	public int doGetAsInt() {
+	public int getAsInt() {
 		if (function != null) {
-			lastValue = function.doGetAsInt();
+			lastValue = function.getAsInt();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazyInt extends LIntSupMemento implements LIntSingle {
 	}
 
 	public int value() {
-		return doGetAsInt();
+		return getAsInt();
 	}
 
 	public static boolean argEquals(LazyInt the, Object that) {

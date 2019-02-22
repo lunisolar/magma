@@ -89,8 +89,8 @@ public class LOiToLongFuncDelta<T> extends LOiToLongFuncMemento<T> {
 	}
 
 	@Override
-	public long doApplyAsLong(T a1, int a2) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1, a2));
+	public long applyAsLong(T a1, int a2) {
+		return deltaFunction.applyAsLong(lastValue(), super.applyAsLong(a1, a2));
 	}
 
 	// <editor-fold desc="object">

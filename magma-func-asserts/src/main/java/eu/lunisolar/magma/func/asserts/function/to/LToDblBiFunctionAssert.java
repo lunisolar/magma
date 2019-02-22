@@ -82,13 +82,12 @@ public interface LToDblBiFunctionAssert<S extends LToDblBiFunctionAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LBiConsumer<T1, T2>, A, RS, Double> doesApplyAsDbl(T1 a1, T2 a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doApplyAsDbl(a1, a2));
+				return assertFactory.apply(actual.applyAsDbl(a1, a2));
 			});
-
 		}
 
 	}

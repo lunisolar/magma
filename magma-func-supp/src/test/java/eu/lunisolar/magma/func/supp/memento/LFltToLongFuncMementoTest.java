@@ -54,7 +54,7 @@ public class LFltToLongFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong(100f))
+        assertThat(sut.applyAsLong(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LFltToLongFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong(100f))
+        assertThat(sut.applyAsLong(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

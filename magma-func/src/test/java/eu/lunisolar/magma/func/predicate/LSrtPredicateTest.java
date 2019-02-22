@@ -65,7 +65,7 @@ public class LSrtPredicateTest {
 
 
     private LSrtPredicate sut = new LSrtPredicate(){
-        public  boolean doTestX(short a)  {
+        public  boolean testX(short a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LSrtPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest((short)100))
+        assertThat(sut.test((short)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LSrtPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest((short)100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest((short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest((short)100);
+            sutAlwaysThrowingUnchecked.nestingTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LSrtPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest((short)100);
+            sutAlwaysThrowingUnchecked.shovingTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LSrtPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtPredicate: boolean doTest(short a)");
+            .isEqualTo("LSrtPredicate: boolean test(short a)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LSrtPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest((short)100))
+        assertThat(sut.negate().test((short)100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LSrtPredicateTest {
         LSrtPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest((short)100))
+        assertThat(andFunction.test((short)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest((short)100))
+        assertThat(orFunction.test((short)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest((short)100))
+        assertThat(xorFunction.test((short)100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LSrtPredicateTest {
         LSrtPredicate equals = LSrtPredicate.isEqual((short)1);
 
         //then
-        assertThat(equals.doTest((short)1))
+        assertThat(equals.test((short)1))
                 .isTrue();
 
-        assertThat(equals.doTest((short)0))
+        assertThat(equals.test((short)0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LSrtPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testSrtPredComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -235,8 +235,8 @@ public class LSrtPredicateTest {
         };
 
         //when
-        LSrtPredicate function = sutO.srtPredComposeSrt(before);
-        function.doTest((short)80);
+        LSrtPredicate function = sutO.compose(before);
+        function.test((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LSrtPredicateTest {
 
         //when
         LPredicate<Integer> function = sutO.srtPredCompose(before);
-        function.doTest(80);
+        function.test(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -301,7 +301,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtFunction<Integer> function = sutO.boolToSrtFunc(thenFunction);
-        Integer finalValue = function.doApply((short)80);
+        Integer finalValue = function.apply((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -335,7 +335,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtToByteFunction function = sutO.boolToSrtToByteFunc(thenFunction);
-        byte finalValue = function.doApplyAsByte((short)80);
+        byte finalValue = function.applyAsByte((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -369,7 +369,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtUnaryOperator function = sutO.boolToSrtUnaryOp(thenFunction);
-        short finalValue = function.doApplyAsSrt((short)80);
+        short finalValue = function.applyAsSrt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -403,7 +403,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtToIntFunction function = sutO.boolToSrtToIntFunc(thenFunction);
-        int finalValue = function.doApplyAsInt((short)80);
+        int finalValue = function.applyAsInt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -437,7 +437,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtToLongFunction function = sutO.boolToSrtToLongFunc(thenFunction);
-        long finalValue = function.doApplyAsLong((short)80);
+        long finalValue = function.applyAsLong((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -471,7 +471,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtToFltFunction function = sutO.boolToSrtToFltFunc(thenFunction);
-        float finalValue = function.doApplyAsFlt((short)80);
+        float finalValue = function.applyAsFlt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -505,7 +505,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtToDblFunction function = sutO.boolToSrtToDblFunc(thenFunction);
-        double finalValue = function.doApplyAsDbl((short)80);
+        double finalValue = function.applyAsDbl((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -539,7 +539,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtToCharFunction function = sutO.boolToSrtToCharFunc(thenFunction);
-        char finalValue = function.doApplyAsChar((short)80);
+        char finalValue = function.applyAsChar((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -573,7 +573,7 @@ public class LSrtPredicateTest {
 
         //when
         LSrtPredicate function = sutO.boolToSrtPred(thenFunction);
-        boolean finalValue = function.doTest((short)80);
+        boolean finalValue = function.test((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -586,20 +586,6 @@ public class LSrtPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingSrtPred())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingSrtPred())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -610,7 +596,7 @@ public class LSrtPredicateTest {
         });
 
         // when
-        sutThrowing.shovingSrtPred().doTest((short)100);
+        sutThrowing.shovingTest((short)100);
     }
 
 
@@ -623,7 +609,7 @@ public class LSrtPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSrtPredicate: boolean doTest(short a)");
+                .contains("LSrtPredicate: boolean test(short a)");
     }
 
 

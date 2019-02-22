@@ -80,8 +80,10 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static IntBinaryOperator intBinaryOperatorFrom(Function<IntBinaryOperatorBuilder, IntBinaryOperator> buildingFunction) {
-		return buildingFunction.apply(new IntBinaryOperatorBuilder());
+	public static IntBinaryOperator intBinaryOperatorFrom(Consumer<IntBinaryOperatorBuilder> buildingFunction) {
+		IntBinaryOperatorBuilder builder = new IntBinaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		retval = Function4U.intBinaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiIntPredicate, IntBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
+					if (aCase.casePredicate().test(a1, a2)) {
 						return aCase.caseFunction().applyAsInt(a1, a2);
 					}
 				}

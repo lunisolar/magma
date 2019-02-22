@@ -55,7 +55,7 @@ public class LLongSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsLong())
+        assertThat(sut.getAsLong())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LLongSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsLong())
+        assertThat(sut.getAsLong())
             .isEqualTo(9L);
 
         assertThat(functionCallCount).isEqualTo(2);

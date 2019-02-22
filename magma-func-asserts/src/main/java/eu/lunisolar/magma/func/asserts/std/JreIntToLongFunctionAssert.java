@@ -80,13 +80,12 @@ public interface JreIntToLongFunctionAssert<S extends JreIntToLongFunctionAssert
 		@Nonnull
 		public Evaluation<S, LIntConsumer, A, RS, Long> doesApplyAsLong(int a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.applyAsLong(a));
+				return assertFactory.apply(actual.applyAsLong(a));
 			});
-
 		}
 
 	}

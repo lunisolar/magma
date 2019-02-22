@@ -72,8 +72,8 @@ public class LFltSupMemento implements LFltSupplier {
 	}
 
 	@Override
-	public float doGetAsFltX() {
-		return lastValue = function.doGetAsFlt();
+	public float getAsFltX() {
+		return lastValue = function.getAsFlt();
 	}
 
 	public float lastValue() {

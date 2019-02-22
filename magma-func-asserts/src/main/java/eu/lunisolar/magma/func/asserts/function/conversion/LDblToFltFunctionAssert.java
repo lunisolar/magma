@@ -82,13 +82,12 @@ public interface LDblToFltFunctionAssert<S extends LDblToFltFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LDblConsumer, A, RS, Float> doesApplyAsFlt(double a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFlt(a));
+				return assertFactory.apply(actual.applyAsFlt(a));
 			});
-
 		}
 
 	}

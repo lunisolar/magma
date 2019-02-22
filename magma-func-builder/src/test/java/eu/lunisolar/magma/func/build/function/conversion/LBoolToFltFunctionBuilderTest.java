@@ -69,7 +69,7 @@ public class LBoolToFltFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsFlt(true);
+            function.applyAsFlt(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolToFltFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsFlt(true);
+            function.applyAsFlt(true);
 
             fail("No exception were thrown.");
         })

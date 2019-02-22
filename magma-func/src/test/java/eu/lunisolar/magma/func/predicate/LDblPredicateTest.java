@@ -65,7 +65,7 @@ public class LDblPredicateTest {
 
 
     private LDblPredicate sut = new LDblPredicate(){
-        public  boolean doTestX(double a)  {
+        public  boolean testX(double a)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LDblPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100d))
+        assertThat(sut.test(100d))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LDblPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100d))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100d))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100d);
+            sutAlwaysThrowingUnchecked.nestingTest(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LDblPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100d);
+            sutAlwaysThrowingUnchecked.shovingTest(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -148,7 +148,7 @@ public class LDblPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblPredicate: boolean doTest(double a)");
+            .isEqualTo("LDblPredicate: boolean test(double a)");
     }
 
     @Test
@@ -168,7 +168,7 @@ public class LDblPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100d))
+        assertThat(sut.negate().test(100d))
             .isEqualTo(!testValue);
     }
 
@@ -196,13 +196,13 @@ public class LDblPredicateTest {
         LDblPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100d))
+        assertThat(andFunction.test(100d))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100d))
+        assertThat(orFunction.test(100d))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100d))
+        assertThat(xorFunction.test(100d))
                 .isEqualTo(xorResult);
     }
 
@@ -212,10 +212,10 @@ public class LDblPredicateTest {
         LDblPredicate equals = LDblPredicate.isEqual(1d);
 
         //then
-        assertThat(equals.doTest(1d))
+        assertThat(equals.test(1d))
                 .isTrue();
 
-        assertThat(equals.doTest(0d))
+        assertThat(equals.test(0d))
                 .isFalse();
     }
 
@@ -224,7 +224,7 @@ public class LDblPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblPredComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -243,8 +243,8 @@ public class LDblPredicateTest {
         };
 
         //when
-        LDblPredicate function = sutO.dblPredComposeDbl(before);
-        function.doTest(80d);
+        LDblPredicate function = sutO.compose(before);
+        function.test(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -273,7 +273,7 @@ public class LDblPredicateTest {
 
         //when
         LPredicate<Integer> function = sutO.dblPredCompose(before);
-        function.doTest(80);
+        function.test(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -309,7 +309,7 @@ public class LDblPredicateTest {
 
         //when
         LDblFunction<Integer> function = sutO.boolToDblFunc(thenFunction);
-        Integer finalValue = function.doApply(80d);
+        Integer finalValue = function.apply(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -343,7 +343,7 @@ public class LDblPredicateTest {
 
         //when
         LDblToByteFunction function = sutO.boolToDblToByteFunc(thenFunction);
-        byte finalValue = function.doApplyAsByte(80d);
+        byte finalValue = function.applyAsByte(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -377,7 +377,7 @@ public class LDblPredicateTest {
 
         //when
         LDblToSrtFunction function = sutO.boolToDblToSrtFunc(thenFunction);
-        short finalValue = function.doApplyAsSrt(80d);
+        short finalValue = function.applyAsSrt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -411,7 +411,7 @@ public class LDblPredicateTest {
 
         //when
         LDblToIntFunction function = sutO.boolToDblToIntFunc(thenFunction);
-        int finalValue = function.doApplyAsInt(80d);
+        int finalValue = function.applyAsInt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -445,7 +445,7 @@ public class LDblPredicateTest {
 
         //when
         LDblToLongFunction function = sutO.boolToDblToLongFunc(thenFunction);
-        long finalValue = function.doApplyAsLong(80d);
+        long finalValue = function.applyAsLong(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -479,7 +479,7 @@ public class LDblPredicateTest {
 
         //when
         LDblToFltFunction function = sutO.boolToDblToFltFunc(thenFunction);
-        float finalValue = function.doApplyAsFlt(80d);
+        float finalValue = function.applyAsFlt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -513,7 +513,7 @@ public class LDblPredicateTest {
 
         //when
         LDblUnaryOperator function = sutO.boolToDblUnaryOp(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d);
+        double finalValue = function.applyAsDbl(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -547,7 +547,7 @@ public class LDblPredicateTest {
 
         //when
         LDblToCharFunction function = sutO.boolToDblToCharFunc(thenFunction);
-        char finalValue = function.doApplyAsChar(80d);
+        char finalValue = function.applyAsChar(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -581,7 +581,7 @@ public class LDblPredicateTest {
 
         //when
         LDblPredicate function = sutO.boolToDblPred(thenFunction);
-        boolean finalValue = function.doTest(80d);
+        boolean finalValue = function.test(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -594,20 +594,6 @@ public class LDblPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblPred())
-            .isSameAs(sut)
-            .isInstanceOf(LDblPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblPred())
-            .isSameAs(sut)
-            .isInstanceOf(LDblPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -618,7 +604,7 @@ public class LDblPredicateTest {
         });
 
         // when
-        sutThrowing.shovingDblPred().doTest(100d);
+        sutThrowing.shovingTest(100d);
     }
 
 
@@ -631,7 +617,7 @@ public class LDblPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblPredicate: boolean doTest(double a)");
+                .contains("LDblPredicate: boolean test(double a)");
     }
 
 

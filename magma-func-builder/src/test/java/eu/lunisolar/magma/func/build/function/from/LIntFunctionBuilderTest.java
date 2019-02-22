@@ -69,7 +69,7 @@ public class LIntFunctionBuilderTest<R>{
                 .build()
             );
 
-            function.doApply(100);
+            function.apply(100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LIntFunctionBuilderTest<R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(100);
+            function.apply(100);
 
             fail("No exception were thrown.");
         })

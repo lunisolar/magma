@@ -54,7 +54,7 @@ public class LFltToCharFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo('\u0000');
 
-        assertThat(sut.doApplyAsChar(100f))
+        assertThat(sut.applyAsChar(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LFltToCharFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar(100f))
+        assertThat(sut.applyAsChar(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

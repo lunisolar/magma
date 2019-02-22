@@ -55,7 +55,7 @@ public class LDblUnaryOpDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsDbl(100d))
+        assertThat(sut.applyAsDbl(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LDblUnaryOpDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDbl(100d))
+        assertThat(sut.applyAsDbl(100d))
             .isEqualTo(9d);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -82,13 +82,12 @@ public interface LDblToIntFunctionAssert<S extends LDblToIntFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LDblConsumer, A, RS, Integer> doesApplyAsInt(double a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

@@ -65,7 +65,7 @@ public class LToFltFunctionTest<T> {
 
 
     private LToFltFunction<Integer> sut = new LToFltFunction<Integer>(){
-        public  float doApplyAsFltX(Integer a)  {
+        public  float applyAsFltX(Integer a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LToFltFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsFlt(100))
+        assertThat(sut.applyAsFlt(100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LToFltFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsFlt(100))
+    public void testNonNullApplyAsFlt() throws Throwable {
+        assertThat(sut.nonNullApplyAsFlt(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsFltUnchecked() throws Throwable {
+    public void testNestingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsFlt(100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsFlt(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LToFltFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsFltUnchecked() throws Throwable {
+    public void testShovingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsFlt(100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsFlt(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LToFltFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToFltFunction: float doApplyAsFlt(T a)");
+            .isEqualTo("LToFltFunction: float applyAsFlt(T a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LToFltFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testToFltFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LToFltFunctionTest<T> {
         };
 
         //when
-        LToFltFunction<Integer> function = sutO.toFltFuncCompose(before);
-        function.doApplyAsFlt(80);
+        LToFltFunction<Integer> function = sutO.compose(before);
+        function.applyAsFlt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -212,7 +212,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -246,7 +246,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -280,7 +280,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -314,7 +314,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -348,7 +348,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -382,7 +382,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -416,7 +416,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -450,7 +450,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -484,7 +484,7 @@ public class LToFltFunctionTest<T> {
 
         //when
         LPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -497,20 +497,6 @@ public class LToFltFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingToFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingToFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -521,7 +507,7 @@ public class LToFltFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingToFltFunc().doApplyAsFlt(100);
+        sutThrowing.shovingApplyAsFlt(100);
     }
 
 
@@ -534,7 +520,7 @@ public class LToFltFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToFltFunction: float doApplyAsFlt(T a)");
+                .contains("LToFltFunction: float applyAsFlt(T a)");
     }
 
 

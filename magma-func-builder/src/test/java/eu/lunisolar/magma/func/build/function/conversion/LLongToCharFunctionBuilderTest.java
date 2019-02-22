@@ -69,7 +69,7 @@ public class LLongToCharFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsChar(100L);
+            function.applyAsChar(100L);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLongToCharFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsChar(100L);
+            function.applyAsChar(100L);
 
             fail("No exception were thrown.");
         })

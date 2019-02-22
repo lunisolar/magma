@@ -63,7 +63,7 @@ public class LTriBoolConsumerTest {
 
 
     private LTriBoolConsumer sut = new LTriBoolConsumer(){
-        public  void doAcceptX(boolean a1,boolean a2,boolean a3)  {
+        public  void acceptX(boolean a1,boolean a2,boolean a3)  {
             LTriBoolConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTriBoolConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(true,true,true);
+            sutAlwaysThrowingUnchecked.nestingAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTriBoolConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(true,true,true);
+            sutAlwaysThrowingUnchecked.shovingAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTriBoolConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriBoolConsumer: void doAccept(boolean a1,boolean a2,boolean a3)");
+            .isEqualTo("LTriBoolConsumer: void accept(boolean a1,boolean a2,boolean a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTriBoolConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriBoolConsComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTriBoolConsumerTest {
         };
 
         //when
-        LTriBoolConsumer function = sutO.triBoolConsComposeBool(before1,before2,before3);
-        function.doAccept(true,true,true);
+        LTriBoolConsumer function = sutO.compose(before1,before2,before3);
+        function.accept(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTriBoolConsumerTest {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.triBoolConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTriBoolConsumerTest {
 
         //when
         LTriBoolConsumer function = sutO.andThen(thenFunction);
-        function.doAccept(true,true,true);
+        function.accept(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTriBoolCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTriBoolCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTriBoolConsumerTest {
         });
 
         // when
-        sutThrowing.shovingTriBoolCons().doAccept(true,true,true);
+        sutThrowing.shovingAccept(true,true,true);
     }
 
 
@@ -291,7 +277,7 @@ public class LTriBoolConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriBoolConsumer: void doAccept(boolean a1,boolean a2,boolean a3)");
+                .contains("LTriBoolConsumer: void accept(boolean a1,boolean a2,boolean a3)");
     }
 
 

@@ -54,7 +54,7 @@ public class LLongFuncMementoTest <R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply(100L))
+        assertThat(sut.apply(100L))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongFuncMementoTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100L))
+        assertThat(sut.apply(100L))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

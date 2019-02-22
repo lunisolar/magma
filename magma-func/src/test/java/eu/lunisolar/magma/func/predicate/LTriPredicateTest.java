@@ -65,7 +65,7 @@ public class LTriPredicateTest<T1,T2,T3> {
 
 
     private LTriPredicate<Integer,Integer,Integer> sut = new LTriPredicate<Integer,Integer,Integer>(){
-        public  boolean doTestX(Integer a1,Integer a2,Integer a3)  {
+        public  boolean testX(Integer a1,Integer a2,Integer a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LTriPredicateTest<T1,T2,T3> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100,100,100))
+        assertThat(sut.test(100,100,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LTriPredicateTest<T1,T2,T3> {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100,100,100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100,100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100,100,100);
+            sutAlwaysThrowingUnchecked.nestingTest(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LTriPredicateTest<T1,T2,T3> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100,100,100);
+            sutAlwaysThrowingUnchecked.shovingTest(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LTriPredicateTest<T1,T2,T3> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriPredicate: boolean doTest(T1 a1,T2 a2,T3 a3)");
+            .isEqualTo("LTriPredicate: boolean test(T1 a1,T2 a2,T3 a3)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LTriPredicateTest<T1,T2,T3> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100,100,100))
+        assertThat(sut.negate().test(100,100,100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LTriPredicateTest<T1,T2,T3> {
         LTriPredicate<Integer,Integer,Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100,100,100))
+        assertThat(andFunction.test(100,100,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100,100,100))
+        assertThat(orFunction.test(100,100,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100,100,100))
+        assertThat(xorFunction.test(100,100,100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LTriPredicateTest<T1,T2,T3> {
         LTriPredicate<Integer,Integer,Integer> equals = LTriPredicate.isEqual(1,1,1);
 
         //then
-        assertThat(equals.doTest(1,1,1))
+        assertThat(equals.test(1,1,1))
                 .isTrue();
 
-        assertThat(equals.doTest(0,0,0))
+        assertThat(equals.test(0,0,0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LTriPredicateTest<T1,T2,T3> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriPredCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -247,8 +247,8 @@ public class LTriPredicateTest<T1,T2,T3> {
         };
 
         //when
-        LTriPredicate<Integer,Integer,Integer> function = sutO.triPredCompose(before1,before2,before3);
-        function.doTest(80,81,82);
+        LTriPredicate<Integer,Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.test(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -286,7 +286,7 @@ public class LTriPredicateTest<T1,T2,T3> {
 
         //when
         LTriFunction<Integer,Integer,Integer,Integer> function = sutO.boolToTriFunc(thenFunction);
-        Integer finalValue = function.doApply(80,81,82);
+        Integer finalValue = function.apply(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -322,7 +322,7 @@ public class LTriPredicateTest<T1,T2,T3> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.boolToToIntTriFunc(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,82);
+        int finalValue = function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -358,7 +358,7 @@ public class LTriPredicateTest<T1,T2,T3> {
 
         //when
         LTriPredicate<Integer,Integer,Integer> function = sutO.boolToTriPred(thenFunction);
-        boolean finalValue = function.doTest(80,81,82);
+        boolean finalValue = function.test(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -371,20 +371,6 @@ public class LTriPredicateTest<T1,T2,T3> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTriPred())
-            .isSameAs(sut)
-            .isInstanceOf(LTriPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTriPred())
-            .isSameAs(sut)
-            .isInstanceOf(LTriPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -395,7 +381,7 @@ public class LTriPredicateTest<T1,T2,T3> {
         });
 
         // when
-        sutThrowing.shovingTriPred().doTest(100,100,100);
+        sutThrowing.shovingTest(100,100,100);
     }
 
 
@@ -408,7 +394,7 @@ public class LTriPredicateTest<T1,T2,T3> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriPredicate: boolean doTest(T1 a1,T2 a2,T3 a3)");
+                .contains("LTriPredicate: boolean test(T1 a1,T2 a2,T3 a3)");
     }
 
 
@@ -420,27 +406,27 @@ public class LTriPredicateTest<T1,T2,T3> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variantLObjObj2Obj1Pred(Integer a1,Integer a3,Integer a2) {
+    private boolean variantLObj0Obj2Obj1Pred(Integer a1,Integer a3,Integer a2) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLObjObj2Obj1Pred() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/objObj2Obj1Pred(this::variantLObjObj2Obj1Pred);
+    public void compilerSubstituteVariantLObj0Obj2Obj1Pred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/obj0Obj2Obj1Pred(this::variantLObj0Obj2Obj1Pred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.LObjObj2Obj1Pred.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LObj0Obj2Obj1Pred.class);
     }
 
 
-    private boolean variantLObj1BiObjPred(Integer a2,Integer a1,Integer a3) {
+    private boolean variantLObj1BiObj2Pred(Integer a2,Integer a1,Integer a3) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1BiObjPred() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/obj1BiObjPred(this::variantLObj1BiObjPred);
+    public void compilerSubstituteVariantLObj1BiObj2Pred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/obj1BiObj2Pred(this::variantLObj1BiObj2Pred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.LObj1BiObjPred.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LObj1BiObj2Pred.class);
     }
 
 
@@ -468,15 +454,15 @@ public class LTriPredicateTest<T1,T2,T3> {
     }
 
 
-    private boolean variantLBiObjObj0Pred(Integer a3,Integer a2,Integer a1) {
+    private boolean variantLBiObj1Obj0Pred(Integer a3,Integer a2,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLBiObjObj0Pred() {
-        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/biObjObj0Pred(this::variantLBiObjObj0Pred);
+    public void compilerSubstituteVariantLBiObj1Obj0Pred() {
+        LTriPredicate lambda = LTriPredicate./*<T1,T2,T3>*/biObj1Obj0Pred(this::variantLBiObj1Obj0Pred);
 
-        assertThat(lambda).isInstanceOf(LTriPredicate.LBiObjObj0Pred.class);
+        assertThat(lambda).isInstanceOf(LTriPredicate.LBiObj1Obj0Pred.class);
     }
 
     //</editor-fold>

@@ -72,8 +72,8 @@ public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
 	}
 
 	@Override
-	public T doApplyX(T a1, T a2, T a3) {
-		return lastValue = function.doApply(a1, a2, a3);
+	public T applyX(T a1, T a2, T a3) {
+		return lastValue = function.apply(a1, a2, a3);
 	}
 
 	public T lastValue() {

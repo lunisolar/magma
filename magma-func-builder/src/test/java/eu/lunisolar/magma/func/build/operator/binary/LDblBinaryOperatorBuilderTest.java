@@ -69,7 +69,7 @@ public class LDblBinaryOperatorBuilderTest{
                 .build()
             );
 
-            function.doApplyAsDbl(100d,100d);
+            function.applyAsDbl(100d,100d);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LDblBinaryOperatorBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsDbl(100d,100d);
+            function.applyAsDbl(100d,100d);
 
             fail("No exception were thrown.");
         })

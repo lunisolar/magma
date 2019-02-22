@@ -69,7 +69,7 @@ public class LBiCharConsumerBuilderTest{
                 .build()
             );
 
-            function.doAccept('\u0100','\u0100');
+            function.accept('\u0100','\u0100');
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiCharConsumerBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept('\u0100','\u0100');
+            function.accept('\u0100','\u0100');
 
             fail("No exception were thrown.");
         })

@@ -72,8 +72,8 @@ public class LOiToCharFuncMemento<T> implements LOiToCharFunction<T> {
 	}
 
 	@Override
-	public char doApplyAsCharX(T a1, int a2) {
-		return lastValue = function.doApplyAsChar(a1, a2);
+	public char applyAsCharX(T a1, int a2) {
+		return lastValue = function.applyAsChar(a1, a2);
 	}
 
 	public char lastValue() {

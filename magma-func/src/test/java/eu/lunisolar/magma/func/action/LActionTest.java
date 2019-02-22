@@ -63,7 +63,7 @@ public class LActionTest {
 
 
     private LAction sut = new LAction(){
-        public  void doExecuteX()  {
+        public  void executeX()  {
             LAction.doNothing();
         }
     };
@@ -95,11 +95,11 @@ public class LActionTest {
     }
 
     @Test
-    public void testNestingDoExecuteUnchecked() throws Throwable {
+    public void testNestingExecuteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoExecute();
+            sutAlwaysThrowingUnchecked.nestingExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -110,11 +110,11 @@ public class LActionTest {
     }
 
     @Test
-    public void testShovingDoExecuteUnchecked() throws Throwable {
+    public void testShovingExecuteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoExecute();
+            sutAlwaysThrowingUnchecked.shovingExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -128,7 +128,7 @@ public class LActionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LAction: void doExecute()");
+            .isEqualTo("LAction: void execute()");
     }
 
     @Test
@@ -164,27 +164,13 @@ public class LActionTest {
 
         //when
         LAction function = sutO.andThen(thenFunction);
-        function.doExecute();
+        function.execute();
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingAct())
-            .isSameAs(sut)
-            .isInstanceOf(LAction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingAct())
-            .isSameAs(sut)
-            .isInstanceOf(LAction.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -196,7 +182,7 @@ public class LActionTest {
         });
 
         // when
-        sutThrowing.shovingAct().doExecute();
+        sutThrowing.shovingExecute();
     }
 
 
@@ -209,7 +195,7 @@ public class LActionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LAction: void doExecute()");
+                .contains("LAction: void execute()");
     }
 
 

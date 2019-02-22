@@ -43,6 +43,8 @@ import static org.assertj.core.api.Fail.fail;
 public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, PC, A>, CTX extends Fluent<CTX>, PC, A>
         implements FluentSubcontext<SELF, CTX> {
 
+    protected @Nonnull        Supplier<String>         description;
+    protected @Nonnull        Supplier<String>         caseDescription;
     protected @Nullable       PC                       preconditioner;
     protected final @Nonnull  AssertionFunction<PC, A> assertFunction;
     protected final @Nullable Consumer<A>              assertPreConsumer;
@@ -51,8 +53,12 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
 
     protected AbstractEvaluation(
             @Nonnull CTX context,
+            @Nonnull Supplier<String> description,
+            @Nonnull Supplier<String> caseDescription,
             @Nonnull AssertionFunction<PC, A> assertFunction,
             @Nullable Consumer<A> assertPreConsumer) {
+        this.description = description;
+        this.caseDescription = caseDescription;
         this.assertPreConsumer = assertPreConsumer;
         this.assertFunction = Objects.requireNonNull(assertFunction);
         this.context = context;
@@ -60,8 +66,11 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
     }
 
     protected AbstractEvaluation(
-            @Nonnull CTX context, @Nullable AssertionsCheck assertPreConsumer, AssertionFunction<PC, A> assertFunction) {
-        this(context, assertFunction, assertPreConsumer == null ? null : a -> assertPreConsumer.assertionsCheck());
+            @Nonnull CTX context,
+            @Nonnull Supplier<String> description,
+            @Nonnull Supplier<String> caseDescription,
+            @Nullable AssertionsCheck assertPreConsumer, AssertionFunction<PC, A> assertFunction) {
+        this(context, description, caseDescription, assertFunction, assertPreConsumer == null ? null : a -> assertPreConsumer.assertionsCheck());
     }
 
     public SELF when(PC preconditioner) {
@@ -71,23 +80,25 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
     public CTX soThat(@Nonnull AssertionsCheck assertions) {
-        normalCheck(preconditioner, assertFunction, assertPreConsumer, a -> assertions.assertionsCheck());
+        normalCheck(description, caseDescription, preconditioner, assertFunction, assertPreConsumer, a -> assertions.assertionsCheck());
         return context.self();
     }
 
     public CTX withoutException() {
-        exceptionCheck(preconditioner, assertFunction, a -> {
+        exceptionCheck(description, caseDescription, preconditioner, assertFunction, a -> {
         });
         return context.self();
     }
 
     /** Assertion for the failure of the method under test. */
     public CTX withException(@Nonnull Consumer<AbstractThrowableAssert<?, ? extends Throwable>> assertions) {
-        exceptionCheck(preconditioner, assertFunction, assertions);
+        exceptionCheck(description, caseDescription, preconditioner, assertFunction, assertions);
         return context.self();
     }
 
     protected static <PC, A, X extends Throwable> void normalCheck(
+            @Nonnull Supplier<String> description,
+            @Nonnull Supplier<String> caseDescription,
             @Nullable PC preconditioner,
             @Nonnull AssertionFunction<PC, A> assertFunction,
             @Nullable Consumer<A> assertPreConsumer,
@@ -101,29 +112,40 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
                     assertPreConsumer.accept(resultAssert);
                 }
             } catch (AssertionError e) {
-                throw new AssertionError("Recurring assertion failed." + e.getMessage(), e);
+                throw new AssertionError(String.format("%sRecurring assertion failed.%s", mainDescription(description), e.getMessage()), e);
             }
 
             assertConsumer.accept(resultAssert);
         } catch (AssertionError e) {
             throw e;
         } catch (Throwable e) { // NOSONAR
-            fail("Should evaluate without problem.", e);
+            fail(String.format("%sCase %s should evaluate without problem.", mainDescription(description), caseDescription.get()), e);
         }
     }
 
     protected static <PC, A, X extends Throwable> void exceptionCheck(
+            @Nonnull Supplier<String> description,
+            @Nonnull Supplier<String> caseDescription,
             @Nullable PC preconditioner,
             @Nonnull AssertionFunction<PC, A> assertFunction,
             @Nonnull Consumer<AbstractThrowableAssert<?, ? extends Throwable>> assertConsumer
     ) {
+
         try {
-            // supplier will fail with the
             assertFunction.applyAndCreateResultAssert(preconditioner);
-            fail("Should evaluate with exception.");
         } catch (Throwable e) {  // NOSONAR
-            assertConsumer.accept(Assertions.assertThat(e));
+            assertConsumer.accept(Assertions.assertThat(e).as(description.get()));
+            return;
         }
+
+        fail("%sCase %s should evaluate with exception.", mainDescription(description), caseDescription.get());
+    }
+
+    private static String mainDescription(@Nonnull Supplier<String> description) {
+        String desc = description.get();
+        desc = desc == null ? "" : desc;
+        desc = desc.isEmpty() ? desc : "[" + desc + "] ";
+        return desc;
     }
 
 }

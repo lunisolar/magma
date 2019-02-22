@@ -20,6 +20,7 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.meta.aType.a;
 import eu.lunisolar.magma.basics.meta.aType.aInt;
+import eu.lunisolar.magma.basics.perf.JMH;
 import eu.lunisolar.magma.func.IA;
 import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
@@ -31,20 +32,11 @@ import eu.lunisolar.magma.func.function.to.LTieFunction;
 import eu.lunisolar.magma.func.tuple.LIntSingle.MutIntSingle;
 import eu.lunisolar.magma.func.tuple.Tuple4U;
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.profile.GCProfiler;
-import org.openjdk.jmh.profile.HotspotMemoryProfiler;
-import org.openjdk.jmh.results.format.ResultFormatType;
-import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.openjdk.jmh.runner.options.VerboseMode;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
 
 import static eu.lunisolar.magma.func.IA.iA;
 import static eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer.tieCons;
@@ -84,21 +76,12 @@ public class LoopsPerf {
         final int[]              target     = new int[input.size()];
         final Integer[]          target2    = new Integer[input.size()];
         final String[]           target3    = new String[input.size()];
-        final ArrayList<Integer> target4    = new ArrayList<>(input.size());
+//        final ArrayList<Integer> target4    = new ArrayList<>(input.size());
         final ArrayList<String>  strTarget  = new ArrayList<>(input.size());
         final ArrayList<String>  listTarget = new ArrayList<>(input);
 
         final MutIntSingle i = Tuple4U.intSingle(0);
-
-        @Setup(Level.Invocation)
-        public void doSetup() {
-            target4.clear();
-            target4.ensureCapacity(input.size());
-            strTarget.clear();
-            strTarget.ensureCapacity(input.size());
-            i.setValue(0);
-        }
-
+        
         @TearDown(Level.Invocation)
         public void doTearDown() {
 
@@ -119,6 +102,7 @@ public class LoopsPerf {
     @Benchmark
     @Threads(1)
     public void copyOfPairsReferencePerf2(MyState state) {
+        state.i.setValue(0);
         LTriConsumer.pairForEach(state.target3, (IA) IA.list(), input, (String[] t, String k, String v) -> {
             MutIntSingle i = state.i;
             int index = i.value();
@@ -159,6 +143,7 @@ public class LoopsPerf {
     @Benchmark
     @Threads(1)
     public int simple_for___is______Collection_add___really_that_bad_Q(MyState state) {
+        state.strTarget.clear();
         int iTarget = 0;
         for (int i = 0; i < input.size(); i++) {
             String s = input.get(i);
@@ -185,6 +170,8 @@ public class LoopsPerf {
     @Benchmark
     @Threads(1)
     public int funcIteration_collection(MyState state) {
+
+        state.strTarget.clear();
         return LTieFunction.tieForEach(0, input.size(), 0, state.strTarget, input, List::get, (Collection t, int i, String e) -> {
             int length = e.length();
             if (length > 3) {
@@ -237,6 +224,7 @@ public class LoopsPerf {
     @Benchmark
     @Threads(1)
     public List<String> for_iterator(MyState state) {
+        state.strTarget.clear();
         for (String s : input) {
             state.strTarget.add(s);
         }
@@ -246,6 +234,7 @@ public class LoopsPerf {
     @Benchmark
     @Threads(1)
     public List<String> for_collection(MyState state) {
+        state.strTarget.clear();
         for (int i = 0; i < input.size(); i++) {
             String s = input.get(i);
             state.strTarget.add(s);
@@ -256,6 +245,7 @@ public class LoopsPerf {
     @Benchmark
     @Threads(1)
     public List<String> collectionAddAll(MyState state) {
+        state.strTarget.clear();
         state.strTarget.addAll(input);    // two range copy operations of array (ArrayList.toArray, Arrays.copy
         return state.strTarget;
     }
@@ -263,18 +253,21 @@ public class LoopsPerf {
     @Benchmark
     @Threads(1)
     public List<String> funcIteration2(MyState state) {
+        state.strTarget.clear();
         return LBiConsumer.targetedIterate(state.strTarget, SA.collection(), input, Collection::add);
     }
 
     @Benchmark
     @Threads(1)
     public List<String> funcIteration3(MyState state) {
+        state.strTarget.clear();
         return LBiConsumer.targetedForEach(state.strTarget, IA.list(), input, Collection::add);
     }
 
     @Benchmark
     @Threads(1)
     public List<String> funcIteration4(MyState state) {
+        state.strTarget.clear();
         return LBiConsumer.targetedForEach(state.strTarget, IA.list(), input, ArrayList::add);
     }
 
@@ -358,6 +351,7 @@ public class LoopsPerf {
 //        new org.openjdk.jmh.runner.Runner(opt).run();
 
         JMH.jmh()
+           .iterations(3, seconds(3), 3, seconds(3))
            .classes(LoopsPerf.class)
            .mode(Mode.Throughput)
            .opt(o -> o.timeUnit(TimeUnit.MILLISECONDS))
@@ -366,72 +360,4 @@ public class LoopsPerf {
            .run();
     }
 
-    public static class JMH {
-
-        private ChainedOptionsBuilder opt = new OptionsBuilder();
-
-        public JMH() {
-            opt.jvmArgs(
-                    "-server",
-                    "-XX:+UseTLAB",
-                    "-XX:+AggressiveOpts",
-                    "-XX:+UseBiasedLocking",
-                    "-XX:+UseFastAccessorMethods"
-            )
-               .verbosity(VerboseMode.EXTRA)
-               .warmupIterations(3)
-               .warmupTime(seconds(1))
-               .measurementIterations(3)
-               .measurementTime(seconds(1))
-               .syncIterations(true)
-               .forks(1)
-               .resultFormat(ResultFormatType.TEXT);
-        }
-
-        public static JMH jmh() {
-            return new JMH();
-        }
-
-        public JMH opt(Consumer<ChainedOptionsBuilder> options) {
-            options.accept(opt);
-            return this;
-        }
-
-        public JMH classes(Class... testClass) throws RunnerException {
-            for (Class c : testClass) {
-                opt.include(c.getSimpleName());
-            }
-            return this;
-        }
-
-        public JMH param(String name, String... values) {
-            opt.param(name, values);
-            return this;
-        }
-
-        public JMH mode(Mode mode) {
-            opt.mode(mode);
-            return this;
-        }
-
-        public JMH timeUnit(TimeUnit unit) {
-            opt.timeUnit(unit);
-            return this;
-        }
-
-        public JMH gc() {
-            opt.addProfiler(GCProfiler.class);
-            return this;
-        }
-
-        public JMH mem() {
-            opt.addProfiler(HotspotMemoryProfiler.class);
-            return this;
-        }
-
-        public void run() throws RunnerException {
-            new Runner(opt.build()).run();
-        }
-
-    }
 }

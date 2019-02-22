@@ -89,8 +89,8 @@ public class LSrtBinaryOpDelta extends LSrtBinaryOpMemento {
 	}
 
 	@Override
-	public short doApplyAsSrt(short a1, short a2) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a1, a2));
+	public short applyAsSrt(short a1, short a2) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a1, a2));
 	}
 
 	// <editor-fold desc="object">

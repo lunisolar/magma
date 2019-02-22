@@ -82,13 +82,12 @@ public interface LFltToIntFunctionAssert<S extends LFltToIntFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LFltConsumer, A, RS, Integer> doesApplyAsInt(float a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

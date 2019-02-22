@@ -54,7 +54,7 @@ public class LBoolFuncMementoTest <R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBoolFuncMementoTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

@@ -89,8 +89,8 @@ public class LOiToFltFuncDelta<T> extends LOiToFltFuncMemento<T> {
 	}
 
 	@Override
-	public float doApplyAsFlt(T a1, int a2) {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doApplyAsFlt(a1, a2));
+	public float applyAsFlt(T a1, int a2) {
+		return deltaFunction.applyAsFlt(lastValue(), super.applyAsFlt(a1, a2));
 	}
 
 	// <editor-fold desc="object">

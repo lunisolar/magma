@@ -80,8 +80,10 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2, T3> LTriConsumer<T1, T2, T3> triConsumerFrom(Function<LTriConsumerBuilder<T1, T2, T3>, LTriConsumer<T1, T2, T3>> buildingFunction) {
-		return buildingFunction.apply(new LTriConsumerBuilder());
+	public static <T1, T2, T3> LTriConsumer<T1, T2, T3> triConsumerFrom(Consumer<LTriConsumerBuilder<T1, T2, T3>> buildingFunction) {
+		LTriConsumerBuilder builder = new LTriConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,13 +133,13 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 		retval = LTriConsumer.<T1, T2, T3> triCons((a1, a2, a3) -> {
 			try {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2, a3)) {
-						aCase.caseFunction().doAccept(a1, a2, a3);
+					if (aCase.casePredicate().test(a1, a2, a3)) {
+						aCase.caseFunction().accept(a1, a2, a3);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1, a2, a3);
+				eventuallyFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

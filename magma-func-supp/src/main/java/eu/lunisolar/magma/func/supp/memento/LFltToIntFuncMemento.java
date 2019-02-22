@@ -72,8 +72,8 @@ public class LFltToIntFuncMemento implements LFltToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsIntX(float a) {
-		return lastValue = function.doApplyAsInt(a);
+	public int applyAsIntX(float a) {
+		return lastValue = function.applyAsInt(a);
 	}
 
 	public int lastValue() {

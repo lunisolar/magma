@@ -54,7 +54,7 @@ public class LByteSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo((byte)0);
 
-        assertThat(sut.doGetAsByte())
+        assertThat(sut.getAsByte())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LByteSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsByte())
+        assertThat(sut.getAsByte())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

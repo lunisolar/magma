@@ -89,8 +89,8 @@ public class LToDblFuncDelta<T> extends LToDblFuncMemento<T> {
 	}
 
 	@Override
-	public double doApplyAsDbl(T a) {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doApplyAsDbl(a));
+	public double applyAsDbl(T a) {
+		return deltaFunction.applyAsDbl(lastValue(), super.applyAsDbl(a));
 	}
 
 	// <editor-fold desc="object">

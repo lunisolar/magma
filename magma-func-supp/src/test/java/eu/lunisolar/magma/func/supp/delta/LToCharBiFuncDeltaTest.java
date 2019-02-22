@@ -55,7 +55,7 @@ public class LToCharBiFuncDeltaTest <T1,T2> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar(100,100))
+        assertThat(sut.applyAsChar(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToCharBiFuncDeltaTest <T1,T2> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar(100,100))
+        assertThat(sut.applyAsChar(100,100))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

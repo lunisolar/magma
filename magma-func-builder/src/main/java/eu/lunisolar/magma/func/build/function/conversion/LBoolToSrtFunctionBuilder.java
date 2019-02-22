@@ -80,8 +80,10 @@ public final class LBoolToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBoolToSrtFunction boolToSrtFunctionFrom(Function<LBoolToSrtFunctionBuilder, LBoolToSrtFunction> buildingFunction) {
-		return buildingFunction.apply(new LBoolToSrtFunctionBuilder());
+	public static LBoolToSrtFunction boolToSrtFunctionFrom(Consumer<LBoolToSrtFunctionBuilder> buildingFunction) {
+		LBoolToSrtFunctionBuilder builder = new LBoolToSrtFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LBoolToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 		retval = LBoolToSrtFunction.boolToSrtFunc(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToSrtFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a)) {
-						return aCase.caseFunction().doApplyAsSrt(a);
+					if (aCase.casePredicate().apply(a)) {
+						return aCase.caseFunction().applyAsSrt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsSrt(a);
+				return eventuallyFinal.applyAsSrt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

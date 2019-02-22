@@ -55,7 +55,7 @@ public class LBoolToDblFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsDbl(true))
+        assertThat(sut.applyAsDbl(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBoolToDblFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDbl(true))
+        assertThat(sut.applyAsDbl(true))
             .isEqualTo(9d);
 
         assertThat(functionCallCount).isEqualTo(2);

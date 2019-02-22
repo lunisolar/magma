@@ -54,7 +54,7 @@ public class LBiFltFuncMementoTest <R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply(100f,100f))
+        assertThat(sut.apply(100f,100f))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBiFltFuncMementoTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100f,100f))
+        assertThat(sut.apply(100f,100f))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

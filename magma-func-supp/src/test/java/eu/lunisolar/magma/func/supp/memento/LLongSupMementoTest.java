@@ -54,7 +54,7 @@ public class LLongSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doGetAsLong())
+        assertThat(sut.getAsLong())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsLong())
+        assertThat(sut.getAsLong())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

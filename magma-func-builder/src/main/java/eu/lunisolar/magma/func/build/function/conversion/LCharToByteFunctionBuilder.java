@@ -80,8 +80,10 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LCharToByteFunction charToByteFunctionFrom(Function<LCharToByteFunctionBuilder, LCharToByteFunction> buildingFunction) {
-		return buildingFunction.apply(new LCharToByteFunctionBuilder());
+	public static LCharToByteFunction charToByteFunctionFrom(Consumer<LCharToByteFunctionBuilder> buildingFunction) {
+		LCharToByteFunctionBuilder builder = new LCharToByteFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		retval = LCharToByteFunction.charToByteFunc(a -> {
 			try {
 				for (Case<LCharPredicate, LCharToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsByte(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a);
+				return eventuallyFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

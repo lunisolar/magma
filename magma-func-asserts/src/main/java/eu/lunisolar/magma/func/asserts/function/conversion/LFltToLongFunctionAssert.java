@@ -82,13 +82,12 @@ public interface LFltToLongFunctionAssert<S extends LFltToLongFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LFltConsumer, A, RS, Long> doesApplyAsLong(float a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a));
+				return assertFactory.apply(actual.applyAsLong(a));
 			});
-
 		}
 
 	}

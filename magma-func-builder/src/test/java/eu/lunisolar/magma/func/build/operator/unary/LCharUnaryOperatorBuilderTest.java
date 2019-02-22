@@ -69,7 +69,7 @@ public class LCharUnaryOperatorBuilderTest{
                 .build()
             );
 
-            function.doApplyAsChar('\u0100');
+            function.applyAsChar('\u0100');
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LCharUnaryOperatorBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsChar('\u0100');
+            function.applyAsChar('\u0100');
 
             fail("No exception were thrown.");
         })

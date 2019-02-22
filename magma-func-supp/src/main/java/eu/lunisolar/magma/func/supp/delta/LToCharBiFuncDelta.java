@@ -89,8 +89,8 @@ public class LToCharBiFuncDelta<T1, T2> extends LToCharBiFuncMemento<T1, T2> {
 	}
 
 	@Override
-	public char doApplyAsChar(T1 a1, T2 a2) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1, a2));
+	public char applyAsChar(T1 a1, T2 a2) {
+		return deltaFunction.applyAsChar(lastValue(), super.applyAsChar(a1, a2));
 	}
 
 	// <editor-fold desc="object">

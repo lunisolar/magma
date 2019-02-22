@@ -82,13 +82,12 @@ public interface LSrtToIntFunctionAssert<S extends LSrtToIntFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LSrtConsumer, A, RS, Integer> doesApplyAsInt(short a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

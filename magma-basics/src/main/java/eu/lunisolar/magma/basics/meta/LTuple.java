@@ -20,7 +20,7 @@ package eu.lunisolar.magma.basics.meta;
 
 import java.util.*;
 
-public interface LTuple<T> extends Cloneable, Iterable<T> {
+public interface LTuple<T> extends Cloneable {
 
     int size();
 
@@ -38,7 +38,7 @@ public interface LTuple<T> extends Cloneable, Iterable<T> {
 
         public static LTuple.Void INSTANCE = LTuple.Void.Instance.VOID.instance();
 
-        @Override public Iterator<java.lang.Void> iterator() {
+        public Iterator<java.lang.Void> iterator() {
             return VOID_ITERATOR;
         }
 

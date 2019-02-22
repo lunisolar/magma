@@ -65,14 +65,14 @@ public class LBiBoolFunctionTest<R> {
 
 
     private LBiBoolFunction<Integer> sut = new LBiBoolFunction<Integer>(){
-        public @Nullable Integer doApplyX(boolean a1,boolean a2)  {
+        public @Nullable Integer applyX(boolean a1,boolean a2)  {
             return testValue;
         }
     };
 
 
     private LBiBoolFunction<Integer> sutNull = new LBiBoolFunction<Integer>(){
-        public @Nullable Integer doApplyX(boolean a1,boolean a2)  {
+        public @Nullable Integer applyX(boolean a1,boolean a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBiBoolFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(true,true))
+        assertThat(sut.apply(true,true))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBiBoolFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(true,true))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(true,true))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(true,true);
+            sutAlwaysThrowingUnchecked.nestingApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBiBoolFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(true,true);
+            sutAlwaysThrowingUnchecked.shovingApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBiBoolFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiBoolFunction: R doApply(boolean a1,boolean a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiBoolFunction: R apply(boolean a1,boolean a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(true,true);
+        sutNull.nonNullApply(true,true);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiBoolFunction: R doApply(boolean a1,boolean a2)");
+            .isEqualTo("LBiBoolFunction: R apply(boolean a1,boolean a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBiBoolFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiBoolFuncComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LBiBoolFunctionTest<R> {
         };
 
         //when
-        LBiBoolFunction<Integer> function = sutO.biBoolFuncComposeBool(before1,before2);
-        function.doApply(true,true);
+        LBiBoolFunction<Integer> function = sutO.compose(before1,before2);
+        function.apply(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LBiBoolFunctionTest<R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.biBoolFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LBiBoolFunctionTest<R> {
 
         //when
         LBiBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true,true);
+        Integer finalValue = function.apply(true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LBiBoolFunctionTest<R> {
 
         //when
         LBiBoolConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(true,true);
+        function.accept(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LBiBoolFunctionTest<R> {
 
         //when
         LLogicalBinaryOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true,true);
+        boolean finalValue = function.apply(true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -345,20 +345,6 @@ public class LBiBoolFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiBoolFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiBoolFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -369,7 +355,7 @@ public class LBiBoolFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingBiBoolFunc().doApply(true,true);
+        sutThrowing.shovingApply(true,true);
     }
 
 
@@ -382,7 +368,7 @@ public class LBiBoolFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiBoolFunction: R doApply(boolean a1,boolean a2)");
+                .contains("LBiBoolFunction: R apply(boolean a1,boolean a2)");
     }
 
 

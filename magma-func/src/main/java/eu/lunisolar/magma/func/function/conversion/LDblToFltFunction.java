@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aFloat>, Domain1<aDouble> { // NOSONAR
 
-	String DESCRIPTION = "LDblToFltFunction: float doApplyAsFlt(double a)";
+	String DESCRIPTION = "LDblToFltFunction: float applyAsFlt(double a)";
 
-	// float doApplyAsFlt(double a) ;
-	default float doApplyAsFlt(double a) {
-		// return nestingDoApplyAsFlt(a);
+	// float applyAsFlt(double a) ;
+	default float applyAsFlt(double a) {
+		// return nestingApplyAsFlt(a);
 		try {
-			return this.doApplyAsFltX(a);
+			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsFlt(double a)
+	 * Implement this, but call applyAsFlt(double a)
 	 */
-	float doApplyAsFltX(double a) throws Throwable;
+	float applyAsFltX(double a) throws Throwable;
 
 	default float tupleApplyAsFlt(LDblSingle args) {
-		return doApplyAsFlt(args.value());
+		return applyAsFlt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default float handlingDoApplyAsFlt(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default float handlingApplyAsFlt(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsFltX(a);
+			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default float tryDoApplyAsFlt(double a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LDblToFltFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsFlt(a, handling);
+	}
+
+	default float applyAsFlt(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsFltX(a);
+			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default float tryDoApplyAsFlt(double a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LDblToFltFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsFlt(a, exF, newMessage, messageParams);
+	}
+
+	default float applyAsFlt(double a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsFltX(a);
+			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default float tryDoApplyAsFltThen(double a, @Nonnull LToFltFunction<Throwable> handler) {
+	default LDblToFltFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsFlt(a, exF);
+	}
+
+	default float applyAsFltThen(double a, @Nonnull LToFltFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsFltX(a);
+			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsFlt(e);
+			return handler.applyAsFlt(e);
 		}
+	}
+
+	default LDblToFltFunction tryingThen(@Nonnull LToFltFunction<Throwable> handler) {
+		return a -> applyAsFltThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default float nestingDoApplyAsFlt(double a) {
+	default float nestingApplyAsFlt(double a) {
 		try {
-			return this.doApplyAsFltX(a);
+			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default float shovingDoApplyAsFlt(double a) {
+	default float shovingApplyAsFlt(double a) {
 		try {
-			return this.doApplyAsFltX(a);
+			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static float handlingDoApplyAsFlt(double a, LDblToFltFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static float handlingApplyAsFlt(double a, LDblToFltFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsFlt(a, handling);
+		return func.handlingApplyAsFlt(a, handling);
 	}
 
-	static float tryDoApplyAsFlt(double a, LDblToFltFunction func) {
-		return tryDoApplyAsFlt(a, func, null);
-	}
-
-	static float tryDoApplyAsFlt(double a, LDblToFltFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static float tryApplyAsFlt(double a, LDblToFltFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsFlt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsFlt(a);
 	}
 
-	static float tryDoApplyAsFlt(double a, LDblToFltFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static float tryApplyAsFlt(double a, LDblToFltFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsFlt(a, exceptionFactory);
+		return func.applyAsFlt(a, exF, newMessage, messageParams);
 	}
 
-	static float tryDoApplyAsFltThen(double a, LDblToFltFunction func, @Nonnull LToFltFunction<Throwable> handler) {
+	static float tryApplyAsFlt(double a, LDblToFltFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsFltThen(a, handler);
+		return func.applyAsFlt(a, exF);
 	}
 
-	default float failSafeDoApplyAsFlt(double a, @Nonnull LDblToFltFunction failSafe) {
+	static float tryApplyAsFltThen(double a, LDblToFltFunction func, @Nonnull LToFltFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsFltThen(a, handler);
+	}
+
+	default float failSafeApplyAsFlt(double a, @Nonnull LDblToFltFunction failSafe) {
 		try {
-			return doApplyAsFlt(a);
+			return applyAsFlt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsFlt(a);
+			return failSafe.applyAsFlt(a);
 		}
 	}
 
-	static float failSafeDoApplyAsFlt(double a, LDblToFltFunction func, @Nonnull LDblToFltFunction failSafe) {
+	static float failSafeApplyAsFlt(double a, LDblToFltFunction func, @Nonnull LDblToFltFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsFlt(a);
+			return failSafe.applyAsFlt(a);
 		} else {
-			return func.failSafeDoApplyAsFlt(a, failSafe);
+			return func.failSafeApplyAsFlt(a, failSafe);
 		}
 	}
 
-	static LDblToFltFunction failSafeDblToFltFunc(LDblToFltFunction func, @Nonnull LDblToFltFunction failSafe) {
+	static LDblToFltFunction failSafe(LDblToFltFunction func, @Nonnull LDblToFltFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsFlt(a, func, failSafe);
+		return a -> failSafeApplyAsFlt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoApplyAsFlt(double a) {
-		return doApplyAsFlt(a);
+	default float nonNullApplyAsFlt(double a) {
+		return applyAsFlt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, double a, LDblToFltFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsFlt(a);
+				func.applyAsFlt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsFlt(a);
+				func.applyAsFlt(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, double a, LDblToFltFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsFlt(a);
+				func.applyAsFlt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsFlt(a);
+				func.applyAsFlt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, double a, LDblToFltFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier captureDblToFltFunc(double a) {
-		return () -> this.doApplyAsFlt(a);
+	default LFltSupplier capture(double a) {
+		return () -> this.applyAsFlt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	static LDblToFltFunction recursive(final @Nonnull LFunction<LDblToFltFunction, LDblToFltFunction> selfLambda) {
 		final LDblToFltFunctionSingle single = new LDblToFltFunctionSingle();
-		LDblToFltFunction func = selfLambda.doApply(single);
+		LDblToFltFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		private LDblToFltFunction target = null;
 
 		@Override
-		public float doApplyAsFltX(double a) throws Throwable {
-			return target.doApplyAsFltX(a);
+		public float applyAsFltX(double a) throws Throwable {
+			return target.applyAsFltX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static LDblToFltFunction dblToFltFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToFltFunction dblToFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LDblToFltFunction dblToFltFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToFltFunction dblToFltFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static float call(double a, final @Nonnull LDblToFltFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsFlt(a);
+		return lambda.applyAsFlt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDblToFltFunction dblToFltFuncComposeDbl(@Nonnull final LDblUnaryOperator before) {
+	default LDblToFltFunction compose(@Nonnull final LDblUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsFlt(before.doApplyAsDbl(v));
+		return v -> this.applyAsFlt(before.applyAsDbl(v));
 	}
 
-	public static LDblToFltFunction composedDbl(@Nonnull final LDblUnaryOperator before, LDblToFltFunction after) {
-		return after.dblToFltFuncComposeDbl(before);
+	public static LDblToFltFunction composed(@Nonnull final LDblUnaryOperator before, LDblToFltFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToFltFunction<V> dblToFltFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsFlt(before.doApplyAsDbl(v));
+		return v -> this.applyAsFlt(before.applyAsDbl(v));
 	}
 
 	public static <V> LToFltFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToFltFunction after) {
@@ -364,79 +383,68 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LDblFunction<V> then(@Nonnull LFltFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsFlt(a));
+		return a -> after.apply(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToByteFunction thenToByte(@Nonnull LFltToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsFlt(a));
+		return a -> after.applyAsByte(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToSrtFunction thenToSrt(@Nonnull LFltToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsFlt(a));
+		return a -> after.applyAsSrt(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToIntFunction thenToInt(@Nonnull LFltToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsFlt(a));
+		return a -> after.applyAsInt(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToLongFunction thenToLong(@Nonnull LFltToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsFlt(a));
+		return a -> after.applyAsLong(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToFltFunction thenToFlt(@Nonnull LFltUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsFlt(a));
+		return a -> after.applyAsFlt(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblUnaryOperator thenToDbl(@Nonnull LFltToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsFlt(a));
+		return a -> after.applyAsDbl(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToCharFunction thenToChar(@Nonnull LFltToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsFlt(a));
+		return a -> after.applyAsChar(this.applyAsFlt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblPredicate thenToBool(@Nonnull LFltPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsFlt(a));
+		return a -> after.test(this.applyAsFlt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LDblToFltFunction nestingDblToFltFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDblToFltFunction shovingDblToFltFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return Function4U.defaultFloat;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=double a, type=IA}, SourcePurpose{arg=LFltConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aDouble> ia, C0 source, LFltConsumer consumer) {
 		int size = ia.size(source);
 		LOiToDblFunction<Object> oiFunc0 = (LOiToDblFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			double a = oiFunc0.doApplyAsDbl(source, i);
-			consumer.doAccept(this.doApplyAsFlt(a));
+			double a = oiFunc0.applyAsDbl(source, i);
+			consumer.accept(this.applyAsFlt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=double a, type=SA}, SourcePurpose{arg=LFltConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aDouble> sa, C0 source, LFltConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			double a = nextFunc0.doApplyAsDbl(iterator0);
-			consumer.doAccept(this.doApplyAsFlt(a));
+		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			double a = nextFunc0.applyAsDbl(iterator0);
+			consumer.accept(this.applyAsFlt(a));
 		}
 	}
 

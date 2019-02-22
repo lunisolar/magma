@@ -72,8 +72,8 @@ public class LTieDblFuncMemento<T> implements LTieDblFunction<T> {
 	}
 
 	@Override
-	public int doApplyAsIntX(T a1, int a2, double a3) {
-		return lastValue = function.doApplyAsInt(a1, a2, a3);
+	public int applyAsIntX(T a1, int a2, double a3) {
+		return lastValue = function.applyAsInt(a1, a2, a3);
 	}
 
 	public int lastValue() {

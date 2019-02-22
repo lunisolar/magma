@@ -55,7 +55,7 @@ public class LObjIntBoolFuncDeltaTest <T,R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply(100,100,true))
+        assertThat(sut.apply(100,100,true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LObjIntBoolFuncDeltaTest <T,R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100,100,true))
+        assertThat(sut.apply(100,100,true))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

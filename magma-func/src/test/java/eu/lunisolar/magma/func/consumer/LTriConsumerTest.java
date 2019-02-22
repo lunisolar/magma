@@ -63,7 +63,7 @@ public class LTriConsumerTest<T1,T2,T3> {
 
 
     private LTriConsumer<Integer,Integer,Integer> sut = new LTriConsumer<Integer,Integer,Integer>(){
-        public  void doAcceptX(Integer a1,Integer a2,Integer a3)  {
+        public  void acceptX(Integer a1,Integer a2,Integer a3)  {
             LTriConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTriConsumerTest<T1,T2,T3> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTriConsumerTest<T1,T2,T3> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTriConsumerTest<T1,T2,T3> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriConsumer: void doAccept(T1 a1,T2 a2,T3 a3)");
+            .isEqualTo("LTriConsumer: void accept(T1 a1,T2 a2,T3 a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTriConsumerTest<T1,T2,T3> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriConsCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTriConsumerTest<T1,T2,T3> {
         };
 
         //when
-        LTriConsumer<Integer,Integer,Integer> function = sutO.triConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        LTriConsumer<Integer,Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -206,27 +206,13 @@ public class LTriConsumerTest<T1,T2,T3> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTriCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTriConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTriCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTriConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -238,7 +224,7 @@ public class LTriConsumerTest<T1,T2,T3> {
         });
 
         // when
-        sutThrowing.shovingTriCons().doAccept(100,100,100);
+        sutThrowing.shovingAccept(100,100,100);
     }
 
 
@@ -251,7 +237,7 @@ public class LTriConsumerTest<T1,T2,T3> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriConsumer: void doAccept(T1 a1,T2 a2,T3 a3)");
+                .contains("LTriConsumer: void accept(T1 a1,T2 a2,T3 a3)");
     }
 
 
@@ -263,25 +249,25 @@ public class LTriConsumerTest<T1,T2,T3> {
 
     //<editor-fold desc="Variants">
 
-    private void variantLObjObj2Obj1Cons(Integer a1,Integer a3,Integer a2) {
+    private void variantLObj0Obj2Obj1Cons(Integer a1,Integer a3,Integer a2) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObjObj2Obj1Cons() {
-        LTriConsumer lambda = LTriConsumer./*<T1,T2,T3>*/objObj2Obj1Cons(this::variantLObjObj2Obj1Cons);
+    public void compilerSubstituteVariantLObj0Obj2Obj1Cons() {
+        LTriConsumer lambda = LTriConsumer./*<T1,T2,T3>*/obj0Obj2Obj1Cons(this::variantLObj0Obj2Obj1Cons);
 
-        assertThat(lambda).isInstanceOf(LTriConsumer.LObjObj2Obj1Cons.class);
+        assertThat(lambda).isInstanceOf(LTriConsumer.LObj0Obj2Obj1Cons.class);
     }
 
 
-    private void variantLObj1BiObjCons(Integer a2,Integer a1,Integer a3) {
+    private void variantLObj1BiObj2Cons(Integer a2,Integer a1,Integer a3) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1BiObjCons() {
-        LTriConsumer lambda = LTriConsumer./*<T1,T2,T3>*/obj1BiObjCons(this::variantLObj1BiObjCons);
+    public void compilerSubstituteVariantLObj1BiObj2Cons() {
+        LTriConsumer lambda = LTriConsumer./*<T1,T2,T3>*/obj1BiObj2Cons(this::variantLObj1BiObj2Cons);
 
-        assertThat(lambda).isInstanceOf(LTriConsumer.LObj1BiObjCons.class);
+        assertThat(lambda).isInstanceOf(LTriConsumer.LObj1BiObj2Cons.class);
     }
 
 
@@ -307,14 +293,14 @@ public class LTriConsumerTest<T1,T2,T3> {
     }
 
 
-    private void variantLBiObjObj0Cons(Integer a3,Integer a2,Integer a1) {
+    private void variantLBiObj1Obj0Cons(Integer a3,Integer a2,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariantLBiObjObj0Cons() {
-        LTriConsumer lambda = LTriConsumer./*<T1,T2,T3>*/biObjObj0Cons(this::variantLBiObjObj0Cons);
+    public void compilerSubstituteVariantLBiObj1Obj0Cons() {
+        LTriConsumer lambda = LTriConsumer./*<T1,T2,T3>*/biObj1Obj0Cons(this::variantLBiObj1Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LTriConsumer.LBiObjObj0Cons.class);
+        assertThat(lambda).isInstanceOf(LTriConsumer.LBiObj1Obj0Cons.class);
     }
 
     //</editor-fold>

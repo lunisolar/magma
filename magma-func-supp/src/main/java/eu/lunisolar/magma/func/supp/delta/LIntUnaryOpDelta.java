@@ -89,8 +89,8 @@ public class LIntUnaryOpDelta extends LIntUnaryOpMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(int a) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
+	public int applyAsInt(int a) {
+		return deltaFunction.applyAsInt(lastValue(), super.applyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

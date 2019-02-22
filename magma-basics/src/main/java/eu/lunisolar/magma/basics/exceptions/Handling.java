@@ -83,7 +83,7 @@ public class Handling implements Serializable {
     // <editor-fold desc="createAndThrow">
 
     public static <Y extends Throwable, X extends Throwable> Y throwReplacement(
-            @Nonnull ExceptionWithMessageFactory<Y> factory,
+            @Nonnull ExMF<Y> factory,
             @Nonnull String newMessage,
             @Nullable Object... messageParams) throws Y {
 
@@ -92,14 +92,14 @@ public class Handling implements Serializable {
 
     public static <Y extends Throwable, X extends Throwable> Y throwWrapper(
             @Nonnull X throwable,
-            @Nonnull ExceptionWrapFactory<Y> factory) throws Y {
+            @Nonnull ExWF<Y> factory) throws Y {
 
         throw Handling.wrap(throwable, factory);
     }
 
     public static <Y extends Throwable, X extends Throwable> Y throwWrapper(
             @Nonnull X throwable,
-            @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
+            @Nonnull ExWMF<Y> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
 
         throw Handling.wrap(throwable, factory, newMessage, messageParams);
@@ -111,7 +111,7 @@ public class Handling implements Serializable {
 
     public static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
             boolean conditionMeet,
-            @Nonnull ExceptionWithMessageFactory<Y> factory,
+            @Nonnull ExMF<Y> factory,
             @Nonnull String newMessage,
             @Nullable Object... messageParams) throws Y {
 
@@ -123,7 +123,7 @@ public class Handling implements Serializable {
     public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             boolean conditionMeet,
             @Nonnull X throwable,
-            @Nonnull ExceptionWrapFactory<Y> factory) throws Y {
+            @Nonnull ExWF<Y> factory) throws Y {
 
         if (conditionMeet) {
             throw Handling.wrap(throwable, factory);
@@ -133,7 +133,7 @@ public class Handling implements Serializable {
     public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             boolean conditionMeet,
             @Nonnull X throwable,
-            @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
+            @Nonnull ExWMF<Y> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
 
         if (conditionMeet) {
@@ -144,7 +144,7 @@ public class Handling implements Serializable {
     public static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
             @Nonnull Predicate<X> condition,
             @Nonnull X throwable,
-            @Nonnull ExceptionWithMessageFactory<Y> factory,
+            @Nonnull ExMF<Y> factory,
             @Nonnull String newMessage,
             @Nullable Object... messageParams) throws Y {
 
@@ -154,7 +154,7 @@ public class Handling implements Serializable {
     public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             @Nonnull Predicate<X> condition,
             @Nonnull X throwable,
-            @Nonnull ExceptionWrapFactory<Y> factory) throws Y {
+            @Nonnull ExWF<Y> factory) throws Y {
 
         throwWrapperIf(condition.test(throwable), throwable, factory);
     }
@@ -162,7 +162,7 @@ public class Handling implements Serializable {
     public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             @Nonnull Predicate<X> condition,
             @Nonnull X throwable,
-            @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
+            @Nonnull ExWMF<Y> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
 
         throwWrapperIf(condition.test(throwable), throwable, factory, newMessage, messageParams);
@@ -174,7 +174,7 @@ public class Handling implements Serializable {
 
     @SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "unchecked"})
     public static <X extends Throwable> X create(
-            @Nonnull ExceptionWithMessageFactory<X> exceptionFactory,
+            @Nonnull ExMF<X> exceptionFactory,
             @Nonnull String newMessage, @Nullable Object... messageParams) {
 
         String message = constructMessage(null, newMessage, messageParams);
@@ -185,13 +185,13 @@ public class Handling implements Serializable {
 
     // <editor-fold desc="create or propagate">
 
-    public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExceptionWrapFactory<X> exceptionFactory) {
+    public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExWF<X> exceptionFactory) {
         handleErrors(e); 
         return exceptionFactory.produce(e); //NOSONAR
     }
 
     public static <X extends Throwable> X wrap(
-            @Nullable Throwable e, @Nonnull ExceptionWrapWithMessageFactory<X> exceptionFactory,
+            @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
             @Nonnull String newMessage, @Nullable Object... messageParams) {
         handleErrors(e);
         String message = constructMessage(null, newMessage, messageParams);

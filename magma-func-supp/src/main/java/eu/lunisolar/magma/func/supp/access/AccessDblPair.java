@@ -72,90 +72,90 @@ public interface AccessDblPair {
 
 	default void useWith(LBiDblConsumer accessFunction) {
 		LDblPair tuple = accessDblPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiDblConsumer accessFunction) {
 		LDblPair tuple = accessDblPair();
-		accessFunction.doAccept(tuple.second(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiDblConsumer.LDbl1Dbl0Cons accessFunction) {
 		LDblPair tuple = accessDblPair();
-		accessFunction.doAcceptDbl1Dbl0(tuple.first(), tuple.second());
+		accessFunction.acceptDbl1Dbl0(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiDblConsumer.LDbl1Dbl0Cons accessFunction) {
 		LDblPair tuple = accessDblPair();
-		accessFunction.doAcceptDbl1Dbl0(tuple.second(), tuple.first());
+		accessFunction.acceptDbl1Dbl0(tuple.second(), tuple.first());
 	}
 
 	default double useWith(LDblBinaryOperator accessFunction) {
 		LDblPair tuple = accessDblPair();
-		double retval = accessFunction.doApplyAsDbl(tuple.first(), tuple.second());
+		double retval = accessFunction.applyAsDbl(tuple.first(), tuple.second());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default double useWithO1(LDblBinaryOperator accessFunction) {
 		LDblPair tuple = accessDblPair();
-		double retval = accessFunction.doApplyAsDbl(tuple.second(), tuple.first());
+		double retval = accessFunction.applyAsDbl(tuple.second(), tuple.first());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiDblFunction<R> accessFunction) {
 		LDblPair tuple = accessDblPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiDblFunction<R> accessFunction) {
 		LDblPair tuple = accessDblPair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiDblFunction.LDbl1Dbl0Func<R> accessFunction) {
 		LDblPair tuple = accessDblPair();
-		R retval = accessFunction.doApplyDbl1Dbl0(tuple.first(), tuple.second());
+		R retval = accessFunction.applyDbl1Dbl0(tuple.first(), tuple.second());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiDblFunction.LDbl1Dbl0Func<R> accessFunction) {
 		LDblPair tuple = accessDblPair();
-		R retval = accessFunction.doApplyDbl1Dbl0(tuple.second(), tuple.first());
+		R retval = accessFunction.applyDbl1Dbl0(tuple.second(), tuple.first());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiDblPredicate accessFunction) {
 		LDblPair tuple = accessDblPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiDblPredicate accessFunction) {
 		LDblPair tuple = accessDblPair();
-		boolean retval = accessFunction.doTest(tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(tuple.second(), tuple.first());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiDblPredicate.LDbl1Dbl0Pred accessFunction) {
 		LDblPair tuple = accessDblPair();
-		boolean retval = accessFunction.doTestDbl1Dbl0(tuple.first(), tuple.second());
+		boolean retval = accessFunction.testDbl1Dbl0(tuple.first(), tuple.second());
 		releaseDblPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiDblPredicate.LDbl1Dbl0Pred accessFunction) {
 		LDblPair tuple = accessDblPair();
-		boolean retval = accessFunction.doTestDbl1Dbl0(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testDbl1Dbl0(tuple.second(), tuple.first());
 		releaseDblPair(tuple);
 		return retval;
 	}

@@ -65,7 +65,7 @@ public class LBoolToIntFunctionTest {
 
 
     private LBoolToIntFunction sut = new LBoolToIntFunction(){
-        public  int doApplyAsIntX(boolean a)  {
+        public  int applyAsIntX(boolean a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBoolToIntFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(true))
+        assertThat(sut.applyAsInt(true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBoolToIntFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(true))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(true);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBoolToIntFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(true);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LBoolToIntFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolToIntFunction: int doApplyAsInt(boolean a)");
+            .isEqualTo("LBoolToIntFunction: int applyAsInt(boolean a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LBoolToIntFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBoolToIntFuncComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LBoolToIntFunctionTest {
         };
 
         //when
-        LBoolToIntFunction function = sutO.boolToIntFuncComposeBool(before);
-        function.doApplyAsInt(true);
+        LBoolToIntFunction function = sutO.compose(before);
+        function.applyAsInt(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LToIntFunction<Integer> function = sutO.boolToIntFuncCompose(before);
-        function.doApplyAsInt(80);
+        function.applyAsInt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true);
+        Integer finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(true);
+        byte finalValue = function.applyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(true);
+        short finalValue = function.applyAsSrt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(true);
+        int finalValue = function.applyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(true);
+        long finalValue = function.applyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(true);
+        float finalValue = function.applyAsFlt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(true);
+        double finalValue = function.applyAsDbl(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LBoolToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(true);
+        char finalValue = function.applyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LBoolToIntFunctionTest {
 
         //when
         LLogicalOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true);
+        boolean finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LBoolToIntFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBoolToIntFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolToIntFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBoolToIntFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolToIntFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LBoolToIntFunctionTest {
         });
 
         // when
-        sutThrowing.shovingBoolToIntFunc().doApplyAsInt(true);
+        sutThrowing.shovingApplyAsInt(true);
     }
 
 
@@ -563,7 +549,7 @@ public class LBoolToIntFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolToIntFunction: int doApplyAsInt(boolean a)");
+                .contains("LBoolToIntFunction: int applyAsInt(boolean a)");
     }
 
 

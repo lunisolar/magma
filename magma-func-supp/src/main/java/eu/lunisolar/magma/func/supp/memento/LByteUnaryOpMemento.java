@@ -72,8 +72,8 @@ public class LByteUnaryOpMemento implements LByteUnaryOperator {
 	}
 
 	@Override
-	public byte doApplyAsByteX(byte a) {
-		return lastValue = function.doApplyAsByte(a);
+	public byte applyAsByteX(byte a) {
+		return lastValue = function.applyAsByte(a);
 	}
 
 	public byte lastValue() {

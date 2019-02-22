@@ -80,8 +80,10 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <R> LongFunction<R> longFunctionFrom(Function<LongFunctionBuilder<R>, LongFunction<R>> buildingFunction) {
-		return buildingFunction.apply(new LongFunctionBuilder());
+	public static <R> LongFunction<R> longFunctionFrom(Consumer<LongFunctionBuilder<R>> buildingFunction) {
+		LongFunctionBuilder builder = new LongFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		retval = Function4U.<R> longFunc(a -> {
 			try {
 				for (Case<LLongPredicate, LongFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().apply(a);
 					}
 				}

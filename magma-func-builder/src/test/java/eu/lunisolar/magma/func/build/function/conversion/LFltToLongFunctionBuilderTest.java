@@ -69,7 +69,7 @@ public class LFltToLongFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsLong(100f);
+            function.applyAsLong(100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LFltToLongFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsLong(100f);
+            function.applyAsLong(100f);
 
             fail("No exception were thrown.");
         })

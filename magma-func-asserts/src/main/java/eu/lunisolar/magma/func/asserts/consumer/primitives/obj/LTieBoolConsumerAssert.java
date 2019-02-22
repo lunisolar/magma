@@ -79,14 +79,13 @@ public interface LTieBoolConsumerAssert<S extends LTieBoolConsumerAssert<S, A, T
 		@Nonnull
 		public SemiEvaluation<S, LTieBoolConsumer<T>, A> doesAccept(T a1, int a2, boolean a3) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2, a3);
+					pc.accept(a1, a2, a3);
 				}
-				actual.doAccept(a1, a2, a3);
+				actual.accept(a1, a2, a3);
 				return null;
 			});
-
 		}
 
 	}

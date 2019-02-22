@@ -80,8 +80,10 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LIntUnaryOperator intUnaryOperatorFrom(Function<LIntUnaryOperatorBuilder, LIntUnaryOperator> buildingFunction) {
-		return buildingFunction.apply(new LIntUnaryOperatorBuilder());
+	public static LIntUnaryOperator intUnaryOperatorFrom(Consumer<LIntUnaryOperatorBuilder> buildingFunction) {
+		LIntUnaryOperatorBuilder builder = new LIntUnaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		retval = LIntUnaryOperator.intUnaryOp(a -> {
 			try {
 				for (Case<LIntPredicate, LIntUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsInt(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a);
+				return eventuallyFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

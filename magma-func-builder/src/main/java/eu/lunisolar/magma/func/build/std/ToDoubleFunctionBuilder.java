@@ -80,8 +80,10 @@ public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDblProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> ToDoubleFunction<T> toDblFunctionFrom(Function<ToDoubleFunctionBuilder<T>, ToDoubleFunction<T>> buildingFunction) {
-		return buildingFunction.apply(new ToDoubleFunctionBuilder());
+	public static <T> ToDoubleFunction<T> toDblFunctionFrom(Consumer<ToDoubleFunctionBuilder<T>> buildingFunction) {
+		ToDoubleFunctionBuilder builder = new ToDoubleFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDblProdu
 		retval = Function4U.<T> toDblFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, ToDoubleFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().applyAsDouble(a);
 					}
 				}

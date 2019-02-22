@@ -72,8 +72,8 @@ public class LTieFuncMemento<T1, T2> implements LTieFunction<T1, T2> {
 	}
 
 	@Override
-	public int doApplyAsIntX(T1 a1, int a2, T2 a3) {
-		return lastValue = function.doApplyAsInt(a1, a2, a3);
+	public int applyAsIntX(T1 a1, int a2, T2 a3) {
+		return lastValue = function.applyAsInt(a1, a2, a3);
 	}
 
 	public int lastValue() {

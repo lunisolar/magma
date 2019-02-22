@@ -65,7 +65,7 @@ public class LCharToFltFunctionTest {
 
 
     private LCharToFltFunction sut = new LCharToFltFunction(){
-        public  float doApplyAsFltX(char a)  {
+        public  float applyAsFltX(char a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LCharToFltFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsFlt('\u0100'))
+        assertThat(sut.applyAsFlt('\u0100'))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LCharToFltFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsFlt('\u0100'))
+    public void testNonNullApplyAsFlt() throws Throwable {
+        assertThat(sut.nonNullApplyAsFlt('\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsFltUnchecked() throws Throwable {
+    public void testNestingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsFlt('\u0100');
+            sutAlwaysThrowingUnchecked.nestingApplyAsFlt('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LCharToFltFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsFltUnchecked() throws Throwable {
+    public void testShovingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsFlt('\u0100');
+            sutAlwaysThrowingUnchecked.shovingApplyAsFlt('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LCharToFltFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharToFltFunction: float doApplyAsFlt(char a)");
+            .isEqualTo("LCharToFltFunction: float applyAsFlt(char a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LCharToFltFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharToFltFuncComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LCharToFltFunctionTest {
         };
 
         //when
-        LCharToFltFunction function = sutO.charToFltFuncComposeChar(before);
-        function.doApplyAsFlt('\u0080');
+        LCharToFltFunction function = sutO.compose(before);
+        function.applyAsFlt('\u0080');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LToFltFunction<Integer> function = sutO.charToFltFuncCompose(before);
-        function.doApplyAsFlt(80);
+        function.applyAsFlt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply('\u0080');
+        Integer finalValue = function.apply('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte('\u0080');
+        byte finalValue = function.applyAsByte('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt('\u0080');
+        short finalValue = function.applyAsSrt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt('\u0080');
+        int finalValue = function.applyAsInt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong('\u0080');
+        long finalValue = function.applyAsLong('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt('\u0080');
+        float finalValue = function.applyAsFlt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl('\u0080');
+        double finalValue = function.applyAsDbl('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharUnaryOperator function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar('\u0080');
+        char finalValue = function.applyAsChar('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LCharToFltFunctionTest {
 
         //when
         LCharPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest('\u0080');
+        boolean finalValue = function.test('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LCharToFltFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCharToFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LCharToFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCharToFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LCharToFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LCharToFltFunctionTest {
         });
 
         // when
-        sutThrowing.shovingCharToFltFunc().doApplyAsFlt('\u0100');
+        sutThrowing.shovingApplyAsFlt('\u0100');
     }
 
 
@@ -563,7 +549,7 @@ public class LCharToFltFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharToFltFunction: float doApplyAsFlt(char a)");
+                .contains("LCharToFltFunction: float applyAsFlt(char a)");
     }
 
 

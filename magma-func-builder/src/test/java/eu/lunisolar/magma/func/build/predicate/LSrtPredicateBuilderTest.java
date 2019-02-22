@@ -69,7 +69,7 @@ public class LSrtPredicateBuilderTest{
                 .build()
             );
 
-            function.doTest((short)100);
+            function.test((short)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSrtPredicateBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest((short)100);
+            function.test((short)100);
 
             fail("No exception were thrown.");
         })

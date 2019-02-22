@@ -66,167 +66,196 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain1<aByte> { // NOSONAR
 
-	String DESCRIPTION = "LBytePredicate: boolean doTest(byte a)";
+	String DESCRIPTION = "LBytePredicate: boolean test(byte a)";
 
-	// boolean doTest(byte a) ;
-	default boolean doTest(byte a) {
-		// return nestingDoTest(a);
+	// boolean test(byte a) ;
+	default boolean test(byte a) {
+		// return nestingTest(a);
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doTest(byte a)
+	 * Implement this, but call test(byte a)
 	 */
-	boolean doTestX(byte a) throws Throwable;
+	boolean testX(byte a) throws Throwable;
 
 	default boolean tupleTest(LByteSingle args) {
-		return doTest(args.value());
+		return test(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoTest(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingTest(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoTest(byte a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBytePredicate handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingTest(a, handling);
+	}
+
+	default boolean test(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoTest(byte a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBytePredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> test(a, exF, newMessage, messageParams);
+	}
+
+	default boolean test(byte a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoTestThen(byte a, @Nonnull LPredicate<Throwable> handler) {
+	default LBytePredicate trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> test(a, exF);
+	}
+
+	default boolean testThen(byte a, @Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LBytePredicate tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return a -> testThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(byte a) {
+	default boolean nestingTest(byte a) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoTest(byte a) {
+	default boolean shovingTest(byte a) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static boolean handlingDoTest(byte a, LBytePredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(byte a, LBytePredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoTest(a, handling);
+		return func.handlingTest(a, handling);
 	}
 
-	static boolean tryDoTest(byte a, LBytePredicate func) {
-		return tryDoTest(a, func, null);
-	}
-
-	static boolean tryDoTest(byte a, LBytePredicate func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryTest(byte a, LBytePredicate func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingTest(a);
 	}
 
-	static boolean tryDoTest(byte a, LBytePredicate func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static boolean tryTest(byte a, LBytePredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a, exceptionFactory);
+		return func.test(a, exF, newMessage, messageParams);
 	}
 
-	static boolean tryDoTestThen(byte a, LBytePredicate func, @Nonnull LPredicate<Throwable> handler) {
+	static boolean tryTest(byte a, LBytePredicate func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTestThen(a, handler);
+		return func.test(a, exF);
 	}
 
-	default boolean failSafeDoTest(byte a, @Nonnull LBytePredicate failSafe) {
+	static boolean tryTestThen(byte a, LBytePredicate func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.testThen(a, handler);
+	}
+
+	default boolean failSafeTest(byte a, @Nonnull LBytePredicate failSafe) {
 		try {
-			return doTest(a);
+			return test(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doTest(a);
+			return failSafe.test(a);
 		}
 	}
 
-	static boolean failSafeDoTest(byte a, LBytePredicate func, @Nonnull LBytePredicate failSafe) {
+	static boolean failSafeTest(byte a, LBytePredicate func, @Nonnull LBytePredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doTest(a);
+			return failSafe.test(a);
 		} else {
-			return func.failSafeDoTest(a, failSafe);
+			return func.failSafeTest(a, failSafe);
 		}
 	}
 
-	static LBytePredicate failSafeBytePred(LBytePredicate func, @Nonnull LBytePredicate failSafe) {
+	static LBytePredicate failSafe(LBytePredicate func, @Nonnull LBytePredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoTest(a, func, failSafe);
+		return a -> failSafeTest(a, func, failSafe);
 	}
 
 	default boolean doIf(byte a, LAction action) {
-		if (doTest(a)) {
-			action.doExecute();
+		Null.nonNullArg(action, "action");
+		if (test(a)) {
+			action.execute();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	default boolean doIf(byte a, LByteConsumer consumer) {
-		if (doTest(a)) {
-			consumer.doAccept(a);
+	static boolean doIf(byte a, @Nonnull LBytePredicate predicate, @Nonnull LAction action) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a, action);
+	}
+
+	static boolean doIf(byte a, @Nonnull LBytePredicate predicate, @Nonnull LByteConsumer consumer) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a, consumer);
+	}
+
+	default boolean doIf(byte a, @Nonnull LByteConsumer consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a)) {
+			consumer.accept(a);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	static void throwIf(byte a, LBytePredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.doTest(a)) {
+	static void throwIf(byte a, LBytePredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.test(a)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
-	static void throwIfNot(byte a, LBytePredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.doTest(a)) {
+	static void throwIfNot(byte a, LBytePredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.test(a)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(byte a) {
-		return doTest(a);
+	default boolean nonNullTest(byte a) {
+		return test(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(byte a) {
-		return doTest(a);
+		return test(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -236,8 +265,8 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	public default <V> boolean doIf(V a1, byte a2, LObjByteConsumer<V> consumer) {
-		if (doTest(a2)) {
-			consumer.doAccept(a1, a2);
+		if (test(a2)) {
+			consumer.accept(a1, a2);
 			return true;
 		} else {
 			return false;
@@ -245,8 +274,8 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	public default <V> boolean doIf(V a1, int a2, byte a3, LTieByteConsumer<? super V> consumer) {
-		if (doTest(a3)) {
-			consumer.doAccept(a1, a2, a3);
+		if (test(a3)) {
+			consumer.accept(a1, a2, a3);
 			return true;
 		} else {
 			return false;
@@ -254,8 +283,8 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	public default <V> int doIf(V a1, int a2, byte a3, LTieByteFunction<? super V> consumer) {
-		if (doTest(a3)) {
-			return consumer.doApplyAsInt(a1, a2, a3);
+		if (test(a3)) {
+			return consumer.applyAsInt(a1, a2, a3);
 		} else {
 			return 0;
 		}
@@ -264,13 +293,13 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, byte a, LBytePredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doTest(a);
+				func.test(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doTest(a);
+				func.test(a);
 			}
 		}
 	}
@@ -278,25 +307,27 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, byte a, LBytePredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doTest(a);
+				func.test(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doTest(a);
+				func.test(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, byte a, LBytePredicate func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBytePred(byte a) {
-		return () -> this.doTest(a);
+	default LBoolSupplier capture(byte a) {
+		return () -> this.test(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -314,7 +345,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	@Nonnull
 	static LBytePredicate recursive(final @Nonnull LFunction<LBytePredicate, LBytePredicate> selfLambda) {
 		final LBytePredicateSingle single = new LBytePredicateSingle();
-		LBytePredicate func = selfLambda.doApply(single);
+		LBytePredicate func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -323,8 +354,8 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		private LBytePredicate target = null;
 
 		@Override
-		public boolean doTestX(byte a) throws Throwable {
-			return target.doTestX(a);
+		public boolean testX(byte a) throws Throwable {
+			return target.testX(a);
 		}
 
 		@Override
@@ -334,24 +365,24 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	@Nonnull
-	static LBytePredicate bytePredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBytePredicate bytePredThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBytePredicate bytePredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBytePredicate bytePredThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static boolean call(byte a, final @Nonnull LBytePredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a);
+		return lambda.test(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -402,7 +433,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	 */
 	@Nonnull
 	default LBytePredicate negate() {
-		return a -> !doTest(a);
+		return a -> !test(a);
 	}
 
 	/**
@@ -412,7 +443,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	@Nonnull
 	default LBytePredicate and(@Nonnull LBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return a -> doTest(a) && other.doTest(a);
+		return a -> test(a) && other.test(a);
 	}
 
 	/**
@@ -422,7 +453,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	@Nonnull
 	default LBytePredicate or(@Nonnull LBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return a -> doTest(a) || other.doTest(a);
+		return a -> test(a) || other.test(a);
 	}
 
 	/**
@@ -432,7 +463,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	@Nonnull
 	default LBytePredicate xor(@Nonnull LBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return a -> doTest(a) ^ other.doTest(a);
+		return a -> test(a) ^ other.test(a);
 	}
 
 	/**
@@ -450,20 +481,20 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBytePredicate bytePredComposeByte(@Nonnull final LByteUnaryOperator before) {
+	default LBytePredicate compose(@Nonnull final LByteUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doTest(before.doApplyAsByte(v));
+		return v -> this.test(before.applyAsByte(v));
 	}
 
-	public static LBytePredicate composedByte(@Nonnull final LByteUnaryOperator before, LBytePredicate after) {
-		return after.bytePredComposeByte(before);
+	public static LBytePredicate composed(@Nonnull final LByteUnaryOperator before, LBytePredicate after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LPredicate<V> bytePredCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doTest(before.doApplyAsByte(v));
+		return v -> this.test(before.applyAsByte(v));
 	}
 
 	public static <V> LPredicate<V> composed(@Nonnull final LToByteFunction<? super V> before, LBytePredicate after) {
@@ -478,79 +509,68 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	@Nonnull
 	default <V> LByteFunction<V> boolToByteFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doTest(a));
+		return a -> after.apply(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperator boolToByteUnaryOp(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doTest(a));
+		return a -> after.applyAsByte(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToSrtFunction boolToByteToSrtFunc(@Nonnull LBoolToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doTest(a));
+		return a -> after.applyAsSrt(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunction boolToByteToIntFunc(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doTest(a));
+		return a -> after.applyAsInt(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunction boolToByteToLongFunc(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doTest(a));
+		return a -> after.applyAsLong(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFltFunction boolToByteToFltFunc(@Nonnull LBoolToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doTest(a));
+		return a -> after.applyAsFlt(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDblFunction boolToByteToDblFunc(@Nonnull LBoolToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doTest(a));
+		return a -> after.applyAsDbl(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunction boolToByteToCharFunc(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doTest(a));
+		return a -> after.applyAsChar(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicate boolToBytePred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doTest(a));
+		return a -> after.apply(this.test(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBytePredicate nestingBytePred() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBytePredicate shovingBytePred() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -566,53 +586,65 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return false;
 	}
 
-	// FILTER: FOR, [SourcePurpose{arg=byte a, type=IA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
-	default <C0> void forEach(IndexedRead<C0, aByte> ia, C0 source, LByteConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C0> void filterForEach(IndexedRead<C0, aByte> ia, C0 source, LByteConsumer consumer) {
 		int size = ia.size(source);
 		LOiToByteFunction<Object> oiFunc0 = (LOiToByteFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			byte a = oiFunc0.doApplyAsByte(source, i);
+			byte a = oiFunc0.applyAsByte(source, i);
 			doIf(a, consumer);
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=byte a, type=SA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
-	default <C0, I0> void iterate(SequentialRead<C0, I0, aByte> sa, C0 source, LByteConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
+	default <C0, I0> void filterIterate(SequentialRead<C0, I0, aByte> sa, C0 source, LByteConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			byte a = nextFunc0.doApplyAsByte(iterator0);
+		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			byte a = nextFunc0.applyAsByte(iterator0);
 			doIf(a, consumer);
 		}
 	}
 
-	// FILTER_WITH_TARGET_AND_INDEX: FOR, [SourcePurpose{arg=V v, type=CONST}, SourcePurpose{arg=byte a, type=IA}, SourcePurpose{arg=LTieByteConsumer<V>
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index) if predicate test passes. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns number of iterations that element (or tuple) was accepter by predicate.
+	*/
 	default <V, C0> int tieForEach(V v, IndexedRead<C0, aByte> ia, C0 source, LTieByteConsumer<V> consumer) {
 		int size = ia.size(source);
 		LOiToByteFunction<Object> oiFunc0 = (LOiToByteFunction) ia.getter();
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
-			byte a = oiFunc0.doApplyAsByte(source, i);
+			byte a = oiFunc0.applyAsByte(source, i);
 			acceptedIndex += doIf(v, acceptedIndex, a, consumer) ? 1 : 0;
 		}
 		return acceptedIndex;
 
 	}
 
-	// FILTER_WITH_TARGET_AND_INDEX: WHILE, [SourcePurpose{arg=V v, type=CONST}, SourcePurpose{arg=byte a, type=SA}, SourcePurpose{arg=LTieByteConsumer<V>
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index) if predicate test passes. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns number of iterations that element (or tuple) was accepter by predicate.
+	*/
 	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, aByte> sa, C0 source, LTieByteConsumer<V> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.getter();
+		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.supplier();
 		int acceptedIndex = 0;
 		int i = 0;
-		while (testFunc0.doTest(iterator0)) {
-			byte a = nextFunc0.doApplyAsByte(iterator0);
+		while (testFunc0.test(iterator0)) {
+			byte a = nextFunc0.applyAsByte(iterator0);
 			acceptedIndex += doIf(v, acceptedIndex, a, consumer) ? 1 : 0;
 			i++;
 		}

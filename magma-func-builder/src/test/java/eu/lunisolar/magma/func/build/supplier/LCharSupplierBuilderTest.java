@@ -69,7 +69,7 @@ public class LCharSupplierBuilderTest{
                 .build()
             );
 
-            function.doGetAsChar();
+            function.getAsChar();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LCharSupplierBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doGetAsChar();
+            function.getAsChar();
 
             fail("No exception were thrown.");
         })

@@ -82,13 +82,12 @@ public interface LSrtToFltFunctionAssert<S extends LSrtToFltFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LSrtConsumer, A, RS, Float> doesApplyAsFlt(short a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFlt(a));
+				return assertFactory.apply(actual.applyAsFlt(a));
 			});
-
 		}
 
 	}

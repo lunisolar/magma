@@ -80,8 +80,10 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LLogicalOperator logicalOperatorFrom(Function<LLogicalOperatorBuilder, LLogicalOperator> buildingFunction) {
-		return buildingFunction.apply(new LLogicalOperatorBuilder());
+	public static LLogicalOperator logicalOperatorFrom(Consumer<LLogicalOperatorBuilder> buildingFunction) {
+		LLogicalOperatorBuilder builder = new LLogicalOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 		retval = LLogicalOperator.logicalOp(a -> {
 			try {
 				for (Case<LLogicalOperator, LLogicalOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a)) {
-						return aCase.caseFunction().doApply(a);
+					if (aCase.casePredicate().apply(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

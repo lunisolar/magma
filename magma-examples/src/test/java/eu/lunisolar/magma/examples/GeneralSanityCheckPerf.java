@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.basics.perf.JMH;
 import eu.lunisolar.magma.func.function.from.LIntFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 import eu.lunisolar.magma.func.operator.unary.LIntUnaryOperator;
@@ -84,7 +85,7 @@ public class GeneralSanityCheckPerf {
     @Benchmark
     @Threads(1)
     public int referenceToThrowing(Functions f) {
-        return safeValue(f.nonThrowing, intUnaryOpThrowing(UnsupportedOperationException::new)).doApplyAsInt(32);
+        return safeValue(f.nonThrowing, intUnaryOpThrowing(UnsupportedOperationException::new)).applyAsInt(32);
     }
 
     @Benchmark
@@ -98,7 +99,7 @@ public class GeneralSanityCheckPerf {
     @Threads(1)
     public int runtime_for_sure(Functions f) {
         try {
-            return f.runtime_for_sure.doApplyAsInt(32);   // doApplyAsInt do not have catch {}
+            return f.runtime_for_sure.applyAsInt(32);   // doApplyAsInt do not have catch {}
         } catch (Exception e) {
             return 3;
         }
@@ -108,7 +109,7 @@ public class GeneralSanityCheckPerf {
     @Threads(1)
     public int throwing_for_sure(Functions f) {
         try {
-            return f.throwing_for_sure.doApplyAsInt(32);  // doApplyAsInt has one internal catch {}
+            return f.throwing_for_sure.applyAsInt(32);  // doApplyAsInt has one internal catch {}
         } catch (Exception e) {
             return 3;
         }
@@ -118,7 +119,7 @@ public class GeneralSanityCheckPerf {
     @Threads(1)
     public int throwing_for_sure_runtime(Functions f) {
         try {
-            return f.throwing_for_sure_runtime.doApplyAsInt(32);  // doApplyAsInt has one internal catch {}  but it just rethrows runtime
+            return f.throwing_for_sure_runtime.applyAsInt(32);  // doApplyAsInt has one internal catch {}  but it just rethrows runtime
         } catch (Exception e) {
             return 3;
         }
@@ -127,7 +128,7 @@ public class GeneralSanityCheckPerf {
     @Benchmark
     @Threads(1)
     public int nonThrowing(Functions f) {
-        return f.nonThrowing.doApplyAsInt(32);
+        return f.nonThrowing.applyAsInt(32);
     }
 
      @Benchmark
@@ -139,19 +140,19 @@ public class GeneralSanityCheckPerf {
     @Benchmark
     @Threads(1)
     public int theoretically_throwing(Functions f) {
-        return f.theoretically_throwing.doApplyAsInt(32);
+        return f.theoretically_throwing.applyAsInt(32);
     }
 
     @Benchmark
     @Threads(1)
     public Object optional(Functions f) {
-        return f.optional.doApply(32).get();
+        return f.optional.apply(32).get();
     }
 
     @Benchmark
     @Threads(1)
     public Object optional_instead_of_exception(Functions f) {
-        return f.optional_instead_of_exception.doApply(32).get();
+        return f.optional_instead_of_exception.apply(32).get();
     }
 
     public static void main(String[] args) throws Exception {
@@ -163,6 +164,7 @@ public class GeneralSanityCheckPerf {
 //        new org.openjdk.jmh.runner.Runner(opt).run();
 
         JMH.jmh()
+           .iterations(3, seconds(30), 3, seconds(30))
            .classes(GeneralSanityCheckPerf.class)
            .mode(Mode.Throughput)
            .opt(o -> o.timeUnit(TimeUnit.MILLISECONDS))
@@ -171,72 +173,5 @@ public class GeneralSanityCheckPerf {
            .run();
     }
 
-    public static class JMH {
 
-        private ChainedOptionsBuilder opt = new OptionsBuilder();
-
-        public JMH() {
-            opt.jvmArgs(
-                    "-server",
-                    "-XX:+UseTLAB",
-                    "-XX:+AggressiveOpts",
-                    "-XX:+UseBiasedLocking",
-                    "-XX:+UseFastAccessorMethods"
-            )
-               .verbosity(VerboseMode.EXTRA)
-               .warmupIterations(3)
-               .warmupTime(seconds(1))
-               .measurementIterations(3)
-               .measurementTime(seconds(1))
-               .syncIterations(true)
-               .forks(1)
-               .resultFormat(ResultFormatType.TEXT);
-        }
-
-        public static JMH jmh() {
-            return new JMH();
-        }
-
-        public JMH opt(Consumer<ChainedOptionsBuilder> options) {
-            options.accept(opt);
-            return this;
-        }
-
-        public JMH classes(Class... testClass) throws RunnerException {
-            for (Class c : testClass) {
-                opt.include(c.getSimpleName());
-            }
-            return this;
-        }
-
-        public JMH param(String name, String... values) {
-            opt.param(name, values);
-            return this;
-        }
-
-        public JMH mode(Mode mode) {
-            opt.mode(mode);
-            return this;
-        }
-
-        public JMH timeUnit(TimeUnit unit) {
-            opt.timeUnit(unit);
-            return this;
-        }
-
-        public JMH gc() {
-            opt.addProfiler(GCProfiler.class);
-            return this;
-        }
-
-        public JMH mem() {
-            opt.addProfiler(HotspotMemoryProfiler.class);
-            return this;
-        }
-
-        public void run() throws RunnerException {
-            new Runner(opt.build()).run();
-        }
-
-    }
 }

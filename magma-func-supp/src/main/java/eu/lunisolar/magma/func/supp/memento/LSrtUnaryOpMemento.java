@@ -72,8 +72,8 @@ public class LSrtUnaryOpMemento implements LSrtUnaryOperator {
 	}
 
 	@Override
-	public short doApplyAsSrtX(short a) {
-		return lastValue = function.doApplyAsSrt(a);
+	public short applyAsSrtX(short a) {
+		return lastValue = function.applyAsSrt(a);
 	}
 
 	public short lastValue() {

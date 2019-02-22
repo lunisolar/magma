@@ -72,388 +72,388 @@ public interface AccessByte {
 
 	default void useWith(LByteConsumer accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAccept(tuple);
+		accessFunction.accept(tuple);
 	}
 
 	default void useWith(byte a2, LBiByteConsumer accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAccept(tuple, a2);
+		accessFunction.accept(tuple, a2);
 	}
 
 	default void useWith(byte a1, LBiByteConsumer.LByte1Byte0Cons accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptByte1Byte0(tuple, a1);
+		accessFunction.acceptByte1Byte0(tuple, a1);
 	}
 
 	default void useWith(int a2, LByteIntConsumer accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAccept(tuple, a2);
+		accessFunction.accept(tuple, a2);
 	}
 
 	default void useWith(int a2, LByteIntConsumer.LIntByteCons accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptIntByte(a2, tuple);
+		accessFunction.acceptIntByte(a2, tuple);
 	}
 
 	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjByteConsumer<T1, T2> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAccept(a1, a2, tuple);
+		accessFunction.accept(a1, a2, tuple);
 	}
 
-	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjByteConsumer.LObjByteObj1Cons<T1, T2> accessFunction) {
+	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjByteConsumer.LObj0Byte2Obj1Cons<T1, T2> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptObjByteObj1(a1, tuple, a2);
+		accessFunction.acceptObj0Byte2Obj1(a1, tuple, a2);
 	}
 
-	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjByteConsumer.LByteObj0Obj1Cons<T1, T2> accessFunction) {
+	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjByteConsumer.LByte2Obj0Obj1Cons<T1, T2> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptByteObj0Obj1(tuple, a1, a2);
+		accessFunction.acceptByte2Obj0Obj1(tuple, a1, a2);
 	}
 
 	default <T> void useWith(T a1, LObjByteConsumer<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAccept(a1, tuple);
+		accessFunction.accept(a1, tuple);
 	}
 
 	default <T> void useWith(T a1, LObjByteConsumer.LByteObjCons<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptByteObj(tuple, a1);
+		accessFunction.acceptByteObj(tuple, a1);
 	}
 
 	default <T> void useWith(T a1, int a2, LTieByteConsumer<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAccept(a1, a2, tuple);
+		accessFunction.accept(a1, a2, tuple);
 	}
 
 	default <T> void useWith(T a1, int a2, LTieByteConsumer.LObjByteIntCons<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptObjByteInt(a1, tuple, a2);
+		accessFunction.acceptObjByteInt(a1, tuple, a2);
 	}
 
 	default <T> void useWith(int a2, T a1, LTieByteConsumer.LIntObjByteCons<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptIntObjByte(a2, a1, tuple);
+		accessFunction.acceptIntObjByte(a2, a1, tuple);
 	}
 
 	default <T> void useWith(int a2, T a1, LTieByteConsumer.LIntByteObjCons<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptIntByteObj(a2, tuple, a1);
+		accessFunction.acceptIntByteObj(a2, tuple, a1);
 	}
 
 	default <T> void useWith(T a1, int a2, LTieByteConsumer.LByteObjIntCons<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptByteObjInt(tuple, a1, a2);
+		accessFunction.acceptByteObjInt(tuple, a1, a2);
 	}
 
 	default <T> void useWith(int a2, T a1, LTieByteConsumer.LByteIntObjCons<T> accessFunction) {
 		byte tuple = accessByte();
-		accessFunction.doAcceptByteIntObj(tuple, a2, a1);
+		accessFunction.acceptByteIntObj(tuple, a2, a1);
 	}
 
 	default byte useWith(byte a2, LByteBinaryOperator accessFunction) {
 		byte tuple = accessByte();
-		byte retval = accessFunction.doApplyAsByte(tuple, a2);
+		byte retval = accessFunction.applyAsByte(tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default byte useWith(LByteUnaryOperator accessFunction) {
 		byte tuple = accessByte();
-		byte retval = accessFunction.doApplyAsByte(tuple);
+		byte retval = accessFunction.applyAsByte(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default char useWith(LByteToCharFunction accessFunction) {
 		byte tuple = accessByte();
-		char retval = accessFunction.doApplyAsChar(tuple);
+		char retval = accessFunction.applyAsChar(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default double useWith(LByteToDblFunction accessFunction) {
 		byte tuple = accessByte();
-		double retval = accessFunction.doApplyAsDbl(tuple);
+		double retval = accessFunction.applyAsDbl(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default float useWith(LByteToFltFunction accessFunction) {
 		byte tuple = accessByte();
-		float retval = accessFunction.doApplyAsFlt(tuple);
+		float retval = accessFunction.applyAsFlt(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default int useWith(LByteToIntFunction accessFunction) {
 		byte tuple = accessByte();
-		int retval = accessFunction.doApplyAsInt(tuple);
+		int retval = accessFunction.applyAsInt(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default long useWith(LByteToLongFunction accessFunction) {
 		byte tuple = accessByte();
-		long retval = accessFunction.doApplyAsLong(tuple);
+		long retval = accessFunction.applyAsLong(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default short useWith(LByteToSrtFunction accessFunction) {
 		byte tuple = accessByte();
-		short retval = accessFunction.doApplyAsSrt(tuple);
+		short retval = accessFunction.applyAsSrt(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(byte a2, LBiByteFunction<R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApply(tuple, a2);
+		R retval = accessFunction.apply(tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(byte a1, LBiByteFunction.LByte1Byte0Func<R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyByte1Byte0(tuple, a1);
+		R retval = accessFunction.applyByte1Byte0(tuple, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjByteFunction<T1, T2, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApply(a1, a2, tuple);
+		R retval = accessFunction.apply(a1, a2, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
-	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjByteFunction.LObjByteObj1Func<T1, T2, R> accessFunction) {
+	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjByteFunction.LObj0Byte2Obj1Func<T1, T2, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyObjByteObj1(a1, tuple, a2);
+		R retval = accessFunction.applyObj0Byte2Obj1(a1, tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
-	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjByteFunction.LByteObj0Obj1Func<T1, T2, R> accessFunction) {
+	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjByteFunction.LByte2Obj0Obj1Func<T1, T2, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyByteObj0Obj1(tuple, a1, a2);
+		R retval = accessFunction.applyByte2Obj0Obj1(tuple, a1, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LByteFunction<R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApply(tuple);
+		R retval = accessFunction.apply(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjByteFunction<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApply(a1, tuple);
+		R retval = accessFunction.apply(a1, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjByteFunction.LByteObjFunc<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyByteObj(tuple, a1);
+		R retval = accessFunction.applyByteObj(tuple, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, int a2, LObjIntByteFunction<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApply(a1, a2, tuple);
+		R retval = accessFunction.apply(a1, a2, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, int a2, LObjIntByteFunction.LObjByteIntFunc<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyObjByteInt(a1, tuple, a2);
+		R retval = accessFunction.applyObjByteInt(a1, tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(int a2, T a1, LObjIntByteFunction.LIntObjByteFunc<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyIntObjByte(a2, a1, tuple);
+		R retval = accessFunction.applyIntObjByte(a2, a1, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(int a2, T a1, LObjIntByteFunction.LIntByteObjFunc<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyIntByteObj(a2, tuple, a1);
+		R retval = accessFunction.applyIntByteObj(a2, tuple, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, int a2, LObjIntByteFunction.LByteObjIntFunc<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyByteObjInt(tuple, a1, a2);
+		R retval = accessFunction.applyByteObjInt(tuple, a1, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(int a2, T a1, LObjIntByteFunction.LByteIntObjFunc<T, R> accessFunction) {
 		byte tuple = accessByte();
-		R retval = accessFunction.doApplyByteIntObj(tuple, a2, a1);
+		R retval = accessFunction.applyByteIntObj(tuple, a2, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, int a2, LTieByteFunction<T> accessFunction) {
 		byte tuple = accessByte();
-		int retval = accessFunction.doApplyAsInt(a1, a2, tuple);
+		int retval = accessFunction.applyAsInt(a1, a2, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, int a2, LTieByteFunction.LObjByteIntToIntFunc<T> accessFunction) {
 		byte tuple = accessByte();
-		int retval = accessFunction.doApplyAsIntObjByteInt(a1, tuple, a2);
+		int retval = accessFunction.applyAsIntObjByteInt(a1, tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(int a2, T a1, LTieByteFunction.LIntObjByteToIntFunc<T> accessFunction) {
 		byte tuple = accessByte();
-		int retval = accessFunction.doApplyAsIntIntObjByte(a2, a1, tuple);
+		int retval = accessFunction.applyAsIntIntObjByte(a2, a1, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(int a2, T a1, LTieByteFunction.LIntByteObjToIntFunc<T> accessFunction) {
 		byte tuple = accessByte();
-		int retval = accessFunction.doApplyAsIntIntByteObj(a2, tuple, a1);
+		int retval = accessFunction.applyAsIntIntByteObj(a2, tuple, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, int a2, LTieByteFunction.LByteObjIntToIntFunc<T> accessFunction) {
 		byte tuple = accessByte();
-		int retval = accessFunction.doApplyAsIntByteObjInt(tuple, a1, a2);
+		int retval = accessFunction.applyAsIntByteObjInt(tuple, a1, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(int a2, T a1, LTieByteFunction.LByteIntObjToIntFunc<T> accessFunction) {
 		byte tuple = accessByte();
-		int retval = accessFunction.doApplyAsIntByteIntObj(tuple, a2, a1);
+		int retval = accessFunction.applyAsIntByteIntObj(tuple, a2, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default boolean useWith(byte a2, LBiBytePredicate accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTest(tuple, a2);
+		boolean retval = accessFunction.test(tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default boolean useWith(byte a1, LBiBytePredicate.LByte1Byte0Pred accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestByte1Byte0(tuple, a1);
+		boolean retval = accessFunction.testByte1Byte0(tuple, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBytePredicate<T1, T2> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTest(a1, a2, tuple);
+		boolean retval = accessFunction.test(a1, a2, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
-	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBytePredicate.LObjByteObj1Pred<T1, T2> accessFunction) {
+	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBytePredicate.LObj0Byte2Obj1Pred<T1, T2> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestObjByteObj1(a1, tuple, a2);
+		boolean retval = accessFunction.testObj0Byte2Obj1(a1, tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
-	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBytePredicate.LByteObj0Obj1Pred<T1, T2> accessFunction) {
+	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBytePredicate.LByte2Obj0Obj1Pred<T1, T2> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestByteObj0Obj1(tuple, a1, a2);
+		boolean retval = accessFunction.testByte2Obj0Obj1(tuple, a1, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LByteIntPredicate accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTest(tuple, a2);
+		boolean retval = accessFunction.test(tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LByteIntPredicate.LIntBytePred accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestIntByte(a2, tuple);
+		boolean retval = accessFunction.testIntByte(a2, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBytePredicate accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTest(tuple);
+		boolean retval = accessFunction.test(tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjBytePredicate<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTest(a1, tuple);
+		boolean retval = accessFunction.test(a1, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjBytePredicate.LByteObjPred<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestByteObj(tuple, a1);
+		boolean retval = accessFunction.testByteObj(tuple, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, int a2, LObjIntBytePredicate<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTest(a1, a2, tuple);
+		boolean retval = accessFunction.test(a1, a2, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, int a2, LObjIntBytePredicate.LObjByteIntPred<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestObjByteInt(a1, tuple, a2);
+		boolean retval = accessFunction.testObjByteInt(a1, tuple, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(int a2, T a1, LObjIntBytePredicate.LIntObjBytePred<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestIntObjByte(a2, a1, tuple);
+		boolean retval = accessFunction.testIntObjByte(a2, a1, tuple);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(int a2, T a1, LObjIntBytePredicate.LIntByteObjPred<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestIntByteObj(a2, tuple, a1);
+		boolean retval = accessFunction.testIntByteObj(a2, tuple, a1);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, int a2, LObjIntBytePredicate.LByteObjIntPred<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestByteObjInt(tuple, a1, a2);
+		boolean retval = accessFunction.testByteObjInt(tuple, a1, a2);
 		releaseByte(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(int a2, T a1, LObjIntBytePredicate.LByteIntObjPred<T> accessFunction) {
 		byte tuple = accessByte();
-		boolean retval = accessFunction.doTestByteIntObj(tuple, a2, a1);
+		boolean retval = accessFunction.testByteIntObj(tuple, a2, a1);
 		releaseByte(tuple);
 		return retval;
 	}

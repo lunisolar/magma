@@ -65,7 +65,7 @@ public class LDblToLongFunctionTest {
 
 
     private LDblToLongFunction sut = new LDblToLongFunction(){
-        public  long doApplyAsLongX(double a)  {
+        public  long applyAsLongX(double a)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LDblToLongFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsLong(100d))
+        assertThat(sut.applyAsLong(100d))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LDblToLongFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsLong(100d))
+    public void testNonNullApplyAsLong() throws Throwable {
+        assertThat(sut.nonNullApplyAsLong(100d))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsLongUnchecked() throws Throwable {
+    public void testNestingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsLong(100d);
+            sutAlwaysThrowingUnchecked.nestingApplyAsLong(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LDblToLongFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsLongUnchecked() throws Throwable {
+    public void testShovingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsLong(100d);
+            sutAlwaysThrowingUnchecked.shovingApplyAsLong(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LDblToLongFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblToLongFunction: long doApplyAsLong(double a)");
+            .isEqualTo("LDblToLongFunction: long applyAsLong(double a)");
     }
 
     @Test
@@ -164,7 +164,7 @@ public class LDblToLongFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblToLongFuncComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -183,8 +183,8 @@ public class LDblToLongFunctionTest {
         };
 
         //when
-        LDblToLongFunction function = sutO.dblToLongFuncComposeDbl(before);
-        function.doApplyAsLong(80d);
+        LDblToLongFunction function = sutO.compose(before);
+        function.applyAsLong(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -213,7 +213,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LToLongFunction<Integer> function = sutO.dblToLongFuncCompose(before);
-        function.doApplyAsLong(80);
+        function.applyAsLong(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -249,7 +249,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80d);
+        Integer finalValue = function.apply(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -283,7 +283,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80d);
+        byte finalValue = function.applyAsByte(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -317,7 +317,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80d);
+        short finalValue = function.applyAsSrt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -351,7 +351,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80d);
+        int finalValue = function.applyAsInt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -385,7 +385,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80d);
+        long finalValue = function.applyAsLong(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -419,7 +419,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80d);
+        float finalValue = function.applyAsFlt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -453,7 +453,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblUnaryOperator function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d);
+        double finalValue = function.applyAsDbl(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -487,7 +487,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80d);
+        char finalValue = function.applyAsChar(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -521,7 +521,7 @@ public class LDblToLongFunctionTest {
 
         //when
         LDblPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80d);
+        boolean finalValue = function.test(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -534,20 +534,6 @@ public class LDblToLongFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblToLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LDblToLongFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblToLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LDblToLongFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -558,7 +544,7 @@ public class LDblToLongFunctionTest {
         });
 
         // when
-        sutThrowing.shovingDblToLongFunc().doApplyAsLong(100d);
+        sutThrowing.shovingApplyAsLong(100d);
     }
 
 
@@ -571,7 +557,7 @@ public class LDblToLongFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblToLongFunction: long doApplyAsLong(double a)");
+                .contains("LDblToLongFunction: long applyAsLong(double a)");
     }
 
 

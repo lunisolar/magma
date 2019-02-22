@@ -63,7 +63,7 @@ public class LObjCharConsumerTest<T> {
 
 
     private LObjCharConsumer<Integer> sut = new LObjCharConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,char a2)  {
+        public  void acceptX(Integer a1,char a2)  {
             LObjCharConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LObjCharConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,'\u0100');
+            sutAlwaysThrowingUnchecked.nestingAccept(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LObjCharConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,'\u0100');
+            sutAlwaysThrowingUnchecked.shovingAccept(100,'\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LObjCharConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjCharConsumer: void doAccept(T a1,char a2)");
+            .isEqualTo("LObjCharConsumer: void accept(T a1,char a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LObjCharConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjCharConsComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LObjCharConsumerTest<T> {
         };
 
         //when
-        LObjCharConsumer<Integer> function = sutO.objCharConsComposeChar(before1,before2);
-        function.doAccept(80,'\u0081');
+        LObjCharConsumer<Integer> function = sutO.compose(before1,before2);
+        function.accept(80,'\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LObjCharConsumerTest<T> {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.objCharConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LObjCharConsumerTest<T> {
 
         //when
         LObjCharConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,'\u0081');
+        function.accept(80,'\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjCharCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjCharConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjCharCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjCharConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LObjCharConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjCharCons().doAccept(100,'\u0100');
+        sutThrowing.shovingAccept(100,'\u0100');
     }
 
 
@@ -277,7 +263,7 @@ public class LObjCharConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjCharConsumer: void doAccept(T a1,char a2)");
+                .contains("LObjCharConsumer: void accept(T a1,char a2)");
     }
 
 

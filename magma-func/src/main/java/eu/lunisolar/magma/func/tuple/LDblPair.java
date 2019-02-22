@@ -34,34 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiDblConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblPair extends LTuple<Double> {
+public interface LDblPair extends LTuple<Object>, LDblSingle {
 
 	int SIZE = 2;
 
 	double first();
 
-	double second();
-
-	default double getFirst() {
+	default double value() {
 		return first();
 	}
 
-	default double getSecond() {
-		return second();
-	}
+	double second();
 
-	default Double get(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default double getDouble(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -110,69 +95,8 @@ public interface LDblPair extends LTuple<Double> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Double[] toVoArray(Double[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Double[] toVoArray(Double[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Double[] toVoArray() {
-		Double[] array = new Double[size()];
-
-		return toVoArray(array);
-	}
-
-	default double[] toDblArray(double[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default double[] toDblArray(double[] array) {
-		return toDblArray(array, 0);
-	}
-
-	default double[] toDblArray() {
-		double[] array = new double[size()];
-
-		return toDblArray(array);
-	}
-
-	@Override
-	default Iterator<Double> iterator() {
-		return new Iterator<Double>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -182,27 +106,9 @@ public interface LDblPair extends LTuple<Double> {
 			}
 
 			@Override
-			public Double next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfDouble doubleIterator() {
-		return new PrimitiveIterator.OfDouble() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public double nextDouble() {
-				index++;
-				return getDouble(index);
 			}
 		};
 	}
@@ -237,9 +143,9 @@ public interface LDblPair extends LTuple<Double> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -292,7 +198,7 @@ public interface LDblPair extends LTuple<Double> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutDblPair setFirstIfArg(double first, LDblPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -301,14 +207,14 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutDblPair setFirstIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsDbl(arg);
+				this.first = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutDblPair setFirstIf(LDblPredicate predicate, double first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -317,7 +223,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutDblPair setFirstIf(double first, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -326,7 +232,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutDblPair setFirstIf(LBiDblPredicate predicate, double first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -339,7 +245,7 @@ public interface LDblPair extends LTuple<Double> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutDblPair setSecondIfArg(double second, LDblPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -348,14 +254,14 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutDblPair setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsDbl(arg);
+				this.second = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutDblPair setSecondIf(LDblPredicate predicate, double second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -364,7 +270,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutDblPair setSecondIf(double second, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -373,7 +279,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutDblPair setSecondIf(LBiDblPredicate predicate, double second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -431,7 +337,7 @@ public interface LDblPair extends LTuple<Double> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompDblPair setFirstIfArg(double first, LDblPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -440,14 +346,14 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompDblPair setFirstIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsDbl(arg);
+				this.first = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompDblPair setFirstIf(LDblPredicate predicate, double first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -456,7 +362,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompDblPair setFirstIf(double first, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -465,7 +371,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompDblPair setFirstIf(LBiDblPredicate predicate, double first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -478,7 +384,7 @@ public interface LDblPair extends LTuple<Double> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompDblPair setSecondIfArg(double second, LDblPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -487,14 +393,14 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompDblPair setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsDbl(arg);
+				this.second = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompDblPair setSecondIf(LDblPredicate predicate, double second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -503,7 +409,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompDblPair setSecondIf(double second, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -512,7 +418,7 @@ public interface LDblPair extends LTuple<Double> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompDblPair setSecondIf(LBiDblPredicate predicate, double second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;

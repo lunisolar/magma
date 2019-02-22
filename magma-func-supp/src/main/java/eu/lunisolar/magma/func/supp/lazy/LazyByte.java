@@ -63,13 +63,13 @@ public class LazyByte extends LByteSupMemento implements LByteSingle {
 	}
 
 	public static <E> LazyByte lazyValue(E e, LToByteFunction<E> function) {
-		return new LazyByte(() -> function.doApplyAsByte(e));
+		return new LazyByte(() -> function.applyAsByte(e));
 	}
 
 	@Override
-	public byte doGetAsByte() {
+	public byte getAsByte() {
 		if (function != null) {
-			lastValue = function.doGetAsByte();
+			lastValue = function.getAsByte();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazyByte extends LByteSupMemento implements LByteSingle {
 	}
 
 	public byte value() {
-		return doGetAsByte();
+		return getAsByte();
 	}
 
 	public static boolean argEquals(LazyByte the, Object that) {

@@ -66,167 +66,196 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain2<aBool, aInt> { // NOSONAR
 
-	String DESCRIPTION = "LBoolIntPredicate: boolean doTest(boolean a1,int a2)";
+	String DESCRIPTION = "LBoolIntPredicate: boolean test(boolean a1,int a2)";
 
-	// boolean doTest(boolean a1,int a2) ;
-	default boolean doTest(boolean a1, int a2) {
-		// return nestingDoTest(a1,a2);
+	// boolean test(boolean a1,int a2) ;
+	default boolean test(boolean a1, int a2) {
+		// return nestingTest(a1,a2);
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doTest(boolean a1,int a2)
+	 * Implement this, but call test(boolean a1,int a2)
 	 */
-	boolean doTestX(boolean a1, int a2) throws Throwable;
+	boolean testX(boolean a1, int a2) throws Throwable;
 
 	default boolean tupleTest(LBoolIntPair args) {
-		return doTest(args.first(), args.second());
+		return test(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoTest(boolean a1, int a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingTest(boolean a1, int a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoTest(boolean a1, int a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBoolIntPredicate handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingTest(a1, a2, handling);
+	}
+
+	default boolean test(boolean a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoTest(boolean a1, int a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBoolIntPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> test(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default boolean test(boolean a1, int a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoTestThen(boolean a1, int a2, @Nonnull LPredicate<Throwable> handler) {
+	default LBoolIntPredicate trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> test(a1, a2, exF);
+	}
+
+	default boolean testThen(boolean a1, int a2, @Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LBoolIntPredicate tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return (a1, a2) -> testThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(boolean a1, int a2) {
+	default boolean nestingTest(boolean a1, int a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoTest(boolean a1, int a2) {
+	default boolean shovingTest(boolean a1, int a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static boolean handlingDoTest(boolean a1, int a2, LBoolIntPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(boolean a1, int a2, LBoolIntPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoTest(a1, a2, handling);
+		return func.handlingTest(a1, a2, handling);
 	}
 
-	static boolean tryDoTest(boolean a1, int a2, LBoolIntPredicate func) {
-		return tryDoTest(a1, a2, func, null);
-	}
-
-	static boolean tryDoTest(boolean a1, int a2, LBoolIntPredicate func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryTest(boolean a1, int a2, LBoolIntPredicate func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingTest(a1, a2);
 	}
 
-	static boolean tryDoTest(boolean a1, int a2, LBoolIntPredicate func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static boolean tryTest(boolean a1, int a2, LBoolIntPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory);
+		return func.test(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static boolean tryDoTestThen(boolean a1, int a2, LBoolIntPredicate func, @Nonnull LPredicate<Throwable> handler) {
+	static boolean tryTest(boolean a1, int a2, LBoolIntPredicate func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTestThen(a1, a2, handler);
+		return func.test(a1, a2, exF);
 	}
 
-	default boolean failSafeDoTest(boolean a1, int a2, @Nonnull LBoolIntPredicate failSafe) {
+	static boolean tryTestThen(boolean a1, int a2, LBoolIntPredicate func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.testThen(a1, a2, handler);
+	}
+
+	default boolean failSafeTest(boolean a1, int a2, @Nonnull LBoolIntPredicate failSafe) {
 		try {
-			return doTest(a1, a2);
+			return test(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		}
 	}
 
-	static boolean failSafeDoTest(boolean a1, int a2, LBoolIntPredicate func, @Nonnull LBoolIntPredicate failSafe) {
+	static boolean failSafeTest(boolean a1, int a2, LBoolIntPredicate func, @Nonnull LBoolIntPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		} else {
-			return func.failSafeDoTest(a1, a2, failSafe);
+			return func.failSafeTest(a1, a2, failSafe);
 		}
 	}
 
-	static LBoolIntPredicate failSafeBoolIntPred(LBoolIntPredicate func, @Nonnull LBoolIntPredicate failSafe) {
+	static LBoolIntPredicate failSafe(LBoolIntPredicate func, @Nonnull LBoolIntPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoTest(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeTest(a1, a2, func, failSafe);
 	}
 
 	default boolean doIf(boolean a1, int a2, LAction action) {
-		if (doTest(a1, a2)) {
-			action.doExecute();
+		Null.nonNullArg(action, "action");
+		if (test(a1, a2)) {
+			action.execute();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	default boolean doIf(boolean a1, int a2, LBoolIntConsumer consumer) {
-		if (doTest(a1, a2)) {
-			consumer.doAccept(a1, a2);
+	static boolean doIf(boolean a1, int a2, @Nonnull LBoolIntPredicate predicate, @Nonnull LAction action) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, action);
+	}
+
+	static boolean doIf(boolean a1, int a2, @Nonnull LBoolIntPredicate predicate, @Nonnull LBoolIntConsumer consumer) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, consumer);
+	}
+
+	default boolean doIf(boolean a1, int a2, @Nonnull LBoolIntConsumer consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a1, a2)) {
+			consumer.accept(a1, a2);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	static void throwIf(boolean a1, int a2, LBoolIntPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.doTest(a1, a2)) {
+	static void throwIf(boolean a1, int a2, LBoolIntPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
-	static void throwIfNot(boolean a1, int a2, LBoolIntPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.doTest(a1, a2)) {
+	static void throwIfNot(boolean a1, int a2, LBoolIntPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(boolean a1, int a2) {
-		return doTest(a1, a2);
+	default boolean nonNullTest(boolean a1, int a2) {
+		return test(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(boolean a1, int a2) {
-		return doTest(a1, a2);
+		return test(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -236,8 +265,8 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	public default <V> boolean doIf(V a1, int a2, boolean a3, LTieBoolConsumer<? super V> consumer) {
-		if (doTest(a3, a2)) {
-			consumer.doAccept(a1, a2, a3);
+		if (test(a3, a2)) {
+			consumer.accept(a1, a2, a3);
 			return true;
 		} else {
 			return false;
@@ -245,8 +274,8 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	public default <V> int doIf(V a1, int a2, boolean a3, LTieBoolFunction<? super V> consumer) {
-		if (doTest(a3, a2)) {
-			return consumer.doApplyAsInt(a1, a2, a3);
+		if (test(a3, a2)) {
+			return consumer.applyAsInt(a1, a2, a3);
 		} else {
 			return 0;
 		}
@@ -255,13 +284,13 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_a2, int max_a2, boolean a1, LBoolIntPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_a2 <= min_a2) {
+		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int a2 = min_a2; a2 >= max_a2; a2--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
@@ -269,28 +298,30 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_a2, int max_a2, boolean a1, LBoolIntPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_a2 <= min_a2) {
+		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int a2 = min_a2; a2 > max_a2; a2--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_a2, boolean a1, LBoolIntPredicate func) {
+		if (max_a2 < 0)
+			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	public default LIntPredicate lShrink(LIntPredicate left) {
-		return a2 -> doTest(left.doTest(a2), a2);
+		return a2 -> test(left.test(a2), a2);
 	}
 
 	public default LIntPredicate lShrinkc(boolean a1) {
-		return a2 -> doTest(a1, a2);
+		return a2 -> test(a1, a2);
 	}
 
 	public static LIntPredicate lShrinked(LIntPredicate left, LBoolIntPredicate func) {
@@ -302,11 +333,11 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	public default LLogicalOperator rShrink(LBoolToIntFunction right) {
-		return a1 -> doTest(a1, right.doApplyAsInt(a1));
+		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
 	public default LLogicalOperator rShrinkc(int a2) {
-		return a1 -> doTest(a1, a2);
+		return a1 -> test(a1, a2);
 	}
 
 	public static LLogicalOperator rShrinked(LBoolToIntFunction right, LBoolIntPredicate func) {
@@ -318,13 +349,13 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/**  */
-	public static LBoolIntPredicate uncurryBoolIntPred(LBoolFunction<LIntPredicate> func) {
-		return (boolean a1, int a2) -> func.doApply(a1).doTest(a2);
+	public static LBoolIntPredicate uncurry(LBoolFunction<LIntPredicate> func) {
+		return (boolean a1, int a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBoolIntPred(boolean a1, int a2) {
-		return () -> this.doTest(a1, a2);
+	default LBoolSupplier capture(boolean a1, int a2) {
+		return () -> this.test(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -335,13 +366,13 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBoolIntPredicate test1st(@Nonnull LLogicalOperator func) {
-		return (a1, a2) -> func.doApply(a1);
+		return (a1, a2) -> func.apply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBoolIntPredicate test2nd(@Nonnull LIntPredicate func) {
-		return (a1, a2) -> func.doTest(a2);
+		return (a1, a2) -> func.test(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -354,7 +385,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@Nonnull
 	static LBoolIntPredicate recursive(final @Nonnull LFunction<LBoolIntPredicate, LBoolIntPredicate> selfLambda) {
 		final LBoolIntPredicateSingle single = new LBoolIntPredicateSingle();
-		LBoolIntPredicate func = selfLambda.doApply(single);
+		LBoolIntPredicate func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -363,8 +394,8 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		private LBoolIntPredicate target = null;
 
 		@Override
-		public boolean doTestX(boolean a1, int a2) throws Throwable {
-			return target.doTestX(a1, a2);
+		public boolean testX(boolean a1, int a2) throws Throwable {
+			return target.testX(a1, a2);
 		}
 
 		@Override
@@ -374,18 +405,18 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static LBoolIntPredicate boolIntPredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolIntPredicate boolIntPredThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBoolIntPredicate boolIntPredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolIntPredicate boolIntPredThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -402,7 +433,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	static boolean call(boolean a1, int a2, final @Nonnull LBoolIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1, a2);
+		return lambda.test(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -453,7 +484,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	 */
 	@Nonnull
 	default LBoolIntPredicate negate() {
-		return (a1, a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !test(a1, a2);
 	}
 
 	/**
@@ -463,7 +494,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@Nonnull
 	default LBoolIntPredicate and(@Nonnull LBoolIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) && other.test(a1, a2);
 	}
 
 	/**
@@ -473,7 +504,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@Nonnull
 	default LBoolIntPredicate or(@Nonnull LBoolIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) || other.test(a1, a2);
 	}
 
 	/**
@@ -483,7 +514,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@Nonnull
 	default LBoolIntPredicate xor(@Nonnull LBoolIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) ^ other.test(a1, a2);
 	}
 
 	/**
@@ -501,14 +532,14 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBoolIntPredicate boolIntPredComposeBoolInt(@Nonnull final LLogicalOperator before1, @Nonnull final LIntUnaryOperator before2) {
+	default LBoolIntPredicate compose(@Nonnull final LLogicalOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.test(before1.apply(v1), before2.applyAsInt(v2));
 	}
 
-	public static LBoolIntPredicate composedBoolInt(@Nonnull final LLogicalOperator before1, @Nonnull final LIntUnaryOperator before2, LBoolIntPredicate after) {
-		return after.boolIntPredComposeBoolInt(before1, before2);
+	public static LBoolIntPredicate composed(@Nonnull final LLogicalOperator before1, @Nonnull final LIntUnaryOperator before2, LBoolIntPredicate after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -516,7 +547,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	default <V1, V2> LBiPredicate<V1, V2> boolIntPredCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doTest(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.test(before1.test(v1), before2.applyAsInt(v2));
 	}
 
 	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2, LBoolIntPredicate after) {
@@ -531,23 +562,12 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@Nonnull
 	default LBoolIntPredicate boolToBoolIntPred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.apply(this.test(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBoolIntPredicate nestingBoolIntPred() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBoolIntPredicate shovingBoolIntPred() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -557,11 +577,11 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LIntBoolPred extends LBoolIntPredicate {
 
-		boolean doTestIntBool(int a2, boolean a1);
+		boolean testIntBool(int a2, boolean a1);
 
 		@Override
-		default boolean doTestX(boolean a1, int a2) {
-			return this.doTestIntBool(a2, a1);
+		default boolean testX(boolean a1, int a2) {
+			return this.testIntBool(a2, a1);
 		}
 	}
 
@@ -591,63 +611,75 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return false;
 	}
 
-	// FILTER: FOR, [SourcePurpose{arg=boolean a1, type=IA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=LBoolIntConsumer consumer, type=CONST}]
-	default <C1, C2> void forEach(IndexedRead<C1, aBool> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, LBoolIntConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2> void filterForEach(IndexedRead<C1, aBool> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, LBoolIntConsumer consumer) {
 		int size = ia1.size(source1);
 		LObjIntPredicate<Object> oiFunc1 = (LObjIntPredicate) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			boolean a1 = oiFunc1.doTest(source1, i);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
+			boolean a1 = oiFunc1.test(source1, i);
+			int a2 = oiFunc2.applyAsInt(source2, i);
 			doIf(a1, a2, consumer);
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=boolean a1, type=SA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=LBoolIntConsumer consumer, type=CONST}]
-	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aBool> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, LBoolIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, I1, C2> void filterIterate(SequentialRead<C1, I1, aBool> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, LBoolIntConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LPredicate<Object> nextFunc1 = (LPredicate) sa1.getter();
+		LPredicate<Object> nextFunc1 = (LPredicate) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			boolean a1 = nextFunc1.doTest(iterator1);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
+		while (testFunc1.test(iterator1) && i < size) {
+			boolean a1 = nextFunc1.test(iterator1);
+			int a2 = oiFunc2.applyAsInt(source2, i);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=boolean a1, type=IA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=LBoolIntConsumer consumer, type=CONST}]
-	default <C1, C2, I2> void iterate(IndexedRead<C1, aBool> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, LBoolIntConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, I2> void filterIterate(IndexedRead<C1, aBool> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, LBoolIntConsumer consumer) {
 		int size = ia1.size(source1);
 		LObjIntPredicate<Object> oiFunc1 = (LObjIntPredicate) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			boolean a1 = oiFunc1.doTest(source1, i);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
+		while (i < size && testFunc2.test(iterator2)) {
+			boolean a1 = oiFunc1.test(source1, i);
+			int a2 = nextFunc2.applyAsInt(iterator2);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=boolean a1, type=SA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=LBoolIntConsumer consumer, type=CONST}]
-	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aBool> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, LBoolIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
+	default <C1, I1, C2, I2> void filterIterate(SequentialRead<C1, I1, aBool> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, LBoolIntConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LPredicate<Object> nextFunc1 = (LPredicate) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LPredicate<Object> nextFunc1 = (LPredicate) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			boolean a1 = nextFunc1.doTest(iterator1);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			boolean a1 = nextFunc1.test(iterator1);
+			int a2 = nextFunc2.applyAsInt(iterator2);
 			doIf(a1, a2, consumer);
 		}
 	}

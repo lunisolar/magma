@@ -55,7 +55,7 @@ public class LIntSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsInt())
+        assertThat(sut.getAsInt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LIntSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsInt())
+        assertThat(sut.getAsInt())
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

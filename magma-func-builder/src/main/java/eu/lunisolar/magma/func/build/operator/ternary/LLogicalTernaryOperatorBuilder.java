@@ -80,8 +80,10 @@ public final class LLogicalTernaryOperatorBuilder extends PerCaseBuilderWithBool
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LLogicalTernaryOperator logicalTernaryOperatorFrom(Function<LLogicalTernaryOperatorBuilder, LLogicalTernaryOperator> buildingFunction) {
-		return buildingFunction.apply(new LLogicalTernaryOperatorBuilder());
+	public static LLogicalTernaryOperator logicalTernaryOperatorFrom(Consumer<LLogicalTernaryOperatorBuilder> buildingFunction) {
+		LLogicalTernaryOperatorBuilder builder = new LLogicalTernaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LLogicalTernaryOperatorBuilder extends PerCaseBuilderWithBool
 		retval = LLogicalTernaryOperator.logicalTernaryOp((a1, a2, a3) -> {
 			try {
 				for (Case<LLogicalTernaryOperator, LLogicalTernaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1, a2, a3)) {
-						return aCase.caseFunction().doApply(a1, a2, a3);
+					if (aCase.casePredicate().apply(a1, a2, a3)) {
+						return aCase.caseFunction().apply(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1, a2, a3);
+				return eventuallyFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -54,7 +54,7 @@ public class LFltToIntFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0);
 
-        assertThat(sut.doApplyAsInt(100f))
+        assertThat(sut.applyAsInt(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LFltToIntFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100f))
+        assertThat(sut.applyAsInt(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

@@ -80,8 +80,10 @@ public final class LDblSupplierBuilder extends PerCaseBuilderWithDblProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LDblSupplier dblSupplierFrom(Function<LDblSupplierBuilder, LDblSupplier> buildingFunction) {
-		return buildingFunction.apply(new LDblSupplierBuilder());
+	public static LDblSupplier dblSupplierFrom(Consumer<LDblSupplierBuilder> buildingFunction) {
+		LDblSupplierBuilder builder = new LDblSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LDblSupplierBuilder extends PerCaseBuilderWithDblProduct.Base
 		retval = LDblSupplier.dblSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LDblSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsDbl();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsDbl();
 					}
 				}
 
-				return eventuallyFinal.doGetAsDbl();
+				return eventuallyFinal.getAsDbl();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

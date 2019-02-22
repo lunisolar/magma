@@ -89,8 +89,8 @@ public class LSrtSupDelta extends LSrtSupMemento {
 	}
 
 	@Override
-	public short doGetAsSrt() {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doGetAsSrt());
+	public short getAsSrt() {
+		return deltaFunction.applyAsSrt(lastValue(), super.getAsSrt());
 	}
 
 	// <editor-fold desc="object">

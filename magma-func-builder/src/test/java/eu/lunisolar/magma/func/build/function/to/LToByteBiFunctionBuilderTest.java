@@ -69,7 +69,7 @@ public class LToByteBiFunctionBuilderTest<T1,T2>{
                 .build()
             );
 
-            function.doApplyAsByte(100,100);
+            function.applyAsByte(100,100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LToByteBiFunctionBuilderTest<T1,T2>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsByte(100,100);
+            function.applyAsByte(100,100);
 
             fail("No exception were thrown.");
         })

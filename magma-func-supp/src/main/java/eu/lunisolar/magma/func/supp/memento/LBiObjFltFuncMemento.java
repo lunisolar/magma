@@ -72,8 +72,8 @@ public class LBiObjFltFuncMemento<T1, T2, R> implements LBiObjFltFunction<T1, T2
 	}
 
 	@Override
-	public R doApplyX(T1 a1, T2 a2, float a3) {
-		return lastValue = function.doApply(a1, a2, a3);
+	public R applyX(T1 a1, T2 a2, float a3) {
+		return lastValue = function.apply(a1, a2, a3);
 	}
 
 	public R lastValue() {

@@ -82,13 +82,12 @@ public interface LCharToIntFunctionAssert<S extends LCharToIntFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LCharConsumer, A, RS, Integer> doesApplyAsInt(char a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

@@ -65,14 +65,14 @@ public class LObjFltFunctionTest<T,R> {
 
 
     private LObjFltFunction<Integer,Integer> sut = new LObjFltFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,float a2)  {
+        public @Nullable Integer applyX(Integer a1,float a2)  {
             return testValue;
         }
     };
 
 
     private LObjFltFunction<Integer,Integer> sutNull = new LObjFltFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,float a2)  {
+        public @Nullable Integer applyX(Integer a1,float a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LObjFltFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100f))
+        assertThat(sut.apply(100,100f))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LObjFltFunctionTest<T,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100f))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100f))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100f);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LObjFltFunctionTest<T,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100f);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LObjFltFunctionTest<T,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjFltFunction: R doApply(T a1,float a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LObjFltFunction: R apply(T a1,float a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100f);
+        sutNull.nonNullApply(100,100f);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjFltFunction: R doApply(T a1,float a2)");
+            .isEqualTo("LObjFltFunction: R apply(T a1,float a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LObjFltFunctionTest<T,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjFltFuncComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LObjFltFunctionTest<T,R> {
         };
 
         //when
-        LObjFltFunction<Integer,Integer> function = sutO.objFltFuncComposeFlt(before1,before2);
-        function.doApply(80,81f);
+        LObjFltFunction<Integer,Integer> function = sutO.compose(before1,before2);
+        function.apply(80,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LObjFltFunctionTest<T,R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.objFltFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LObjFltFunctionTest<T,R> {
 
         //when
         LObjFltFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81f);
+        Integer finalValue = function.apply(80,81f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LObjFltFunctionTest<T,R> {
 
         //when
         LObjFltConsumer<Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81f);
+        function.accept(80,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LObjFltFunctionTest<T,R> {
 
         //when
         LObjFltPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81f);
+        boolean finalValue = function.test(80,81f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -345,20 +345,6 @@ public class LObjFltFunctionTest<T,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -369,7 +355,7 @@ public class LObjFltFunctionTest<T,R> {
         });
 
         // when
-        sutThrowing.shovingObjFltFunc().doApply(100,100f);
+        sutThrowing.shovingApply(100,100f);
     }
 
 
@@ -382,7 +368,7 @@ public class LObjFltFunctionTest<T,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjFltFunction: R doApply(T a1,float a2)");
+                .contains("LObjFltFunction: R apply(T a1,float a2)");
     }
 
 

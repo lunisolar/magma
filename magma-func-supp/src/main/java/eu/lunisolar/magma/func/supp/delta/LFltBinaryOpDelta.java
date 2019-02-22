@@ -89,8 +89,8 @@ public class LFltBinaryOpDelta extends LFltBinaryOpMemento {
 	}
 
 	@Override
-	public float doApplyAsFlt(float a1, float a2) {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doApplyAsFlt(a1, a2));
+	public float applyAsFlt(float a1, float a2) {
+		return deltaFunction.applyAsFlt(lastValue(), super.applyAsFlt(a1, a2));
 	}
 
 	// <editor-fold desc="object">

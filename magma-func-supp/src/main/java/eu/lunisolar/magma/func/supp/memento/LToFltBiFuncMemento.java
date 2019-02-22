@@ -72,8 +72,8 @@ public class LToFltBiFuncMemento<T1, T2> implements LToFltBiFunction<T1, T2> {
 	}
 
 	@Override
-	public float doApplyAsFltX(T1 a1, T2 a2) {
-		return lastValue = function.doApplyAsFlt(a1, a2);
+	public float applyAsFltX(T1 a1, T2 a2) {
+		return lastValue = function.applyAsFlt(a1, a2);
 	}
 
 	public float lastValue() {

@@ -72,8 +72,8 @@ public class LIntToLongFuncMemento implements LIntToLongFunction {
 	}
 
 	@Override
-	public long doApplyAsLongX(int a) {
-		return lastValue = function.doApplyAsLong(a);
+	public long applyAsLongX(int a) {
+		return lastValue = function.applyAsLong(a);
 	}
 
 	public long lastValue() {

@@ -69,7 +69,7 @@ public class LSrtToIntFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsInt((short)100);
+            function.applyAsInt((short)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSrtToIntFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt((short)100);
+            function.applyAsInt((short)100);
 
             fail("No exception were thrown.");
         })

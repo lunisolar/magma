@@ -69,7 +69,7 @@ public class LFltToIntFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsInt(100f);
+            function.applyAsInt(100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LFltToIntFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt(100f);
+            function.applyAsInt(100f);
 
             fail("No exception were thrown.");
         })

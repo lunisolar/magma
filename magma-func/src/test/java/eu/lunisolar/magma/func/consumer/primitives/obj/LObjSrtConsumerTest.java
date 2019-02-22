@@ -63,7 +63,7 @@ public class LObjSrtConsumerTest<T> {
 
 
     private LObjSrtConsumer<Integer> sut = new LObjSrtConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,short a2)  {
+        public  void acceptX(Integer a1,short a2)  {
             LObjSrtConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LObjSrtConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,(short)100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LObjSrtConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,(short)100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LObjSrtConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjSrtConsumer: void doAccept(T a1,short a2)");
+            .isEqualTo("LObjSrtConsumer: void accept(T a1,short a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LObjSrtConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjSrtConsComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LObjSrtConsumerTest<T> {
         };
 
         //when
-        LObjSrtConsumer<Integer> function = sutO.objSrtConsComposeSrt(before1,before2);
-        function.doAccept(80,(short)81);
+        LObjSrtConsumer<Integer> function = sutO.compose(before1,before2);
+        function.accept(80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LObjSrtConsumerTest<T> {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.objSrtConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LObjSrtConsumerTest<T> {
 
         //when
         LObjSrtConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,(short)81);
+        function.accept(80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjSrtCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjSrtConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjSrtCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjSrtConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LObjSrtConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjSrtCons().doAccept(100,(short)100);
+        sutThrowing.shovingAccept(100,(short)100);
     }
 
 
@@ -277,7 +263,7 @@ public class LObjSrtConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjSrtConsumer: void doAccept(T a1,short a2)");
+                .contains("LObjSrtConsumer: void accept(T a1,short a2)");
     }
 
 

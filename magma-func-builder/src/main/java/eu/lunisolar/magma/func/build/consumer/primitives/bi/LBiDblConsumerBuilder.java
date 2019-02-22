@@ -80,8 +80,10 @@ public final class LBiDblConsumerBuilder extends PerCaseBuilder.Base<LBiDblConsu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBiDblConsumer biDblConsumerFrom(Function<LBiDblConsumerBuilder, LBiDblConsumer> buildingFunction) {
-		return buildingFunction.apply(new LBiDblConsumerBuilder());
+	public static LBiDblConsumer biDblConsumerFrom(Consumer<LBiDblConsumerBuilder> buildingFunction) {
+		LBiDblConsumerBuilder builder = new LBiDblConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,13 +115,13 @@ public final class LBiDblConsumerBuilder extends PerCaseBuilder.Base<LBiDblConsu
 		retval = LBiDblConsumer.biDblCons((a1, a2) -> {
 			try {
 				for (Case<LBiDblPredicate, LBiDblConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						aCase.caseFunction().doAccept(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						aCase.caseFunction().accept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1, a2);
+				eventuallyFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

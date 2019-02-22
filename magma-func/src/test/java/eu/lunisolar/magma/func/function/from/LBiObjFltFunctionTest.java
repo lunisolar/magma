@@ -65,14 +65,14 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
 
     private LBiObjFltFunction<Integer,Integer,Integer> sut = new LBiObjFltFunction<Integer,Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2,float a3)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2,float a3)  {
             return testValue;
         }
     };
 
 
     private LBiObjFltFunction<Integer,Integer,Integer> sutNull = new LBiObjFltFunction<Integer,Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2,float a3)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2,float a3)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100,100f))
+        assertThat(sut.apply(100,100,100f))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100,100f))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100,100f))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100,100f);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100,100f);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiObjFltFunction: R doApply(T1 a1,T2 a2,float a3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiObjFltFunction: R apply(T1 a1,T2 a2,float a3)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100,100f);
+        sutNull.nonNullApply(100,100,100f);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjFltFunction: R doApply(T1 a1,T2 a2,float a3)");
+            .isEqualTo("LBiObjFltFunction: R apply(T1 a1,T2 a2,float a3)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiObjFltFuncComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -198,8 +198,8 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
         };
 
         //when
-        LBiObjFltFunction<Integer,Integer,Integer> function = sutO.biObjFltFuncComposeFlt(before1,before2,before3);
-        function.doApply(80,81,82f);
+        LBiObjFltFunction<Integer,Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.apply(80,81,82f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -240,7 +240,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
         //when
         LTriFunction<Integer,Integer,Integer,Integer> function = sutO.biObjFltFuncCompose(before1,before2,before3);
-        function.doApply(80,81,82);
+        function.apply(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
         //when
         LBiObjFltFunction<Integer,Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,82f);
+        Integer finalValue = function.apply(80,81,82f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -312,7 +312,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
         //when
         LBiObjFltConsumer<Integer,Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81,82f);
+        function.accept(80,81,82f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -347,7 +347,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
         //when
         LBiObjFltPredicate<Integer,Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,82f);
+        boolean finalValue = function.test(80,81,82f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -360,20 +360,6 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiObjFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiObjFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -384,7 +370,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
         });
 
         // when
-        sutThrowing.shovingBiObjFltFunc().doApply(100,100,100f);
+        sutThrowing.shovingApply(100,100,100f);
     }
 
 
@@ -397,7 +383,7 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiObjFltFunction: R doApply(T1 a1,T2 a2,float a3)");
+                .contains("LBiObjFltFunction: R apply(T1 a1,T2 a2,float a3)");
     }
 
 
@@ -409,63 +395,63 @@ public class LBiObjFltFunctionTest<T1,T2,R> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantLObjFltObj1Func(Integer a1,float a3,Integer a2) {
+    private Integer variantLObj0Flt2Obj1Func(Integer a1,float a3,Integer a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLObjFltObj1Func() {
-        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/objFltObj1Func(this::variantLObjFltObj1Func);
+    public void compilerSubstituteVariantLObj0Flt2Obj1Func() {
+        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/obj0Flt2Obj1Func(this::variantLObj0Flt2Obj1Func);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LObjFltObj1Func.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LObj0Flt2Obj1Func.class);
     }
 
 
-    private Integer variantLObj1Obj0FltFunc(Integer a2,Integer a1,float a3) {
+    private Integer variantLObj1Obj0Flt2Func(Integer a2,Integer a1,float a3) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1Obj0FltFunc() {
-        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/obj1Obj0FltFunc(this::variantLObj1Obj0FltFunc);
+    public void compilerSubstituteVariantLObj1Obj0Flt2Func() {
+        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/obj1Obj0Flt2Func(this::variantLObj1Obj0Flt2Func);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LObj1Obj0FltFunc.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LObj1Obj0Flt2Func.class);
     }
 
 
-    private Integer variantLObj1FltObj0Func(Integer a2,float a3,Integer a1) {
+    private Integer variantLObj1Flt2Obj0Func(Integer a2,float a3,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1FltObj0Func() {
-        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/obj1FltObj0Func(this::variantLObj1FltObj0Func);
+    public void compilerSubstituteVariantLObj1Flt2Obj0Func() {
+        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/obj1Flt2Obj0Func(this::variantLObj1Flt2Obj0Func);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LObj1FltObj0Func.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LObj1Flt2Obj0Func.class);
     }
 
 
-    private Integer variantLFltObj0Obj1Func(float a3,Integer a1,Integer a2) {
+    private Integer variantLFlt2Obj0Obj1Func(float a3,Integer a1,Integer a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLFltObj0Obj1Func() {
-        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/fltObj0Obj1Func(this::variantLFltObj0Obj1Func);
+    public void compilerSubstituteVariantLFlt2Obj0Obj1Func() {
+        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/flt2Obj0Obj1Func(this::variantLFlt2Obj0Obj1Func);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LFltObj0Obj1Func.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LFlt2Obj0Obj1Func.class);
     }
 
 
-    private Integer variantLFltObjObj0Func(float a3,Integer a2,Integer a1) {
+    private Integer variantLFlt2Obj1Obj0Func(float a3,Integer a2,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLFltObjObj0Func() {
-        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/fltObjObj0Func(this::variantLFltObjObj0Func);
+    public void compilerSubstituteVariantLFlt2Obj1Obj0Func() {
+        LBiObjFltFunction lambda = LBiObjFltFunction./*<T1,T2,R>*/flt2Obj1Obj0Func(this::variantLFlt2Obj1Obj0Func);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LFltObjObj0Func.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltFunction.LFlt2Obj1Obj0Func.class);
     }
 
     //</editor-fold>

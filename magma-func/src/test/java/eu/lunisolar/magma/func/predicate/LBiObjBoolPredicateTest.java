@@ -65,7 +65,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
 
     private LBiObjBoolPredicate<Integer,Integer> sut = new LBiObjBoolPredicate<Integer,Integer>(){
-        public  boolean doTestX(Integer a1,Integer a2,boolean a3)  {
+        public  boolean testX(Integer a1,Integer a2,boolean a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100,100,true))
+        assertThat(sut.test(100,100,true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBiObjBoolPredicateTest<T1,T2> {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100,100,true))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100,100,true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100,100,true);
+            sutAlwaysThrowingUnchecked.nestingTest(100,100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBiObjBoolPredicateTest<T1,T2> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100,100,true);
+            sutAlwaysThrowingUnchecked.shovingTest(100,100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjBoolPredicate: boolean doTest(T1 a1,T2 a2,boolean a3)");
+            .isEqualTo("LBiObjBoolPredicate: boolean test(T1 a1,T2 a2,boolean a3)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100,100,true))
+        assertThat(sut.negate().test(100,100,true))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LBiObjBoolPredicateTest<T1,T2> {
         LBiObjBoolPredicate<Integer,Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100,100,true))
+        assertThat(andFunction.test(100,100,true))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100,100,true))
+        assertThat(orFunction.test(100,100,true))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100,100,true))
+        assertThat(xorFunction.test(100,100,true))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LBiObjBoolPredicateTest<T1,T2> {
         LBiObjBoolPredicate<Integer,Integer> equals = LBiObjBoolPredicate.isEqual(1,1,true);
 
         //then
-        assertThat(equals.doTest(1,1,true))
+        assertThat(equals.test(1,1,true))
                 .isTrue();
 
-        assertThat(equals.doTest(0,0,false))
+        assertThat(equals.test(0,0,false))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiObjBoolPredComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -247,8 +247,8 @@ public class LBiObjBoolPredicateTest<T1,T2> {
         };
 
         //when
-        LBiObjBoolPredicate<Integer,Integer> function = sutO.biObjBoolPredComposeBool(before1,before2,before3);
-        function.doTest(80,81,true);
+        LBiObjBoolPredicate<Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.test(80,81,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -289,7 +289,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
         //when
         LTriPredicate<Integer,Integer,Integer> function = sutO.biObjBoolPredCompose(before1,before2,before3);
-        function.doTest(80,81,82);
+        function.test(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -327,7 +327,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
         //when
         LBiObjBoolFunction<Integer,Integer,Integer> function = sutO.boolToBiObjBoolFunc(thenFunction);
-        Integer finalValue = function.doApply(80,81,true);
+        Integer finalValue = function.apply(80,81,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -363,7 +363,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
         //when
         LBiObjBoolPredicate<Integer,Integer> function = sutO.boolToBiObjBoolPred(thenFunction);
-        boolean finalValue = function.doTest(80,81,true);
+        boolean finalValue = function.test(80,81,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -376,20 +376,6 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiObjBoolPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjBoolPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiObjBoolPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjBoolPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -400,7 +386,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
         });
 
         // when
-        sutThrowing.shovingBiObjBoolPred().doTest(100,100,true);
+        sutThrowing.shovingTest(100,100,true);
     }
 
 
@@ -413,7 +399,7 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiObjBoolPredicate: boolean doTest(T1 a1,T2 a2,boolean a3)");
+                .contains("LBiObjBoolPredicate: boolean test(T1 a1,T2 a2,boolean a3)");
     }
 
 
@@ -425,63 +411,63 @@ public class LBiObjBoolPredicateTest<T1,T2> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variantLObjBoolObj1Pred(Integer a1,boolean a3,Integer a2) {
+    private boolean variantLObj0Bool2Obj1Pred(Integer a1,boolean a3,Integer a2) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLObjBoolObj1Pred() {
-        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/objBoolObj1Pred(this::variantLObjBoolObj1Pred);
+    public void compilerSubstituteVariantLObj0Bool2Obj1Pred() {
+        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/obj0Bool2Obj1Pred(this::variantLObj0Bool2Obj1Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LObjBoolObj1Pred.class);
+        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LObj0Bool2Obj1Pred.class);
     }
 
 
-    private boolean variantLObj1Obj0BoolPred(Integer a2,Integer a1,boolean a3) {
+    private boolean variantLObj1Obj0Bool2Pred(Integer a2,Integer a1,boolean a3) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1Obj0BoolPred() {
-        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/obj1Obj0BoolPred(this::variantLObj1Obj0BoolPred);
+    public void compilerSubstituteVariantLObj1Obj0Bool2Pred() {
+        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/obj1Obj0Bool2Pred(this::variantLObj1Obj0Bool2Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LObj1Obj0BoolPred.class);
+        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LObj1Obj0Bool2Pred.class);
     }
 
 
-    private boolean variantLObj1BoolObj0Pred(Integer a2,boolean a3,Integer a1) {
+    private boolean variantLObj1Bool2Obj0Pred(Integer a2,boolean a3,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1BoolObj0Pred() {
-        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/obj1BoolObj0Pred(this::variantLObj1BoolObj0Pred);
+    public void compilerSubstituteVariantLObj1Bool2Obj0Pred() {
+        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/obj1Bool2Obj0Pred(this::variantLObj1Bool2Obj0Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LObj1BoolObj0Pred.class);
+        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LObj1Bool2Obj0Pred.class);
     }
 
 
-    private boolean variantLBoolObj0Obj1Pred(boolean a3,Integer a1,Integer a2) {
+    private boolean variantLBool2Obj0Obj1Pred(boolean a3,Integer a1,Integer a2) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLBoolObj0Obj1Pred() {
-        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/boolObj0Obj1Pred(this::variantLBoolObj0Obj1Pred);
+    public void compilerSubstituteVariantLBool2Obj0Obj1Pred() {
+        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/bool2Obj0Obj1Pred(this::variantLBool2Obj0Obj1Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LBoolObj0Obj1Pred.class);
+        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LBool2Obj0Obj1Pred.class);
     }
 
 
-    private boolean variantLBoolObjObj0Pred(boolean a3,Integer a2,Integer a1) {
+    private boolean variantLBool2Obj1Obj0Pred(boolean a3,Integer a2,Integer a1) {
         return true;
     }
 
     @Test
-    public void compilerSubstituteVariantLBoolObjObj0Pred() {
-        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/boolObjObj0Pred(this::variantLBoolObjObj0Pred);
+    public void compilerSubstituteVariantLBool2Obj1Obj0Pred() {
+        LBiObjBoolPredicate lambda = LBiObjBoolPredicate./*<T1,T2>*/bool2Obj1Obj0Pred(this::variantLBool2Obj1Obj0Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LBoolObjObj0Pred.class);
+        assertThat(lambda).isInstanceOf(LBiObjBoolPredicate.LBool2Obj1Obj0Pred.class);
     }
 
     //</editor-fold>

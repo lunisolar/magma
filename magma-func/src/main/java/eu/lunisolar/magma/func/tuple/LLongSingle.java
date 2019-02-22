@@ -34,26 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LLongConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongSingle extends LTuple<Long> {
+public interface LLongSingle extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	long value();
 
-	default long getValue() {
+	default long first() {
 		return value();
 	}
 
-	default Long get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default long getLong(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -98,63 +89,8 @@ public interface LLongSingle extends LTuple<Long> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Long[] toVoArray(Long[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Long[] toVoArray(Long[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Long[] toVoArray() {
-		Long[] array = new Long[size()];
-
-		return toVoArray(array);
-	}
-
-	default long[] toLongArray(long[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default long[] toLongArray(long[] array) {
-		return toLongArray(array, 0);
-	}
-
-	default long[] toLongArray() {
-		long[] array = new long[size()];
-
-		return toLongArray(array);
-	}
-
-	@Override
-	default Iterator<Long> iterator() {
-		return new Iterator<Long>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -164,27 +100,9 @@ public interface LLongSingle extends LTuple<Long> {
 			}
 
 			@Override
-			public Long next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfLong longIterator() {
-		return new PrimitiveIterator.OfLong() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public long nextLong() {
-				index++;
-				return getLong(index);
 			}
 		};
 	}
@@ -202,7 +120,7 @@ public interface LLongSingle extends LTuple<Long> {
 
 	}
 
-	abstract class AbstractLongSingle extends Number implements LLongSingle {
+	abstract class AbstractLongSingle implements LLongSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -218,40 +136,11 @@ public interface LLongSingle extends LTuple<Long> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
-
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
-
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
-
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
-
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
-
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
 	}
 
 	/**
@@ -289,7 +178,7 @@ public interface LLongSingle extends LTuple<Long> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutLongSingle setValueIfArg(long value, LLongPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -298,14 +187,14 @@ public interface LLongSingle extends LTuple<Long> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutLongSingle setValueIfArgNotNull(R arg, LToLongFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsLong(arg);
+				this.value = func.applyAsLong(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutLongSingle setValueIf(LLongPredicate predicate, long value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -314,7 +203,7 @@ public interface LLongSingle extends LTuple<Long> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutLongSingle setValueIf(long value, LBiLongPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -323,7 +212,7 @@ public interface LLongSingle extends LTuple<Long> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutLongSingle setValueIf(LBiLongPredicate predicate, long value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -369,7 +258,7 @@ public interface LLongSingle extends LTuple<Long> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompLongSingle setValueIfArg(long value, LLongPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -378,14 +267,14 @@ public interface LLongSingle extends LTuple<Long> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompLongSingle setValueIfArgNotNull(R arg, LToLongFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsLong(arg);
+				this.value = func.applyAsLong(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompLongSingle setValueIf(LLongPredicate predicate, long value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -394,7 +283,7 @@ public interface LLongSingle extends LTuple<Long> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompLongSingle setValueIf(long value, LBiLongPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -403,7 +292,7 @@ public interface LLongSingle extends LTuple<Long> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompLongSingle setValueIf(LBiLongPredicate predicate, long value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;

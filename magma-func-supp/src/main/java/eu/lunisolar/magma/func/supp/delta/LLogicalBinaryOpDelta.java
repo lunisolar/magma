@@ -85,8 +85,8 @@ public class LLogicalBinaryOpDelta extends LLogicalBinaryOpMemento {
 	}
 
 	@Override
-	public boolean doApply(boolean a1, boolean a2) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2));
+	public boolean apply(boolean a1, boolean a2) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2));
 	}
 
 	// <editor-fold desc="object">

@@ -63,7 +63,7 @@ public class LCharConsumerTest {
 
 
     private LCharConsumer sut = new LCharConsumer(){
-        public  void doAcceptX(char a)  {
+        public  void acceptX(char a)  {
             LCharConsumer.doNothing(a);
         }
     };
@@ -93,11 +93,11 @@ public class LCharConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept('\u0100');
+            sutAlwaysThrowingUnchecked.nestingAccept('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LCharConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept('\u0100');
+            sutAlwaysThrowingUnchecked.shovingAccept('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LCharConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharConsumer: void doAccept(char a)");
+            .isEqualTo("LCharConsumer: void accept(char a)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LCharConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharConsComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -161,8 +161,8 @@ public class LCharConsumerTest {
         };
 
         //when
-        LCharConsumer function = sutO.charConsComposeChar(before);
-        function.doAccept('\u0080');
+        LCharConsumer function = sutO.compose(before);
+        function.accept('\u0080');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -190,7 +190,7 @@ public class LCharConsumerTest {
 
         //when
         LConsumer<Integer> function = sutO.charConsCompose(before);
-        function.doAccept(80);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -218,27 +218,13 @@ public class LCharConsumerTest {
 
         //when
         LCharConsumer function = sutO.andThen(thenFunction);
-        function.doAccept('\u0080');
+        function.accept('\u0080');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCharCons())
-            .isSameAs(sut)
-            .isInstanceOf(LCharConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCharCons())
-            .isSameAs(sut)
-            .isInstanceOf(LCharConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -250,7 +236,7 @@ public class LCharConsumerTest {
         });
 
         // when
-        sutThrowing.shovingCharCons().doAccept('\u0100');
+        sutThrowing.shovingAccept('\u0100');
     }
 
 
@@ -263,7 +249,7 @@ public class LCharConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharConsumer: void doAccept(char a)");
+                .contains("LCharConsumer: void accept(char a)");
     }
 
 

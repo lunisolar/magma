@@ -82,13 +82,12 @@ public interface LObjIntSrtPredicateAssert<S extends LObjIntSrtPredicateAssert<S
 		@Nonnull
 		public Evaluation<S, LTieSrtConsumer<T>, A, RS, Boolean> doesTest(T a1, int a2, short a3) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2, a3);
+					pc.accept(a1, a2, a3);
 				}
-				return assertFactory.doApply(actual.doTest(a1, a2, a3));
+				return assertFactory.apply(actual.test(a1, a2, a3));
 			});
-
 		}
 
 	}

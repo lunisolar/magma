@@ -55,7 +55,7 @@ public class LToIntFuncDeltaTest <T> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt(100))
+        assertThat(sut.applyAsInt(100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToIntFuncDeltaTest <T> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100))
+        assertThat(sut.applyAsInt(100))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -65,7 +65,7 @@ public class LBiLongPredicateTest {
 
 
     private LBiLongPredicate sut = new LBiLongPredicate(){
-        public  boolean doTestX(long a1,long a2)  {
+        public  boolean testX(long a1,long a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBiLongPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100L,100L))
+        assertThat(sut.test(100L,100L))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBiLongPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100L,100L))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100L,100L))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100L,100L);
+            sutAlwaysThrowingUnchecked.nestingTest(100L,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBiLongPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100L,100L);
+            sutAlwaysThrowingUnchecked.shovingTest(100L,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiLongPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiLongPredicate: boolean doTest(long a1,long a2)");
+            .isEqualTo("LBiLongPredicate: boolean test(long a1,long a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LBiLongPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100L,100L))
+        assertThat(sut.negate().test(100L,100L))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LBiLongPredicateTest {
         LBiLongPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100L,100L))
+        assertThat(andFunction.test(100L,100L))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100L,100L))
+        assertThat(orFunction.test(100L,100L))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100L,100L))
+        assertThat(xorFunction.test(100L,100L))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LBiLongPredicateTest {
         LBiLongPredicate equals = LBiLongPredicate.isEqual(1L,1L);
 
         //then
-        assertThat(equals.doTest(1L,1L))
+        assertThat(equals.test(1L,1L))
                 .isTrue();
 
-        assertThat(equals.doTest(0L,0L))
+        assertThat(equals.test(0L,0L))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LBiLongPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiLongPredComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LBiLongPredicateTest {
         };
 
         //when
-        LBiLongPredicate function = sutO.biLongPredComposeLong(before1,before2);
-        function.doTest(80L,81L);
+        LBiLongPredicate function = sutO.compose(before1,before2);
+        function.test(80L,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LBiLongPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.biLongPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LBiLongPredicateTest {
 
         //when
         LBiLongFunction<Integer> function = sutO.boolToBiLongFunc(thenFunction);
-        Integer finalValue = function.doApply(80L,81L);
+        Integer finalValue = function.apply(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LBiLongPredicateTest {
 
         //when
         LLongBinaryOperator function = sutO.boolToLongBinaryOp(thenFunction);
-        long finalValue = function.doApplyAsLong(80L,81L);
+        long finalValue = function.applyAsLong(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -384,7 +384,7 @@ public class LBiLongPredicateTest {
 
         //when
         LBiLongPredicate function = sutO.boolToBiLongPred(thenFunction);
-        boolean finalValue = function.doTest(80L,81L);
+        boolean finalValue = function.test(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -397,20 +397,6 @@ public class LBiLongPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiLongPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiLongPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiLongPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiLongPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -421,7 +407,7 @@ public class LBiLongPredicateTest {
         });
 
         // when
-        sutThrowing.shovingBiLongPred().doTest(100L,100L);
+        sutThrowing.shovingTest(100L,100L);
     }
 
 
@@ -434,7 +420,7 @@ public class LBiLongPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiLongPredicate: boolean doTest(long a1,long a2)");
+                .contains("LBiLongPredicate: boolean test(long a1,long a2)");
     }
 
 

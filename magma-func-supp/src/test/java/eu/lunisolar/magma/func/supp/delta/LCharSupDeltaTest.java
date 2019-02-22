@@ -55,7 +55,7 @@ public class LCharSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsChar())
+        assertThat(sut.getAsChar())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LCharSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsChar())
+        assertThat(sut.getAsChar())
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

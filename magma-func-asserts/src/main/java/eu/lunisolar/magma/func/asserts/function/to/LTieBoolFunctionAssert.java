@@ -82,13 +82,12 @@ public interface LTieBoolFunctionAssert<S extends LTieBoolFunctionAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LTieBoolConsumer<T>, A, RS, Integer> doesApplyAsInt(T a1, int a2, boolean a3) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2, a3);
+					pc.accept(a1, a2, a3);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a1, a2, a3));
+				return assertFactory.apply(actual.applyAsInt(a1, a2, a3));
 			});
-
 		}
 
 	}

@@ -80,8 +80,10 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> Predicate<T> predicateFrom(Function<PredicateBuilder<T>, Predicate<T>> buildingFunction) {
-		return buildingFunction.apply(new PredicateBuilder());
+	public static <T> Predicate<T> predicateFrom(Consumer<PredicateBuilder<T>> buildingFunction) {
+		PredicateBuilder builder = new PredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 		retval = Function4U.<T> pred(a -> {
 			try {
 				for (Case<LPredicate<T>, Predicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().test(a);
 					}
 				}

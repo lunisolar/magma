@@ -64,9 +64,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aBool>, Domain0 { // NOSONAR
 
-	String DESCRIPTION = "LBoolSupplier: boolean doGetAsBool()";
+	String DESCRIPTION = "LBoolSupplier: boolean getAsBool()";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -75,130 +75,147 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	@Override
 	@Deprecated
 	default boolean getAsBoolean() {
-		return this.doGetAsBool();
+		return this.getAsBool();
 	}
 
-	// boolean doGetAsBool() ;
-	default boolean doGetAsBool() {
-		// return nestingDoGetAsBool();
+	// boolean getAsBool() ;
+	default boolean getAsBool() {
+		// return nestingGetAsBool();
 		try {
-			return this.doGetAsBoolX();
+			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doGetAsBool()
+	 * Implement this, but call getAsBool()
 	 */
-	boolean doGetAsBoolX() throws Throwable;
+	boolean getAsBoolX() throws Throwable;
 
 	default boolean tupleGetAsBool(LTuple.Void args) {
-		return doGetAsBool();
+		return getAsBool();
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoGetAsBool(HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingGetAsBool(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doGetAsBoolX();
+			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoGetAsBool(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBoolSupplier handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return () -> handlingGetAsBool(handling);
+	}
+
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doGetAsBoolX();
+			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoGetAsBool(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return () -> getAsBool(exF, newMessage, messageParams);
+	}
+
+	default boolean getAsBool(@Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doGetAsBoolX();
+			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoGetAsBoolThen(@Nonnull LPredicate<Throwable> handler) {
+	default LBoolSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
+		return () -> getAsBool(exF);
+	}
+
+	default boolean getAsBoolThen(@Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doGetAsBoolX();
+			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LBoolSupplier tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return () -> getAsBoolThen(handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoGetAsBool() {
+	default boolean nestingGetAsBool() {
 		try {
-			return this.doGetAsBoolX();
+			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoGetAsBool() {
+	default boolean shovingGetAsBool() {
 		try {
-			return this.doGetAsBoolX();
+			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static boolean handlingDoGetAsBool(LBoolSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingGetAsBool(LBoolSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoGetAsBool(handling);
+		return func.handlingGetAsBool(handling);
 	}
 
-	static boolean tryDoGetAsBool(LBoolSupplier func) {
-		return tryDoGetAsBool(func, null);
-	}
-
-	static boolean tryDoGetAsBool(LBoolSupplier func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryGetAsBool(LBoolSupplier func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsBool(exceptionFactory, newMessage, messageParams);
+		return func.nestingGetAsBool();
 	}
 
-	static boolean tryDoGetAsBool(LBoolSupplier func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsBool(exceptionFactory);
+		return func.getAsBool(exF, newMessage, messageParams);
 	}
 
-	static boolean tryDoGetAsBoolThen(LBoolSupplier func, @Nonnull LPredicate<Throwable> handler) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsBoolThen(handler);
+		return func.getAsBool(exF);
 	}
 
-	default boolean failSafeDoGetAsBool(@Nonnull LBoolSupplier failSafe) {
+	static boolean tryGetAsBoolThen(LBoolSupplier func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.getAsBoolThen(handler);
+	}
+
+	default boolean failSafeGetAsBool(@Nonnull LBoolSupplier failSafe) {
 		try {
-			return doGetAsBool();
+			return getAsBool();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doGetAsBool();
+			return failSafe.getAsBool();
 		}
 	}
 
-	static boolean failSafeDoGetAsBool(LBoolSupplier func, @Nonnull LBoolSupplier failSafe) {
+	static boolean failSafeGetAsBool(LBoolSupplier func, @Nonnull LBoolSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doGetAsBool();
+			return failSafe.getAsBool();
 		} else {
-			return func.failSafeDoGetAsBool(failSafe);
+			return func.failSafeGetAsBool(failSafe);
 		}
 	}
 
-	static LBoolSupplier failSafeBoolSup(LBoolSupplier func, @Nonnull LBoolSupplier failSafe) {
+	static LBoolSupplier failSafe(LBoolSupplier func, @Nonnull LBoolSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeDoGetAsBool(func, failSafe);
+		return () -> failSafeGetAsBool(func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoGetAsBool() {
-		return doGetAsBool();
+	default boolean nonNullGetAsBool() {
+		return getAsBool();
 	}
 
 	/** Returns description of the functional interface. */
@@ -210,13 +227,13 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, LBoolSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doGetAsBool();
+				func.getAsBool();
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doGetAsBool();
+				func.getAsBool();
 			}
 		}
 	}
@@ -224,19 +241,21 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, LBoolSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doGetAsBool();
+				func.getAsBool();
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doGetAsBool();
+				func.getAsBool();
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, LBoolSupplier func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, func);
 	}
 
@@ -255,7 +274,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	@Nonnull
 	static LBoolSupplier recursive(final @Nonnull LFunction<LBoolSupplier, LBoolSupplier> selfLambda) {
 		final LBoolSupplierSingle single = new LBoolSupplierSingle();
-		LBoolSupplier func = selfLambda.doApply(single);
+		LBoolSupplier func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -264,8 +283,8 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		private LBoolSupplier target = null;
 
 		@Override
-		public boolean doGetAsBoolX() throws Throwable {
-			return target.doGetAsBoolX();
+		public boolean getAsBoolX() throws Throwable {
+			return target.getAsBoolX();
 		}
 
 		@Override
@@ -275,24 +294,24 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	@Nonnull
-	static LBoolSupplier boolSupThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolSupplier boolSupThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBoolSupplier boolSupThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolSupplier boolSupThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static boolean call(final @Nonnull LBoolSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doGetAsBool();
+		return lambda.getAsBool();
 	}
 
 	// <editor-fold desc="wrap">
@@ -346,79 +365,68 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	@Nonnull
 	default <V> LSupplier<V> toSup(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApply(this.doGetAsBool());
+		return () -> after.apply(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteSupplier toByteSup(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsByte(this.doGetAsBool());
+		return () -> after.applyAsByte(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtSupplier toSrtSup(@Nonnull LBoolToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsSrt(this.doGetAsBool());
+		return () -> after.applyAsSrt(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntSupplier toIntSup(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsInt(this.doGetAsBool());
+		return () -> after.applyAsInt(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongSupplier toLongSup(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsLong(this.doGetAsBool());
+		return () -> after.applyAsLong(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltSupplier toFltSup(@Nonnull LBoolToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFlt(this.doGetAsBool());
+		return () -> after.applyAsFlt(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblSupplier toDblSup(@Nonnull LBoolToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDbl(this.doGetAsBool());
+		return () -> after.applyAsDbl(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharSupplier toCharSup(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsChar(this.doGetAsBool());
+		return () -> after.applyAsChar(this.getAsBool());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolSupplier toBoolSup(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApply(this.doGetAsBool());
+		return () -> after.apply(this.getAsBool());
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBoolSupplier nestingBoolSup() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBoolSupplier shovingBoolSup() {
-		return this;
-	}
 
 	// </editor-fold>
 

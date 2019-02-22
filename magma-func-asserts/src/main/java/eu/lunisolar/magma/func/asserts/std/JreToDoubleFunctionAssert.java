@@ -80,13 +80,12 @@ public interface JreToDoubleFunctionAssert<S extends JreToDoubleFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, Double> doesApplyAsDbl(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.applyAsDouble(a));
+				return assertFactory.apply(actual.applyAsDouble(a));
 			});
-
 		}
 
 	}

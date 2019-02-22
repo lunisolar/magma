@@ -72,156 +72,156 @@ public interface AccessObjIntByteTriple<T> {
 
 	default void useWith(LTieByteConsumer<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	default void useWith(LTieByteConsumer.LObjByteIntCons<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		accessFunction.doAcceptObjByteInt(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.acceptObjByteInt(tuple.first(), tuple.third(), tuple.second());
 	}
 
 	default void useWith(LTieByteConsumer.LIntObjByteCons<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		accessFunction.doAcceptIntObjByte(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.acceptIntObjByte(tuple.second(), tuple.first(), tuple.third());
 	}
 
 	default void useWith(LTieByteConsumer.LIntByteObjCons<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		accessFunction.doAcceptIntByteObj(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.acceptIntByteObj(tuple.second(), tuple.third(), tuple.first());
 	}
 
 	default void useWith(LTieByteConsumer.LByteObjIntCons<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		accessFunction.doAcceptByteObjInt(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.acceptByteObjInt(tuple.third(), tuple.first(), tuple.second());
 	}
 
 	default void useWith(LTieByteConsumer.LByteIntObjCons<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		accessFunction.doAcceptByteIntObj(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.acceptByteIntObj(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default <R> R useWith(LObjIntByteFunction<T, R> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntByteFunction.LObjByteIntFunc<T, R> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		R retval = accessFunction.doApplyObjByteInt(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.applyObjByteInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntByteFunction.LIntObjByteFunc<T, R> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		R retval = accessFunction.doApplyIntObjByte(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.applyIntObjByte(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntByteFunction.LIntByteObjFunc<T, R> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		R retval = accessFunction.doApplyIntByteObj(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.applyIntByteObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntByteFunction.LByteObjIntFunc<T, R> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		R retval = accessFunction.doApplyByteObjInt(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.applyByteObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntByteFunction.LByteIntObjFunc<T, R> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		R retval = accessFunction.doApplyByteIntObj(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.applyByteIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieByteFunction<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		int retval = accessFunction.doApplyAsInt(tuple.first(), tuple.second(), tuple.third());
+		int retval = accessFunction.applyAsInt(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieByteFunction.LObjByteIntToIntFunc<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		int retval = accessFunction.doApplyAsIntObjByteInt(tuple.first(), tuple.third(), tuple.second());
+		int retval = accessFunction.applyAsIntObjByteInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieByteFunction.LIntObjByteToIntFunc<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		int retval = accessFunction.doApplyAsIntIntObjByte(tuple.second(), tuple.first(), tuple.third());
+		int retval = accessFunction.applyAsIntIntObjByte(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieByteFunction.LIntByteObjToIntFunc<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		int retval = accessFunction.doApplyAsIntIntByteObj(tuple.second(), tuple.third(), tuple.first());
+		int retval = accessFunction.applyAsIntIntByteObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieByteFunction.LByteObjIntToIntFunc<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		int retval = accessFunction.doApplyAsIntByteObjInt(tuple.third(), tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntByteObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieByteFunction.LByteIntObjToIntFunc<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		int retval = accessFunction.doApplyAsIntByteIntObj(tuple.third(), tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsIntByteIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBytePredicate<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second(), tuple.third());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBytePredicate.LObjByteIntPred<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		boolean retval = accessFunction.doTestObjByteInt(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.testObjByteInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBytePredicate.LIntObjBytePred<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		boolean retval = accessFunction.doTestIntObjByte(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.testIntObjByte(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBytePredicate.LIntByteObjPred<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		boolean retval = accessFunction.doTestIntByteObj(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.testIntByteObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBytePredicate.LByteObjIntPred<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		boolean retval = accessFunction.doTestByteObjInt(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.testByteObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBytePredicate.LByteIntObjPred<T> accessFunction) {
 		LObjIntByteTriple<T> tuple = accessObjIntByteTriple();
-		boolean retval = accessFunction.doTestByteIntObj(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.testByteIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntByteTriple(tuple);
 		return retval;
 	}

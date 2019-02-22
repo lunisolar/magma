@@ -54,7 +54,7 @@ public class LSrtToDblFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0d);
 
-        assertThat(sut.doApplyAsDbl((short)100))
+        assertThat(sut.applyAsDbl((short)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LSrtToDblFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDbl((short)100))
+        assertThat(sut.applyAsDbl((short)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

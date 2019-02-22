@@ -89,8 +89,8 @@ public class LToDblBiFuncDelta<T1, T2> extends LToDblBiFuncMemento<T1, T2> {
 	}
 
 	@Override
-	public double doApplyAsDbl(T1 a1, T2 a2) {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doApplyAsDbl(a1, a2));
+	public double applyAsDbl(T1 a1, T2 a2) {
+		return deltaFunction.applyAsDbl(lastValue(), super.applyAsDbl(a1, a2));
 	}
 
 	// <editor-fold desc="object">

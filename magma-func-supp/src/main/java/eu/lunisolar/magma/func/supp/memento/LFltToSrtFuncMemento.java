@@ -72,8 +72,8 @@ public class LFltToSrtFuncMemento implements LFltToSrtFunction {
 	}
 
 	@Override
-	public short doApplyAsSrtX(float a) {
-		return lastValue = function.doApplyAsSrt(a);
+	public short applyAsSrtX(float a) {
+		return lastValue = function.applyAsSrt(a);
 	}
 
 	public short lastValue() {

@@ -89,8 +89,8 @@ public class LToByteBiFuncDelta<T1, T2> extends LToByteBiFuncMemento<T1, T2> {
 	}
 
 	@Override
-	public byte doApplyAsByte(T1 a1, T2 a2) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1, a2));
+	public byte applyAsByte(T1 a1, T2 a2) {
+		return deltaFunction.applyAsByte(lastValue(), super.applyAsByte(a1, a2));
 	}
 
 	// <editor-fold desc="object">

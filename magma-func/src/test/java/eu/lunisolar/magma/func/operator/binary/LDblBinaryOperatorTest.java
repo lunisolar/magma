@@ -65,7 +65,7 @@ public class LDblBinaryOperatorTest {
 
 
     private LDblBinaryOperator sut = new LDblBinaryOperator(){
-        public  double doApplyAsDblX(double a1,double a2)  {
+        public  double applyAsDblX(double a1,double a2)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LDblBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsDbl(100d,100d))
+        assertThat(sut.applyAsDbl(100d,100d))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LDblBinaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsDbl() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsDbl(100d,100d))
+    public void testNonNullApplyAsDbl() throws Throwable {
+        assertThat(sut.nonNullApplyAsDbl(100d,100d))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsDblUnchecked() throws Throwable {
+    public void testNestingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsDbl(100d,100d);
+            sutAlwaysThrowingUnchecked.nestingApplyAsDbl(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LDblBinaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsDblUnchecked() throws Throwable {
+    public void testShovingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsDbl(100d,100d);
+            sutAlwaysThrowingUnchecked.shovingApplyAsDbl(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LDblBinaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblBinaryOperator: double doApplyAsDbl(double a1,double a2)");
+            .isEqualTo("LDblBinaryOperator: double applyAsDbl(double a1,double a2)");
     }
 
     @Test
@@ -166,9 +166,9 @@ public class LDblBinaryOperatorTest {
         LDblBinaryOperator min =  LDblBinaryOperator.minBy(Double::compare);
 
         //then
-        assertThat(min.doApplyAsDbl(0d, 56d))
+        assertThat(min.applyAsDbl(0d, 56d))
                 .isEqualTo(0d);
-        assertThat(min.doApplyAsDbl(56d, 0d))
+        assertThat(min.applyAsDbl(56d, 0d))
                        .isEqualTo(0d);
 
     }
@@ -179,9 +179,9 @@ public class LDblBinaryOperatorTest {
         LDblBinaryOperator max =  LDblBinaryOperator.maxBy(Double::compare);
 
         //then
-        assertThat(max.doApplyAsDbl(0d, 56d))
+        assertThat(max.applyAsDbl(0d, 56d))
                 .isEqualTo(56d);
-        assertThat(max.doApplyAsDbl(56d, 0d))
+        assertThat(max.applyAsDbl(56d, 0d))
                         .isEqualTo(56d);
     }
 
@@ -196,10 +196,10 @@ public class LDblBinaryOperatorTest {
         LDblBinaryOperator min = LDblBinaryOperator.min();
 
         //then
-        assertThat(min.doApplyAsDbl(valueSmall, valueBig))
+        assertThat(min.applyAsDbl(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.doApplyAsDbl(valueBig, valueSmall))
+        assertThat(min.applyAsDbl(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -213,10 +213,10 @@ public class LDblBinaryOperatorTest {
         LDblBinaryOperator max = LDblBinaryOperator.max();
 
         //then
-        assertThat(max.doApplyAsDbl(valueSmall, valueBig))
+        assertThat(max.applyAsDbl(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.doApplyAsDbl(valueBig, valueSmall))
+        assertThat(max.applyAsDbl(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -224,7 +224,7 @@ public class LDblBinaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblBinaryOpComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -249,8 +249,8 @@ public class LDblBinaryOperatorTest {
         };
 
         //when
-        LDblBinaryOperator function = sutO.dblBinaryOpComposeDbl(before1,before2);
-        function.doApplyAsDbl(80d,81d);
+        LDblBinaryOperator function = sutO.compose(before1,before2);
+        function.applyAsDbl(80d,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -285,7 +285,7 @@ public class LDblBinaryOperatorTest {
 
         //when
         LToDblBiFunction<Integer,Integer> function = sutO.dblBinaryOpCompose(before1,before2);
-        function.doApplyAsDbl(80,81);
+        function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -322,7 +322,7 @@ public class LDblBinaryOperatorTest {
 
         //when
         LBiDblFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80d,81d);
+        Integer finalValue = function.apply(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -357,7 +357,7 @@ public class LDblBinaryOperatorTest {
 
         //when
         LDblBinaryOperator function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d,81d);
+        double finalValue = function.applyAsDbl(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -392,7 +392,7 @@ public class LDblBinaryOperatorTest {
 
         //when
         LBiDblPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80d,81d);
+        boolean finalValue = function.test(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -405,20 +405,6 @@ public class LDblBinaryOperatorTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LDblBinaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LDblBinaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -429,7 +415,7 @@ public class LDblBinaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingDblBinaryOp().doApplyAsDbl(100d,100d);
+        sutThrowing.shovingApplyAsDbl(100d,100d);
     }
 
 
@@ -442,7 +428,7 @@ public class LDblBinaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblBinaryOperator: double doApplyAsDbl(double a1,double a2)");
+                .contains("LDblBinaryOperator: double applyAsDbl(double a1,double a2)");
     }
 
 

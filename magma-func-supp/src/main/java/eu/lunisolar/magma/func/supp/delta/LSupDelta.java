@@ -77,8 +77,8 @@ public class LSupDelta<T> extends LSupMemento<T> {
 	}
 
 	@Override
-	public T doGet() {
-		return deltaFunction.doApply(lastValue(), super.doGet());
+	public T get() {
+		return deltaFunction.apply(lastValue(), super.get());
 	}
 
 	// <editor-fold desc="object">

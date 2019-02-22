@@ -80,8 +80,10 @@ public final class LTieCharFunctionBuilder<T> extends PerCaseBuilderWithIntProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LTieCharFunction<T> tieCharFunctionFrom(Function<LTieCharFunctionBuilder<T>, LTieCharFunction<T>> buildingFunction) {
-		return buildingFunction.apply(new LTieCharFunctionBuilder());
+	public static <T> LTieCharFunction<T> tieCharFunctionFrom(Consumer<LTieCharFunctionBuilder<T>> buildingFunction) {
+		LTieCharFunctionBuilder builder = new LTieCharFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LTieCharFunctionBuilder<T> extends PerCaseBuilderWithIntProdu
 		retval = LTieCharFunction.<T> tieCharFunc((a1, a2, a3) -> {
 			try {
 				for (Case<LObjIntCharPredicate<T>, LTieCharFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2, a3)) {
-						return aCase.caseFunction().doApplyAsInt(a1, a2, a3);
+					if (aCase.casePredicate().test(a1, a2, a3)) {
+						return aCase.caseFunction().applyAsInt(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1, a2, a3);
+				return eventuallyFinal.applyAsInt(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

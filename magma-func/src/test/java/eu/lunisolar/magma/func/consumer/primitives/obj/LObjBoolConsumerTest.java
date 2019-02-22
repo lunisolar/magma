@@ -63,7 +63,7 @@ public class LObjBoolConsumerTest<T> {
 
 
     private LObjBoolConsumer<Integer> sut = new LObjBoolConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,boolean a2)  {
+        public  void acceptX(Integer a1,boolean a2)  {
             LObjBoolConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LObjBoolConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,true);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LObjBoolConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,true);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LObjBoolConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBoolConsumer: void doAccept(T a1,boolean a2)");
+            .isEqualTo("LObjBoolConsumer: void accept(T a1,boolean a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LObjBoolConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjBoolConsComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LObjBoolConsumerTest<T> {
         };
 
         //when
-        LObjBoolConsumer<Integer> function = sutO.objBoolConsComposeBool(before1,before2);
-        function.doAccept(80,true);
+        LObjBoolConsumer<Integer> function = sutO.compose(before1,before2);
+        function.accept(80,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LObjBoolConsumerTest<T> {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.objBoolConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LObjBoolConsumerTest<T> {
 
         //when
         LObjBoolConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,true);
+        function.accept(80,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjBoolCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBoolConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjBoolCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBoolConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LObjBoolConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjBoolCons().doAccept(100,true);
+        sutThrowing.shovingAccept(100,true);
     }
 
 
@@ -277,7 +263,7 @@ public class LObjBoolConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjBoolConsumer: void doAccept(T a1,boolean a2)");
+                .contains("LObjBoolConsumer: void accept(T a1,boolean a2)");
     }
 
 

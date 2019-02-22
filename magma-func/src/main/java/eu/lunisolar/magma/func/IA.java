@@ -53,95 +53,99 @@ import static eu.lunisolar.magma.func.predicate.LObjIntPredicate.objIntPred;
  * Aggregates access functions (with index) to a specific container (e.g. array, list) of specific type (e.g. int[])
  * Such access do not protect against concurrent modification.     
  */
-public class IA<C, E extends aType> implements IndexedRead<C, E>, IndexedWrite<C, E> {
+public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<C, E> {
 
-	private static final IA<List, a<Object>> LIST = iA(List::size, oiFunc(List::get), tieCons(List::set));
+	public static class The<C, E extends aType> implements IA<C, E> {
 
-	private static final IA<int[], aInt> INT_ARRAY = iA(IA::length, oiToIntFunc(IA::getInt), tieIntCons(IA::setInt));
-	private static final IA<long[], aLong> LONG_ARRAY = iA(IA::length, oiToLongFunc(IA::getLong), tieLongCons(IA::setLong));
-	private static final IA<double[], aDouble> DOUBLE_ARRAY = iA(IA::length, oiToDblFunc(IA::getDouble), tieDblCons(IA::setDouble));
-	private static final IA<byte[], aByte> BYTE_ARRAY = iA(IA::length, oiToByteFunc(IA::getByte), tieByteCons(IA::setByte));
-	private static final IA<short[], aShort> SHORT_ARRAY = iA(IA::length, oiToSrtFunc(IA::getShort), tieSrtCons(IA::setShort));
-	private static final IA<char[], aChar> CHAR_ARRAY = iA(IA::length, oiToCharFunc(IA::getChar), tieCharCons(IA::setChar));
-	private static final IA<float[], aFloat> FLOAT_ARRAY = iA(IA::length, oiToFltFunc(IA::getFloat), tieFltCons(IA::setFloat));
-	private static final IA<boolean[], aBool> BOOL_ARRAY = iA(IA::length, objIntPred(IA::getBoolean), tieBoolCons(IA::setBoolean));
-	private static final IA<Object[], a<Object>> ARRAY = iA(a -> a.length, oiFunc((a, i) -> a[i]), tieCons((a, i, e) -> a[i] = e));
+		private static final IA<List, a<Object>> LIST = iA(List::size, oiFunc(List::get), tieCons(List::set));
 
-	private final LToIntFunction<C> sizeFunc;
+		private static final IA<int[], aInt> INT_ARRAY = iA(IA::length, oiToIntFunc(IA::getInt), tieIntCons(IA::setInt));
+		private static final IA<long[], aLong> LONG_ARRAY = iA(IA::length, oiToLongFunc(IA::getLong), tieLongCons(IA::setLong));
+		private static final IA<double[], aDouble> DOUBLE_ARRAY = iA(IA::length, oiToDblFunc(IA::getDouble), tieDblCons(IA::setDouble));
+		private static final IA<byte[], aByte> BYTE_ARRAY = iA(IA::length, oiToByteFunc(IA::getByte), tieByteCons(IA::setByte));
+		private static final IA<short[], aShort> SHORT_ARRAY = iA(IA::length, oiToSrtFunc(IA::getShort), tieSrtCons(IA::setShort));
+		private static final IA<char[], aChar> CHAR_ARRAY = iA(IA::length, oiToCharFunc(IA::getChar), tieCharCons(IA::setChar));
+		private static final IA<float[], aFloat> FLOAT_ARRAY = iA(IA::length, oiToFltFunc(IA::getFloat), tieFltCons(IA::setFloat));
+		private static final IA<boolean[], aBool> BOOL_ARRAY = iA(IA::length, objIntPred(IA::getBoolean), tieBoolCons(IA::setBoolean));
+		private static final IA<Object[], a<Object>> ARRAY = iA(a -> a.length, oiFunc((a, i) -> a[i]), tieCons((a, i, e) -> a[i] = e));
 
-	private final OiFunction<C, E> getter;
-	private final TieConsumer<C, E> setter;
-	private final TieFunction<C, E> setFunc;
+		private final LToIntFunction<C> sizeFunc;
 
-	public IA(LToIntFunction<C> size, OiFunction<C, E> getter, TieConsumer<C, E> setter) {
-		this.sizeFunc = size;
-		this.getter = getter;
-		this.setter = setter;
-		this.setFunc = setter.toTieFunction();
+		private final OiFunction<C, E> getter;
+		private final TieConsumer<C, E> setter;
+		private final TieFunction<C, E> setFunc;
+
+		public The(LToIntFunction<C> size, OiFunction<C, E> getter, TieConsumer<C, E> setter) {
+			this.sizeFunc = size;
+			this.getter = getter;
+			this.setter = setter;
+			this.setFunc = setter.toTieFunction();
+		}
+
+		public LToIntFunction<C> genericSizeFunc() {
+			return sizeFunc;
+		}
+
+		public LToIntFunction sizeFunc() {
+			return genericSizeFunc();
+		}
+
+		public OiFunction<C, E> genericGetter() {
+			return getter;
+		}
+
+		public TieConsumer<C, E> genericSetter() {
+			return setter;
+		}
+
+		public TieFunction<C, E> genericSetFunc() {
+			return setFunc;
+		}
+
 	}
 
 	public static <C, E extends aType> IA<C, E> iA(LToIntFunction<C> size, OiFunction<C, E> oi, TieConsumer<C, E> tie) {
-		return new IA<>(size, oi, tie);
+		return new IA.The<>(size, oi, tie);
 	}
 
-	public LToIntFunction<C> genericSizeFunc() {
-		return sizeFunc;
-	}
-
-	public LToIntFunction sizeFunc() {
-		return genericSizeFunc();
-	}
-
-	public OiFunction<C, E> genericGetter() {
-		return getter;
-	}
-
-	public TieConsumer<C, E> genericSetter() {
-		return setter;
-	}
-
-	public TieFunction<C, E> genericSetFunc() {
-		return setFunc;
-	}
-
-	public static final <T, L extends List<T>, A extends a<T>> IA<L, A> list() {
-		return (IA) LIST;
+	public static <T, L extends List<T>, A extends a<T>> IA<L, A> list() {
+		return (IA) The.LIST;
 	}
 
 	public static IA<int[], aInt> intArray() {
-		return INT_ARRAY;
+		return The.INT_ARRAY;
 	}
 
 	public static IA<long[], aLong> longArray() {
-		return LONG_ARRAY;
+		return The.LONG_ARRAY;
 	}
 
 	public static IA<double[], aDouble> doubleArray() {
-		return DOUBLE_ARRAY;
+		return The.DOUBLE_ARRAY;
 	}
 
 	public static IA<byte[], aByte> byteArray() {
-		return BYTE_ARRAY;
+		return The.BYTE_ARRAY;
 	}
 
 	public static IA<short[], aShort> shortArray() {
-		return SHORT_ARRAY;
+		return The.SHORT_ARRAY;
 	}
 
 	public static IA<char[], aChar> charArray() {
-		return CHAR_ARRAY;
+		return The.CHAR_ARRAY;
 	}
 
 	public static IA<float[], aFloat> floatArray() {
-		return FLOAT_ARRAY;
+		return The.FLOAT_ARRAY;
 	}
 
 	public static IA<boolean[], aBool> boolArray() {
-		return BOOL_ARRAY;
+		return The.BOOL_ARRAY;
 	}
 
 	public static <T, A extends a<T>> IA<T[], A> array() {
-		return (IA) ARRAY;
+		return (IA) The.ARRAY;
 	}
 
 	// <editor-fold desc="convenience methods for reference">

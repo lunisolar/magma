@@ -54,7 +54,7 @@ public class LIntSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0);
 
-        assertThat(sut.doGetAsInt())
+        assertThat(sut.getAsInt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LIntSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsInt())
+        assertThat(sut.getAsInt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

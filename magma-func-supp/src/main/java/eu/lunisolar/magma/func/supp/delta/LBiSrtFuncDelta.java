@@ -77,8 +77,8 @@ public class LBiSrtFuncDelta<R> extends LBiSrtFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(short a1, short a2) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2));
+	public R apply(short a1, short a2) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2));
 	}
 
 	// <editor-fold desc="object">

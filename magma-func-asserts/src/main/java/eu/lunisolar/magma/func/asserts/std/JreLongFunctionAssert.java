@@ -80,13 +80,12 @@ public interface JreLongFunctionAssert<S extends JreLongFunctionAssert<S, A, RS,
 		@Nonnull
 		public Evaluation<S, LLongConsumer, A, RS, R> doesApply(long a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.apply(a));
+				return assertFactory.apply(actual.apply(a));
 			});
-
 		}
 
 	}

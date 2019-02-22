@@ -69,7 +69,7 @@ public class LIntConsumerBuilderTest{
                 .build()
             );
 
-            function.doAccept(100);
+            function.accept(100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LIntConsumerBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(100);
+            function.accept(100);
 
             fail("No exception were thrown.");
         })

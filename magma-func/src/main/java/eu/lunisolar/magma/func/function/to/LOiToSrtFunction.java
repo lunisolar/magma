@@ -68,131 +68,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OiFunction<T, aShort> { // NOSONAR
+public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OiFunction<T, aShort>, Codomain<aShort>, Domain2<a<T>, aInt> { // NOSONAR
 
-	String DESCRIPTION = "LOiToSrtFunction: short doApplyAsSrt(T a1,int a2)";
+	String DESCRIPTION = "LOiToSrtFunction: short applyAsSrt(T a1,int a2)";
 
-	// short doApplyAsSrt(T a1,int a2) ;
-	default short doApplyAsSrt(T a1, int a2) {
-		// return nestingDoApplyAsSrt(a1,a2);
+	// short applyAsSrt(T a1,int a2) ;
+	default short applyAsSrt(T a1, int a2) {
+		// return nestingApplyAsSrt(a1,a2);
 		try {
-			return this.doApplyAsSrtX(a1, a2);
+			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsSrt(T a1,int a2)
+	 * Implement this, but call applyAsSrt(T a1,int a2)
 	 */
-	short doApplyAsSrtX(T a1, int a2) throws Throwable;
+	short applyAsSrtX(T a1, int a2) throws Throwable;
 
 	default short tupleApplyAsSrt(LObjIntPair<T> args) {
-		return doApplyAsSrt(args.first(), args.second());
+		return applyAsSrt(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default short handlingDoApplyAsSrt(T a1, int a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default short handlingApplyAsSrt(T a1, int a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsSrtX(a1, a2);
+			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default short tryDoApplyAsSrt(T a1, int a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LOiToSrtFunction<T> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingApplyAsSrt(a1, a2, handling);
+	}
+
+	default short applyAsSrt(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsSrtX(a1, a2);
+			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default short tryDoApplyAsSrt(T a1, int a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LOiToSrtFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> applyAsSrt(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default short applyAsSrt(T a1, int a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsSrtX(a1, a2);
+			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default short tryDoApplyAsSrtThen(T a1, int a2, @Nonnull LToSrtFunction<Throwable> handler) {
+	default LOiToSrtFunction<T> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> applyAsSrt(a1, a2, exF);
+	}
+
+	default short applyAsSrtThen(T a1, int a2, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsSrtX(a1, a2);
+			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsSrt(e);
+			return handler.applyAsSrt(e);
 		}
+	}
+
+	default LOiToSrtFunction<T> tryingThen(@Nonnull LToSrtFunction<Throwable> handler) {
+		return (a1, a2) -> applyAsSrtThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default short nestingDoApplyAsSrt(T a1, int a2) {
+	default short nestingApplyAsSrt(T a1, int a2) {
 		try {
-			return this.doApplyAsSrtX(a1, a2);
+			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default short shovingDoApplyAsSrt(T a1, int a2) {
+	default short shovingApplyAsSrt(T a1, int a2) {
 		try {
-			return this.doApplyAsSrtX(a1, a2);
+			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <T> short handlingDoApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> short handlingApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsSrt(a1, a2, handling);
+		return func.handlingApplyAsSrt(a1, a2, handling);
 	}
 
-	static <T> short tryDoApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func) {
-		return tryDoApplyAsSrt(a1, a2, func, null);
-	}
-
-	static <T> short tryDoApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> short tryApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsSrt(a1, a2);
 	}
 
-	static <T> short tryDoApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <T> short tryApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a1, a2, exceptionFactory);
+		return func.applyAsSrt(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static <T> short tryDoApplyAsSrtThen(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull LToSrtFunction<Throwable> handler) {
+	static <T> short tryApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrtThen(a1, a2, handler);
+		return func.applyAsSrt(a1, a2, exF);
 	}
 
-	default short failSafeDoApplyAsSrt(T a1, int a2, @Nonnull LOiToSrtFunction<T> failSafe) {
+	static <T> short tryApplyAsSrtThen(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull LToSrtFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrtThen(a1, a2, handler);
+	}
+
+	default short failSafeApplyAsSrt(T a1, int a2, @Nonnull LOiToSrtFunction<T> failSafe) {
 		try {
-			return doApplyAsSrt(a1, a2);
+			return applyAsSrt(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsSrt(a1, a2);
+			return failSafe.applyAsSrt(a1, a2);
 		}
 	}
 
-	static <T> short failSafeDoApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull LOiToSrtFunction<T> failSafe) {
+	static <T> short failSafeApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, @Nonnull LOiToSrtFunction<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsSrt(a1, a2);
+			return failSafe.applyAsSrt(a1, a2);
 		} else {
-			return func.failSafeDoApplyAsSrt(a1, a2, failSafe);
+			return func.failSafeApplyAsSrt(a1, a2, failSafe);
 		}
 	}
 
-	static <T> LOiToSrtFunction<T> failSafeOiToSrtFunc(LOiToSrtFunction<T> func, @Nonnull LOiToSrtFunction<T> failSafe) {
+	static <T> LOiToSrtFunction<T> failSafe(LOiToSrtFunction<T> func, @Nonnull LOiToSrtFunction<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoApplyAsSrt(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeApplyAsSrt(a1, a2, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsSrt(T a1, int a2) {
-		return doApplyAsSrt(a1, a2);
+	default short nonNullApplyAsSrt(T a1, int a2) {
+		return applyAsSrt(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -204,13 +221,13 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTo(int min_a2, int max_a2, T a1, LOiToSrtFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_a2 <= min_a2) {
+		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
-				func.doApplyAsSrt(a1, a2);
+				func.applyAsSrt(a1, a2);
 			}
 		} else {
 			for (int a2 = min_a2; a2 >= max_a2; a2--) {
-				func.doApplyAsSrt(a1, a2);
+				func.applyAsSrt(a1, a2);
 			}
 		}
 	}
@@ -218,28 +235,30 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTill(int min_a2, int max_a2, T a1, LOiToSrtFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_a2 <= min_a2) {
+		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
-				func.doApplyAsSrt(a1, a2);
+				func.applyAsSrt(a1, a2);
 			}
 		} else {
 			for (int a2 = min_a2; a2 > max_a2; a2--) {
-				func.doApplyAsSrt(a1, a2);
+				func.applyAsSrt(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void times(int max_a2, T a1, LOiToSrtFunction<T> func) {
+		if (max_a2 < 0)
+			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	public default LIntToSrtFunction lShrink(LIntFunction<T> left) {
-		return a2 -> doApplyAsSrt(left.doApply(a2), a2);
+		return a2 -> applyAsSrt(left.apply(a2), a2);
 	}
 
 	public default LIntToSrtFunction lShrinkc(T a1) {
-		return a2 -> doApplyAsSrt(a1, a2);
+		return a2 -> applyAsSrt(a1, a2);
 	}
 
 	public static <T> LIntToSrtFunction lShrinked(LIntFunction<T> left, LOiToSrtFunction<T> func) {
@@ -251,11 +270,11 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	public default LToSrtFunction<T> rShrink(LToIntFunction<T> right) {
-		return a1 -> doApplyAsSrt(a1, right.doApplyAsInt(a1));
+		return a1 -> applyAsSrt(a1, right.applyAsInt(a1));
 	}
 
 	public default LToSrtFunction<T> rShrinkc(int a2) {
-		return a1 -> doApplyAsSrt(a1, a2);
+		return a1 -> applyAsSrt(a1, a2);
 	}
 
 	public static <T> LToSrtFunction<T> rShrinked(LToIntFunction<T> right, LOiToSrtFunction<T> func) {
@@ -267,13 +286,28 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/**  */
-	public static <T> LOiToSrtFunction<T> uncurryOiToSrtFunc(LFunction<T, LIntToSrtFunction> func) {
-		return (T a1, int a2) -> func.doApply(a1).doApplyAsSrt(a2);
+	public static <T> LOiToSrtFunction<T> uncurry(LFunction<T, LIntToSrtFunction> func) {
+		return (T a1, int a2) -> func.apply(a1).applyAsSrt(a2);
+	}
+
+	/** Cast that removes generics. */
+	public default LOiToSrtFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LOiToSrtFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, T> LOiToSrtFunction<V2> cast(LOiToSrtFunction<T> function) {
+		return (LOiToSrtFunction) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier captureOiToSrtFunc(T a1, int a2) {
-		return () -> this.doApplyAsSrt(a1, a2);
+	default LSrtSupplier capture(T a1, int a2) {
+		return () -> this.applyAsSrt(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -284,13 +318,13 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T> LOiToSrtFunction<T> apply1stAsSrt(@Nonnull LToSrtFunction<T> func) {
-		return (a1, a2) -> func.doApplyAsSrt(a1);
+		return (a1, a2) -> func.applyAsSrt(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T> LOiToSrtFunction<T> apply2ndAsSrt(@Nonnull LIntToSrtFunction func) {
-		return (a1, a2) -> func.doApplyAsSrt(a2);
+		return (a1, a2) -> func.applyAsSrt(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -303,7 +337,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	static <T> LOiToSrtFunction<T> recursive(final @Nonnull LFunction<LOiToSrtFunction<T>, LOiToSrtFunction<T>> selfLambda) {
 		final LOiToSrtFunctionSingle<T> single = new LOiToSrtFunctionSingle();
-		LOiToSrtFunction<T> func = selfLambda.doApply(single);
+		LOiToSrtFunction<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -312,8 +346,8 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		private LOiToSrtFunction<T> target = null;
 
 		@Override
-		public short doApplyAsSrtX(T a1, int a2) throws Throwable {
-			return target.doApplyAsSrtX(a1, a2);
+		public short applyAsSrtX(T a1, int a2) throws Throwable {
+			return target.applyAsSrtX(a1, a2);
 		}
 
 		@Override
@@ -323,18 +357,18 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	@Nonnull
-	static <T> LOiToSrtFunction<T> oiToSrtFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LOiToSrtFunction<T> oiToSrtFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <T> LOiToSrtFunction<T> oiToSrtFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LOiToSrtFunction<T> oiToSrtFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -351,7 +385,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	static <T> short call(T a1, int a2, final @Nonnull LOiToSrtFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsSrt(a1, a2);
+		return lambda.applyAsSrt(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -398,14 +432,14 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LOiToSrtFunction<V1> oiToSrtFuncComposeInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
+	default <V1> LOiToSrtFunction<V1> compose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApplyAsSrt(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.applyAsSrt(before1.apply(v1), before2.applyAsInt(v2));
 	}
 
-	public static <V1, T> LOiToSrtFunction<V1> composedInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, LOiToSrtFunction<T> after) {
-		return after.oiToSrtFuncComposeInt(before1, before2);
+	public static <V1, T> LOiToSrtFunction<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, LOiToSrtFunction<T> after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -413,7 +447,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default <V1, V2> LToSrtBiFunction<V1, V2> oiToSrtFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApplyAsSrt(before1.doApply(v1), before2.doApplyAsInt(v2));
+		return (v1, v2) -> this.applyAsSrt(before1.apply(v1), before2.applyAsInt(v2));
 	}
 
 	public static <V1, V2, T> LToSrtBiFunction<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, LOiToSrtFunction<T> after) {
@@ -428,79 +462,68 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	default <V> LOiFunction<T, V> then(@Nonnull LSrtFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.apply(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LOiToByteFunction<T> thenToByte(@Nonnull LSrtToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsByte(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.applyAsByte(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LOiToSrtFunction<T> thenToSrt(@Nonnull LSrtUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsSrt(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.applyAsSrt(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LOiToIntFunction<T> thenToInt(@Nonnull LSrtToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsInt(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.applyAsInt(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LOiToLongFunction<T> thenToLong(@Nonnull LSrtToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsLong(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.applyAsLong(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LOiToFltFunction<T> thenToFlt(@Nonnull LSrtToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsFlt(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.applyAsFlt(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LOiToDblFunction<T> thenToDbl(@Nonnull LSrtToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsDbl(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.applyAsDbl(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LOiToCharFunction<T> thenToChar(@Nonnull LSrtToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsChar(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.applyAsChar(this.applyAsSrt(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjIntPredicate<T> thenToBool(@Nonnull LSrtPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doTest(this.doApplyAsSrt(a1, a2));
+		return (a1, a2) -> after.test(this.applyAsSrt(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LOiToSrtFunction<T> nestingOiToSrtFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LOiToSrtFunction<T> shovingOiToSrtFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -510,11 +533,11 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LIntObjToSrtFunc<T> extends LOiToSrtFunction<T> {
 
-		short doApplyAsSrtIntObj(int a2, T a1);
+		short applyAsSrtIntObj(int a2, T a1);
 
 		@Override
-		default short doApplyAsSrtX(T a1, int a2) {
-			return this.doApplyAsSrtIntObj(a2, a1);
+		default short applyAsSrtX(T a1, int a2) {
+			return this.applyAsSrtIntObj(a2, a1);
 		}
 	}
 
@@ -530,7 +553,10 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return Function4U.defaultShort;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2> void forEach(IndexedRead<C1, a<T>> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, LSrtConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
@@ -538,56 +564,65 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T a1 = oiFunc1.doApply(source1, i);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			consumer.doAccept(this.doApplyAsSrt(a1, a2));
+			T a1 = oiFunc1.apply(source1, i);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			consumer.accept(this.applyAsSrt(a1, a2));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, LSrtConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			T a1 = nextFunc1.doApply(iterator1);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			consumer.doAccept(this.doApplyAsSrt(a1, a2));
+		while (testFunc1.test(iterator1) && i < size) {
+			T a1 = nextFunc1.apply(iterator1);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			consumer.accept(this.applyAsSrt(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=IA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, LSrtConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			T a1 = oiFunc1.doApply(source1, i);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			consumer.doAccept(this.doApplyAsSrt(a1, a2));
+		while (i < size && testFunc2.test(iterator2)) {
+			T a1 = oiFunc1.apply(source1, i);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			consumer.accept(this.applyAsSrt(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a1, type=SA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, LSrtConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			T a1 = nextFunc1.doApply(iterator1);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			consumer.doAccept(this.doApplyAsSrt(a1, a2));
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			T a1 = nextFunc1.apply(iterator1);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			consumer.accept(this.applyAsSrt(a1, a2));
 		}
 	}
 

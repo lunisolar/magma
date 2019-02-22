@@ -63,7 +63,7 @@ public class LTieSrtConsumerTest<T> {
 
 
     private LTieSrtConsumer<Integer> sut = new LTieSrtConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,int a2,short a3)  {
+        public  void acceptX(Integer a1,int a2,short a3)  {
             LTieSrtConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTieSrtConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,(short)100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTieSrtConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,(short)100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTieSrtConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieSrtConsumer: void doAccept(T a1,int a2,short a3)");
+            .isEqualTo("LTieSrtConsumer: void accept(T a1,int a2,short a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTieSrtConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieSrtConsComposeIntSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTieSrtConsumerTest<T> {
         };
 
         //when
-        LTieSrtConsumer<Integer> function = sutO.tieSrtConsComposeIntSrt(before1,before2,before3);
-        function.doAccept(80,81,(short)82);
+        LTieSrtConsumer<Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,(short)82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTieSrtConsumerTest<T> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.tieSrtConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTieSrtConsumerTest<T> {
 
         //when
         LTieSrtConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,(short)82);
+        function.accept(80,81,(short)82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieSrtCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieSrtConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieSrtCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieSrtConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTieSrtConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieSrtCons().doAccept(100,100,(short)100);
+        sutThrowing.shovingAccept(100,100,(short)100);
     }
 
 
@@ -291,7 +277,7 @@ public class LTieSrtConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieSrtConsumer: void doAccept(T a1,int a2,short a3)");
+                .contains("LTieSrtConsumer: void accept(T a1,int a2,short a3)");
     }
 
 

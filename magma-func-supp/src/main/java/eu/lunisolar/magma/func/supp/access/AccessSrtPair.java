@@ -72,90 +72,90 @@ public interface AccessSrtPair {
 
 	default void useWith(LBiSrtConsumer accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiSrtConsumer accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		accessFunction.doAccept(tuple.second(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiSrtConsumer.LSrt1Srt0Cons accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		accessFunction.doAcceptSrt1Srt0(tuple.first(), tuple.second());
+		accessFunction.acceptSrt1Srt0(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiSrtConsumer.LSrt1Srt0Cons accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		accessFunction.doAcceptSrt1Srt0(tuple.second(), tuple.first());
+		accessFunction.acceptSrt1Srt0(tuple.second(), tuple.first());
 	}
 
 	default short useWith(LSrtBinaryOperator accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		short retval = accessFunction.doApplyAsSrt(tuple.first(), tuple.second());
+		short retval = accessFunction.applyAsSrt(tuple.first(), tuple.second());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default short useWithO1(LSrtBinaryOperator accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		short retval = accessFunction.doApplyAsSrt(tuple.second(), tuple.first());
+		short retval = accessFunction.applyAsSrt(tuple.second(), tuple.first());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiSrtFunction<R> accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiSrtFunction<R> accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiSrtFunction.LSrt1Srt0Func<R> accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		R retval = accessFunction.doApplySrt1Srt0(tuple.first(), tuple.second());
+		R retval = accessFunction.applySrt1Srt0(tuple.first(), tuple.second());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiSrtFunction.LSrt1Srt0Func<R> accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		R retval = accessFunction.doApplySrt1Srt0(tuple.second(), tuple.first());
+		R retval = accessFunction.applySrt1Srt0(tuple.second(), tuple.first());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiSrtPredicate accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiSrtPredicate accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		boolean retval = accessFunction.doTest(tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(tuple.second(), tuple.first());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiSrtPredicate.LSrt1Srt0Pred accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		boolean retval = accessFunction.doTestSrt1Srt0(tuple.first(), tuple.second());
+		boolean retval = accessFunction.testSrt1Srt0(tuple.first(), tuple.second());
 		releaseSrtPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiSrtPredicate.LSrt1Srt0Pred accessFunction) {
 		LSrtPair tuple = accessSrtPair();
-		boolean retval = accessFunction.doTestSrt1Srt0(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testSrt1Srt0(tuple.second(), tuple.first());
 		releaseSrtPair(tuple);
 		return retval;
 	}

@@ -77,14 +77,13 @@ public interface JreLongConsumerAssert<S extends JreLongConsumerAssert<S, A>, A 
 		@Nonnull
 		public SemiEvaluation<S, LLongConsumer, A> doesAccept(long a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
 				actual.accept(a);
 				return null;
 			});
-
 		}
 
 	}

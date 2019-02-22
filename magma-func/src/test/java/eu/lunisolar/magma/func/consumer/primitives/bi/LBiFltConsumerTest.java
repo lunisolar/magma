@@ -63,7 +63,7 @@ public class LBiFltConsumerTest {
 
 
     private LBiFltConsumer sut = new LBiFltConsumer(){
-        public  void doAcceptX(float a1,float a2)  {
+        public  void acceptX(float a1,float a2)  {
             LBiFltConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LBiFltConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100f,100f);
+            sutAlwaysThrowingUnchecked.nestingAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LBiFltConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100f,100f);
+            sutAlwaysThrowingUnchecked.shovingAccept(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBiFltConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiFltConsumer: void doAccept(float a1,float a2)");
+            .isEqualTo("LBiFltConsumer: void accept(float a1,float a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LBiFltConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiFltConsComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LBiFltConsumerTest {
         };
 
         //when
-        LBiFltConsumer function = sutO.biFltConsComposeFlt(before1,before2);
-        function.doAccept(80f,81f);
+        LBiFltConsumer function = sutO.compose(before1,before2);
+        function.accept(80f,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LBiFltConsumerTest {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.biFltConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LBiFltConsumerTest {
 
         //when
         LBiFltConsumer function = sutO.andThen(thenFunction);
-        function.doAccept(80f,81f);
+        function.accept(80f,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFltConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFltConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LBiFltConsumerTest {
         });
 
         // when
-        sutThrowing.shovingBiFltCons().doAccept(100f,100f);
+        sutThrowing.shovingAccept(100f,100f);
     }
 
 
@@ -277,7 +263,7 @@ public class LBiFltConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiFltConsumer: void doAccept(float a1,float a2)");
+                .contains("LBiFltConsumer: void accept(float a1,float a2)");
     }
 
 

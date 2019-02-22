@@ -82,13 +82,12 @@ public interface LCharSupplierAssert<S extends LCharSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Character> doesGetAsChar() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGetAsChar());
+				return assertFactory.apply(actual.getAsChar());
 			});
-
 		}
 
 		@Nonnull

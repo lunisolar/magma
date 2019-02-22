@@ -65,7 +65,7 @@ public class LIntPredicateTest {
 
 
     private LIntPredicate sut = new LIntPredicate(){
-        public  boolean doTestX(int a)  {
+        public  boolean testX(int a)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100))
+        assertThat(sut.test(100))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LIntPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100);
+            sutAlwaysThrowingUnchecked.nestingTest(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LIntPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100);
+            sutAlwaysThrowingUnchecked.shovingTest(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -148,7 +148,7 @@ public class LIntPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntPredicate: boolean doTest(int a)");
+            .isEqualTo("LIntPredicate: boolean test(int a)");
     }
 
     @Test
@@ -168,7 +168,7 @@ public class LIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100))
+        assertThat(sut.negate().test(100))
             .isEqualTo(!testValue);
     }
 
@@ -196,13 +196,13 @@ public class LIntPredicateTest {
         LIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100))
+        assertThat(andFunction.test(100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100))
+        assertThat(orFunction.test(100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100))
+        assertThat(xorFunction.test(100))
                 .isEqualTo(xorResult);
     }
 
@@ -212,10 +212,10 @@ public class LIntPredicateTest {
         LIntPredicate equals = LIntPredicate.isEqual(1);
 
         //then
-        assertThat(equals.doTest(1))
+        assertThat(equals.test(1))
                 .isTrue();
 
-        assertThat(equals.doTest(0))
+        assertThat(equals.test(0))
                 .isFalse();
     }
 
@@ -224,7 +224,7 @@ public class LIntPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testIntPredComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -243,8 +243,8 @@ public class LIntPredicateTest {
         };
 
         //when
-        LIntPredicate function = sutO.intPredComposeInt(before);
-        function.doTest(80);
+        LIntPredicate function = sutO.compose(before);
+        function.test(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -273,7 +273,7 @@ public class LIntPredicateTest {
 
         //when
         LPredicate<Integer> function = sutO.intPredCompose(before);
-        function.doTest(80);
+        function.test(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -309,7 +309,7 @@ public class LIntPredicateTest {
 
         //when
         LIntFunction<Integer> function = sutO.boolToIntFunc(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -343,7 +343,7 @@ public class LIntPredicateTest {
 
         //when
         LIntToByteFunction function = sutO.boolToIntToByteFunc(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -377,7 +377,7 @@ public class LIntPredicateTest {
 
         //when
         LIntToSrtFunction function = sutO.boolToIntToSrtFunc(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -411,7 +411,7 @@ public class LIntPredicateTest {
 
         //when
         LIntUnaryOperator function = sutO.boolToIntUnaryOp(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -445,7 +445,7 @@ public class LIntPredicateTest {
 
         //when
         LIntToLongFunction function = sutO.boolToIntToLongFunc(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -479,7 +479,7 @@ public class LIntPredicateTest {
 
         //when
         LIntToFltFunction function = sutO.boolToIntToFltFunc(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -513,7 +513,7 @@ public class LIntPredicateTest {
 
         //when
         LIntToDblFunction function = sutO.boolToIntToDblFunc(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -547,7 +547,7 @@ public class LIntPredicateTest {
 
         //when
         LIntToCharFunction function = sutO.boolToIntToCharFunc(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -581,7 +581,7 @@ public class LIntPredicateTest {
 
         //when
         LIntPredicate function = sutO.boolToIntPred(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -594,20 +594,6 @@ public class LIntPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LIntPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LIntPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -618,7 +604,7 @@ public class LIntPredicateTest {
         });
 
         // when
-        sutThrowing.shovingIntPred().doTest(100);
+        sutThrowing.shovingTest(100);
     }
 
 
@@ -631,7 +617,7 @@ public class LIntPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntPredicate: boolean doTest(int a)");
+                .contains("LIntPredicate: boolean test(int a)");
     }
 
 

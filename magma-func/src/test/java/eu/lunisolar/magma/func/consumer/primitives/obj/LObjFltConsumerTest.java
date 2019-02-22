@@ -63,7 +63,7 @@ public class LObjFltConsumerTest<T> {
 
 
     private LObjFltConsumer<Integer> sut = new LObjFltConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,float a2)  {
+        public  void acceptX(Integer a1,float a2)  {
             LObjFltConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LObjFltConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100f);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LObjFltConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100f);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LObjFltConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjFltConsumer: void doAccept(T a1,float a2)");
+            .isEqualTo("LObjFltConsumer: void accept(T a1,float a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LObjFltConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjFltConsComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LObjFltConsumerTest<T> {
         };
 
         //when
-        LObjFltConsumer<Integer> function = sutO.objFltConsComposeFlt(before1,before2);
-        function.doAccept(80,81f);
+        LObjFltConsumer<Integer> function = sutO.compose(before1,before2);
+        function.accept(80,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LObjFltConsumerTest<T> {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.objFltConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LObjFltConsumerTest<T> {
 
         //when
         LObjFltConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81f);
+        function.accept(80,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjFltConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjFltConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LObjFltConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjFltCons().doAccept(100,100f);
+        sutThrowing.shovingAccept(100,100f);
     }
 
 
@@ -277,7 +263,7 @@ public class LObjFltConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjFltConsumer: void doAccept(T a1,float a2)");
+                .contains("LObjFltConsumer: void accept(T a1,float a2)");
     }
 
 

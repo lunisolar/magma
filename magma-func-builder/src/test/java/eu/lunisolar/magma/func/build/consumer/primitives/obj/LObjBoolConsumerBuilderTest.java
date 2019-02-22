@@ -69,7 +69,7 @@ public class LObjBoolConsumerBuilderTest<T>{
                 .build()
             );
 
-            function.doAccept(100,true);
+            function.accept(100,true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LObjBoolConsumerBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(100,true);
+            function.accept(100,true);
 
             fail("No exception were thrown.");
         })

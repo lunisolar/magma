@@ -72,8 +72,8 @@ public class LLogicalOpMemento implements LLogicalOperator {
 	}
 
 	@Override
-	public boolean doApplyX(boolean a) {
-		return lastValue = function.doApply(a);
+	public boolean applyX(boolean a) {
+		return lastValue = function.apply(a);
 	}
 
 	public boolean lastValue() {

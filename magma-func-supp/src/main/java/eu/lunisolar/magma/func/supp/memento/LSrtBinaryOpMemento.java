@@ -72,8 +72,8 @@ public class LSrtBinaryOpMemento implements LSrtBinaryOperator {
 	}
 
 	@Override
-	public short doApplyAsSrtX(short a1, short a2) {
-		return lastValue = function.doApplyAsSrt(a1, a2);
+	public short applyAsSrtX(short a1, short a2) {
+		return lastValue = function.applyAsSrt(a1, a2);
 	}
 
 	public short lastValue() {

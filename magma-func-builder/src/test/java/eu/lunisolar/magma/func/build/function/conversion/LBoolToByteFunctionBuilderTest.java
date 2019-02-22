@@ -69,7 +69,7 @@ public class LBoolToByteFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsByte(true);
+            function.applyAsByte(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolToByteFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsByte(true);
+            function.applyAsByte(true);
 
             fail("No exception were thrown.");
         })

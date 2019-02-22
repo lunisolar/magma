@@ -72,180 +72,180 @@ public interface AccessCharIntPair {
 
 	default void useWith(LCharIntConsumer accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWith(LCharIntConsumer.LIntCharCons accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAcceptIntChar(tuple.second(), tuple.first());
+		accessFunction.acceptIntChar(tuple.second(), tuple.first());
 	}
 
 	default <T> void useWith(T a1, LTieCharConsumer<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAccept(a1, tuple.second(), tuple.first());
+		accessFunction.accept(a1, tuple.second(), tuple.first());
 	}
 
 	default <T> void useWith(T a1, LTieCharConsumer.LObjCharIntCons<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAcceptObjCharInt(a1, tuple.first(), tuple.second());
+		accessFunction.acceptObjCharInt(a1, tuple.first(), tuple.second());
 	}
 
 	default <T> void useWith(T a1, LTieCharConsumer.LIntObjCharCons<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAcceptIntObjChar(tuple.second(), a1, tuple.first());
+		accessFunction.acceptIntObjChar(tuple.second(), a1, tuple.first());
 	}
 
 	default <T> void useWith(T a1, LTieCharConsumer.LIntCharObjCons<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAcceptIntCharObj(tuple.second(), tuple.first(), a1);
+		accessFunction.acceptIntCharObj(tuple.second(), tuple.first(), a1);
 	}
 
 	default <T> void useWith(T a1, LTieCharConsumer.LCharObjIntCons<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAcceptCharObjInt(tuple.first(), a1, tuple.second());
+		accessFunction.acceptCharObjInt(tuple.first(), a1, tuple.second());
 	}
 
 	default <T> void useWith(T a1, LTieCharConsumer.LCharIntObjCons<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		accessFunction.doAcceptCharIntObj(tuple.first(), tuple.second(), a1);
+		accessFunction.acceptCharIntObj(tuple.first(), tuple.second(), a1);
 	}
 
 	default <R, T> R useWith(T a1, LObjIntCharFunction<T, R> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		R retval = accessFunction.doApply(a1, tuple.second(), tuple.first());
+		R retval = accessFunction.apply(a1, tuple.second(), tuple.first());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntCharFunction.LObjCharIntFunc<T, R> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		R retval = accessFunction.doApplyObjCharInt(a1, tuple.first(), tuple.second());
+		R retval = accessFunction.applyObjCharInt(a1, tuple.first(), tuple.second());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntCharFunction.LIntObjCharFunc<T, R> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		R retval = accessFunction.doApplyIntObjChar(tuple.second(), a1, tuple.first());
+		R retval = accessFunction.applyIntObjChar(tuple.second(), a1, tuple.first());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntCharFunction.LIntCharObjFunc<T, R> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		R retval = accessFunction.doApplyIntCharObj(tuple.second(), tuple.first(), a1);
+		R retval = accessFunction.applyIntCharObj(tuple.second(), tuple.first(), a1);
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntCharFunction.LCharObjIntFunc<T, R> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		R retval = accessFunction.doApplyCharObjInt(tuple.first(), a1, tuple.second());
+		R retval = accessFunction.applyCharObjInt(tuple.first(), a1, tuple.second());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntCharFunction.LCharIntObjFunc<T, R> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		R retval = accessFunction.doApplyCharIntObj(tuple.first(), tuple.second(), a1);
+		R retval = accessFunction.applyCharIntObj(tuple.first(), tuple.second(), a1);
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieCharFunction<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		int retval = accessFunction.doApplyAsInt(a1, tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsInt(a1, tuple.second(), tuple.first());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieCharFunction.LObjCharIntToIntFunc<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		int retval = accessFunction.doApplyAsIntObjCharInt(a1, tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntObjCharInt(a1, tuple.first(), tuple.second());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieCharFunction.LIntObjCharToIntFunc<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		int retval = accessFunction.doApplyAsIntIntObjChar(tuple.second(), a1, tuple.first());
+		int retval = accessFunction.applyAsIntIntObjChar(tuple.second(), a1, tuple.first());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieCharFunction.LIntCharObjToIntFunc<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		int retval = accessFunction.doApplyAsIntIntCharObj(tuple.second(), tuple.first(), a1);
+		int retval = accessFunction.applyAsIntIntCharObj(tuple.second(), tuple.first(), a1);
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieCharFunction.LCharObjIntToIntFunc<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		int retval = accessFunction.doApplyAsIntCharObjInt(tuple.first(), a1, tuple.second());
+		int retval = accessFunction.applyAsIntCharObjInt(tuple.first(), a1, tuple.second());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieCharFunction.LCharIntObjToIntFunc<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		int retval = accessFunction.doApplyAsIntCharIntObj(tuple.first(), tuple.second(), a1);
+		int retval = accessFunction.applyAsIntCharIntObj(tuple.first(), tuple.second(), a1);
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LCharIntPredicate accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LCharIntPredicate.LIntCharPred accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTestIntChar(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testIntChar(tuple.second(), tuple.first());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntCharPredicate<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTest(a1, tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(a1, tuple.second(), tuple.first());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntCharPredicate.LObjCharIntPred<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTestObjCharInt(a1, tuple.first(), tuple.second());
+		boolean retval = accessFunction.testObjCharInt(a1, tuple.first(), tuple.second());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntCharPredicate.LIntObjCharPred<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTestIntObjChar(tuple.second(), a1, tuple.first());
+		boolean retval = accessFunction.testIntObjChar(tuple.second(), a1, tuple.first());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntCharPredicate.LIntCharObjPred<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTestIntCharObj(tuple.second(), tuple.first(), a1);
+		boolean retval = accessFunction.testIntCharObj(tuple.second(), tuple.first(), a1);
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntCharPredicate.LCharObjIntPred<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTestCharObjInt(tuple.first(), a1, tuple.second());
+		boolean retval = accessFunction.testCharObjInt(tuple.first(), a1, tuple.second());
 		releaseCharIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntCharPredicate.LCharIntObjPred<T> accessFunction) {
 		LCharIntPair tuple = accessCharIntPair();
-		boolean retval = accessFunction.doTestCharIntObj(tuple.first(), tuple.second(), a1);
+		boolean retval = accessFunction.testCharIntObj(tuple.first(), tuple.second(), a1);
 		releaseCharIntPair(tuple);
 		return retval;
 	}

@@ -82,13 +82,12 @@ public interface LToCharFunctionAssert<S extends LToCharFunctionAssert<S, A, RS,
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, Character> doesApplyAsChar(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a));
+				return assertFactory.apply(actual.applyAsChar(a));
 			});
-
 		}
 
 	}

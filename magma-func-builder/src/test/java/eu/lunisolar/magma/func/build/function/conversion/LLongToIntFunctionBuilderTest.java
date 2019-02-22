@@ -69,7 +69,7 @@ public class LLongToIntFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsInt(100L);
+            function.applyAsInt(100L);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLongToIntFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt(100L);
+            function.applyAsInt(100L);
 
             fail("No exception were thrown.");
         })

@@ -69,7 +69,7 @@ public class LSrtUnaryOperatorBuilderTest{
                 .build()
             );
 
-            function.doApplyAsSrt((short)100);
+            function.applyAsSrt((short)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSrtUnaryOperatorBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsSrt((short)100);
+            function.applyAsSrt((short)100);
 
             fail("No exception were thrown.");
         })

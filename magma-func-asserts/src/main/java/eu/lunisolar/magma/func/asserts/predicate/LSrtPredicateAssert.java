@@ -82,13 +82,12 @@ public interface LSrtPredicateAssert<S extends LSrtPredicateAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LSrtConsumer, A, RS, Boolean> doesTest(short a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

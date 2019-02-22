@@ -79,14 +79,13 @@ public interface LBoolConsumerAssert<S extends LBoolConsumerAssert<S, A>, A exte
 		@Nonnull
 		public SemiEvaluation<S, LBoolConsumer, A> doesAccept(boolean a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				actual.doAccept(a);
+				actual.accept(a);
 				return null;
 			});
-
 		}
 
 	}

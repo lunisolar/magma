@@ -65,14 +65,14 @@ public class LObjLongFunctionTest<T,R> {
 
 
     private LObjLongFunction<Integer,Integer> sut = new LObjLongFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,long a2)  {
+        public @Nullable Integer applyX(Integer a1,long a2)  {
             return testValue;
         }
     };
 
 
     private LObjLongFunction<Integer,Integer> sutNull = new LObjLongFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,long a2)  {
+        public @Nullable Integer applyX(Integer a1,long a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LObjLongFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100L))
+        assertThat(sut.apply(100,100L))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LObjLongFunctionTest<T,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100L))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100L))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100L);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LObjLongFunctionTest<T,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100L);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LObjLongFunctionTest<T,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjLongFunction: R doApply(T a1,long a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LObjLongFunction: R apply(T a1,long a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100L);
+        sutNull.nonNullApply(100,100L);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjLongFunction: R doApply(T a1,long a2)");
+            .isEqualTo("LObjLongFunction: R apply(T a1,long a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LObjLongFunctionTest<T,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjLongFuncComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LObjLongFunctionTest<T,R> {
         };
 
         //when
-        LObjLongFunction<Integer,Integer> function = sutO.objLongFuncComposeLong(before1,before2);
-        function.doApply(80,81L);
+        LObjLongFunction<Integer,Integer> function = sutO.compose(before1,before2);
+        function.apply(80,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LObjLongFunctionTest<T,R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.objLongFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LObjLongFunctionTest<T,R> {
 
         //when
         LObjLongFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81L);
+        Integer finalValue = function.apply(80,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LObjLongFunctionTest<T,R> {
 
         //when
         LObjLongConsumer<Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81L);
+        function.accept(80,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LObjLongFunctionTest<T,R> {
 
         //when
         LObjLongPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81L);
+        boolean finalValue = function.test(80,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -345,20 +345,6 @@ public class LObjLongFunctionTest<T,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -369,7 +355,7 @@ public class LObjLongFunctionTest<T,R> {
         });
 
         // when
-        sutThrowing.shovingObjLongFunc().doApply(100,100L);
+        sutThrowing.shovingApply(100,100L);
     }
 
 
@@ -382,7 +368,7 @@ public class LObjLongFunctionTest<T,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjLongFunction: R doApply(T a1,long a2)");
+                .contains("LObjLongFunction: R apply(T a1,long a2)");
     }
 
 

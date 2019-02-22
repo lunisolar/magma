@@ -34,26 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LSrtConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtSingle extends LTuple<Short> {
+public interface LSrtSingle extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	short value();
 
-	default short getValue() {
+	default short first() {
 		return value();
 	}
 
-	default Short get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default short getShort(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -98,63 +89,8 @@ public interface LSrtSingle extends LTuple<Short> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Short[] toVoArray(Short[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Short[] toVoArray(Short[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Short[] toVoArray() {
-		Short[] array = new Short[size()];
-
-		return toVoArray(array);
-	}
-
-	default short[] toSrtArray(short[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default short[] toSrtArray(short[] array) {
-		return toSrtArray(array, 0);
-	}
-
-	default short[] toSrtArray() {
-		short[] array = new short[size()];
-
-		return toSrtArray(array);
-	}
-
-	@Override
-	default Iterator<Short> iterator() {
-		return new Iterator<Short>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -164,27 +100,9 @@ public interface LSrtSingle extends LTuple<Short> {
 			}
 
 			@Override
-			public Short next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public int nextInt() {
-				index++;
-				return getShort(index);
 			}
 		};
 	}
@@ -202,7 +120,7 @@ public interface LSrtSingle extends LTuple<Short> {
 
 	}
 
-	abstract class AbstractSrtSingle extends Number implements LSrtSingle {
+	abstract class AbstractSrtSingle implements LSrtSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -218,40 +136,11 @@ public interface LSrtSingle extends LTuple<Short> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
-
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
-
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
-
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
-
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
-
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
 	}
 
 	/**
@@ -289,7 +178,7 @@ public interface LSrtSingle extends LTuple<Short> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutSrtSingle setValueIfArg(short value, LSrtPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -298,14 +187,14 @@ public interface LSrtSingle extends LTuple<Short> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutSrtSingle setValueIfArgNotNull(R arg, LToSrtFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsSrt(arg);
+				this.value = func.applyAsSrt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutSrtSingle setValueIf(LSrtPredicate predicate, short value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -314,7 +203,7 @@ public interface LSrtSingle extends LTuple<Short> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutSrtSingle setValueIf(short value, LBiSrtPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -323,7 +212,7 @@ public interface LSrtSingle extends LTuple<Short> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutSrtSingle setValueIf(LBiSrtPredicate predicate, short value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -369,7 +258,7 @@ public interface LSrtSingle extends LTuple<Short> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompSrtSingle setValueIfArg(short value, LSrtPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -378,14 +267,14 @@ public interface LSrtSingle extends LTuple<Short> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompSrtSingle setValueIfArgNotNull(R arg, LToSrtFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsSrt(arg);
+				this.value = func.applyAsSrt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompSrtSingle setValueIf(LSrtPredicate predicate, short value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -394,7 +283,7 @@ public interface LSrtSingle extends LTuple<Short> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompSrtSingle setValueIf(short value, LBiSrtPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -403,7 +292,7 @@ public interface LSrtSingle extends LTuple<Short> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompSrtSingle setValueIf(LBiSrtPredicate predicate, short value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;

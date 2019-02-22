@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aFloat> { // NOSONAR
 
-	String DESCRIPTION = "LFltToIntFunction: int doApplyAsInt(float a)";
+	String DESCRIPTION = "LFltToIntFunction: int applyAsInt(float a)";
 
-	// int doApplyAsInt(float a) ;
-	default int doApplyAsInt(float a) {
-		// return nestingDoApplyAsInt(a);
+	// int applyAsInt(float a) ;
+	default int applyAsInt(float a) {
+		// return nestingApplyAsInt(a);
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsInt(float a)
+	 * Implement this, but call applyAsInt(float a)
 	 */
-	int doApplyAsIntX(float a) throws Throwable;
+	int applyAsIntX(float a) throws Throwable;
 
 	default int tupleApplyAsInt(LFltSingle args) {
-		return doApplyAsInt(args.value());
+		return applyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default int handlingDoApplyAsInt(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default int handlingApplyAsInt(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default int tryDoApplyAsInt(float a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LFltToIntFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsInt(a, handling);
+	}
+
+	default int applyAsInt(float a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default int tryDoApplyAsInt(float a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LFltToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsInt(a, exF, newMessage, messageParams);
+	}
+
+	default int applyAsInt(float a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default int tryDoApplyAsIntThen(float a, @Nonnull LToIntFunction<Throwable> handler) {
+	default LFltToIntFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsInt(a, exF);
+	}
+
+	default int applyAsIntThen(float a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsInt(e);
+			return handler.applyAsInt(e);
 		}
+	}
+
+	default LFltToIntFunction tryingThen(@Nonnull LToIntFunction<Throwable> handler) {
+		return a -> applyAsIntThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(float a) {
+	default int nestingApplyAsInt(float a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(float a) {
+	default int shovingApplyAsInt(float a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static int handlingDoApplyAsInt(float a, LFltToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(float a, LFltToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsInt(a, handling);
+		return func.handlingApplyAsInt(a, handling);
 	}
 
-	static int tryDoApplyAsInt(float a, LFltToIntFunction func) {
-		return tryDoApplyAsInt(a, func, null);
-	}
-
-	static int tryDoApplyAsInt(float a, LFltToIntFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static int tryApplyAsInt(float a, LFltToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryDoApplyAsInt(float a, LFltToIntFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static int tryApplyAsInt(float a, LFltToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory);
+		return func.applyAsInt(a, exF, newMessage, messageParams);
 	}
 
-	static int tryDoApplyAsIntThen(float a, LFltToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+	static int tryApplyAsInt(float a, LFltToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsIntThen(a, handler);
+		return func.applyAsInt(a, exF);
 	}
 
-	default int failSafeDoApplyAsInt(float a, @Nonnull LFltToIntFunction failSafe) {
+	static int tryApplyAsIntThen(float a, LFltToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsIntThen(a, handler);
+	}
+
+	default int failSafeApplyAsInt(float a, @Nonnull LFltToIntFunction failSafe) {
 		try {
-			return doApplyAsInt(a);
+			return applyAsInt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		}
 	}
 
-	static int failSafeDoApplyAsInt(float a, LFltToIntFunction func, @Nonnull LFltToIntFunction failSafe) {
+	static int failSafeApplyAsInt(float a, LFltToIntFunction func, @Nonnull LFltToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		} else {
-			return func.failSafeDoApplyAsInt(a, failSafe);
+			return func.failSafeApplyAsInt(a, failSafe);
 		}
 	}
 
-	static LFltToIntFunction failSafeFltToIntFunc(LFltToIntFunction func, @Nonnull LFltToIntFunction failSafe) {
+	static LFltToIntFunction failSafe(LFltToIntFunction func, @Nonnull LFltToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsInt(a, func, failSafe);
+		return a -> failSafeApplyAsInt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(float a) {
-		return doApplyAsInt(a);
+	default int nonNullApplyAsInt(float a) {
+		return applyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, float a, LFltToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, float a, LFltToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, float a, LFltToIntFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureFltToIntFunc(float a) {
-		return () -> this.doApplyAsInt(a);
+	default LIntSupplier capture(float a) {
+		return () -> this.applyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	static LFltToIntFunction recursive(final @Nonnull LFunction<LFltToIntFunction, LFltToIntFunction> selfLambda) {
 		final LFltToIntFunctionSingle single = new LFltToIntFunctionSingle();
-		LFltToIntFunction func = selfLambda.doApply(single);
+		LFltToIntFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		private LFltToIntFunction target = null;
 
 		@Override
-		public int doApplyAsIntX(float a) throws Throwable {
-			return target.doApplyAsIntX(a);
+		public int applyAsIntX(float a) throws Throwable {
+			return target.applyAsIntX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static LFltToIntFunction fltToIntFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LFltToIntFunction fltToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LFltToIntFunction fltToIntFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LFltToIntFunction fltToIntFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static int call(float a, final @Nonnull LFltToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a);
+		return lambda.applyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFltToIntFunction fltToIntFuncComposeFlt(@Nonnull final LFltUnaryOperator before) {
+	default LFltToIntFunction compose(@Nonnull final LFltUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsFlt(v));
+		return v -> this.applyAsInt(before.applyAsFlt(v));
 	}
 
-	public static LFltToIntFunction composedFlt(@Nonnull final LFltUnaryOperator before, LFltToIntFunction after) {
-		return after.fltToIntFuncComposeFlt(before);
+	public static LFltToIntFunction composed(@Nonnull final LFltUnaryOperator before, LFltToIntFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToIntFunction<V> fltToIntFuncCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsFlt(v));
+		return v -> this.applyAsInt(before.applyAsFlt(v));
 	}
 
 	public static <V> LToIntFunction<V> composed(@Nonnull final LToFltFunction<? super V> before, LFltToIntFunction after) {
@@ -364,79 +383,68 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LFltFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsInt(a));
+		return a -> after.apply(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
+		return a -> after.applyAsByte(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToSrtFunction thenToSrt(@Nonnull LIntToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsInt(a));
+		return a -> after.applyAsSrt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
+		return a -> after.applyAsInt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
+		return a -> after.applyAsLong(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltUnaryOperator thenToFlt(@Nonnull LIntToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsInt(a));
+		return a -> after.applyAsFlt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToDblFunction thenToDbl(@Nonnull LIntToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsInt(a));
+		return a -> after.applyAsDbl(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
+		return a -> after.applyAsChar(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsInt(a));
+		return a -> after.test(this.applyAsInt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LFltToIntFunction nestingFltToIntFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFltToIntFunction shovingFltToIntFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		return Function4U.defaultInteger;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=float a, type=IA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aFloat> ia, C0 source, LIntConsumer consumer) {
 		int size = ia.size(source);
 		LOiToFltFunction<Object> oiFunc0 = (LOiToFltFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			float a = oiFunc0.doApplyAsFlt(source, i);
-			consumer.doAccept(this.doApplyAsInt(a));
+			float a = oiFunc0.applyAsFlt(source, i);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=float a, type=SA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aFloat> sa, C0 source, LIntConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			float a = nextFunc0.doApplyAsFlt(iterator0);
-			consumer.doAccept(this.doApplyAsInt(a));
+		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			float a = nextFunc0.applyAsFlt(iterator0);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 

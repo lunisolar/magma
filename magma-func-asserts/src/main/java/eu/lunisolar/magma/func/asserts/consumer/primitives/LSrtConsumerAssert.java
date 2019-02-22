@@ -79,14 +79,13 @@ public interface LSrtConsumerAssert<S extends LSrtConsumerAssert<S, A>, A extend
 		@Nonnull
 		public SemiEvaluation<S, LSrtConsumer, A> doesAccept(short a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				actual.doAccept(a);
+				actual.accept(a);
 				return null;
 			});
-
 		}
 
 	}

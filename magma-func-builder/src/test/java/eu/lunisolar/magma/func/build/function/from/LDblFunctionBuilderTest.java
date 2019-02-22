@@ -69,7 +69,7 @@ public class LDblFunctionBuilderTest<R>{
                 .build()
             );
 
-            function.doApply(100d);
+            function.apply(100d);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LDblFunctionBuilderTest<R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(100d);
+            function.apply(100d);
 
             fail("No exception were thrown.");
         })

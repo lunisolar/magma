@@ -72,8 +72,8 @@ public class LObjLongFuncMemento<T, R> implements LObjLongFunction<T, R> {
 	}
 
 	@Override
-	public R doApplyX(T a1, long a2) {
-		return lastValue = function.doApply(a1, a2);
+	public R applyX(T a1, long a2) {
+		return lastValue = function.apply(a1, a2);
 	}
 
 	public R lastValue() {

@@ -80,8 +80,10 @@ public final class LDblToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LDblToCharFunction dblToCharFunctionFrom(Function<LDblToCharFunctionBuilder, LDblToCharFunction> buildingFunction) {
-		return buildingFunction.apply(new LDblToCharFunctionBuilder());
+	public static LDblToCharFunction dblToCharFunctionFrom(Consumer<LDblToCharFunctionBuilder> buildingFunction) {
+		LDblToCharFunctionBuilder builder = new LDblToCharFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LDblToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 		retval = LDblToCharFunction.dblToCharFunc(a -> {
 			try {
 				for (Case<LDblPredicate, LDblToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsChar(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a);
+				return eventuallyFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -72,8 +72,8 @@ public class LToByteBiFuncMemento<T1, T2> implements LToByteBiFunction<T1, T2> {
 	}
 
 	@Override
-	public byte doApplyAsByteX(T1 a1, T2 a2) {
-		return lastValue = function.doApplyAsByte(a1, a2);
+	public byte applyAsByteX(T1 a1, T2 a2) {
+		return lastValue = function.applyAsByte(a1, a2);
 	}
 
 	public byte lastValue() {

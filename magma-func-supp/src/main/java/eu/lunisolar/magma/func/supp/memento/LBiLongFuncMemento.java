@@ -72,8 +72,8 @@ public class LBiLongFuncMemento<R> implements LBiLongFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(long a1, long a2) {
-		return lastValue = function.doApply(a1, a2);
+	public R applyX(long a1, long a2) {
+		return lastValue = function.apply(a1, a2);
 	}
 
 	public R lastValue() {

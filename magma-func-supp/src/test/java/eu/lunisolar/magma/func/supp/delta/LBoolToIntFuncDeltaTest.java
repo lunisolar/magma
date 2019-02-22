@@ -55,7 +55,7 @@ public class LBoolToIntFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt(true))
+        assertThat(sut.applyAsInt(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBoolToIntFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(true))
+        assertThat(sut.applyAsInt(true))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

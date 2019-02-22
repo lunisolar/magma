@@ -82,13 +82,12 @@ public interface LObjFltPredicateAssert<S extends LObjFltPredicateAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LObjFltConsumer<T>, A, RS, Boolean> doesTest(T a1, float a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doTest(a1, a2));
+				return assertFactory.apply(actual.test(a1, a2));
 			});
-
 		}
 
 	}

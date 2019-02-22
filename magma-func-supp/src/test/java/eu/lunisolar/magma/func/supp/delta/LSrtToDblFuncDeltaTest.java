@@ -55,7 +55,7 @@ public class LSrtToDblFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsDbl((short)100))
+        assertThat(sut.applyAsDbl((short)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LSrtToDblFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDbl((short)100))
+        assertThat(sut.applyAsDbl((short)100))
             .isEqualTo(9d);
 
         assertThat(functionCallCount).isEqualTo(2);

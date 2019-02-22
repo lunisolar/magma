@@ -72,8 +72,8 @@ public class LIntBinaryOpMemento implements LIntBinaryOperator {
 	}
 
 	@Override
-	public int doApplyAsIntX(int a1, int a2) {
-		return lastValue = function.doApplyAsInt(a1, a2);
+	public int applyAsIntX(int a1, int a2) {
+		return lastValue = function.applyAsInt(a1, a2);
 	}
 
 	public int lastValue() {

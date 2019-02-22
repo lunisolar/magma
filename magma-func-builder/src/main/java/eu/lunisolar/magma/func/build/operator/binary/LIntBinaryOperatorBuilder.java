@@ -80,8 +80,10 @@ public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LIntBinaryOperator intBinaryOperatorFrom(Function<LIntBinaryOperatorBuilder, LIntBinaryOperator> buildingFunction) {
-		return buildingFunction.apply(new LIntBinaryOperatorBuilder());
+	public static LIntBinaryOperator intBinaryOperatorFrom(Consumer<LIntBinaryOperatorBuilder> buildingFunction) {
+		LIntBinaryOperatorBuilder builder = new LIntBinaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduc
 		retval = LIntBinaryOperator.intBinaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiIntPredicate, LIntBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doApplyAsInt(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().applyAsInt(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a1, a2);
+				return eventuallyFinal.applyAsInt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

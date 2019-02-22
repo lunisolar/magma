@@ -72,7 +72,7 @@ public class LBoolIntPredicateAssertTest {
 
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case .* should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertBoolIntPred(functionThrowing)

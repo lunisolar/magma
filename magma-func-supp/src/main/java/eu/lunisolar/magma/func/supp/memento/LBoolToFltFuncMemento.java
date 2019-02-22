@@ -72,8 +72,8 @@ public class LBoolToFltFuncMemento implements LBoolToFltFunction {
 	}
 
 	@Override
-	public float doApplyAsFltX(boolean a) {
-		return lastValue = function.doApplyAsFlt(a);
+	public float applyAsFltX(boolean a) {
+		return lastValue = function.applyAsFlt(a);
 	}
 
 	public float lastValue() {

@@ -55,7 +55,7 @@ public class LByteToCharFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar((byte)100))
+        assertThat(sut.applyAsChar((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LByteToCharFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar((byte)100))
+        assertThat(sut.applyAsChar((byte)100))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

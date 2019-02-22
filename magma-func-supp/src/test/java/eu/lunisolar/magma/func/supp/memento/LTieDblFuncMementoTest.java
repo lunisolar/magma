@@ -54,7 +54,7 @@ public class LTieDblFuncMementoTest <T> {
         assertThat(sut.lastValue())
             .isEqualTo(0);
 
-        assertThat(sut.doApplyAsInt(100,100,100d))
+        assertThat(sut.applyAsInt(100,100,100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LTieDblFuncMementoTest <T> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100,100,100d))
+        assertThat(sut.applyAsInt(100,100,100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

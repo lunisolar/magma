@@ -65,7 +65,7 @@ public class LFltToIntFunctionTest {
 
 
     private LFltToIntFunction sut = new LFltToIntFunction(){
-        public  int doApplyAsIntX(float a)  {
+        public  int applyAsIntX(float a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LFltToIntFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100f))
+        assertThat(sut.applyAsInt(100f))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LFltToIntFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100f))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100f))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100f);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LFltToIntFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100f);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LFltToIntFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltToIntFunction: int doApplyAsInt(float a)");
+            .isEqualTo("LFltToIntFunction: int applyAsInt(float a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LFltToIntFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testFltToIntFuncComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LFltToIntFunctionTest {
         };
 
         //when
-        LFltToIntFunction function = sutO.fltToIntFuncComposeFlt(before);
-        function.doApplyAsInt(80f);
+        LFltToIntFunction function = sutO.compose(before);
+        function.applyAsInt(80f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LToIntFunction<Integer> function = sutO.fltToIntFuncCompose(before);
-        function.doApplyAsInt(80);
+        function.applyAsInt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80f);
+        Integer finalValue = function.apply(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80f);
+        byte finalValue = function.applyAsByte(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80f);
+        short finalValue = function.applyAsSrt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80f);
+        int finalValue = function.applyAsInt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80f);
+        long finalValue = function.applyAsLong(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltUnaryOperator function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80f);
+        float finalValue = function.applyAsFlt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80f);
+        double finalValue = function.applyAsDbl(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80f);
+        char finalValue = function.applyAsChar(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LFltToIntFunctionTest {
 
         //when
         LFltPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80f);
+        boolean finalValue = function.test(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LFltToIntFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingFltToIntFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LFltToIntFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingFltToIntFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LFltToIntFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LFltToIntFunctionTest {
         });
 
         // when
-        sutThrowing.shovingFltToIntFunc().doApplyAsInt(100f);
+        sutThrowing.shovingApplyAsInt(100f);
     }
 
 
@@ -563,7 +549,7 @@ public class LFltToIntFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFltToIntFunction: int doApplyAsInt(float a)");
+                .contains("LFltToIntFunction: int applyAsInt(float a)");
     }
 
 

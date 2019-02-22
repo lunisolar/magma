@@ -77,8 +77,8 @@ public class LIntFuncDelta<R> extends LIntFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(int a) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a));
+	public R apply(int a) {
+		return deltaFunction.apply(lastValue(), super.apply(a));
 	}
 
 	// <editor-fold desc="object">

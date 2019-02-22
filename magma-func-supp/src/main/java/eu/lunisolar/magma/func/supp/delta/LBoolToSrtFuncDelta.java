@@ -89,8 +89,8 @@ public class LBoolToSrtFuncDelta extends LBoolToSrtFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsSrt(boolean a) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a));
+	public short applyAsSrt(boolean a) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a));
 	}
 
 	// <editor-fold desc="object">

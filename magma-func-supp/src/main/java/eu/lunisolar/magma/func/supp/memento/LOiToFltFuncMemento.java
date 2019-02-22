@@ -72,8 +72,8 @@ public class LOiToFltFuncMemento<T> implements LOiToFltFunction<T> {
 	}
 
 	@Override
-	public float doApplyAsFltX(T a1, int a2) {
-		return lastValue = function.doApplyAsFlt(a1, a2);
+	public float applyAsFltX(T a1, int a2) {
+		return lastValue = function.applyAsFlt(a1, a2);
 	}
 
 	public float lastValue() {

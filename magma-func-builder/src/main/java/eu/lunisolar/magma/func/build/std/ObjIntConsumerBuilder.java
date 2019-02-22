@@ -80,8 +80,10 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> ObjIntConsumer<T> objIntConsumerFrom(Function<ObjIntConsumerBuilder<T>, ObjIntConsumer<T>> buildingFunction) {
-		return buildingFunction.apply(new ObjIntConsumerBuilder());
+	public static <T> ObjIntConsumer<T> objIntConsumerFrom(Consumer<ObjIntConsumerBuilder<T>> buildingFunction) {
+		ObjIntConsumerBuilder builder = new ObjIntConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 		retval = Function4U.<T> objIntCons((a1, a2) -> {
 			try {
 				for (Case<LObjIntPredicate<T>, ObjIntConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
+					if (aCase.casePredicate().test(a1, a2)) {
 						aCase.caseFunction().accept(a1, a2);
 						return;
 					}

@@ -72,8 +72,8 @@ public class LDblFuncMemento<R> implements LDblFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(double a) {
-		return lastValue = function.doApply(a);
+	public R applyX(double a) {
+		return lastValue = function.apply(a);
 	}
 
 	public R lastValue() {

@@ -72,8 +72,8 @@ public class LIntToFltFuncMemento implements LIntToFltFunction {
 	}
 
 	@Override
-	public float doApplyAsFltX(int a) {
-		return lastValue = function.doApplyAsFlt(a);
+	public float applyAsFltX(int a) {
+		return lastValue = function.applyAsFlt(a);
 	}
 
 	public float lastValue() {

@@ -54,7 +54,7 @@ public class LBiObjBoolFuncMementoTest <T1,T2,R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply(100,100,true))
+        assertThat(sut.apply(100,100,true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBiObjBoolFuncMementoTest <T1,T2,R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100,100,true))
+        assertThat(sut.apply(100,100,true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

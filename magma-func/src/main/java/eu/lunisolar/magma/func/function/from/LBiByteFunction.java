@@ -66,135 +66,152 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain2<aByte, aByte> { // NOSONAR
 
-	String DESCRIPTION = "LBiByteFunction: R doApply(byte a1,byte a2)";
+	String DESCRIPTION = "LBiByteFunction: R apply(byte a1,byte a2)";
 
 	@Nullable
-	// R doApply(byte a1,byte a2) ;
-	default R doApply(byte a1, byte a2) {
-		// return nestingDoApply(a1,a2);
+	// R apply(byte a1,byte a2) ;
+	default R apply(byte a1, byte a2) {
+		// return nestingApply(a1,a2);
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApply(byte a1,byte a2)
+	 * Implement this, but call apply(byte a1,byte a2)
 	 */
-	R doApplyX(byte a1, byte a2) throws Throwable;
+	R applyX(byte a1, byte a2) throws Throwable;
 
 	default R tupleApply(LBytePair args) {
-		return doApply(args.first(), args.second());
+		return apply(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default R handlingDoApply(byte a1, byte a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default R handlingApply(byte a1, byte a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default R tryDoApply(byte a1, byte a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiByteFunction<R> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingApply(a1, a2, handling);
+	}
+
+	default R apply(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default R tryDoApply(byte a1, byte a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default R apply(byte a1, byte a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default R tryDoApplyThen(byte a1, byte a2, @Nonnull LFunction<Throwable, R> handler) {
+	default LBiByteFunction<R> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> apply(a1, a2, exF);
+	}
+
+	default R applyThen(byte a1, byte a2, @Nonnull LFunction<Throwable, R> handler) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApply(e);
+			return handler.apply(e);
 		}
+	}
+
+	default LBiByteFunction<R> tryingThen(@Nonnull LFunction<Throwable, R> handler) {
+		return (a1, a2) -> applyThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(byte a1, byte a2) {
+	default R nestingApply(byte a1, byte a2) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default R shovingDoApply(byte a1, byte a2) {
+	default R shovingApply(byte a1, byte a2) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <R> R handlingDoApply(byte a1, byte a2, LBiByteFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(byte a1, byte a2, LBiByteFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApply(a1, a2, handling);
+		return func.handlingApply(a1, a2, handling);
 	}
 
-	static <R> R tryDoApply(byte a1, byte a2, LBiByteFunction<R> func) {
-		return tryDoApply(a1, a2, func, null);
-	}
-
-	static <R> R tryDoApply(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <R> R tryApply(byte a1, byte a2, LBiByteFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingApply(a1, a2);
 	}
 
-	static <R> R tryDoApply(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <R> R tryApply(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, exceptionFactory);
+		return func.apply(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static <R> R tryDoApplyThen(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+	static <R> R tryApply(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyThen(a1, a2, handler);
+		return func.apply(a1, a2, exF);
 	}
 
-	default R failSafeDoApply(byte a1, byte a2, @Nonnull LBiByteFunction<R> failSafe) {
+	static <R> R tryApplyThen(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyThen(a1, a2, handler);
+	}
+
+	default R failSafeApply(byte a1, byte a2, @Nonnull LBiByteFunction<R> failSafe) {
 		try {
-			return doApply(a1, a2);
+			return apply(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApply(a1, a2);
+			return failSafe.apply(a1, a2);
 		}
 	}
 
-	static <R> R failSafeDoApply(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull LBiByteFunction<R> failSafe) {
+	static <R> R failSafeApply(byte a1, byte a2, LBiByteFunction<R> func, @Nonnull LBiByteFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApply(a1, a2);
+			return failSafe.apply(a1, a2);
 		} else {
-			return func.failSafeDoApply(a1, a2, failSafe);
+			return func.failSafeApply(a1, a2, failSafe);
 		}
 	}
 
-	static <R> LBiByteFunction<R> failSafeBiByteFunc(LBiByteFunction<R> func, @Nonnull LBiByteFunction<R> failSafe) {
+	static <R> LBiByteFunction<R> failSafe(LBiByteFunction<R> func, @Nonnull LBiByteFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoApply(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeApply(a1, a2, func, failSafe);
 	}
 
-	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(byte a1, byte a2) {
-		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullApply(byte a1, byte a2) {
+		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -206,13 +223,13 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTo(int min_i, int max_i, byte a1, byte a2, LBiByteFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		}
 	}
@@ -220,28 +237,30 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTill(int min_i, int max_i, byte a1, byte a2, LBiByteFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void times(int max_i, byte a1, byte a2, LBiByteFunction<R> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LByteFunction<R> lShrink(LByteUnaryOperator left) {
-		return a2 -> doApply(left.doApplyAsByte(a2), a2);
+		return a2 -> apply(left.applyAsByte(a2), a2);
 	}
 
 	public default LByteFunction<R> lShrinkc(byte a1) {
-		return a2 -> doApply(a1, a2);
+		return a2 -> apply(a1, a2);
 	}
 
 	public static <R> LByteFunction<R> lShrinked(LByteUnaryOperator left, LBiByteFunction<R> func) {
@@ -253,11 +272,11 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	public default LByteFunction<R> rShrink(LByteUnaryOperator right) {
-		return a1 -> doApply(a1, right.doApplyAsByte(a1));
+		return a1 -> apply(a1, right.applyAsByte(a1));
 	}
 
 	public default LByteFunction<R> rShrinkc(byte a2) {
-		return a1 -> doApply(a1, a2);
+		return a1 -> apply(a1, a2);
 	}
 
 	public static <R> LByteFunction<R> rShrinked(LByteUnaryOperator right, LBiByteFunction<R> func) {
@@ -269,13 +288,28 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/**  */
-	public static <R> LBiByteFunction<R> uncurryBiByteFunc(LByteFunction<LByteFunction<R>> func) {
-		return (byte a1, byte a2) -> func.doApply(a1).doApply(a2);
+	public static <R> LBiByteFunction<R> uncurry(LByteFunction<LByteFunction<R>> func) {
+		return (byte a1, byte a2) -> func.apply(a1).apply(a2);
+	}
+
+	/** Cast that removes generics. */
+	public default LBiByteFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LBiByteFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, R> LBiByteFunction<V2> cast(LBiByteFunction<R> function) {
+		return (LBiByteFunction) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureBiByteFunc(byte a1, byte a2) {
-		return () -> this.doApply(a1, a2);
+	default LSupplier<R> capture(byte a1, byte a2) {
+		return () -> this.apply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -286,13 +320,13 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <R> LBiByteFunction<R> apply1st(@Nonnull LByteFunction<R> func) {
-		return (a1, a2) -> func.doApply(a1);
+		return (a1, a2) -> func.apply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <R> LBiByteFunction<R> apply2nd(@Nonnull LByteFunction<R> func) {
-		return (a1, a2) -> func.doApply(a2);
+		return (a1, a2) -> func.apply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -305,7 +339,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	static <R> LBiByteFunction<R> recursive(final @Nonnull LFunction<LBiByteFunction<R>, LBiByteFunction<R>> selfLambda) {
 		final LBiByteFunctionSingle<R> single = new LBiByteFunctionSingle();
-		LBiByteFunction<R> func = selfLambda.doApply(single);
+		LBiByteFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -314,8 +348,8 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		private LBiByteFunction<R> target = null;
 
 		@Override
-		public R doApplyX(byte a1, byte a2) throws Throwable {
-			return target.doApplyX(a1, a2);
+		public R applyX(byte a1, byte a2) throws Throwable {
+			return target.applyX(a1, a2);
 		}
 
 		@Override
@@ -325,18 +359,18 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static <R> LBiByteFunction<R> biByteFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LBiByteFunction<R> biByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <R> LBiByteFunction<R> biByteFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LBiByteFunction<R> biByteFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -353,7 +387,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	static <R> R call(byte a1, byte a2, final @Nonnull LBiByteFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a1, a2);
+		return lambda.apply(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -400,14 +434,14 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiByteFunction<R> biByteFuncComposeByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
+	default LBiByteFunction<R> compose(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.apply(before1.applyAsByte(v1), before2.applyAsByte(v2));
 	}
 
-	public static <R> LBiByteFunction<R> composedByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, LBiByteFunction<R> after) {
-		return after.biByteFuncComposeByte(before1, before2);
+	public static <R> LBiByteFunction<R> composed(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, LBiByteFunction<R> after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -415,7 +449,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default <V1, V2> LBiFunction<V1, V2, R> biByteFuncCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.apply(before1.applyAsByte(v1), before2.applyAsByte(v2));
 	}
 
 	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2, LBiByteFunction<R> after) {
@@ -430,22 +464,22 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default <V> LBiByteFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.apply(this.apply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiByteConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.accept(this.apply(a1, a2));
 	}
 
 	@Nonnull
 	default LBiByteFunction<R> before(@Nonnull LBiByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (a1, a2) -> {
-			before.doAccept(a1, a2);
-			return this.doApply(a1, a2);
+			before.accept(a1, a2);
+			return this.apply(a1, a2);
 		};
 	}
 
@@ -453,8 +487,8 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default LBiByteFunction<R> after(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> {
-			R result = this.doApply(a1, a2);
-			after.doAccept(result);
+			R result = this.apply(a1, a2);
+			after.accept(result);
 			return result;
 		};
 	}
@@ -463,37 +497,26 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default LByteBinaryOperator thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsByte(this.doApply(a1, a2));
+		return (a1, a2) -> after.applyAsByte(this.apply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiBytePredicate thenToBool(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doTest(this.doApply(a1, a2));
+		return (a1, a2) -> after.test(this.apply(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiByteFunction<R> nestingBiByteFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiByteFunction<R> shovingBiByteFunc() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LBiByteFunction<R> nonNullBiByteFunc() {
-		return this::nonNullDoApply;
+	default LBiByteFunction<R> nonNullable() {
+		return this::nonNullApply;
 	}
 
 	// <editor-fold desc="interface variants">
@@ -502,11 +525,11 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LByte1Byte0Func<R> extends LBiByteFunction<R> {
 		@Nullable
-		R doApplyByte1Byte0(byte a2, byte a1);
+		R applyByte1Byte0(byte a2, byte a1);
 
 		@Override
-		default R doApplyX(byte a1, byte a2) {
-			return this.doApplyByte1Byte0(a2, a1);
+		default R applyX(byte a1, byte a2) {
+			return this.applyByte1Byte0(a2, a1);
 		}
 	}
 
@@ -517,7 +540,10 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (R) Function4U.defaultObject;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=byte a1, type=IA}, SourcePurpose{arg=byte a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2> void forEach(IndexedRead<C1, aByte> ia1, C1 source1, IndexedRead<C2, aByte> ia2, C2 source2, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiToByteFunction<Object> oiFunc1 = (LOiToByteFunction) ia1.getter();
@@ -525,56 +551,65 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		LOiToByteFunction<Object> oiFunc2 = (LOiToByteFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			byte a1 = oiFunc1.doApplyAsByte(source1, i);
-			byte a2 = oiFunc2.doApplyAsByte(source2, i);
-			consumer.doAccept(this.doApply(a1, a2));
+			byte a1 = oiFunc1.applyAsByte(source1, i);
+			byte a2 = oiFunc2.applyAsByte(source2, i);
+			consumer.accept(this.apply(a1, a2));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=byte a1, type=SA}, SourcePurpose{arg=byte a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aByte> sa1, C1 source1, IndexedRead<C2, aByte> ia2, C2 source2, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.getter();
+		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToByteFunction<Object> oiFunc2 = (LOiToByteFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			byte a1 = nextFunc1.doApplyAsByte(iterator1);
-			byte a2 = oiFunc2.doApplyAsByte(source2, i);
-			consumer.doAccept(this.doApply(a1, a2));
+		while (testFunc1.test(iterator1) && i < size) {
+			byte a1 = nextFunc1.applyAsByte(iterator1);
+			byte a2 = oiFunc2.applyAsByte(source2, i);
+			consumer.accept(this.apply(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=byte a1, type=IA}, SourcePurpose{arg=byte a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2> void iterate(IndexedRead<C1, aByte> ia1, C1 source1, SequentialRead<C2, I2, aByte> sa2, C2 source2, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiToByteFunction<Object> oiFunc1 = (LOiToByteFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.getter();
+		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			byte a1 = oiFunc1.doApplyAsByte(source1, i);
-			byte a2 = nextFunc2.doApplyAsByte(iterator2);
-			consumer.doAccept(this.doApply(a1, a2));
+		while (i < size && testFunc2.test(iterator2)) {
+			byte a1 = oiFunc1.applyAsByte(source1, i);
+			byte a2 = nextFunc2.applyAsByte(iterator2);
+			consumer.accept(this.apply(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=byte a1, type=SA}, SourcePurpose{arg=byte a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aByte> sa1, C1 source1, SequentialRead<C2, I2, aByte> sa2, C2 source2, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			byte a1 = nextFunc1.doApplyAsByte(iterator1);
-			byte a2 = nextFunc2.doApplyAsByte(iterator2);
-			consumer.doAccept(this.doApply(a1, a2));
+		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			byte a1 = nextFunc1.applyAsByte(iterator1);
+			byte a2 = nextFunc2.applyAsByte(iterator2);
+			consumer.accept(this.apply(a1, a2));
 		}
 	}
 

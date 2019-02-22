@@ -80,8 +80,10 @@ public final class LSrtToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LSrtToDblFunction srtToDblFunctionFrom(Function<LSrtToDblFunctionBuilder, LSrtToDblFunction> buildingFunction) {
-		return buildingFunction.apply(new LSrtToDblFunctionBuilder());
+	public static LSrtToDblFunction srtToDblFunctionFrom(Consumer<LSrtToDblFunctionBuilder> buildingFunction) {
+		LSrtToDblFunctionBuilder builder = new LSrtToDblFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LSrtToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 		retval = LSrtToDblFunction.srtToDblFunc(a -> {
 			try {
 				for (Case<LSrtPredicate, LSrtToDblFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsDbl(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsDbl(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDbl(a);
+				return eventuallyFinal.applyAsDbl(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

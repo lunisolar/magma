@@ -65,7 +65,7 @@ public class LBoolToDblFunctionTest {
 
 
     private LBoolToDblFunction sut = new LBoolToDblFunction(){
-        public  double doApplyAsDblX(boolean a)  {
+        public  double applyAsDblX(boolean a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBoolToDblFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsDbl(true))
+        assertThat(sut.applyAsDbl(true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBoolToDblFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsDbl() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsDbl(true))
+    public void testNonNullApplyAsDbl() throws Throwable {
+        assertThat(sut.nonNullApplyAsDbl(true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsDblUnchecked() throws Throwable {
+    public void testNestingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsDbl(true);
+            sutAlwaysThrowingUnchecked.nestingApplyAsDbl(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBoolToDblFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsDblUnchecked() throws Throwable {
+    public void testShovingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsDbl(true);
+            sutAlwaysThrowingUnchecked.shovingApplyAsDbl(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LBoolToDblFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolToDblFunction: double doApplyAsDbl(boolean a)");
+            .isEqualTo("LBoolToDblFunction: double applyAsDbl(boolean a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LBoolToDblFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBoolToDblFuncComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LBoolToDblFunctionTest {
         };
 
         //when
-        LBoolToDblFunction function = sutO.boolToDblFuncComposeBool(before);
-        function.doApplyAsDbl(true);
+        LBoolToDblFunction function = sutO.compose(before);
+        function.applyAsDbl(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LToDblFunction<Integer> function = sutO.boolToDblFuncCompose(before);
-        function.doApplyAsDbl(80);
+        function.applyAsDbl(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true);
+        Integer finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(true);
+        byte finalValue = function.applyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(true);
+        short finalValue = function.applyAsSrt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(true);
+        int finalValue = function.applyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(true);
+        long finalValue = function.applyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(true);
+        float finalValue = function.applyAsFlt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(true);
+        double finalValue = function.applyAsDbl(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LBoolToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(true);
+        char finalValue = function.applyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LBoolToDblFunctionTest {
 
         //when
         LLogicalOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true);
+        boolean finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LBoolToDblFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBoolToDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolToDblFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBoolToDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolToDblFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LBoolToDblFunctionTest {
         });
 
         // when
-        sutThrowing.shovingBoolToDblFunc().doApplyAsDbl(true);
+        sutThrowing.shovingApplyAsDbl(true);
     }
 
 
@@ -563,7 +549,7 @@ public class LBoolToDblFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolToDblFunction: double doApplyAsDbl(boolean a)");
+                .contains("LBoolToDblFunction: double applyAsDbl(boolean a)");
     }
 
 

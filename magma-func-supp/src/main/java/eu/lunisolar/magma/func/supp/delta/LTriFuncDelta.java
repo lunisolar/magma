@@ -77,8 +77,8 @@ public class LTriFuncDelta<T1, T2, T3, R> extends LTriFuncMemento<T1, T2, T3, R>
 	}
 
 	@Override
-	public R doApply(T1 a1, T2 a2, T3 a3) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2, a3));
+	public R apply(T1 a1, T2 a2, T3 a3) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));
 	}
 
 	// <editor-fold desc="object">

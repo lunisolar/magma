@@ -65,7 +65,7 @@ public class LLogicalTernaryOperatorTest {
 
 
     private LLogicalTernaryOperator sut = new LLogicalTernaryOperator(){
-        public  boolean doApplyX(boolean a1,boolean a2,boolean a3)  {
+        public  boolean applyX(boolean a1,boolean a2,boolean a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LLogicalTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(true,true,true))
+        assertThat(sut.apply(true,true,true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LLogicalTernaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(true,true,true))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(true,true,true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(true,true,true);
+            sutAlwaysThrowingUnchecked.nestingApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LLogicalTernaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(true,true,true);
+            sutAlwaysThrowingUnchecked.shovingApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LLogicalTernaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLogicalTernaryOperator: boolean doApply(boolean a1,boolean a2,boolean a3)");
+            .isEqualTo("LLogicalTernaryOperator: boolean apply(boolean a1,boolean a2,boolean a3)");
     }
 
     @Test
@@ -153,7 +153,7 @@ public class LLogicalTernaryOperatorTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doApply(true,true,true))
+        assertThat(sut.negate().apply(true,true,true))
             .isEqualTo(!testValue);
     }
 
@@ -181,13 +181,13 @@ public class LLogicalTernaryOperatorTest {
         LLogicalTernaryOperator xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doApply(true,true,true))
+        assertThat(andFunction.apply(true,true,true))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doApply(true,true,true))
+        assertThat(orFunction.apply(true,true,true))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doApply(true,true,true))
+        assertThat(xorFunction.apply(true,true,true))
                 .isEqualTo(xorResult);
     }
 
@@ -197,10 +197,10 @@ public class LLogicalTernaryOperatorTest {
         LLogicalTernaryOperator equals = LLogicalTernaryOperator.isEqual(true,true,true);
 
         //then
-        assertThat(equals.doApply(true,true,true))
+        assertThat(equals.apply(true,true,true))
                 .isTrue();
 
-        assertThat(equals.doApply(false,false,false))
+        assertThat(equals.apply(false,false,false))
                 .isFalse();
     }
 
@@ -209,7 +209,7 @@ public class LLogicalTernaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLogicalTernaryOpComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -240,8 +240,8 @@ public class LLogicalTernaryOperatorTest {
         };
 
         //when
-        LLogicalTernaryOperator function = sutO.logicalTernaryOpComposeBool(before1,before2,before3);
-        function.doApply(true,true,true);
+        LLogicalTernaryOperator function = sutO.compose(before1,before2,before3);
+        function.apply(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -282,7 +282,7 @@ public class LLogicalTernaryOperatorTest {
 
         //when
         LTriPredicate<Integer,Integer,Integer> function = sutO.logicalTernaryOpCompose(before1,before2,before3);
-        function.doTest(80,81,82);
+        function.test(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -320,7 +320,7 @@ public class LLogicalTernaryOperatorTest {
 
         //when
         LTriBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true,true,true);
+        Integer finalValue = function.apply(true,true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -356,7 +356,7 @@ public class LLogicalTernaryOperatorTest {
 
         //when
         LLogicalTernaryOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true,true,true);
+        boolean finalValue = function.apply(true,true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -369,20 +369,6 @@ public class LLogicalTernaryOperatorTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLogicalTernaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalTernaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLogicalTernaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalTernaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -393,7 +379,7 @@ public class LLogicalTernaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingLogicalTernaryOp().doApply(true,true,true);
+        sutThrowing.shovingApply(true,true,true);
     }
 
 
@@ -406,7 +392,7 @@ public class LLogicalTernaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLogicalTernaryOperator: boolean doApply(boolean a1,boolean a2,boolean a3)");
+                .contains("LLogicalTernaryOperator: boolean apply(boolean a1,boolean a2,boolean a3)");
     }
 
 

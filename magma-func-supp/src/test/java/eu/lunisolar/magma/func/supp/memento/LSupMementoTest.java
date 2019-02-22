@@ -54,7 +54,7 @@ public class LSupMementoTest <T> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doGet())
+        assertThat(sut.get())
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LSupMementoTest <T> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGet())
+        assertThat(sut.get())
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

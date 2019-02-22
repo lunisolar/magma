@@ -72,8 +72,8 @@ public class LFltBinaryOpMemento implements LFltBinaryOperator {
 	}
 
 	@Override
-	public float doApplyAsFltX(float a1, float a2) {
-		return lastValue = function.doApplyAsFlt(a1, a2);
+	public float applyAsFltX(float a1, float a2) {
+		return lastValue = function.applyAsFlt(a1, a2);
 	}
 
 	public float lastValue() {

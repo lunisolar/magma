@@ -72,8 +72,8 @@ public class LLogicalTernaryOpMemento implements LLogicalTernaryOperator {
 	}
 
 	@Override
-	public boolean doApplyX(boolean a1, boolean a2, boolean a3) {
-		return lastValue = function.doApply(a1, a2, a3);
+	public boolean applyX(boolean a1, boolean a2, boolean a3) {
+		return lastValue = function.apply(a1, a2, a3);
 	}
 
 	public boolean lastValue() {

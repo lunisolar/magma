@@ -72,180 +72,180 @@ public interface AccessLongIntPair {
 
 	default void useWith(LLongIntConsumer accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWith(LLongIntConsumer.LIntLongCons accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAcceptIntLong(tuple.second(), tuple.first());
+		accessFunction.acceptIntLong(tuple.second(), tuple.first());
 	}
 
 	default <T> void useWith(T a1, LTieLongConsumer<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAccept(a1, tuple.second(), tuple.first());
+		accessFunction.accept(a1, tuple.second(), tuple.first());
 	}
 
 	default <T> void useWith(T a1, LTieLongConsumer.LObjLongIntCons<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAcceptObjLongInt(a1, tuple.first(), tuple.second());
+		accessFunction.acceptObjLongInt(a1, tuple.first(), tuple.second());
 	}
 
 	default <T> void useWith(T a1, LTieLongConsumer.LIntObjLongCons<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAcceptIntObjLong(tuple.second(), a1, tuple.first());
+		accessFunction.acceptIntObjLong(tuple.second(), a1, tuple.first());
 	}
 
 	default <T> void useWith(T a1, LTieLongConsumer.LIntLongObjCons<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAcceptIntLongObj(tuple.second(), tuple.first(), a1);
+		accessFunction.acceptIntLongObj(tuple.second(), tuple.first(), a1);
 	}
 
 	default <T> void useWith(T a1, LTieLongConsumer.LLongObjIntCons<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAcceptLongObjInt(tuple.first(), a1, tuple.second());
+		accessFunction.acceptLongObjInt(tuple.first(), a1, tuple.second());
 	}
 
 	default <T> void useWith(T a1, LTieLongConsumer.LLongIntObjCons<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		accessFunction.doAcceptLongIntObj(tuple.first(), tuple.second(), a1);
+		accessFunction.acceptLongIntObj(tuple.first(), tuple.second(), a1);
 	}
 
 	default <R, T> R useWith(T a1, LObjIntLongFunction<T, R> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		R retval = accessFunction.doApply(a1, tuple.second(), tuple.first());
+		R retval = accessFunction.apply(a1, tuple.second(), tuple.first());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntLongFunction.LObjLongIntFunc<T, R> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		R retval = accessFunction.doApplyObjLongInt(a1, tuple.first(), tuple.second());
+		R retval = accessFunction.applyObjLongInt(a1, tuple.first(), tuple.second());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntLongFunction.LIntObjLongFunc<T, R> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		R retval = accessFunction.doApplyIntObjLong(tuple.second(), a1, tuple.first());
+		R retval = accessFunction.applyIntObjLong(tuple.second(), a1, tuple.first());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntLongFunction.LIntLongObjFunc<T, R> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		R retval = accessFunction.doApplyIntLongObj(tuple.second(), tuple.first(), a1);
+		R retval = accessFunction.applyIntLongObj(tuple.second(), tuple.first(), a1);
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntLongFunction.LLongObjIntFunc<T, R> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		R retval = accessFunction.doApplyLongObjInt(tuple.first(), a1, tuple.second());
+		R retval = accessFunction.applyLongObjInt(tuple.first(), a1, tuple.second());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjIntLongFunction.LLongIntObjFunc<T, R> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		R retval = accessFunction.doApplyLongIntObj(tuple.first(), tuple.second(), a1);
+		R retval = accessFunction.applyLongIntObj(tuple.first(), tuple.second(), a1);
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieLongFunction<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		int retval = accessFunction.doApplyAsInt(a1, tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsInt(a1, tuple.second(), tuple.first());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieLongFunction.LObjLongIntToIntFunc<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		int retval = accessFunction.doApplyAsIntObjLongInt(a1, tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntObjLongInt(a1, tuple.first(), tuple.second());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieLongFunction.LIntObjLongToIntFunc<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		int retval = accessFunction.doApplyAsIntIntObjLong(tuple.second(), a1, tuple.first());
+		int retval = accessFunction.applyAsIntIntObjLong(tuple.second(), a1, tuple.first());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieLongFunction.LIntLongObjToIntFunc<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		int retval = accessFunction.doApplyAsIntIntLongObj(tuple.second(), tuple.first(), a1);
+		int retval = accessFunction.applyAsIntIntLongObj(tuple.second(), tuple.first(), a1);
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieLongFunction.LLongObjIntToIntFunc<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		int retval = accessFunction.doApplyAsIntLongObjInt(tuple.first(), a1, tuple.second());
+		int retval = accessFunction.applyAsIntLongObjInt(tuple.first(), a1, tuple.second());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, LTieLongFunction.LLongIntObjToIntFunc<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		int retval = accessFunction.doApplyAsIntLongIntObj(tuple.first(), tuple.second(), a1);
+		int retval = accessFunction.applyAsIntLongIntObj(tuple.first(), tuple.second(), a1);
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LLongIntPredicate accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LLongIntPredicate.LIntLongPred accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTestIntLong(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testIntLong(tuple.second(), tuple.first());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntLongPredicate<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTest(a1, tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(a1, tuple.second(), tuple.first());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntLongPredicate.LObjLongIntPred<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTestObjLongInt(a1, tuple.first(), tuple.second());
+		boolean retval = accessFunction.testObjLongInt(a1, tuple.first(), tuple.second());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntLongPredicate.LIntObjLongPred<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTestIntObjLong(tuple.second(), a1, tuple.first());
+		boolean retval = accessFunction.testIntObjLong(tuple.second(), a1, tuple.first());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntLongPredicate.LIntLongObjPred<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTestIntLongObj(tuple.second(), tuple.first(), a1);
+		boolean retval = accessFunction.testIntLongObj(tuple.second(), tuple.first(), a1);
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntLongPredicate.LLongObjIntPred<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTestLongObjInt(tuple.first(), a1, tuple.second());
+		boolean retval = accessFunction.testLongObjInt(tuple.first(), a1, tuple.second());
 		releaseLongIntPair(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjIntLongPredicate.LLongIntObjPred<T> accessFunction) {
 		LLongIntPair tuple = accessLongIntPair();
-		boolean retval = accessFunction.doTestLongIntObj(tuple.first(), tuple.second(), a1);
+		boolean retval = accessFunction.testLongIntObj(tuple.first(), tuple.second(), a1);
 		releaseLongIntPair(tuple);
 		return retval;
 	}

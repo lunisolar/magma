@@ -72,8 +72,8 @@ public class LToIntTriFuncMemento<T1, T2, T3> implements LToIntTriFunction<T1, T
 	}
 
 	@Override
-	public int doApplyAsIntX(T1 a1, T2 a2, T3 a3) {
-		return lastValue = function.doApplyAsInt(a1, a2, a3);
+	public int applyAsIntX(T1 a1, T2 a2, T3 a3) {
+		return lastValue = function.applyAsInt(a1, a2, a3);
 	}
 
 	public int lastValue() {

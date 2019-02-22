@@ -55,7 +55,7 @@ public class LFltBinaryOpDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsFlt(100f,100f))
+        assertThat(sut.applyAsFlt(100f,100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LFltBinaryOpDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt(100f,100f))
+        assertThat(sut.applyAsFlt(100f,100f))
             .isEqualTo(9f);
 
         assertThat(functionCallCount).isEqualTo(2);

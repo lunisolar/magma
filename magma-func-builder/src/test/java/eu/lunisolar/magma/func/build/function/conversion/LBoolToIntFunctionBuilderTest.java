@@ -69,7 +69,7 @@ public class LBoolToIntFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsInt(true);
+            function.applyAsInt(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolToIntFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt(true);
+            function.applyAsInt(true);
 
             fail("No exception were thrown.");
         })

@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aShort>, Domain1<aDouble> { // NOSONAR
 
-	String DESCRIPTION = "LDblToSrtFunction: short doApplyAsSrt(double a)";
+	String DESCRIPTION = "LDblToSrtFunction: short applyAsSrt(double a)";
 
-	// short doApplyAsSrt(double a) ;
-	default short doApplyAsSrt(double a) {
-		// return nestingDoApplyAsSrt(a);
+	// short applyAsSrt(double a) ;
+	default short applyAsSrt(double a) {
+		// return nestingApplyAsSrt(a);
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsSrt(double a)
+	 * Implement this, but call applyAsSrt(double a)
 	 */
-	short doApplyAsSrtX(double a) throws Throwable;
+	short applyAsSrtX(double a) throws Throwable;
 
 	default short tupleApplyAsSrt(LDblSingle args) {
-		return doApplyAsSrt(args.value());
+		return applyAsSrt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default short handlingDoApplyAsSrt(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default short handlingApplyAsSrt(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default short tryDoApplyAsSrt(double a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LDblToSrtFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsSrt(a, handling);
+	}
+
+	default short applyAsSrt(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default short tryDoApplyAsSrt(double a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LDblToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsSrt(a, exF, newMessage, messageParams);
+	}
+
+	default short applyAsSrt(double a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default short tryDoApplyAsSrtThen(double a, @Nonnull LToSrtFunction<Throwable> handler) {
+	default LDblToSrtFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsSrt(a, exF);
+	}
+
+	default short applyAsSrtThen(double a, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsSrt(e);
+			return handler.applyAsSrt(e);
 		}
+	}
+
+	default LDblToSrtFunction tryingThen(@Nonnull LToSrtFunction<Throwable> handler) {
+		return a -> applyAsSrtThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default short nestingDoApplyAsSrt(double a) {
+	default short nestingApplyAsSrt(double a) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default short shovingDoApplyAsSrt(double a) {
+	default short shovingApplyAsSrt(double a) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static short handlingDoApplyAsSrt(double a, LDblToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static short handlingApplyAsSrt(double a, LDblToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsSrt(a, handling);
+		return func.handlingApplyAsSrt(a, handling);
 	}
 
-	static short tryDoApplyAsSrt(double a, LDblToSrtFunction func) {
-		return tryDoApplyAsSrt(a, func, null);
-	}
-
-	static short tryDoApplyAsSrt(double a, LDblToSrtFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static short tryApplyAsSrt(double a, LDblToSrtFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsSrt(a);
 	}
 
-	static short tryDoApplyAsSrt(double a, LDblToSrtFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static short tryApplyAsSrt(double a, LDblToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a, exceptionFactory);
+		return func.applyAsSrt(a, exF, newMessage, messageParams);
 	}
 
-	static short tryDoApplyAsSrtThen(double a, LDblToSrtFunction func, @Nonnull LToSrtFunction<Throwable> handler) {
+	static short tryApplyAsSrt(double a, LDblToSrtFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrtThen(a, handler);
+		return func.applyAsSrt(a, exF);
 	}
 
-	default short failSafeDoApplyAsSrt(double a, @Nonnull LDblToSrtFunction failSafe) {
+	static short tryApplyAsSrtThen(double a, LDblToSrtFunction func, @Nonnull LToSrtFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrtThen(a, handler);
+	}
+
+	default short failSafeApplyAsSrt(double a, @Nonnull LDblToSrtFunction failSafe) {
 		try {
-			return doApplyAsSrt(a);
+			return applyAsSrt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsSrt(a);
+			return failSafe.applyAsSrt(a);
 		}
 	}
 
-	static short failSafeDoApplyAsSrt(double a, LDblToSrtFunction func, @Nonnull LDblToSrtFunction failSafe) {
+	static short failSafeApplyAsSrt(double a, LDblToSrtFunction func, @Nonnull LDblToSrtFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsSrt(a);
+			return failSafe.applyAsSrt(a);
 		} else {
-			return func.failSafeDoApplyAsSrt(a, failSafe);
+			return func.failSafeApplyAsSrt(a, failSafe);
 		}
 	}
 
-	static LDblToSrtFunction failSafeDblToSrtFunc(LDblToSrtFunction func, @Nonnull LDblToSrtFunction failSafe) {
+	static LDblToSrtFunction failSafe(LDblToSrtFunction func, @Nonnull LDblToSrtFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsSrt(a, func, failSafe);
+		return a -> failSafeApplyAsSrt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsSrt(double a) {
-		return doApplyAsSrt(a);
+	default short nonNullApplyAsSrt(double a) {
+		return applyAsSrt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, double a, LDblToSrtFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, double a, LDblToSrtFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, double a, LDblToSrtFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier captureDblToSrtFunc(double a) {
-		return () -> this.doApplyAsSrt(a);
+	default LSrtSupplier capture(double a) {
+		return () -> this.applyAsSrt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	static LDblToSrtFunction recursive(final @Nonnull LFunction<LDblToSrtFunction, LDblToSrtFunction> selfLambda) {
 		final LDblToSrtFunctionSingle single = new LDblToSrtFunctionSingle();
-		LDblToSrtFunction func = selfLambda.doApply(single);
+		LDblToSrtFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		private LDblToSrtFunction target = null;
 
 		@Override
-		public short doApplyAsSrtX(double a) throws Throwable {
-			return target.doApplyAsSrtX(a);
+		public short applyAsSrtX(double a) throws Throwable {
+			return target.applyAsSrtX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static LDblToSrtFunction dblToSrtFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToSrtFunction dblToSrtFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LDblToSrtFunction dblToSrtFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToSrtFunction dblToSrtFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static short call(double a, final @Nonnull LDblToSrtFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsSrt(a);
+		return lambda.applyAsSrt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDblToSrtFunction dblToSrtFuncComposeDbl(@Nonnull final LDblUnaryOperator before) {
+	default LDblToSrtFunction compose(@Nonnull final LDblUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsSrt(before.doApplyAsDbl(v));
+		return v -> this.applyAsSrt(before.applyAsDbl(v));
 	}
 
-	public static LDblToSrtFunction composedDbl(@Nonnull final LDblUnaryOperator before, LDblToSrtFunction after) {
-		return after.dblToSrtFuncComposeDbl(before);
+	public static LDblToSrtFunction composed(@Nonnull final LDblUnaryOperator before, LDblToSrtFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToSrtFunction<V> dblToSrtFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsSrt(before.doApplyAsDbl(v));
+		return v -> this.applyAsSrt(before.applyAsDbl(v));
 	}
 
 	public static <V> LToSrtFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToSrtFunction after) {
@@ -364,79 +383,68 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LDblFunction<V> then(@Nonnull LSrtFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsSrt(a));
+		return a -> after.apply(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToByteFunction thenToByte(@Nonnull LSrtToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsSrt(a));
+		return a -> after.applyAsByte(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToSrtFunction thenToSrt(@Nonnull LSrtUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsSrt(a));
+		return a -> after.applyAsSrt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToIntFunction thenToInt(@Nonnull LSrtToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsSrt(a));
+		return a -> after.applyAsInt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToLongFunction thenToLong(@Nonnull LSrtToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsSrt(a));
+		return a -> after.applyAsLong(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToFltFunction thenToFlt(@Nonnull LSrtToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsSrt(a));
+		return a -> after.applyAsFlt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblUnaryOperator thenToDbl(@Nonnull LSrtToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsSrt(a));
+		return a -> after.applyAsDbl(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToCharFunction thenToChar(@Nonnull LSrtToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsSrt(a));
+		return a -> after.applyAsChar(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblPredicate thenToBool(@Nonnull LSrtPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsSrt(a));
+		return a -> after.test(this.applyAsSrt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LDblToSrtFunction nestingDblToSrtFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDblToSrtFunction shovingDblToSrtFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return Function4U.defaultShort;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=double a, type=IA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aDouble> ia, C0 source, LSrtConsumer consumer) {
 		int size = ia.size(source);
 		LOiToDblFunction<Object> oiFunc0 = (LOiToDblFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			double a = oiFunc0.doApplyAsDbl(source, i);
-			consumer.doAccept(this.doApplyAsSrt(a));
+			double a = oiFunc0.applyAsDbl(source, i);
+			consumer.accept(this.applyAsSrt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=double a, type=SA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aDouble> sa, C0 source, LSrtConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			double a = nextFunc0.doApplyAsDbl(iterator0);
-			consumer.doAccept(this.doApplyAsSrt(a));
+		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			double a = nextFunc0.applyAsDbl(iterator0);
+			consumer.accept(this.applyAsSrt(a));
 		}
 	}
 

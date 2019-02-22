@@ -34,34 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiFltConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltPair extends LTuple<Float> {
+public interface LFltPair extends LTuple<Object>, LFltSingle {
 
 	int SIZE = 2;
 
 	float first();
 
-	float second();
-
-	default float getFirst() {
+	default float value() {
 		return first();
 	}
 
-	default float getSecond() {
-		return second();
-	}
+	float second();
 
-	default Float get(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default float getFloat(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -110,69 +95,8 @@ public interface LFltPair extends LTuple<Float> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Float[] toVoArray(Float[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Float[] toVoArray(Float[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Float[] toVoArray() {
-		Float[] array = new Float[size()];
-
-		return toVoArray(array);
-	}
-
-	default float[] toFltArray(float[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default float[] toFltArray(float[] array) {
-		return toFltArray(array, 0);
-	}
-
-	default float[] toFltArray() {
-		float[] array = new float[size()];
-
-		return toFltArray(array);
-	}
-
-	@Override
-	default Iterator<Float> iterator() {
-		return new Iterator<Float>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -182,27 +106,9 @@ public interface LFltPair extends LTuple<Float> {
 			}
 
 			@Override
-			public Float next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfDouble doubleIterator() {
-		return new PrimitiveIterator.OfDouble() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public double nextDouble() {
-				index++;
-				return getFloat(index);
 			}
 		};
 	}
@@ -237,9 +143,9 @@ public interface LFltPair extends LTuple<Float> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -292,7 +198,7 @@ public interface LFltPair extends LTuple<Float> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutFltPair setFirstIfArg(float first, LFltPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -301,14 +207,14 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutFltPair setFirstIfArgNotNull(R arg, LToFltFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsFlt(arg);
+				this.first = func.applyAsFlt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutFltPair setFirstIf(LFltPredicate predicate, float first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -317,7 +223,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutFltPair setFirstIf(float first, LBiFltPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -326,7 +232,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutFltPair setFirstIf(LBiFltPredicate predicate, float first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -339,7 +245,7 @@ public interface LFltPair extends LTuple<Float> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutFltPair setSecondIfArg(float second, LFltPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -348,14 +254,14 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutFltPair setSecondIfArgNotNull(R arg, LToFltFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsFlt(arg);
+				this.second = func.applyAsFlt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutFltPair setSecondIf(LFltPredicate predicate, float second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -364,7 +270,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutFltPair setSecondIf(float second, LBiFltPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -373,7 +279,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutFltPair setSecondIf(LBiFltPredicate predicate, float second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -431,7 +337,7 @@ public interface LFltPair extends LTuple<Float> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompFltPair setFirstIfArg(float first, LFltPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -440,14 +346,14 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompFltPair setFirstIfArgNotNull(R arg, LToFltFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsFlt(arg);
+				this.first = func.applyAsFlt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompFltPair setFirstIf(LFltPredicate predicate, float first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -456,7 +362,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompFltPair setFirstIf(float first, LBiFltPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -465,7 +371,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompFltPair setFirstIf(LBiFltPredicate predicate, float first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -478,7 +384,7 @@ public interface LFltPair extends LTuple<Float> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompFltPair setSecondIfArg(float second, LFltPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -487,14 +393,14 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompFltPair setSecondIfArgNotNull(R arg, LToFltFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsFlt(arg);
+				this.second = func.applyAsFlt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompFltPair setSecondIf(LFltPredicate predicate, float second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -503,7 +409,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompFltPair setSecondIf(float second, LBiFltPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -512,7 +418,7 @@ public interface LFltPair extends LTuple<Float> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompFltPair setSecondIf(LBiFltPredicate predicate, float second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;

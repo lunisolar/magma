@@ -65,7 +65,7 @@ public class LTieFltFunctionTest<T> {
 
 
     private LTieFltFunction<Integer> sut = new LTieFltFunction<Integer>(){
-        public  int doApplyAsIntX(Integer a1,int a2,float a3)  {
+        public  int applyAsIntX(Integer a1,int a2,float a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LTieFltFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100,100,100f))
+        assertThat(sut.applyAsInt(100,100,100f))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LTieFltFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100,100,100f))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100,100,100f))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100,100,100f);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LTieFltFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100,100,100f);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LTieFltFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieFltFunction: int doApplyAsInt(T a1,int a2,float a3)");
+            .isEqualTo("LTieFltFunction: int applyAsInt(T a1,int a2,float a3)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LTieFltFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieFltFuncComposeIntFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -187,8 +187,8 @@ public class LTieFltFunctionTest<T> {
         };
 
         //when
-        LTieFltFunction<Integer> function = sutO.tieFltFuncComposeIntFlt(before1,before2,before3);
-        function.doApplyAsInt(80,81,82f);
+        LTieFltFunction<Integer> function = sutO.compose(before1,before2,before3);
+        function.applyAsInt(80,81,82f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -229,7 +229,7 @@ public class LTieFltFunctionTest<T> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.tieFltFuncCompose(before1,before2,before3);
-        function.doApplyAsInt(80,81,82);
+        function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -267,7 +267,7 @@ public class LTieFltFunctionTest<T> {
 
         //when
         LObjIntFltFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,82f);
+        Integer finalValue = function.apply(80,81,82f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -303,7 +303,7 @@ public class LTieFltFunctionTest<T> {
 
         //when
         LTieFltFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,82f);
+        int finalValue = function.applyAsInt(80,81,82f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -339,7 +339,7 @@ public class LTieFltFunctionTest<T> {
 
         //when
         LObjIntFltPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,82f);
+        boolean finalValue = function.test(80,81,82f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -352,20 +352,6 @@ public class LTieFltFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -376,7 +362,7 @@ public class LTieFltFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieFltFunc().doApplyAsInt(100,100,100f);
+        sutThrowing.shovingApplyAsInt(100,100,100f);
     }
 
 
@@ -389,7 +375,7 @@ public class LTieFltFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieFltFunction: int doApplyAsInt(T a1,int a2,float a3)");
+                .contains("LTieFltFunction: int applyAsInt(T a1,int a2,float a3)");
     }
 
 

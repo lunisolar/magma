@@ -72,8 +72,8 @@ public class LByteBinaryOpMemento implements LByteBinaryOperator {
 	}
 
 	@Override
-	public byte doApplyAsByteX(byte a1, byte a2) {
-		return lastValue = function.doApplyAsByte(a1, a2);
+	public byte applyAsByteX(byte a1, byte a2) {
+		return lastValue = function.applyAsByte(a1, a2);
 	}
 
 	public byte lastValue() {

@@ -80,8 +80,10 @@ public final class LCharIntConsumerBuilder extends PerCaseBuilder.Base<LCharIntC
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LCharIntConsumer charIntConsumerFrom(Function<LCharIntConsumerBuilder, LCharIntConsumer> buildingFunction) {
-		return buildingFunction.apply(new LCharIntConsumerBuilder());
+	public static LCharIntConsumer charIntConsumerFrom(Consumer<LCharIntConsumerBuilder> buildingFunction) {
+		LCharIntConsumerBuilder builder = new LCharIntConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,13 +115,13 @@ public final class LCharIntConsumerBuilder extends PerCaseBuilder.Base<LCharIntC
 		retval = LCharIntConsumer.charIntCons((a1, a2) -> {
 			try {
 				for (Case<LCharIntPredicate, LCharIntConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						aCase.caseFunction().doAccept(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						aCase.caseFunction().accept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1, a2);
+				eventuallyFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

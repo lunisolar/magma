@@ -82,13 +82,12 @@ public interface LFltToByteFunctionAssert<S extends LFltToByteFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LFltConsumer, A, RS, Byte> doesApplyAsByte(float a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a));
+				return assertFactory.apply(actual.applyAsByte(a));
 			});
-
 		}
 
 	}

@@ -77,14 +77,13 @@ public interface JreBiConsumerAssert<S extends JreBiConsumerAssert<S, A, T1, T2>
 		@Nonnull
 		public SemiEvaluation<S, LBiConsumer<T1, T2>, A> doesAccept(T1 a1, T2 a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
 				actual.accept(a1, a2);
 				return null;
 			});
-
 		}
 
 	}

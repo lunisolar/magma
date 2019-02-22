@@ -69,7 +69,7 @@ public class LTieBoolFunctionBuilderTest<T>{
                 .build()
             );
 
-            function.doApplyAsInt(100,100,true);
+            function.applyAsInt(100,100,true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LTieBoolFunctionBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt(100,100,true);
+            function.applyAsInt(100,100,true);
 
             fail("No exception were thrown.");
         })

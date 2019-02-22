@@ -80,13 +80,12 @@ public interface JreSupplierAssert<S extends JreSupplierAssert<S, A, RS, T>, A e
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, T> doesGet() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.get());
+				return assertFactory.apply(actual.get());
 			});
-
 		}
 
 		@Nonnull

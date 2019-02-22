@@ -89,8 +89,8 @@ public class LDblToByteFuncDelta extends LDblToByteFuncMemento {
 	}
 
 	@Override
-	public byte doApplyAsByte(double a) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
+	public byte applyAsByte(double a) {
+		return deltaFunction.applyAsByte(lastValue(), super.applyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

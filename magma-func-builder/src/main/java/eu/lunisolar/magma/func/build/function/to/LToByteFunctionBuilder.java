@@ -80,8 +80,10 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LToByteFunction<T> toByteFunctionFrom(Function<LToByteFunctionBuilder<T>, LToByteFunction<T>> buildingFunction) {
-		return buildingFunction.apply(new LToByteFunctionBuilder());
+	public static <T> LToByteFunction<T> toByteFunctionFrom(Consumer<LToByteFunctionBuilder<T>> buildingFunction) {
+		LToByteFunctionBuilder builder = new LToByteFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 		retval = LToByteFunction.<T> toByteFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, LToByteFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsByte(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a);
+				return eventuallyFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

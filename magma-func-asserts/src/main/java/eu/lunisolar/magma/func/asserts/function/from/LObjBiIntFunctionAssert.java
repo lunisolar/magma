@@ -82,13 +82,12 @@ public interface LObjBiIntFunctionAssert<S extends LObjBiIntFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LTieIntConsumer<T>, A, RS, R> doesApply(T a1, int a2, int a3) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2, a3);
+					pc.accept(a1, a2, a3);
 				}
-				return assertFactory.doApply(actual.doApply(a1, a2, a3));
+				return assertFactory.apply(actual.apply(a1, a2, a3));
 			});
-
 		}
 
 	}

@@ -65,14 +65,14 @@ public class LSupplierTest<T> {
 
 
     private LSupplier<Integer> sut = new LSupplier<Integer>(){
-        public @Nullable Integer doGetX()  {
+        public @Nullable Integer getX()  {
             return testValue;
         }
     };
 
 
     private LSupplier<Integer> sutNull = new LSupplier<Integer>(){
-        public @Nullable Integer doGetX()  {
+        public @Nullable Integer getX()  {
             return null;
         }
     };
@@ -92,7 +92,7 @@ public class LSupplierTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doGet())
+        assertThat(sut.get())
             .isEqualTo(testValue);
     }
 
@@ -108,17 +108,17 @@ public class LSupplierTest<T> {
     }
 
     @Test
-    public void testNonNullDoGet() throws Throwable {
-        assertThat(sut.nonNullDoGet())
+    public void testNonNullGet() throws Throwable {
+        assertThat(sut.nonNullGet())
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoGetUnchecked() throws Throwable {
+    public void testNestingGetUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoGet();
+            sutAlwaysThrowingUnchecked.nestingGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -129,11 +129,11 @@ public class LSupplierTest<T> {
     }
 
     @Test
-    public void testShovingDoGetUnchecked() throws Throwable {
+    public void testShovingGetUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoGet();
+            sutAlwaysThrowingUnchecked.shovingGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -143,16 +143,16 @@ public class LSupplierTest<T> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoGet() method cannot be null (LSupplier: T doGet()).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullGet() method cannot be null (LSupplier: T get()).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoGet();
+        sutNull.nonNullGet();
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSupplier: T doGet()");
+            .isEqualTo("LSupplier: T get()");
     }
 
     @Test
@@ -197,7 +197,7 @@ public class LSupplierTest<T> {
 
         //when
         LSupplier<Integer> function = sutO.toSup(thenFunction);
-        Integer finalValue = function.doGet();
+        Integer finalValue = function.get();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -228,7 +228,7 @@ public class LSupplierTest<T> {
 
         //when
         LAction function = sutO.toAct(thenFunction);
-        function.doExecute();
+        function.execute();
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -260,7 +260,7 @@ public class LSupplierTest<T> {
 
         //when
         LByteSupplier function = sutO.toByteSup(thenFunction);
-        byte finalValue = function.doGetAsByte();
+        byte finalValue = function.getAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -293,7 +293,7 @@ public class LSupplierTest<T> {
 
         //when
         LSrtSupplier function = sutO.toSrtSup(thenFunction);
-        short finalValue = function.doGetAsSrt();
+        short finalValue = function.getAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -326,7 +326,7 @@ public class LSupplierTest<T> {
 
         //when
         LIntSupplier function = sutO.toIntSup(thenFunction);
-        int finalValue = function.doGetAsInt();
+        int finalValue = function.getAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -359,7 +359,7 @@ public class LSupplierTest<T> {
 
         //when
         LLongSupplier function = sutO.toLongSup(thenFunction);
-        long finalValue = function.doGetAsLong();
+        long finalValue = function.getAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -392,7 +392,7 @@ public class LSupplierTest<T> {
 
         //when
         LFltSupplier function = sutO.toFltSup(thenFunction);
-        float finalValue = function.doGetAsFlt();
+        float finalValue = function.getAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -425,7 +425,7 @@ public class LSupplierTest<T> {
 
         //when
         LDblSupplier function = sutO.toDblSup(thenFunction);
-        double finalValue = function.doGetAsDbl();
+        double finalValue = function.getAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -458,7 +458,7 @@ public class LSupplierTest<T> {
 
         //when
         LCharSupplier function = sutO.toCharSup(thenFunction);
-        char finalValue = function.doGetAsChar();
+        char finalValue = function.getAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -491,7 +491,7 @@ public class LSupplierTest<T> {
 
         //when
         LBoolSupplier function = sutO.toBoolSup(thenFunction);
-        boolean finalValue = function.doGetAsBool();
+        boolean finalValue = function.getAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -504,20 +504,6 @@ public class LSupplierTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingSup())
-            .isSameAs(sut)
-            .isInstanceOf(LSupplier.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingSup())
-            .isSameAs(sut)
-            .isInstanceOf(LSupplier.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -528,7 +514,7 @@ public class LSupplierTest<T> {
         });
 
         // when
-        sutThrowing.shovingSup().doGet();
+        sutThrowing.shovingGet();
     }
 
 
@@ -541,7 +527,7 @@ public class LSupplierTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSupplier: T doGet()");
+                .contains("LSupplier: T get()");
     }
 
 

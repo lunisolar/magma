@@ -77,8 +77,8 @@ public class LFltFuncDelta<R> extends LFltFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(float a) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a));
+	public R apply(float a) {
+		return deltaFunction.apply(lastValue(), super.apply(a));
 	}
 
 	// <editor-fold desc="object">

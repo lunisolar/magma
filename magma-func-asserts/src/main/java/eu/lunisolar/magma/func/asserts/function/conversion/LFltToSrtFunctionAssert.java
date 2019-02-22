@@ -82,13 +82,12 @@ public interface LFltToSrtFunctionAssert<S extends LFltToSrtFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LFltConsumer, A, RS, Short> doesApplyAsSrt(float a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsSrt(a));
+				return assertFactory.apply(actual.applyAsSrt(a));
 			});
-
 		}
 
 	}

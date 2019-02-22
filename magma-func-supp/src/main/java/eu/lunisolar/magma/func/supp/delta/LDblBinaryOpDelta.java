@@ -89,8 +89,8 @@ public class LDblBinaryOpDelta extends LDblBinaryOpMemento {
 	}
 
 	@Override
-	public double doApplyAsDbl(double a1, double a2) {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doApplyAsDbl(a1, a2));
+	public double applyAsDbl(double a1, double a2) {
+		return deltaFunction.applyAsDbl(lastValue(), super.applyAsDbl(a1, a2));
 	}
 
 	// <editor-fold desc="object">

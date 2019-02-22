@@ -72,8 +72,8 @@ public class LByteToFltFuncMemento implements LByteToFltFunction {
 	}
 
 	@Override
-	public float doApplyAsFltX(byte a) {
-		return lastValue = function.doApplyAsFlt(a);
+	public float applyAsFltX(byte a) {
+		return lastValue = function.applyAsFlt(a);
 	}
 
 	public float lastValue() {

@@ -63,13 +63,13 @@ public class LazyLong extends LLongSupMemento implements LLongSingle {
 	}
 
 	public static <E> LazyLong lazyValue(E e, LToLongFunction<E> function) {
-		return new LazyLong(() -> function.doApplyAsLong(e));
+		return new LazyLong(() -> function.applyAsLong(e));
 	}
 
 	@Override
-	public long doGetAsLong() {
+	public long getAsLong() {
 		if (function != null) {
-			lastValue = function.doGetAsLong();
+			lastValue = function.getAsLong();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazyLong extends LLongSupMemento implements LLongSingle {
 	}
 
 	public long value() {
-		return doGetAsLong();
+		return getAsLong();
 	}
 
 	public static boolean argEquals(LazyLong the, Object that) {

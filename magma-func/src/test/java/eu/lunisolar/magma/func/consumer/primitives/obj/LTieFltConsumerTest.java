@@ -63,7 +63,7 @@ public class LTieFltConsumerTest<T> {
 
 
     private LTieFltConsumer<Integer> sut = new LTieFltConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,int a2,float a3)  {
+        public  void acceptX(Integer a1,int a2,float a3)  {
             LTieFltConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTieFltConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100f);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTieFltConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100f);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTieFltConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieFltConsumer: void doAccept(T a1,int a2,float a3)");
+            .isEqualTo("LTieFltConsumer: void accept(T a1,int a2,float a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTieFltConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieFltConsComposeIntFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTieFltConsumerTest<T> {
         };
 
         //when
-        LTieFltConsumer<Integer> function = sutO.tieFltConsComposeIntFlt(before1,before2,before3);
-        function.doAccept(80,81,82f);
+        LTieFltConsumer<Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,82f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTieFltConsumerTest<T> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.tieFltConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTieFltConsumerTest<T> {
 
         //when
         LTieFltConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,82f);
+        function.accept(80,81,82f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieFltConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieFltConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTieFltConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieFltCons().doAccept(100,100,100f);
+        sutThrowing.shovingAccept(100,100,100f);
     }
 
 
@@ -291,7 +277,7 @@ public class LTieFltConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieFltConsumer: void doAccept(T a1,int a2,float a3)");
+                .contains("LTieFltConsumer: void accept(T a1,int a2,float a3)");
     }
 
 

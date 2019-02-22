@@ -89,8 +89,8 @@ public class LToIntFuncDelta<T> extends LToIntFuncMemento<T> {
 	}
 
 	@Override
-	public int doApplyAsInt(T a) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
+	public int applyAsInt(T a) {
+		return deltaFunction.applyAsInt(lastValue(), super.applyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

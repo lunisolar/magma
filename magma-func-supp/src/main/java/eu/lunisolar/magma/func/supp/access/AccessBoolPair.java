@@ -72,100 +72,100 @@ public interface AccessBoolPair {
 
 	default void useWith(LBiBoolConsumer accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiBoolConsumer accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAccept(tuple.second(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiBoolConsumer.LBool1Bool0Cons accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAcceptBool1Bool0(tuple.first(), tuple.second());
+		accessFunction.acceptBool1Bool0(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiBoolConsumer.LBool1Bool0Cons accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAcceptBool1Bool0(tuple.second(), tuple.first());
+		accessFunction.acceptBool1Bool0(tuple.second(), tuple.first());
 	}
 
 	default void useWith(boolean a3, LTriBoolConsumer accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAccept(tuple.first(), tuple.second(), a3);
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
 	}
 
 	default void useWithO1(boolean a3, LTriBoolConsumer accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		accessFunction.doAccept(tuple.second(), tuple.first(), a3);
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
 	}
 
 	default boolean useWith(LLogicalBinaryOperator accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		boolean retval = accessFunction.doApply(tuple.first(), tuple.second());
+		boolean retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LLogicalBinaryOperator accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		boolean retval = accessFunction.doApply(tuple.second(), tuple.first());
+		boolean retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(boolean a3, LLogicalTernaryOperator accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		boolean retval = accessFunction.doApply(tuple.first(), tuple.second(), a3);
+		boolean retval = accessFunction.apply(tuple.first(), tuple.second(), a3);
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(boolean a3, LLogicalTernaryOperator accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		boolean retval = accessFunction.doApply(tuple.second(), tuple.first(), a3);
+		boolean retval = accessFunction.apply(tuple.second(), tuple.first(), a3);
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiBoolFunction<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiBoolFunction<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiBoolFunction.LBool1Bool0Func<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApplyBool1Bool0(tuple.first(), tuple.second());
+		R retval = accessFunction.applyBool1Bool0(tuple.first(), tuple.second());
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiBoolFunction.LBool1Bool0Func<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApplyBool1Bool0(tuple.second(), tuple.first());
+		R retval = accessFunction.applyBool1Bool0(tuple.second(), tuple.first());
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(boolean a3, LTriBoolFunction<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), a3);
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), a3);
 		releaseBoolPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(boolean a3, LTriBoolFunction<R> accessFunction) {
 		LBoolPair tuple = accessBoolPair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first(), a3);
+		R retval = accessFunction.apply(tuple.second(), tuple.first(), a3);
 		releaseBoolPair(tuple);
 		return retval;
 	}

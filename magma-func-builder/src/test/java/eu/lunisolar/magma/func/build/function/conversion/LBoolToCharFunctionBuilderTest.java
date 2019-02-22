@@ -69,7 +69,7 @@ public class LBoolToCharFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsChar(true);
+            function.applyAsChar(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolToCharFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsChar(true);
+            function.applyAsChar(true);
 
             fail("No exception were thrown.");
         })

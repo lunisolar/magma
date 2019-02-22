@@ -69,7 +69,7 @@ public class LDblSupplierBuilderTest{
                 .build()
             );
 
-            function.doGetAsDbl();
+            function.getAsDbl();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LDblSupplierBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doGetAsDbl();
+            function.getAsDbl();
 
             fail("No exception were thrown.");
         })

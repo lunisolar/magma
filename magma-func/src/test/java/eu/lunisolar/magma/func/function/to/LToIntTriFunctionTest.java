@@ -65,7 +65,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
 
     private LToIntTriFunction<Integer,Integer,Integer> sut = new LToIntTriFunction<Integer,Integer,Integer>(){
-        public  int doApplyAsIntX(Integer a1,Integer a2,Integer a3)  {
+        public  int applyAsIntX(Integer a1,Integer a2,Integer a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100,100,100))
+        assertThat(sut.applyAsInt(100,100,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100,100,100))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100,100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100,100,100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100,100,100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToIntTriFunction: int doApplyAsInt(T1 a1,T2 a2,T3 a3)");
+            .isEqualTo("LToIntTriFunction: int applyAsInt(T1 a1,T2 a2,T3 a3)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testToIntTriFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -187,8 +187,8 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
         };
 
         //when
-        LToIntTriFunction<Integer,Integer,Integer> function = sutO.toIntTriFuncCompose(before1,before2,before3);
-        function.doApplyAsInt(80,81,82);
+        LToIntTriFunction<Integer,Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -226,7 +226,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
         //when
         LTriFunction<Integer,Integer,Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,82);
+        Integer finalValue = function.apply(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -262,7 +262,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,82);
+        int finalValue = function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
         //when
         LTriPredicate<Integer,Integer,Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,82);
+        boolean finalValue = function.test(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -311,20 +311,6 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingToIntTriFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToIntTriFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingToIntTriFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToIntTriFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -335,7 +321,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
         });
 
         // when
-        sutThrowing.shovingToIntTriFunc().doApplyAsInt(100,100,100);
+        sutThrowing.shovingApplyAsInt(100,100,100);
     }
 
 
@@ -348,7 +334,7 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToIntTriFunction: int doApplyAsInt(T1 a1,T2 a2,T3 a3)");
+                .contains("LToIntTriFunction: int applyAsInt(T1 a1,T2 a2,T3 a3)");
     }
 
 
@@ -360,27 +346,27 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
 
     //<editor-fold desc="Variants">
 
-    private int variantLToIntObjObj2Obj1Func(Integer a1,Integer a3,Integer a2) {
+    private int variantLToIntObj0Obj2Obj1Func(Integer a1,Integer a3,Integer a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLToIntObjObj2Obj1Func() {
-        LToIntTriFunction lambda = LToIntTriFunction./*<T1,T2,T3>*/toIntObjObj2Obj1Func(this::variantLToIntObjObj2Obj1Func);
+    public void compilerSubstituteVariantLToIntObj0Obj2Obj1Func() {
+        LToIntTriFunction lambda = LToIntTriFunction./*<T1,T2,T3>*/toIntObj0Obj2Obj1Func(this::variantLToIntObj0Obj2Obj1Func);
 
-        assertThat(lambda).isInstanceOf(LToIntTriFunction.LToIntObjObj2Obj1Func.class);
+        assertThat(lambda).isInstanceOf(LToIntTriFunction.LToIntObj0Obj2Obj1Func.class);
     }
 
 
-    private int variantLToIntObj1BiObjFunc(Integer a2,Integer a1,Integer a3) {
+    private int variantLToIntObj1BiObj2Func(Integer a2,Integer a1,Integer a3) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLToIntObj1BiObjFunc() {
-        LToIntTriFunction lambda = LToIntTriFunction./*<T1,T2,T3>*/toIntObj1BiObjFunc(this::variantLToIntObj1BiObjFunc);
+    public void compilerSubstituteVariantLToIntObj1BiObj2Func() {
+        LToIntTriFunction lambda = LToIntTriFunction./*<T1,T2,T3>*/toIntObj1BiObj2Func(this::variantLToIntObj1BiObj2Func);
 
-        assertThat(lambda).isInstanceOf(LToIntTriFunction.LToIntObj1BiObjFunc.class);
+        assertThat(lambda).isInstanceOf(LToIntTriFunction.LToIntObj1BiObj2Func.class);
     }
 
 
@@ -408,15 +394,15 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
     }
 
 
-    private int variantLToIntBiObjObj0Func(Integer a3,Integer a2,Integer a1) {
+    private int variantLToIntBiObj1Obj0Func(Integer a3,Integer a2,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLToIntBiObjObj0Func() {
-        LToIntTriFunction lambda = LToIntTriFunction./*<T1,T2,T3>*/toIntBiObjObj0Func(this::variantLToIntBiObjObj0Func);
+    public void compilerSubstituteVariantLToIntBiObj1Obj0Func() {
+        LToIntTriFunction lambda = LToIntTriFunction./*<T1,T2,T3>*/toIntBiObj1Obj0Func(this::variantLToIntBiObj1Obj0Func);
 
-        assertThat(lambda).isInstanceOf(LToIntTriFunction.LToIntBiObjObj0Func.class);
+        assertThat(lambda).isInstanceOf(LToIntTriFunction.LToIntBiObj1Obj0Func.class);
     }
 
     //</editor-fold>

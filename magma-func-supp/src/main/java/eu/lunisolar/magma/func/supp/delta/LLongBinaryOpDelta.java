@@ -89,8 +89,8 @@ public class LLongBinaryOpDelta extends LLongBinaryOpMemento {
 	}
 
 	@Override
-	public long doApplyAsLong(long a1, long a2) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1, a2));
+	public long applyAsLong(long a1, long a2) {
+		return deltaFunction.applyAsLong(lastValue(), super.applyAsLong(a1, a2));
 	}
 
 	// <editor-fold desc="object">

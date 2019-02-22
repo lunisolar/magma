@@ -80,8 +80,10 @@ public final class LToByteBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithBy
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2> LToByteBiFunction<T1, T2> toByteBiFunctionFrom(Function<LToByteBiFunctionBuilder<T1, T2>, LToByteBiFunction<T1, T2>> buildingFunction) {
-		return buildingFunction.apply(new LToByteBiFunctionBuilder());
+	public static <T1, T2> LToByteBiFunction<T1, T2> toByteBiFunctionFrom(Consumer<LToByteBiFunctionBuilder<T1, T2>> buildingFunction) {
+		LToByteBiFunctionBuilder builder = new LToByteBiFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LToByteBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithBy
 		retval = LToByteBiFunction.<T1, T2> toByteBiFunc((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LToByteBiFunction<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doApplyAsByte(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().applyAsByte(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1, a2);
+				return eventuallyFinal.applyAsByte(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

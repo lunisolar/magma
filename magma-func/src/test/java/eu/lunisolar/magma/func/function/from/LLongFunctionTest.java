@@ -65,14 +65,14 @@ public class LLongFunctionTest<R> {
 
 
     private LLongFunction<Integer> sut = new LLongFunction<Integer>(){
-        public @Nullable Integer doApplyX(long a)  {
+        public @Nullable Integer applyX(long a)  {
             return testValue;
         }
     };
 
 
     private LLongFunction<Integer> sutNull = new LLongFunction<Integer>(){
-        public @Nullable Integer doApplyX(long a)  {
+        public @Nullable Integer applyX(long a)  {
             return null;
         }
     };
@@ -92,7 +92,7 @@ public class LLongFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100L))
+        assertThat(sut.apply(100L))
             .isEqualTo(testValue);
     }
 
@@ -108,17 +108,17 @@ public class LLongFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100L))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100L))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100L);
+            sutAlwaysThrowingUnchecked.nestingApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -129,11 +129,11 @@ public class LLongFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100L);
+            sutAlwaysThrowingUnchecked.shovingApply(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -143,16 +143,16 @@ public class LLongFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LLongFunction: R doApply(long a)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LLongFunction: R apply(long a)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100L);
+        sutNull.nonNullApply(100L);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongFunction: R doApply(long a)");
+            .isEqualTo("LLongFunction: R apply(long a)");
     }
 
     @Test
@@ -175,7 +175,7 @@ public class LLongFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLongFuncComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -194,8 +194,8 @@ public class LLongFunctionTest<R> {
         };
 
         //when
-        LLongFunction<Integer> function = sutO.longFuncComposeLong(before);
-        function.doApply(80L);
+        LLongFunction<Integer> function = sutO.compose(before);
+        function.apply(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -224,7 +224,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LFunction<Integer,Integer> function = sutO.longFuncCompose(before);
-        function.doApply(80);
+        function.apply(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -260,7 +260,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80L);
+        Integer finalValue = function.apply(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -292,7 +292,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(80L);
+        function.accept(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -325,7 +325,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80L);
+        byte finalValue = function.applyAsByte(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -359,7 +359,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80L);
+        short finalValue = function.applyAsSrt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -393,7 +393,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80L);
+        int finalValue = function.applyAsInt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -427,7 +427,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongUnaryOperator function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80L);
+        long finalValue = function.applyAsLong(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -461,7 +461,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80L);
+        float finalValue = function.applyAsFlt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -495,7 +495,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80L);
+        double finalValue = function.applyAsDbl(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -529,7 +529,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80L);
+        char finalValue = function.applyAsChar(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -563,7 +563,7 @@ public class LLongFunctionTest<R> {
 
         //when
         LLongPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80L);
+        boolean finalValue = function.test(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -576,20 +576,6 @@ public class LLongFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LLongFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LLongFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -600,7 +586,7 @@ public class LLongFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingLongFunc().doApply(100L);
+        sutThrowing.shovingApply(100L);
     }
 
 
@@ -613,7 +599,7 @@ public class LLongFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongFunction: R doApply(long a)");
+                .contains("LLongFunction: R apply(long a)");
     }
 
 

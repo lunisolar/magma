@@ -54,7 +54,7 @@ public class LLongToIntFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0);
 
-        assertThat(sut.doApplyAsInt(100L))
+        assertThat(sut.applyAsInt(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongToIntFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100L))
+        assertThat(sut.applyAsInt(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

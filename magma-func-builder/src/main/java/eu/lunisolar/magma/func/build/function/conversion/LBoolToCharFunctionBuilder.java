@@ -80,8 +80,10 @@ public final class LBoolToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBoolToCharFunction boolToCharFunctionFrom(Function<LBoolToCharFunctionBuilder, LBoolToCharFunction> buildingFunction) {
-		return buildingFunction.apply(new LBoolToCharFunctionBuilder());
+	public static LBoolToCharFunction boolToCharFunctionFrom(Consumer<LBoolToCharFunctionBuilder> buildingFunction) {
+		LBoolToCharFunctionBuilder builder = new LBoolToCharFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LBoolToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 		retval = LBoolToCharFunction.boolToCharFunc(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a)) {
-						return aCase.caseFunction().doApplyAsChar(a);
+					if (aCase.casePredicate().apply(a)) {
+						return aCase.caseFunction().applyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a);
+				return eventuallyFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

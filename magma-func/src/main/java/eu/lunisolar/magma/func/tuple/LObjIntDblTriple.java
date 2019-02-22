@@ -34,27 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LTieDblConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjIntDblTriple<T> extends LTuple<Object> {
+public interface LObjIntDblTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 
 	int SIZE = 3;
 
 	T first();
 
-	int second();
-
-	double third();
-
-	default T getFirst() {
+	default T value() {
 		return first();
 	}
 
-	default int getSecond() {
-		return second();
-	}
+	int second();
 
-	default double getThird() {
-		return third();
-	}
+	double third();
 
 	default Object get(int index) {
 		switch (index) {
@@ -109,29 +101,6 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-		i++;
-		array[i] = third();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -181,11 +150,11 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(',');
-			sb.append(getThird());
+			sb.append(third());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -249,7 +218,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutObjIntDblTriple<T> setFirstIfArg(T first, LPredicate<T> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -258,14 +227,14 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutObjIntDblTriple<T> setFirstIfArgNotNull(R arg, LFunction<R, T> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutObjIntDblTriple<T> setFirstIf(LPredicate<T> predicate, T first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -274,7 +243,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutObjIntDblTriple<T> setFirstIf(T first, LBiPredicate<T, T> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -283,7 +252,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutObjIntDblTriple<T> setFirstIf(LBiPredicate<T, T> predicate, T first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -296,7 +265,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutObjIntDblTriple<T> setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -305,14 +274,14 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutObjIntDblTriple<T> setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsInt(arg);
+				this.second = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutObjIntDblTriple<T> setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -321,7 +290,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutObjIntDblTriple<T> setSecondIf(int second, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -330,7 +299,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutObjIntDblTriple<T> setSecondIf(LBiIntPredicate predicate, int second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -343,7 +312,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutObjIntDblTriple<T> setThirdIfArg(double third, LDblPredicate predicate) {
-			if (predicate.doTest(third)) {
+			if (predicate.test(third)) {
 				this.third = third;
 			}
 			return this;
@@ -352,14 +321,14 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutObjIntDblTriple<T> setThirdIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.third = func.doApplyAsDbl(arg);
+				this.third = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutObjIntDblTriple<T> setThirdIf(LDblPredicate predicate, double third) {
-			if (predicate.doTest(this.third)) {
+			if (predicate.test(this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -368,7 +337,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutObjIntDblTriple<T> setThirdIf(double third, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(third, this.third)) {
+			if (predicate.test(third, this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -377,7 +346,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutObjIntDblTriple<T> setThirdIf(LBiDblPredicate predicate, double third) {
 
-			if (predicate.doTest(this.third, third)) {
+			if (predicate.test(this.third, third)) {
 				this.third = third;
 			}
 			return this;
@@ -447,7 +416,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompObjIntDblTriple<T> setFirstIfArg(T first, LPredicate<T> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -456,14 +425,14 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompObjIntDblTriple<T> setFirstIfArgNotNull(R arg, LFunction<R, T> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompObjIntDblTriple<T> setFirstIf(LPredicate<T> predicate, T first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -472,7 +441,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompObjIntDblTriple<T> setFirstIf(T first, LBiPredicate<T, T> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -481,7 +450,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompObjIntDblTriple<T> setFirstIf(LBiPredicate<T, T> predicate, T first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -494,7 +463,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompObjIntDblTriple<T> setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -503,14 +472,14 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompObjIntDblTriple<T> setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsInt(arg);
+				this.second = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompObjIntDblTriple<T> setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -519,7 +488,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompObjIntDblTriple<T> setSecondIf(int second, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -528,7 +497,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompObjIntDblTriple<T> setSecondIf(LBiIntPredicate predicate, int second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -541,7 +510,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompObjIntDblTriple<T> setThirdIfArg(double third, LDblPredicate predicate) {
-			if (predicate.doTest(third)) {
+			if (predicate.test(third)) {
 				this.third = third;
 			}
 			return this;
@@ -550,14 +519,14 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompObjIntDblTriple<T> setThirdIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.third = func.doApplyAsDbl(arg);
+				this.third = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompObjIntDblTriple<T> setThirdIf(LDblPredicate predicate, double third) {
-			if (predicate.doTest(this.third)) {
+			if (predicate.test(this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -566,7 +535,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompObjIntDblTriple<T> setThirdIf(double third, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(third, this.third)) {
+			if (predicate.test(third, this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -575,7 +544,7 @@ public interface LObjIntDblTriple<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompObjIntDblTriple<T> setThirdIf(LBiDblPredicate predicate, double third) {
 
-			if (predicate.doTest(this.third, third)) {
+			if (predicate.test(this.third, third)) {
 				this.third = third;
 			}
 			return this;

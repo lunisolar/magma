@@ -82,13 +82,12 @@ public interface LBoolSupplierAssert<S extends LBoolSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Boolean> doesGetAsBool() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGetAsBool());
+				return assertFactory.apply(actual.getAsBool());
 			});
-
 		}
 
 		@Nonnull

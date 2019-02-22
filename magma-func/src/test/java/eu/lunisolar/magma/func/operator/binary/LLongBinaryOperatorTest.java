@@ -65,7 +65,7 @@ public class LLongBinaryOperatorTest {
 
 
     private LLongBinaryOperator sut = new LLongBinaryOperator(){
-        public  long doApplyAsLongX(long a1,long a2)  {
+        public  long applyAsLongX(long a1,long a2)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LLongBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsLong(100L,100L))
+        assertThat(sut.applyAsLong(100L,100L))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LLongBinaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsLong(100L,100L))
+    public void testNonNullApplyAsLong() throws Throwable {
+        assertThat(sut.nonNullApplyAsLong(100L,100L))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsLongUnchecked() throws Throwable {
+    public void testNestingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsLong(100L,100L);
+            sutAlwaysThrowingUnchecked.nestingApplyAsLong(100L,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LLongBinaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsLongUnchecked() throws Throwable {
+    public void testShovingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsLong(100L,100L);
+            sutAlwaysThrowingUnchecked.shovingApplyAsLong(100L,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LLongBinaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongBinaryOperator: long doApplyAsLong(long a1,long a2)");
+            .isEqualTo("LLongBinaryOperator: long applyAsLong(long a1,long a2)");
     }
 
     @Test
@@ -166,9 +166,9 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator min =  LLongBinaryOperator.minBy(Long::compare);
 
         //then
-        assertThat(min.doApplyAsLong(0L, 56L))
+        assertThat(min.applyAsLong(0L, 56L))
                 .isEqualTo(0L);
-        assertThat(min.doApplyAsLong(56L, 0L))
+        assertThat(min.applyAsLong(56L, 0L))
                        .isEqualTo(0L);
 
     }
@@ -179,9 +179,9 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator max =  LLongBinaryOperator.maxBy(Long::compare);
 
         //then
-        assertThat(max.doApplyAsLong(0L, 56L))
+        assertThat(max.applyAsLong(0L, 56L))
                 .isEqualTo(56L);
-        assertThat(max.doApplyAsLong(56L, 0L))
+        assertThat(max.applyAsLong(56L, 0L))
                         .isEqualTo(56L);
     }
 
@@ -196,10 +196,10 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator min = LLongBinaryOperator.min();
 
         //then
-        assertThat(min.doApplyAsLong(valueSmall, valueBig))
+        assertThat(min.applyAsLong(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.doApplyAsLong(valueBig, valueSmall))
+        assertThat(min.applyAsLong(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -213,10 +213,10 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator max = LLongBinaryOperator.max();
 
         //then
-        assertThat(max.doApplyAsLong(valueSmall, valueBig))
+        assertThat(max.applyAsLong(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.doApplyAsLong(valueBig, valueSmall))
+        assertThat(max.applyAsLong(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -224,7 +224,7 @@ public class LLongBinaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLongBinaryOpComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -249,8 +249,8 @@ public class LLongBinaryOperatorTest {
         };
 
         //when
-        LLongBinaryOperator function = sutO.longBinaryOpComposeLong(before1,before2);
-        function.doApplyAsLong(80L,81L);
+        LLongBinaryOperator function = sutO.compose(before1,before2);
+        function.applyAsLong(80L,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -285,7 +285,7 @@ public class LLongBinaryOperatorTest {
 
         //when
         LToLongBiFunction<Integer,Integer> function = sutO.longBinaryOpCompose(before1,before2);
-        function.doApplyAsLong(80,81);
+        function.applyAsLong(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -322,7 +322,7 @@ public class LLongBinaryOperatorTest {
 
         //when
         LBiLongFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80L,81L);
+        Integer finalValue = function.apply(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -357,7 +357,7 @@ public class LLongBinaryOperatorTest {
 
         //when
         LLongBinaryOperator function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80L,81L);
+        long finalValue = function.applyAsLong(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -392,7 +392,7 @@ public class LLongBinaryOperatorTest {
 
         //when
         LBiLongPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80L,81L);
+        boolean finalValue = function.test(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -405,20 +405,6 @@ public class LLongBinaryOperatorTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLongBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLongBinaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLongBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLongBinaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -429,7 +415,7 @@ public class LLongBinaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingLongBinaryOp().doApplyAsLong(100L,100L);
+        sutThrowing.shovingApplyAsLong(100L,100L);
     }
 
 
@@ -442,7 +428,7 @@ public class LLongBinaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongBinaryOperator: long doApplyAsLong(long a1,long a2)");
+                .contains("LLongBinaryOperator: long applyAsLong(long a1,long a2)");
     }
 
 

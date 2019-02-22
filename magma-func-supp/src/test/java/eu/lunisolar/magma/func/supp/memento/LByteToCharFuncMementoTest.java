@@ -54,7 +54,7 @@ public class LByteToCharFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo('\u0000');
 
-        assertThat(sut.doApplyAsChar((byte)100))
+        assertThat(sut.applyAsChar((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LByteToCharFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar((byte)100))
+        assertThat(sut.applyAsChar((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

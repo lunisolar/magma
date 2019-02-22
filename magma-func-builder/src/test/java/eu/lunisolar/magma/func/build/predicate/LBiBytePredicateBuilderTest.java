@@ -69,7 +69,7 @@ public class LBiBytePredicateBuilderTest{
                 .build()
             );
 
-            function.doTest((byte)100,(byte)100);
+            function.test((byte)100,(byte)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiBytePredicateBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest((byte)100,(byte)100);
+            function.test((byte)100,(byte)100);
 
             fail("No exception were thrown.");
         })

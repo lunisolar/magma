@@ -69,7 +69,7 @@ public class LLongFunctionBuilderTest<R>{
                 .build()
             );
 
-            function.doApply(100L);
+            function.apply(100L);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLongFunctionBuilderTest<R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(100L);
+            function.apply(100L);
 
             fail("No exception were thrown.");
         })

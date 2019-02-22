@@ -40,107 +40,107 @@ import static eu.lunisolar.magma.func.function.LFunction.identity;
  *    
  */
 @SuppressWarnings("unchecked")
-public class SA<C, I, E extends aType> implements SequentialRead<C, I, E>, SequentialWrite<C, E> {
+public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, SequentialWrite<C, E> {
 
 	public static final LToIntFunction UNKNOWN_SIZE = c -> -1;
 
-	private static final SA<Collection, Iterator, a<Object>> COLLECTION = sA(Collection::size, Collection::iterator, Iterator::hasNext, func(Iterator::next), biCons(Collection::add));
+	public static class The<C, I, E extends aType> implements SA<C, I, E> {
 
-	private static final SA<Iterable, Iterator, a<Object>> ITERABLE = sA(UNKNOWN_SIZE, Iterable::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
-		throw new UnsupportedOperationException();
-	}));
+		private static final SA<Collection, Iterator, a<Object>> COLLECTION = sA(Collection::size, Collection::iterator, Iterator::hasNext, func(Iterator::next), biCons(Collection::add));
 
-	private static final SA<Stream, Iterator, a<Object>> STREAM = sA(UNKNOWN_SIZE, Stream::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
-		throw new UnsupportedOperationException();
-	}));
+		private static final SA<Iterable, Iterator, a<Object>> ITERABLE = sA(UNKNOWN_SIZE, Iterable::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
+			throw new UnsupportedOperationException();
+		}));
 
-	private static final SA<Iterator, Iterator, a<Object>> ITERATOR = sA(UNKNOWN_SIZE, identity(), Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
-		throw new UnsupportedOperationException();
-	}));
+		private static final SA<Stream, Iterator, a<Object>> STREAM = sA(UNKNOWN_SIZE, Stream::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
+			throw new UnsupportedOperationException();
+		}));
 
-	private static final SA<Enumeration, Enumeration, a<Object>> ENUMERATION = sA(UNKNOWN_SIZE, identity(), Enumeration::hasMoreElements, func(Enumeration::nextElement), biCons((t, e) -> {
-		throw new UnsupportedOperationException();
-	}));
+		private static final SA<Iterator, Iterator, a<Object>> ITERATOR = sA(UNKNOWN_SIZE, identity(), Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
+			throw new UnsupportedOperationException();
+		}));
 
-	/* adds depending on position */
-	private static final SA<ListIterator, ListIterator, a<Object>> LIST_ITERATOR = sA(UNKNOWN_SIZE, identity(), ListIterator::hasNext, func(ListIterator::next), biCons(ListIterator::add));
+		private static final SA<Enumeration, Enumeration, a<Object>> ENUMERATION = sA(UNKNOWN_SIZE, identity(), Enumeration::hasMoreElements, func(Enumeration::nextElement), biCons((t, e) -> {
+			throw new UnsupportedOperationException();
+		}));
 
-	private static final SA<Map, Iterator<Map.Entry>, a<Map.Entry>> MAP = sA(UNKNOWN_SIZE, map -> map.entrySet().iterator(), Iterator::hasNext, func(Iterator::next), biCons((Map t, Map.Entry e) -> {
-		t.put(e.getKey(), e.getValue());
-	}));
+		/* adds depending on position */
+		private static final SA<ListIterator, ListIterator, a<Object>> LIST_ITERATOR = sA(UNKNOWN_SIZE, identity(), ListIterator::hasNext, func(ListIterator::next), biCons(ListIterator::add));
 
-	private final LToIntFunction<C> sizeFunc;
+		private static final SA<Map, Iterator<Map.Entry>, a<Map.Entry>> MAP = sA(UNKNOWN_SIZE, map -> map.entrySet().iterator(), Iterator::hasNext, func(Iterator::next), biCons((Map t, Map.Entry e) -> {
+			t.put(e.getKey(), e.getValue());
+		}));
 
-	private final LFunction<C, I> adapter;
+		private final LToIntFunction<C> sizeFunc;
 
-	private final LPredicate<I> tester;
-	private final OFunction<I, E> getter;
+		private final LFunction<C, I> adapter;
 
-	private final TeConsumer<C, E> adder;
+		private final LPredicate<I> tester;
+		private final OFunction<I, E> getter;
 
-	public SA(LToIntFunction<C> sizeFunc, LFunction<C, I> adapter, LPredicate<I> tester, OFunction<I, E> getter, TeConsumer<C, E> adder) {
-		this.sizeFunc = sizeFunc == null ? UNKNOWN_SIZE : sizeFunc;
-		this.adapter = adapter;
-		this.tester = tester;
-		this.getter = getter;
-		this.adder = adder;
+		private final TeConsumer<C, E> consumer;
+
+		public The(LToIntFunction<C> sizeFunc, LFunction<C, I> adapter, LPredicate<I> tester, OFunction<I, E> getter, TeConsumer<C, E> consumer) {
+			this.sizeFunc = sizeFunc == null ? UNKNOWN_SIZE : sizeFunc;
+			this.adapter = adapter;
+			this.tester = tester;
+			this.getter = getter;
+			this.consumer = consumer;
+		}
+
+		@Override
+		public OFunction<C, aType.aInt> genericSizeFunc() {
+			return sizeFunc;
+		}
+
+		public LFunction<C, I> genericAdapter() {
+			return adapter;
+		}
+
+		public LPredicate<I> genericTester() {
+			return tester;
+		}
+
+		public OFunction<I, E> genericSupplier() {
+			return getter;
+		}
+
+		public TeConsumer<C, E> genericConsumer() {
+			return consumer;
+		}
+
 	}
 
-	public static <C, I, E extends aType> SA<C, I, E> sA(LToIntFunction<C> sizeFunc, LFunction<C, I> adapter, LPredicate<I> tester, OFunction<I, E> getter, TeConsumer<C, E> adder) {
-		return new SA<>(sizeFunc, adapter, tester, getter, adder);
-	}
-
-	@Override
-	public OFunction<C, aType.aInt> genericSizeFunc() {
-		return sizeFunc;
-	}
-
-	public LFunction<C, I> genericAdapter() {
-		return adapter;
-	}
-
-	public LPredicate<I> genericTester() {
-		return tester;
-	}
-
-	public OFunction<I, E> genericGetter() {
-		return getter;
-	}
-
-	public TeConsumer<C, E> genericAdder() {
-		return adder;
-	}
-
-	private static void unsupported() {
-		throw new UnsupportedOperationException();
+	public static <C, I, E extends aType> SA<C, I, E> sA(LToIntFunction<C> sizeFunc, LFunction<C, I> adapter, LPredicate<I> tester, OFunction<I, E> getter, TeConsumer<C, E> consumer) {
+		return new The<>(sizeFunc, adapter, tester, getter, consumer);
 	}
 
 	public static <E, C extends Collection<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> collection() {
-		return (SA) COLLECTION;
+		return (SA) The.COLLECTION;
 	}
 
 	public static <E, C extends Iterable<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> iterable() {
-		return (SA) ITERABLE;
+		return (SA) The.ITERABLE;
 	}
 
 	public static <E, C extends Stream<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> stream() {
-		return (SA) STREAM;
+		return (SA) The.STREAM;
 	}
 
 	public static <E, C extends Iterator<E>, A extends a<E>> SA<C, C, A> iterator() {
-		return (SA) ITERATOR;
+		return (SA) The.ITERATOR;
 	}
 
 	public static <E, C extends Enumeration<E>, A extends a<E>> SA<C, C, A> enumeration() {
-		return (SA) ENUMERATION;
+		return (SA) The.ENUMERATION;
 	}
 
 	public static <E, C extends ListIterator<E>, A extends a<E>> SA<C, C, A> listIterator() {
-		return (SA) LIST_ITERATOR;
+		return (SA) The.LIST_ITERATOR;
 	}
 
 	public static <K, V, C extends Map<K, V>, I extends Iterator<Map.Entry<K, V>>> SA<C, I, a<Map.Entry<K, V>>> map() {
-		return (SA) MAP;
+		return (SA) The.MAP;
 	}
 
 }

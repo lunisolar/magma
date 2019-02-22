@@ -80,13 +80,12 @@ public interface JreDoubleBinaryOperatorAssert<S extends JreDoubleBinaryOperator
 		@Nonnull
 		public Evaluation<S, LBiDblConsumer, A, RS, Double> doesApplyAsDbl(double a1, double a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.applyAsDouble(a1, a2));
+				return assertFactory.apply(actual.applyAsDouble(a1, a2));
 			});
-
 		}
 
 	}

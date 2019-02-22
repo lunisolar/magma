@@ -55,7 +55,7 @@ public class LOiToByteFuncDeltaTest <T> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsByte(100,100))
+        assertThat(sut.applyAsByte(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LOiToByteFuncDeltaTest <T> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte(100,100))
+        assertThat(sut.applyAsByte(100,100))
             .isEqualTo((byte)9);
 
         assertThat(functionCallCount).isEqualTo(2);

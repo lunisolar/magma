@@ -54,7 +54,7 @@ public class LBoolToLongFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong(true))
+        assertThat(sut.applyAsLong(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBoolToLongFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong(true))
+        assertThat(sut.applyAsLong(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

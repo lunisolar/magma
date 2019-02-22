@@ -33,7 +33,7 @@ public interface SequentialRead<C, I, E extends aType> extends SizeMeasure<C, E>
 
     OFunction<I, aBool> genericTester();
 
-    OFunction<I, E> genericGetter();
+    OFunction<I, ? extends E> genericSupplier();
 
     default <F extends OFunction<C, a<I>>> F adapter() {
         return (F) genericAdapter();
@@ -43,8 +43,8 @@ public interface SequentialRead<C, I, E extends aType> extends SizeMeasure<C, E>
         return (F) genericTester();
     }
 
-    default <F extends OFunction<I, E>> F getter() {
-        return (F) genericGetter();
+    default <F extends OFunction<I, E>> F supplier() {
+        return (F) genericSupplier();
     }
     
 }

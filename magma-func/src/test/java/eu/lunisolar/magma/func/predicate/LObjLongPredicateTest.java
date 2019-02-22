@@ -65,7 +65,7 @@ public class LObjLongPredicateTest<T> {
 
 
     private LObjLongPredicate<Integer> sut = new LObjLongPredicate<Integer>(){
-        public  boolean doTestX(Integer a1,long a2)  {
+        public  boolean testX(Integer a1,long a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LObjLongPredicateTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100,100L))
+        assertThat(sut.test(100,100L))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LObjLongPredicateTest<T> {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100,100L))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100,100L))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100,100L);
+            sutAlwaysThrowingUnchecked.nestingTest(100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LObjLongPredicateTest<T> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100,100L);
+            sutAlwaysThrowingUnchecked.shovingTest(100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LObjLongPredicateTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjLongPredicate: boolean doTest(T a1,long a2)");
+            .isEqualTo("LObjLongPredicate: boolean test(T a1,long a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LObjLongPredicateTest<T> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100,100L))
+        assertThat(sut.negate().test(100,100L))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LObjLongPredicateTest<T> {
         LObjLongPredicate<Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100,100L))
+        assertThat(andFunction.test(100,100L))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100,100L))
+        assertThat(orFunction.test(100,100L))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100,100L))
+        assertThat(xorFunction.test(100,100L))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LObjLongPredicateTest<T> {
         LObjLongPredicate<Integer> equals = LObjLongPredicate.isEqual(1,1L);
 
         //then
-        assertThat(equals.doTest(1,1L))
+        assertThat(equals.test(1,1L))
                 .isTrue();
 
-        assertThat(equals.doTest(0,0L))
+        assertThat(equals.test(0,0L))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LObjLongPredicateTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjLongPredComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LObjLongPredicateTest<T> {
         };
 
         //when
-        LObjLongPredicate<Integer> function = sutO.objLongPredComposeLong(before1,before2);
-        function.doTest(80,81L);
+        LObjLongPredicate<Integer> function = sutO.compose(before1,before2);
+        function.test(80,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LObjLongPredicateTest<T> {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.objLongPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LObjLongPredicateTest<T> {
 
         //when
         LObjLongFunction<Integer,Integer> function = sutO.boolToObjLongFunc(thenFunction);
-        Integer finalValue = function.doApply(80,81L);
+        Integer finalValue = function.apply(80,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LObjLongPredicateTest<T> {
 
         //when
         LObjLongPredicate<Integer> function = sutO.boolToObjLongPred(thenFunction);
-        boolean finalValue = function.doTest(80,81L);
+        boolean finalValue = function.test(80,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -362,20 +362,6 @@ public class LObjLongPredicateTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjLongPred())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjLongPred())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -386,7 +372,7 @@ public class LObjLongPredicateTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjLongPred().doTest(100,100L);
+        sutThrowing.shovingTest(100,100L);
     }
 
 
@@ -399,7 +385,7 @@ public class LObjLongPredicateTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjLongPredicate: boolean doTest(T a1,long a2)");
+                .contains("LObjLongPredicate: boolean test(T a1,long a2)");
     }
 
 

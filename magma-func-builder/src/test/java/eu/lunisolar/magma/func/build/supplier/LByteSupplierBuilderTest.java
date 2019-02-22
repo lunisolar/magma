@@ -69,7 +69,7 @@ public class LByteSupplierBuilderTest{
                 .build()
             );
 
-            function.doGetAsByte();
+            function.getAsByte();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LByteSupplierBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doGetAsByte();
+            function.getAsByte();
 
             fail("No exception were thrown.");
         })

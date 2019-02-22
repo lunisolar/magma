@@ -66,127 +66,144 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing {
+public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, Codomain<aVoid>, Domain2<aChar, aChar> {
 
-	String DESCRIPTION = "LBiCharConsumer: void doAccept(char a1,char a2)";
+	String DESCRIPTION = "LBiCharConsumer: void accept(char a1,char a2)";
 
-	// void doAccept(char a1,char a2) ;
-	default void doAccept(char a1, char a2) {
-		// nestingDoAccept(a1,a2);
+	// void accept(char a1,char a2) ;
+	default void accept(char a1, char a2) {
+		// nestingAccept(a1,a2);
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doAccept(char a1,char a2)
+	 * Implement this, but call accept(char a1,char a2)
 	 */
-	void doAcceptX(char a1, char a2) throws Throwable;
+	void acceptX(char a1, char a2) throws Throwable;
 
 	default LTuple.Void tupleAccept(LCharPair args) {
-		doAccept(args.first(), args.second());
+		accept(args.first(), args.second());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default void handlingDoAccept(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default void handlingAccept(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default void tryDoAccept(char a1, char a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiCharConsumer handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingAccept(a1, a2, handling);
+	}
+
+	default void accept(char a1, char a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default void tryDoAccept(char a1, char a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiCharConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default void accept(char a1, char a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default void tryDoAcceptThen(char a1, char a2, @Nonnull LConsumer<Throwable> handler) {
+	default LBiCharConsumer trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> accept(a1, a2, exF);
+	}
+
+	default void acceptThen(char a1, char a2, @Nonnull LConsumer<Throwable> handler) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			handler.doAccept(e);
+			handler.accept(e);
 		}
+	}
+
+	default LBiCharConsumer tryingThen(@Nonnull LConsumer<Throwable> handler) {
+		return (a1, a2) -> acceptThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(char a1, char a2) {
+	default void nestingAccept(char a1, char a2) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default void shovingDoAccept(char a1, char a2) {
+	default void shovingAccept(char a1, char a2) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static void handlingDoAccept(char a1, char a2, LBiCharConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static void handlingAccept(char a1, char a2, LBiCharConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		func.handlingDoAccept(a1, a2, handling);
+		func.handlingAccept(a1, a2, handling);
 	}
 
-	static void tryDoAccept(char a1, char a2, LBiCharConsumer func) {
-		tryDoAccept(a1, a2, func, null);
-	}
-
-	static void tryDoAccept(char a1, char a2, LBiCharConsumer func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static void tryAccept(char a1, char a2, LBiCharConsumer func) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a1, a2, exceptionFactory, newMessage, messageParams);
+		func.nestingAccept(a1, a2);
 	}
 
-	static void tryDoAccept(char a1, char a2, LBiCharConsumer func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static void tryAccept(char a1, char a2, LBiCharConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a1, a2, exceptionFactory);
+		func.accept(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static void tryDoAcceptThen(char a1, char a2, LBiCharConsumer func, @Nonnull LConsumer<Throwable> handler) {
+	static void tryAccept(char a1, char a2, LBiCharConsumer func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAcceptThen(a1, a2, handler);
+		func.accept(a1, a2, exF);
 	}
 
-	default void failSafeDoAccept(char a1, char a2, @Nonnull LBiCharConsumer failSafe) {
+	static void tryAcceptThen(char a1, char a2, LBiCharConsumer func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.acceptThen(a1, a2, handler);
+	}
+
+	default void failSafeAccept(char a1, char a2, @Nonnull LBiCharConsumer failSafe) {
 		try {
-			doAccept(a1, a2);
+			accept(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			failSafe.doAccept(a1, a2);
+			failSafe.accept(a1, a2);
 		}
 	}
 
-	static void failSafeDoAccept(char a1, char a2, LBiCharConsumer func, @Nonnull LBiCharConsumer failSafe) {
+	static void failSafeAccept(char a1, char a2, LBiCharConsumer func, @Nonnull LBiCharConsumer failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			failSafe.doAccept(a1, a2);
+			failSafe.accept(a1, a2);
 		} else {
-			func.failSafeDoAccept(a1, a2, failSafe);
+			func.failSafeAccept(a1, a2, failSafe);
 		}
 	}
 
-	static LBiCharConsumer failSafeBiCharCons(LBiCharConsumer func, @Nonnull LBiCharConsumer failSafe) {
+	static LBiCharConsumer failSafe(LBiCharConsumer func, @Nonnull LBiCharConsumer failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoAccept(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
@@ -198,13 +215,13 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, char a1, char a2, LBiCharConsumer func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		}
 	}
@@ -212,28 +229,30 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, char a1, char a2, LBiCharConsumer func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, char a1, char a2, LBiCharConsumer func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LCharConsumer lShrink(LCharUnaryOperator left) {
-		return a2 -> doAccept(left.doApplyAsChar(a2), a2);
+		return a2 -> accept(left.applyAsChar(a2), a2);
 	}
 
 	public default LCharConsumer lShrinkc(char a1) {
-		return a2 -> doAccept(a1, a2);
+		return a2 -> accept(a1, a2);
 	}
 
 	public static LCharConsumer lShrinked(LCharUnaryOperator left, LBiCharConsumer func) {
@@ -245,11 +264,11 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	public default LCharConsumer rShrink(LCharUnaryOperator right) {
-		return a1 -> doAccept(a1, right.doApplyAsChar(a1));
+		return a1 -> accept(a1, right.applyAsChar(a1));
 	}
 
 	public default LCharConsumer rShrinkc(char a2) {
-		return a1 -> doAccept(a1, a2);
+		return a1 -> accept(a1, a2);
 	}
 
 	public static LCharConsumer rShrinked(LCharUnaryOperator right, LBiCharConsumer func) {
@@ -261,25 +280,25 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/**  */
-	public static LBiCharConsumer uncurryBiCharCons(LCharFunction<LCharConsumer> func) {
-		return (char a1, char a2) -> func.doApply(a1).doAccept(a2);
+	public static LBiCharConsumer uncurry(LCharFunction<LCharConsumer> func) {
+		return (char a1, char a2) -> func.apply(a1).accept(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBiCharCons(char a1, char a2) {
-		return () -> this.doAccept(a1, a2);
+	default LAction capture(char a1, char a2) {
+		return () -> this.accept(a1, a2);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiCharConsumer accept1st(@Nonnull LCharConsumer func) {
-		return (a1, a2) -> func.doAccept(a1);
+		return (a1, a2) -> func.accept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiCharConsumer accept2nd(@Nonnull LCharConsumer func) {
-		return (a1, a2) -> func.doAccept(a2);
+		return (a1, a2) -> func.accept(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -292,7 +311,7 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@Nonnull
 	static LBiCharConsumer recursive(final @Nonnull LFunction<LBiCharConsumer, LBiCharConsumer> selfLambda) {
 		final LBiCharConsumerSingle single = new LBiCharConsumerSingle();
-		LBiCharConsumer func = selfLambda.doApply(single);
+		LBiCharConsumer func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -301,8 +320,8 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		private LBiCharConsumer target = null;
 
 		@Override
-		public void doAcceptX(char a1, char a2) throws Throwable {
-			target.doAcceptX(a1, a2);
+		public void acceptX(char a1, char a2) throws Throwable {
+			target.acceptX(a1, a2);
 		}
 
 		@Override
@@ -312,18 +331,18 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	@Nonnull
-	static LBiCharConsumer biCharConsThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiCharConsumer biCharConsThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBiCharConsumer biCharConsThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiCharConsumer biCharConsThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -340,7 +359,7 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	static void call(char a1, char a2, final @Nonnull LBiCharConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1, a2);
+		lambda.accept(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -387,14 +406,14 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiCharConsumer biCharConsComposeChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LBiCharConsumer compose(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.accept(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
-	public static LBiCharConsumer composedChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LBiCharConsumer after) {
-		return after.biCharConsComposeChar(before1, before2);
+	public static LBiCharConsumer composed(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LBiCharConsumer after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -402,7 +421,7 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	default <V1, V2> LBiConsumer<V1, V2> biCharConsCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.accept(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
 	public static <V1, V2> LBiConsumer<V1, V2> composed(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2, LBiCharConsumer after) {
@@ -418,25 +437,14 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	default LBiCharConsumer andThen(@Nonnull LBiCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> {
-			this.doAccept(a1, a2);
-			after.doAccept(a1, a2);
+			this.accept(a1, a2);
+			after.accept(a1, a2);
 		};
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiCharConsumer nestingBiCharCons() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiCharConsumer shovingBiCharCons() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -446,11 +454,11 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@FunctionalInterface
 	interface LChar1Char0Cons extends LBiCharConsumer {
 
-		void doAcceptChar1Char0(char a2, char a1);
+		void acceptChar1Char0(char a2, char a1);
 
 		@Override
-		default void doAcceptX(char a1, char a2) {
-			this.doAcceptChar1Char0(a2, a1);
+		default void acceptX(char a1, char a2) {
+			this.acceptChar1Char0(a2, a1);
 		}
 	}
 
@@ -461,7 +469,11 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		// NOSONAR
 	}
 
-	// JUST_CONSUME: FOR, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2> int forEach(IndexedRead<C1, aChar> ia1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LBiCharConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
@@ -469,92 +481,110 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
-			consumer.doAccept(a1, a2);
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = oiFunc2.applyAsChar(source2, i);
+			consumer.accept(a1, a2);
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2> int iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LBiCharConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
-			consumer.doAccept(a1, a2);
+		while (testFunc1.test(iterator1) && i < size) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = oiFunc2.applyAsChar(source2, i);
+			consumer.accept(a1, a2);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2, I2> int iterate(IndexedRead<C1, aChar> ia1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LBiCharConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
-			consumer.doAccept(a1, a2);
+		while (i < size && testFunc2.test(iterator2)) {
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = nextFunc2.applyAsChar(iterator2);
+			consumer.accept(a1, a2);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LBiCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2, I2> int iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LBiCharConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
-			consumer.doAccept(a1, a2);
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = nextFunc2.applyAsChar(iterator2);
+			consumer.accept(a1, a2);
 			i++;
 		}
 		return i;
 
 	}
 
-	// CONSUME_WITH_TARGET: FOR, [SourcePurpose{arg=char a1, type=CONST}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LBiCharConsumer consumer,
-	// type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns 'target' object
+	*/
 	public static <C2> char targetedForEach(char a1, IndexedRead<C2, aChar> ia2, C2 source2, LBiCharConsumer consumer) {
 		int size = ia2.size(source2);
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
-			consumer.doAccept(a1, a2);
+			char a2 = oiFunc2.applyAsChar(source2, i);
+			consumer.accept(a1, a2);
 		}
 		return a1;
 
 	}
 
-	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=char a1, type=CONST}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LBiCharConsumer consumer,
-	// type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns 'target' object
+	*/
 	public static <C2, I2> char targetedIterate(char a1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LBiCharConsumer consumer) {
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
-		while (testFunc2.doTest(iterator2)) {
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
-			consumer.doAccept(a1, a2);
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
+		while (testFunc2.test(iterator2)) {
+			char a2 = nextFunc2.applyAsChar(iterator2);
+			consumer.accept(a1, a2);
 		}
 		return a1;
 

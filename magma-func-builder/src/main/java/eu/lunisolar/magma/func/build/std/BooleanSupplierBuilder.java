@@ -80,8 +80,10 @@ public final class BooleanSupplierBuilder extends PerCaseBuilderWithBoolProduct.
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static BooleanSupplier boolSupplierFrom(Function<BooleanSupplierBuilder, BooleanSupplier> buildingFunction) {
-		return buildingFunction.apply(new BooleanSupplierBuilder());
+	public static BooleanSupplier boolSupplierFrom(Consumer<BooleanSupplierBuilder> buildingFunction) {
+		BooleanSupplierBuilder builder = new BooleanSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class BooleanSupplierBuilder extends PerCaseBuilderWithBoolProduct.
 		retval = Function4U.boolSup(() -> {
 			try {
 				for (Case<LBoolSupplier, BooleanSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
+					if (aCase.casePredicate().getAsBool()) {
 						return aCase.caseFunction().getAsBoolean();
 					}
 				}

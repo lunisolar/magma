@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aShort>, Domain1<aShort> { // NOSONAR
 
-	String DESCRIPTION = "LSrtUnaryOperator: short doApplyAsSrt(short a)";
+	String DESCRIPTION = "LSrtUnaryOperator: short applyAsSrt(short a)";
 
-	// short doApplyAsSrt(short a) ;
-	default short doApplyAsSrt(short a) {
-		// return nestingDoApplyAsSrt(a);
+	// short applyAsSrt(short a) ;
+	default short applyAsSrt(short a) {
+		// return nestingApplyAsSrt(a);
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsSrt(short a)
+	 * Implement this, but call applyAsSrt(short a)
 	 */
-	short doApplyAsSrtX(short a) throws Throwable;
+	short applyAsSrtX(short a) throws Throwable;
 
 	default short tupleApplyAsSrt(LSrtSingle args) {
-		return doApplyAsSrt(args.value());
+		return applyAsSrt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default short handlingDoApplyAsSrt(short a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default short handlingApplyAsSrt(short a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default short tryDoApplyAsSrt(short a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LSrtUnaryOperator handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsSrt(a, handling);
+	}
+
+	default short applyAsSrt(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default short tryDoApplyAsSrt(short a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LSrtUnaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsSrt(a, exF, newMessage, messageParams);
+	}
+
+	default short applyAsSrt(short a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default short tryDoApplyAsSrtThen(short a, @Nonnull LToSrtFunction<Throwable> handler) {
+	default LSrtUnaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsSrt(a, exF);
+	}
+
+	default short applyAsSrtThen(short a, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsSrt(e);
+			return handler.applyAsSrt(e);
 		}
+	}
+
+	default LSrtUnaryOperator tryingThen(@Nonnull LToSrtFunction<Throwable> handler) {
+		return a -> applyAsSrtThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default short nestingDoApplyAsSrt(short a) {
+	default short nestingApplyAsSrt(short a) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default short shovingDoApplyAsSrt(short a) {
+	default short shovingApplyAsSrt(short a) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static short handlingDoApplyAsSrt(short a, LSrtUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static short handlingApplyAsSrt(short a, LSrtUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsSrt(a, handling);
+		return func.handlingApplyAsSrt(a, handling);
 	}
 
-	static short tryDoApplyAsSrt(short a, LSrtUnaryOperator func) {
-		return tryDoApplyAsSrt(a, func, null);
-	}
-
-	static short tryDoApplyAsSrt(short a, LSrtUnaryOperator func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static short tryApplyAsSrt(short a, LSrtUnaryOperator func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsSrt(a);
 	}
 
-	static short tryDoApplyAsSrt(short a, LSrtUnaryOperator func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static short tryApplyAsSrt(short a, LSrtUnaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a, exceptionFactory);
+		return func.applyAsSrt(a, exF, newMessage, messageParams);
 	}
 
-	static short tryDoApplyAsSrtThen(short a, LSrtUnaryOperator func, @Nonnull LToSrtFunction<Throwable> handler) {
+	static short tryApplyAsSrt(short a, LSrtUnaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrtThen(a, handler);
+		return func.applyAsSrt(a, exF);
 	}
 
-	default short failSafeDoApplyAsSrt(short a, @Nonnull LSrtUnaryOperator failSafe) {
+	static short tryApplyAsSrtThen(short a, LSrtUnaryOperator func, @Nonnull LToSrtFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrtThen(a, handler);
+	}
+
+	default short failSafeApplyAsSrt(short a, @Nonnull LSrtUnaryOperator failSafe) {
 		try {
-			return doApplyAsSrt(a);
+			return applyAsSrt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsSrt(a);
+			return failSafe.applyAsSrt(a);
 		}
 	}
 
-	static short failSafeDoApplyAsSrt(short a, LSrtUnaryOperator func, @Nonnull LSrtUnaryOperator failSafe) {
+	static short failSafeApplyAsSrt(short a, LSrtUnaryOperator func, @Nonnull LSrtUnaryOperator failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsSrt(a);
+			return failSafe.applyAsSrt(a);
 		} else {
-			return func.failSafeDoApplyAsSrt(a, failSafe);
+			return func.failSafeApplyAsSrt(a, failSafe);
 		}
 	}
 
-	static LSrtUnaryOperator failSafeSrtUnaryOp(LSrtUnaryOperator func, @Nonnull LSrtUnaryOperator failSafe) {
+	static LSrtUnaryOperator failSafe(LSrtUnaryOperator func, @Nonnull LSrtUnaryOperator failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsSrt(a, func, failSafe);
+		return a -> failSafeApplyAsSrt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsSrt(short a) {
-		return doApplyAsSrt(a);
+	default short nonNullApplyAsSrt(short a) {
+		return applyAsSrt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, short a, LSrtUnaryOperator func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, short a, LSrtUnaryOperator func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, short a, LSrtUnaryOperator func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier captureSrtUnaryOp(short a) {
-		return () -> this.doApplyAsSrt(a);
+	default LSrtSupplier capture(short a) {
+		return () -> this.applyAsSrt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	@Nonnull
 	static LSrtUnaryOperator recursive(final @Nonnull LFunction<LSrtUnaryOperator, LSrtUnaryOperator> selfLambda) {
 		final LSrtUnaryOperatorSingle single = new LSrtUnaryOperatorSingle();
-		LSrtUnaryOperator func = selfLambda.doApply(single);
+		LSrtUnaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		private LSrtUnaryOperator target = null;
 
 		@Override
-		public short doApplyAsSrtX(short a) throws Throwable {
-			return target.doApplyAsSrtX(a);
+		public short applyAsSrtX(short a) throws Throwable {
+			return target.applyAsSrtX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static LSrtUnaryOperator srtUnaryOpThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LSrtUnaryOperator srtUnaryOpThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LSrtUnaryOperator srtUnaryOpThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LSrtUnaryOperator srtUnaryOpThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static short call(short a, final @Nonnull LSrtUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsSrt(a);
+		return lambda.applyAsSrt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LSrtUnaryOperator srtUnaryOpComposeSrt(@Nonnull final LSrtUnaryOperator before) {
+	default LSrtUnaryOperator compose(@Nonnull final LSrtUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsSrt(before.doApplyAsSrt(v));
+		return v -> this.applyAsSrt(before.applyAsSrt(v));
 	}
 
-	public static LSrtUnaryOperator composedSrt(@Nonnull final LSrtUnaryOperator before, LSrtUnaryOperator after) {
-		return after.srtUnaryOpComposeSrt(before);
+	public static LSrtUnaryOperator composed(@Nonnull final LSrtUnaryOperator before, LSrtUnaryOperator after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToSrtFunction<V> srtUnaryOpCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsSrt(before.doApplyAsSrt(v));
+		return v -> this.applyAsSrt(before.applyAsSrt(v));
 	}
 
 	public static <V> LToSrtFunction<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtUnaryOperator after) {
@@ -364,63 +383,63 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LSrtFunction<V> then(@Nonnull LSrtFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsSrt(a));
+		return a -> after.apply(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToByteFunction thenToByte(@Nonnull LSrtToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsSrt(a));
+		return a -> after.applyAsByte(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtUnaryOperator thenToSrt(@Nonnull LSrtUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsSrt(a));
+		return a -> after.applyAsSrt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToIntFunction thenToInt(@Nonnull LSrtToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsSrt(a));
+		return a -> after.applyAsInt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToLongFunction thenToLong(@Nonnull LSrtToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsSrt(a));
+		return a -> after.applyAsLong(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToFltFunction thenToFlt(@Nonnull LSrtToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsSrt(a));
+		return a -> after.applyAsFlt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToDblFunction thenToDbl(@Nonnull LSrtToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsSrt(a));
+		return a -> after.applyAsDbl(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtToCharFunction thenToChar(@Nonnull LSrtToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsSrt(a));
+		return a -> after.applyAsChar(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtPredicate thenToBool(@Nonnull LSrtPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsSrt(a));
+		return a -> after.test(this.applyAsSrt(a));
 	}
 
 	// </editor-fold>
@@ -433,17 +452,6 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LSrtUnaryOperator nestingSrtUnaryOp() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSrtUnaryOperator shovingSrtUnaryOp() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Does nothing (LSrtUnaryOperator) Operator */
@@ -451,25 +459,31 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return Function4U.defaultShort;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=short a, type=IA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aShort> ia, C0 source, LSrtConsumer consumer) {
 		int size = ia.size(source);
 		LOiToSrtFunction<Object> oiFunc0 = (LOiToSrtFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			short a = oiFunc0.doApplyAsSrt(source, i);
-			consumer.doAccept(this.doApplyAsSrt(a));
+			short a = oiFunc0.applyAsSrt(source, i);
+			consumer.accept(this.applyAsSrt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=short a, type=SA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aShort> sa, C0 source, LSrtConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToSrtFunction<Object> nextFunc0 = (LToSrtFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			short a = nextFunc0.doApplyAsSrt(iterator0);
-			consumer.doAccept(this.doApplyAsSrt(a));
+		LToSrtFunction<Object> nextFunc0 = (LToSrtFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			short a = nextFunc0.applyAsSrt(iterator0);
+			consumer.accept(this.applyAsSrt(a));
 		}
 	}
 

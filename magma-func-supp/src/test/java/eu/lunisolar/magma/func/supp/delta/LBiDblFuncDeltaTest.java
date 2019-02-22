@@ -55,7 +55,7 @@ public class LBiDblFuncDeltaTest <R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply(100d,100d))
+        assertThat(sut.apply(100d,100d))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBiDblFuncDeltaTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100d,100d))
+        assertThat(sut.apply(100d,100d))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

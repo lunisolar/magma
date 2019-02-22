@@ -66,137 +66,144 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterface.NonThrowing {
+public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterface.NonThrowing, Codomain<aVoid>, Domain1<aDouble> {
 
-	String DESCRIPTION = "LDblConsumer: void doAccept(double a)";
+	String DESCRIPTION = "LDblConsumer: void accept(double a)";
 
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LDblConsumer interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
+	// void accept(double a) ;
 	default void accept(double a) {
-		this.doAccept(a);
-	}
-
-	// void doAccept(double a) ;
-	default void doAccept(double a) {
-		// nestingDoAccept(a);
+		// nestingAccept(a);
 		try {
-			this.doAcceptX(a);
+			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doAccept(double a)
+	 * Implement this, but call accept(double a)
 	 */
-	void doAcceptX(double a) throws Throwable;
+	void acceptX(double a) throws Throwable;
 
 	default LTuple.Void tupleAccept(LDblSingle args) {
-		doAccept(args.value());
+		accept(args.value());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default void handlingDoAccept(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default void handlingAccept(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			this.doAcceptX(a);
+			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default void tryDoAccept(double a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LDblConsumer handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingAccept(a, handling);
+	}
+
+	default void accept(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			this.doAcceptX(a);
+			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default void tryDoAccept(double a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LDblConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> accept(a, exF, newMessage, messageParams);
+	}
+
+	default void accept(double a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			this.doAcceptX(a);
+			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default void tryDoAcceptThen(double a, @Nonnull LConsumer<Throwable> handler) {
+	default LDblConsumer trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> accept(a, exF);
+	}
+
+	default void acceptThen(double a, @Nonnull LConsumer<Throwable> handler) {
 		try {
-			this.doAcceptX(a);
+			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			handler.doAccept(e);
+			handler.accept(e);
 		}
+	}
+
+	default LDblConsumer tryingThen(@Nonnull LConsumer<Throwable> handler) {
+		return a -> acceptThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(double a) {
+	default void nestingAccept(double a) {
 		try {
-			this.doAcceptX(a);
+			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default void shovingDoAccept(double a) {
+	default void shovingAccept(double a) {
 		try {
-			this.doAcceptX(a);
+			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static void handlingDoAccept(double a, LDblConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static void handlingAccept(double a, LDblConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		func.handlingDoAccept(a, handling);
+		func.handlingAccept(a, handling);
 	}
 
-	static void tryDoAccept(double a, LDblConsumer func) {
-		tryDoAccept(a, func, null);
-	}
-
-	static void tryDoAccept(double a, LDblConsumer func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static void tryAccept(double a, LDblConsumer func) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a, exceptionFactory, newMessage, messageParams);
+		func.nestingAccept(a);
 	}
 
-	static void tryDoAccept(double a, LDblConsumer func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static void tryAccept(double a, LDblConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a, exceptionFactory);
+		func.accept(a, exF, newMessage, messageParams);
 	}
 
-	static void tryDoAcceptThen(double a, LDblConsumer func, @Nonnull LConsumer<Throwable> handler) {
+	static void tryAccept(double a, LDblConsumer func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAcceptThen(a, handler);
+		func.accept(a, exF);
 	}
 
-	default void failSafeDoAccept(double a, @Nonnull LDblConsumer failSafe) {
+	static void tryAcceptThen(double a, LDblConsumer func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.acceptThen(a, handler);
+	}
+
+	default void failSafeAccept(double a, @Nonnull LDblConsumer failSafe) {
 		try {
-			doAccept(a);
+			accept(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			failSafe.doAccept(a);
+			failSafe.accept(a);
 		}
 	}
 
-	static void failSafeDoAccept(double a, LDblConsumer func, @Nonnull LDblConsumer failSafe) {
+	static void failSafeAccept(double a, LDblConsumer func, @Nonnull LDblConsumer failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			failSafe.doAccept(a);
+			failSafe.accept(a);
 		} else {
-			func.failSafeDoAccept(a, failSafe);
+			func.failSafeAccept(a, failSafe);
 		}
 	}
 
-	static LDblConsumer failSafeDblCons(LDblConsumer func, @Nonnull LDblConsumer failSafe) {
+	static LDblConsumer failSafe(LDblConsumer func, @Nonnull LDblConsumer failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoAccept(a, func, failSafe);
+		return a -> failSafeAccept(a, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
@@ -208,13 +215,13 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, double a, LDblConsumer func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doAccept(a);
+				func.accept(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doAccept(a);
+				func.accept(a);
 			}
 		}
 	}
@@ -222,25 +229,27 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, double a, LDblConsumer func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doAccept(a);
+				func.accept(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doAccept(a);
+				func.accept(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, double a, LDblConsumer func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureDblCons(double a) {
-		return () -> this.doAccept(a);
+	default LAction capture(double a) {
+		return () -> this.accept(a);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -253,7 +262,7 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 	@Nonnull
 	static LDblConsumer recursive(final @Nonnull LFunction<LDblConsumer, LDblConsumer> selfLambda) {
 		final LDblConsumerSingle single = new LDblConsumerSingle();
-		LDblConsumer func = selfLambda.doApply(single);
+		LDblConsumer func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -262,8 +271,8 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		private LDblConsumer target = null;
 
 		@Override
-		public void doAcceptX(double a) throws Throwable {
-			target.doAcceptX(a);
+		public void acceptX(double a) throws Throwable {
+			target.acceptX(a);
 		}
 
 		@Override
@@ -273,24 +282,24 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 	}
 
 	@Nonnull
-	static LDblConsumer dblConsThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblConsumer dblConsThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LDblConsumer dblConsThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblConsumer dblConsThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static void call(double a, final @Nonnull LDblConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a);
+		lambda.accept(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -342,20 +351,20 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDblConsumer dblConsComposeDbl(@Nonnull final LDblUnaryOperator before) {
+	default LDblConsumer compose(@Nonnull final LDblUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doAccept(before.doApplyAsDbl(v));
+		return v -> this.accept(before.applyAsDbl(v));
 	}
 
-	public static LDblConsumer composedDbl(@Nonnull final LDblUnaryOperator before, LDblConsumer after) {
-		return after.dblConsComposeDbl(before);
+	public static LDblConsumer composed(@Nonnull final LDblUnaryOperator before, LDblConsumer after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LConsumer<V> dblConsCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doAccept(before.doApplyAsDbl(v));
+		return v -> this.accept(before.applyAsDbl(v));
 	}
 
 	public static <V> LConsumer<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblConsumer after) {
@@ -371,25 +380,14 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 	default LDblConsumer andThen(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return a -> {
-			this.doAccept(a);
-			after.doAccept(a);
+			this.accept(a);
+			after.accept(a);
 		};
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LDblConsumer nestingDblCons() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDblConsumer shovingDblCons() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -398,28 +396,36 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		// NOSONAR
 	}
 
-	// JUST_CONSUME: FOR, [SourcePurpose{arg=double a, type=IA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C0> int forEach(IndexedRead<C0, aDouble> ia, C0 source, LDblConsumer consumer) {
 		int size = ia.size(source);
 		LOiToDblFunction<Object> oiFunc0 = (LOiToDblFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			double a = oiFunc0.doApplyAsDbl(source, i);
-			consumer.doAccept(a);
+			double a = oiFunc0.applyAsDbl(source, i);
+			consumer.accept(a);
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=double a, type=SA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns iterations count
+	*/
 	public static <C0, I0> int iterate(SequentialRead<C0, I0, aDouble> sa, C0 source, LDblConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.getter();
+		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.supplier();
 		int i = 0;
-		while (testFunc0.doTest(iterator0)) {
-			double a = nextFunc0.doApplyAsDbl(iterator0);
-			consumer.doAccept(a);
+		while (testFunc0.test(iterator0)) {
+			double a = nextFunc0.applyAsDbl(iterator0);
+			consumer.accept(a);
 			i++;
 		}
 		return i;

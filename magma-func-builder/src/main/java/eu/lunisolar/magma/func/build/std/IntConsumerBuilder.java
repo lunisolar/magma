@@ -80,8 +80,10 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static IntConsumer intConsumerFrom(Function<IntConsumerBuilder, IntConsumer> buildingFunction) {
-		return buildingFunction.apply(new IntConsumerBuilder());
+	public static IntConsumer intConsumerFrom(Consumer<IntConsumerBuilder> buildingFunction) {
+		IntConsumerBuilder builder = new IntConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 		retval = Function4U.intCons(a -> {
 			try {
 				for (Case<LIntPredicate, IntConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						aCase.caseFunction().accept(a);
 						return;
 					}

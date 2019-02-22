@@ -34,26 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LFltConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltSingle extends LTuple<Float> {
+public interface LFltSingle extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	float value();
 
-	default float getValue() {
+	default float first() {
 		return value();
 	}
 
-	default Float get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default float getFloat(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -98,63 +89,8 @@ public interface LFltSingle extends LTuple<Float> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Float[] toVoArray(Float[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Float[] toVoArray(Float[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Float[] toVoArray() {
-		Float[] array = new Float[size()];
-
-		return toVoArray(array);
-	}
-
-	default float[] toFltArray(float[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default float[] toFltArray(float[] array) {
-		return toFltArray(array, 0);
-	}
-
-	default float[] toFltArray() {
-		float[] array = new float[size()];
-
-		return toFltArray(array);
-	}
-
-	@Override
-	default Iterator<Float> iterator() {
-		return new Iterator<Float>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -164,27 +100,9 @@ public interface LFltSingle extends LTuple<Float> {
 			}
 
 			@Override
-			public Float next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfDouble doubleIterator() {
-		return new PrimitiveIterator.OfDouble() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public double nextDouble() {
-				index++;
-				return getFloat(index);
 			}
 		};
 	}
@@ -202,7 +120,7 @@ public interface LFltSingle extends LTuple<Float> {
 
 	}
 
-	abstract class AbstractFltSingle extends Number implements LFltSingle {
+	abstract class AbstractFltSingle implements LFltSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -218,40 +136,11 @@ public interface LFltSingle extends LTuple<Float> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
-
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
-
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
-
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
-
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
-
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
 	}
 
 	/**
@@ -289,7 +178,7 @@ public interface LFltSingle extends LTuple<Float> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutFltSingle setValueIfArg(float value, LFltPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -298,14 +187,14 @@ public interface LFltSingle extends LTuple<Float> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutFltSingle setValueIfArgNotNull(R arg, LToFltFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsFlt(arg);
+				this.value = func.applyAsFlt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutFltSingle setValueIf(LFltPredicate predicate, float value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -314,7 +203,7 @@ public interface LFltSingle extends LTuple<Float> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutFltSingle setValueIf(float value, LBiFltPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -323,7 +212,7 @@ public interface LFltSingle extends LTuple<Float> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutFltSingle setValueIf(LBiFltPredicate predicate, float value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -369,7 +258,7 @@ public interface LFltSingle extends LTuple<Float> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompFltSingle setValueIfArg(float value, LFltPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -378,14 +267,14 @@ public interface LFltSingle extends LTuple<Float> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompFltSingle setValueIfArgNotNull(R arg, LToFltFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsFlt(arg);
+				this.value = func.applyAsFlt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompFltSingle setValueIf(LFltPredicate predicate, float value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -394,7 +283,7 @@ public interface LFltSingle extends LTuple<Float> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompFltSingle setValueIf(float value, LBiFltPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -403,7 +292,7 @@ public interface LFltSingle extends LTuple<Float> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompFltSingle setValueIf(LBiFltPredicate predicate, float value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;

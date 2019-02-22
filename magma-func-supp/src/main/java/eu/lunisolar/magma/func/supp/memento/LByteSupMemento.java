@@ -72,8 +72,8 @@ public class LByteSupMemento implements LByteSupplier {
 	}
 
 	@Override
-	public byte doGetAsByteX() {
-		return lastValue = function.doGetAsByte();
+	public byte getAsByteX() {
+		return lastValue = function.getAsByte();
 	}
 
 	public byte lastValue() {

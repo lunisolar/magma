@@ -80,8 +80,10 @@ public final class LFltConsumerBuilder extends PerCaseBuilder.Base<LFltConsumerB
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LFltConsumer fltConsumerFrom(Function<LFltConsumerBuilder, LFltConsumer> buildingFunction) {
-		return buildingFunction.apply(new LFltConsumerBuilder());
+	public static LFltConsumer fltConsumerFrom(Consumer<LFltConsumerBuilder> buildingFunction) {
+		LFltConsumerBuilder builder = new LFltConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,13 +115,13 @@ public final class LFltConsumerBuilder extends PerCaseBuilder.Base<LFltConsumerB
 		retval = LFltConsumer.fltCons(a -> {
 			try {
 				for (Case<LFltPredicate, LFltConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						aCase.caseFunction().doAccept(a);
+					if (aCase.casePredicate().test(a)) {
+						aCase.caseFunction().accept(a);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a);
+				eventuallyFinal.accept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

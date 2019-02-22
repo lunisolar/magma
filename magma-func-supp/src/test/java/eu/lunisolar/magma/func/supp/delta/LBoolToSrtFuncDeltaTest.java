@@ -55,7 +55,7 @@ public class LBoolToSrtFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsSrt(true))
+        assertThat(sut.applyAsSrt(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBoolToSrtFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsSrt(true))
+        assertThat(sut.applyAsSrt(true))
             .isEqualTo((short)9);
 
         assertThat(functionCallCount).isEqualTo(2);

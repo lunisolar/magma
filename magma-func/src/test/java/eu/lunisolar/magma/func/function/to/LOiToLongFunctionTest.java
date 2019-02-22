@@ -65,7 +65,7 @@ public class LOiToLongFunctionTest<T> {
 
 
     private LOiToLongFunction<Integer> sut = new LOiToLongFunction<Integer>(){
-        public  long doApplyAsLongX(Integer a1,int a2)  {
+        public  long applyAsLongX(Integer a1,int a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LOiToLongFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsLong(100,100))
+        assertThat(sut.applyAsLong(100,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LOiToLongFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsLong(100,100))
+    public void testNonNullApplyAsLong() throws Throwable {
+        assertThat(sut.nonNullApplyAsLong(100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsLongUnchecked() throws Throwable {
+    public void testNestingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsLong(100,100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsLong(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LOiToLongFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsLongUnchecked() throws Throwable {
+    public void testShovingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsLong(100,100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsLong(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LOiToLongFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LOiToLongFunction: long doApplyAsLong(T a1,int a2)");
+            .isEqualTo("LOiToLongFunction: long applyAsLong(T a1,int a2)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LOiToLongFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testOiToLongFuncComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -181,8 +181,8 @@ public class LOiToLongFunctionTest<T> {
         };
 
         //when
-        LOiToLongFunction<Integer> function = sutO.oiToLongFuncComposeInt(before1,before2);
-        function.doApplyAsLong(80,81);
+        LOiToLongFunction<Integer> function = sutO.compose(before1,before2);
+        function.applyAsLong(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -217,7 +217,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LToLongBiFunction<Integer,Integer> function = sutO.oiToLongFuncCompose(before1,before2);
-        function.doApplyAsLong(80,81);
+        function.applyAsLong(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -254,7 +254,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -289,7 +289,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80,81);
+        byte finalValue = function.applyAsByte(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -324,7 +324,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80,81);
+        short finalValue = function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -359,7 +359,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -394,7 +394,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80,81);
+        long finalValue = function.applyAsLong(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -429,7 +429,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80,81);
+        float finalValue = function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -464,7 +464,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80,81);
+        double finalValue = function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -499,7 +499,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LOiToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80,81);
+        char finalValue = function.applyAsChar(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -534,7 +534,7 @@ public class LOiToLongFunctionTest<T> {
 
         //when
         LObjIntPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -547,20 +547,6 @@ public class LOiToLongFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingOiToLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LOiToLongFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingOiToLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LOiToLongFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -571,7 +557,7 @@ public class LOiToLongFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingOiToLongFunc().doApplyAsLong(100,100);
+        sutThrowing.shovingApplyAsLong(100,100);
     }
 
 
@@ -584,7 +570,7 @@ public class LOiToLongFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LOiToLongFunction: long doApplyAsLong(T a1,int a2)");
+                .contains("LOiToLongFunction: long applyAsLong(T a1,int a2)");
     }
 
 

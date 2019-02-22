@@ -69,7 +69,7 @@ public class LFltSupplierBuilderTest{
                 .build()
             );
 
-            function.doGetAsFlt();
+            function.getAsFlt();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LFltSupplierBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doGetAsFlt();
+            function.getAsFlt();
 
             fail("No exception were thrown.");
         })

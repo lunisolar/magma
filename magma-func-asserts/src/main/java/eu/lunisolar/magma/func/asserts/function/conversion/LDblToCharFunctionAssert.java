@@ -82,13 +82,12 @@ public interface LDblToCharFunctionAssert<S extends LDblToCharFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LDblConsumer, A, RS, Character> doesApplyAsChar(double a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a));
+				return assertFactory.apply(actual.applyAsChar(a));
 			});
-
 		}
 
 	}

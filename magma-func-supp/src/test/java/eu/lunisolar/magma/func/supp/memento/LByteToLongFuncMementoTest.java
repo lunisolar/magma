@@ -54,7 +54,7 @@ public class LByteToLongFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong((byte)100))
+        assertThat(sut.applyAsLong((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LByteToLongFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong((byte)100))
+        assertThat(sut.applyAsLong((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

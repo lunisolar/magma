@@ -82,13 +82,12 @@ public interface LBoolToByteFunctionAssert<S extends LBoolToByteFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LBoolConsumer, A, RS, Byte> doesApplyAsByte(boolean a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a));
+				return assertFactory.apply(actual.applyAsByte(a));
 			});
-
 		}
 
 	}

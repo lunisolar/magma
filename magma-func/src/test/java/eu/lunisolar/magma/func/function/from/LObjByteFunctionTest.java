@@ -65,14 +65,14 @@ public class LObjByteFunctionTest<T,R> {
 
 
     private LObjByteFunction<Integer,Integer> sut = new LObjByteFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,byte a2)  {
+        public @Nullable Integer applyX(Integer a1,byte a2)  {
             return testValue;
         }
     };
 
 
     private LObjByteFunction<Integer,Integer> sutNull = new LObjByteFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,byte a2)  {
+        public @Nullable Integer applyX(Integer a1,byte a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LObjByteFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,(byte)100))
+        assertThat(sut.apply(100,(byte)100))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LObjByteFunctionTest<T,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,(byte)100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,(byte)100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,(byte)100);
+            sutAlwaysThrowingUnchecked.nestingApply(100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LObjByteFunctionTest<T,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,(byte)100);
+            sutAlwaysThrowingUnchecked.shovingApply(100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LObjByteFunctionTest<T,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjByteFunction: R doApply(T a1,byte a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LObjByteFunction: R apply(T a1,byte a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,(byte)100);
+        sutNull.nonNullApply(100,(byte)100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjByteFunction: R doApply(T a1,byte a2)");
+            .isEqualTo("LObjByteFunction: R apply(T a1,byte a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LObjByteFunctionTest<T,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjByteFuncComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LObjByteFunctionTest<T,R> {
         };
 
         //when
-        LObjByteFunction<Integer,Integer> function = sutO.objByteFuncComposeByte(before1,before2);
-        function.doApply(80,(byte)81);
+        LObjByteFunction<Integer,Integer> function = sutO.compose(before1,before2);
+        function.apply(80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LObjByteFunctionTest<T,R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.objByteFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LObjByteFunctionTest<T,R> {
 
         //when
         LObjByteFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,(byte)81);
+        Integer finalValue = function.apply(80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LObjByteFunctionTest<T,R> {
 
         //when
         LObjByteConsumer<Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,(byte)81);
+        function.accept(80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LObjByteFunctionTest<T,R> {
 
         //when
         LObjBytePredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,(byte)81);
+        boolean finalValue = function.test(80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -345,20 +345,6 @@ public class LObjByteFunctionTest<T,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjByteFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjByteFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -369,7 +355,7 @@ public class LObjByteFunctionTest<T,R> {
         });
 
         // when
-        sutThrowing.shovingObjByteFunc().doApply(100,(byte)100);
+        sutThrowing.shovingApply(100,(byte)100);
     }
 
 
@@ -382,7 +368,7 @@ public class LObjByteFunctionTest<T,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjByteFunction: R doApply(T a1,byte a2)");
+                .contains("LObjByteFunction: R apply(T a1,byte a2)");
     }
 
 

@@ -65,7 +65,7 @@ public class LLongUnaryOperatorTest {
 
 
     private LLongUnaryOperator sut = new LLongUnaryOperator(){
-        public  long doApplyAsLongX(long a)  {
+        public  long applyAsLongX(long a)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LLongUnaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsLong(100L))
+        assertThat(sut.applyAsLong(100L))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LLongUnaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsLong(100L))
+    public void testNonNullApplyAsLong() throws Throwable {
+        assertThat(sut.nonNullApplyAsLong(100L))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsLongUnchecked() throws Throwable {
+    public void testNestingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsLong(100L);
+            sutAlwaysThrowingUnchecked.nestingApplyAsLong(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LLongUnaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsLongUnchecked() throws Throwable {
+    public void testShovingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsLong(100L);
+            sutAlwaysThrowingUnchecked.shovingApplyAsLong(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LLongUnaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongUnaryOperator: long doApplyAsLong(long a)");
+            .isEqualTo("LLongUnaryOperator: long applyAsLong(long a)");
     }
 
     @Test
@@ -164,7 +164,7 @@ public class LLongUnaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLongUnaryOpComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -183,8 +183,8 @@ public class LLongUnaryOperatorTest {
         };
 
         //when
-        LLongUnaryOperator function = sutO.longUnaryOpComposeLong(before);
-        function.doApplyAsLong(80L);
+        LLongUnaryOperator function = sutO.compose(before);
+        function.applyAsLong(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -213,7 +213,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LToLongFunction<Integer> function = sutO.longUnaryOpCompose(before);
-        function.doApplyAsLong(80);
+        function.applyAsLong(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -249,7 +249,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80L);
+        Integer finalValue = function.apply(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -283,7 +283,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80L);
+        byte finalValue = function.applyAsByte(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -317,7 +317,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80L);
+        short finalValue = function.applyAsSrt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -351,7 +351,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80L);
+        int finalValue = function.applyAsInt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -385,7 +385,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongUnaryOperator function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80L);
+        long finalValue = function.applyAsLong(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -419,7 +419,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80L);
+        float finalValue = function.applyAsFlt(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -453,7 +453,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80L);
+        double finalValue = function.applyAsDbl(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -487,7 +487,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80L);
+        char finalValue = function.applyAsChar(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -521,7 +521,7 @@ public class LLongUnaryOperatorTest {
 
         //when
         LLongPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80L);
+        boolean finalValue = function.test(80L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -537,23 +537,9 @@ public class LLongUnaryOperatorTest {
     public void identity() throws Throwable {
         LLongUnaryOperator identityFunction = LLongUnaryOperator.identity();
 
-        assertThat(identityFunction.doApplyAsLong(8L)).isEqualTo(8L);
+        assertThat(identityFunction.applyAsLong(8L)).isEqualTo(8L);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLongUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLongUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLongUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLongUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -565,7 +551,7 @@ public class LLongUnaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingLongUnaryOp().doApplyAsLong(100L);
+        sutThrowing.shovingApplyAsLong(100L);
     }
 
 
@@ -578,7 +564,7 @@ public class LLongUnaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongUnaryOperator: long doApplyAsLong(long a)");
+                .contains("LLongUnaryOperator: long applyAsLong(long a)");
     }
 
 

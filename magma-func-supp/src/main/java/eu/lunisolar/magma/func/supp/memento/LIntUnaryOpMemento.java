@@ -72,8 +72,8 @@ public class LIntUnaryOpMemento implements LIntUnaryOperator {
 	}
 
 	@Override
-	public int doApplyAsIntX(int a) {
-		return lastValue = function.doApplyAsInt(a);
+	public int applyAsIntX(int a) {
+		return lastValue = function.applyAsInt(a);
 	}
 
 	public int lastValue() {

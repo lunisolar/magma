@@ -65,7 +65,7 @@ public class LIntToCharFunctionTest {
 
 
     private LIntToCharFunction sut = new LIntToCharFunction(){
-        public  char doApplyAsCharX(int a)  {
+        public  char applyAsCharX(int a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LIntToCharFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsChar(100))
+        assertThat(sut.applyAsChar(100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LIntToCharFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsChar(100))
+    public void testNonNullApplyAsChar() throws Throwable {
+        assertThat(sut.nonNullApplyAsChar(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsCharUnchecked() throws Throwable {
+    public void testNestingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsChar(100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsChar(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LIntToCharFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsCharUnchecked() throws Throwable {
+    public void testShovingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsChar(100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsChar(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LIntToCharFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntToCharFunction: char doApplyAsChar(int a)");
+            .isEqualTo("LIntToCharFunction: char applyAsChar(int a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LIntToCharFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testIntToCharFuncComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LIntToCharFunctionTest {
         };
 
         //when
-        LIntToCharFunction function = sutO.intToCharFuncComposeInt(before);
-        function.doApplyAsChar(80);
+        LIntToCharFunction function = sutO.compose(before);
+        function.applyAsChar(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LToCharFunction<Integer> function = sutO.intToCharFuncCompose(before);
-        function.doApplyAsChar(80);
+        function.applyAsChar(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntUnaryOperator function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LIntToCharFunctionTest {
 
         //when
         LIntPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LIntToCharFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingIntToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LIntToCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingIntToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LIntToCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LIntToCharFunctionTest {
         });
 
         // when
-        sutThrowing.shovingIntToCharFunc().doApplyAsChar(100);
+        sutThrowing.shovingApplyAsChar(100);
     }
 
 
@@ -563,7 +549,7 @@ public class LIntToCharFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntToCharFunction: char doApplyAsChar(int a)");
+                .contains("LIntToCharFunction: char applyAsChar(int a)");
     }
 
 

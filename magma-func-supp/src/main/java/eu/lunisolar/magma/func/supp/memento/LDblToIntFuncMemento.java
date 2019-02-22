@@ -72,8 +72,8 @@ public class LDblToIntFuncMemento implements LDblToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsIntX(double a) {
-		return lastValue = function.doApplyAsInt(a);
+	public int applyAsIntX(double a) {
+		return lastValue = function.applyAsInt(a);
 	}
 
 	public int lastValue() {

@@ -72,8 +72,8 @@ public class LByteToSrtFuncMemento implements LByteToSrtFunction {
 	}
 
 	@Override
-	public short doApplyAsSrtX(byte a) {
-		return lastValue = function.doApplyAsSrt(a);
+	public short applyAsSrtX(byte a) {
+		return lastValue = function.applyAsSrt(a);
 	}
 
 	public short lastValue() {

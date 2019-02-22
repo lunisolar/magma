@@ -54,7 +54,7 @@ public class LSrtSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo((short)0);
 
-        assertThat(sut.doGetAsSrt())
+        assertThat(sut.getAsSrt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LSrtSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsSrt())
+        assertThat(sut.getAsSrt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

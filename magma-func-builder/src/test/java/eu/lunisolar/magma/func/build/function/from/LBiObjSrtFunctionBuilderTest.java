@@ -69,7 +69,7 @@ public class LBiObjSrtFunctionBuilderTest<T1,T2,R>{
                 .build()
             );
 
-            function.doApply(100,100,(short)100);
+            function.apply(100,100,(short)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiObjSrtFunctionBuilderTest<T1,T2,R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(100,100,(short)100);
+            function.apply(100,100,(short)100);
 
             fail("No exception were thrown.");
         })

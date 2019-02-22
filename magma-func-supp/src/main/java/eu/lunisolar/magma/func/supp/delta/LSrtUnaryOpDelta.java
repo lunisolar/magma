@@ -89,8 +89,8 @@ public class LSrtUnaryOpDelta extends LSrtUnaryOpMemento {
 	}
 
 	@Override
-	public short doApplyAsSrt(short a) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a));
+	public short applyAsSrt(short a) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a));
 	}
 
 	// <editor-fold desc="object">

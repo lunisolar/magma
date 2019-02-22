@@ -87,13 +87,12 @@ public interface LBiObjCharFunctionAssert<S extends LBiObjCharFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LBiObjCharConsumer<T1, T2>, A, RS, R> doesApply(T1 a1, T2 a2, char a3) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2, a3);
+					pc.accept(a1, a2, a3);
 				}
-				return assertFactory.doApply(actual.doApply(a1, a2, a3));
+				return assertFactory.apply(actual.apply(a1, a2, a3));
 			});
-
 		}
 
 	}

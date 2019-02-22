@@ -66,135 +66,152 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain1<aFloat> { // NOSONAR
 
-	String DESCRIPTION = "LFltFunction: R doApply(float a)";
+	String DESCRIPTION = "LFltFunction: R apply(float a)";
 
 	@Nullable
-	// R doApply(float a) ;
-	default R doApply(float a) {
-		// return nestingDoApply(a);
+	// R apply(float a) ;
+	default R apply(float a) {
+		// return nestingApply(a);
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApply(float a)
+	 * Implement this, but call apply(float a)
 	 */
-	R doApplyX(float a) throws Throwable;
+	R applyX(float a) throws Throwable;
 
 	default R tupleApply(LFltSingle args) {
-		return doApply(args.value());
+		return apply(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default R handlingDoApply(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default R handlingApply(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default R tryDoApply(float a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LFltFunction<R> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApply(a, handling);
+	}
+
+	default R apply(float a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default R tryDoApply(float a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LFltFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> apply(a, exF, newMessage, messageParams);
+	}
+
+	default R apply(float a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default R tryDoApplyThen(float a, @Nonnull LFunction<Throwable, R> handler) {
+	default LFltFunction<R> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> apply(a, exF);
+	}
+
+	default R applyThen(float a, @Nonnull LFunction<Throwable, R> handler) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApply(e);
+			return handler.apply(e);
 		}
+	}
+
+	default LFltFunction<R> tryingThen(@Nonnull LFunction<Throwable, R> handler) {
+		return a -> applyThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(float a) {
+	default R nestingApply(float a) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default R shovingDoApply(float a) {
+	default R shovingApply(float a) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <R> R handlingDoApply(float a, LFltFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(float a, LFltFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApply(a, handling);
+		return func.handlingApply(a, handling);
 	}
 
-	static <R> R tryDoApply(float a, LFltFunction<R> func) {
-		return tryDoApply(a, func, null);
-	}
-
-	static <R> R tryDoApply(float a, LFltFunction<R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <R> R tryApply(float a, LFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApply(a);
 	}
 
-	static <R> R tryDoApply(float a, LFltFunction<R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <R> R tryApply(float a, LFltFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a, exceptionFactory);
+		return func.apply(a, exF, newMessage, messageParams);
 	}
 
-	static <R> R tryDoApplyThen(float a, LFltFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+	static <R> R tryApply(float a, LFltFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyThen(a, handler);
+		return func.apply(a, exF);
 	}
 
-	default R failSafeDoApply(float a, @Nonnull LFltFunction<R> failSafe) {
+	static <R> R tryApplyThen(float a, LFltFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyThen(a, handler);
+	}
+
+	default R failSafeApply(float a, @Nonnull LFltFunction<R> failSafe) {
 		try {
-			return doApply(a);
+			return apply(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApply(a);
+			return failSafe.apply(a);
 		}
 	}
 
-	static <R> R failSafeDoApply(float a, LFltFunction<R> func, @Nonnull LFltFunction<R> failSafe) {
+	static <R> R failSafeApply(float a, LFltFunction<R> func, @Nonnull LFltFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApply(a);
+			return failSafe.apply(a);
 		} else {
-			return func.failSafeDoApply(a, failSafe);
+			return func.failSafeApply(a, failSafe);
 		}
 	}
 
-	static <R> LFltFunction<R> failSafeFltFunc(LFltFunction<R> func, @Nonnull LFltFunction<R> failSafe) {
+	static <R> LFltFunction<R> failSafe(LFltFunction<R> func, @Nonnull LFltFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApply(a, func, failSafe);
+		return a -> failSafeApply(a, func, failSafe);
 	}
 
-	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(float a) {
-		return Null.requireNonNull(doApply(a), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullApply(float a) {
+		return Null.requireNonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -206,13 +223,13 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTo(int min_i, int max_i, float a, LFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		}
 	}
@@ -220,25 +237,42 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTill(int min_i, int max_i, float a, LFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void times(int max_i, float a, LFltFunction<R> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Cast that removes generics. */
+	public default LFltFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LFltFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, R> LFltFunction<V2> cast(LFltFunction<R> function) {
+		return (LFltFunction) function;
+	}
+
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureFltFunc(float a) {
-		return () -> this.doApply(a);
+	default LSupplier<R> capture(float a) {
+		return () -> this.apply(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -256,7 +290,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	@Nonnull
 	static <R> LFltFunction<R> recursive(final @Nonnull LFunction<LFltFunction<R>, LFltFunction<R>> selfLambda) {
 		final LFltFunctionSingle<R> single = new LFltFunctionSingle();
-		LFltFunction<R> func = selfLambda.doApply(single);
+		LFltFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -265,8 +299,8 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		private LFltFunction<R> target = null;
 
 		@Override
-		public R doApplyX(float a) throws Throwable {
-			return target.doApplyX(a);
+		public R applyX(float a) throws Throwable {
+			return target.applyX(a);
 		}
 
 		@Override
@@ -276,24 +310,24 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	@Nonnull
-	static <R> LFltFunction<R> fltFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LFltFunction<R> fltFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <R> LFltFunction<R> fltFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LFltFunction<R> fltFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static <R> R call(float a, final @Nonnull LFltFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a);
+		return lambda.apply(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -340,20 +374,20 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFltFunction<R> fltFuncComposeFlt(@Nonnull final LFltUnaryOperator before) {
+	default LFltFunction<R> compose(@Nonnull final LFltUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApply(before.doApplyAsFlt(v));
+		return v -> this.apply(before.applyAsFlt(v));
 	}
 
-	public static <R> LFltFunction<R> composedFlt(@Nonnull final LFltUnaryOperator before, LFltFunction<R> after) {
-		return after.fltFuncComposeFlt(before);
+	public static <R> LFltFunction<R> composed(@Nonnull final LFltUnaryOperator before, LFltFunction<R> after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LFunction<V, R> fltFuncCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApply(before.doApplyAsFlt(v));
+		return v -> this.apply(before.applyAsFlt(v));
 	}
 
 	public static <V, R> LFunction<V, R> composed(@Nonnull final LToFltFunction<? super V> before, LFltFunction<R> after) {
@@ -368,22 +402,22 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	@Nonnull
 	default <V> LFltFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApply(a));
+		return a -> after.apply(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doAccept(this.doApply(a));
+		return a -> after.accept(this.apply(a));
 	}
 
 	@Nonnull
 	default LFltFunction<R> before(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return a -> {
-			before.doAccept(a);
-			return this.doApply(a);
+			before.accept(a);
+			return this.apply(a);
 		};
 	}
 
@@ -391,8 +425,8 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default LFltFunction<R> after(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> {
-			R result = this.doApply(a);
-			after.doAccept(result);
+			R result = this.apply(a);
+			after.accept(result);
 			return result;
 		};
 	}
@@ -401,79 +435,68 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	@Nonnull
 	default LFltToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApply(a));
+		return a -> after.applyAsByte(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToSrtFunction thenToSrt(@Nonnull LToSrtFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApply(a));
+		return a -> after.applyAsSrt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApply(a));
+		return a -> after.applyAsInt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApply(a));
+		return a -> after.applyAsLong(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltUnaryOperator thenToFlt(@Nonnull LToFltFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApply(a));
+		return a -> after.applyAsFlt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToDblFunction thenToDbl(@Nonnull LToDblFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApply(a));
+		return a -> after.applyAsDbl(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApply(a));
+		return a -> after.applyAsChar(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltPredicate thenToBool(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApply(a));
+		return a -> after.test(this.apply(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LFltFunction<R> nestingFltFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFltFunction<R> shovingFltFunc() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LFltFunction<R> nonNullFltFunc() {
-		return this::nonNullDoApply;
+	default LFltFunction<R> nonNullable() {
+		return this::nonNullApply;
 	}
 
 	/** Does nothing (LFltFunction) Function */
@@ -481,25 +504,31 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return (R) Function4U.defaultObject;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=float a, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aFloat> ia, C0 source, LConsumer<? super R> consumer) {
 		int size = ia.size(source);
 		LOiToFltFunction<Object> oiFunc0 = (LOiToFltFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			float a = oiFunc0.doApplyAsFlt(source, i);
-			consumer.doAccept(this.doApply(a));
+			float a = oiFunc0.applyAsFlt(source, i);
+			consumer.accept(this.apply(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=float a, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aFloat> sa, C0 source, LConsumer<? super R> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			float a = nextFunc0.doApplyAsFlt(iterator0);
-			consumer.doAccept(this.doApply(a));
+		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			float a = nextFunc0.applyAsFlt(iterator0);
+			consumer.accept(this.apply(a));
 		}
 	}
 

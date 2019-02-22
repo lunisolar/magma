@@ -54,7 +54,7 @@ public class LToIntTriFuncMementoTest <T1,T2,T3> {
         assertThat(sut.lastValue())
             .isEqualTo(0);
 
-        assertThat(sut.doApplyAsInt(100,100,100))
+        assertThat(sut.applyAsInt(100,100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LToIntTriFuncMementoTest <T1,T2,T3> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100,100,100))
+        assertThat(sut.applyAsInt(100,100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

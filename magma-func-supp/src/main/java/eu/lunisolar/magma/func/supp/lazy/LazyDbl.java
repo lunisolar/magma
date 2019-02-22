@@ -63,13 +63,13 @@ public class LazyDbl extends LDblSupMemento implements LDblSingle {
 	}
 
 	public static <E> LazyDbl lazyValue(E e, LToDblFunction<E> function) {
-		return new LazyDbl(() -> function.doApplyAsDbl(e));
+		return new LazyDbl(() -> function.applyAsDbl(e));
 	}
 
 	@Override
-	public double doGetAsDbl() {
+	public double getAsDbl() {
 		if (function != null) {
-			lastValue = function.doGetAsDbl();
+			lastValue = function.getAsDbl();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazyDbl extends LDblSupMemento implements LDblSingle {
 	}
 
 	public double value() {
-		return doGetAsDbl();
+		return getAsDbl();
 	}
 
 	public static boolean argEquals(LazyDbl the, Object that) {

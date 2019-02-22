@@ -69,7 +69,7 @@ public class LActionBuilderTest{
                 .build()
             );
 
-            function.doExecute();
+            function.execute();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LActionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doExecute();
+            function.execute();
 
             fail("No exception were thrown.");
         })

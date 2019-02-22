@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aLong>, Domain1<aByte> { // NOSONAR
 
-	String DESCRIPTION = "LByteToLongFunction: long doApplyAsLong(byte a)";
+	String DESCRIPTION = "LByteToLongFunction: long applyAsLong(byte a)";
 
-	// long doApplyAsLong(byte a) ;
-	default long doApplyAsLong(byte a) {
-		// return nestingDoApplyAsLong(a);
+	// long applyAsLong(byte a) ;
+	default long applyAsLong(byte a) {
+		// return nestingApplyAsLong(a);
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsLong(byte a)
+	 * Implement this, but call applyAsLong(byte a)
 	 */
-	long doApplyAsLongX(byte a) throws Throwable;
+	long applyAsLongX(byte a) throws Throwable;
 
 	default long tupleApplyAsLong(LByteSingle args) {
-		return doApplyAsLong(args.value());
+		return applyAsLong(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default long handlingDoApplyAsLong(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default long handlingApplyAsLong(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default long tryDoApplyAsLong(byte a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LByteToLongFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsLong(a, handling);
+	}
+
+	default long applyAsLong(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default long tryDoApplyAsLong(byte a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LByteToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsLong(a, exF, newMessage, messageParams);
+	}
+
+	default long applyAsLong(byte a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default long tryDoApplyAsLongThen(byte a, @Nonnull LToLongFunction<Throwable> handler) {
+	default LByteToLongFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsLong(a, exF);
+	}
+
+	default long applyAsLongThen(byte a, @Nonnull LToLongFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsLong(e);
+			return handler.applyAsLong(e);
 		}
+	}
+
+	default LByteToLongFunction tryingThen(@Nonnull LToLongFunction<Throwable> handler) {
+		return a -> applyAsLongThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default long nestingDoApplyAsLong(byte a) {
+	default long nestingApplyAsLong(byte a) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(byte a) {
+	default long shovingApplyAsLong(byte a) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static long handlingDoApplyAsLong(byte a, LByteToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingApplyAsLong(byte a, LByteToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsLong(a, handling);
+		return func.handlingApplyAsLong(a, handling);
 	}
 
-	static long tryDoApplyAsLong(byte a, LByteToLongFunction func) {
-		return tryDoApplyAsLong(a, func, null);
-	}
-
-	static long tryDoApplyAsLong(byte a, LByteToLongFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static long tryApplyAsLong(byte a, LByteToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLong(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsLong(a);
 	}
 
-	static long tryDoApplyAsLong(byte a, LByteToLongFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static long tryApplyAsLong(byte a, LByteToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLong(a, exceptionFactory);
+		return func.applyAsLong(a, exF, newMessage, messageParams);
 	}
 
-	static long tryDoApplyAsLongThen(byte a, LByteToLongFunction func, @Nonnull LToLongFunction<Throwable> handler) {
+	static long tryApplyAsLong(byte a, LByteToLongFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLongThen(a, handler);
+		return func.applyAsLong(a, exF);
 	}
 
-	default long failSafeDoApplyAsLong(byte a, @Nonnull LByteToLongFunction failSafe) {
+	static long tryApplyAsLongThen(byte a, LByteToLongFunction func, @Nonnull LToLongFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLongThen(a, handler);
+	}
+
+	default long failSafeApplyAsLong(byte a, @Nonnull LByteToLongFunction failSafe) {
 		try {
-			return doApplyAsLong(a);
+			return applyAsLong(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsLong(a);
+			return failSafe.applyAsLong(a);
 		}
 	}
 
-	static long failSafeDoApplyAsLong(byte a, LByteToLongFunction func, @Nonnull LByteToLongFunction failSafe) {
+	static long failSafeApplyAsLong(byte a, LByteToLongFunction func, @Nonnull LByteToLongFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsLong(a);
+			return failSafe.applyAsLong(a);
 		} else {
-			return func.failSafeDoApplyAsLong(a, failSafe);
+			return func.failSafeApplyAsLong(a, failSafe);
 		}
 	}
 
-	static LByteToLongFunction failSafeByteToLongFunc(LByteToLongFunction func, @Nonnull LByteToLongFunction failSafe) {
+	static LByteToLongFunction failSafe(LByteToLongFunction func, @Nonnull LByteToLongFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsLong(a, func, failSafe);
+		return a -> failSafeApplyAsLong(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(byte a) {
-		return doApplyAsLong(a);
+	default long nonNullApplyAsLong(byte a) {
+		return applyAsLong(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, byte a, LByteToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, byte a, LByteToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, byte a, LByteToLongFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureByteToLongFunc(byte a) {
-		return () -> this.doApplyAsLong(a);
+	default LLongSupplier capture(byte a) {
+		return () -> this.applyAsLong(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	static LByteToLongFunction recursive(final @Nonnull LFunction<LByteToLongFunction, LByteToLongFunction> selfLambda) {
 		final LByteToLongFunctionSingle single = new LByteToLongFunctionSingle();
-		LByteToLongFunction func = selfLambda.doApply(single);
+		LByteToLongFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 		private LByteToLongFunction target = null;
 
 		@Override
-		public long doApplyAsLongX(byte a) throws Throwable {
-			return target.doApplyAsLongX(a);
+		public long applyAsLongX(byte a) throws Throwable {
+			return target.applyAsLongX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	@Nonnull
-	static LByteToLongFunction byteToLongFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LByteToLongFunction byteToLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LByteToLongFunction byteToLongFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LByteToLongFunction byteToLongFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static long call(byte a, final @Nonnull LByteToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsLong(a);
+		return lambda.applyAsLong(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteToLongFunction byteToLongFuncComposeByte(@Nonnull final LByteUnaryOperator before) {
+	default LByteToLongFunction compose(@Nonnull final LByteUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsLong(before.doApplyAsByte(v));
+		return v -> this.applyAsLong(before.applyAsByte(v));
 	}
 
-	public static LByteToLongFunction composedByte(@Nonnull final LByteUnaryOperator before, LByteToLongFunction after) {
-		return after.byteToLongFuncComposeByte(before);
+	public static LByteToLongFunction composed(@Nonnull final LByteUnaryOperator before, LByteToLongFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToLongFunction<V> byteToLongFuncCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsLong(before.doApplyAsByte(v));
+		return v -> this.applyAsLong(before.applyAsByte(v));
 	}
 
 	public static <V> LToLongFunction<V> composed(@Nonnull final LToByteFunction<? super V> before, LByteToLongFunction after) {
@@ -364,79 +383,68 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	default <V> LByteFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsLong(a));
+		return a -> after.apply(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperator thenToByte(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsLong(a));
+		return a -> after.applyAsByte(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToSrtFunction thenToSrt(@Nonnull LLongToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsLong(a));
+		return a -> after.applyAsSrt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsLong(a));
+		return a -> after.applyAsInt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsLong(a));
+		return a -> after.applyAsLong(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFltFunction thenToFlt(@Nonnull LLongToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsLong(a));
+		return a -> after.applyAsFlt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDblFunction thenToDbl(@Nonnull LLongToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsLong(a));
+		return a -> after.applyAsDbl(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsLong(a));
+		return a -> after.applyAsChar(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicate thenToBool(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsLong(a));
+		return a -> after.test(this.applyAsLong(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LByteToLongFunction nestingByteToLongFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToLongFunction shovingByteToLongFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return Function4U.defaultLong;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=byte a, type=IA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aByte> ia, C0 source, LLongConsumer consumer) {
 		int size = ia.size(source);
 		LOiToByteFunction<Object> oiFunc0 = (LOiToByteFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			byte a = oiFunc0.doApplyAsByte(source, i);
-			consumer.doAccept(this.doApplyAsLong(a));
+			byte a = oiFunc0.applyAsByte(source, i);
+			consumer.accept(this.applyAsLong(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=byte a, type=SA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aByte> sa, C0 source, LLongConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			byte a = nextFunc0.doApplyAsByte(iterator0);
-			consumer.doAccept(this.doApplyAsLong(a));
+		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			byte a = nextFunc0.applyAsByte(iterator0);
+			consumer.accept(this.applyAsLong(a));
 		}
 	}
 

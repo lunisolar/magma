@@ -82,13 +82,12 @@ public interface LBoolToCharFunctionAssert<S extends LBoolToCharFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LBoolConsumer, A, RS, Character> doesApplyAsChar(boolean a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a));
+				return assertFactory.apply(actual.applyAsChar(a));
 			});
-
 		}
 
 	}

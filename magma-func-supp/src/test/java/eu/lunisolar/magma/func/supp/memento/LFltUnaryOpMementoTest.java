@@ -54,7 +54,7 @@ public class LFltUnaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0f);
 
-        assertThat(sut.doApplyAsFlt(100f))
+        assertThat(sut.applyAsFlt(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LFltUnaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt(100f))
+        assertThat(sut.applyAsFlt(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

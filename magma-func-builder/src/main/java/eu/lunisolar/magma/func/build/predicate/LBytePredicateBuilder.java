@@ -80,8 +80,10 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBytePredicate bytePredicateFrom(Function<LBytePredicateBuilder, LBytePredicate> buildingFunction) {
-		return buildingFunction.apply(new LBytePredicateBuilder());
+	public static LBytePredicate bytePredicateFrom(Consumer<LBytePredicateBuilder> buildingFunction) {
+		LBytePredicateBuilder builder = new LBytePredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 		retval = LBytePredicate.bytePred(a -> {
 			try {
 				for (Case<LBytePredicate, LBytePredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doTest(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().test(a);
 					}
 				}
 
-				return eventuallyFinal.doTest(a);
+				return eventuallyFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

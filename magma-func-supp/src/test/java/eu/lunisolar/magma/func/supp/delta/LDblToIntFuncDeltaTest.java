@@ -55,7 +55,7 @@ public class LDblToIntFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt(100d))
+        assertThat(sut.applyAsInt(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LDblToIntFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100d))
+        assertThat(sut.applyAsInt(100d))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

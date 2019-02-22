@@ -89,8 +89,8 @@ public class LFltToSrtFuncDelta extends LFltToSrtFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsSrt(float a) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a));
+	public short applyAsSrt(float a) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a));
 	}
 
 	// <editor-fold desc="object">

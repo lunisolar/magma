@@ -80,8 +80,10 @@ public final class LIntToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LIntToCharFunction intToCharFunctionFrom(Function<LIntToCharFunctionBuilder, LIntToCharFunction> buildingFunction) {
-		return buildingFunction.apply(new LIntToCharFunctionBuilder());
+	public static LIntToCharFunction intToCharFunctionFrom(Consumer<LIntToCharFunctionBuilder> buildingFunction) {
+		LIntToCharFunctionBuilder builder = new LIntToCharFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LIntToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 		retval = LIntToCharFunction.intToCharFunc(a -> {
 			try {
 				for (Case<LIntPredicate, LIntToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsChar(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a);
+				return eventuallyFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

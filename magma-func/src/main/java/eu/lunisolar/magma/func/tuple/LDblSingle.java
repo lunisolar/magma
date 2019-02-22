@@ -34,26 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LDblConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblSingle extends LTuple<Double> {
+public interface LDblSingle extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	double value();
 
-	default double getValue() {
+	default double first() {
 		return value();
 	}
 
-	default Double get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default double getDouble(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -98,63 +89,8 @@ public interface LDblSingle extends LTuple<Double> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Double[] toVoArray(Double[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Double[] toVoArray(Double[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Double[] toVoArray() {
-		Double[] array = new Double[size()];
-
-		return toVoArray(array);
-	}
-
-	default double[] toDblArray(double[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default double[] toDblArray(double[] array) {
-		return toDblArray(array, 0);
-	}
-
-	default double[] toDblArray() {
-		double[] array = new double[size()];
-
-		return toDblArray(array);
-	}
-
-	@Override
-	default Iterator<Double> iterator() {
-		return new Iterator<Double>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -164,27 +100,9 @@ public interface LDblSingle extends LTuple<Double> {
 			}
 
 			@Override
-			public Double next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfDouble doubleIterator() {
-		return new PrimitiveIterator.OfDouble() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public double nextDouble() {
-				index++;
-				return getDouble(index);
 			}
 		};
 	}
@@ -202,7 +120,7 @@ public interface LDblSingle extends LTuple<Double> {
 
 	}
 
-	abstract class AbstractDblSingle extends Number implements LDblSingle {
+	abstract class AbstractDblSingle implements LDblSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -218,40 +136,11 @@ public interface LDblSingle extends LTuple<Double> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
-
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
-
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
-
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
-
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
-
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
 	}
 
 	/**
@@ -289,7 +178,7 @@ public interface LDblSingle extends LTuple<Double> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutDblSingle setValueIfArg(double value, LDblPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -298,14 +187,14 @@ public interface LDblSingle extends LTuple<Double> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutDblSingle setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsDbl(arg);
+				this.value = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutDblSingle setValueIf(LDblPredicate predicate, double value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -314,7 +203,7 @@ public interface LDblSingle extends LTuple<Double> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutDblSingle setValueIf(double value, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -323,7 +212,7 @@ public interface LDblSingle extends LTuple<Double> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutDblSingle setValueIf(LBiDblPredicate predicate, double value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -369,7 +258,7 @@ public interface LDblSingle extends LTuple<Double> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompDblSingle setValueIfArg(double value, LDblPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -378,14 +267,14 @@ public interface LDblSingle extends LTuple<Double> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompDblSingle setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsDbl(arg);
+				this.value = func.applyAsDbl(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompDblSingle setValueIf(LDblPredicate predicate, double value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -394,7 +283,7 @@ public interface LDblSingle extends LTuple<Double> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompDblSingle setValueIf(double value, LBiDblPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -403,7 +292,7 @@ public interface LDblSingle extends LTuple<Double> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompDblSingle setValueIf(LBiDblPredicate predicate, double value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;

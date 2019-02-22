@@ -80,8 +80,10 @@ public final class LToFltBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithFlt
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2> LToFltBiFunction<T1, T2> toFltBiFunctionFrom(Function<LToFltBiFunctionBuilder<T1, T2>, LToFltBiFunction<T1, T2>> buildingFunction) {
-		return buildingFunction.apply(new LToFltBiFunctionBuilder());
+	public static <T1, T2> LToFltBiFunction<T1, T2> toFltBiFunctionFrom(Consumer<LToFltBiFunctionBuilder<T1, T2>> buildingFunction) {
+		LToFltBiFunctionBuilder builder = new LToFltBiFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LToFltBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithFlt
 		retval = LToFltBiFunction.<T1, T2> toFltBiFunc((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LToFltBiFunction<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doApplyAsFlt(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().applyAsFlt(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFlt(a1, a2);
+				return eventuallyFinal.applyAsFlt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -65,7 +65,7 @@ public class LFltUnaryOperatorTest {
 
 
     private LFltUnaryOperator sut = new LFltUnaryOperator(){
-        public  float doApplyAsFltX(float a)  {
+        public  float applyAsFltX(float a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LFltUnaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsFlt(100f))
+        assertThat(sut.applyAsFlt(100f))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LFltUnaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsFlt(100f))
+    public void testNonNullApplyAsFlt() throws Throwable {
+        assertThat(sut.nonNullApplyAsFlt(100f))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsFltUnchecked() throws Throwable {
+    public void testNestingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsFlt(100f);
+            sutAlwaysThrowingUnchecked.nestingApplyAsFlt(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LFltUnaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsFltUnchecked() throws Throwable {
+    public void testShovingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsFlt(100f);
+            sutAlwaysThrowingUnchecked.shovingApplyAsFlt(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LFltUnaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltUnaryOperator: float doApplyAsFlt(float a)");
+            .isEqualTo("LFltUnaryOperator: float applyAsFlt(float a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LFltUnaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testFltUnaryOpComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LFltUnaryOperatorTest {
         };
 
         //when
-        LFltUnaryOperator function = sutO.fltUnaryOpComposeFlt(before);
-        function.doApplyAsFlt(80f);
+        LFltUnaryOperator function = sutO.compose(before);
+        function.applyAsFlt(80f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LToFltFunction<Integer> function = sutO.fltUnaryOpCompose(before);
-        function.doApplyAsFlt(80);
+        function.applyAsFlt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80f);
+        Integer finalValue = function.apply(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80f);
+        byte finalValue = function.applyAsByte(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80f);
+        short finalValue = function.applyAsSrt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80f);
+        int finalValue = function.applyAsInt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80f);
+        long finalValue = function.applyAsLong(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltUnaryOperator function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80f);
+        float finalValue = function.applyAsFlt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80f);
+        double finalValue = function.applyAsDbl(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80f);
+        char finalValue = function.applyAsChar(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LFltUnaryOperatorTest {
 
         //when
         LFltPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80f);
+        boolean finalValue = function.test(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -529,23 +529,9 @@ public class LFltUnaryOperatorTest {
     public void identity() throws Throwable {
         LFltUnaryOperator identityFunction = LFltUnaryOperator.identity();
 
-        assertThat(identityFunction.doApplyAsFlt(8f)).isEqualTo(8f);
+        assertThat(identityFunction.applyAsFlt(8f)).isEqualTo(8f);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingFltUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LFltUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingFltUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LFltUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -557,7 +543,7 @@ public class LFltUnaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingFltUnaryOp().doApplyAsFlt(100f);
+        sutThrowing.shovingApplyAsFlt(100f);
     }
 
 
@@ -570,7 +556,7 @@ public class LFltUnaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFltUnaryOperator: float doApplyAsFlt(float a)");
+                .contains("LFltUnaryOperator: float applyAsFlt(float a)");
     }
 
 

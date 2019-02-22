@@ -72,8 +72,8 @@ public class LCharToFltFuncMemento implements LCharToFltFunction {
 	}
 
 	@Override
-	public float doApplyAsFltX(char a) {
-		return lastValue = function.doApplyAsFlt(a);
+	public float applyAsFltX(char a) {
+		return lastValue = function.applyAsFlt(a);
 	}
 
 	public float lastValue() {

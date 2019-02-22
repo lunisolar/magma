@@ -65,7 +65,7 @@ public class LCharToDblFunctionTest {
 
 
     private LCharToDblFunction sut = new LCharToDblFunction(){
-        public  double doApplyAsDblX(char a)  {
+        public  double applyAsDblX(char a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LCharToDblFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsDbl('\u0100'))
+        assertThat(sut.applyAsDbl('\u0100'))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LCharToDblFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsDbl() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsDbl('\u0100'))
+    public void testNonNullApplyAsDbl() throws Throwable {
+        assertThat(sut.nonNullApplyAsDbl('\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsDblUnchecked() throws Throwable {
+    public void testNestingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsDbl('\u0100');
+            sutAlwaysThrowingUnchecked.nestingApplyAsDbl('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LCharToDblFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsDblUnchecked() throws Throwable {
+    public void testShovingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsDbl('\u0100');
+            sutAlwaysThrowingUnchecked.shovingApplyAsDbl('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LCharToDblFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharToDblFunction: double doApplyAsDbl(char a)");
+            .isEqualTo("LCharToDblFunction: double applyAsDbl(char a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LCharToDblFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharToDblFuncComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LCharToDblFunctionTest {
         };
 
         //when
-        LCharToDblFunction function = sutO.charToDblFuncComposeChar(before);
-        function.doApplyAsDbl('\u0080');
+        LCharToDblFunction function = sutO.compose(before);
+        function.applyAsDbl('\u0080');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LToDblFunction<Integer> function = sutO.charToDblFuncCompose(before);
-        function.doApplyAsDbl(80);
+        function.applyAsDbl(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply('\u0080');
+        Integer finalValue = function.apply('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte('\u0080');
+        byte finalValue = function.applyAsByte('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt('\u0080');
+        short finalValue = function.applyAsSrt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt('\u0080');
+        int finalValue = function.applyAsInt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong('\u0080');
+        long finalValue = function.applyAsLong('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt('\u0080');
+        float finalValue = function.applyAsFlt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl('\u0080');
+        double finalValue = function.applyAsDbl('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharUnaryOperator function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar('\u0080');
+        char finalValue = function.applyAsChar('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LCharToDblFunctionTest {
 
         //when
         LCharPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest('\u0080');
+        boolean finalValue = function.test('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LCharToDblFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCharToDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LCharToDblFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCharToDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LCharToDblFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LCharToDblFunctionTest {
         });
 
         // when
-        sutThrowing.shovingCharToDblFunc().doApplyAsDbl('\u0100');
+        sutThrowing.shovingApplyAsDbl('\u0100');
     }
 
 
@@ -563,7 +549,7 @@ public class LCharToDblFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharToDblFunction: double doApplyAsDbl(char a)");
+                .contains("LCharToDblFunction: double applyAsDbl(char a)");
     }
 
 

@@ -66,177 +66,196 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain1<aLong> { // NOSONAR
 
-	String DESCRIPTION = "LLongPredicate: boolean doTest(long a)";
+	String DESCRIPTION = "LLongPredicate: boolean test(long a)";
 
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LLongPredicate interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
+	// boolean test(long a) ;
 	default boolean test(long a) {
-		return this.doTest(a);
-	}
-
-	// boolean doTest(long a) ;
-	default boolean doTest(long a) {
-		// return nestingDoTest(a);
+		// return nestingTest(a);
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doTest(long a)
+	 * Implement this, but call test(long a)
 	 */
-	boolean doTestX(long a) throws Throwable;
+	boolean testX(long a) throws Throwable;
 
 	default boolean tupleTest(LLongSingle args) {
-		return doTest(args.value());
+		return test(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoTest(long a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingTest(long a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoTest(long a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LLongPredicate handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingTest(a, handling);
+	}
+
+	default boolean test(long a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoTest(long a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LLongPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> test(a, exF, newMessage, messageParams);
+	}
+
+	default boolean test(long a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoTestThen(long a, @Nonnull LPredicate<Throwable> handler) {
+	default LLongPredicate trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> test(a, exF);
+	}
+
+	default boolean testThen(long a, @Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LLongPredicate tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return a -> testThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(long a) {
+	default boolean nestingTest(long a) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoTest(long a) {
+	default boolean shovingTest(long a) {
 		try {
-			return this.doTestX(a);
+			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static boolean handlingDoTest(long a, LLongPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(long a, LLongPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoTest(a, handling);
+		return func.handlingTest(a, handling);
 	}
 
-	static boolean tryDoTest(long a, LLongPredicate func) {
-		return tryDoTest(a, func, null);
-	}
-
-	static boolean tryDoTest(long a, LLongPredicate func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryTest(long a, LLongPredicate func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingTest(a);
 	}
 
-	static boolean tryDoTest(long a, LLongPredicate func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static boolean tryTest(long a, LLongPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a, exceptionFactory);
+		return func.test(a, exF, newMessage, messageParams);
 	}
 
-	static boolean tryDoTestThen(long a, LLongPredicate func, @Nonnull LPredicate<Throwable> handler) {
+	static boolean tryTest(long a, LLongPredicate func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTestThen(a, handler);
+		return func.test(a, exF);
 	}
 
-	default boolean failSafeDoTest(long a, @Nonnull LLongPredicate failSafe) {
+	static boolean tryTestThen(long a, LLongPredicate func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.testThen(a, handler);
+	}
+
+	default boolean failSafeTest(long a, @Nonnull LLongPredicate failSafe) {
 		try {
-			return doTest(a);
+			return test(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doTest(a);
+			return failSafe.test(a);
 		}
 	}
 
-	static boolean failSafeDoTest(long a, LLongPredicate func, @Nonnull LLongPredicate failSafe) {
+	static boolean failSafeTest(long a, LLongPredicate func, @Nonnull LLongPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doTest(a);
+			return failSafe.test(a);
 		} else {
-			return func.failSafeDoTest(a, failSafe);
+			return func.failSafeTest(a, failSafe);
 		}
 	}
 
-	static LLongPredicate failSafeLongPred(LLongPredicate func, @Nonnull LLongPredicate failSafe) {
+	static LLongPredicate failSafe(LLongPredicate func, @Nonnull LLongPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoTest(a, func, failSafe);
+		return a -> failSafeTest(a, func, failSafe);
 	}
 
 	default boolean doIf(long a, LAction action) {
-		if (doTest(a)) {
-			action.doExecute();
+		Null.nonNullArg(action, "action");
+		if (test(a)) {
+			action.execute();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	default boolean doIf(long a, LLongConsumer consumer) {
-		if (doTest(a)) {
-			consumer.doAccept(a);
+	static boolean doIf(long a, @Nonnull LLongPredicate predicate, @Nonnull LAction action) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a, action);
+	}
+
+	static boolean doIf(long a, @Nonnull LLongPredicate predicate, @Nonnull LLongConsumer consumer) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a, consumer);
+	}
+
+	default boolean doIf(long a, @Nonnull LLongConsumer consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a)) {
+			consumer.accept(a);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	static void throwIf(long a, LLongPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.doTest(a)) {
+	static void throwIf(long a, LLongPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.test(a)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
-	static void throwIfNot(long a, LLongPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.doTest(a)) {
+	static void throwIfNot(long a, LLongPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.test(a)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(long a) {
-		return doTest(a);
+	default boolean nonNullTest(long a) {
+		return test(a);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(long a) {
-		return doTest(a);
+		return test(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -246,8 +265,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	public default <V> boolean doIf(V a1, long a2, LObjLongConsumer<V> consumer) {
-		if (doTest(a2)) {
-			consumer.doAccept(a1, a2);
+		if (test(a2)) {
+			consumer.accept(a1, a2);
 			return true;
 		} else {
 			return false;
@@ -255,8 +274,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	public default <V> boolean doIf(V a1, int a2, long a3, LTieLongConsumer<? super V> consumer) {
-		if (doTest(a3)) {
-			consumer.doAccept(a1, a2, a3);
+		if (test(a3)) {
+			consumer.accept(a1, a2, a3);
 			return true;
 		} else {
 			return false;
@@ -264,8 +283,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	public default <V> int doIf(V a1, int a2, long a3, LTieLongFunction<? super V> consumer) {
-		if (doTest(a3)) {
-			return consumer.doApplyAsInt(a1, a2, a3);
+		if (test(a3)) {
+			return consumer.applyAsInt(a1, a2, a3);
 		} else {
 			return 0;
 		}
@@ -274,13 +293,13 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(long min_a, long max_a, LLongPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (long a = min_a; a <= max_a; a++) {
-				func.doTest(a);
+				func.test(a);
 			}
 		} else {
 			for (long a = min_a; a >= max_a; a--) {
-				func.doTest(a);
+				func.test(a);
 			}
 		}
 	}
@@ -288,25 +307,27 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(long min_a, long max_a, LLongPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (long a = min_a; a < max_a; a++) {
-				func.doTest(a);
+				func.test(a);
 			}
 		} else {
 			for (long a = min_a; a > max_a; a--) {
-				func.doTest(a);
+				func.test(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(long max_a, LLongPredicate func) {
+		if (max_a < 0)
+			return;
 		fromTill(0, max_a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureLongPred(long a) {
-		return () -> this.doTest(a);
+	default LBoolSupplier capture(long a) {
+		return () -> this.test(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -324,7 +345,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	@Nonnull
 	static LLongPredicate recursive(final @Nonnull LFunction<LLongPredicate, LLongPredicate> selfLambda) {
 		final LLongPredicateSingle single = new LLongPredicateSingle();
-		LLongPredicate func = selfLambda.doApply(single);
+		LLongPredicate func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -333,8 +354,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		private LLongPredicate target = null;
 
 		@Override
-		public boolean doTestX(long a) throws Throwable {
-			return target.doTestX(a);
+		public boolean testX(long a) throws Throwable {
+			return target.testX(a);
 		}
 
 		@Override
@@ -344,24 +365,24 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	@Nonnull
-	static LLongPredicate longPredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LLongPredicate longPredThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LLongPredicate longPredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LLongPredicate longPredThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static boolean call(long a, final @Nonnull LLongPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a);
+		return lambda.test(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -417,7 +438,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	 */
 	@Nonnull
 	default LLongPredicate negate() {
-		return a -> !doTest(a);
+		return a -> !test(a);
 	}
 
 	/**
@@ -427,7 +448,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	@Nonnull
 	default LLongPredicate and(@Nonnull LLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a -> doTest(a) && other.doTest(a);
+		return a -> test(a) && other.test(a);
 	}
 
 	/**
@@ -437,7 +458,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	@Nonnull
 	default LLongPredicate or(@Nonnull LLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a -> doTest(a) || other.doTest(a);
+		return a -> test(a) || other.test(a);
 	}
 
 	/**
@@ -447,7 +468,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	@Nonnull
 	default LLongPredicate xor(@Nonnull LLongPredicate other) {
 		Null.nonNullArg(other, "other");
-		return a -> doTest(a) ^ other.doTest(a);
+		return a -> test(a) ^ other.test(a);
 	}
 
 	/**
@@ -465,20 +486,20 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongPredicate longPredComposeLong(@Nonnull final LLongUnaryOperator before) {
+	default LLongPredicate compose(@Nonnull final LLongUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doTest(before.doApplyAsLong(v));
+		return v -> this.test(before.applyAsLong(v));
 	}
 
-	public static LLongPredicate composedLong(@Nonnull final LLongUnaryOperator before, LLongPredicate after) {
-		return after.longPredComposeLong(before);
+	public static LLongPredicate composed(@Nonnull final LLongUnaryOperator before, LLongPredicate after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LPredicate<V> longPredCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doTest(before.doApplyAsLong(v));
+		return v -> this.test(before.applyAsLong(v));
 	}
 
 	public static <V> LPredicate<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongPredicate after) {
@@ -493,79 +514,68 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	@Nonnull
 	default <V> LLongFunction<V> boolToLongFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doTest(a));
+		return a -> after.apply(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunction boolToLongToByteFunc(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doTest(a));
+		return a -> after.applyAsByte(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToSrtFunction boolToLongToSrtFunc(@Nonnull LBoolToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doTest(a));
+		return a -> after.applyAsSrt(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunction boolToLongToIntFunc(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doTest(a));
+		return a -> after.applyAsInt(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperator boolToLongUnaryOp(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doTest(a));
+		return a -> after.applyAsLong(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFltFunction boolToLongToFltFunc(@Nonnull LBoolToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doTest(a));
+		return a -> after.applyAsFlt(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDblFunction boolToLongToDblFunc(@Nonnull LBoolToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doTest(a));
+		return a -> after.applyAsDbl(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunction boolToLongToCharFunc(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doTest(a));
+		return a -> after.applyAsChar(this.test(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicate boolToLongPred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doTest(a));
+		return a -> after.apply(this.test(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LLongPredicate nestingLongPred() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongPredicate shovingLongPred() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -581,53 +591,65 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return false;
 	}
 
-	// FILTER: FOR, [SourcePurpose{arg=long a, type=IA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
-	default <C0> void forEach(IndexedRead<C0, aLong> ia, C0 source, LLongConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C0> void filterForEach(IndexedRead<C0, aLong> ia, C0 source, LLongConsumer consumer) {
 		int size = ia.size(source);
 		LOiToLongFunction<Object> oiFunc0 = (LOiToLongFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			long a = oiFunc0.doApplyAsLong(source, i);
+			long a = oiFunc0.applyAsLong(source, i);
 			doIf(a, consumer);
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=long a, type=SA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
-	default <C0, I0> void iterate(SequentialRead<C0, I0, aLong> sa, C0 source, LLongConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
+	default <C0, I0> void filterIterate(SequentialRead<C0, I0, aLong> sa, C0 source, LLongConsumer consumer) {
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			long a = nextFunc0.doApplyAsLong(iterator0);
+		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			long a = nextFunc0.applyAsLong(iterator0);
 			doIf(a, consumer);
 		}
 	}
 
-	// FILTER_WITH_TARGET_AND_INDEX: FOR, [SourcePurpose{arg=V v, type=CONST}, SourcePurpose{arg=long a, type=IA}, SourcePurpose{arg=LTieLongConsumer<V>
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index) if predicate test passes. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns number of iterations that element (or tuple) was accepter by predicate.
+	*/
 	default <V, C0> int tieForEach(V v, IndexedRead<C0, aLong> ia, C0 source, LTieLongConsumer<V> consumer) {
 		int size = ia.size(source);
 		LOiToLongFunction<Object> oiFunc0 = (LOiToLongFunction) ia.getter();
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
-			long a = oiFunc0.doApplyAsLong(source, i);
+			long a = oiFunc0.applyAsLong(source, i);
 			acceptedIndex += doIf(v, acceptedIndex, a, consumer) ? 1 : 0;
 		}
 		return acceptedIndex;
 
 	}
 
-	// FILTER_WITH_TARGET_AND_INDEX: WHILE, [SourcePurpose{arg=V v, type=CONST}, SourcePurpose{arg=long a, type=SA}, SourcePurpose{arg=LTieLongConsumer<V>
-	// consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index) if predicate test passes. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns number of iterations that element (or tuple) was accepter by predicate.
+	*/
 	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, aLong> sa, C0 source, LTieLongConsumer<V> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.getter();
+		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.supplier();
 		int acceptedIndex = 0;
 		int i = 0;
-		while (testFunc0.doTest(iterator0)) {
-			long a = nextFunc0.doApplyAsLong(iterator0);
+		while (testFunc0.test(iterator0)) {
+			long a = nextFunc0.applyAsLong(iterator0);
 			acceptedIndex += doIf(v, acceptedIndex, a, consumer) ? 1 : 0;
 			i++;
 		}

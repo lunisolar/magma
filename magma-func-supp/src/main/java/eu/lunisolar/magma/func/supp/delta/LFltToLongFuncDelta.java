@@ -89,8 +89,8 @@ public class LFltToLongFuncDelta extends LFltToLongFuncMemento {
 	}
 
 	@Override
-	public long doApplyAsLong(float a) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
+	public long applyAsLong(float a) {
+		return deltaFunction.applyAsLong(lastValue(), super.applyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

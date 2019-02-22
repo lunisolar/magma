@@ -69,7 +69,7 @@ public class LOiToLongFunctionBuilderTest<T>{
                 .build()
             );
 
-            function.doApplyAsLong(100,100);
+            function.applyAsLong(100,100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LOiToLongFunctionBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsLong(100,100);
+            function.applyAsLong(100,100);
 
             fail("No exception were thrown.");
         })

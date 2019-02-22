@@ -54,7 +54,7 @@ public class LLogicalOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(false);
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLogicalOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

@@ -80,8 +80,10 @@ public final class LBoolSupplierBuilder extends PerCaseBuilderWithBoolProduct.Ba
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBoolSupplier boolSupplierFrom(Function<LBoolSupplierBuilder, LBoolSupplier> buildingFunction) {
-		return buildingFunction.apply(new LBoolSupplierBuilder());
+	public static LBoolSupplier boolSupplierFrom(Consumer<LBoolSupplierBuilder> buildingFunction) {
+		LBoolSupplierBuilder builder = new LBoolSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LBoolSupplierBuilder extends PerCaseBuilderWithBoolProduct.Ba
 		retval = LBoolSupplier.boolSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LBoolSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsBool();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsBool();
 					}
 				}
 
-				return eventuallyFinal.doGetAsBool();
+				return eventuallyFinal.getAsBool();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

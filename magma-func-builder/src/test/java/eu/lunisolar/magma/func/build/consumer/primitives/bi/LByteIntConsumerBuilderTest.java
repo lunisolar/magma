@@ -69,7 +69,7 @@ public class LByteIntConsumerBuilderTest{
                 .build()
             );
 
-            function.doAccept((byte)100,100);
+            function.accept((byte)100,100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LByteIntConsumerBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept((byte)100,100);
+            function.accept((byte)100,100);
 
             fail("No exception were thrown.");
         })

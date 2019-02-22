@@ -65,7 +65,7 @@ public class LTieIntFunctionTest<T> {
 
 
     private LTieIntFunction<Integer> sut = new LTieIntFunction<Integer>(){
-        public  int doApplyAsIntX(Integer a1,int a2,int a3)  {
+        public  int applyAsIntX(Integer a1,int a2,int a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LTieIntFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100,100,100))
+        assertThat(sut.applyAsInt(100,100,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LTieIntFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100,100,100))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100,100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100,100,100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LTieIntFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100,100,100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LTieIntFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieIntFunction: int doApplyAsInt(T a1,int a2,int a3)");
+            .isEqualTo("LTieIntFunction: int applyAsInt(T a1,int a2,int a3)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LTieIntFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieIntFuncComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -187,8 +187,8 @@ public class LTieIntFunctionTest<T> {
         };
 
         //when
-        LTieIntFunction<Integer> function = sutO.tieIntFuncComposeInt(before1,before2,before3);
-        function.doApplyAsInt(80,81,82);
+        LTieIntFunction<Integer> function = sutO.compose(before1,before2,before3);
+        function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -229,7 +229,7 @@ public class LTieIntFunctionTest<T> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.tieIntFuncCompose(before1,before2,before3);
-        function.doApplyAsInt(80,81,82);
+        function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -267,7 +267,7 @@ public class LTieIntFunctionTest<T> {
 
         //when
         LObjBiIntFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,82);
+        Integer finalValue = function.apply(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -303,7 +303,7 @@ public class LTieIntFunctionTest<T> {
 
         //when
         LTieIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,82);
+        int finalValue = function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -339,7 +339,7 @@ public class LTieIntFunctionTest<T> {
 
         //when
         LObjBiIntPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,82);
+        boolean finalValue = function.test(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -352,20 +352,6 @@ public class LTieIntFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieIntFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieIntFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieIntFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieIntFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -376,7 +362,7 @@ public class LTieIntFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieIntFunc().doApplyAsInt(100,100,100);
+        sutThrowing.shovingApplyAsInt(100,100,100);
     }
 
 
@@ -389,7 +375,7 @@ public class LTieIntFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieIntFunction: int doApplyAsInt(T a1,int a2,int a3)");
+                .contains("LTieIntFunction: int applyAsInt(T a1,int a2,int a3)");
     }
 
 
@@ -401,63 +387,63 @@ public class LTieIntFunctionTest<T> {
 
     //<editor-fold desc="Variants">
 
-    private int variantLObjInt2Int1ToIntFunc(Integer a1,int a3,int a2) {
+    private int variantLObj0Int2Int1ToIntFunc(Integer a1,int a3,int a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLObjInt2Int1ToIntFunc() {
-        LTieIntFunction lambda = LTieIntFunction./*<T>*/objInt2Int1ToIntFunc(this::variantLObjInt2Int1ToIntFunc);
+    public void compilerSubstituteVariantLObj0Int2Int1ToIntFunc() {
+        LTieIntFunction lambda = LTieIntFunction./*<T>*/obj0Int2Int1ToIntFunc(this::variantLObj0Int2Int1ToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieIntFunction.LObjInt2Int1ToIntFunc.class);
+        assertThat(lambda).isInstanceOf(LTieIntFunction.LObj0Int2Int1ToIntFunc.class);
     }
 
 
-    private int variantLInt1ObjIntToIntFunc(int a2,Integer a1,int a3) {
+    private int variantLInt1Obj0Int2ToIntFunc(int a2,Integer a1,int a3) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLInt1ObjIntToIntFunc() {
-        LTieIntFunction lambda = LTieIntFunction./*<T>*/int1ObjIntToIntFunc(this::variantLInt1ObjIntToIntFunc);
+    public void compilerSubstituteVariantLInt1Obj0Int2ToIntFunc() {
+        LTieIntFunction lambda = LTieIntFunction./*<T>*/int1Obj0Int2ToIntFunc(this::variantLInt1Obj0Int2ToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieIntFunction.LInt1ObjIntToIntFunc.class);
+        assertThat(lambda).isInstanceOf(LTieIntFunction.LInt1Obj0Int2ToIntFunc.class);
     }
 
 
-    private int variantLInt1Int2ObjToIntFunc(int a2,int a3,Integer a1) {
+    private int variantLInt1Int2Obj0ToIntFunc(int a2,int a3,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLInt1Int2ObjToIntFunc() {
-        LTieIntFunction lambda = LTieIntFunction./*<T>*/int1Int2ObjToIntFunc(this::variantLInt1Int2ObjToIntFunc);
+    public void compilerSubstituteVariantLInt1Int2Obj0ToIntFunc() {
+        LTieIntFunction lambda = LTieIntFunction./*<T>*/int1Int2Obj0ToIntFunc(this::variantLInt1Int2Obj0ToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieIntFunction.LInt1Int2ObjToIntFunc.class);
+        assertThat(lambda).isInstanceOf(LTieIntFunction.LInt1Int2Obj0ToIntFunc.class);
     }
 
 
-    private int variantLInt2ObjInt1ToIntFunc(int a3,Integer a1,int a2) {
+    private int variantLInt2Obj0Int1ToIntFunc(int a3,Integer a1,int a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLInt2ObjInt1ToIntFunc() {
-        LTieIntFunction lambda = LTieIntFunction./*<T>*/int2ObjInt1ToIntFunc(this::variantLInt2ObjInt1ToIntFunc);
+    public void compilerSubstituteVariantLInt2Obj0Int1ToIntFunc() {
+        LTieIntFunction lambda = LTieIntFunction./*<T>*/int2Obj0Int1ToIntFunc(this::variantLInt2Obj0Int1ToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieIntFunction.LInt2ObjInt1ToIntFunc.class);
+        assertThat(lambda).isInstanceOf(LTieIntFunction.LInt2Obj0Int1ToIntFunc.class);
     }
 
 
-    private int variantLBiIntObjToIntFunc(int a3,int a2,Integer a1) {
+    private int variantLBiInt1Obj0ToIntFunc(int a3,int a2,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLBiIntObjToIntFunc() {
-        LTieIntFunction lambda = LTieIntFunction./*<T>*/biIntObjToIntFunc(this::variantLBiIntObjToIntFunc);
+    public void compilerSubstituteVariantLBiInt1Obj0ToIntFunc() {
+        LTieIntFunction lambda = LTieIntFunction./*<T>*/biInt1Obj0ToIntFunc(this::variantLBiInt1Obj0ToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieIntFunction.LBiIntObjToIntFunc.class);
+        assertThat(lambda).isInstanceOf(LTieIntFunction.LBiInt1Obj0ToIntFunc.class);
     }
 
     //</editor-fold>

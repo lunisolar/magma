@@ -63,13 +63,13 @@ public class LazyChar extends LCharSupMemento implements LCharSingle {
 	}
 
 	public static <E> LazyChar lazyValue(E e, LToCharFunction<E> function) {
-		return new LazyChar(() -> function.doApplyAsChar(e));
+		return new LazyChar(() -> function.applyAsChar(e));
 	}
 
 	@Override
-	public char doGetAsChar() {
+	public char getAsChar() {
 		if (function != null) {
-			lastValue = function.doGetAsChar();
+			lastValue = function.getAsChar();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazyChar extends LCharSupMemento implements LCharSingle {
 	}
 
 	public char value() {
-		return doGetAsChar();
+		return getAsChar();
 	}
 
 	public static boolean argEquals(LazyChar the, Object that) {

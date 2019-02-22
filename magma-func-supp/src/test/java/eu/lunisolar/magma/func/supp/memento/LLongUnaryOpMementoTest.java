@@ -54,7 +54,7 @@ public class LLongUnaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong(100L))
+        assertThat(sut.applyAsLong(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongUnaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong(100L))
+        assertThat(sut.applyAsLong(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

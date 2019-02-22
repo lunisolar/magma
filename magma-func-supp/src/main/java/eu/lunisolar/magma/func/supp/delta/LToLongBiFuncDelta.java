@@ -89,8 +89,8 @@ public class LToLongBiFuncDelta<T1, T2> extends LToLongBiFuncMemento<T1, T2> {
 	}
 
 	@Override
-	public long doApplyAsLong(T1 a1, T2 a2) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a1, a2));
+	public long applyAsLong(T1 a1, T2 a2) {
+		return deltaFunction.applyAsLong(lastValue(), super.applyAsLong(a1, a2));
 	}
 
 	// <editor-fold desc="object">

@@ -89,8 +89,8 @@ public class LByteToIntFuncDelta extends LByteToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(byte a) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
+	public int applyAsInt(byte a) {
+		return deltaFunction.applyAsInt(lastValue(), super.applyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

@@ -65,7 +65,7 @@ public class LLogicalBinaryOperatorTest {
 
 
     private LLogicalBinaryOperator sut = new LLogicalBinaryOperator(){
-        public  boolean doApplyX(boolean a1,boolean a2)  {
+        public  boolean applyX(boolean a1,boolean a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LLogicalBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(true,true))
+        assertThat(sut.apply(true,true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LLogicalBinaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(true,true))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(true,true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(true,true);
+            sutAlwaysThrowingUnchecked.nestingApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LLogicalBinaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(true,true);
+            sutAlwaysThrowingUnchecked.shovingApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LLogicalBinaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLogicalBinaryOperator: boolean doApply(boolean a1,boolean a2)");
+            .isEqualTo("LLogicalBinaryOperator: boolean apply(boolean a1,boolean a2)");
     }
 
     @Test
@@ -153,7 +153,7 @@ public class LLogicalBinaryOperatorTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doApply(true,true))
+        assertThat(sut.negate().apply(true,true))
             .isEqualTo(!testValue);
     }
 
@@ -181,13 +181,13 @@ public class LLogicalBinaryOperatorTest {
         LLogicalBinaryOperator xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doApply(true,true))
+        assertThat(andFunction.apply(true,true))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doApply(true,true))
+        assertThat(orFunction.apply(true,true))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doApply(true,true))
+        assertThat(xorFunction.apply(true,true))
                 .isEqualTo(xorResult);
     }
 
@@ -197,10 +197,10 @@ public class LLogicalBinaryOperatorTest {
         LLogicalBinaryOperator equals = LLogicalBinaryOperator.isEqual(true,true);
 
         //then
-        assertThat(equals.doApply(true,true))
+        assertThat(equals.apply(true,true))
                 .isTrue();
 
-        assertThat(equals.doApply(false,false))
+        assertThat(equals.apply(false,false))
                 .isFalse();
     }
 
@@ -213,13 +213,13 @@ public class LLogicalBinaryOperatorTest {
         LLogicalBinaryOperator xorFunction = LLogicalBinaryOperator.xor();
 
         //then
-        assertThat(andFunction.doApply(value1, value2))
+        assertThat(andFunction.apply(value1, value2))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doApply(value1, value2))
+        assertThat(orFunction.apply(value1, value2))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doApply(value1, value2))
+        assertThat(xorFunction.apply(value1, value2))
                 .isEqualTo(xorResult);
     }
 
@@ -227,7 +227,7 @@ public class LLogicalBinaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLogicalBinaryOpComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -252,8 +252,8 @@ public class LLogicalBinaryOperatorTest {
         };
 
         //when
-        LLogicalBinaryOperator function = sutO.logicalBinaryOpComposeBool(before1,before2);
-        function.doApply(true,true);
+        LLogicalBinaryOperator function = sutO.compose(before1,before2);
+        function.apply(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -288,7 +288,7 @@ public class LLogicalBinaryOperatorTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.logicalBinaryOpCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -325,7 +325,7 @@ public class LLogicalBinaryOperatorTest {
 
         //when
         LBiBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true,true);
+        Integer finalValue = function.apply(true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -360,7 +360,7 @@ public class LLogicalBinaryOperatorTest {
 
         //when
         LLogicalBinaryOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true,true);
+        boolean finalValue = function.apply(true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -373,20 +373,6 @@ public class LLogicalBinaryOperatorTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLogicalBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalBinaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLogicalBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalBinaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -397,7 +383,7 @@ public class LLogicalBinaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingLogicalBinaryOp().doApply(true,true);
+        sutThrowing.shovingApply(true,true);
     }
 
 
@@ -410,7 +396,7 @@ public class LLogicalBinaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLogicalBinaryOperator: boolean doApply(boolean a1,boolean a2)");
+                .contains("LLogicalBinaryOperator: boolean apply(boolean a1,boolean a2)");
     }
 
 

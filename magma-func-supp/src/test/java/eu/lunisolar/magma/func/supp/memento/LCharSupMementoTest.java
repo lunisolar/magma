@@ -54,7 +54,7 @@ public class LCharSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo('\u0000');
 
-        assertThat(sut.doGetAsChar())
+        assertThat(sut.getAsChar())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LCharSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsChar())
+        assertThat(sut.getAsChar())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

@@ -72,8 +72,8 @@ public class LBiFltFuncMemento<R> implements LBiFltFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(float a1, float a2) {
-		return lastValue = function.doApply(a1, a2);
+	public R applyX(float a1, float a2) {
+		return lastValue = function.apply(a1, a2);
 	}
 
 	public R lastValue() {

@@ -55,7 +55,7 @@ public class LBiByteFuncDeltaTest <R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply((byte)100,(byte)100))
+        assertThat(sut.apply((byte)100,(byte)100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBiByteFuncDeltaTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((byte)100,(byte)100))
+        assertThat(sut.apply((byte)100,(byte)100))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

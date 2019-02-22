@@ -80,8 +80,10 @@ public final class LSrtToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LSrtToCharFunction srtToCharFunctionFrom(Function<LSrtToCharFunctionBuilder, LSrtToCharFunction> buildingFunction) {
-		return buildingFunction.apply(new LSrtToCharFunctionBuilder());
+	public static LSrtToCharFunction srtToCharFunctionFrom(Consumer<LSrtToCharFunctionBuilder> buildingFunction) {
+		LSrtToCharFunctionBuilder builder = new LSrtToCharFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LSrtToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 		retval = LSrtToCharFunction.srtToCharFunc(a -> {
 			try {
 				for (Case<LSrtPredicate, LSrtToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsChar(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsChar(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a);
+				return eventuallyFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -80,8 +80,10 @@ public final class LBiObjIntConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2> LBiObjIntConsumer<T1, T2> biObjIntConsumerFrom(Function<LBiObjIntConsumerBuilder<T1, T2>, LBiObjIntConsumer<T1, T2>> buildingFunction) {
-		return buildingFunction.apply(new LBiObjIntConsumerBuilder());
+	public static <T1, T2> LBiObjIntConsumer<T1, T2> biObjIntConsumerFrom(Consumer<LBiObjIntConsumerBuilder<T1, T2>> buildingFunction) {
+		LBiObjIntConsumerBuilder builder = new LBiObjIntConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,13 +133,13 @@ public final class LBiObjIntConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<
 		retval = LBiObjIntConsumer.<T1, T2> biObjIntCons((a1, a2, a3) -> {
 			try {
 				for (Case<LBiObjIntPredicate<T1, T2>, LBiObjIntConsumer<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2, a3)) {
-						aCase.caseFunction().doAccept(a1, a2, a3);
+					if (aCase.casePredicate().test(a1, a2, a3)) {
+						aCase.caseFunction().accept(a1, a2, a3);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1, a2, a3);
+				eventuallyFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

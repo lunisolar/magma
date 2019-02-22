@@ -80,8 +80,10 @@ public final class LSrtFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <R> LSrtFunction<R> srtFunctionFrom(Function<LSrtFunctionBuilder<R>, LSrtFunction<R>> buildingFunction) {
-		return buildingFunction.apply(new LSrtFunctionBuilder());
+	public static <R> LSrtFunction<R> srtFunctionFrom(Consumer<LSrtFunctionBuilder<R>> buildingFunction) {
+		LSrtFunctionBuilder builder = new LSrtFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LSrtFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		retval = LSrtFunction.<R> srtFunc(a -> {
 			try {
 				for (Case<LSrtPredicate, LSrtFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApply(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

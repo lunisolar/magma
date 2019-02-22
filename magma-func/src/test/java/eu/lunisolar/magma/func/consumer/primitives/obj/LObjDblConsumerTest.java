@@ -63,7 +63,7 @@ public class LObjDblConsumerTest<T> {
 
 
     private LObjDblConsumer<Integer> sut = new LObjDblConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,double a2)  {
+        public  void acceptX(Integer a1,double a2)  {
             LObjDblConsumer.doNothing(a1,a2);
         }
     };
@@ -95,11 +95,11 @@ public class LObjDblConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100d);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -110,11 +110,11 @@ public class LObjDblConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100d);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -128,7 +128,7 @@ public class LObjDblConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjDblConsumer: void doAccept(T a1,double a2)");
+            .isEqualTo("LObjDblConsumer: void accept(T a1,double a2)");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class LObjDblConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjDblConsComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LObjDblConsumerTest<T> {
         };
 
         //when
-        LObjDblConsumer<Integer> function = sutO.objDblConsComposeDbl(before1,before2);
-        function.doAccept(80,81d);
+        LObjDblConsumer<Integer> function = sutO.compose(before1,before2);
+        function.accept(80,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -210,7 +210,7 @@ public class LObjDblConsumerTest<T> {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.objDblConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -240,27 +240,13 @@ public class LObjDblConsumerTest<T> {
 
         //when
         LObjDblConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81d);
+        function.accept(80,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjDblCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjDblConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjDblCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjDblConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -272,7 +258,7 @@ public class LObjDblConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjDblCons().doAccept(100,100d);
+        sutThrowing.shovingAccept(100,100d);
     }
 
 
@@ -285,7 +271,7 @@ public class LObjDblConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjDblConsumer: void doAccept(T a1,double a2)");
+                .contains("LObjDblConsumer: void accept(T a1,double a2)");
     }
 
 

@@ -69,7 +69,7 @@ public class LSrtSupplierBuilderTest{
                 .build()
             );
 
-            function.doGetAsSrt();
+            function.getAsSrt();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSrtSupplierBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doGetAsSrt();
+            function.getAsSrt();
 
             fail("No exception were thrown.");
         })

@@ -65,7 +65,7 @@ public class LDblUnaryOperatorTest {
 
 
     private LDblUnaryOperator sut = new LDblUnaryOperator(){
-        public  double doApplyAsDblX(double a)  {
+        public  double applyAsDblX(double a)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LDblUnaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsDbl(100d))
+        assertThat(sut.applyAsDbl(100d))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LDblUnaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsDbl() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsDbl(100d))
+    public void testNonNullApplyAsDbl() throws Throwable {
+        assertThat(sut.nonNullApplyAsDbl(100d))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsDblUnchecked() throws Throwable {
+    public void testNestingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsDbl(100d);
+            sutAlwaysThrowingUnchecked.nestingApplyAsDbl(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LDblUnaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsDblUnchecked() throws Throwable {
+    public void testShovingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsDbl(100d);
+            sutAlwaysThrowingUnchecked.shovingApplyAsDbl(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LDblUnaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblUnaryOperator: double doApplyAsDbl(double a)");
+            .isEqualTo("LDblUnaryOperator: double applyAsDbl(double a)");
     }
 
     @Test
@@ -164,7 +164,7 @@ public class LDblUnaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblUnaryOpComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -183,8 +183,8 @@ public class LDblUnaryOperatorTest {
         };
 
         //when
-        LDblUnaryOperator function = sutO.dblUnaryOpComposeDbl(before);
-        function.doApplyAsDbl(80d);
+        LDblUnaryOperator function = sutO.compose(before);
+        function.applyAsDbl(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -213,7 +213,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LToDblFunction<Integer> function = sutO.dblUnaryOpCompose(before);
-        function.doApplyAsDbl(80);
+        function.applyAsDbl(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -249,7 +249,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80d);
+        Integer finalValue = function.apply(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -283,7 +283,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80d);
+        byte finalValue = function.applyAsByte(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -317,7 +317,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80d);
+        short finalValue = function.applyAsSrt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -351,7 +351,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80d);
+        int finalValue = function.applyAsInt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -385,7 +385,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80d);
+        long finalValue = function.applyAsLong(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -419,7 +419,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80d);
+        float finalValue = function.applyAsFlt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -453,7 +453,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblUnaryOperator function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d);
+        double finalValue = function.applyAsDbl(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -487,7 +487,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80d);
+        char finalValue = function.applyAsChar(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -521,7 +521,7 @@ public class LDblUnaryOperatorTest {
 
         //when
         LDblPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80d);
+        boolean finalValue = function.test(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -537,23 +537,9 @@ public class LDblUnaryOperatorTest {
     public void identity() throws Throwable {
         LDblUnaryOperator identityFunction = LDblUnaryOperator.identity();
 
-        assertThat(identityFunction.doApplyAsDbl(8d)).isEqualTo(8d);
+        assertThat(identityFunction.applyAsDbl(8d)).isEqualTo(8d);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LDblUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LDblUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -565,7 +551,7 @@ public class LDblUnaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingDblUnaryOp().doApplyAsDbl(100d);
+        sutThrowing.shovingApplyAsDbl(100d);
     }
 
 
@@ -578,7 +564,7 @@ public class LDblUnaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblUnaryOperator: double doApplyAsDbl(double a)");
+                .contains("LDblUnaryOperator: double applyAsDbl(double a)");
     }
 
 

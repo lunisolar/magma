@@ -82,13 +82,12 @@ public interface LCharBinaryOperatorAssert<S extends LCharBinaryOperatorAssert<S
 		@Nonnull
 		public Evaluation<S, LBiCharConsumer, A, RS, Character> doesApplyAsChar(char a1, char a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a1, a2));
+				return assertFactory.apply(actual.applyAsChar(a1, a2));
 			});
-
 		}
 
 	}

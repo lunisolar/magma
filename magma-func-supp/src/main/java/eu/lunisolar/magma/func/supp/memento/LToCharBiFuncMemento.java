@@ -72,8 +72,8 @@ public class LToCharBiFuncMemento<T1, T2> implements LToCharBiFunction<T1, T2> {
 	}
 
 	@Override
-	public char doApplyAsCharX(T1 a1, T2 a2) {
-		return lastValue = function.doApplyAsChar(a1, a2);
+	public char applyAsCharX(T1 a1, T2 a2) {
+		return lastValue = function.applyAsChar(a1, a2);
 	}
 
 	public char lastValue() {

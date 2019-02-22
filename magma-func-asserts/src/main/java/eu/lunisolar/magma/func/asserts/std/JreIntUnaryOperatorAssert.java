@@ -80,13 +80,12 @@ public interface JreIntUnaryOperatorAssert<S extends JreIntUnaryOperatorAssert<S
 		@Nonnull
 		public Evaluation<S, LIntConsumer, A, RS, Integer> doesApplyAsInt(int a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.applyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

@@ -82,13 +82,12 @@ public interface LByteSupplierAssert<S extends LByteSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Byte> doesGetAsByte() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGetAsByte());
+				return assertFactory.apply(actual.getAsByte());
 			});
-
 		}
 
 		@Nonnull

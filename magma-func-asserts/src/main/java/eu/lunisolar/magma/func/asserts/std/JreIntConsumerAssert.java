@@ -77,14 +77,13 @@ public interface JreIntConsumerAssert<S extends JreIntConsumerAssert<S, A>, A ex
 		@Nonnull
 		public SemiEvaluation<S, LIntConsumer, A> doesAccept(int a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
 				actual.accept(a);
 				return null;
 			});
-
 		}
 
 	}

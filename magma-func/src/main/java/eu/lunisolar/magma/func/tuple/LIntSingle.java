@@ -34,26 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LIntConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntSingle extends LTuple<Integer> {
+public interface LIntSingle extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	int value();
 
-	default int getValue() {
+	default int first() {
 		return value();
 	}
 
-	default Integer get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default int getInt(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -98,63 +89,8 @@ public interface LIntSingle extends LTuple<Integer> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Integer[] toVoArray(Integer[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Integer[] toVoArray(Integer[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Integer[] toVoArray() {
-		Integer[] array = new Integer[size()];
-
-		return toVoArray(array);
-	}
-
-	default int[] toIntArray(int[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default int[] toIntArray(int[] array) {
-		return toIntArray(array, 0);
-	}
-
-	default int[] toIntArray() {
-		int[] array = new int[size()];
-
-		return toIntArray(array);
-	}
-
-	@Override
-	default Iterator<Integer> iterator() {
-		return new Iterator<Integer>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -164,27 +100,9 @@ public interface LIntSingle extends LTuple<Integer> {
 			}
 
 			@Override
-			public Integer next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public int nextInt() {
-				index++;
-				return getInt(index);
 			}
 		};
 	}
@@ -202,7 +120,7 @@ public interface LIntSingle extends LTuple<Integer> {
 
 	}
 
-	abstract class AbstractIntSingle extends Number implements LIntSingle {
+	abstract class AbstractIntSingle implements LIntSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -218,40 +136,11 @@ public interface LIntSingle extends LTuple<Integer> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
-
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
-
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
-
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
-
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
-
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
 	}
 
 	/**
@@ -289,7 +178,7 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutIntSingle setValueIfArg(int value, LIntPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -298,14 +187,14 @@ public interface LIntSingle extends LTuple<Integer> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutIntSingle setValueIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsInt(arg);
+				this.value = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutIntSingle setValueIf(LIntPredicate predicate, int value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -314,7 +203,7 @@ public interface LIntSingle extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutIntSingle setValueIf(int value, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -323,7 +212,7 @@ public interface LIntSingle extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutIntSingle setValueIf(LBiIntPredicate predicate, int value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -369,7 +258,7 @@ public interface LIntSingle extends LTuple<Integer> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompIntSingle setValueIfArg(int value, LIntPredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -378,14 +267,14 @@ public interface LIntSingle extends LTuple<Integer> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompIntSingle setValueIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsInt(arg);
+				this.value = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompIntSingle setValueIf(LIntPredicate predicate, int value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -394,7 +283,7 @@ public interface LIntSingle extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompIntSingle setValueIf(int value, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -403,7 +292,7 @@ public interface LIntSingle extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompIntSingle setValueIf(LBiIntPredicate predicate, int value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;

@@ -55,7 +55,7 @@ public class LDblToLongFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsLong(100d))
+        assertThat(sut.applyAsLong(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LDblToLongFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong(100d))
+        assertThat(sut.applyAsLong(100d))
             .isEqualTo(9L);
 
         assertThat(functionCallCount).isEqualTo(2);

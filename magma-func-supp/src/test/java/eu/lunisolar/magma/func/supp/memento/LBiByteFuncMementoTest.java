@@ -54,7 +54,7 @@ public class LBiByteFuncMementoTest <R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply((byte)100,(byte)100))
+        assertThat(sut.apply((byte)100,(byte)100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBiByteFuncMementoTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((byte)100,(byte)100))
+        assertThat(sut.apply((byte)100,(byte)100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

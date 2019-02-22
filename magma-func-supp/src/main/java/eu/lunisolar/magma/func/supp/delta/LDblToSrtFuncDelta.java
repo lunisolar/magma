@@ -89,8 +89,8 @@ public class LDblToSrtFuncDelta extends LDblToSrtFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsSrt(double a) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a));
+	public short applyAsSrt(double a) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a));
 	}
 
 	// <editor-fold desc="object">

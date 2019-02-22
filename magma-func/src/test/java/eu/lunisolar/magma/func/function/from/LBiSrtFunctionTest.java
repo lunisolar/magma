@@ -65,14 +65,14 @@ public class LBiSrtFunctionTest<R> {
 
 
     private LBiSrtFunction<Integer> sut = new LBiSrtFunction<Integer>(){
-        public @Nullable Integer doApplyX(short a1,short a2)  {
+        public @Nullable Integer applyX(short a1,short a2)  {
             return testValue;
         }
     };
 
 
     private LBiSrtFunction<Integer> sutNull = new LBiSrtFunction<Integer>(){
-        public @Nullable Integer doApplyX(short a1,short a2)  {
+        public @Nullable Integer applyX(short a1,short a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBiSrtFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply((short)100,(short)100))
+        assertThat(sut.apply((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBiSrtFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply((short)100,(short)100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply((short)100,(short)100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.nestingApply((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBiSrtFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.shovingApply((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBiSrtFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiSrtFunction: R doApply(short a1,short a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiSrtFunction: R apply(short a1,short a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply((short)100,(short)100);
+        sutNull.nonNullApply((short)100,(short)100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiSrtFunction: R doApply(short a1,short a2)");
+            .isEqualTo("LBiSrtFunction: R apply(short a1,short a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBiSrtFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiSrtFuncComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LBiSrtFunctionTest<R> {
         };
 
         //when
-        LBiSrtFunction<Integer> function = sutO.biSrtFuncComposeSrt(before1,before2);
-        function.doApply((short)80,(short)81);
+        LBiSrtFunction<Integer> function = sutO.compose(before1,before2);
+        function.apply((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LBiSrtFunctionTest<R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.biSrtFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LBiSrtFunctionTest<R> {
 
         //when
         LBiSrtFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((short)80,(short)81);
+        Integer finalValue = function.apply((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LBiSrtFunctionTest<R> {
 
         //when
         LBiSrtConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept((short)80,(short)81);
+        function.accept((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LBiSrtFunctionTest<R> {
 
         //when
         LSrtBinaryOperator function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((short)80,(short)81);
+        short finalValue = function.applyAsSrt((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -367,7 +367,7 @@ public class LBiSrtFunctionTest<R> {
 
         //when
         LBiSrtPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((short)80,(short)81);
+        boolean finalValue = function.test((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -380,20 +380,6 @@ public class LBiSrtFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiSrtFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiSrtFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiSrtFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiSrtFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -404,7 +390,7 @@ public class LBiSrtFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingBiSrtFunc().doApply((short)100,(short)100);
+        sutThrowing.shovingApply((short)100,(short)100);
     }
 
 
@@ -417,7 +403,7 @@ public class LBiSrtFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiSrtFunction: R doApply(short a1,short a2)");
+                .contains("LBiSrtFunction: R apply(short a1,short a2)");
     }
 
 

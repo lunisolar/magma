@@ -80,8 +80,10 @@ public final class LFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T, R> LFunction<T, R> functionFrom(Function<LFunctionBuilder<T, R>, LFunction<T, R>> buildingFunction) {
-		return buildingFunction.apply(new LFunctionBuilder());
+	public static <T, R> LFunction<T, R> functionFrom(Consumer<LFunctionBuilder<T, R>> buildingFunction) {
+		LFunctionBuilder builder = new LFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base
 		retval = LFunction.<T, R> func(a -> {
 			try {
 				for (Case<LPredicate<T>, LFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApply(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -65,14 +65,14 @@ public class LOiFunctionTest<T,R> {
 
 
     private LOiFunction<Integer,Integer> sut = new LOiFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,int a2)  {
+        public @Nullable Integer applyX(Integer a1,int a2)  {
             return testValue;
         }
     };
 
 
     private LOiFunction<Integer,Integer> sutNull = new LOiFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,int a2)  {
+        public @Nullable Integer applyX(Integer a1,int a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LOiFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100))
+        assertThat(sut.apply(100,100))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LOiFunctionTest<T,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LOiFunctionTest<T,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LOiFunctionTest<T,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LOiFunction: R doApply(T a1,int a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LOiFunction: R apply(T a1,int a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100);
+        sutNull.nonNullApply(100,100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LOiFunction: R doApply(T a1,int a2)");
+            .isEqualTo("LOiFunction: R apply(T a1,int a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LOiFunctionTest<T,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testOiFuncComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LOiFunctionTest<T,R> {
         };
 
         //when
-        LOiFunction<Integer,Integer> function = sutO.oiFuncComposeInt(before1,before2);
-        function.doApply(80,81);
+        LOiFunction<Integer,Integer> function = sutO.compose(before1,before2);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.oiFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LObjIntConsumer<Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80,81);
+        byte finalValue = function.applyAsByte(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -367,7 +367,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80,81);
+        short finalValue = function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -402,7 +402,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -437,7 +437,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80,81);
+        long finalValue = function.applyAsLong(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -472,7 +472,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80,81);
+        float finalValue = function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -507,7 +507,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80,81);
+        double finalValue = function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -542,7 +542,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LOiToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80,81);
+        char finalValue = function.applyAsChar(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -577,7 +577,7 @@ public class LOiFunctionTest<T,R> {
 
         //when
         LObjIntPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -590,20 +590,6 @@ public class LOiFunctionTest<T,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingOiFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LOiFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingOiFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LOiFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -614,7 +600,7 @@ public class LOiFunctionTest<T,R> {
         });
 
         // when
-        sutThrowing.shovingOiFunc().doApply(100,100);
+        sutThrowing.shovingApply(100,100);
     }
 
 
@@ -627,7 +613,7 @@ public class LOiFunctionTest<T,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LOiFunction: R doApply(T a1,int a2)");
+                .contains("LOiFunction: R apply(T a1,int a2)");
     }
 
 

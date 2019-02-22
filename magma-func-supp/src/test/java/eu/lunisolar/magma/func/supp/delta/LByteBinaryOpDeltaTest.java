@@ -55,7 +55,7 @@ public class LByteBinaryOpDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsByte((byte)100,(byte)100))
+        assertThat(sut.applyAsByte((byte)100,(byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LByteBinaryOpDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte((byte)100,(byte)100))
+        assertThat(sut.applyAsByte((byte)100,(byte)100))
             .isEqualTo((byte)9);
 
         assertThat(functionCallCount).isEqualTo(2);

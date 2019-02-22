@@ -55,7 +55,7 @@ public class LBoolToCharFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar(true))
+        assertThat(sut.applyAsChar(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBoolToCharFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar(true))
+        assertThat(sut.applyAsChar(true))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

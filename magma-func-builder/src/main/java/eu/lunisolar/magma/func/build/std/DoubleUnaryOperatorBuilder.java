@@ -80,8 +80,10 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDblProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleUnaryOperator dblUnaryOperatorFrom(Function<DoubleUnaryOperatorBuilder, DoubleUnaryOperator> buildingFunction) {
-		return buildingFunction.apply(new DoubleUnaryOperatorBuilder());
+	public static DoubleUnaryOperator dblUnaryOperatorFrom(Consumer<DoubleUnaryOperatorBuilder> buildingFunction) {
+		DoubleUnaryOperatorBuilder builder = new DoubleUnaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDblProdu
 		retval = Function4U.dblUnaryOp(a -> {
 			try {
 				for (Case<LDblPredicate, DoubleUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().applyAsDouble(a);
 					}
 				}

@@ -69,7 +69,7 @@ public class LBoolToDblFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsDbl(true);
+            function.applyAsDbl(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolToDblFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsDbl(true);
+            function.applyAsDbl(true);
 
             fail("No exception were thrown.");
         })

@@ -63,13 +63,13 @@ public class LazySrt extends LSrtSupMemento implements LSrtSingle {
 	}
 
 	public static <E> LazySrt lazyValue(E e, LToSrtFunction<E> function) {
-		return new LazySrt(() -> function.doApplyAsSrt(e));
+		return new LazySrt(() -> function.applyAsSrt(e));
 	}
 
 	@Override
-	public short doGetAsSrt() {
+	public short getAsSrt() {
 		if (function != null) {
-			lastValue = function.doGetAsSrt();
+			lastValue = function.getAsSrt();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazySrt extends LSrtSupMemento implements LSrtSingle {
 	}
 
 	public short value() {
-		return doGetAsSrt();
+		return getAsSrt();
 	}
 
 	public static boolean argEquals(LazySrt the, Object that) {

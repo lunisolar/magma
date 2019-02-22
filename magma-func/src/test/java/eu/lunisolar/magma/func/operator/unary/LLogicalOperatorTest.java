@@ -65,7 +65,7 @@ public class LLogicalOperatorTest {
 
 
     private LLogicalOperator sut = new LLogicalOperator(){
-        public  boolean doApplyX(boolean a)  {
+        public  boolean applyX(boolean a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LLogicalOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LLogicalOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(true))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(true);
+            sutAlwaysThrowingUnchecked.nestingApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LLogicalOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(true);
+            sutAlwaysThrowingUnchecked.shovingApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LLogicalOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLogicalOperator: boolean doApply(boolean a)");
+            .isEqualTo("LLogicalOperator: boolean apply(boolean a)");
     }
 
     @Test
@@ -153,7 +153,7 @@ public class LLogicalOperatorTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doApply(true))
+        assertThat(sut.negate().apply(true))
             .isEqualTo(!testValue);
     }
 
@@ -181,13 +181,13 @@ public class LLogicalOperatorTest {
         LLogicalOperator xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doApply(true))
+        assertThat(andFunction.apply(true))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doApply(true))
+        assertThat(orFunction.apply(true))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doApply(true))
+        assertThat(xorFunction.apply(true))
                 .isEqualTo(xorResult);
     }
 
@@ -197,10 +197,10 @@ public class LLogicalOperatorTest {
         LLogicalOperator equals = LLogicalOperator.isEqual(true);
 
         //then
-        assertThat(equals.doApply(true))
+        assertThat(equals.apply(true))
                 .isTrue();
 
-        assertThat(equals.doApply(false))
+        assertThat(equals.apply(false))
                 .isFalse();
     }
 
@@ -209,7 +209,7 @@ public class LLogicalOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLogicalOpComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -228,8 +228,8 @@ public class LLogicalOperatorTest {
         };
 
         //when
-        LLogicalOperator function = sutO.logicalOpComposeBool(before);
-        function.doApply(true);
+        LLogicalOperator function = sutO.compose(before);
+        function.apply(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -258,7 +258,7 @@ public class LLogicalOperatorTest {
 
         //when
         LPredicate<Integer> function = sutO.logicalOpCompose(before);
-        function.doTest(80);
+        function.test(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -294,7 +294,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true);
+        Integer finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -328,7 +328,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(true);
+        byte finalValue = function.applyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -362,7 +362,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(true);
+        short finalValue = function.applyAsSrt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -396,7 +396,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(true);
+        int finalValue = function.applyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -430,7 +430,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(true);
+        long finalValue = function.applyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -464,7 +464,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(true);
+        float finalValue = function.applyAsFlt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -498,7 +498,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(true);
+        double finalValue = function.applyAsDbl(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -532,7 +532,7 @@ public class LLogicalOperatorTest {
 
         //when
         LBoolToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(true);
+        char finalValue = function.applyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -566,7 +566,7 @@ public class LLogicalOperatorTest {
 
         //when
         LLogicalOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true);
+        boolean finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -582,23 +582,9 @@ public class LLogicalOperatorTest {
     public void identity() throws Throwable {
         LLogicalOperator identityFunction = LLogicalOperator.identity();
 
-        assertThat(identityFunction.doApply(true)).isEqualTo(true);
+        assertThat(identityFunction.apply(true)).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLogicalOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLogicalOp())
-            .isSameAs(sut)
-            .isInstanceOf(LLogicalOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -610,7 +596,7 @@ public class LLogicalOperatorTest {
         });
 
         // when
-        sutThrowing.shovingLogicalOp().doApply(true);
+        sutThrowing.shovingApply(true);
     }
 
 
@@ -623,7 +609,7 @@ public class LLogicalOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLogicalOperator: boolean doApply(boolean a)");
+                .contains("LLogicalOperator: boolean apply(boolean a)");
     }
 
 

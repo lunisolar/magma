@@ -82,13 +82,12 @@ public interface LBiPredicateAssert<S extends LBiPredicateAssert<S, A, RS, T1, T
 		@Nonnull
 		public Evaluation<S, LBiConsumer<T1, T2>, A, RS, Boolean> doesTest(T1 a1, T2 a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doTest(a1, a2));
+				return assertFactory.apply(actual.test(a1, a2));
 			});
-
 		}
 
 	}

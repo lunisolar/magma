@@ -89,8 +89,8 @@ public class LOiToSrtFuncDelta<T> extends LOiToSrtFuncMemento<T> {
 	}
 
 	@Override
-	public short doApplyAsSrt(T a1, int a2) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a1, a2));
+	public short applyAsSrt(T a1, int a2) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a1, a2));
 	}
 
 	// <editor-fold desc="object">

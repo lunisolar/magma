@@ -72,8 +72,8 @@ public class LSrtToCharFuncMemento implements LSrtToCharFunction {
 	}
 
 	@Override
-	public char doApplyAsCharX(short a) {
-		return lastValue = function.doApplyAsChar(a);
+	public char applyAsCharX(short a) {
+		return lastValue = function.applyAsChar(a);
 	}
 
 	public char lastValue() {

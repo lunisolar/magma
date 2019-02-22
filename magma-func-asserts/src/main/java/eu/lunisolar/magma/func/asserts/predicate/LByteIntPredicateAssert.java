@@ -82,13 +82,12 @@ public interface LByteIntPredicateAssert<S extends LByteIntPredicateAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LByteIntConsumer, A, RS, Boolean> doesTest(byte a1, int a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doTest(a1, a2));
+				return assertFactory.apply(actual.test(a1, a2));
 			});
-
 		}
 
 	}

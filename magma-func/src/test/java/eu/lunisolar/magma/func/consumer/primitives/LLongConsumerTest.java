@@ -63,7 +63,7 @@ public class LLongConsumerTest {
 
 
     private LLongConsumer sut = new LLongConsumer(){
-        public  void doAcceptX(long a)  {
+        public  void acceptX(long a)  {
             LLongConsumer.doNothing(a);
         }
     };
@@ -95,11 +95,11 @@ public class LLongConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100L);
+            sutAlwaysThrowingUnchecked.nestingAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -110,11 +110,11 @@ public class LLongConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100L);
+            sutAlwaysThrowingUnchecked.shovingAccept(100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -128,7 +128,7 @@ public class LLongConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongConsumer: void doAccept(long a)");
+            .isEqualTo("LLongConsumer: void accept(long a)");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class LLongConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLongConsComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -169,8 +169,8 @@ public class LLongConsumerTest {
         };
 
         //when
-        LLongConsumer function = sutO.longConsComposeLong(before);
-        function.doAccept(80L);
+        LLongConsumer function = sutO.compose(before);
+        function.accept(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -198,7 +198,7 @@ public class LLongConsumerTest {
 
         //when
         LConsumer<Integer> function = sutO.longConsCompose(before);
-        function.doAccept(80);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -226,27 +226,13 @@ public class LLongConsumerTest {
 
         //when
         LLongConsumer function = sutO.andThen(thenFunction);
-        function.doAccept(80L);
+        function.accept(80L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LLongConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LLongConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -258,7 +244,7 @@ public class LLongConsumerTest {
         });
 
         // when
-        sutThrowing.shovingLongCons().doAccept(100L);
+        sutThrowing.shovingAccept(100L);
     }
 
 
@@ -271,7 +257,7 @@ public class LLongConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongConsumer: void doAccept(long a)");
+                .contains("LLongConsumer: void accept(long a)");
     }
 
 

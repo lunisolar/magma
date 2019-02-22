@@ -82,13 +82,12 @@ public interface LBoolFunctionAssert<S extends LBoolFunctionAssert<S, A, RS, R>,
 		@Nonnull
 		public Evaluation<S, LBoolConsumer, A, RS, R> doesApply(boolean a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApply(a));
+				return assertFactory.apply(actual.apply(a));
 			});
-
 		}
 
 	}

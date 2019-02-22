@@ -77,8 +77,8 @@ public class LBiLongFuncDelta<R> extends LBiLongFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(long a1, long a2) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2));
+	public R apply(long a1, long a2) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2));
 	}
 
 	// <editor-fold desc="object">

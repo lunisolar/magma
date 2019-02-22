@@ -65,7 +65,7 @@ public class LBiSrtPredicateTest {
 
 
     private LBiSrtPredicate sut = new LBiSrtPredicate(){
-        public  boolean doTestX(short a1,short a2)  {
+        public  boolean testX(short a1,short a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBiSrtPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest((short)100,(short)100))
+        assertThat(sut.test((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBiSrtPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest((short)100,(short)100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.nestingTest((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBiSrtPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.shovingTest((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiSrtPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiSrtPredicate: boolean doTest(short a1,short a2)");
+            .isEqualTo("LBiSrtPredicate: boolean test(short a1,short a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LBiSrtPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest((short)100,(short)100))
+        assertThat(sut.negate().test((short)100,(short)100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LBiSrtPredicateTest {
         LBiSrtPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest((short)100,(short)100))
+        assertThat(andFunction.test((short)100,(short)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest((short)100,(short)100))
+        assertThat(orFunction.test((short)100,(short)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest((short)100,(short)100))
+        assertThat(xorFunction.test((short)100,(short)100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LBiSrtPredicateTest {
         LBiSrtPredicate equals = LBiSrtPredicate.isEqual((short)1,(short)1);
 
         //then
-        assertThat(equals.doTest((short)1,(short)1))
+        assertThat(equals.test((short)1,(short)1))
                 .isTrue();
 
-        assertThat(equals.doTest((short)0,(short)0))
+        assertThat(equals.test((short)0,(short)0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LBiSrtPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiSrtPredComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LBiSrtPredicateTest {
         };
 
         //when
-        LBiSrtPredicate function = sutO.biSrtPredComposeSrt(before1,before2);
-        function.doTest((short)80,(short)81);
+        LBiSrtPredicate function = sutO.compose(before1,before2);
+        function.test((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LBiSrtPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.biSrtPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LBiSrtPredicateTest {
 
         //when
         LBiSrtFunction<Integer> function = sutO.boolToBiSrtFunc(thenFunction);
-        Integer finalValue = function.doApply((short)80,(short)81);
+        Integer finalValue = function.apply((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LBiSrtPredicateTest {
 
         //when
         LSrtBinaryOperator function = sutO.boolToSrtBinaryOp(thenFunction);
-        short finalValue = function.doApplyAsSrt((short)80,(short)81);
+        short finalValue = function.applyAsSrt((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -384,7 +384,7 @@ public class LBiSrtPredicateTest {
 
         //when
         LBiSrtPredicate function = sutO.boolToBiSrtPred(thenFunction);
-        boolean finalValue = function.doTest((short)80,(short)81);
+        boolean finalValue = function.test((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -397,20 +397,6 @@ public class LBiSrtPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiSrtPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiSrtPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiSrtPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiSrtPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -421,7 +407,7 @@ public class LBiSrtPredicateTest {
         });
 
         // when
-        sutThrowing.shovingBiSrtPred().doTest((short)100,(short)100);
+        sutThrowing.shovingTest((short)100,(short)100);
     }
 
 
@@ -434,7 +420,7 @@ public class LBiSrtPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiSrtPredicate: boolean doTest(short a1,short a2)");
+                .contains("LBiSrtPredicate: boolean test(short a1,short a2)");
     }
 
 

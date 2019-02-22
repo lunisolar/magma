@@ -65,7 +65,7 @@ public class LDblIntPredicateTest {
 
 
     private LDblIntPredicate sut = new LDblIntPredicate(){
-        public  boolean doTestX(double a1,int a2)  {
+        public  boolean testX(double a1,int a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LDblIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100d,100))
+        assertThat(sut.test(100d,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LDblIntPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100d,100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100d,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100d,100);
+            sutAlwaysThrowingUnchecked.nestingTest(100d,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LDblIntPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100d,100);
+            sutAlwaysThrowingUnchecked.shovingTest(100d,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LDblIntPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblIntPredicate: boolean doTest(double a1,int a2)");
+            .isEqualTo("LDblIntPredicate: boolean test(double a1,int a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LDblIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100d,100))
+        assertThat(sut.negate().test(100d,100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LDblIntPredicateTest {
         LDblIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100d,100))
+        assertThat(andFunction.test(100d,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100d,100))
+        assertThat(orFunction.test(100d,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100d,100))
+        assertThat(xorFunction.test(100d,100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LDblIntPredicateTest {
         LDblIntPredicate equals = LDblIntPredicate.isEqual(1d,1);
 
         //then
-        assertThat(equals.doTest(1d,1))
+        assertThat(equals.test(1d,1))
                 .isTrue();
 
-        assertThat(equals.doTest(0d,0))
+        assertThat(equals.test(0d,0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LDblIntPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblIntPredComposeDblInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LDblIntPredicateTest {
         };
 
         //when
-        LDblIntPredicate function = sutO.dblIntPredComposeDblInt(before1,before2);
-        function.doTest(80d,81);
+        LDblIntPredicate function = sutO.compose(before1,before2);
+        function.test(80d,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LDblIntPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.dblIntPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LDblIntPredicateTest {
 
         //when
         LDblIntPredicate function = sutO.boolToDblIntPred(thenFunction);
-        boolean finalValue = function.doTest(80d,81);
+        boolean finalValue = function.test(80d,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -327,20 +327,6 @@ public class LDblIntPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LDblIntPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LDblIntPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -351,7 +337,7 @@ public class LDblIntPredicateTest {
         });
 
         // when
-        sutThrowing.shovingDblIntPred().doTest(100d,100);
+        sutThrowing.shovingTest(100d,100);
     }
 
 
@@ -364,7 +350,7 @@ public class LDblIntPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblIntPredicate: boolean doTest(double a1,int a2)");
+                .contains("LDblIntPredicate: boolean test(double a1,int a2)");
     }
 
 

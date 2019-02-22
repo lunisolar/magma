@@ -65,7 +65,7 @@ public class LSrtBinaryOperatorTest {
 
 
     private LSrtBinaryOperator sut = new LSrtBinaryOperator(){
-        public  short doApplyAsSrtX(short a1,short a2)  {
+        public  short applyAsSrtX(short a1,short a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LSrtBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsSrt((short)100,(short)100))
+        assertThat(sut.applyAsSrt((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LSrtBinaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsSrt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsSrt((short)100,(short)100))
+    public void testNonNullApplyAsSrt() throws Throwable {
+        assertThat(sut.nonNullApplyAsSrt((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsSrtUnchecked() throws Throwable {
+    public void testNestingApplyAsSrtUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsSrt((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsSrt((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LSrtBinaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsSrtUnchecked() throws Throwable {
+    public void testShovingApplyAsSrtUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsSrt((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsSrt((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LSrtBinaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtBinaryOperator: short doApplyAsSrt(short a1,short a2)");
+            .isEqualTo("LSrtBinaryOperator: short applyAsSrt(short a1,short a2)");
     }
 
     @Test
@@ -158,9 +158,9 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator min =  LSrtBinaryOperator.minBy(Short::compare);
 
         //then
-        assertThat(min.doApplyAsSrt((short)0, (short)56))
+        assertThat(min.applyAsSrt((short)0, (short)56))
                 .isEqualTo((short)0);
-        assertThat(min.doApplyAsSrt((short)56, (short)0))
+        assertThat(min.applyAsSrt((short)56, (short)0))
                        .isEqualTo((short)0);
 
     }
@@ -171,9 +171,9 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator max =  LSrtBinaryOperator.maxBy(Short::compare);
 
         //then
-        assertThat(max.doApplyAsSrt((short)0, (short)56))
+        assertThat(max.applyAsSrt((short)0, (short)56))
                 .isEqualTo((short)56);
-        assertThat(max.doApplyAsSrt((short)56, (short)0))
+        assertThat(max.applyAsSrt((short)56, (short)0))
                         .isEqualTo((short)56);
     }
 
@@ -188,10 +188,10 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator min = LSrtBinaryOperator.min();
 
         //then
-        assertThat(min.doApplyAsSrt(valueSmall, valueBig))
+        assertThat(min.applyAsSrt(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.doApplyAsSrt(valueBig, valueSmall))
+        assertThat(min.applyAsSrt(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -205,10 +205,10 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator max = LSrtBinaryOperator.max();
 
         //then
-        assertThat(max.doApplyAsSrt(valueSmall, valueBig))
+        assertThat(max.applyAsSrt(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.doApplyAsSrt(valueBig, valueSmall))
+        assertThat(max.applyAsSrt(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -216,7 +216,7 @@ public class LSrtBinaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testSrtBinaryOpComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LSrtBinaryOperatorTest {
         };
 
         //when
-        LSrtBinaryOperator function = sutO.srtBinaryOpComposeSrt(before1,before2);
-        function.doApplyAsSrt((short)80,(short)81);
+        LSrtBinaryOperator function = sutO.compose(before1,before2);
+        function.applyAsSrt((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LSrtBinaryOperatorTest {
 
         //when
         LToSrtBiFunction<Integer,Integer> function = sutO.srtBinaryOpCompose(before1,before2);
-        function.doApplyAsSrt(80,81);
+        function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LSrtBinaryOperatorTest {
 
         //when
         LBiSrtFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((short)80,(short)81);
+        Integer finalValue = function.apply((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LSrtBinaryOperatorTest {
 
         //when
         LSrtBinaryOperator function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((short)80,(short)81);
+        short finalValue = function.applyAsSrt((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -384,7 +384,7 @@ public class LSrtBinaryOperatorTest {
 
         //when
         LBiSrtPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((short)80,(short)81);
+        boolean finalValue = function.test((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -397,20 +397,6 @@ public class LSrtBinaryOperatorTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingSrtBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtBinaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingSrtBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtBinaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -421,7 +407,7 @@ public class LSrtBinaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingSrtBinaryOp().doApplyAsSrt((short)100,(short)100);
+        sutThrowing.shovingApplyAsSrt((short)100,(short)100);
     }
 
 
@@ -434,7 +420,7 @@ public class LSrtBinaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSrtBinaryOperator: short doApplyAsSrt(short a1,short a2)");
+                .contains("LSrtBinaryOperator: short applyAsSrt(short a1,short a2)");
     }
 
 

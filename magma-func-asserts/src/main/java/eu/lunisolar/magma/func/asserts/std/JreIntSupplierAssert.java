@@ -80,13 +80,12 @@ public interface JreIntSupplierAssert<S extends JreIntSupplierAssert<S, A, RS>, 
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Integer> doesGetAsInt() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.getAsInt());
+				return assertFactory.apply(actual.getAsInt());
 			});
-
 		}
 
 		@Nonnull

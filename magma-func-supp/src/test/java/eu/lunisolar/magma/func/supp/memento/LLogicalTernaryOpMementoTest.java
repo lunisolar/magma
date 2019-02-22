@@ -54,7 +54,7 @@ public class LLogicalTernaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(false);
 
-        assertThat(sut.doApply(true,true,true))
+        assertThat(sut.apply(true,true,true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLogicalTernaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(true,true,true))
+        assertThat(sut.apply(true,true,true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

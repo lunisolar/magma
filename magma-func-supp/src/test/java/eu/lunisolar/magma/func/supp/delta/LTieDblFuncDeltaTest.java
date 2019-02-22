@@ -55,7 +55,7 @@ public class LTieDblFuncDeltaTest <T> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt(100,100,100d))
+        assertThat(sut.applyAsInt(100,100,100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LTieDblFuncDeltaTest <T> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100,100,100d))
+        assertThat(sut.applyAsInt(100,100,100d))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

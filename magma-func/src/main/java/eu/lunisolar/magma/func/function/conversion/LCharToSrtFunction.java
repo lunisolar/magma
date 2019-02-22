@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aShort>, Domain1<aChar> { // NOSONAR
 
-	String DESCRIPTION = "LCharToSrtFunction: short doApplyAsSrt(char a)";
+	String DESCRIPTION = "LCharToSrtFunction: short applyAsSrt(char a)";
 
-	// short doApplyAsSrt(char a) ;
-	default short doApplyAsSrt(char a) {
-		// return nestingDoApplyAsSrt(a);
+	// short applyAsSrt(char a) ;
+	default short applyAsSrt(char a) {
+		// return nestingApplyAsSrt(a);
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsSrt(char a)
+	 * Implement this, but call applyAsSrt(char a)
 	 */
-	short doApplyAsSrtX(char a) throws Throwable;
+	short applyAsSrtX(char a) throws Throwable;
 
 	default short tupleApplyAsSrt(LCharSingle args) {
-		return doApplyAsSrt(args.value());
+		return applyAsSrt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default short handlingDoApplyAsSrt(char a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default short handlingApplyAsSrt(char a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default short tryDoApplyAsSrt(char a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LCharToSrtFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsSrt(a, handling);
+	}
+
+	default short applyAsSrt(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default short tryDoApplyAsSrt(char a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LCharToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsSrt(a, exF, newMessage, messageParams);
+	}
+
+	default short applyAsSrt(char a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default short tryDoApplyAsSrtThen(char a, @Nonnull LToSrtFunction<Throwable> handler) {
+	default LCharToSrtFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsSrt(a, exF);
+	}
+
+	default short applyAsSrtThen(char a, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsSrt(e);
+			return handler.applyAsSrt(e);
 		}
+	}
+
+	default LCharToSrtFunction tryingThen(@Nonnull LToSrtFunction<Throwable> handler) {
+		return a -> applyAsSrtThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default short nestingDoApplyAsSrt(char a) {
+	default short nestingApplyAsSrt(char a) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default short shovingDoApplyAsSrt(char a) {
+	default short shovingApplyAsSrt(char a) {
 		try {
-			return this.doApplyAsSrtX(a);
+			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static short handlingDoApplyAsSrt(char a, LCharToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static short handlingApplyAsSrt(char a, LCharToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsSrt(a, handling);
+		return func.handlingApplyAsSrt(a, handling);
 	}
 
-	static short tryDoApplyAsSrt(char a, LCharToSrtFunction func) {
-		return tryDoApplyAsSrt(a, func, null);
-	}
-
-	static short tryDoApplyAsSrt(char a, LCharToSrtFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static short tryApplyAsSrt(char a, LCharToSrtFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsSrt(a);
 	}
 
-	static short tryDoApplyAsSrt(char a, LCharToSrtFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static short tryApplyAsSrt(char a, LCharToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrt(a, exceptionFactory);
+		return func.applyAsSrt(a, exF, newMessage, messageParams);
 	}
 
-	static short tryDoApplyAsSrtThen(char a, LCharToSrtFunction func, @Nonnull LToSrtFunction<Throwable> handler) {
+	static short tryApplyAsSrt(char a, LCharToSrtFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsSrtThen(a, handler);
+		return func.applyAsSrt(a, exF);
 	}
 
-	default short failSafeDoApplyAsSrt(char a, @Nonnull LCharToSrtFunction failSafe) {
+	static short tryApplyAsSrtThen(char a, LCharToSrtFunction func, @Nonnull LToSrtFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrtThen(a, handler);
+	}
+
+	default short failSafeApplyAsSrt(char a, @Nonnull LCharToSrtFunction failSafe) {
 		try {
-			return doApplyAsSrt(a);
+			return applyAsSrt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsSrt(a);
+			return failSafe.applyAsSrt(a);
 		}
 	}
 
-	static short failSafeDoApplyAsSrt(char a, LCharToSrtFunction func, @Nonnull LCharToSrtFunction failSafe) {
+	static short failSafeApplyAsSrt(char a, LCharToSrtFunction func, @Nonnull LCharToSrtFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsSrt(a);
+			return failSafe.applyAsSrt(a);
 		} else {
-			return func.failSafeDoApplyAsSrt(a, failSafe);
+			return func.failSafeApplyAsSrt(a, failSafe);
 		}
 	}
 
-	static LCharToSrtFunction failSafeCharToSrtFunc(LCharToSrtFunction func, @Nonnull LCharToSrtFunction failSafe) {
+	static LCharToSrtFunction failSafe(LCharToSrtFunction func, @Nonnull LCharToSrtFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsSrt(a, func, failSafe);
+		return a -> failSafeApplyAsSrt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoApplyAsSrt(char a) {
-		return doApplyAsSrt(a);
+	default short nonNullApplyAsSrt(char a) {
+		return applyAsSrt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, char a, LCharToSrtFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, char a, LCharToSrtFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsSrt(a);
+				func.applyAsSrt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, char a, LCharToSrtFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier captureCharToSrtFunc(char a) {
-		return () -> this.doApplyAsSrt(a);
+	default LSrtSupplier capture(char a) {
+		return () -> this.applyAsSrt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	static LCharToSrtFunction recursive(final @Nonnull LFunction<LCharToSrtFunction, LCharToSrtFunction> selfLambda) {
 		final LCharToSrtFunctionSingle single = new LCharToSrtFunctionSingle();
-		LCharToSrtFunction func = selfLambda.doApply(single);
+		LCharToSrtFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		private LCharToSrtFunction target = null;
 
 		@Override
-		public short doApplyAsSrtX(char a) throws Throwable {
-			return target.doApplyAsSrtX(a);
+		public short applyAsSrtX(char a) throws Throwable {
+			return target.applyAsSrtX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static LCharToSrtFunction charToSrtFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LCharToSrtFunction charToSrtFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LCharToSrtFunction charToSrtFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LCharToSrtFunction charToSrtFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static short call(char a, final @Nonnull LCharToSrtFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsSrt(a);
+		return lambda.applyAsSrt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToSrtFunction charToSrtFuncComposeChar(@Nonnull final LCharUnaryOperator before) {
+	default LCharToSrtFunction compose(@Nonnull final LCharUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsSrt(before.doApplyAsChar(v));
+		return v -> this.applyAsSrt(before.applyAsChar(v));
 	}
 
-	public static LCharToSrtFunction composedChar(@Nonnull final LCharUnaryOperator before, LCharToSrtFunction after) {
-		return after.charToSrtFuncComposeChar(before);
+	public static LCharToSrtFunction composed(@Nonnull final LCharUnaryOperator before, LCharToSrtFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToSrtFunction<V> charToSrtFuncCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsSrt(before.doApplyAsChar(v));
+		return v -> this.applyAsSrt(before.applyAsChar(v));
 	}
 
 	public static <V> LToSrtFunction<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharToSrtFunction after) {
@@ -364,79 +383,68 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LSrtFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsSrt(a));
+		return a -> after.apply(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LSrtToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsSrt(a));
+		return a -> after.applyAsByte(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToSrtFunction thenToSrt(@Nonnull LSrtUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsSrt(a));
+		return a -> after.applyAsSrt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LSrtToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsSrt(a));
+		return a -> after.applyAsInt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LSrtToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsSrt(a));
+		return a -> after.applyAsLong(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFltFunction thenToFlt(@Nonnull LSrtToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsSrt(a));
+		return a -> after.applyAsFlt(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDblFunction thenToDbl(@Nonnull LSrtToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsSrt(a));
+		return a -> after.applyAsDbl(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LSrtToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsSrt(a));
+		return a -> after.applyAsChar(this.applyAsSrt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBool(@Nonnull LSrtPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsSrt(a));
+		return a -> after.test(this.applyAsSrt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LCharToSrtFunction nestingCharToSrtFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToSrtFunction shovingCharToSrtFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return Function4U.defaultShort;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=char a, type=IA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aChar> ia, C0 source, LSrtConsumer consumer) {
 		int size = ia.size(source);
 		LOiToCharFunction<Object> oiFunc0 = (LOiToCharFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			char a = oiFunc0.doApplyAsChar(source, i);
-			consumer.doAccept(this.doApplyAsSrt(a));
+			char a = oiFunc0.applyAsChar(source, i);
+			consumer.accept(this.applyAsSrt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a, type=SA}, SourcePurpose{arg=LSrtConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aChar> sa, C0 source, LSrtConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			char a = nextFunc0.doApplyAsChar(iterator0);
-			consumer.doAccept(this.doApplyAsSrt(a));
+		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			char a = nextFunc0.applyAsChar(iterator0);
+			consumer.accept(this.applyAsSrt(a));
 		}
 	}
 

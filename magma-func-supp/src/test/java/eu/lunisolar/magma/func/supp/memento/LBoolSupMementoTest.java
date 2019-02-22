@@ -54,7 +54,7 @@ public class LBoolSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(false);
 
-        assertThat(sut.doGetAsBool())
+        assertThat(sut.getAsBool())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBoolSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsBool())
+        assertThat(sut.getAsBool())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

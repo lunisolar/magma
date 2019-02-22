@@ -80,8 +80,10 @@ public final class LSrtBinaryOperatorBuilder extends PerCaseBuilderWithSrtProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LSrtBinaryOperator srtBinaryOperatorFrom(Function<LSrtBinaryOperatorBuilder, LSrtBinaryOperator> buildingFunction) {
-		return buildingFunction.apply(new LSrtBinaryOperatorBuilder());
+	public static LSrtBinaryOperator srtBinaryOperatorFrom(Consumer<LSrtBinaryOperatorBuilder> buildingFunction) {
+		LSrtBinaryOperatorBuilder builder = new LSrtBinaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LSrtBinaryOperatorBuilder extends PerCaseBuilderWithSrtProduc
 		retval = LSrtBinaryOperator.srtBinaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiSrtPredicate, LSrtBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doApplyAsSrt(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().applyAsSrt(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsSrt(a1, a2);
+				return eventuallyFinal.applyAsSrt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

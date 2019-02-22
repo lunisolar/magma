@@ -69,7 +69,7 @@ public class LDblToByteFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsByte(100d);
+            function.applyAsByte(100d);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LDblToByteFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsByte(100d);
+            function.applyAsByte(100d);
 
             fail("No exception were thrown.");
         })

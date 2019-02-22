@@ -77,8 +77,8 @@ public class LTriBoolFuncDelta<R> extends LTriBoolFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(boolean a1, boolean a2, boolean a3) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2, a3));
+	public R apply(boolean a1, boolean a2, boolean a3) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));
 	}
 
 	// <editor-fold desc="object">

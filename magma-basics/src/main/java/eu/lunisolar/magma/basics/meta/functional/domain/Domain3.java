@@ -16,14 +16,9 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.basics.exceptions;
+package eu.lunisolar.magma.basics.meta.functional.domain;
 
-import javax.annotation.Nonnull;
+import eu.lunisolar.magma.basics.meta.aType;
 
-/**
- */
-@FunctionalInterface
-public interface ExceptionFactory<X extends Throwable> {
-    @Nonnull
-    X produce();
+public interface Domain3<T1 extends aType, T2 extends aType, T3 extends aType> extends Domain{
 }

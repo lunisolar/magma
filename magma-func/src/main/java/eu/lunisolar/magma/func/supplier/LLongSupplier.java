@@ -64,141 +64,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aLong>, Domain0 { // NOSONAR
 
-	String DESCRIPTION = "LLongSupplier: long doGetAsLong()";
+	String DESCRIPTION = "LLongSupplier: long getAsLong()";
 
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LLongSupplier interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
+	// long getAsLong() ;
 	default long getAsLong() {
-		return this.doGetAsLong();
-	}
-
-	// long doGetAsLong() ;
-	default long doGetAsLong() {
-		// return nestingDoGetAsLong();
+		// return nestingGetAsLong();
 		try {
-			return this.doGetAsLongX();
+			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doGetAsLong()
+	 * Implement this, but call getAsLong()
 	 */
-	long doGetAsLongX() throws Throwable;
+	long getAsLongX() throws Throwable;
 
 	default long tupleGetAsLong(LTuple.Void args) {
-		return doGetAsLong();
+		return getAsLong();
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default long handlingDoGetAsLong(HandlingInstructions<Throwable, RuntimeException> handling) {
+	default long handlingGetAsLong(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doGetAsLongX();
+			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default long tryDoGetAsLong(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LLongSupplier handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return () -> handlingGetAsLong(handling);
+	}
+
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doGetAsLongX();
+			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default long tryDoGetAsLong(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return () -> getAsLong(exF, newMessage, messageParams);
+	}
+
+	default long getAsLong(@Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doGetAsLongX();
+			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default long tryDoGetAsLongThen(@Nonnull LToLongFunction<Throwable> handler) {
+	default LLongSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
+		return () -> getAsLong(exF);
+	}
+
+	default long getAsLongThen(@Nonnull LToLongFunction<Throwable> handler) {
 		try {
-			return this.doGetAsLongX();
+			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsLong(e);
+			return handler.applyAsLong(e);
 		}
+	}
+
+	default LLongSupplier tryingThen(@Nonnull LToLongFunction<Throwable> handler) {
+		return () -> getAsLongThen(handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default long nestingDoGetAsLong() {
+	default long nestingGetAsLong() {
 		try {
-			return this.doGetAsLongX();
+			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default long shovingDoGetAsLong() {
+	default long shovingGetAsLong() {
 		try {
-			return this.doGetAsLongX();
+			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static long handlingDoGetAsLong(LLongSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingGetAsLong(LLongSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoGetAsLong(handling);
+		return func.handlingGetAsLong(handling);
 	}
 
-	static long tryDoGetAsLong(LLongSupplier func) {
-		return tryDoGetAsLong(func, null);
-	}
-
-	static long tryDoGetAsLong(LLongSupplier func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static long tryGetAsLong(LLongSupplier func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsLong(exceptionFactory, newMessage, messageParams);
+		return func.nestingGetAsLong();
 	}
 
-	static long tryDoGetAsLong(LLongSupplier func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsLong(exceptionFactory);
+		return func.getAsLong(exF, newMessage, messageParams);
 	}
 
-	static long tryDoGetAsLongThen(LLongSupplier func, @Nonnull LToLongFunction<Throwable> handler) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsLongThen(handler);
+		return func.getAsLong(exF);
 	}
 
-	default long failSafeDoGetAsLong(@Nonnull LLongSupplier failSafe) {
+	static long tryGetAsLongThen(LLongSupplier func, @Nonnull LToLongFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.getAsLongThen(handler);
+	}
+
+	default long failSafeGetAsLong(@Nonnull LLongSupplier failSafe) {
 		try {
-			return doGetAsLong();
+			return getAsLong();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doGetAsLong();
+			return failSafe.getAsLong();
 		}
 	}
 
-	static long failSafeDoGetAsLong(LLongSupplier func, @Nonnull LLongSupplier failSafe) {
+	static long failSafeGetAsLong(LLongSupplier func, @Nonnull LLongSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doGetAsLong();
+			return failSafe.getAsLong();
 		} else {
-			return func.failSafeDoGetAsLong(failSafe);
+			return func.failSafeGetAsLong(failSafe);
 		}
 	}
 
-	static LLongSupplier failSafeLongSup(LLongSupplier func, @Nonnull LLongSupplier failSafe) {
+	static LLongSupplier failSafe(LLongSupplier func, @Nonnull LLongSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeDoGetAsLong(func, failSafe);
+		return () -> failSafeGetAsLong(func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoGetAsLong() {
-		return doGetAsLong();
+	default long nonNullGetAsLong() {
+		return getAsLong();
 	}
 
 	/** Returns description of the functional interface. */
@@ -210,13 +217,13 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, LLongSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doGetAsLong();
+				func.getAsLong();
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doGetAsLong();
+				func.getAsLong();
 			}
 		}
 	}
@@ -224,19 +231,21 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, LLongSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doGetAsLong();
+				func.getAsLong();
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doGetAsLong();
+				func.getAsLong();
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, LLongSupplier func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, func);
 	}
 
@@ -255,7 +264,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	@Nonnull
 	static LLongSupplier recursive(final @Nonnull LFunction<LLongSupplier, LLongSupplier> selfLambda) {
 		final LLongSupplierSingle single = new LLongSupplierSingle();
-		LLongSupplier func = selfLambda.doApply(single);
+		LLongSupplier func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -264,8 +273,8 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		private LLongSupplier target = null;
 
 		@Override
-		public long doGetAsLongX() throws Throwable {
-			return target.doGetAsLongX();
+		public long getAsLongX() throws Throwable {
+			return target.getAsLongX();
 		}
 
 		@Override
@@ -275,24 +284,24 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	}
 
 	@Nonnull
-	static LLongSupplier longSupThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LLongSupplier longSupThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LLongSupplier longSupThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LLongSupplier longSupThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static long call(final @Nonnull LLongSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doGetAsLong();
+		return lambda.getAsLong();
 	}
 
 	// <editor-fold desc="wrap">
@@ -346,79 +355,68 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	@Nonnull
 	default <V> LSupplier<V> toSup(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApply(this.doGetAsLong());
+		return () -> after.apply(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteSupplier toByteSup(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsByte(this.doGetAsLong());
+		return () -> after.applyAsByte(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtSupplier toSrtSup(@Nonnull LLongToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsSrt(this.doGetAsLong());
+		return () -> after.applyAsSrt(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntSupplier toIntSup(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsInt(this.doGetAsLong());
+		return () -> after.applyAsInt(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongSupplier toLongSup(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsLong(this.doGetAsLong());
+		return () -> after.applyAsLong(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltSupplier toFltSup(@Nonnull LLongToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFlt(this.doGetAsLong());
+		return () -> after.applyAsFlt(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblSupplier toDblSup(@Nonnull LLongToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDbl(this.doGetAsLong());
+		return () -> after.applyAsDbl(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharSupplier toCharSup(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsChar(this.doGetAsLong());
+		return () -> after.applyAsChar(this.getAsLong());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolSupplier toBoolSup(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doTest(this.doGetAsLong());
+		return () -> after.test(this.getAsLong());
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LLongSupplier nestingLongSup() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongSupplier shovingLongSup() {
-		return this;
-	}
 
 	// </editor-fold>
 

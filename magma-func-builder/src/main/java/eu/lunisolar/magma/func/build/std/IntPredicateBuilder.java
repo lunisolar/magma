@@ -80,8 +80,10 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Bas
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static IntPredicate intPredicateFrom(Function<IntPredicateBuilder, IntPredicate> buildingFunction) {
-		return buildingFunction.apply(new IntPredicateBuilder());
+	public static IntPredicate intPredicateFrom(Consumer<IntPredicateBuilder> buildingFunction) {
+		IntPredicateBuilder builder = new IntPredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Bas
 		retval = Function4U.intPred(a -> {
 			try {
 				for (Case<LIntPredicate, IntPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().test(a);
 					}
 				}

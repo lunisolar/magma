@@ -69,7 +69,7 @@ public class LToDblFunctionBuilderTest<T>{
                 .build()
             );
 
-            function.doApplyAsDbl(100);
+            function.applyAsDbl(100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LToDblFunctionBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsDbl(100);
+            function.applyAsDbl(100);
 
             fail("No exception were thrown.");
         })

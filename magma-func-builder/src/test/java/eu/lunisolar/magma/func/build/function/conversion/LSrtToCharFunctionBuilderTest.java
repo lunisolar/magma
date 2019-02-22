@@ -69,7 +69,7 @@ public class LSrtToCharFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsChar((short)100);
+            function.applyAsChar((short)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSrtToCharFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsChar((short)100);
+            function.applyAsChar((short)100);
 
             fail("No exception were thrown.");
         })

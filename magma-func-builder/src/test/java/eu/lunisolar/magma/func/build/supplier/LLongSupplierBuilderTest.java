@@ -69,7 +69,7 @@ public class LLongSupplierBuilderTest{
                 .build()
             );
 
-            function.doGetAsLong();
+            function.getAsLong();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLongSupplierBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doGetAsLong();
+            function.getAsLong();
 
             fail("No exception were thrown.");
         })

@@ -72,156 +72,156 @@ public interface AccessObjIntFltTriple<T> {
 
 	default void useWith(LTieFltConsumer<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	default void useWith(LTieFltConsumer.LObjFltIntCons<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		accessFunction.doAcceptObjFltInt(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.acceptObjFltInt(tuple.first(), tuple.third(), tuple.second());
 	}
 
 	default void useWith(LTieFltConsumer.LIntObjFltCons<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		accessFunction.doAcceptIntObjFlt(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.acceptIntObjFlt(tuple.second(), tuple.first(), tuple.third());
 	}
 
 	default void useWith(LTieFltConsumer.LIntFltObjCons<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		accessFunction.doAcceptIntFltObj(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.acceptIntFltObj(tuple.second(), tuple.third(), tuple.first());
 	}
 
 	default void useWith(LTieFltConsumer.LFltObjIntCons<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		accessFunction.doAcceptFltObjInt(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.acceptFltObjInt(tuple.third(), tuple.first(), tuple.second());
 	}
 
 	default void useWith(LTieFltConsumer.LFltIntObjCons<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		accessFunction.doAcceptFltIntObj(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.acceptFltIntObj(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default <R> R useWith(LObjIntFltFunction<T, R> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntFltFunction.LObjFltIntFunc<T, R> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		R retval = accessFunction.doApplyObjFltInt(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.applyObjFltInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntFltFunction.LIntObjFltFunc<T, R> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		R retval = accessFunction.doApplyIntObjFlt(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.applyIntObjFlt(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntFltFunction.LIntFltObjFunc<T, R> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		R retval = accessFunction.doApplyIntFltObj(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.applyIntFltObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntFltFunction.LFltObjIntFunc<T, R> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		R retval = accessFunction.doApplyFltObjInt(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.applyFltObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntFltFunction.LFltIntObjFunc<T, R> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		R retval = accessFunction.doApplyFltIntObj(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.applyFltIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieFltFunction<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		int retval = accessFunction.doApplyAsInt(tuple.first(), tuple.second(), tuple.third());
+		int retval = accessFunction.applyAsInt(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieFltFunction.LObjFltIntToIntFunc<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		int retval = accessFunction.doApplyAsIntObjFltInt(tuple.first(), tuple.third(), tuple.second());
+		int retval = accessFunction.applyAsIntObjFltInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieFltFunction.LIntObjFltToIntFunc<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		int retval = accessFunction.doApplyAsIntIntObjFlt(tuple.second(), tuple.first(), tuple.third());
+		int retval = accessFunction.applyAsIntIntObjFlt(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieFltFunction.LIntFltObjToIntFunc<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		int retval = accessFunction.doApplyAsIntIntFltObj(tuple.second(), tuple.third(), tuple.first());
+		int retval = accessFunction.applyAsIntIntFltObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieFltFunction.LFltObjIntToIntFunc<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		int retval = accessFunction.doApplyAsIntFltObjInt(tuple.third(), tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntFltObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieFltFunction.LFltIntObjToIntFunc<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		int retval = accessFunction.doApplyAsIntFltIntObj(tuple.third(), tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsIntFltIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntFltPredicate<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second(), tuple.third());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntFltPredicate.LObjFltIntPred<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		boolean retval = accessFunction.doTestObjFltInt(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.testObjFltInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntFltPredicate.LIntObjFltPred<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		boolean retval = accessFunction.doTestIntObjFlt(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.testIntObjFlt(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntFltPredicate.LIntFltObjPred<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		boolean retval = accessFunction.doTestIntFltObj(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.testIntFltObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntFltPredicate.LFltObjIntPred<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		boolean retval = accessFunction.doTestFltObjInt(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.testFltObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntFltPredicate.LFltIntObjPred<T> accessFunction) {
 		LObjIntFltTriple<T> tuple = accessObjIntFltTriple();
-		boolean retval = accessFunction.doTestFltIntObj(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.testFltIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntFltTriple(tuple);
 		return retval;
 	}

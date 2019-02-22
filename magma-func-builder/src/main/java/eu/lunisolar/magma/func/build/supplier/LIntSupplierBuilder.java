@@ -80,8 +80,10 @@ public final class LIntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LIntSupplier intSupplierFrom(Function<LIntSupplierBuilder, LIntSupplier> buildingFunction) {
-		return buildingFunction.apply(new LIntSupplierBuilder());
+	public static LIntSupplier intSupplierFrom(Consumer<LIntSupplierBuilder> buildingFunction) {
+		LIntSupplierBuilder builder = new LIntSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LIntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base
 		retval = LIntSupplier.intSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LIntSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsInt();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsInt();
 					}
 				}
 
-				return eventuallyFinal.doGetAsInt();
+				return eventuallyFinal.getAsInt();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

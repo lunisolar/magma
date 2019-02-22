@@ -55,7 +55,7 @@ public class LDblToByteFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsByte(100d))
+        assertThat(sut.applyAsByte(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LDblToByteFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte(100d))
+        assertThat(sut.applyAsByte(100d))
             .isEqualTo((byte)9);
 
         assertThat(functionCallCount).isEqualTo(2);

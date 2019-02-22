@@ -82,13 +82,12 @@ public interface LCharToByteFunctionAssert<S extends LCharToByteFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LCharConsumer, A, RS, Byte> doesApplyAsByte(char a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a));
+				return assertFactory.apply(actual.applyAsByte(a));
 			});
-
 		}
 
 	}

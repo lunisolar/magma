@@ -89,8 +89,8 @@ public class LByteToFltFuncDelta extends LByteToFltFuncMemento {
 	}
 
 	@Override
-	public float doApplyAsFlt(byte a) {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doApplyAsFlt(a));
+	public float applyAsFlt(byte a) {
+		return deltaFunction.applyAsFlt(lastValue(), super.applyAsFlt(a));
 	}
 
 	// <editor-fold desc="object">

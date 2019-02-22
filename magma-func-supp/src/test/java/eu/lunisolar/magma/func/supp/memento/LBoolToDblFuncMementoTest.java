@@ -54,7 +54,7 @@ public class LBoolToDblFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0d);
 
-        assertThat(sut.doApplyAsDbl(true))
+        assertThat(sut.applyAsDbl(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBoolToDblFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDbl(true))
+        assertThat(sut.applyAsDbl(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

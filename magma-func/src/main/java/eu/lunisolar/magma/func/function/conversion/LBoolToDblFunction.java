@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aDouble>, Domain1<aBool> { // NOSONAR
 
-	String DESCRIPTION = "LBoolToDblFunction: double doApplyAsDbl(boolean a)";
+	String DESCRIPTION = "LBoolToDblFunction: double applyAsDbl(boolean a)";
 
-	// double doApplyAsDbl(boolean a) ;
-	default double doApplyAsDbl(boolean a) {
-		// return nestingDoApplyAsDbl(a);
+	// double applyAsDbl(boolean a) ;
+	default double applyAsDbl(boolean a) {
+		// return nestingApplyAsDbl(a);
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsDbl(boolean a)
+	 * Implement this, but call applyAsDbl(boolean a)
 	 */
-	double doApplyAsDblX(boolean a) throws Throwable;
+	double applyAsDblX(boolean a) throws Throwable;
 
 	default double tupleApplyAsDbl(LBoolSingle args) {
-		return doApplyAsDbl(args.value());
+		return applyAsDbl(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default double handlingDoApplyAsDbl(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default double handlingApplyAsDbl(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default double tryDoApplyAsDbl(boolean a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBoolToDblFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsDbl(a, handling);
+	}
+
+	default double applyAsDbl(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default double tryDoApplyAsDbl(boolean a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBoolToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsDbl(a, exF, newMessage, messageParams);
+	}
+
+	default double applyAsDbl(boolean a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default double tryDoApplyAsDblThen(boolean a, @Nonnull LToDblFunction<Throwable> handler) {
+	default LBoolToDblFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsDbl(a, exF);
+	}
+
+	default double applyAsDblThen(boolean a, @Nonnull LToDblFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsDbl(e);
+			return handler.applyAsDbl(e);
 		}
+	}
+
+	default LBoolToDblFunction tryingThen(@Nonnull LToDblFunction<Throwable> handler) {
+		return a -> applyAsDblThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default double nestingDoApplyAsDbl(boolean a) {
+	default double nestingApplyAsDbl(boolean a) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDbl(boolean a) {
+	default double shovingApplyAsDbl(boolean a) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static double handlingDoApplyAsDbl(boolean a, LBoolToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static double handlingApplyAsDbl(boolean a, LBoolToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsDbl(a, handling);
+		return func.handlingApplyAsDbl(a, handling);
 	}
 
-	static double tryDoApplyAsDbl(boolean a, LBoolToDblFunction func) {
-		return tryDoApplyAsDbl(a, func, null);
-	}
-
-	static double tryDoApplyAsDbl(boolean a, LBoolToDblFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static double tryApplyAsDbl(boolean a, LBoolToDblFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDbl(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsDbl(a);
 	}
 
-	static double tryDoApplyAsDbl(boolean a, LBoolToDblFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static double tryApplyAsDbl(boolean a, LBoolToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDbl(a, exceptionFactory);
+		return func.applyAsDbl(a, exF, newMessage, messageParams);
 	}
 
-	static double tryDoApplyAsDblThen(boolean a, LBoolToDblFunction func, @Nonnull LToDblFunction<Throwable> handler) {
+	static double tryApplyAsDbl(boolean a, LBoolToDblFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDblThen(a, handler);
+		return func.applyAsDbl(a, exF);
 	}
 
-	default double failSafeDoApplyAsDbl(boolean a, @Nonnull LBoolToDblFunction failSafe) {
+	static double tryApplyAsDblThen(boolean a, LBoolToDblFunction func, @Nonnull LToDblFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDblThen(a, handler);
+	}
+
+	default double failSafeApplyAsDbl(boolean a, @Nonnull LBoolToDblFunction failSafe) {
 		try {
-			return doApplyAsDbl(a);
+			return applyAsDbl(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsDbl(a);
+			return failSafe.applyAsDbl(a);
 		}
 	}
 
-	static double failSafeDoApplyAsDbl(boolean a, LBoolToDblFunction func, @Nonnull LBoolToDblFunction failSafe) {
+	static double failSafeApplyAsDbl(boolean a, LBoolToDblFunction func, @Nonnull LBoolToDblFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsDbl(a);
+			return failSafe.applyAsDbl(a);
 		} else {
-			return func.failSafeDoApplyAsDbl(a, failSafe);
+			return func.failSafeApplyAsDbl(a, failSafe);
 		}
 	}
 
-	static LBoolToDblFunction failSafeBoolToDblFunc(LBoolToDblFunction func, @Nonnull LBoolToDblFunction failSafe) {
+	static LBoolToDblFunction failSafe(LBoolToDblFunction func, @Nonnull LBoolToDblFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsDbl(a, func, failSafe);
+		return a -> failSafeApplyAsDbl(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDbl(boolean a) {
-		return doApplyAsDbl(a);
+	default double nonNullApplyAsDbl(boolean a) {
+		return applyAsDbl(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, boolean a, LBoolToDblFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, boolean a, LBoolToDblFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, boolean a, LBoolToDblFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier captureBoolToDblFunc(boolean a) {
-		return () -> this.doApplyAsDbl(a);
+	default LDblSupplier capture(boolean a) {
+		return () -> this.applyAsDbl(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	static LBoolToDblFunction recursive(final @Nonnull LFunction<LBoolToDblFunction, LBoolToDblFunction> selfLambda) {
 		final LBoolToDblFunctionSingle single = new LBoolToDblFunctionSingle();
-		LBoolToDblFunction func = selfLambda.doApply(single);
+		LBoolToDblFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		private LBoolToDblFunction target = null;
 
 		@Override
-		public double doApplyAsDblX(boolean a) throws Throwable {
-			return target.doApplyAsDblX(a);
+		public double applyAsDblX(boolean a) throws Throwable {
+			return target.applyAsDblX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static LBoolToDblFunction boolToDblFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolToDblFunction boolToDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBoolToDblFunction boolToDblFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolToDblFunction boolToDblFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static double call(boolean a, final @Nonnull LBoolToDblFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsDbl(a);
+		return lambda.applyAsDbl(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBoolToDblFunction boolToDblFuncComposeBool(@Nonnull final LLogicalOperator before) {
+	default LBoolToDblFunction compose(@Nonnull final LLogicalOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsDbl(before.doApply(v));
+		return v -> this.applyAsDbl(before.apply(v));
 	}
 
-	public static LBoolToDblFunction composedBool(@Nonnull final LLogicalOperator before, LBoolToDblFunction after) {
-		return after.boolToDblFuncComposeBool(before);
+	public static LBoolToDblFunction composed(@Nonnull final LLogicalOperator before, LBoolToDblFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToDblFunction<V> boolToDblFuncCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsDbl(before.doTest(v));
+		return v -> this.applyAsDbl(before.test(v));
 	}
 
 	public static <V> LToDblFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToDblFunction after) {
@@ -364,79 +383,68 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default <V> LBoolFunction<V> then(@Nonnull LDblFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsDbl(a));
+		return a -> after.apply(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToByteFunction thenToByte(@Nonnull LDblToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsDbl(a));
+		return a -> after.applyAsByte(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToSrtFunction thenToSrt(@Nonnull LDblToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsDbl(a));
+		return a -> after.applyAsSrt(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToIntFunction thenToInt(@Nonnull LDblToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsDbl(a));
+		return a -> after.applyAsInt(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToLongFunction thenToLong(@Nonnull LDblToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsDbl(a));
+		return a -> after.applyAsLong(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToFltFunction thenToFlt(@Nonnull LDblToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsDbl(a));
+		return a -> after.applyAsFlt(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToDblFunction thenToDbl(@Nonnull LDblUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsDbl(a));
+		return a -> after.applyAsDbl(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToCharFunction thenToChar(@Nonnull LDblToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsDbl(a));
+		return a -> after.applyAsChar(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLogicalOperator thenToBool(@Nonnull LDblPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsDbl(a));
+		return a -> after.test(this.applyAsDbl(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBoolToDblFunction nestingBoolToDblFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBoolToDblFunction shovingBoolToDblFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return Function4U.defaultDouble;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=boolean a, type=IA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aBool> ia, C0 source, LDblConsumer consumer) {
 		int size = ia.size(source);
 		LObjIntPredicate<Object> oiFunc0 = (LObjIntPredicate) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			boolean a = oiFunc0.doTest(source, i);
-			consumer.doAccept(this.doApplyAsDbl(a));
+			boolean a = oiFunc0.test(source, i);
+			consumer.accept(this.applyAsDbl(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=boolean a, type=SA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aBool> sa, C0 source, LDblConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LPredicate<Object> nextFunc0 = (LPredicate) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			boolean a = nextFunc0.doTest(iterator0);
-			consumer.doAccept(this.doApplyAsDbl(a));
+		LPredicate<Object> nextFunc0 = (LPredicate) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			boolean a = nextFunc0.test(iterator0);
+			consumer.accept(this.applyAsDbl(a));
 		}
 	}
 

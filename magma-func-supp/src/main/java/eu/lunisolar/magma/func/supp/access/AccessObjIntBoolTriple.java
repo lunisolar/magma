@@ -72,156 +72,156 @@ public interface AccessObjIntBoolTriple<T> {
 
 	default void useWith(LTieBoolConsumer<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	default void useWith(LTieBoolConsumer.LObjBoolIntCons<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		accessFunction.doAcceptObjBoolInt(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.acceptObjBoolInt(tuple.first(), tuple.third(), tuple.second());
 	}
 
 	default void useWith(LTieBoolConsumer.LIntObjBoolCons<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		accessFunction.doAcceptIntObjBool(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.acceptIntObjBool(tuple.second(), tuple.first(), tuple.third());
 	}
 
 	default void useWith(LTieBoolConsumer.LIntBoolObjCons<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		accessFunction.doAcceptIntBoolObj(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.acceptIntBoolObj(tuple.second(), tuple.third(), tuple.first());
 	}
 
 	default void useWith(LTieBoolConsumer.LBoolObjIntCons<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		accessFunction.doAcceptBoolObjInt(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.acceptBoolObjInt(tuple.third(), tuple.first(), tuple.second());
 	}
 
 	default void useWith(LTieBoolConsumer.LBoolIntObjCons<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		accessFunction.doAcceptBoolIntObj(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.acceptBoolIntObj(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default <R> R useWith(LObjIntBoolFunction<T, R> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntBoolFunction.LObjBoolIntFunc<T, R> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		R retval = accessFunction.doApplyObjBoolInt(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.applyObjBoolInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntBoolFunction.LIntObjBoolFunc<T, R> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		R retval = accessFunction.doApplyIntObjBool(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.applyIntObjBool(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntBoolFunction.LIntBoolObjFunc<T, R> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		R retval = accessFunction.doApplyIntBoolObj(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.applyIntBoolObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntBoolFunction.LBoolObjIntFunc<T, R> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		R retval = accessFunction.doApplyBoolObjInt(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.applyBoolObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntBoolFunction.LBoolIntObjFunc<T, R> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		R retval = accessFunction.doApplyBoolIntObj(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.applyBoolIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieBoolFunction<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		int retval = accessFunction.doApplyAsInt(tuple.first(), tuple.second(), tuple.third());
+		int retval = accessFunction.applyAsInt(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieBoolFunction.LObjBoolIntToIntFunc<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		int retval = accessFunction.doApplyAsIntObjBoolInt(tuple.first(), tuple.third(), tuple.second());
+		int retval = accessFunction.applyAsIntObjBoolInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieBoolFunction.LIntObjBoolToIntFunc<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		int retval = accessFunction.doApplyAsIntIntObjBool(tuple.second(), tuple.first(), tuple.third());
+		int retval = accessFunction.applyAsIntIntObjBool(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieBoolFunction.LIntBoolObjToIntFunc<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		int retval = accessFunction.doApplyAsIntIntBoolObj(tuple.second(), tuple.third(), tuple.first());
+		int retval = accessFunction.applyAsIntIntBoolObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieBoolFunction.LBoolObjIntToIntFunc<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		int retval = accessFunction.doApplyAsIntBoolObjInt(tuple.third(), tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntBoolObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieBoolFunction.LBoolIntObjToIntFunc<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		int retval = accessFunction.doApplyAsIntBoolIntObj(tuple.third(), tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsIntBoolIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBoolPredicate<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second(), tuple.third());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBoolPredicate.LObjBoolIntPred<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		boolean retval = accessFunction.doTestObjBoolInt(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.testObjBoolInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBoolPredicate.LIntObjBoolPred<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		boolean retval = accessFunction.doTestIntObjBool(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.testIntObjBool(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBoolPredicate.LIntBoolObjPred<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		boolean retval = accessFunction.doTestIntBoolObj(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.testIntBoolObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBoolPredicate.LBoolObjIntPred<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		boolean retval = accessFunction.doTestBoolObjInt(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.testBoolObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntBoolPredicate.LBoolIntObjPred<T> accessFunction) {
 		LObjIntBoolTriple<T> tuple = accessObjIntBoolTriple();
-		boolean retval = accessFunction.doTestBoolIntObj(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.testBoolIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntBoolTriple(tuple);
 		return retval;
 	}

@@ -65,7 +65,7 @@ public class LBiCharPredicateTest {
 
 
     private LBiCharPredicate sut = new LBiCharPredicate(){
-        public  boolean doTestX(char a1,char a2)  {
+        public  boolean testX(char a1,char a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBiCharPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest('\u0100','\u0100'))
+        assertThat(sut.test('\u0100','\u0100'))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBiCharPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest('\u0100','\u0100'))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest('\u0100','\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest('\u0100','\u0100');
+            sutAlwaysThrowingUnchecked.nestingTest('\u0100','\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBiCharPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest('\u0100','\u0100');
+            sutAlwaysThrowingUnchecked.shovingTest('\u0100','\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiCharPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiCharPredicate: boolean doTest(char a1,char a2)");
+            .isEqualTo("LBiCharPredicate: boolean test(char a1,char a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LBiCharPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest('\u0100','\u0100'))
+        assertThat(sut.negate().test('\u0100','\u0100'))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LBiCharPredicateTest {
         LBiCharPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest('\u0100','\u0100'))
+        assertThat(andFunction.test('\u0100','\u0100'))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest('\u0100','\u0100'))
+        assertThat(orFunction.test('\u0100','\u0100'))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest('\u0100','\u0100'))
+        assertThat(xorFunction.test('\u0100','\u0100'))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LBiCharPredicateTest {
         LBiCharPredicate equals = LBiCharPredicate.isEqual('\u0001','\u0001');
 
         //then
-        assertThat(equals.doTest('\u0001','\u0001'))
+        assertThat(equals.test('\u0001','\u0001'))
                 .isTrue();
 
-        assertThat(equals.doTest('\u0000','\u0000'))
+        assertThat(equals.test('\u0000','\u0000'))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LBiCharPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiCharPredComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LBiCharPredicateTest {
         };
 
         //when
-        LBiCharPredicate function = sutO.biCharPredComposeChar(before1,before2);
-        function.doTest('\u0080','\u0081');
+        LBiCharPredicate function = sutO.compose(before1,before2);
+        function.test('\u0080','\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LBiCharPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.biCharPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LBiCharPredicateTest {
 
         //when
         LBiCharFunction<Integer> function = sutO.boolToBiCharFunc(thenFunction);
-        Integer finalValue = function.doApply('\u0080','\u0081');
+        Integer finalValue = function.apply('\u0080','\u0081');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LBiCharPredicateTest {
 
         //when
         LCharBinaryOperator function = sutO.boolToCharBinaryOp(thenFunction);
-        char finalValue = function.doApplyAsChar('\u0080','\u0081');
+        char finalValue = function.applyAsChar('\u0080','\u0081');
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -384,7 +384,7 @@ public class LBiCharPredicateTest {
 
         //when
         LBiCharPredicate function = sutO.boolToBiCharPred(thenFunction);
-        boolean finalValue = function.doTest('\u0080','\u0081');
+        boolean finalValue = function.test('\u0080','\u0081');
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -397,20 +397,6 @@ public class LBiCharPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiCharPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiCharPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -421,7 +407,7 @@ public class LBiCharPredicateTest {
         });
 
         // when
-        sutThrowing.shovingBiCharPred().doTest('\u0100','\u0100');
+        sutThrowing.shovingTest('\u0100','\u0100');
     }
 
 
@@ -434,7 +420,7 @@ public class LBiCharPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiCharPredicate: boolean doTest(char a1,char a2)");
+                .contains("LBiCharPredicate: boolean test(char a1,char a2)");
     }
 
 

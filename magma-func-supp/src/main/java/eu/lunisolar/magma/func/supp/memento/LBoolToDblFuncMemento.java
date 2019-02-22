@@ -72,8 +72,8 @@ public class LBoolToDblFuncMemento implements LBoolToDblFunction {
 	}
 
 	@Override
-	public double doApplyAsDblX(boolean a) {
-		return lastValue = function.doApplyAsDbl(a);
+	public double applyAsDblX(boolean a) {
+		return lastValue = function.applyAsDbl(a);
 	}
 
 	public double lastValue() {

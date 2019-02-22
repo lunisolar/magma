@@ -65,7 +65,7 @@ public class LIntUnaryOperatorTest {
 
 
     private LIntUnaryOperator sut = new LIntUnaryOperator(){
-        public  int doApplyAsIntX(int a)  {
+        public  int applyAsIntX(int a)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LIntUnaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100))
+        assertThat(sut.applyAsInt(100))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LIntUnaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LIntUnaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LIntUnaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntUnaryOperator: int doApplyAsInt(int a)");
+            .isEqualTo("LIntUnaryOperator: int applyAsInt(int a)");
     }
 
     @Test
@@ -164,7 +164,7 @@ public class LIntUnaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testIntUnaryOpComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -183,8 +183,8 @@ public class LIntUnaryOperatorTest {
         };
 
         //when
-        LIntUnaryOperator function = sutO.intUnaryOpComposeInt(before);
-        function.doApplyAsInt(80);
+        LIntUnaryOperator function = sutO.compose(before);
+        function.applyAsInt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -213,7 +213,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LToIntFunction<Integer> function = sutO.intUnaryOpCompose(before);
-        function.doApplyAsInt(80);
+        function.applyAsInt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -249,7 +249,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -283,7 +283,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -317,7 +317,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -351,7 +351,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntUnaryOperator function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -385,7 +385,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -419,7 +419,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -453,7 +453,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -487,7 +487,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -521,7 +521,7 @@ public class LIntUnaryOperatorTest {
 
         //when
         LIntPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -537,23 +537,9 @@ public class LIntUnaryOperatorTest {
     public void identity() throws Throwable {
         LIntUnaryOperator identityFunction = LIntUnaryOperator.identity();
 
-        assertThat(identityFunction.doApplyAsInt(8)).isEqualTo(8);
+        assertThat(identityFunction.applyAsInt(8)).isEqualTo(8);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingIntUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LIntUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingIntUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LIntUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -565,7 +551,7 @@ public class LIntUnaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingIntUnaryOp().doApplyAsInt(100);
+        sutThrowing.shovingApplyAsInt(100);
     }
 
 
@@ -578,7 +564,7 @@ public class LIntUnaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntUnaryOperator: int doApplyAsInt(int a)");
+                .contains("LIntUnaryOperator: int applyAsInt(int a)");
     }
 
 

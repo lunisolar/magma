@@ -89,8 +89,8 @@ public class LByteBinaryOpDelta extends LByteBinaryOpMemento {
 	}
 
 	@Override
-	public byte doApplyAsByte(byte a1, byte a2) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a1, a2));
+	public byte applyAsByte(byte a1, byte a2) {
+		return deltaFunction.applyAsByte(lastValue(), super.applyAsByte(a1, a2));
 	}
 
 	// <editor-fold desc="object">

@@ -72,8 +72,8 @@ public class LLongToIntFuncMemento implements LLongToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsIntX(long a) {
-		return lastValue = function.doApplyAsInt(a);
+	public int applyAsIntX(long a) {
+		return lastValue = function.applyAsInt(a);
 	}
 
 	public int lastValue() {

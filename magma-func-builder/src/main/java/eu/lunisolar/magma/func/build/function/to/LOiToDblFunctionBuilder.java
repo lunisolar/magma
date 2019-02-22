@@ -80,8 +80,10 @@ public final class LOiToDblFunctionBuilder<T> extends PerCaseBuilderWithDblProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LOiToDblFunction<T> oiToDblFunctionFrom(Function<LOiToDblFunctionBuilder<T>, LOiToDblFunction<T>> buildingFunction) {
-		return buildingFunction.apply(new LOiToDblFunctionBuilder());
+	public static <T> LOiToDblFunction<T> oiToDblFunctionFrom(Consumer<LOiToDblFunctionBuilder<T>> buildingFunction) {
+		LOiToDblFunctionBuilder builder = new LOiToDblFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LOiToDblFunctionBuilder<T> extends PerCaseBuilderWithDblProdu
 		retval = LOiToDblFunction.<T> oiToDblFunc((a1, a2) -> {
 			try {
 				for (Case<LObjIntPredicate<T>, LOiToDblFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doApplyAsDbl(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().applyAsDbl(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDbl(a1, a2);
+				return eventuallyFinal.applyAsDbl(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

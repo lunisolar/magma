@@ -69,7 +69,7 @@ public class LObjIntBoolFunctionBuilderTest<T,R>{
                 .build()
             );
 
-            function.doApply(100,100,true);
+            function.apply(100,100,true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LObjIntBoolFunctionBuilderTest<T,R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(100,100,true);
+            function.apply(100,100,true);
 
             fail("No exception were thrown.");
         })

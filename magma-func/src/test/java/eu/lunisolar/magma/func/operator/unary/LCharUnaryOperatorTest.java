@@ -65,7 +65,7 @@ public class LCharUnaryOperatorTest {
 
 
     private LCharUnaryOperator sut = new LCharUnaryOperator(){
-        public  char doApplyAsCharX(char a)  {
+        public  char applyAsCharX(char a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LCharUnaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsChar('\u0100'))
+        assertThat(sut.applyAsChar('\u0100'))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LCharUnaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsChar('\u0100'))
+    public void testNonNullApplyAsChar() throws Throwable {
+        assertThat(sut.nonNullApplyAsChar('\u0100'))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsCharUnchecked() throws Throwable {
+    public void testNestingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsChar('\u0100');
+            sutAlwaysThrowingUnchecked.nestingApplyAsChar('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LCharUnaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsCharUnchecked() throws Throwable {
+    public void testShovingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsChar('\u0100');
+            sutAlwaysThrowingUnchecked.shovingApplyAsChar('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LCharUnaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharUnaryOperator: char doApplyAsChar(char a)");
+            .isEqualTo("LCharUnaryOperator: char applyAsChar(char a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LCharUnaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharUnaryOpComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LCharUnaryOperatorTest {
         };
 
         //when
-        LCharUnaryOperator function = sutO.charUnaryOpComposeChar(before);
-        function.doApplyAsChar('\u0080');
+        LCharUnaryOperator function = sutO.compose(before);
+        function.applyAsChar('\u0080');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LToCharFunction<Integer> function = sutO.charUnaryOpCompose(before);
-        function.doApplyAsChar(80);
+        function.applyAsChar(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply('\u0080');
+        Integer finalValue = function.apply('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte('\u0080');
+        byte finalValue = function.applyAsByte('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt('\u0080');
+        short finalValue = function.applyAsSrt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt('\u0080');
+        int finalValue = function.applyAsInt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong('\u0080');
+        long finalValue = function.applyAsLong('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt('\u0080');
+        float finalValue = function.applyAsFlt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl('\u0080');
+        double finalValue = function.applyAsDbl('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharUnaryOperator function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar('\u0080');
+        char finalValue = function.applyAsChar('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LCharUnaryOperatorTest {
 
         //when
         LCharPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest('\u0080');
+        boolean finalValue = function.test('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -529,23 +529,9 @@ public class LCharUnaryOperatorTest {
     public void identity() throws Throwable {
         LCharUnaryOperator identityFunction = LCharUnaryOperator.identity();
 
-        assertThat(identityFunction.doApplyAsChar('\u0008')).isEqualTo('\u0008');
+        assertThat(identityFunction.applyAsChar('\u0008')).isEqualTo('\u0008');
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCharUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LCharUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCharUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LCharUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -557,7 +543,7 @@ public class LCharUnaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingCharUnaryOp().doApplyAsChar('\u0100');
+        sutThrowing.shovingApplyAsChar('\u0100');
     }
 
 
@@ -570,7 +556,7 @@ public class LCharUnaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharUnaryOperator: char doApplyAsChar(char a)");
+                .contains("LCharUnaryOperator: char applyAsChar(char a)");
     }
 
 

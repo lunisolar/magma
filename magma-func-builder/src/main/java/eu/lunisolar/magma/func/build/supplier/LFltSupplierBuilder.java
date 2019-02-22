@@ -80,8 +80,10 @@ public final class LFltSupplierBuilder extends PerCaseBuilderWithFltProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LFltSupplier fltSupplierFrom(Function<LFltSupplierBuilder, LFltSupplier> buildingFunction) {
-		return buildingFunction.apply(new LFltSupplierBuilder());
+	public static LFltSupplier fltSupplierFrom(Consumer<LFltSupplierBuilder> buildingFunction) {
+		LFltSupplierBuilder builder = new LFltSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LFltSupplierBuilder extends PerCaseBuilderWithFltProduct.Base
 		retval = LFltSupplier.fltSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LFltSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsFlt();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsFlt();
 					}
 				}
 
-				return eventuallyFinal.doGetAsFlt();
+				return eventuallyFinal.getAsFlt();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -65,7 +65,7 @@ public class LLongSupplierTest {
 
 
     private LLongSupplier sut = new LLongSupplier(){
-        public  long doGetAsLongX()  {
+        public  long getAsLongX()  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LLongSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doGetAsLong())
+        assertThat(sut.getAsLong())
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LLongSupplierTest {
     }
 
     @Test
-    public void testNonNullDoGetAsLong() throws Throwable {
-        assertThat(sut.nonNullDoGetAsLong())
+    public void testNonNullGetAsLong() throws Throwable {
+        assertThat(sut.nonNullGetAsLong())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsLongUnchecked() throws Throwable {
+    public void testNestingGetAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoGetAsLong();
+            sutAlwaysThrowingUnchecked.nestingGetAsLong();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LLongSupplierTest {
     }
 
     @Test
-    public void testShovingDoGetAsLongUnchecked() throws Throwable {
+    public void testShovingGetAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoGetAsLong();
+            sutAlwaysThrowingUnchecked.shovingGetAsLong();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LLongSupplierTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongSupplier: long doGetAsLong()");
+            .isEqualTo("LLongSupplier: long getAsLong()");
     }
 
     @Test
@@ -186,7 +186,7 @@ public class LLongSupplierTest {
 
         //when
         LSupplier<Integer> function = sutO.toSup(thenFunction);
-        Integer finalValue = function.doGet();
+        Integer finalValue = function.get();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -219,7 +219,7 @@ public class LLongSupplierTest {
 
         //when
         LByteSupplier function = sutO.toByteSup(thenFunction);
-        byte finalValue = function.doGetAsByte();
+        byte finalValue = function.getAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -252,7 +252,7 @@ public class LLongSupplierTest {
 
         //when
         LSrtSupplier function = sutO.toSrtSup(thenFunction);
-        short finalValue = function.doGetAsSrt();
+        short finalValue = function.getAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -285,7 +285,7 @@ public class LLongSupplierTest {
 
         //when
         LIntSupplier function = sutO.toIntSup(thenFunction);
-        int finalValue = function.doGetAsInt();
+        int finalValue = function.getAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -318,7 +318,7 @@ public class LLongSupplierTest {
 
         //when
         LLongSupplier function = sutO.toLongSup(thenFunction);
-        long finalValue = function.doGetAsLong();
+        long finalValue = function.getAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -351,7 +351,7 @@ public class LLongSupplierTest {
 
         //when
         LFltSupplier function = sutO.toFltSup(thenFunction);
-        float finalValue = function.doGetAsFlt();
+        float finalValue = function.getAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -384,7 +384,7 @@ public class LLongSupplierTest {
 
         //when
         LDblSupplier function = sutO.toDblSup(thenFunction);
-        double finalValue = function.doGetAsDbl();
+        double finalValue = function.getAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -417,7 +417,7 @@ public class LLongSupplierTest {
 
         //when
         LCharSupplier function = sutO.toCharSup(thenFunction);
-        char finalValue = function.doGetAsChar();
+        char finalValue = function.getAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -450,7 +450,7 @@ public class LLongSupplierTest {
 
         //when
         LBoolSupplier function = sutO.toBoolSup(thenFunction);
-        boolean finalValue = function.doGetAsBool();
+        boolean finalValue = function.getAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -463,20 +463,6 @@ public class LLongSupplierTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLongSup())
-            .isSameAs(sut)
-            .isInstanceOf(LLongSupplier.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLongSup())
-            .isSameAs(sut)
-            .isInstanceOf(LLongSupplier.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -487,7 +473,7 @@ public class LLongSupplierTest {
         });
 
         // when
-        sutThrowing.shovingLongSup().doGetAsLong();
+        sutThrowing.shovingGetAsLong();
     }
 
 
@@ -500,7 +486,7 @@ public class LLongSupplierTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongSupplier: long doGetAsLong()");
+                .contains("LLongSupplier: long getAsLong()");
     }
 
 

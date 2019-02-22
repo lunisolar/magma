@@ -69,7 +69,7 @@ public class LBiObjBoolConsumerBuilderTest<T1,T2>{
                 .build()
             );
 
-            function.doAccept(100,100,true);
+            function.accept(100,100,true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiObjBoolConsumerBuilderTest<T1,T2>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(100,100,true);
+            function.accept(100,100,true);
 
             fail("No exception were thrown.");
         })

@@ -69,7 +69,7 @@ public class LLongIntConsumerBuilderTest{
                 .build()
             );
 
-            function.doAccept(100L,100);
+            function.accept(100L,100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLongIntConsumerBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(100L,100);
+            function.accept(100L,100);
 
             fail("No exception were thrown.");
         })

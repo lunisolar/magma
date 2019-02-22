@@ -68,119 +68,136 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaInterface.NonThrowing, OFunction<T, a<T>>, LFunction<T, T> { // NOSONAR
+public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaInterface.NonThrowing, OFunction<T, a<T>>, Codomain<a<T>>, Domain1<a<T>>, LFunction<T, T> { // NOSONAR
 
-	String DESCRIPTION = "LUnaryOperator: T doApply(T a)";
+	String DESCRIPTION = "LUnaryOperator: T apply(T a)";
 
 	default T tupleApply(LSingle<T> args) {
-		return doApply(args.value());
+		return apply(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default T handlingDoApply(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default T handlingApply(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default T tryDoApply(T a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LUnaryOperator<T> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApply(a, handling);
+	}
+
+	default T apply(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default T tryDoApply(T a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LUnaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> apply(a, exF, newMessage, messageParams);
+	}
+
+	default T apply(T a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default T tryDoApplyThen(T a, @Nonnull LFunction<Throwable, T> handler) {
+	default LUnaryOperator<T> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> apply(a, exF);
+	}
+
+	default T applyThen(T a, @Nonnull LFunction<Throwable, T> handler) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApply(e);
+			return handler.apply(e);
 		}
+	}
+
+	default LUnaryOperator<T> tryingThen(@Nonnull LFunction<Throwable, T> handler) {
+		return a -> applyThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default T nestingDoApply(T a) {
+	default T nestingApply(T a) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default T shovingDoApply(T a) {
+	default T shovingApply(T a) {
 		try {
-			return this.doApplyX(a);
+			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <T> T handlingDoApply(T a, LUnaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> T handlingApply(T a, LUnaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApply(a, handling);
+		return func.handlingApply(a, handling);
 	}
 
-	static <T> T tryDoApply(T a, LUnaryOperator<T> func) {
-		return tryDoApply(a, func, null);
-	}
-
-	static <T> T tryDoApply(T a, LUnaryOperator<T> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> T tryApply(T a, LUnaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApply(a);
 	}
 
-	static <T> T tryDoApply(T a, LUnaryOperator<T> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <T> T tryApply(T a, LUnaryOperator<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a, exceptionFactory);
+		return func.apply(a, exF, newMessage, messageParams);
 	}
 
-	static <T> T tryDoApplyThen(T a, LUnaryOperator<T> func, @Nonnull LFunction<Throwable, T> handler) {
+	static <T> T tryApply(T a, LUnaryOperator<T> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyThen(a, handler);
+		return func.apply(a, exF);
 	}
 
-	default T failSafeDoApply(T a, @Nonnull LUnaryOperator<T> failSafe) {
+	static <T> T tryApplyThen(T a, LUnaryOperator<T> func, @Nonnull LFunction<Throwable, T> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyThen(a, handler);
+	}
+
+	default T failSafeApply(T a, @Nonnull LUnaryOperator<T> failSafe) {
 		try {
-			return doApply(a);
+			return apply(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApply(a);
+			return failSafe.apply(a);
 		}
 	}
 
-	static <T> T failSafeDoApply(T a, LUnaryOperator<T> func, @Nonnull LUnaryOperator<T> failSafe) {
+	static <T> T failSafeApply(T a, LUnaryOperator<T> func, @Nonnull LUnaryOperator<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApply(a);
+			return failSafe.apply(a);
 		} else {
-			return func.failSafeDoApply(a, failSafe);
+			return func.failSafeApply(a, failSafe);
 		}
 	}
 
-	static <T> LUnaryOperator<T> failSafeUnaryOp(LUnaryOperator<T> func, @Nonnull LUnaryOperator<T> failSafe) {
+	static <T> LUnaryOperator<T> failSafe(LUnaryOperator<T> func, @Nonnull LUnaryOperator<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApply(a, func, failSafe);
+		return a -> failSafeApply(a, func, failSafe);
 	}
 
-	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default T nonNullDoApply(T a) {
-		return Null.requireNonNull(doApply(a), NULL_VALUE_MESSAGE_SUPPLIER);
+	default T nonNullApply(T a) {
+		return Null.requireNonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -192,13 +209,13 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTo(int min_i, int max_i, T a, LUnaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		}
 	}
@@ -206,25 +223,42 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTill(int min_i, int max_i, T a, LUnaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApply(a);
+				func.apply(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void times(int max_i, T a, LUnaryOperator<T> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Cast that removes generics. */
+	public default LUnaryOperator untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default LUnaryOperator cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <T> LUnaryOperator cast(LUnaryOperator<T> function) {
+		return (LUnaryOperator) function;
+	}
+
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<T> captureUnaryOp(T a) {
-		return () -> this.doApply(a);
+	default LSupplier<T> capture(T a) {
+		return () -> this.apply(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -242,7 +276,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	@Nonnull
 	static <T> LUnaryOperator<T> recursive(final @Nonnull LFunction<LUnaryOperator<T>, LUnaryOperator<T>> selfLambda) {
 		final LUnaryOperatorSingle<T> single = new LUnaryOperatorSingle();
-		LUnaryOperator<T> func = selfLambda.doApply(single);
+		LUnaryOperator<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -251,8 +285,8 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		private LUnaryOperator<T> target = null;
 
 		@Override
-		public T doApplyX(T a) throws Throwable {
-			return target.doApplyX(a);
+		public T applyX(T a) throws Throwable {
+			return target.applyX(a);
 		}
 
 		@Override
@@ -262,24 +296,24 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	@Nonnull
-	static <T> LUnaryOperator<T> unaryOpThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LUnaryOperator<T> unaryOpThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <T> LUnaryOperator<T> unaryOpThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LUnaryOperator<T> unaryOpThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static <T> T call(T a, final @Nonnull LUnaryOperator<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a);
+		return lambda.apply(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -333,63 +367,63 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApply(a));
+		return a -> after.apply(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LToByteFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApply(a));
+		return a -> after.applyAsByte(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToSrtFunction<T> thenToSrt(@Nonnull LToSrtFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApply(a));
+		return a -> after.applyAsSrt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LToIntFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApply(a));
+		return a -> after.applyAsInt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LToLongFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApply(a));
+		return a -> after.applyAsLong(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFltFunction<T> thenToFlt(@Nonnull LToFltFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApply(a));
+		return a -> after.applyAsFlt(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDblFunction<T> thenToDbl(@Nonnull LToDblFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApply(a));
+		return a -> after.applyAsDbl(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LToCharFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApply(a));
+		return a -> after.applyAsChar(this.apply(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBool(@Nonnull LPredicate<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApply(a));
+		return a -> after.test(this.apply(a));
 	}
 
 	// </editor-fold>
@@ -402,23 +436,12 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LUnaryOperator<T> nestingUnaryOp() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LUnaryOperator<T> shovingUnaryOp() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LUnaryOperator<T> nonNullUnaryOp() {
-		return this::nonNullDoApply;
+	default LUnaryOperator<T> nonNullable() {
+		return this::nonNullApply;
 	}
 
 	/** Does nothing (LUnaryOperator) Operator */
@@ -426,25 +449,31 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return (T) Function4U.defaultObject;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=T a, type=IA}, SourcePurpose{arg=LConsumer<? super T> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, a<T>> ia, C0 source, LConsumer<? super T> consumer) {
 		int size = ia.size(source);
 		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T a = oiFunc0.doApply(source, i);
-			consumer.doAccept(this.doApply(a));
+			T a = oiFunc0.apply(source, i);
+			consumer.accept(this.apply(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a, type=SA}, SourcePurpose{arg=LConsumer<? super T> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, a<T>> sa, C0 source, LConsumer<? super T> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LFunction<Object, T> nextFunc0 = (LFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			T a = nextFunc0.doApply(iterator0);
-			consumer.doAccept(this.doApply(a));
+		LFunction<Object, T> nextFunc0 = (LFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			T a = nextFunc0.apply(iterator0);
+			consumer.accept(this.apply(a));
 		}
 	}
 

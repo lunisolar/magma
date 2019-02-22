@@ -34,26 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LByteConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteSingle extends LTuple<Byte> {
+public interface LByteSingle extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	byte value();
 
-	default byte getValue() {
+	default byte first() {
 		return value();
 	}
 
-	default Byte get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default byte getByte(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -98,63 +89,8 @@ public interface LByteSingle extends LTuple<Byte> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Byte[] toVoArray(Byte[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Byte[] toVoArray(Byte[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Byte[] toVoArray() {
-		Byte[] array = new Byte[size()];
-
-		return toVoArray(array);
-	}
-
-	default byte[] toByteArray(byte[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default byte[] toByteArray(byte[] array) {
-		return toByteArray(array, 0);
-	}
-
-	default byte[] toByteArray() {
-		byte[] array = new byte[size()];
-
-		return toByteArray(array);
-	}
-
-	@Override
-	default Iterator<Byte> iterator() {
-		return new Iterator<Byte>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -164,27 +100,9 @@ public interface LByteSingle extends LTuple<Byte> {
 			}
 
 			@Override
-			public Byte next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public int nextInt() {
-				index++;
-				return getByte(index);
 			}
 		};
 	}
@@ -202,7 +120,7 @@ public interface LByteSingle extends LTuple<Byte> {
 
 	}
 
-	abstract class AbstractByteSingle extends Number implements LByteSingle {
+	abstract class AbstractByteSingle implements LByteSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -218,40 +136,11 @@ public interface LByteSingle extends LTuple<Byte> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
-
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
-
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
-
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
-
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
-
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
 	}
 
 	/**
@@ -289,7 +178,7 @@ public interface LByteSingle extends LTuple<Byte> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutByteSingle setValueIfArg(byte value, LBytePredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -298,14 +187,14 @@ public interface LByteSingle extends LTuple<Byte> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutByteSingle setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsByte(arg);
+				this.value = func.applyAsByte(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutByteSingle setValueIf(LBytePredicate predicate, byte value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -314,7 +203,7 @@ public interface LByteSingle extends LTuple<Byte> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutByteSingle setValueIf(byte value, LBiBytePredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -323,7 +212,7 @@ public interface LByteSingle extends LTuple<Byte> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutByteSingle setValueIf(LBiBytePredicate predicate, byte value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -369,7 +258,7 @@ public interface LByteSingle extends LTuple<Byte> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompByteSingle setValueIfArg(byte value, LBytePredicate predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -378,14 +267,14 @@ public interface LByteSingle extends LTuple<Byte> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompByteSingle setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
 			if (arg != null) {
-				this.value = func.doApplyAsByte(arg);
+				this.value = func.applyAsByte(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompByteSingle setValueIf(LBytePredicate predicate, byte value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -394,7 +283,7 @@ public interface LByteSingle extends LTuple<Byte> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompByteSingle setValueIf(byte value, LBiBytePredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -403,7 +292,7 @@ public interface LByteSingle extends LTuple<Byte> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompByteSingle setValueIf(LBiBytePredicate predicate, byte value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;

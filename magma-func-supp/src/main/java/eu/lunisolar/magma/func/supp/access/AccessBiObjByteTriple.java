@@ -72,114 +72,114 @@ public interface AccessBiObjByteTriple<T1, T2> {
 
 	default void useWith(LBiObjByteConsumer<T1, T2> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
-	default void useWith(LBiObjByteConsumer.LObjByteObj1Cons<T1, T2> accessFunction) {
+	default void useWith(LBiObjByteConsumer.LObj0Byte2Obj1Cons<T1, T2> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		accessFunction.doAcceptObjByteObj1(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.acceptObj0Byte2Obj1(tuple.first(), tuple.third(), tuple.second());
 	}
 
-	default void useWith(LBiObjByteConsumer.LObj1Obj0ByteCons<T2, T1> accessFunction) {
+	default void useWith(LBiObjByteConsumer.LObj1Obj0Byte2Cons<T2, T1> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		accessFunction.doAcceptObj1Obj0Byte(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.acceptObj1Obj0Byte2(tuple.second(), tuple.first(), tuple.third());
 	}
 
-	default void useWith(LBiObjByteConsumer.LObj1ByteObj0Cons<T2, T1> accessFunction) {
+	default void useWith(LBiObjByteConsumer.LObj1Byte2Obj0Cons<T2, T1> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		accessFunction.doAcceptObj1ByteObj0(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.acceptObj1Byte2Obj0(tuple.second(), tuple.third(), tuple.first());
 	}
 
-	default void useWith(LBiObjByteConsumer.LByteObj0Obj1Cons<T1, T2> accessFunction) {
+	default void useWith(LBiObjByteConsumer.LByte2Obj0Obj1Cons<T1, T2> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		accessFunction.doAcceptByteObj0Obj1(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.acceptByte2Obj0Obj1(tuple.third(), tuple.first(), tuple.second());
 	}
 
-	default void useWith(LBiObjByteConsumer.LByteObjObj0Cons<T2, T1> accessFunction) {
+	default void useWith(LBiObjByteConsumer.LByte2Obj1Obj0Cons<T2, T1> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		accessFunction.doAcceptByteObjObj0(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.acceptByte2Obj1Obj0(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default <R> R useWith(LBiObjByteFunction<T1, T2, R> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjByteFunction.LObjByteObj1Func<T1, T2, R> accessFunction) {
+	default <R> R useWith(LBiObjByteFunction.LObj0Byte2Obj1Func<T1, T2, R> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		R retval = accessFunction.doApplyObjByteObj1(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.applyObj0Byte2Obj1(tuple.first(), tuple.third(), tuple.second());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjByteFunction.LObj1Obj0ByteFunc<T2, T1, R> accessFunction) {
+	default <R> R useWith(LBiObjByteFunction.LObj1Obj0Byte2Func<T2, T1, R> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		R retval = accessFunction.doApplyObj1Obj0Byte(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.applyObj1Obj0Byte2(tuple.second(), tuple.first(), tuple.third());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjByteFunction.LObj1ByteObj0Func<T2, T1, R> accessFunction) {
+	default <R> R useWith(LBiObjByteFunction.LObj1Byte2Obj0Func<T2, T1, R> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		R retval = accessFunction.doApplyObj1ByteObj0(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.applyObj1Byte2Obj0(tuple.second(), tuple.third(), tuple.first());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjByteFunction.LByteObj0Obj1Func<T1, T2, R> accessFunction) {
+	default <R> R useWith(LBiObjByteFunction.LByte2Obj0Obj1Func<T1, T2, R> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		R retval = accessFunction.doApplyByteObj0Obj1(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.applyByte2Obj0Obj1(tuple.third(), tuple.first(), tuple.second());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjByteFunction.LByteObjObj0Func<T2, T1, R> accessFunction) {
+	default <R> R useWith(LBiObjByteFunction.LByte2Obj1Obj0Func<T2, T1, R> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		R retval = accessFunction.doApplyByteObjObj0(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.applyByte2Obj1Obj0(tuple.third(), tuple.second(), tuple.first());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiObjBytePredicate<T1, T2> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second(), tuple.third());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjBytePredicate.LObjByteObj1Pred<T1, T2> accessFunction) {
+	default boolean useWith(LBiObjBytePredicate.LObj0Byte2Obj1Pred<T1, T2> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		boolean retval = accessFunction.doTestObjByteObj1(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.testObj0Byte2Obj1(tuple.first(), tuple.third(), tuple.second());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjBytePredicate.LObj1Obj0BytePred<T2, T1> accessFunction) {
+	default boolean useWith(LBiObjBytePredicate.LObj1Obj0Byte2Pred<T2, T1> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		boolean retval = accessFunction.doTestObj1Obj0Byte(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.testObj1Obj0Byte2(tuple.second(), tuple.first(), tuple.third());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjBytePredicate.LObj1ByteObj0Pred<T2, T1> accessFunction) {
+	default boolean useWith(LBiObjBytePredicate.LObj1Byte2Obj0Pred<T2, T1> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		boolean retval = accessFunction.doTestObj1ByteObj0(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.testObj1Byte2Obj0(tuple.second(), tuple.third(), tuple.first());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjBytePredicate.LByteObj0Obj1Pred<T1, T2> accessFunction) {
+	default boolean useWith(LBiObjBytePredicate.LByte2Obj0Obj1Pred<T1, T2> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		boolean retval = accessFunction.doTestByteObj0Obj1(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.testByte2Obj0Obj1(tuple.third(), tuple.first(), tuple.second());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}
 
-	default boolean useWith(LBiObjBytePredicate.LByteObjObj0Pred<T2, T1> accessFunction) {
+	default boolean useWith(LBiObjBytePredicate.LByte2Obj1Obj0Pred<T2, T1> accessFunction) {
 		LBiObjByteTriple<T1, T2> tuple = accessBiObjByteTriple();
-		boolean retval = accessFunction.doTestByteObjObj0(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.testByte2Obj1Obj0(tuple.third(), tuple.second(), tuple.first());
 		releaseBiObjByteTriple(tuple);
 		return retval;
 	}

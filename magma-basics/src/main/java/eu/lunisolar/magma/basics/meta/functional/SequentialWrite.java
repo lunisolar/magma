@@ -27,10 +27,10 @@ import eu.lunisolar.magma.basics.meta.functional.type.TeConsumer;
 @SuppressWarnings("unchecked")
 public interface SequentialWrite<C, E extends aType> {
 
-    TeConsumer<C, E> genericAdder();
+    TeConsumer<C, ? super E> genericConsumer();
 
-    default <F extends TeConsumer<C, E>> F adder() {
-        return (F) genericAdder();
+    default <F extends TeConsumer<C, E>> F consumer() {
+        return (F) genericConsumer();
     }
 
 }

@@ -89,8 +89,8 @@ public class LToSrtBiFuncDelta<T1, T2> extends LToSrtBiFuncMemento<T1, T2> {
 	}
 
 	@Override
-	public short doApplyAsSrt(T1 a1, T2 a2) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a1, a2));
+	public short applyAsSrt(T1 a1, T2 a2) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a1, a2));
 	}
 
 	// <editor-fold desc="object">

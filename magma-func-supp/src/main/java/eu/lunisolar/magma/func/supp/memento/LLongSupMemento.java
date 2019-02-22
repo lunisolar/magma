@@ -72,8 +72,8 @@ public class LLongSupMemento implements LLongSupplier {
 	}
 
 	@Override
-	public long doGetAsLongX() {
-		return lastValue = function.doGetAsLong();
+	public long getAsLongX() {
+		return lastValue = function.getAsLong();
 	}
 
 	public long lastValue() {

@@ -82,13 +82,12 @@ public interface LIntToCharFunctionAssert<S extends LIntToCharFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LIntConsumer, A, RS, Character> doesApplyAsChar(int a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a));
+				return assertFactory.apply(actual.applyAsChar(a));
 			});
-
 		}
 
 	}

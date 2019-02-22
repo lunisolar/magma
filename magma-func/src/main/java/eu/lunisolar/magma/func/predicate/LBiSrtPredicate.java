@@ -66,167 +66,196 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain2<aShort, aShort> { // NOSONAR
 
-	String DESCRIPTION = "LBiSrtPredicate: boolean doTest(short a1,short a2)";
+	String DESCRIPTION = "LBiSrtPredicate: boolean test(short a1,short a2)";
 
-	// boolean doTest(short a1,short a2) ;
-	default boolean doTest(short a1, short a2) {
-		// return nestingDoTest(a1,a2);
+	// boolean test(short a1,short a2) ;
+	default boolean test(short a1, short a2) {
+		// return nestingTest(a1,a2);
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doTest(short a1,short a2)
+	 * Implement this, but call test(short a1,short a2)
 	 */
-	boolean doTestX(short a1, short a2) throws Throwable;
+	boolean testX(short a1, short a2) throws Throwable;
 
 	default boolean tupleTest(LSrtPair args) {
-		return doTest(args.first(), args.second());
+		return test(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoTest(short a1, short a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingTest(short a1, short a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoTest(short a1, short a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiSrtPredicate handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingTest(a1, a2, handling);
+	}
+
+	default boolean test(short a1, short a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoTest(short a1, short a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiSrtPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> test(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default boolean test(short a1, short a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoTestThen(short a1, short a2, @Nonnull LPredicate<Throwable> handler) {
+	default LBiSrtPredicate trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> test(a1, a2, exF);
+	}
+
+	default boolean testThen(short a1, short a2, @Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LBiSrtPredicate tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return (a1, a2) -> testThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(short a1, short a2) {
+	default boolean nestingTest(short a1, short a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoTest(short a1, short a2) {
+	default boolean shovingTest(short a1, short a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static boolean handlingDoTest(short a1, short a2, LBiSrtPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(short a1, short a2, LBiSrtPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoTest(a1, a2, handling);
+		return func.handlingTest(a1, a2, handling);
 	}
 
-	static boolean tryDoTest(short a1, short a2, LBiSrtPredicate func) {
-		return tryDoTest(a1, a2, func, null);
-	}
-
-	static boolean tryDoTest(short a1, short a2, LBiSrtPredicate func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryTest(short a1, short a2, LBiSrtPredicate func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingTest(a1, a2);
 	}
 
-	static boolean tryDoTest(short a1, short a2, LBiSrtPredicate func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static boolean tryTest(short a1, short a2, LBiSrtPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory);
+		return func.test(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static boolean tryDoTestThen(short a1, short a2, LBiSrtPredicate func, @Nonnull LPredicate<Throwable> handler) {
+	static boolean tryTest(short a1, short a2, LBiSrtPredicate func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTestThen(a1, a2, handler);
+		return func.test(a1, a2, exF);
 	}
 
-	default boolean failSafeDoTest(short a1, short a2, @Nonnull LBiSrtPredicate failSafe) {
+	static boolean tryTestThen(short a1, short a2, LBiSrtPredicate func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.testThen(a1, a2, handler);
+	}
+
+	default boolean failSafeTest(short a1, short a2, @Nonnull LBiSrtPredicate failSafe) {
 		try {
-			return doTest(a1, a2);
+			return test(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		}
 	}
 
-	static boolean failSafeDoTest(short a1, short a2, LBiSrtPredicate func, @Nonnull LBiSrtPredicate failSafe) {
+	static boolean failSafeTest(short a1, short a2, LBiSrtPredicate func, @Nonnull LBiSrtPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		} else {
-			return func.failSafeDoTest(a1, a2, failSafe);
+			return func.failSafeTest(a1, a2, failSafe);
 		}
 	}
 
-	static LBiSrtPredicate failSafeBiSrtPred(LBiSrtPredicate func, @Nonnull LBiSrtPredicate failSafe) {
+	static LBiSrtPredicate failSafe(LBiSrtPredicate func, @Nonnull LBiSrtPredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoTest(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeTest(a1, a2, func, failSafe);
 	}
 
 	default boolean doIf(short a1, short a2, LAction action) {
-		if (doTest(a1, a2)) {
-			action.doExecute();
+		Null.nonNullArg(action, "action");
+		if (test(a1, a2)) {
+			action.execute();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	default boolean doIf(short a1, short a2, LBiSrtConsumer consumer) {
-		if (doTest(a1, a2)) {
-			consumer.doAccept(a1, a2);
+	static boolean doIf(short a1, short a2, @Nonnull LBiSrtPredicate predicate, @Nonnull LAction action) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, action);
+	}
+
+	static boolean doIf(short a1, short a2, @Nonnull LBiSrtPredicate predicate, @Nonnull LBiSrtConsumer consumer) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, consumer);
+	}
+
+	default boolean doIf(short a1, short a2, @Nonnull LBiSrtConsumer consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a1, a2)) {
+			consumer.accept(a1, a2);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	static void throwIf(short a1, short a2, LBiSrtPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.doTest(a1, a2)) {
+	static void throwIf(short a1, short a2, LBiSrtPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
-	static void throwIfNot(short a1, short a2, LBiSrtPredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.doTest(a1, a2)) {
+	static void throwIfNot(short a1, short a2, LBiSrtPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(short a1, short a2) {
-		return doTest(a1, a2);
+	default boolean nonNullTest(short a1, short a2) {
+		return test(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(short a1, short a2) {
-		return doTest(a1, a2);
+		return test(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -238,13 +267,13 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, short a1, short a2, LBiSrtPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
@@ -252,28 +281,30 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, short a1, short a2, LBiSrtPredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, short a1, short a2, LBiSrtPredicate func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LSrtPredicate lShrink(LSrtUnaryOperator left) {
-		return a2 -> doTest(left.doApplyAsSrt(a2), a2);
+		return a2 -> test(left.applyAsSrt(a2), a2);
 	}
 
 	public default LSrtPredicate lShrinkc(short a1) {
-		return a2 -> doTest(a1, a2);
+		return a2 -> test(a1, a2);
 	}
 
 	public static LSrtPredicate lShrinked(LSrtUnaryOperator left, LBiSrtPredicate func) {
@@ -285,11 +316,11 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	public default LSrtPredicate rShrink(LSrtUnaryOperator right) {
-		return a1 -> doTest(a1, right.doApplyAsSrt(a1));
+		return a1 -> test(a1, right.applyAsSrt(a1));
 	}
 
 	public default LSrtPredicate rShrinkc(short a2) {
-		return a1 -> doTest(a1, a2);
+		return a1 -> test(a1, a2);
 	}
 
 	public static LSrtPredicate rShrinked(LSrtUnaryOperator right, LBiSrtPredicate func) {
@@ -301,13 +332,13 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/**  */
-	public static LBiSrtPredicate uncurryBiSrtPred(LSrtFunction<LSrtPredicate> func) {
-		return (short a1, short a2) -> func.doApply(a1).doTest(a2);
+	public static LBiSrtPredicate uncurry(LSrtFunction<LSrtPredicate> func) {
+		return (short a1, short a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiSrtPred(short a1, short a2) {
-		return () -> this.doTest(a1, a2);
+	default LBoolSupplier capture(short a1, short a2) {
+		return () -> this.test(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -318,13 +349,13 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiSrtPredicate test1st(@Nonnull LSrtPredicate func) {
-		return (a1, a2) -> func.doTest(a1);
+		return (a1, a2) -> func.test(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiSrtPredicate test2nd(@Nonnull LSrtPredicate func) {
-		return (a1, a2) -> func.doTest(a2);
+		return (a1, a2) -> func.test(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -337,7 +368,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@Nonnull
 	static LBiSrtPredicate recursive(final @Nonnull LFunction<LBiSrtPredicate, LBiSrtPredicate> selfLambda) {
 		final LBiSrtPredicateSingle single = new LBiSrtPredicateSingle();
-		LBiSrtPredicate func = selfLambda.doApply(single);
+		LBiSrtPredicate func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -346,8 +377,8 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		private LBiSrtPredicate target = null;
 
 		@Override
-		public boolean doTestX(short a1, short a2) throws Throwable {
-			return target.doTestX(a1, a2);
+		public boolean testX(short a1, short a2) throws Throwable {
+			return target.testX(a1, a2);
 		}
 
 		@Override
@@ -357,18 +388,18 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	@Nonnull
-	static LBiSrtPredicate biSrtPredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiSrtPredicate biSrtPredThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBiSrtPredicate biSrtPredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiSrtPredicate biSrtPredThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -385,7 +416,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 	static boolean call(short a1, short a2, final @Nonnull LBiSrtPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1, a2);
+		return lambda.test(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -436,7 +467,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	 */
 	@Nonnull
 	default LBiSrtPredicate negate() {
-		return (a1, a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !test(a1, a2);
 	}
 
 	/**
@@ -446,7 +477,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@Nonnull
 	default LBiSrtPredicate and(@Nonnull LBiSrtPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) && other.test(a1, a2);
 	}
 
 	/**
@@ -456,7 +487,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@Nonnull
 	default LBiSrtPredicate or(@Nonnull LBiSrtPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) || other.test(a1, a2);
 	}
 
 	/**
@@ -466,7 +497,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@Nonnull
 	default LBiSrtPredicate xor(@Nonnull LBiSrtPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) ^ other.test(a1, a2);
 	}
 
 	/**
@@ -484,14 +515,14 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiSrtPredicate biSrtPredComposeSrt(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2) {
+	default LBiSrtPredicate compose(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doApplyAsSrt(v1), before2.doApplyAsSrt(v2));
+		return (v1, v2) -> this.test(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
 	}
 
-	public static LBiSrtPredicate composedSrt(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2, LBiSrtPredicate after) {
-		return after.biSrtPredComposeSrt(before1, before2);
+	public static LBiSrtPredicate composed(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2, LBiSrtPredicate after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -499,7 +530,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default <V1, V2> LBiPredicate<V1, V2> biSrtPredCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doApplyAsSrt(v1), before2.doApplyAsSrt(v2));
+		return (v1, v2) -> this.test(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
 	}
 
 	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2, LBiSrtPredicate after) {
@@ -514,37 +545,26 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@Nonnull
 	default <V> LBiSrtFunction<V> boolToBiSrtFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.apply(this.test(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtBinaryOperator boolToSrtBinaryOp(@Nonnull LBoolToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsSrt(this.doTest(a1, a2));
+		return (a1, a2) -> after.applyAsSrt(this.test(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiSrtPredicate boolToBiSrtPred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.apply(this.test(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiSrtPredicate nestingBiSrtPred() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiSrtPredicate shovingBiSrtPred() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -554,11 +574,11 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@FunctionalInterface
 	interface LSrt1Srt0Pred extends LBiSrtPredicate {
 
-		boolean doTestSrt1Srt0(short a2, short a1);
+		boolean testSrt1Srt0(short a2, short a1);
 
 		@Override
-		default boolean doTestX(short a1, short a2) {
-			return this.doTestSrt1Srt0(a2, a1);
+		default boolean testX(short a1, short a2) {
+			return this.testSrt1Srt0(a2, a1);
 		}
 	}
 
@@ -576,63 +596,75 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return false;
 	}
 
-	// FILTER: FOR, [SourcePurpose{arg=short a1, type=IA}, SourcePurpose{arg=short a2, type=IA}, SourcePurpose{arg=LBiSrtConsumer consumer, type=CONST}]
-	default <C1, C2> void forEach(IndexedRead<C1, aShort> ia1, C1 source1, IndexedRead<C2, aShort> ia2, C2 source2, LBiSrtConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2> void filterForEach(IndexedRead<C1, aShort> ia1, C1 source1, IndexedRead<C2, aShort> ia2, C2 source2, LBiSrtConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToSrtFunction<Object> oiFunc1 = (LOiToSrtFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiToSrtFunction<Object> oiFunc2 = (LOiToSrtFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			short a1 = oiFunc1.doApplyAsSrt(source1, i);
-			short a2 = oiFunc2.doApplyAsSrt(source2, i);
+			short a1 = oiFunc1.applyAsSrt(source1, i);
+			short a2 = oiFunc2.applyAsSrt(source2, i);
 			doIf(a1, a2, consumer);
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=short a1, type=SA}, SourcePurpose{arg=short a2, type=IA}, SourcePurpose{arg=LBiSrtConsumer consumer, type=CONST}]
-	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aShort> sa1, C1 source1, IndexedRead<C2, aShort> ia2, C2 source2, LBiSrtConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, I1, C2> void filterIterate(SequentialRead<C1, I1, aShort> sa1, C1 source1, IndexedRead<C2, aShort> ia2, C2 source2, LBiSrtConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToSrtFunction<Object> nextFunc1 = (LToSrtFunction) sa1.getter();
+		LToSrtFunction<Object> nextFunc1 = (LToSrtFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToSrtFunction<Object> oiFunc2 = (LOiToSrtFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			short a1 = nextFunc1.doApplyAsSrt(iterator1);
-			short a2 = oiFunc2.doApplyAsSrt(source2, i);
+		while (testFunc1.test(iterator1) && i < size) {
+			short a1 = nextFunc1.applyAsSrt(iterator1);
+			short a2 = oiFunc2.applyAsSrt(source2, i);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=short a1, type=IA}, SourcePurpose{arg=short a2, type=SA}, SourcePurpose{arg=LBiSrtConsumer consumer, type=CONST}]
-	default <C1, C2, I2> void iterate(IndexedRead<C1, aShort> ia1, C1 source1, SequentialRead<C2, I2, aShort> sa2, C2 source2, LBiSrtConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, I2> void filterIterate(IndexedRead<C1, aShort> ia1, C1 source1, SequentialRead<C2, I2, aShort> sa2, C2 source2, LBiSrtConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToSrtFunction<Object> oiFunc1 = (LOiToSrtFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToSrtFunction<Object> nextFunc2 = (LToSrtFunction) sa2.getter();
+		LToSrtFunction<Object> nextFunc2 = (LToSrtFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			short a1 = oiFunc1.doApplyAsSrt(source1, i);
-			short a2 = nextFunc2.doApplyAsSrt(iterator2);
+		while (i < size && testFunc2.test(iterator2)) {
+			short a1 = oiFunc1.applyAsSrt(source1, i);
+			short a2 = nextFunc2.applyAsSrt(iterator2);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=short a1, type=SA}, SourcePurpose{arg=short a2, type=SA}, SourcePurpose{arg=LBiSrtConsumer consumer, type=CONST}]
-	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aShort> sa1, C1 source1, SequentialRead<C2, I2, aShort> sa2, C2 source2, LBiSrtConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
+	default <C1, I1, C2, I2> void filterIterate(SequentialRead<C1, I1, aShort> sa1, C1 source1, SequentialRead<C2, I2, aShort> sa2, C2 source2, LBiSrtConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToSrtFunction<Object> nextFunc1 = (LToSrtFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToSrtFunction<Object> nextFunc1 = (LToSrtFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToSrtFunction<Object> nextFunc2 = (LToSrtFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			short a1 = nextFunc1.doApplyAsSrt(iterator1);
-			short a2 = nextFunc2.doApplyAsSrt(iterator2);
+		LToSrtFunction<Object> nextFunc2 = (LToSrtFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			short a1 = nextFunc1.applyAsSrt(iterator1);
+			short a2 = nextFunc2.applyAsSrt(iterator2);
 			doIf(a1, a2, consumer);
 		}
 	}

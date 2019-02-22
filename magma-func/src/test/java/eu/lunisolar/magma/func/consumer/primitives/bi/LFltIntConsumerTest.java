@@ -63,7 +63,7 @@ public class LFltIntConsumerTest {
 
 
     private LFltIntConsumer sut = new LFltIntConsumer(){
-        public  void doAcceptX(float a1,int a2)  {
+        public  void acceptX(float a1,int a2)  {
             LFltIntConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LFltIntConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100f,100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100f,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LFltIntConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100f,100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100f,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LFltIntConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltIntConsumer: void doAccept(float a1,int a2)");
+            .isEqualTo("LFltIntConsumer: void accept(float a1,int a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LFltIntConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testFltIntConsComposeFltInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LFltIntConsumerTest {
         };
 
         //when
-        LFltIntConsumer function = sutO.fltIntConsComposeFltInt(before1,before2);
-        function.doAccept(80f,81);
+        LFltIntConsumer function = sutO.compose(before1,before2);
+        function.accept(80f,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LFltIntConsumerTest {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.fltIntConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LFltIntConsumerTest {
 
         //when
         LFltIntConsumer function = sutO.andThen(thenFunction);
-        function.doAccept(80f,81);
+        function.accept(80f,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingFltIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LFltIntConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingFltIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LFltIntConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LFltIntConsumerTest {
         });
 
         // when
-        sutThrowing.shovingFltIntCons().doAccept(100f,100);
+        sutThrowing.shovingAccept(100f,100);
     }
 
 
@@ -277,7 +263,7 @@ public class LFltIntConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFltIntConsumer: void doAccept(float a1,int a2)");
+                .contains("LFltIntConsumer: void accept(float a1,int a2)");
     }
 
 

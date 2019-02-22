@@ -72,8 +72,8 @@ public class LDblToFltFuncMemento implements LDblToFltFunction {
 	}
 
 	@Override
-	public float doApplyAsFltX(double a) {
-		return lastValue = function.doApplyAsFlt(a);
+	public float applyAsFltX(double a) {
+		return lastValue = function.applyAsFlt(a);
 	}
 
 	public float lastValue() {

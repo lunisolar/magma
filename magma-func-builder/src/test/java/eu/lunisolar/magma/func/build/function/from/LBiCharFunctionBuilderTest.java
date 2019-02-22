@@ -69,7 +69,7 @@ public class LBiCharFunctionBuilderTest<R>{
                 .build()
             );
 
-            function.doApply('\u0100','\u0100');
+            function.apply('\u0100','\u0100');
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiCharFunctionBuilderTest<R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply('\u0100','\u0100');
+            function.apply('\u0100','\u0100');
 
             fail("No exception were thrown.");
         })

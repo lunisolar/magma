@@ -72,156 +72,156 @@ public interface AccessObjIntLongTriple<T> {
 
 	default void useWith(LTieLongConsumer<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	default void useWith(LTieLongConsumer.LObjLongIntCons<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		accessFunction.doAcceptObjLongInt(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.acceptObjLongInt(tuple.first(), tuple.third(), tuple.second());
 	}
 
 	default void useWith(LTieLongConsumer.LIntObjLongCons<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		accessFunction.doAcceptIntObjLong(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.acceptIntObjLong(tuple.second(), tuple.first(), tuple.third());
 	}
 
 	default void useWith(LTieLongConsumer.LIntLongObjCons<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		accessFunction.doAcceptIntLongObj(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.acceptIntLongObj(tuple.second(), tuple.third(), tuple.first());
 	}
 
 	default void useWith(LTieLongConsumer.LLongObjIntCons<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		accessFunction.doAcceptLongObjInt(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.acceptLongObjInt(tuple.third(), tuple.first(), tuple.second());
 	}
 
 	default void useWith(LTieLongConsumer.LLongIntObjCons<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		accessFunction.doAcceptLongIntObj(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.acceptLongIntObj(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default <R> R useWith(LObjIntLongFunction<T, R> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntLongFunction.LObjLongIntFunc<T, R> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		R retval = accessFunction.doApplyObjLongInt(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.applyObjLongInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntLongFunction.LIntObjLongFunc<T, R> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		R retval = accessFunction.doApplyIntObjLong(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.applyIntObjLong(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntLongFunction.LIntLongObjFunc<T, R> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		R retval = accessFunction.doApplyIntLongObj(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.applyIntLongObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntLongFunction.LLongObjIntFunc<T, R> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		R retval = accessFunction.doApplyLongObjInt(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.applyLongObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntLongFunction.LLongIntObjFunc<T, R> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		R retval = accessFunction.doApplyLongIntObj(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.applyLongIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieLongFunction<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		int retval = accessFunction.doApplyAsInt(tuple.first(), tuple.second(), tuple.third());
+		int retval = accessFunction.applyAsInt(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieLongFunction.LObjLongIntToIntFunc<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		int retval = accessFunction.doApplyAsIntObjLongInt(tuple.first(), tuple.third(), tuple.second());
+		int retval = accessFunction.applyAsIntObjLongInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieLongFunction.LIntObjLongToIntFunc<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		int retval = accessFunction.doApplyAsIntIntObjLong(tuple.second(), tuple.first(), tuple.third());
+		int retval = accessFunction.applyAsIntIntObjLong(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieLongFunction.LIntLongObjToIntFunc<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		int retval = accessFunction.doApplyAsIntIntLongObj(tuple.second(), tuple.third(), tuple.first());
+		int retval = accessFunction.applyAsIntIntLongObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieLongFunction.LLongObjIntToIntFunc<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		int retval = accessFunction.doApplyAsIntLongObjInt(tuple.third(), tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntLongObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieLongFunction.LLongIntObjToIntFunc<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		int retval = accessFunction.doApplyAsIntLongIntObj(tuple.third(), tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsIntLongIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntLongPredicate<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second(), tuple.third());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntLongPredicate.LObjLongIntPred<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		boolean retval = accessFunction.doTestObjLongInt(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.testObjLongInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntLongPredicate.LIntObjLongPred<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		boolean retval = accessFunction.doTestIntObjLong(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.testIntObjLong(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntLongPredicate.LIntLongObjPred<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		boolean retval = accessFunction.doTestIntLongObj(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.testIntLongObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntLongPredicate.LLongObjIntPred<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		boolean retval = accessFunction.doTestLongObjInt(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.testLongObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntLongPredicate.LLongIntObjPred<T> accessFunction) {
 		LObjIntLongTriple<T> tuple = accessObjIntLongTriple();
-		boolean retval = accessFunction.doTestLongIntObj(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.testLongIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntLongTriple(tuple);
 		return retval;
 	}

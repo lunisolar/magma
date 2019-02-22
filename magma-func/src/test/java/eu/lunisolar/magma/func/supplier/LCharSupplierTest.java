@@ -65,7 +65,7 @@ public class LCharSupplierTest {
 
 
     private LCharSupplier sut = new LCharSupplier(){
-        public  char doGetAsCharX()  {
+        public  char getAsCharX()  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LCharSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doGetAsChar())
+        assertThat(sut.getAsChar())
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LCharSupplierTest {
     }
 
     @Test
-    public void testNonNullDoGetAsChar() throws Throwable {
-        assertThat(sut.nonNullDoGetAsChar())
+    public void testNonNullGetAsChar() throws Throwable {
+        assertThat(sut.nonNullGetAsChar())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsCharUnchecked() throws Throwable {
+    public void testNestingGetAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoGetAsChar();
+            sutAlwaysThrowingUnchecked.nestingGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LCharSupplierTest {
     }
 
     @Test
-    public void testShovingDoGetAsCharUnchecked() throws Throwable {
+    public void testShovingGetAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoGetAsChar();
+            sutAlwaysThrowingUnchecked.shovingGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LCharSupplierTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharSupplier: char doGetAsChar()");
+            .isEqualTo("LCharSupplier: char getAsChar()");
     }
 
     @Test
@@ -178,7 +178,7 @@ public class LCharSupplierTest {
 
         //when
         LSupplier<Integer> function = sutO.toSup(thenFunction);
-        Integer finalValue = function.doGet();
+        Integer finalValue = function.get();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -211,7 +211,7 @@ public class LCharSupplierTest {
 
         //when
         LByteSupplier function = sutO.toByteSup(thenFunction);
-        byte finalValue = function.doGetAsByte();
+        byte finalValue = function.getAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -244,7 +244,7 @@ public class LCharSupplierTest {
 
         //when
         LSrtSupplier function = sutO.toSrtSup(thenFunction);
-        short finalValue = function.doGetAsSrt();
+        short finalValue = function.getAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -277,7 +277,7 @@ public class LCharSupplierTest {
 
         //when
         LIntSupplier function = sutO.toIntSup(thenFunction);
-        int finalValue = function.doGetAsInt();
+        int finalValue = function.getAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -310,7 +310,7 @@ public class LCharSupplierTest {
 
         //when
         LLongSupplier function = sutO.toLongSup(thenFunction);
-        long finalValue = function.doGetAsLong();
+        long finalValue = function.getAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -343,7 +343,7 @@ public class LCharSupplierTest {
 
         //when
         LFltSupplier function = sutO.toFltSup(thenFunction);
-        float finalValue = function.doGetAsFlt();
+        float finalValue = function.getAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -376,7 +376,7 @@ public class LCharSupplierTest {
 
         //when
         LDblSupplier function = sutO.toDblSup(thenFunction);
-        double finalValue = function.doGetAsDbl();
+        double finalValue = function.getAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -409,7 +409,7 @@ public class LCharSupplierTest {
 
         //when
         LCharSupplier function = sutO.toCharSup(thenFunction);
-        char finalValue = function.doGetAsChar();
+        char finalValue = function.getAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -442,7 +442,7 @@ public class LCharSupplierTest {
 
         //when
         LBoolSupplier function = sutO.toBoolSup(thenFunction);
-        boolean finalValue = function.doGetAsBool();
+        boolean finalValue = function.getAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -455,20 +455,6 @@ public class LCharSupplierTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCharSup())
-            .isSameAs(sut)
-            .isInstanceOf(LCharSupplier.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCharSup())
-            .isSameAs(sut)
-            .isInstanceOf(LCharSupplier.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -479,7 +465,7 @@ public class LCharSupplierTest {
         });
 
         // when
-        sutThrowing.shovingCharSup().doGetAsChar();
+        sutThrowing.shovingGetAsChar();
     }
 
 
@@ -492,7 +478,7 @@ public class LCharSupplierTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharSupplier: char doGetAsChar()");
+                .contains("LCharSupplier: char getAsChar()");
     }
 
 

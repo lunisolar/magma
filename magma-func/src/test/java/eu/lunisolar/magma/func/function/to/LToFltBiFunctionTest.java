@@ -65,7 +65,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
 
     private LToFltBiFunction<Integer,Integer> sut = new LToFltBiFunction<Integer,Integer>(){
-        public  float doApplyAsFltX(Integer a1,Integer a2)  {
+        public  float applyAsFltX(Integer a1,Integer a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsFlt(100,100))
+        assertThat(sut.applyAsFlt(100,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LToFltBiFunctionTest<T1,T2> {
     }
 
     @Test
-    public void testNonNullDoApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsFlt(100,100))
+    public void testNonNullApplyAsFlt() throws Throwable {
+        assertThat(sut.nonNullApplyAsFlt(100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsFltUnchecked() throws Throwable {
+    public void testNestingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsFlt(100,100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsFlt(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LToFltBiFunctionTest<T1,T2> {
     }
 
     @Test
-    public void testShovingDoApplyAsFltUnchecked() throws Throwable {
+    public void testShovingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsFlt(100,100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsFlt(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LToFltBiFunctionTest<T1,T2> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToFltBiFunction: float doApplyAsFlt(T1 a1,T2 a2)");
+            .isEqualTo("LToFltBiFunction: float applyAsFlt(T1 a1,T2 a2)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LToFltBiFunctionTest<T1,T2> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testToFltBiFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -181,8 +181,8 @@ public class LToFltBiFunctionTest<T1,T2> {
         };
 
         //when
-        LToFltBiFunction<Integer,Integer> function = sutO.toFltBiFuncCompose(before1,before2);
-        function.doApplyAsFlt(80,81);
+        LToFltBiFunction<Integer,Integer> function = sutO.compose(before1,before2);
+        function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -219,7 +219,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -254,7 +254,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LToByteBiFunction<Integer,Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80,81);
+        byte finalValue = function.applyAsByte(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -289,7 +289,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LToSrtBiFunction<Integer,Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80,81);
+        short finalValue = function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -324,7 +324,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LToIntBiFunction<Integer,Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -359,7 +359,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LToLongBiFunction<Integer,Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80,81);
+        long finalValue = function.applyAsLong(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -394,7 +394,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LToFltBiFunction<Integer,Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80,81);
+        float finalValue = function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -429,7 +429,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LToDblBiFunction<Integer,Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80,81);
+        double finalValue = function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -464,7 +464,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LToCharBiFunction<Integer,Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80,81);
+        char finalValue = function.applyAsChar(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -499,7 +499,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -512,20 +512,6 @@ public class LToFltBiFunctionTest<T1,T2> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingToFltBiFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToFltBiFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingToFltBiFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToFltBiFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -536,7 +522,7 @@ public class LToFltBiFunctionTest<T1,T2> {
         });
 
         // when
-        sutThrowing.shovingToFltBiFunc().doApplyAsFlt(100,100);
+        sutThrowing.shovingApplyAsFlt(100,100);
     }
 
 
@@ -549,7 +535,7 @@ public class LToFltBiFunctionTest<T1,T2> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToFltBiFunction: float doApplyAsFlt(T1 a1,T2 a2)");
+                .contains("LToFltBiFunction: float applyAsFlt(T1 a1,T2 a2)");
     }
 
 

@@ -72,8 +72,8 @@ public class LSupMemento<T> implements LSupplier<T> {
 	}
 
 	@Override
-	public T doGetX() {
-		return lastValue = function.doGet();
+	public T getX() {
+		return lastValue = function.get();
 	}
 
 	public T lastValue() {

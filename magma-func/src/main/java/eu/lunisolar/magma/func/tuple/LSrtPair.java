@@ -34,34 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiSrtConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtPair extends LTuple<Short> {
+public interface LSrtPair extends LTuple<Object>, LSrtSingle {
 
 	int SIZE = 2;
 
 	short first();
 
-	short second();
-
-	default short getFirst() {
+	default short value() {
 		return first();
 	}
 
-	default short getSecond() {
-		return second();
-	}
+	short second();
 
-	default Short get(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default short getShort(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -110,69 +95,8 @@ public interface LSrtPair extends LTuple<Short> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Short[] toVoArray(Short[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Short[] toVoArray(Short[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Short[] toVoArray() {
-		Short[] array = new Short[size()];
-
-		return toVoArray(array);
-	}
-
-	default short[] toSrtArray(short[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default short[] toSrtArray(short[] array) {
-		return toSrtArray(array, 0);
-	}
-
-	default short[] toSrtArray() {
-		short[] array = new short[size()];
-
-		return toSrtArray(array);
-	}
-
-	@Override
-	default Iterator<Short> iterator() {
-		return new Iterator<Short>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -182,27 +106,9 @@ public interface LSrtPair extends LTuple<Short> {
 			}
 
 			@Override
-			public Short next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public int nextInt() {
-				index++;
-				return getShort(index);
 			}
 		};
 	}
@@ -237,9 +143,9 @@ public interface LSrtPair extends LTuple<Short> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -292,7 +198,7 @@ public interface LSrtPair extends LTuple<Short> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutSrtPair setFirstIfArg(short first, LSrtPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -301,14 +207,14 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutSrtPair setFirstIfArgNotNull(R arg, LToSrtFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsSrt(arg);
+				this.first = func.applyAsSrt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutSrtPair setFirstIf(LSrtPredicate predicate, short first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -317,7 +223,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutSrtPair setFirstIf(short first, LBiSrtPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -326,7 +232,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutSrtPair setFirstIf(LBiSrtPredicate predicate, short first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -339,7 +245,7 @@ public interface LSrtPair extends LTuple<Short> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutSrtPair setSecondIfArg(short second, LSrtPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -348,14 +254,14 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutSrtPair setSecondIfArgNotNull(R arg, LToSrtFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsSrt(arg);
+				this.second = func.applyAsSrt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutSrtPair setSecondIf(LSrtPredicate predicate, short second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -364,7 +270,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutSrtPair setSecondIf(short second, LBiSrtPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -373,7 +279,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutSrtPair setSecondIf(LBiSrtPredicate predicate, short second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -431,7 +337,7 @@ public interface LSrtPair extends LTuple<Short> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompSrtPair setFirstIfArg(short first, LSrtPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -440,14 +346,14 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompSrtPair setFirstIfArgNotNull(R arg, LToSrtFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsSrt(arg);
+				this.first = func.applyAsSrt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompSrtPair setFirstIf(LSrtPredicate predicate, short first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -456,7 +362,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompSrtPair setFirstIf(short first, LBiSrtPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -465,7 +371,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompSrtPair setFirstIf(LBiSrtPredicate predicate, short first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -478,7 +384,7 @@ public interface LSrtPair extends LTuple<Short> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompSrtPair setSecondIfArg(short second, LSrtPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -487,14 +393,14 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompSrtPair setSecondIfArgNotNull(R arg, LToSrtFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsSrt(arg);
+				this.second = func.applyAsSrt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompSrtPair setSecondIf(LSrtPredicate predicate, short second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -503,7 +409,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompSrtPair setSecondIf(short second, LBiSrtPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -512,7 +418,7 @@ public interface LSrtPair extends LTuple<Short> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompSrtPair setSecondIf(LBiSrtPredicate predicate, short second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;

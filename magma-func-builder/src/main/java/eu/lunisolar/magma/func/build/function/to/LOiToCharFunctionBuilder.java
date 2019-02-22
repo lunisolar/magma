@@ -80,8 +80,10 @@ public final class LOiToCharFunctionBuilder<T> extends PerCaseBuilderWithCharPro
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LOiToCharFunction<T> oiToCharFunctionFrom(Function<LOiToCharFunctionBuilder<T>, LOiToCharFunction<T>> buildingFunction) {
-		return buildingFunction.apply(new LOiToCharFunctionBuilder());
+	public static <T> LOiToCharFunction<T> oiToCharFunctionFrom(Consumer<LOiToCharFunctionBuilder<T>> buildingFunction) {
+		LOiToCharFunctionBuilder builder = new LOiToCharFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LOiToCharFunctionBuilder<T> extends PerCaseBuilderWithCharPro
 		retval = LOiToCharFunction.<T> oiToCharFunc((a1, a2) -> {
 			try {
 				for (Case<LObjIntPredicate<T>, LOiToCharFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doApplyAsChar(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().applyAsChar(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsChar(a1, a2);
+				return eventuallyFinal.applyAsChar(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

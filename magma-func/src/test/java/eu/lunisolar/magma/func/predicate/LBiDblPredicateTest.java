@@ -65,7 +65,7 @@ public class LBiDblPredicateTest {
 
 
     private LBiDblPredicate sut = new LBiDblPredicate(){
-        public  boolean doTestX(double a1,double a2)  {
+        public  boolean testX(double a1,double a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBiDblPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100d,100d))
+        assertThat(sut.test(100d,100d))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBiDblPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100d,100d))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100d,100d))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100d,100d);
+            sutAlwaysThrowingUnchecked.nestingTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBiDblPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100d,100d);
+            sutAlwaysThrowingUnchecked.shovingTest(100d,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiDblPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiDblPredicate: boolean doTest(double a1,double a2)");
+            .isEqualTo("LBiDblPredicate: boolean test(double a1,double a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LBiDblPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100d,100d))
+        assertThat(sut.negate().test(100d,100d))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LBiDblPredicateTest {
         LBiDblPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100d,100d))
+        assertThat(andFunction.test(100d,100d))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100d,100d))
+        assertThat(orFunction.test(100d,100d))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100d,100d))
+        assertThat(xorFunction.test(100d,100d))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LBiDblPredicateTest {
         LBiDblPredicate equals = LBiDblPredicate.isEqual(1d,1d);
 
         //then
-        assertThat(equals.doTest(1d,1d))
+        assertThat(equals.test(1d,1d))
                 .isTrue();
 
-        assertThat(equals.doTest(0d,0d))
+        assertThat(equals.test(0d,0d))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LBiDblPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiDblPredComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LBiDblPredicateTest {
         };
 
         //when
-        LBiDblPredicate function = sutO.biDblPredComposeDbl(before1,before2);
-        function.doTest(80d,81d);
+        LBiDblPredicate function = sutO.compose(before1,before2);
+        function.test(80d,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LBiDblPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.biDblPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LBiDblPredicateTest {
 
         //when
         LBiDblFunction<Integer> function = sutO.boolToBiDblFunc(thenFunction);
-        Integer finalValue = function.doApply(80d,81d);
+        Integer finalValue = function.apply(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LBiDblPredicateTest {
 
         //when
         LDblBinaryOperator function = sutO.boolToDblBinaryOp(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d,81d);
+        double finalValue = function.applyAsDbl(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -384,7 +384,7 @@ public class LBiDblPredicateTest {
 
         //when
         LBiDblPredicate function = sutO.boolToBiDblPred(thenFunction);
-        boolean finalValue = function.doTest(80d,81d);
+        boolean finalValue = function.test(80d,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -397,20 +397,6 @@ public class LBiDblPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiDblPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiDblPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiDblPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiDblPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -421,7 +407,7 @@ public class LBiDblPredicateTest {
         });
 
         // when
-        sutThrowing.shovingBiDblPred().doTest(100d,100d);
+        sutThrowing.shovingTest(100d,100d);
     }
 
 
@@ -434,7 +420,7 @@ public class LBiDblPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiDblPredicate: boolean doTest(double a1,double a2)");
+                .contains("LBiDblPredicate: boolean test(double a1,double a2)");
     }
 
 

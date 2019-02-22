@@ -89,8 +89,8 @@ public class LTieCharFuncDelta<T> extends LTieCharFuncMemento<T> {
 	}
 
 	@Override
-	public int doApplyAsInt(T a1, int a2, char a3) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a1, a2, a3));
+	public int applyAsInt(T a1, int a2, char a3) {
+		return deltaFunction.applyAsInt(lastValue(), super.applyAsInt(a1, a2, a3));
 	}
 
 	// <editor-fold desc="object">

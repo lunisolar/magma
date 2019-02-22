@@ -80,13 +80,12 @@ public interface JreDoubleToIntFunctionAssert<S extends JreDoubleToIntFunctionAs
 		@Nonnull
 		public Evaluation<S, LDblConsumer, A, RS, Integer> doesApplyAsInt(double a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.applyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

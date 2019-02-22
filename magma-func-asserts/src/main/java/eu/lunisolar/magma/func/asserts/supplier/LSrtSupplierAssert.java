@@ -82,13 +82,12 @@ public interface LSrtSupplierAssert<S extends LSrtSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Short> doesGetAsSrt() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGetAsSrt());
+				return assertFactory.apply(actual.getAsSrt());
 			});
-
 		}
 
 		@Nonnull

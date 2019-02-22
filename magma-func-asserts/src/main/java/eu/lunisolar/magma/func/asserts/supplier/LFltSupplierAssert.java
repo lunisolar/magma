@@ -82,13 +82,12 @@ public interface LFltSupplierAssert<S extends LFltSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Float> doesGetAsFlt() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGetAsFlt());
+				return assertFactory.apply(actual.getAsFlt());
 			});
-
 		}
 
 		@Nonnull

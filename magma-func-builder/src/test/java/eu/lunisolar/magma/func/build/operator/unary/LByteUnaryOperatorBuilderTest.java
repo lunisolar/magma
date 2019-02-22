@@ -69,7 +69,7 @@ public class LByteUnaryOperatorBuilderTest{
                 .build()
             );
 
-            function.doApplyAsByte((byte)100);
+            function.applyAsByte((byte)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LByteUnaryOperatorBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsByte((byte)100);
+            function.applyAsByte((byte)100);
 
             fail("No exception were thrown.");
         })

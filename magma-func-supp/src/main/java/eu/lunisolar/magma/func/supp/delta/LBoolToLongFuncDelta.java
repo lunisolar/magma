@@ -89,8 +89,8 @@ public class LBoolToLongFuncDelta extends LBoolToLongFuncMemento {
 	}
 
 	@Override
-	public long doApplyAsLong(boolean a) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
+	public long applyAsLong(boolean a) {
+		return deltaFunction.applyAsLong(lastValue(), super.applyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

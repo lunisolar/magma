@@ -77,8 +77,8 @@ public class LSrtFuncDelta<R> extends LSrtFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(short a) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a));
+	public R apply(short a) {
+		return deltaFunction.apply(lastValue(), super.apply(a));
 	}
 
 	// <editor-fold desc="object">

@@ -82,13 +82,12 @@ public interface LDblSupplierAssert<S extends LDblSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Double> doesGetAsDbl() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGetAsDbl());
+				return assertFactory.apply(actual.getAsDbl());
 			});
-
 		}
 
 		@Nonnull

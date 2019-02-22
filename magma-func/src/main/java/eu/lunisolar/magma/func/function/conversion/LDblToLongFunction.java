@@ -66,141 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, MetaInterface.NonThrowing, Codomain<aLong>, Domain1<aDouble> { // NOSONAR
 
-	String DESCRIPTION = "LDblToLongFunction: long doApplyAsLong(double a)";
+	String DESCRIPTION = "LDblToLongFunction: long applyAsLong(double a)";
 
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LDblToLongFunction interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
+	// long applyAsLong(double a) ;
 	default long applyAsLong(double a) {
-		return this.doApplyAsLong(a);
-	}
-
-	// long doApplyAsLong(double a) ;
-	default long doApplyAsLong(double a) {
-		// return nestingDoApplyAsLong(a);
+		// return nestingApplyAsLong(a);
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsLong(double a)
+	 * Implement this, but call applyAsLong(double a)
 	 */
-	long doApplyAsLongX(double a) throws Throwable;
+	long applyAsLongX(double a) throws Throwable;
 
 	default long tupleApplyAsLong(LDblSingle args) {
-		return doApplyAsLong(args.value());
+		return applyAsLong(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default long handlingDoApplyAsLong(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default long handlingApplyAsLong(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default long tryDoApplyAsLong(double a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LDblToLongFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsLong(a, handling);
+	}
+
+	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default long tryDoApplyAsLong(double a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LDblToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsLong(a, exF, newMessage, messageParams);
+	}
+
+	default long applyAsLong(double a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default long tryDoApplyAsLongThen(double a, @Nonnull LToLongFunction<Throwable> handler) {
+	default LDblToLongFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsLong(a, exF);
+	}
+
+	default long applyAsLongThen(double a, @Nonnull LToLongFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsLong(e);
+			return handler.applyAsLong(e);
 		}
+	}
+
+	default LDblToLongFunction tryingThen(@Nonnull LToLongFunction<Throwable> handler) {
+		return a -> applyAsLongThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default long nestingDoApplyAsLong(double a) {
+	default long nestingApplyAsLong(double a) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(double a) {
+	default long shovingApplyAsLong(double a) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static long handlingDoApplyAsLong(double a, LDblToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingApplyAsLong(double a, LDblToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsLong(a, handling);
+		return func.handlingApplyAsLong(a, handling);
 	}
 
-	static long tryDoApplyAsLong(double a, LDblToLongFunction func) {
-		return tryDoApplyAsLong(a, func, null);
-	}
-
-	static long tryDoApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static long tryApplyAsLong(double a, LDblToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLong(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsLong(a);
 	}
 
-	static long tryDoApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLong(a, exceptionFactory);
+		return func.applyAsLong(a, exF, newMessage, messageParams);
 	}
 
-	static long tryDoApplyAsLongThen(double a, LDblToLongFunction func, @Nonnull LToLongFunction<Throwable> handler) {
+	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLongThen(a, handler);
+		return func.applyAsLong(a, exF);
 	}
 
-	default long failSafeDoApplyAsLong(double a, @Nonnull LDblToLongFunction failSafe) {
+	static long tryApplyAsLongThen(double a, LDblToLongFunction func, @Nonnull LToLongFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLongThen(a, handler);
+	}
+
+	default long failSafeApplyAsLong(double a, @Nonnull LDblToLongFunction failSafe) {
 		try {
-			return doApplyAsLong(a);
+			return applyAsLong(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsLong(a);
+			return failSafe.applyAsLong(a);
 		}
 	}
 
-	static long failSafeDoApplyAsLong(double a, LDblToLongFunction func, @Nonnull LDblToLongFunction failSafe) {
+	static long failSafeApplyAsLong(double a, LDblToLongFunction func, @Nonnull LDblToLongFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsLong(a);
+			return failSafe.applyAsLong(a);
 		} else {
-			return func.failSafeDoApplyAsLong(a, failSafe);
+			return func.failSafeApplyAsLong(a, failSafe);
 		}
 	}
 
-	static LDblToLongFunction failSafeDblToLongFunc(LDblToLongFunction func, @Nonnull LDblToLongFunction failSafe) {
+	static LDblToLongFunction failSafe(LDblToLongFunction func, @Nonnull LDblToLongFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsLong(a, func, failSafe);
+		return a -> failSafeApplyAsLong(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(double a) {
-		return doApplyAsLong(a);
+	default long nonNullApplyAsLong(double a) {
+		return applyAsLong(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -212,13 +219,13 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, double a, LDblToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		}
 	}
@@ -226,25 +233,27 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, double a, LDblToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, double a, LDblToLongFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureDblToLongFunc(double a) {
-		return () -> this.doApplyAsLong(a);
+	default LLongSupplier capture(double a) {
+		return () -> this.applyAsLong(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -262,7 +271,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	@Nonnull
 	static LDblToLongFunction recursive(final @Nonnull LFunction<LDblToLongFunction, LDblToLongFunction> selfLambda) {
 		final LDblToLongFunctionSingle single = new LDblToLongFunctionSingle();
-		LDblToLongFunction func = selfLambda.doApply(single);
+		LDblToLongFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -271,8 +280,8 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		private LDblToLongFunction target = null;
 
 		@Override
-		public long doApplyAsLongX(double a) throws Throwable {
-			return target.doApplyAsLongX(a);
+		public long applyAsLongX(double a) throws Throwable {
+			return target.applyAsLongX(a);
 		}
 
 		@Override
@@ -282,24 +291,24 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	}
 
 	@Nonnull
-	static LDblToLongFunction dblToLongFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToLongFunction dblToLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LDblToLongFunction dblToLongFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToLongFunction dblToLongFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static long call(double a, final @Nonnull LDblToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsLong(a);
+		return lambda.applyAsLong(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -351,20 +360,20 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDblToLongFunction dblToLongFuncComposeDbl(@Nonnull final LDblUnaryOperator before) {
+	default LDblToLongFunction compose(@Nonnull final LDblUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsLong(before.doApplyAsDbl(v));
+		return v -> this.applyAsLong(before.applyAsDbl(v));
 	}
 
-	public static LDblToLongFunction composedDbl(@Nonnull final LDblUnaryOperator before, LDblToLongFunction after) {
-		return after.dblToLongFuncComposeDbl(before);
+	public static LDblToLongFunction composed(@Nonnull final LDblUnaryOperator before, LDblToLongFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToLongFunction<V> dblToLongFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsLong(before.doApplyAsDbl(v));
+		return v -> this.applyAsLong(before.applyAsDbl(v));
 	}
 
 	public static <V> LToLongFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToLongFunction after) {
@@ -379,79 +388,68 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	@Nonnull
 	default <V> LDblFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsLong(a));
+		return a -> after.apply(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsLong(a));
+		return a -> after.applyAsByte(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToSrtFunction thenToSrt(@Nonnull LLongToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsLong(a));
+		return a -> after.applyAsSrt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsLong(a));
+		return a -> after.applyAsInt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsLong(a));
+		return a -> after.applyAsLong(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToFltFunction thenToFlt(@Nonnull LLongToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsLong(a));
+		return a -> after.applyAsFlt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblUnaryOperator thenToDbl(@Nonnull LLongToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsLong(a));
+		return a -> after.applyAsDbl(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsLong(a));
+		return a -> after.applyAsChar(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblPredicate thenToBool(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsLong(a));
+		return a -> after.test(this.applyAsLong(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LDblToLongFunction nestingDblToLongFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDblToLongFunction shovingDblToLongFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -460,25 +458,31 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		return Function4U.defaultLong;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=double a, type=IA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aDouble> ia, C0 source, LLongConsumer consumer) {
 		int size = ia.size(source);
 		LOiToDblFunction<Object> oiFunc0 = (LOiToDblFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			double a = oiFunc0.doApplyAsDbl(source, i);
-			consumer.doAccept(this.doApplyAsLong(a));
+			double a = oiFunc0.applyAsDbl(source, i);
+			consumer.accept(this.applyAsLong(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=double a, type=SA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aDouble> sa, C0 source, LLongConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			double a = nextFunc0.doApplyAsDbl(iterator0);
-			consumer.doAccept(this.doApplyAsLong(a));
+		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			double a = nextFunc0.applyAsDbl(iterator0);
+			consumer.accept(this.applyAsLong(a));
 		}
 	}
 

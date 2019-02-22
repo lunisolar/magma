@@ -66,167 +66,196 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain3<a<T1>, a<T2>, aBool> { // NOSONAR
 
-	String DESCRIPTION = "LBiObjBoolPredicate: boolean doTest(T1 a1,T2 a2,boolean a3)";
+	String DESCRIPTION = "LBiObjBoolPredicate: boolean test(T1 a1,T2 a2,boolean a3)";
 
-	// boolean doTest(T1 a1,T2 a2,boolean a3) ;
-	default boolean doTest(T1 a1, T2 a2, boolean a3) {
-		// return nestingDoTest(a1,a2,a3);
+	// boolean test(T1 a1,T2 a2,boolean a3) ;
+	default boolean test(T1 a1, T2 a2, boolean a3) {
+		// return nestingTest(a1,a2,a3);
 		try {
-			return this.doTestX(a1, a2, a3);
+			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doTest(T1 a1,T2 a2,boolean a3)
+	 * Implement this, but call test(T1 a1,T2 a2,boolean a3)
 	 */
-	boolean doTestX(T1 a1, T2 a2, boolean a3) throws Throwable;
+	boolean testX(T1 a1, T2 a2, boolean a3) throws Throwable;
 
 	default boolean tupleTest(LBiObjBoolTriple<T1, T2> args) {
-		return doTest(args.first(), args.second(), args.third());
+		return test(args.first(), args.second(), args.third());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoTest(T1 a1, T2 a2, boolean a3, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingTest(T1 a1, T2 a2, boolean a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doTestX(a1, a2, a3);
+			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoTest(T1 a1, T2 a2, boolean a3, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiObjBoolPredicate<T1, T2> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2, a3) -> handlingTest(a1, a2, a3, handling);
+	}
+
+	default boolean test(T1 a1, T2 a2, boolean a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doTestX(a1, a2, a3);
+			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoTest(T1 a1, T2 a2, boolean a3, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiObjBoolPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage, messageParams);
+	}
+
+	default boolean test(T1 a1, T2 a2, boolean a3, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doTestX(a1, a2, a3);
+			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoTestThen(T1 a1, T2 a2, boolean a3, @Nonnull LPredicate<Throwable> handler) {
+	default LBiObjBoolPredicate<T1, T2> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2, a3) -> test(a1, a2, a3, exF);
+	}
+
+	default boolean testThen(T1 a1, T2 a2, boolean a3, @Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doTestX(a1, a2, a3);
+			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LBiObjBoolPredicate<T1, T2> tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return (a1, a2, a3) -> testThen(a1, a2, a3, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(T1 a1, T2 a2, boolean a3) {
+	default boolean nestingTest(T1 a1, T2 a2, boolean a3) {
 		try {
-			return this.doTestX(a1, a2, a3);
+			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoTest(T1 a1, T2 a2, boolean a3) {
+	default boolean shovingTest(T1 a1, T2 a2, boolean a3) {
 		try {
-			return this.doTestX(a1, a2, a3);
+			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <T1, T2> boolean handlingDoTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2> boolean handlingTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoTest(a1, a2, a3, handling);
+		return func.handlingTest(a1, a2, a3, handling);
 	}
 
-	static <T1, T2> boolean tryDoTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func) {
-		return tryDoTest(a1, a2, a3, func, null);
-	}
-
-	static <T1, T2> boolean tryDoTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, a3, exceptionFactory, newMessage, messageParams);
+		return func.nestingTest(a1, a2, a3);
 	}
 
-	static <T1, T2> boolean tryDoTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, a3, exceptionFactory);
+		return func.test(a1, a2, a3, exF, newMessage, messageParams);
 	}
 
-	static <T1, T2> boolean tryDoTestThen(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull LPredicate<Throwable> handler) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTestThen(a1, a2, a3, handler);
+		return func.test(a1, a2, a3, exF);
 	}
 
-	default boolean failSafeDoTest(T1 a1, T2 a2, boolean a3, @Nonnull LBiObjBoolPredicate<T1, T2> failSafe) {
+	static <T1, T2> boolean tryTestThen(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.testThen(a1, a2, a3, handler);
+	}
+
+	default boolean failSafeTest(T1 a1, T2 a2, boolean a3, @Nonnull LBiObjBoolPredicate<T1, T2> failSafe) {
 		try {
-			return doTest(a1, a2, a3);
+			return test(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doTest(a1, a2, a3);
+			return failSafe.test(a1, a2, a3);
 		}
 	}
 
-	static <T1, T2> boolean failSafeDoTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull LBiObjBoolPredicate<T1, T2> failSafe) {
+	static <T1, T2> boolean failSafeTest(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func, @Nonnull LBiObjBoolPredicate<T1, T2> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doTest(a1, a2, a3);
+			return failSafe.test(a1, a2, a3);
 		} else {
-			return func.failSafeDoTest(a1, a2, a3, failSafe);
+			return func.failSafeTest(a1, a2, a3, failSafe);
 		}
 	}
 
-	static <T1, T2> LBiObjBoolPredicate<T1, T2> failSafeBiObjBoolPred(LBiObjBoolPredicate<T1, T2> func, @Nonnull LBiObjBoolPredicate<T1, T2> failSafe) {
+	static <T1, T2> LBiObjBoolPredicate<T1, T2> failSafe(LBiObjBoolPredicate<T1, T2> func, @Nonnull LBiObjBoolPredicate<T1, T2> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeDoTest(a1, a2, a3, func, failSafe);
+		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
 	}
 
 	default boolean doIf(T1 a1, T2 a2, boolean a3, LAction action) {
-		if (doTest(a1, a2, a3)) {
-			action.doExecute();
+		Null.nonNullArg(action, "action");
+		if (test(a1, a2, a3)) {
+			action.execute();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	default boolean doIf(T1 a1, T2 a2, boolean a3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
-		if (doTest(a1, a2, a3)) {
-			consumer.doAccept(a1, a2, a3);
+	static <T1, T2> boolean doIf(T1 a1, T2 a2, boolean a3, @Nonnull LBiObjBoolPredicate<T1, T2> predicate, @Nonnull LAction action) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, a3, action);
+	}
+
+	static <T1, T2> boolean doIf(T1 a1, T2 a2, boolean a3, @Nonnull LBiObjBoolPredicate<T1, T2> predicate, @Nonnull LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, a3, consumer);
+	}
+
+	default boolean doIf(T1 a1, T2 a2, boolean a3, @Nonnull LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a1, a2, a3)) {
+			consumer.accept(a1, a2, a3);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	static <T1, T2> void throwIf(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.doTest(a1, a2, a3)) {
+	static <T1, T2> void throwIf(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
-	static <T1, T2> void throwIfNot(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.doTest(a1, a2, a3)) {
+	static <T1, T2> void throwIfNot(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(T1 a1, T2 a2, boolean a3) {
-		return doTest(a1, a2, a3);
+	default boolean nonNullTest(T1 a1, T2 a2, boolean a3) {
+		return test(a1, a2, a3);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 a1, T2 a2, boolean a3) {
-		return doTest(a1, a2, a3);
+		return test(a1, a2, a3);
 	}
 
 	/** Returns description of the functional interface. */
@@ -238,13 +267,13 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doTest(a1, a2, a3);
+				func.test(a1, a2, a3);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doTest(a1, a2, a3);
+				func.test(a1, a2, a3);
 			}
 		}
 	}
@@ -252,28 +281,30 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doTest(a1, a2, a3);
+				func.test(a1, a2, a3);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doTest(a1, a2, a3);
+				func.test(a1, a2, a3);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	public default LObjBoolPredicate<T2> lShrink(LObjBoolFunction<T2, T1> left) {
-		return (a2, a3) -> doTest(left.doApply(a2, a3), a2, a3);
+		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
 
 	public default LObjBoolPredicate<T2> lShrinkc(T1 a1) {
-		return (a2, a3) -> doTest(a1, a2, a3);
+		return (a2, a3) -> test(a1, a2, a3);
 	}
 
 	public static <T2, T1> LObjBoolPredicate<T2> lShrinked(LObjBoolFunction<T2, T1> left, LBiObjBoolPredicate<T1, T2> func) {
@@ -285,11 +316,11 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	public default LBiPredicate<T1, T2> rShrink(LBiPredicate<T1, T2> right) {
-		return (a1, a2) -> doTest(a1, a2, right.doTest(a1, a2));
+		return (a1, a2) -> test(a1, a2, right.test(a1, a2));
 	}
 
 	public default LBiPredicate<T1, T2> rShrinkc(boolean a3) {
-		return (a1, a2) -> doTest(a1, a2, a3);
+		return (a1, a2) -> test(a1, a2, a3);
 	}
 
 	public static <T1, T2> LBiPredicate<T1, T2> rShrinked(LBiPredicate<T1, T2> right, LBiObjBoolPredicate<T1, T2> func) {
@@ -301,13 +332,28 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/**  */
-	public static <T1, T2> LBiObjBoolPredicate<T1, T2> uncurryBiObjBoolPred(LFunction<T1, LFunction<T2, LLogicalOperator>> func) {
-		return (T1 a1, T2 a2, boolean a3) -> func.doApply(a1).doApply(a2).doApply(a3);
+	public static <T1, T2> LBiObjBoolPredicate<T1, T2> uncurry(LFunction<T1, LFunction<T2, LLogicalOperator>> func) {
+		return (T1 a1, T2 a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
+	}
+
+	/** Cast that removes generics. */
+	public default LBiObjBoolPredicate untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2, V3> LBiObjBoolPredicate<V2, V3> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, V3, T1, T2> LBiObjBoolPredicate<V2, V3> cast(LBiObjBoolPredicate<T1, T2> function) {
+		return (LBiObjBoolPredicate) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiObjBoolPred(T1 a1, T2 a2, boolean a3) {
-		return () -> this.doTest(a1, a2, a3);
+	default LBoolSupplier capture(T1 a1, T2 a2, boolean a3) {
+		return () -> this.test(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -318,19 +364,19 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjBoolPredicate<T1, T2> test1st(@Nonnull LPredicate<T1> func) {
-		return (a1, a2, a3) -> func.doTest(a1);
+		return (a1, a2, a3) -> func.test(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjBoolPredicate<T1, T2> test2nd(@Nonnull LPredicate<T2> func) {
-		return (a1, a2, a3) -> func.doTest(a2);
+		return (a1, a2, a3) -> func.test(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjBoolPredicate<T1, T2> test3rd(@Nonnull LLogicalOperator func) {
-		return (a1, a2, a3) -> func.doApply(a3);
+		return (a1, a2, a3) -> func.apply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -343,7 +389,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	@Nonnull
 	static <T1, T2> LBiObjBoolPredicate<T1, T2> recursive(final @Nonnull LFunction<LBiObjBoolPredicate<T1, T2>, LBiObjBoolPredicate<T1, T2>> selfLambda) {
 		final LBiObjBoolPredicateSingle<T1, T2> single = new LBiObjBoolPredicateSingle();
-		LBiObjBoolPredicate<T1, T2> func = selfLambda.doApply(single);
+		LBiObjBoolPredicate<T1, T2> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -352,8 +398,8 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		private LBiObjBoolPredicate<T1, T2> target = null;
 
 		@Override
-		public boolean doTestX(T1 a1, T2 a2, boolean a3) throws Throwable {
-			return target.doTestX(a1, a2, a3);
+		public boolean testX(T1 a1, T2 a2, boolean a3) throws Throwable {
+			return target.testX(a1, a2, a3);
 		}
 
 		@Override
@@ -363,18 +409,18 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	@Nonnull
-	static <T1, T2> LBiObjBoolPredicate<T1, T2> biObjBoolPredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T1, T2> LBiObjBoolPredicate<T1, T2> biObjBoolPredThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <T1, T2> LBiObjBoolPredicate<T1, T2> biObjBoolPredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T1, T2> LBiObjBoolPredicate<T1, T2> biObjBoolPredThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -382,35 +428,35 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LObjBoolObj1Pred<T1, T2> objBoolObj1Pred(final @Nonnull LObjBoolObj1Pred<T1, T2> lambda) {
+	static <T1, T2> LObj0Bool2Obj1Pred<T1, T2> obj0Bool2Obj1Pred(final @Nonnull LObj0Bool2Obj1Pred<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Obj0BoolPred<T2, T1> obj1Obj0BoolPred(final @Nonnull LObj1Obj0BoolPred<T2, T1> lambda) {
+	static <T2, T1> LObj1Obj0Bool2Pred<T2, T1> obj1Obj0Bool2Pred(final @Nonnull LObj1Obj0Bool2Pred<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1BoolObj0Pred<T2, T1> obj1BoolObj0Pred(final @Nonnull LObj1BoolObj0Pred<T2, T1> lambda) {
+	static <T2, T1> LObj1Bool2Obj0Pred<T2, T1> obj1Bool2Obj0Pred(final @Nonnull LObj1Bool2Obj0Pred<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LBoolObj0Obj1Pred<T1, T2> boolObj0Obj1Pred(final @Nonnull LBoolObj0Obj1Pred<T1, T2> lambda) {
+	static <T1, T2> LBool2Obj0Obj1Pred<T1, T2> bool2Obj0Obj1Pred(final @Nonnull LBool2Obj0Obj1Pred<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LBoolObjObj0Pred<T2, T1> boolObjObj0Pred(final @Nonnull LBoolObjObj0Pred<T2, T1> lambda) {
+	static <T2, T1> LBool2Obj1Obj0Pred<T2, T1> bool2Obj1Obj0Pred(final @Nonnull LBool2Obj1Obj0Pred<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -419,7 +465,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	static <T1, T2> boolean call(T1 a1, T2 a2, boolean a3, final @Nonnull LBiObjBoolPredicate<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1, a2, a3);
+		return lambda.test(a1, a2, a3);
 	}
 
 	// <editor-fold desc="wrap">
@@ -470,7 +516,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	 */
 	@Nonnull
 	default LBiObjBoolPredicate<T1, T2> negate() {
-		return (a1, a2, a3) -> !doTest(a1, a2, a3);
+		return (a1, a2, a3) -> !test(a1, a2, a3);
 	}
 
 	/**
@@ -480,7 +526,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	@Nonnull
 	default LBiObjBoolPredicate<T1, T2> and(@Nonnull LBiObjBoolPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2, a3) -> doTest(a1, a2, a3) && other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> test(a1, a2, a3) && other.test(a1, a2, a3);
 	}
 
 	/**
@@ -490,7 +536,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	@Nonnull
 	default LBiObjBoolPredicate<T1, T2> or(@Nonnull LBiObjBoolPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2, a3) -> doTest(a1, a2, a3) || other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> test(a1, a2, a3) || other.test(a1, a2, a3);
 	}
 
 	/**
@@ -500,7 +546,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	@Nonnull
 	default LBiObjBoolPredicate<T1, T2> xor(@Nonnull LBiObjBoolPredicate<? super T1, ? super T2> other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2, a3) -> doTest(a1, a2, a3) ^ other.doTest(a1, a2, a3);
+		return (a1, a2, a3) -> test(a1, a2, a3) ^ other.test(a1, a2, a3);
 	}
 
 	/**
@@ -518,16 +564,16 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjBoolPredicate<V1, V2> biObjBoolPredComposeBool(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLogicalOperator before3) {
+	default <V1, V2> LBiObjBoolPredicate<V1, V2> compose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLogicalOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.test(before1.apply(v1), before2.apply(v2), before3.apply(v3));
 	}
 
-	public static <V1, V2, T1, T2> LBiObjBoolPredicate<V1, V2> composedBool(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLogicalOperator before3,
+	public static <V1, V2, T1, T2> LBiObjBoolPredicate<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLogicalOperator before3,
 			LBiObjBoolPredicate<T1, T2> after) {
-		return after.biObjBoolPredComposeBool(before1, before2, before3);
+		return after.compose(before1, before2, before3);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -536,7 +582,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doTest(v3));
+		return (v1, v2, v3) -> this.test(before1.apply(v1), before2.apply(v2), before3.test(v3));
 	}
 
 	public static <V1, V2, V3, T1, T2> LTriPredicate<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LPredicate<? super V3> before3,
@@ -552,30 +598,19 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	@Nonnull
 	default <V> LBiObjBoolFunction<T1, T2, V> boolToBiObjBoolFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
+		return (a1, a2, a3) -> after.apply(this.test(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiObjBoolPredicate<T1, T2> boolToBiObjBoolPred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doApply(this.doTest(a1, a2, a3));
+		return (a1, a2, a3) -> after.apply(this.test(a1, a2, a3));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiObjBoolPredicate<T1, T2> nestingBiObjBoolPred() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjBoolPredicate<T1, T2> shovingBiObjBoolPred() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -583,61 +618,61 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface LObjBoolObj1Pred<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
+	interface LObj0Bool2Obj1Pred<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean doTestObjBoolObj1(T1 a1, boolean a3, T2 a2);
+		boolean testObj0Bool2Obj1(T1 a1, boolean a3, T2 a2);
 
 		@Override
-		default boolean doTestX(T1 a1, T2 a2, boolean a3) {
-			return this.doTestObjBoolObj1(a1, a3, a2);
+		default boolean testX(T1 a1, T2 a2, boolean a3) {
+			return this.testObj0Bool2Obj1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface LObj1Obj0BoolPred<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
+	interface LObj1Obj0Bool2Pred<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean doTestObj1Obj0Bool(T2 a2, T1 a1, boolean a3);
+		boolean testObj1Obj0Bool2(T2 a2, T1 a1, boolean a3);
 
 		@Override
-		default boolean doTestX(T1 a1, T2 a2, boolean a3) {
-			return this.doTestObj1Obj0Bool(a2, a1, a3);
+		default boolean testX(T1 a1, T2 a2, boolean a3) {
+			return this.testObj1Obj0Bool2(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface LObj1BoolObj0Pred<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
+	interface LObj1Bool2Obj0Pred<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean doTestObj1BoolObj0(T2 a2, boolean a3, T1 a1);
+		boolean testObj1Bool2Obj0(T2 a2, boolean a3, T1 a1);
 
 		@Override
-		default boolean doTestX(T1 a1, T2 a2, boolean a3) {
-			return this.doTestObj1BoolObj0(a2, a3, a1);
+		default boolean testX(T1 a1, T2 a2, boolean a3) {
+			return this.testObj1Bool2Obj0(a2, a3, a1);
 		}
 	}
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface LBoolObj0Obj1Pred<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
+	interface LBool2Obj0Obj1Pred<T1, T2> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean doTestBoolObj0Obj1(boolean a3, T1 a1, T2 a2);
+		boolean testBool2Obj0Obj1(boolean a3, T1 a1, T2 a2);
 
 		@Override
-		default boolean doTestX(T1 a1, T2 a2, boolean a3) {
-			return this.doTestBoolObj0Obj1(a3, a1, a2);
+		default boolean testX(T1 a1, T2 a2, boolean a3) {
+			return this.testBool2Obj0Obj1(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LBiObjBoolPredicate for method references. */
 	@FunctionalInterface
-	interface LBoolObjObj0Pred<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
+	interface LBool2Obj1Obj0Pred<T2, T1> extends LBiObjBoolPredicate<T1, T2> {
 
-		boolean doTestBoolObjObj0(boolean a3, T2 a2, T1 a1);
+		boolean testBool2Obj1Obj0(boolean a3, T2 a2, T1 a1);
 
 		@Override
-		default boolean doTestX(T1 a1, T2 a2, boolean a3) {
-			return this.doTestBoolObjObj0(a3, a2, a1);
+		default boolean testX(T1 a1, T2 a2, boolean a3) {
+			return this.testBool2Obj1Obj0(a3, a2, a1);
 		}
 	}
 
@@ -655,7 +690,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return false;
 	}
 
-	// >>> LObjBoolObj1Pred<T1,T2>
+	// >>> LObj0Bool2Obj1Pred<T1,T2>
 
 	/** Returns TRUE. */
 	public static <T1, T2> boolean alwaysTrue(T1 a1, boolean a3, T2 a2) {
@@ -667,7 +702,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return false;
 	}
 
-	// >>> LBoolObj0Obj1Pred<T1,T2>
+	// >>> LBool2Obj0Obj1Pred<T1,T2>
 
 	/** Returns TRUE. */
 	public static <T1, T2> boolean alwaysTrue(boolean a3, T1 a1, T2 a2) {
@@ -679,9 +714,11 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return false;
 	}
 
-	// FILTER: FOR, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=boolean a3, type=IA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, C2, C3> void forEach(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, C3> void filterForEach(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
@@ -690,152 +727,166 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		LObjIntPredicate<Object> oiFunc3 = (LObjIntPredicate) ia3.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			boolean a3 = oiFunc3.doTest(source3, i);
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = oiFunc2.apply(source2, i);
+			boolean a3 = oiFunc3.test(source3, i);
 			doIf(a1, a2, a3, consumer);
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=boolean a3, type=IA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, I1, C2, C3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, I1, C2, C3> void filterIterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
 		size = Integer.min(size, ia3.size(source3));
 		LObjIntPredicate<Object> oiFunc3 = (LObjIntPredicate) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			boolean a3 = oiFunc3.doTest(source3, i);
+		while (testFunc1.test(iterator1) && i < size) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = oiFunc2.apply(source2, i);
+			boolean a3 = oiFunc3.test(source3, i);
 			doIf(a1, a2, a3, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=boolean a3, type=IA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, C2, I2, C3> void iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, I2, C3> void filterIterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
 		size = Integer.min(size, ia3.size(source3));
 		LObjIntPredicate<Object> oiFunc3 = (LObjIntPredicate) ia3.getter();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			boolean a3 = oiFunc3.doTest(source3, i);
+		while (i < size && testFunc2.test(iterator2)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = nextFunc2.apply(iterator2);
+			boolean a3 = oiFunc3.test(source3, i);
 			doIf(a1, a2, a3, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=boolean a3, type=IA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, I1, C2, I2, C3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, I1, C2, I2, C3> void filterIterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aBool> ia3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
 		int size = ia3.size(source3);
 		LObjIntPredicate<Object> oiFunc3 = (LObjIntPredicate) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && i < size) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			boolean a3 = oiFunc3.doTest(source3, i);
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && i < size) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = nextFunc2.apply(iterator2);
+			boolean a3 = oiFunc3.test(source3, i);
 			doIf(a1, a2, a3, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=boolean a3, type=SA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, C2, C3, I3> void iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, C3, I3> void filterIterate(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LPredicate<Object> nextFunc3 = (LPredicate) sa3.getter();
+		LPredicate<Object> nextFunc3 = (LPredicate) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc3.doTest(iterator3)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			boolean a3 = nextFunc3.doTest(iterator3);
+		while (i < size && testFunc3.test(iterator3)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = oiFunc2.apply(source2, i);
+			boolean a3 = nextFunc3.test(iterator3);
 			doIf(a1, a2, a3, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=boolean a3, type=SA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, I1, C2, C3, I3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, I1, C2, C3, I3> void filterIterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LPredicate<Object> nextFunc3 = (LPredicate) sa3.getter();
+		LPredicate<Object> nextFunc3 = (LPredicate) sa3.supplier();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size && testFunc3.doTest(iterator3)) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			boolean a3 = nextFunc3.doTest(iterator3);
+		while (testFunc1.test(iterator1) && i < size && testFunc3.test(iterator3)) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = oiFunc2.apply(source2, i);
+			boolean a3 = nextFunc3.test(iterator3);
 			doIf(a1, a2, a3, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=boolean a3, type=SA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, C2, I2, C3, I3> void iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, I2, C3, I3> void filterIterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LPredicate<Object> nextFunc3 = (LPredicate) sa3.getter();
+		LPredicate<Object> nextFunc3 = (LPredicate) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			boolean a3 = nextFunc3.doTest(iterator3);
+		while (i < size && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = nextFunc2.apply(iterator2);
+			boolean a3 = nextFunc3.test(iterator3);
 			doIf(a1, a2, a3, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=boolean a3, type=SA},
-	// SourcePurpose{arg=LBiObjBoolConsumer<? super T1,? super T2> consumer, type=CONST}]
-	default <C1, I1, C2, I2, C3, I3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
+	default <C1, I1, C2, I2, C3, I3> void filterIterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aBool> sa3, C3 source3, LBiObjBoolConsumer<? super T1, ? super T2> consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LPredicate<Object> nextFunc3 = (LPredicate) sa3.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			boolean a3 = nextFunc3.doTest(iterator3);
+		LPredicate<Object> nextFunc3 = (LPredicate) sa3.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = nextFunc2.apply(iterator2);
+			boolean a3 = nextFunc3.test(iterator3);
 			doIf(a1, a2, a3, consumer);
 		}
 	}

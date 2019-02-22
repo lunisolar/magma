@@ -66,141 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aLong> { // NOSONAR
 
-	String DESCRIPTION = "LLongToIntFunction: int doApplyAsInt(long a)";
+	String DESCRIPTION = "LLongToIntFunction: int applyAsInt(long a)";
 
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LLongToIntFunction interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
+	// int applyAsInt(long a) ;
 	default int applyAsInt(long a) {
-		return this.doApplyAsInt(a);
-	}
-
-	// int doApplyAsInt(long a) ;
-	default int doApplyAsInt(long a) {
-		// return nestingDoApplyAsInt(a);
+		// return nestingApplyAsInt(a);
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsInt(long a)
+	 * Implement this, but call applyAsInt(long a)
 	 */
-	int doApplyAsIntX(long a) throws Throwable;
+	int applyAsIntX(long a) throws Throwable;
 
 	default int tupleApplyAsInt(LLongSingle args) {
-		return doApplyAsInt(args.value());
+		return applyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default int handlingDoApplyAsInt(long a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default int handlingApplyAsInt(long a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default int tryDoApplyAsInt(long a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LLongToIntFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsInt(a, handling);
+	}
+
+	default int applyAsInt(long a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default int tryDoApplyAsInt(long a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LLongToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsInt(a, exF, newMessage, messageParams);
+	}
+
+	default int applyAsInt(long a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default int tryDoApplyAsIntThen(long a, @Nonnull LToIntFunction<Throwable> handler) {
+	default LLongToIntFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsInt(a, exF);
+	}
+
+	default int applyAsIntThen(long a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsInt(e);
+			return handler.applyAsInt(e);
 		}
+	}
+
+	default LLongToIntFunction tryingThen(@Nonnull LToIntFunction<Throwable> handler) {
+		return a -> applyAsIntThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(long a) {
+	default int nestingApplyAsInt(long a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(long a) {
+	default int shovingApplyAsInt(long a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static int handlingDoApplyAsInt(long a, LLongToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(long a, LLongToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsInt(a, handling);
+		return func.handlingApplyAsInt(a, handling);
 	}
 
-	static int tryDoApplyAsInt(long a, LLongToIntFunction func) {
-		return tryDoApplyAsInt(a, func, null);
-	}
-
-	static int tryDoApplyAsInt(long a, LLongToIntFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static int tryApplyAsInt(long a, LLongToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryDoApplyAsInt(long a, LLongToIntFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static int tryApplyAsInt(long a, LLongToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory);
+		return func.applyAsInt(a, exF, newMessage, messageParams);
 	}
 
-	static int tryDoApplyAsIntThen(long a, LLongToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+	static int tryApplyAsInt(long a, LLongToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsIntThen(a, handler);
+		return func.applyAsInt(a, exF);
 	}
 
-	default int failSafeDoApplyAsInt(long a, @Nonnull LLongToIntFunction failSafe) {
+	static int tryApplyAsIntThen(long a, LLongToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsIntThen(a, handler);
+	}
+
+	default int failSafeApplyAsInt(long a, @Nonnull LLongToIntFunction failSafe) {
 		try {
-			return doApplyAsInt(a);
+			return applyAsInt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		}
 	}
 
-	static int failSafeDoApplyAsInt(long a, LLongToIntFunction func, @Nonnull LLongToIntFunction failSafe) {
+	static int failSafeApplyAsInt(long a, LLongToIntFunction func, @Nonnull LLongToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		} else {
-			return func.failSafeDoApplyAsInt(a, failSafe);
+			return func.failSafeApplyAsInt(a, failSafe);
 		}
 	}
 
-	static LLongToIntFunction failSafeLongToIntFunc(LLongToIntFunction func, @Nonnull LLongToIntFunction failSafe) {
+	static LLongToIntFunction failSafe(LLongToIntFunction func, @Nonnull LLongToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsInt(a, func, failSafe);
+		return a -> failSafeApplyAsInt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(long a) {
-		return doApplyAsInt(a);
+	default int nonNullApplyAsInt(long a) {
+		return applyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -212,13 +219,13 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(long min_a, long max_a, LLongToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (long a = min_a; a <= max_a; a++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (long a = min_a; a >= max_a; a--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
@@ -226,25 +233,27 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(long min_a, long max_a, LLongToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (long a = min_a; a < max_a; a++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (long a = min_a; a > max_a; a--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(long max_a, LLongToIntFunction func) {
+		if (max_a < 0)
+			return;
 		fromTill(0, max_a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureLongToIntFunc(long a) {
-		return () -> this.doApplyAsInt(a);
+	default LIntSupplier capture(long a) {
+		return () -> this.applyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -262,7 +271,7 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	@Nonnull
 	static LLongToIntFunction recursive(final @Nonnull LFunction<LLongToIntFunction, LLongToIntFunction> selfLambda) {
 		final LLongToIntFunctionSingle single = new LLongToIntFunctionSingle();
-		LLongToIntFunction func = selfLambda.doApply(single);
+		LLongToIntFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -271,8 +280,8 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 		private LLongToIntFunction target = null;
 
 		@Override
-		public int doApplyAsIntX(long a) throws Throwable {
-			return target.doApplyAsIntX(a);
+		public int applyAsIntX(long a) throws Throwable {
+			return target.applyAsIntX(a);
 		}
 
 		@Override
@@ -282,24 +291,24 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	}
 
 	@Nonnull
-	static LLongToIntFunction longToIntFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LLongToIntFunction longToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LLongToIntFunction longToIntFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LLongToIntFunction longToIntFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static int call(long a, final @Nonnull LLongToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a);
+		return lambda.applyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -351,20 +360,20 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongToIntFunction longToIntFuncComposeLong(@Nonnull final LLongUnaryOperator before) {
+	default LLongToIntFunction compose(@Nonnull final LLongUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsLong(v));
+		return v -> this.applyAsInt(before.applyAsLong(v));
 	}
 
-	public static LLongToIntFunction composedLong(@Nonnull final LLongUnaryOperator before, LLongToIntFunction after) {
-		return after.longToIntFuncComposeLong(before);
+	public static LLongToIntFunction composed(@Nonnull final LLongUnaryOperator before, LLongToIntFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToIntFunction<V> longToIntFuncCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsLong(v));
+		return v -> this.applyAsInt(before.applyAsLong(v));
 	}
 
 	public static <V> LToIntFunction<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongToIntFunction after) {
@@ -379,79 +388,68 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	@Nonnull
 	default <V> LLongFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsInt(a));
+		return a -> after.apply(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
+		return a -> after.applyAsByte(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToSrtFunction thenToSrt(@Nonnull LIntToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsInt(a));
+		return a -> after.applyAsSrt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
+		return a -> after.applyAsInt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperator thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
+		return a -> after.applyAsLong(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFltFunction thenToFlt(@Nonnull LIntToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsInt(a));
+		return a -> after.applyAsFlt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDblFunction thenToDbl(@Nonnull LIntToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsInt(a));
+		return a -> after.applyAsDbl(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
+		return a -> after.applyAsChar(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsInt(a));
+		return a -> after.test(this.applyAsInt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LLongToIntFunction nestingLongToIntFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToIntFunction shovingLongToIntFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -460,25 +458,31 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 		return Function4U.defaultInteger;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=long a, type=IA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aLong> ia, C0 source, LIntConsumer consumer) {
 		int size = ia.size(source);
 		LOiToLongFunction<Object> oiFunc0 = (LOiToLongFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			long a = oiFunc0.doApplyAsLong(source, i);
-			consumer.doAccept(this.doApplyAsInt(a));
+			long a = oiFunc0.applyAsLong(source, i);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=long a, type=SA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aLong> sa, C0 source, LIntConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			long a = nextFunc0.doApplyAsLong(iterator0);
-			consumer.doAccept(this.doApplyAsInt(a));
+		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			long a = nextFunc0.applyAsLong(iterator0);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 

@@ -54,7 +54,7 @@ public class LLogicalBinaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(false);
 
-        assertThat(sut.doApply(true,true))
+        assertThat(sut.apply(true,true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLogicalBinaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(true,true))
+        assertThat(sut.apply(true,true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

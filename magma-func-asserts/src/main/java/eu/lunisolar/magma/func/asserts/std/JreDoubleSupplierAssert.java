@@ -80,13 +80,12 @@ public interface JreDoubleSupplierAssert<S extends JreDoubleSupplierAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Double> doesGetAsDbl() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.getAsDouble());
+				return assertFactory.apply(actual.getAsDouble());
 			});
-
 		}
 
 		@Nonnull

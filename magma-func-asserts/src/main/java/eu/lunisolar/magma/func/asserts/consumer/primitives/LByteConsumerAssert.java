@@ -79,14 +79,13 @@ public interface LByteConsumerAssert<S extends LByteConsumerAssert<S, A>, A exte
 		@Nonnull
 		public SemiEvaluation<S, LByteConsumer, A> doesAccept(byte a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				actual.doAccept(a);
+				actual.accept(a);
 				return null;
 			});
-
 		}
 
 	}

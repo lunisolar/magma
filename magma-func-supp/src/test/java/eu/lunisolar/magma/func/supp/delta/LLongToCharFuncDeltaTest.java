@@ -55,7 +55,7 @@ public class LLongToCharFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar(100L))
+        assertThat(sut.applyAsChar(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LLongToCharFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar(100L))
+        assertThat(sut.applyAsChar(100L))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -65,14 +65,14 @@ public class LObjDblFunctionTest<T,R> {
 
 
     private LObjDblFunction<Integer,Integer> sut = new LObjDblFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,double a2)  {
+        public @Nullable Integer applyX(Integer a1,double a2)  {
             return testValue;
         }
     };
 
 
     private LObjDblFunction<Integer,Integer> sutNull = new LObjDblFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,double a2)  {
+        public @Nullable Integer applyX(Integer a1,double a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LObjDblFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100d))
+        assertThat(sut.apply(100,100d))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LObjDblFunctionTest<T,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100d))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100d))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100d);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LObjDblFunctionTest<T,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100d);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LObjDblFunctionTest<T,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjDblFunction: R doApply(T a1,double a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LObjDblFunction: R apply(T a1,double a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100d);
+        sutNull.nonNullApply(100,100d);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjDblFunction: R doApply(T a1,double a2)");
+            .isEqualTo("LObjDblFunction: R apply(T a1,double a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LObjDblFunctionTest<T,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjDblFuncComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LObjDblFunctionTest<T,R> {
         };
 
         //when
-        LObjDblFunction<Integer,Integer> function = sutO.objDblFuncComposeDbl(before1,before2);
-        function.doApply(80,81d);
+        LObjDblFunction<Integer,Integer> function = sutO.compose(before1,before2);
+        function.apply(80,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LObjDblFunctionTest<T,R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.objDblFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LObjDblFunctionTest<T,R> {
 
         //when
         LObjDblFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81d);
+        Integer finalValue = function.apply(80,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LObjDblFunctionTest<T,R> {
 
         //when
         LObjDblConsumer<Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81d);
+        function.accept(80,81d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LObjDblFunctionTest<T,R> {
 
         //when
         LObjDblPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81d);
+        boolean finalValue = function.test(80,81d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -345,20 +345,6 @@ public class LObjDblFunctionTest<T,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjDblFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjDblFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -369,7 +355,7 @@ public class LObjDblFunctionTest<T,R> {
         });
 
         // when
-        sutThrowing.shovingObjDblFunc().doApply(100,100d);
+        sutThrowing.shovingApply(100,100d);
     }
 
 
@@ -382,7 +368,7 @@ public class LObjDblFunctionTest<T,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjDblFunction: R doApply(T a1,double a2)");
+                .contains("LObjDblFunction: R apply(T a1,double a2)");
     }
 
 

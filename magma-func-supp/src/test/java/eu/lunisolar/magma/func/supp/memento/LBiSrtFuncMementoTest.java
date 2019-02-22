@@ -54,7 +54,7 @@ public class LBiSrtFuncMementoTest <R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply((short)100,(short)100))
+        assertThat(sut.apply((short)100,(short)100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBiSrtFuncMementoTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply((short)100,(short)100))
+        assertThat(sut.apply((short)100,(short)100))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

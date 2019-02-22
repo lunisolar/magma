@@ -77,8 +77,8 @@ public class LBiFltFuncDelta<R> extends LBiFltFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(float a1, float a2) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2));
+	public R apply(float a1, float a2) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2));
 	}
 
 	// <editor-fold desc="object">

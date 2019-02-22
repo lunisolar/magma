@@ -69,7 +69,7 @@ public class LToIntTriFunctionBuilderTest<T1,T2,T3>{
                 .build()
             );
 
-            function.doApplyAsInt(100,100,100);
+            function.applyAsInt(100,100,100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LToIntTriFunctionBuilderTest<T1,T2,T3>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt(100,100,100);
+            function.applyAsInt(100,100,100);
 
             fail("No exception were thrown.");
         })

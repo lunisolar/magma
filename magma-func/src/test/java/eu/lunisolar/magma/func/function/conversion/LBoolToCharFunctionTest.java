@@ -65,7 +65,7 @@ public class LBoolToCharFunctionTest {
 
 
     private LBoolToCharFunction sut = new LBoolToCharFunction(){
-        public  char doApplyAsCharX(boolean a)  {
+        public  char applyAsCharX(boolean a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBoolToCharFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsChar(true))
+        assertThat(sut.applyAsChar(true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBoolToCharFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsChar(true))
+    public void testNonNullApplyAsChar() throws Throwable {
+        assertThat(sut.nonNullApplyAsChar(true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsCharUnchecked() throws Throwable {
+    public void testNestingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsChar(true);
+            sutAlwaysThrowingUnchecked.nestingApplyAsChar(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBoolToCharFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsCharUnchecked() throws Throwable {
+    public void testShovingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsChar(true);
+            sutAlwaysThrowingUnchecked.shovingApplyAsChar(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LBoolToCharFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolToCharFunction: char doApplyAsChar(boolean a)");
+            .isEqualTo("LBoolToCharFunction: char applyAsChar(boolean a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LBoolToCharFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBoolToCharFuncComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LBoolToCharFunctionTest {
         };
 
         //when
-        LBoolToCharFunction function = sutO.boolToCharFuncComposeBool(before);
-        function.doApplyAsChar(true);
+        LBoolToCharFunction function = sutO.compose(before);
+        function.applyAsChar(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LToCharFunction<Integer> function = sutO.boolToCharFuncCompose(before);
-        function.doApplyAsChar(80);
+        function.applyAsChar(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true);
+        Integer finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(true);
+        byte finalValue = function.applyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(true);
+        short finalValue = function.applyAsSrt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(true);
+        int finalValue = function.applyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(true);
+        long finalValue = function.applyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(true);
+        float finalValue = function.applyAsFlt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(true);
+        double finalValue = function.applyAsDbl(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LBoolToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(true);
+        char finalValue = function.applyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LBoolToCharFunctionTest {
 
         //when
         LLogicalOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true);
+        boolean finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LBoolToCharFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBoolToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolToCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBoolToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolToCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LBoolToCharFunctionTest {
         });
 
         // when
-        sutThrowing.shovingBoolToCharFunc().doApplyAsChar(true);
+        sutThrowing.shovingApplyAsChar(true);
     }
 
 
@@ -563,7 +549,7 @@ public class LBoolToCharFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolToCharFunction: char doApplyAsChar(boolean a)");
+                .contains("LBoolToCharFunction: char applyAsChar(boolean a)");
     }
 
 

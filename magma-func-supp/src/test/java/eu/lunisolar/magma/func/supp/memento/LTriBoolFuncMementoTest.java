@@ -54,7 +54,7 @@ public class LTriBoolFuncMementoTest <R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply(true,true,true))
+        assertThat(sut.apply(true,true,true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LTriBoolFuncMementoTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(true,true,true))
+        assertThat(sut.apply(true,true,true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

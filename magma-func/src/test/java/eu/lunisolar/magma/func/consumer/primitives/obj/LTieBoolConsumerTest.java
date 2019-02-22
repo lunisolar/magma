@@ -63,7 +63,7 @@ public class LTieBoolConsumerTest<T> {
 
 
     private LTieBoolConsumer<Integer> sut = new LTieBoolConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,int a2,boolean a3)  {
+        public  void acceptX(Integer a1,int a2,boolean a3)  {
             LTieBoolConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTieBoolConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,true);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTieBoolConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,true);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTieBoolConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieBoolConsumer: void doAccept(T a1,int a2,boolean a3)");
+            .isEqualTo("LTieBoolConsumer: void accept(T a1,int a2,boolean a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTieBoolConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieBoolConsComposeIntBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTieBoolConsumerTest<T> {
         };
 
         //when
-        LTieBoolConsumer<Integer> function = sutO.tieBoolConsComposeIntBool(before1,before2,before3);
-        function.doAccept(80,81,true);
+        LTieBoolConsumer<Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTieBoolConsumerTest<T> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.tieBoolConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTieBoolConsumerTest<T> {
 
         //when
         LTieBoolConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,true);
+        function.accept(80,81,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieBoolCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieBoolConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieBoolCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieBoolConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTieBoolConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieBoolCons().doAccept(100,100,true);
+        sutThrowing.shovingAccept(100,100,true);
     }
 
 
@@ -291,7 +277,7 @@ public class LTieBoolConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieBoolConsumer: void doAccept(T a1,int a2,boolean a3)");
+                .contains("LTieBoolConsumer: void accept(T a1,int a2,boolean a3)");
     }
 
 

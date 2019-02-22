@@ -69,7 +69,7 @@ public class LIntToCharFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsChar(100);
+            function.applyAsChar(100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LIntToCharFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsChar(100);
+            function.applyAsChar(100);
 
             fail("No exception were thrown.");
         })

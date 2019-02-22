@@ -77,14 +77,13 @@ public interface JreRunnableAssert<S extends JreRunnableAssert<S, A>, A extends 
 		@Nonnull
 		public SemiEvaluation<S, LAction, A> doesExecute() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
 				actual.run();
 				return null;
 			});
-
 		}
 
 	}

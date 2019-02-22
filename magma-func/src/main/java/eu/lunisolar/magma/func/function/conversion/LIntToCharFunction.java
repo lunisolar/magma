@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aChar>, Domain1<aInt> { // NOSONAR
 
-	String DESCRIPTION = "LIntToCharFunction: char doApplyAsChar(int a)";
+	String DESCRIPTION = "LIntToCharFunction: char applyAsChar(int a)";
 
-	// char doApplyAsChar(int a) ;
-	default char doApplyAsChar(int a) {
-		// return nestingDoApplyAsChar(a);
+	// char applyAsChar(int a) ;
+	default char applyAsChar(int a) {
+		// return nestingApplyAsChar(a);
 		try {
-			return this.doApplyAsCharX(a);
+			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsChar(int a)
+	 * Implement this, but call applyAsChar(int a)
 	 */
-	char doApplyAsCharX(int a) throws Throwable;
+	char applyAsCharX(int a) throws Throwable;
 
 	default char tupleApplyAsChar(LIntSingle args) {
-		return doApplyAsChar(args.value());
+		return applyAsChar(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default char handlingDoApplyAsChar(int a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default char handlingApplyAsChar(int a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsCharX(a);
+			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default char tryDoApplyAsChar(int a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LIntToCharFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsChar(a, handling);
+	}
+
+	default char applyAsChar(int a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsCharX(a);
+			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default char tryDoApplyAsChar(int a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LIntToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsChar(a, exF, newMessage, messageParams);
+	}
+
+	default char applyAsChar(int a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsCharX(a);
+			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default char tryDoApplyAsCharThen(int a, @Nonnull LToCharFunction<Throwable> handler) {
+	default LIntToCharFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsChar(a, exF);
+	}
+
+	default char applyAsCharThen(int a, @Nonnull LToCharFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsCharX(a);
+			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsChar(e);
+			return handler.applyAsChar(e);
 		}
+	}
+
+	default LIntToCharFunction tryingThen(@Nonnull LToCharFunction<Throwable> handler) {
+		return a -> applyAsCharThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoApplyAsChar(int a) {
+	default char nestingApplyAsChar(int a) {
 		try {
-			return this.doApplyAsCharX(a);
+			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(int a) {
+	default char shovingApplyAsChar(int a) {
 		try {
-			return this.doApplyAsCharX(a);
+			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static char handlingDoApplyAsChar(int a, LIntToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static char handlingApplyAsChar(int a, LIntToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsChar(a, handling);
+		return func.handlingApplyAsChar(a, handling);
 	}
 
-	static char tryDoApplyAsChar(int a, LIntToCharFunction func) {
-		return tryDoApplyAsChar(a, func, null);
-	}
-
-	static char tryDoApplyAsChar(int a, LIntToCharFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static char tryApplyAsChar(int a, LIntToCharFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsChar(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsChar(a);
 	}
 
-	static char tryDoApplyAsChar(int a, LIntToCharFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static char tryApplyAsChar(int a, LIntToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsChar(a, exceptionFactory);
+		return func.applyAsChar(a, exF, newMessage, messageParams);
 	}
 
-	static char tryDoApplyAsCharThen(int a, LIntToCharFunction func, @Nonnull LToCharFunction<Throwable> handler) {
+	static char tryApplyAsChar(int a, LIntToCharFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsCharThen(a, handler);
+		return func.applyAsChar(a, exF);
 	}
 
-	default char failSafeDoApplyAsChar(int a, @Nonnull LIntToCharFunction failSafe) {
+	static char tryApplyAsCharThen(int a, LIntToCharFunction func, @Nonnull LToCharFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsCharThen(a, handler);
+	}
+
+	default char failSafeApplyAsChar(int a, @Nonnull LIntToCharFunction failSafe) {
 		try {
-			return doApplyAsChar(a);
+			return applyAsChar(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsChar(a);
+			return failSafe.applyAsChar(a);
 		}
 	}
 
-	static char failSafeDoApplyAsChar(int a, LIntToCharFunction func, @Nonnull LIntToCharFunction failSafe) {
+	static char failSafeApplyAsChar(int a, LIntToCharFunction func, @Nonnull LIntToCharFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsChar(a);
+			return failSafe.applyAsChar(a);
 		} else {
-			return func.failSafeDoApplyAsChar(a, failSafe);
+			return func.failSafeApplyAsChar(a, failSafe);
 		}
 	}
 
-	static LIntToCharFunction failSafeIntToCharFunc(LIntToCharFunction func, @Nonnull LIntToCharFunction failSafe) {
+	static LIntToCharFunction failSafe(LIntToCharFunction func, @Nonnull LIntToCharFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsChar(a, func, failSafe);
+		return a -> failSafeApplyAsChar(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(int a) {
-		return doApplyAsChar(a);
+	default char nonNullApplyAsChar(int a) {
+		return applyAsChar(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_a, int max_a, LIntToCharFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
-				func.doApplyAsChar(a);
+				func.applyAsChar(a);
 			}
 		} else {
 			for (int a = min_a; a >= max_a; a--) {
-				func.doApplyAsChar(a);
+				func.applyAsChar(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_a, int max_a, LIntToCharFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_a <= min_a) {
+		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
-				func.doApplyAsChar(a);
+				func.applyAsChar(a);
 			}
 		} else {
 			for (int a = min_a; a > max_a; a--) {
-				func.doApplyAsChar(a);
+				func.applyAsChar(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_a, LIntToCharFunction func) {
+		if (max_a < 0)
+			return;
 		fromTill(0, max_a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureIntToCharFunc(int a) {
-		return () -> this.doApplyAsChar(a);
+	default LCharSupplier capture(int a) {
+		return () -> this.applyAsChar(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	static LIntToCharFunction recursive(final @Nonnull LFunction<LIntToCharFunction, LIntToCharFunction> selfLambda) {
 		final LIntToCharFunctionSingle single = new LIntToCharFunctionSingle();
-		LIntToCharFunction func = selfLambda.doApply(single);
+		LIntToCharFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		private LIntToCharFunction target = null;
 
 		@Override
-		public char doApplyAsCharX(int a) throws Throwable {
-			return target.doApplyAsCharX(a);
+		public char applyAsCharX(int a) throws Throwable {
+			return target.applyAsCharX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static LIntToCharFunction intToCharFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LIntToCharFunction intToCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LIntToCharFunction intToCharFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LIntToCharFunction intToCharFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static char call(int a, final @Nonnull LIntToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsChar(a);
+		return lambda.applyAsChar(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntToCharFunction intToCharFuncComposeInt(@Nonnull final LIntUnaryOperator before) {
+	default LIntToCharFunction compose(@Nonnull final LIntUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsChar(before.doApplyAsInt(v));
+		return v -> this.applyAsChar(before.applyAsInt(v));
 	}
 
-	public static LIntToCharFunction composedInt(@Nonnull final LIntUnaryOperator before, LIntToCharFunction after) {
-		return after.intToCharFuncComposeInt(before);
+	public static LIntToCharFunction composed(@Nonnull final LIntUnaryOperator before, LIntToCharFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToCharFunction<V> intToCharFuncCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsChar(before.doApplyAsInt(v));
+		return v -> this.applyAsChar(before.applyAsInt(v));
 	}
 
 	public static <V> LToCharFunction<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntToCharFunction after) {
@@ -364,79 +383,68 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsChar(a));
+		return a -> after.apply(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LCharToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsChar(a));
+		return a -> after.applyAsByte(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToSrtFunction thenToSrt(@Nonnull LCharToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsChar(a));
+		return a -> after.applyAsSrt(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LCharToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsChar(a));
+		return a -> after.applyAsInt(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LCharToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsChar(a));
+		return a -> after.applyAsLong(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFltFunction thenToFlt(@Nonnull LCharToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsChar(a));
+		return a -> after.applyAsFlt(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDblFunction thenToDbl(@Nonnull LCharToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsChar(a));
+		return a -> after.applyAsDbl(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LCharUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsChar(a));
+		return a -> after.applyAsChar(this.applyAsChar(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBool(@Nonnull LCharPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsChar(a));
+		return a -> after.test(this.applyAsChar(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LIntToCharFunction nestingIntToCharFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToCharFunction shovingIntToCharFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return Function4U.defaultCharacter;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=int a, type=IA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aInt> ia, C0 source, LCharConsumer consumer) {
 		int size = ia.size(source);
 		LOiToIntFunction<Object> oiFunc0 = (LOiToIntFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			int a = oiFunc0.doApplyAsInt(source, i);
-			consumer.doAccept(this.doApplyAsChar(a));
+			int a = oiFunc0.applyAsInt(source, i);
+			consumer.accept(this.applyAsChar(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=int a, type=SA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aInt> sa, C0 source, LCharConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToIntFunction<Object> nextFunc0 = (LToIntFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			int a = nextFunc0.doApplyAsInt(iterator0);
-			consumer.doAccept(this.doApplyAsChar(a));
+		LToIntFunction<Object> nextFunc0 = (LToIntFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			int a = nextFunc0.applyAsInt(iterator0);
+			consumer.accept(this.applyAsChar(a));
 		}
 	}
 

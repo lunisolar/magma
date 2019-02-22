@@ -69,7 +69,7 @@ public class LTriBoolConsumerBuilderTest{
                 .build()
             );
 
-            function.doAccept(true,true,true);
+            function.accept(true,true,true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LTriBoolConsumerBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(true,true,true);
+            function.accept(true,true,true);
 
             fail("No exception were thrown.");
         })

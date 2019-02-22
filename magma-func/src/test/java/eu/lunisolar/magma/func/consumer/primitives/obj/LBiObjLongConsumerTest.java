@@ -63,7 +63,7 @@ public class LBiObjLongConsumerTest<T1,T2> {
 
 
     private LBiObjLongConsumer<Integer,Integer> sut = new LBiObjLongConsumer<Integer,Integer>(){
-        public  void doAcceptX(Integer a1,Integer a2,long a3)  {
+        public  void acceptX(Integer a1,Integer a2,long a3)  {
             LBiObjLongConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LBiObjLongConsumerTest<T1,T2> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100L);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LBiObjLongConsumerTest<T1,T2> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100L);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBiObjLongConsumerTest<T1,T2> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjLongConsumer: void doAccept(T1 a1,T2 a2,long a3)");
+            .isEqualTo("LBiObjLongConsumer: void accept(T1 a1,T2 a2,long a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LBiObjLongConsumerTest<T1,T2> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiObjLongConsComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LBiObjLongConsumerTest<T1,T2> {
         };
 
         //when
-        LBiObjLongConsumer<Integer,Integer> function = sutO.biObjLongConsComposeLong(before1,before2,before3);
-        function.doAccept(80,81,82L);
+        LBiObjLongConsumer<Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,82L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LBiObjLongConsumerTest<T1,T2> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.biObjLongConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LBiObjLongConsumerTest<T1,T2> {
 
         //when
         LBiObjLongConsumer<Integer,Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,82L);
+        function.accept(80,81,82L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiObjLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjLongConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiObjLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjLongConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LBiObjLongConsumerTest<T1,T2> {
         });
 
         // when
-        sutThrowing.shovingBiObjLongCons().doAccept(100,100,100L);
+        sutThrowing.shovingAccept(100,100,100L);
     }
 
 
@@ -291,7 +277,7 @@ public class LBiObjLongConsumerTest<T1,T2> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiObjLongConsumer: void doAccept(T1 a1,T2 a2,long a3)");
+                .contains("LBiObjLongConsumer: void accept(T1 a1,T2 a2,long a3)");
     }
 
 
@@ -303,58 +289,58 @@ public class LBiObjLongConsumerTest<T1,T2> {
 
     //<editor-fold desc="Variants">
 
-    private void variantLObjLongObj1Cons(Integer a1,long a3,Integer a2) {
+    private void variantLObj0Long2Obj1Cons(Integer a1,long a3,Integer a2) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObjLongObj1Cons() {
-        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/objLongObj1Cons(this::variantLObjLongObj1Cons);
+    public void compilerSubstituteVariantLObj0Long2Obj1Cons() {
+        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/obj0Long2Obj1Cons(this::variantLObj0Long2Obj1Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LObjLongObj1Cons.class);
+        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LObj0Long2Obj1Cons.class);
     }
 
 
-    private void variantLObj1Obj0LongCons(Integer a2,Integer a1,long a3) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Obj0LongCons() {
-        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/obj1Obj0LongCons(this::variantLObj1Obj0LongCons);
-
-        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LObj1Obj0LongCons.class);
-    }
-
-
-    private void variantLObj1LongObj0Cons(Integer a2,long a3,Integer a1) {
+    private void variantLObj1Obj0Long2Cons(Integer a2,Integer a1,long a3) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1LongObj0Cons() {
-        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/obj1LongObj0Cons(this::variantLObj1LongObj0Cons);
+    public void compilerSubstituteVariantLObj1Obj0Long2Cons() {
+        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/obj1Obj0Long2Cons(this::variantLObj1Obj0Long2Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LObj1LongObj0Cons.class);
+        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LObj1Obj0Long2Cons.class);
     }
 
 
-    private void variantLLongObj0Obj1Cons(long a3,Integer a1,Integer a2) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLLongObj0Obj1Cons() {
-        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/longObj0Obj1Cons(this::variantLLongObj0Obj1Cons);
-
-        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LLongObj0Obj1Cons.class);
-    }
-
-
-    private void variantLLongObjObj0Cons(long a3,Integer a2,Integer a1) {
+    private void variantLObj1Long2Obj0Cons(Integer a2,long a3,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariantLLongObjObj0Cons() {
-        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/longObjObj0Cons(this::variantLLongObjObj0Cons);
+    public void compilerSubstituteVariantLObj1Long2Obj0Cons() {
+        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/obj1Long2Obj0Cons(this::variantLObj1Long2Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LLongObjObj0Cons.class);
+        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LObj1Long2Obj0Cons.class);
+    }
+
+
+    private void variantLLong2Obj0Obj1Cons(long a3,Integer a1,Integer a2) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantLLong2Obj0Obj1Cons() {
+        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/long2Obj0Obj1Cons(this::variantLLong2Obj0Obj1Cons);
+
+        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LLong2Obj0Obj1Cons.class);
+    }
+
+
+    private void variantLLong2Obj1Obj0Cons(long a3,Integer a2,Integer a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantLLong2Obj1Obj0Cons() {
+        LBiObjLongConsumer lambda = LBiObjLongConsumer./*<T1,T2>*/long2Obj1Obj0Cons(this::variantLLong2Obj1Obj0Cons);
+
+        assertThat(lambda).isInstanceOf(LBiObjLongConsumer.LLong2Obj1Obj0Cons.class);
     }
 
     //</editor-fold>

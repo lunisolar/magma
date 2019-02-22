@@ -65,7 +65,7 @@ public class LByteToFltFunctionTest {
 
 
     private LByteToFltFunction sut = new LByteToFltFunction(){
-        public  float doApplyAsFltX(byte a)  {
+        public  float applyAsFltX(byte a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LByteToFltFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsFlt((byte)100))
+        assertThat(sut.applyAsFlt((byte)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LByteToFltFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsFlt((byte)100))
+    public void testNonNullApplyAsFlt() throws Throwable {
+        assertThat(sut.nonNullApplyAsFlt((byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsFltUnchecked() throws Throwable {
+    public void testNestingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsFlt((byte)100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsFlt((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LByteToFltFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsFltUnchecked() throws Throwable {
+    public void testShovingApplyAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsFlt((byte)100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsFlt((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LByteToFltFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteToFltFunction: float doApplyAsFlt(byte a)");
+            .isEqualTo("LByteToFltFunction: float applyAsFlt(byte a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LByteToFltFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteToFltFuncComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LByteToFltFunctionTest {
         };
 
         //when
-        LByteToFltFunction function = sutO.byteToFltFuncComposeByte(before);
-        function.doApplyAsFlt((byte)80);
+        LByteToFltFunction function = sutO.compose(before);
+        function.applyAsFlt((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LToFltFunction<Integer> function = sutO.byteToFltFuncCompose(before);
-        function.doApplyAsFlt(80);
+        function.applyAsFlt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((byte)80);
+        Integer finalValue = function.apply((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteUnaryOperator function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((byte)80);
+        byte finalValue = function.applyAsByte((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((byte)80);
+        short finalValue = function.applyAsSrt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((byte)80);
+        int finalValue = function.applyAsInt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((byte)80);
+        long finalValue = function.applyAsLong((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt((byte)80);
+        float finalValue = function.applyAsFlt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl((byte)80);
+        double finalValue = function.applyAsDbl((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LByteToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((byte)80);
+        char finalValue = function.applyAsChar((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LByteToFltFunctionTest {
 
         //when
         LBytePredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((byte)80);
+        boolean finalValue = function.test((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LByteToFltFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingByteToFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LByteToFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingByteToFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LByteToFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LByteToFltFunctionTest {
         });
 
         // when
-        sutThrowing.shovingByteToFltFunc().doApplyAsFlt((byte)100);
+        sutThrowing.shovingApplyAsFlt((byte)100);
     }
 
 
@@ -563,7 +549,7 @@ public class LByteToFltFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteToFltFunction: float doApplyAsFlt(byte a)");
+                .contains("LByteToFltFunction: float applyAsFlt(byte a)");
     }
 
 

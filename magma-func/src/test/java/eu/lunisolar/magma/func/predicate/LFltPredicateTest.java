@@ -65,7 +65,7 @@ public class LFltPredicateTest {
 
 
     private LFltPredicate sut = new LFltPredicate(){
-        public  boolean doTestX(float a)  {
+        public  boolean testX(float a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LFltPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100f))
+        assertThat(sut.test(100f))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LFltPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100f))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100f))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100f);
+            sutAlwaysThrowingUnchecked.nestingTest(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LFltPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100f);
+            sutAlwaysThrowingUnchecked.shovingTest(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LFltPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltPredicate: boolean doTest(float a)");
+            .isEqualTo("LFltPredicate: boolean test(float a)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LFltPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100f))
+        assertThat(sut.negate().test(100f))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LFltPredicateTest {
         LFltPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100f))
+        assertThat(andFunction.test(100f))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100f))
+        assertThat(orFunction.test(100f))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100f))
+        assertThat(xorFunction.test(100f))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LFltPredicateTest {
         LFltPredicate equals = LFltPredicate.isEqual(1f);
 
         //then
-        assertThat(equals.doTest(1f))
+        assertThat(equals.test(1f))
                 .isTrue();
 
-        assertThat(equals.doTest(0f))
+        assertThat(equals.test(0f))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LFltPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testFltPredComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -235,8 +235,8 @@ public class LFltPredicateTest {
         };
 
         //when
-        LFltPredicate function = sutO.fltPredComposeFlt(before);
-        function.doTest(80f);
+        LFltPredicate function = sutO.compose(before);
+        function.test(80f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LFltPredicateTest {
 
         //when
         LPredicate<Integer> function = sutO.fltPredCompose(before);
-        function.doTest(80);
+        function.test(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -301,7 +301,7 @@ public class LFltPredicateTest {
 
         //when
         LFltFunction<Integer> function = sutO.boolToFltFunc(thenFunction);
-        Integer finalValue = function.doApply(80f);
+        Integer finalValue = function.apply(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -335,7 +335,7 @@ public class LFltPredicateTest {
 
         //when
         LFltToByteFunction function = sutO.boolToFltToByteFunc(thenFunction);
-        byte finalValue = function.doApplyAsByte(80f);
+        byte finalValue = function.applyAsByte(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -369,7 +369,7 @@ public class LFltPredicateTest {
 
         //when
         LFltToSrtFunction function = sutO.boolToFltToSrtFunc(thenFunction);
-        short finalValue = function.doApplyAsSrt(80f);
+        short finalValue = function.applyAsSrt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -403,7 +403,7 @@ public class LFltPredicateTest {
 
         //when
         LFltToIntFunction function = sutO.boolToFltToIntFunc(thenFunction);
-        int finalValue = function.doApplyAsInt(80f);
+        int finalValue = function.applyAsInt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -437,7 +437,7 @@ public class LFltPredicateTest {
 
         //when
         LFltToLongFunction function = sutO.boolToFltToLongFunc(thenFunction);
-        long finalValue = function.doApplyAsLong(80f);
+        long finalValue = function.applyAsLong(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -471,7 +471,7 @@ public class LFltPredicateTest {
 
         //when
         LFltUnaryOperator function = sutO.boolToFltUnaryOp(thenFunction);
-        float finalValue = function.doApplyAsFlt(80f);
+        float finalValue = function.applyAsFlt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -505,7 +505,7 @@ public class LFltPredicateTest {
 
         //when
         LFltToDblFunction function = sutO.boolToFltToDblFunc(thenFunction);
-        double finalValue = function.doApplyAsDbl(80f);
+        double finalValue = function.applyAsDbl(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -539,7 +539,7 @@ public class LFltPredicateTest {
 
         //when
         LFltToCharFunction function = sutO.boolToFltToCharFunc(thenFunction);
-        char finalValue = function.doApplyAsChar(80f);
+        char finalValue = function.applyAsChar(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -573,7 +573,7 @@ public class LFltPredicateTest {
 
         //when
         LFltPredicate function = sutO.boolToFltPred(thenFunction);
-        boolean finalValue = function.doTest(80f);
+        boolean finalValue = function.test(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -586,20 +586,6 @@ public class LFltPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingFltPred())
-            .isSameAs(sut)
-            .isInstanceOf(LFltPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingFltPred())
-            .isSameAs(sut)
-            .isInstanceOf(LFltPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -610,7 +596,7 @@ public class LFltPredicateTest {
         });
 
         // when
-        sutThrowing.shovingFltPred().doTest(100f);
+        sutThrowing.shovingTest(100f);
     }
 
 
@@ -623,7 +609,7 @@ public class LFltPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFltPredicate: boolean doTest(float a)");
+                .contains("LFltPredicate: boolean test(float a)");
     }
 
 

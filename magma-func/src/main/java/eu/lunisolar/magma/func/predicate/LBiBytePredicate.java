@@ -66,167 +66,196 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain2<aByte, aByte> { // NOSONAR
 
-	String DESCRIPTION = "LBiBytePredicate: boolean doTest(byte a1,byte a2)";
+	String DESCRIPTION = "LBiBytePredicate: boolean test(byte a1,byte a2)";
 
-	// boolean doTest(byte a1,byte a2) ;
-	default boolean doTest(byte a1, byte a2) {
-		// return nestingDoTest(a1,a2);
+	// boolean test(byte a1,byte a2) ;
+	default boolean test(byte a1, byte a2) {
+		// return nestingTest(a1,a2);
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doTest(byte a1,byte a2)
+	 * Implement this, but call test(byte a1,byte a2)
 	 */
-	boolean doTestX(byte a1, byte a2) throws Throwable;
+	boolean testX(byte a1, byte a2) throws Throwable;
 
 	default boolean tupleTest(LBytePair args) {
-		return doTest(args.first(), args.second());
+		return test(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default boolean handlingDoTest(byte a1, byte a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default boolean handlingTest(byte a1, byte a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default boolean tryDoTest(byte a1, byte a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiBytePredicate handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingTest(a1, a2, handling);
+	}
+
+	default boolean test(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default boolean tryDoTest(byte a1, byte a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiBytePredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> test(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default boolean test(byte a1, byte a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default boolean tryDoTestThen(byte a1, byte a2, @Nonnull LPredicate<Throwable> handler) {
+	default LBiBytePredicate trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> test(a1, a2, exF);
+	}
+
+	default boolean testThen(byte a1, byte a2, @Nonnull LPredicate<Throwable> handler) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doTest(e);
+			return handler.test(e);
 		}
+	}
+
+	default LBiBytePredicate tryingThen(@Nonnull LPredicate<Throwable> handler) {
+		return (a1, a2) -> testThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default boolean nestingDoTest(byte a1, byte a2) {
+	default boolean nestingTest(byte a1, byte a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default boolean shovingDoTest(byte a1, byte a2) {
+	default boolean shovingTest(byte a1, byte a2) {
 		try {
-			return this.doTestX(a1, a2);
+			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static boolean handlingDoTest(byte a1, byte a2, LBiBytePredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(byte a1, byte a2, LBiBytePredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoTest(a1, a2, handling);
+		return func.handlingTest(a1, a2, handling);
 	}
 
-	static boolean tryDoTest(byte a1, byte a2, LBiBytePredicate func) {
-		return tryDoTest(a1, a2, func, null);
-	}
-
-	static boolean tryDoTest(byte a1, byte a2, LBiBytePredicate func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryTest(byte a1, byte a2, LBiBytePredicate func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingTest(a1, a2);
 	}
 
-	static boolean tryDoTest(byte a1, byte a2, LBiBytePredicate func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static boolean tryTest(byte a1, byte a2, LBiBytePredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTest(a1, a2, exceptionFactory);
+		return func.test(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static boolean tryDoTestThen(byte a1, byte a2, LBiBytePredicate func, @Nonnull LPredicate<Throwable> handler) {
+	static boolean tryTest(byte a1, byte a2, LBiBytePredicate func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoTestThen(a1, a2, handler);
+		return func.test(a1, a2, exF);
 	}
 
-	default boolean failSafeDoTest(byte a1, byte a2, @Nonnull LBiBytePredicate failSafe) {
+	static boolean tryTestThen(byte a1, byte a2, LBiBytePredicate func, @Nonnull LPredicate<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.testThen(a1, a2, handler);
+	}
+
+	default boolean failSafeTest(byte a1, byte a2, @Nonnull LBiBytePredicate failSafe) {
 		try {
-			return doTest(a1, a2);
+			return test(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		}
 	}
 
-	static boolean failSafeDoTest(byte a1, byte a2, LBiBytePredicate func, @Nonnull LBiBytePredicate failSafe) {
+	static boolean failSafeTest(byte a1, byte a2, LBiBytePredicate func, @Nonnull LBiBytePredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doTest(a1, a2);
+			return failSafe.test(a1, a2);
 		} else {
-			return func.failSafeDoTest(a1, a2, failSafe);
+			return func.failSafeTest(a1, a2, failSafe);
 		}
 	}
 
-	static LBiBytePredicate failSafeBiBytePred(LBiBytePredicate func, @Nonnull LBiBytePredicate failSafe) {
+	static LBiBytePredicate failSafe(LBiBytePredicate func, @Nonnull LBiBytePredicate failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoTest(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeTest(a1, a2, func, failSafe);
 	}
 
 	default boolean doIf(byte a1, byte a2, LAction action) {
-		if (doTest(a1, a2)) {
-			action.doExecute();
+		Null.nonNullArg(action, "action");
+		if (test(a1, a2)) {
+			action.execute();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	default boolean doIf(byte a1, byte a2, LBiByteConsumer consumer) {
-		if (doTest(a1, a2)) {
-			consumer.doAccept(a1, a2);
+	static boolean doIf(byte a1, byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LAction action) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, action);
+	}
+
+	static boolean doIf(byte a1, byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LBiByteConsumer consumer) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.doIf(a1, a2, consumer);
+	}
+
+	default boolean doIf(byte a1, byte a2, @Nonnull LBiByteConsumer consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a1, a2)) {
+			consumer.accept(a1, a2);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	static void throwIf(byte a1, byte a2, LBiBytePredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.doTest(a1, a2)) {
+	static void throwIf(byte a1, byte a2, LBiBytePredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
-	static void throwIfNot(byte a1, byte a2, LBiBytePredicate pred, ExceptionWithMessageFactory<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.doTest(a1, a2)) {
+	static void throwIfNot(byte a1, byte a2, LBiBytePredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNullDoTest(byte a1, byte a2) {
-		return doTest(a1, a2);
+	default boolean nonNullTest(byte a1, byte a2) {
+		return test(a1, a2);
 	}
 
 	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(byte a1, byte a2) {
-		return doTest(a1, a2);
+		return test(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -238,13 +267,13 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, byte a1, byte a2, LBiBytePredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
@@ -252,28 +281,30 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, byte a1, byte a2, LBiBytePredicate func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doTest(a1, a2);
+				func.test(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, byte a1, byte a2, LBiBytePredicate func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LBytePredicate lShrink(LByteUnaryOperator left) {
-		return a2 -> doTest(left.doApplyAsByte(a2), a2);
+		return a2 -> test(left.applyAsByte(a2), a2);
 	}
 
 	public default LBytePredicate lShrinkc(byte a1) {
-		return a2 -> doTest(a1, a2);
+		return a2 -> test(a1, a2);
 	}
 
 	public static LBytePredicate lShrinked(LByteUnaryOperator left, LBiBytePredicate func) {
@@ -285,11 +316,11 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	public default LBytePredicate rShrink(LByteUnaryOperator right) {
-		return a1 -> doTest(a1, right.doApplyAsByte(a1));
+		return a1 -> test(a1, right.applyAsByte(a1));
 	}
 
 	public default LBytePredicate rShrinkc(byte a2) {
-		return a1 -> doTest(a1, a2);
+		return a1 -> test(a1, a2);
 	}
 
 	public static LBytePredicate rShrinked(LByteUnaryOperator right, LBiBytePredicate func) {
@@ -301,13 +332,13 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/**  */
-	public static LBiBytePredicate uncurryBiBytePred(LByteFunction<LBytePredicate> func) {
-		return (byte a1, byte a2) -> func.doApply(a1).doTest(a2);
+	public static LBiBytePredicate uncurry(LByteFunction<LBytePredicate> func) {
+		return (byte a1, byte a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier captureBiBytePred(byte a1, byte a2) {
-		return () -> this.doTest(a1, a2);
+	default LBoolSupplier capture(byte a1, byte a2) {
+		return () -> this.test(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -318,13 +349,13 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiBytePredicate test1st(@Nonnull LBytePredicate func) {
-		return (a1, a2) -> func.doTest(a1);
+		return (a1, a2) -> func.test(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiBytePredicate test2nd(@Nonnull LBytePredicate func) {
-		return (a1, a2) -> func.doTest(a2);
+		return (a1, a2) -> func.test(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -337,7 +368,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	static LBiBytePredicate recursive(final @Nonnull LFunction<LBiBytePredicate, LBiBytePredicate> selfLambda) {
 		final LBiBytePredicateSingle single = new LBiBytePredicateSingle();
-		LBiBytePredicate func = selfLambda.doApply(single);
+		LBiBytePredicate func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -346,8 +377,8 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		private LBiBytePredicate target = null;
 
 		@Override
-		public boolean doTestX(byte a1, byte a2) throws Throwable {
-			return target.doTestX(a1, a2);
+		public boolean testX(byte a1, byte a2) throws Throwable {
+			return target.testX(a1, a2);
 		}
 
 		@Override
@@ -357,18 +388,18 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	@Nonnull
-	static LBiBytePredicate biBytePredThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiBytePredicate biBytePredThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBiBytePredicate biBytePredThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiBytePredicate biBytePredThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -385,7 +416,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	static boolean call(byte a1, byte a2, final @Nonnull LBiBytePredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doTest(a1, a2);
+		return lambda.test(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -436,7 +467,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	 */
 	@Nonnull
 	default LBiBytePredicate negate() {
-		return (a1, a2) -> !doTest(a1, a2);
+		return (a1, a2) -> !test(a1, a2);
 	}
 
 	/**
@@ -446,7 +477,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default LBiBytePredicate and(@Nonnull LBiBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) && other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) && other.test(a1, a2);
 	}
 
 	/**
@@ -456,7 +487,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default LBiBytePredicate or(@Nonnull LBiBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) || other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) || other.test(a1, a2);
 	}
 
 	/**
@@ -466,7 +497,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default LBiBytePredicate xor(@Nonnull LBiBytePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (a1, a2) -> doTest(a1, a2) ^ other.doTest(a1, a2);
+		return (a1, a2) -> test(a1, a2) ^ other.test(a1, a2);
 	}
 
 	/**
@@ -484,14 +515,14 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiBytePredicate biBytePredComposeByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
+	default LBiBytePredicate compose(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.test(before1.applyAsByte(v1), before2.applyAsByte(v2));
 	}
 
-	public static LBiBytePredicate composedByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, LBiBytePredicate after) {
-		return after.biBytePredComposeByte(before1, before2);
+	public static LBiBytePredicate composed(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, LBiBytePredicate after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -499,7 +530,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default <V1, V2> LBiPredicate<V1, V2> biBytePredCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
+		return (v1, v2) -> this.test(before1.applyAsByte(v1), before2.applyAsByte(v2));
 	}
 
 	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2, LBiBytePredicate after) {
@@ -514,37 +545,26 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	default <V> LBiByteFunction<V> boolToBiByteFunc(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.apply(this.test(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteBinaryOperator boolToByteBinaryOp(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsByte(this.doTest(a1, a2));
+		return (a1, a2) -> after.applyAsByte(this.test(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiBytePredicate boolToBiBytePred(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doTest(a1, a2));
+		return (a1, a2) -> after.apply(this.test(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiBytePredicate nestingBiBytePred() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiBytePredicate shovingBiBytePred() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -554,11 +574,11 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@FunctionalInterface
 	interface LByte1Byte0Pred extends LBiBytePredicate {
 
-		boolean doTestByte1Byte0(byte a2, byte a1);
+		boolean testByte1Byte0(byte a2, byte a1);
 
 		@Override
-		default boolean doTestX(byte a1, byte a2) {
-			return this.doTestByte1Byte0(a2, a1);
+		default boolean testX(byte a1, byte a2) {
+			return this.testByte1Byte0(a2, a1);
 		}
 	}
 
@@ -576,63 +596,75 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return false;
 	}
 
-	// FILTER: FOR, [SourcePurpose{arg=byte a1, type=IA}, SourcePurpose{arg=byte a2, type=IA}, SourcePurpose{arg=LBiByteConsumer consumer, type=CONST}]
-	default <C1, C2> void forEach(IndexedRead<C1, aByte> ia1, C1 source1, IndexedRead<C2, aByte> ia2, C2 source2, LBiByteConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2> void filterForEach(IndexedRead<C1, aByte> ia1, C1 source1, IndexedRead<C2, aByte> ia2, C2 source2, LBiByteConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToByteFunction<Object> oiFunc1 = (LOiToByteFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiToByteFunction<Object> oiFunc2 = (LOiToByteFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			byte a1 = oiFunc1.doApplyAsByte(source1, i);
-			byte a2 = oiFunc2.doApplyAsByte(source2, i);
+			byte a1 = oiFunc1.applyAsByte(source1, i);
+			byte a2 = oiFunc2.applyAsByte(source2, i);
 			doIf(a1, a2, consumer);
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=byte a1, type=SA}, SourcePurpose{arg=byte a2, type=IA}, SourcePurpose{arg=LBiByteConsumer consumer, type=CONST}]
-	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aByte> sa1, C1 source1, IndexedRead<C2, aByte> ia2, C2 source2, LBiByteConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, I1, C2> void filterIterate(SequentialRead<C1, I1, aByte> sa1, C1 source1, IndexedRead<C2, aByte> ia2, C2 source2, LBiByteConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.getter();
+		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToByteFunction<Object> oiFunc2 = (LOiToByteFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			byte a1 = nextFunc1.doApplyAsByte(iterator1);
-			byte a2 = oiFunc2.doApplyAsByte(source2, i);
+		while (testFunc1.test(iterator1) && i < size) {
+			byte a1 = nextFunc1.applyAsByte(iterator1);
+			byte a2 = oiFunc2.applyAsByte(source2, i);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=byte a1, type=IA}, SourcePurpose{arg=byte a2, type=SA}, SourcePurpose{arg=LBiByteConsumer consumer, type=CONST}]
-	default <C1, C2, I2> void iterate(IndexedRead<C1, aByte> ia1, C1 source1, SequentialRead<C2, I2, aByte> sa2, C2 source2, LBiByteConsumer consumer) {
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
+	default <C1, C2, I2> void filterIterate(IndexedRead<C1, aByte> ia1, C1 source1, SequentialRead<C2, I2, aByte> sa2, C2 source2, LBiByteConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToByteFunction<Object> oiFunc1 = (LOiToByteFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.getter();
+		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			byte a1 = oiFunc1.doApplyAsByte(source1, i);
-			byte a2 = nextFunc2.doApplyAsByte(iterator2);
+		while (i < size && testFunc2.test(iterator2)) {
+			byte a1 = oiFunc1.applyAsByte(source1, i);
+			byte a2 = nextFunc2.applyAsByte(iterator2);
 			doIf(a1, a2, consumer);
 			i++;
 		}
 	}
 
-	// FILTER: WHILE, [SourcePurpose{arg=byte a1, type=SA}, SourcePurpose{arg=byte a2, type=SA}, SourcePurpose{arg=LBiByteConsumer consumer, type=CONST}]
-	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aByte> sa1, C1 source1, SequentialRead<C2, I2, aByte> sa2, C2 source2, LBiByteConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+	/**
+	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
+	default <C1, I1, C2, I2> void filterIterate(SequentialRead<C1, I1, aByte> sa1, C1 source1, SequentialRead<C2, I2, aByte> sa2, C2 source2, LBiByteConsumer consumer) {
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToByteFunction<Object> nextFunc1 = (LToByteFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			byte a1 = nextFunc1.doApplyAsByte(iterator1);
-			byte a2 = nextFunc2.doApplyAsByte(iterator2);
+		LToByteFunction<Object> nextFunc2 = (LToByteFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			byte a1 = nextFunc1.applyAsByte(iterator1);
+			byte a2 = nextFunc2.applyAsByte(iterator2);
 			doIf(a1, a2, consumer);
 		}
 	}

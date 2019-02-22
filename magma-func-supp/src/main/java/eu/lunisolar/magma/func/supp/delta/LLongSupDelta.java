@@ -89,8 +89,8 @@ public class LLongSupDelta extends LLongSupMemento {
 	}
 
 	@Override
-	public long doGetAsLong() {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doGetAsLong());
+	public long getAsLong() {
+		return deltaFunction.applyAsLong(lastValue(), super.getAsLong());
 	}
 
 	// <editor-fold desc="object">

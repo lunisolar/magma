@@ -80,8 +80,10 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> Consumer<T> consumerFrom(Function<ConsumerBuilder<T>, Consumer<T>> buildingFunction) {
-		return buildingFunction.apply(new ConsumerBuilder());
+	public static <T> Consumer<T> consumerFrom(Consumer<ConsumerBuilder<T>> buildingFunction) {
+		ConsumerBuilder builder = new ConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 		retval = Function4U.<T> cons(a -> {
 			try {
 				for (Case<LPredicate<T>, Consumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						aCase.caseFunction().accept(a);
 						return;
 					}

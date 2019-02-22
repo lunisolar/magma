@@ -82,13 +82,12 @@ public interface LBoolToLongFunctionAssert<S extends LBoolToLongFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LBoolConsumer, A, RS, Long> doesApplyAsLong(boolean a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a));
+				return assertFactory.apply(actual.applyAsLong(a));
 			});
-
 		}
 
 	}

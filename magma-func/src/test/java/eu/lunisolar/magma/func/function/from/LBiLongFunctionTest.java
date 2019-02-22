@@ -65,14 +65,14 @@ public class LBiLongFunctionTest<R> {
 
 
     private LBiLongFunction<Integer> sut = new LBiLongFunction<Integer>(){
-        public @Nullable Integer doApplyX(long a1,long a2)  {
+        public @Nullable Integer applyX(long a1,long a2)  {
             return testValue;
         }
     };
 
 
     private LBiLongFunction<Integer> sutNull = new LBiLongFunction<Integer>(){
-        public @Nullable Integer doApplyX(long a1,long a2)  {
+        public @Nullable Integer applyX(long a1,long a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBiLongFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100L,100L))
+        assertThat(sut.apply(100L,100L))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBiLongFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100L,100L))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100L,100L))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100L,100L);
+            sutAlwaysThrowingUnchecked.nestingApply(100L,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBiLongFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100L,100L);
+            sutAlwaysThrowingUnchecked.shovingApply(100L,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBiLongFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiLongFunction: R doApply(long a1,long a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiLongFunction: R apply(long a1,long a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100L,100L);
+        sutNull.nonNullApply(100L,100L);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiLongFunction: R doApply(long a1,long a2)");
+            .isEqualTo("LBiLongFunction: R apply(long a1,long a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBiLongFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiLongFuncComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LBiLongFunctionTest<R> {
         };
 
         //when
-        LBiLongFunction<Integer> function = sutO.biLongFuncComposeLong(before1,before2);
-        function.doApply(80L,81L);
+        LBiLongFunction<Integer> function = sutO.compose(before1,before2);
+        function.apply(80L,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LBiLongFunctionTest<R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.biLongFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LBiLongFunctionTest<R> {
 
         //when
         LBiLongFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80L,81L);
+        Integer finalValue = function.apply(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LBiLongFunctionTest<R> {
 
         //when
         LBiLongConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(80L,81L);
+        function.accept(80L,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LBiLongFunctionTest<R> {
 
         //when
         LLongBinaryOperator function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80L,81L);
+        long finalValue = function.applyAsLong(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -367,7 +367,7 @@ public class LBiLongFunctionTest<R> {
 
         //when
         LBiLongPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80L,81L);
+        boolean finalValue = function.test(80L,81L);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -380,20 +380,6 @@ public class LBiLongFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiLongFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiLongFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -404,7 +390,7 @@ public class LBiLongFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingBiLongFunc().doApply(100L,100L);
+        sutThrowing.shovingApply(100L,100L);
     }
 
 
@@ -417,7 +403,7 @@ public class LBiLongFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiLongFunction: R doApply(long a1,long a2)");
+                .contains("LBiLongFunction: R apply(long a1,long a2)");
     }
 
 

@@ -72,8 +72,8 @@ public class LFltFuncMemento<R> implements LFltFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(float a) {
-		return lastValue = function.doApply(a);
+	public R applyX(float a) {
+		return lastValue = function.apply(a);
 	}
 
 	public R lastValue() {

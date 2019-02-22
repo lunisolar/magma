@@ -72,8 +72,8 @@ public class LBinaryOpMemento<T> implements LBinaryOperator<T> {
 	}
 
 	@Override
-	public T doApplyX(T a1, T a2) {
-		return lastValue = function.doApply(a1, a2);
+	public T applyX(T a1, T a2) {
+		return lastValue = function.apply(a1, a2);
 	}
 
 	public T lastValue() {

@@ -72,90 +72,90 @@ public interface AccessCharPair {
 
 	default void useWith(LBiCharConsumer accessFunction) {
 		LCharPair tuple = accessCharPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiCharConsumer accessFunction) {
 		LCharPair tuple = accessCharPair();
-		accessFunction.doAccept(tuple.second(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiCharConsumer.LChar1Char0Cons accessFunction) {
 		LCharPair tuple = accessCharPair();
-		accessFunction.doAcceptChar1Char0(tuple.first(), tuple.second());
+		accessFunction.acceptChar1Char0(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiCharConsumer.LChar1Char0Cons accessFunction) {
 		LCharPair tuple = accessCharPair();
-		accessFunction.doAcceptChar1Char0(tuple.second(), tuple.first());
+		accessFunction.acceptChar1Char0(tuple.second(), tuple.first());
 	}
 
 	default char useWith(LCharBinaryOperator accessFunction) {
 		LCharPair tuple = accessCharPair();
-		char retval = accessFunction.doApplyAsChar(tuple.first(), tuple.second());
+		char retval = accessFunction.applyAsChar(tuple.first(), tuple.second());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default char useWithO1(LCharBinaryOperator accessFunction) {
 		LCharPair tuple = accessCharPair();
-		char retval = accessFunction.doApplyAsChar(tuple.second(), tuple.first());
+		char retval = accessFunction.applyAsChar(tuple.second(), tuple.first());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiCharFunction<R> accessFunction) {
 		LCharPair tuple = accessCharPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiCharFunction<R> accessFunction) {
 		LCharPair tuple = accessCharPair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiCharFunction.LChar1Char0Func<R> accessFunction) {
 		LCharPair tuple = accessCharPair();
-		R retval = accessFunction.doApplyChar1Char0(tuple.first(), tuple.second());
+		R retval = accessFunction.applyChar1Char0(tuple.first(), tuple.second());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiCharFunction.LChar1Char0Func<R> accessFunction) {
 		LCharPair tuple = accessCharPair();
-		R retval = accessFunction.doApplyChar1Char0(tuple.second(), tuple.first());
+		R retval = accessFunction.applyChar1Char0(tuple.second(), tuple.first());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiCharPredicate accessFunction) {
 		LCharPair tuple = accessCharPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiCharPredicate accessFunction) {
 		LCharPair tuple = accessCharPair();
-		boolean retval = accessFunction.doTest(tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(tuple.second(), tuple.first());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiCharPredicate.LChar1Char0Pred accessFunction) {
 		LCharPair tuple = accessCharPair();
-		boolean retval = accessFunction.doTestChar1Char0(tuple.first(), tuple.second());
+		boolean retval = accessFunction.testChar1Char0(tuple.first(), tuple.second());
 		releaseCharPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiCharPredicate.LChar1Char0Pred accessFunction) {
 		LCharPair tuple = accessCharPair();
-		boolean retval = accessFunction.doTestChar1Char0(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testChar1Char0(tuple.second(), tuple.first());
 		releaseCharPair(tuple);
 		return retval;
 	}

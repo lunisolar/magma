@@ -80,13 +80,12 @@ public interface JreDoublePredicateAssert<S extends JreDoublePredicateAssert<S, 
 		@Nonnull
 		public Evaluation<S, LDblConsumer, A, RS, Boolean> doesTest(double a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.test(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

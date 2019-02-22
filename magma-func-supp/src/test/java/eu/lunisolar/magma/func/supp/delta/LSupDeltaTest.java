@@ -55,7 +55,7 @@ public class LSupDeltaTest <T> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGet())
+        assertThat(sut.get())
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LSupDeltaTest <T> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGet())
+        assertThat(sut.get())
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

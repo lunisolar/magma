@@ -80,8 +80,10 @@ public final class LObjLongPredicateBuilder<T> extends PerCaseBuilderWithBoolPro
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LObjLongPredicate<T> objLongPredicateFrom(Function<LObjLongPredicateBuilder<T>, LObjLongPredicate<T>> buildingFunction) {
-		return buildingFunction.apply(new LObjLongPredicateBuilder());
+	public static <T> LObjLongPredicate<T> objLongPredicateFrom(Consumer<LObjLongPredicateBuilder<T>> buildingFunction) {
+		LObjLongPredicateBuilder builder = new LObjLongPredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LObjLongPredicateBuilder<T> extends PerCaseBuilderWithBoolPro
 		retval = LObjLongPredicate.<T> objLongPred((a1, a2) -> {
 			try {
 				for (Case<LObjLongPredicate<T>, LObjLongPredicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doTest(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().test(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doTest(a1, a2);
+				return eventuallyFinal.test(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

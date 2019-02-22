@@ -55,7 +55,7 @@ public class LByteToLongFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsLong((byte)100))
+        assertThat(sut.applyAsLong((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LByteToLongFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong((byte)100))
+        assertThat(sut.applyAsLong((byte)100))
             .isEqualTo(9L);
 
         assertThat(functionCallCount).isEqualTo(2);

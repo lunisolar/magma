@@ -80,8 +80,10 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDblProduct.Ba
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleSupplier dblSupplierFrom(Function<DoubleSupplierBuilder, DoubleSupplier> buildingFunction) {
-		return buildingFunction.apply(new DoubleSupplierBuilder());
+	public static DoubleSupplier dblSupplierFrom(Consumer<DoubleSupplierBuilder> buildingFunction) {
+		DoubleSupplierBuilder builder = new DoubleSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDblProduct.Ba
 		retval = Function4U.dblSup(() -> {
 			try {
 				for (Case<LBoolSupplier, DoubleSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
+					if (aCase.casePredicate().getAsBool()) {
 						return aCase.caseFunction().getAsDouble();
 					}
 				}

@@ -65,7 +65,7 @@ public class LObjBytePredicateTest<T> {
 
 
     private LObjBytePredicate<Integer> sut = new LObjBytePredicate<Integer>(){
-        public  boolean doTestX(Integer a1,byte a2)  {
+        public  boolean testX(Integer a1,byte a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LObjBytePredicateTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100,(byte)100))
+        assertThat(sut.test(100,(byte)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LObjBytePredicateTest<T> {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100,(byte)100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100,(byte)100);
+            sutAlwaysThrowingUnchecked.nestingTest(100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LObjBytePredicateTest<T> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100,(byte)100);
+            sutAlwaysThrowingUnchecked.shovingTest(100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LObjBytePredicateTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBytePredicate: boolean doTest(T a1,byte a2)");
+            .isEqualTo("LObjBytePredicate: boolean test(T a1,byte a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LObjBytePredicateTest<T> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100,(byte)100))
+        assertThat(sut.negate().test(100,(byte)100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LObjBytePredicateTest<T> {
         LObjBytePredicate<Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100,(byte)100))
+        assertThat(andFunction.test(100,(byte)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100,(byte)100))
+        assertThat(orFunction.test(100,(byte)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100,(byte)100))
+        assertThat(xorFunction.test(100,(byte)100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LObjBytePredicateTest<T> {
         LObjBytePredicate<Integer> equals = LObjBytePredicate.isEqual(1,(byte)1);
 
         //then
-        assertThat(equals.doTest(1,(byte)1))
+        assertThat(equals.test(1,(byte)1))
                 .isTrue();
 
-        assertThat(equals.doTest(0,(byte)0))
+        assertThat(equals.test(0,(byte)0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LObjBytePredicateTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjBytePredComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LObjBytePredicateTest<T> {
         };
 
         //when
-        LObjBytePredicate<Integer> function = sutO.objBytePredComposeByte(before1,before2);
-        function.doTest(80,(byte)81);
+        LObjBytePredicate<Integer> function = sutO.compose(before1,before2);
+        function.test(80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LObjBytePredicateTest<T> {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.objBytePredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LObjBytePredicateTest<T> {
 
         //when
         LObjByteFunction<Integer,Integer> function = sutO.boolToObjByteFunc(thenFunction);
-        Integer finalValue = function.doApply(80,(byte)81);
+        Integer finalValue = function.apply(80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LObjBytePredicateTest<T> {
 
         //when
         LObjBytePredicate<Integer> function = sutO.boolToObjBytePred(thenFunction);
-        boolean finalValue = function.doTest(80,(byte)81);
+        boolean finalValue = function.test(80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -362,20 +362,6 @@ public class LObjBytePredicateTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjBytePred())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBytePredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjBytePred())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBytePredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -386,7 +372,7 @@ public class LObjBytePredicateTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjBytePred().doTest(100,(byte)100);
+        sutThrowing.shovingTest(100,(byte)100);
     }
 
 
@@ -399,7 +385,7 @@ public class LObjBytePredicateTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjBytePredicate: boolean doTest(T a1,byte a2)");
+                .contains("LObjBytePredicate: boolean test(T a1,byte a2)");
     }
 
 

@@ -89,8 +89,8 @@ public class LCharBinaryOpDelta extends LCharBinaryOpMemento {
 	}
 
 	@Override
-	public char doApplyAsChar(char a1, char a2) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a1, a2));
+	public char applyAsChar(char a1, char a2) {
+		return deltaFunction.applyAsChar(lastValue(), super.applyAsChar(a1, a2));
 	}
 
 	// <editor-fold desc="object">

@@ -82,13 +82,12 @@ public interface LIntSupplierAssert<S extends LIntSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Integer> doesGetAsInt() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGetAsInt());
+				return assertFactory.apply(actual.getAsInt());
 			});
-
 		}
 
 		@Nonnull

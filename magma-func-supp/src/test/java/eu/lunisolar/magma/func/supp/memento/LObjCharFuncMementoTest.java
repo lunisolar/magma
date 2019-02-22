@@ -54,7 +54,7 @@ public class LObjCharFuncMementoTest <T,R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply(100,'\u0100'))
+        assertThat(sut.apply(100,'\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LObjCharFuncMementoTest <T,R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100,'\u0100'))
+        assertThat(sut.apply(100,'\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

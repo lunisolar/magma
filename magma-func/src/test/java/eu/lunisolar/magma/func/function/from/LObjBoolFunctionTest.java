@@ -65,14 +65,14 @@ public class LObjBoolFunctionTest<T,R> {
 
 
     private LObjBoolFunction<Integer,Integer> sut = new LObjBoolFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,boolean a2)  {
+        public @Nullable Integer applyX(Integer a1,boolean a2)  {
             return testValue;
         }
     };
 
 
     private LObjBoolFunction<Integer,Integer> sutNull = new LObjBoolFunction<Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,boolean a2)  {
+        public @Nullable Integer applyX(Integer a1,boolean a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LObjBoolFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,true))
+        assertThat(sut.apply(100,true))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LObjBoolFunctionTest<T,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,true))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,true))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,true);
+            sutAlwaysThrowingUnchecked.nestingApply(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LObjBoolFunctionTest<T,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,true);
+            sutAlwaysThrowingUnchecked.shovingApply(100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LObjBoolFunctionTest<T,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjBoolFunction: R doApply(T a1,boolean a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LObjBoolFunction: R apply(T a1,boolean a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,true);
+        sutNull.nonNullApply(100,true);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBoolFunction: R doApply(T a1,boolean a2)");
+            .isEqualTo("LObjBoolFunction: R apply(T a1,boolean a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LObjBoolFunctionTest<T,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjBoolFuncComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LObjBoolFunctionTest<T,R> {
         };
 
         //when
-        LObjBoolFunction<Integer,Integer> function = sutO.objBoolFuncComposeBool(before1,before2);
-        function.doApply(80,true);
+        LObjBoolFunction<Integer,Integer> function = sutO.compose(before1,before2);
+        function.apply(80,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LObjBoolFunctionTest<T,R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.objBoolFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LObjBoolFunctionTest<T,R> {
 
         //when
         LObjBoolFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,true);
+        Integer finalValue = function.apply(80,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LObjBoolFunctionTest<T,R> {
 
         //when
         LObjBoolConsumer<Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,true);
+        function.accept(80,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LObjBoolFunctionTest<T,R> {
 
         //when
         LObjBoolPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,true);
+        boolean finalValue = function.test(80,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -345,20 +345,6 @@ public class LObjBoolFunctionTest<T,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBoolFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LObjBoolFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -369,7 +355,7 @@ public class LObjBoolFunctionTest<T,R> {
         });
 
         // when
-        sutThrowing.shovingObjBoolFunc().doApply(100,true);
+        sutThrowing.shovingApply(100,true);
     }
 
 
@@ -382,7 +368,7 @@ public class LObjBoolFunctionTest<T,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjBoolFunction: R doApply(T a1,boolean a2)");
+                .contains("LObjBoolFunction: R apply(T a1,boolean a2)");
     }
 
 

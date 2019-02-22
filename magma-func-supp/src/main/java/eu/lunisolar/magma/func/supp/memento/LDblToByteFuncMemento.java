@@ -72,8 +72,8 @@ public class LDblToByteFuncMemento implements LDblToByteFunction {
 	}
 
 	@Override
-	public byte doApplyAsByteX(double a) {
-		return lastValue = function.doApplyAsByte(a);
+	public byte applyAsByteX(double a) {
+		return lastValue = function.applyAsByte(a);
 	}
 
 	public byte lastValue() {

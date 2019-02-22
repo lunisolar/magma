@@ -72,8 +72,8 @@ public class LOiToByteFuncMemento<T> implements LOiToByteFunction<T> {
 	}
 
 	@Override
-	public byte doApplyAsByteX(T a1, int a2) {
-		return lastValue = function.doApplyAsByte(a1, a2);
+	public byte applyAsByteX(T a1, int a2) {
+		return lastValue = function.applyAsByte(a1, a2);
 	}
 
 	public byte lastValue() {

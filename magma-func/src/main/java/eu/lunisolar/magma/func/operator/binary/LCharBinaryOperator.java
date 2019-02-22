@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aChar>, Domain2<aChar, aChar> { // NOSONAR
 
-	String DESCRIPTION = "LCharBinaryOperator: char doApplyAsChar(char a1,char a2)";
+	String DESCRIPTION = "LCharBinaryOperator: char applyAsChar(char a1,char a2)";
 
-	// char doApplyAsChar(char a1,char a2) ;
-	default char doApplyAsChar(char a1, char a2) {
-		// return nestingDoApplyAsChar(a1,a2);
+	// char applyAsChar(char a1,char a2) ;
+	default char applyAsChar(char a1, char a2) {
+		// return nestingApplyAsChar(a1,a2);
 		try {
-			return this.doApplyAsCharX(a1, a2);
+			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsChar(char a1,char a2)
+	 * Implement this, but call applyAsChar(char a1,char a2)
 	 */
-	char doApplyAsCharX(char a1, char a2) throws Throwable;
+	char applyAsCharX(char a1, char a2) throws Throwable;
 
 	default char tupleApplyAsChar(LCharPair args) {
-		return doApplyAsChar(args.first(), args.second());
+		return applyAsChar(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default char handlingDoApplyAsChar(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default char handlingApplyAsChar(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsCharX(a1, a2);
+			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default char tryDoApplyAsChar(char a1, char a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LCharBinaryOperator handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingApplyAsChar(a1, a2, handling);
+	}
+
+	default char applyAsChar(char a1, char a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsCharX(a1, a2);
+			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default char tryDoApplyAsChar(char a1, char a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LCharBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> applyAsChar(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default char applyAsChar(char a1, char a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsCharX(a1, a2);
+			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default char tryDoApplyAsCharThen(char a1, char a2, @Nonnull LToCharFunction<Throwable> handler) {
+	default LCharBinaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> applyAsChar(a1, a2, exF);
+	}
+
+	default char applyAsCharThen(char a1, char a2, @Nonnull LToCharFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsCharX(a1, a2);
+			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsChar(e);
+			return handler.applyAsChar(e);
 		}
+	}
+
+	default LCharBinaryOperator tryingThen(@Nonnull LToCharFunction<Throwable> handler) {
+		return (a1, a2) -> applyAsCharThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default char nestingDoApplyAsChar(char a1, char a2) {
+	default char nestingApplyAsChar(char a1, char a2) {
 		try {
-			return this.doApplyAsCharX(a1, a2);
+			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default char shovingDoApplyAsChar(char a1, char a2) {
+	default char shovingApplyAsChar(char a1, char a2) {
 		try {
-			return this.doApplyAsCharX(a1, a2);
+			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static char handlingDoApplyAsChar(char a1, char a2, LCharBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static char handlingApplyAsChar(char a1, char a2, LCharBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsChar(a1, a2, handling);
+		return func.handlingApplyAsChar(a1, a2, handling);
 	}
 
-	static char tryDoApplyAsChar(char a1, char a2, LCharBinaryOperator func) {
-		return tryDoApplyAsChar(a1, a2, func, null);
-	}
-
-	static char tryDoApplyAsChar(char a1, char a2, LCharBinaryOperator func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static char tryApplyAsChar(char a1, char a2, LCharBinaryOperator func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsChar(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsChar(a1, a2);
 	}
 
-	static char tryDoApplyAsChar(char a1, char a2, LCharBinaryOperator func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static char tryApplyAsChar(char a1, char a2, LCharBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsChar(a1, a2, exceptionFactory);
+		return func.applyAsChar(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static char tryDoApplyAsCharThen(char a1, char a2, LCharBinaryOperator func, @Nonnull LToCharFunction<Throwable> handler) {
+	static char tryApplyAsChar(char a1, char a2, LCharBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsCharThen(a1, a2, handler);
+		return func.applyAsChar(a1, a2, exF);
 	}
 
-	default char failSafeDoApplyAsChar(char a1, char a2, @Nonnull LCharBinaryOperator failSafe) {
+	static char tryApplyAsCharThen(char a1, char a2, LCharBinaryOperator func, @Nonnull LToCharFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsCharThen(a1, a2, handler);
+	}
+
+	default char failSafeApplyAsChar(char a1, char a2, @Nonnull LCharBinaryOperator failSafe) {
 		try {
-			return doApplyAsChar(a1, a2);
+			return applyAsChar(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsChar(a1, a2);
+			return failSafe.applyAsChar(a1, a2);
 		}
 	}
 
-	static char failSafeDoApplyAsChar(char a1, char a2, LCharBinaryOperator func, @Nonnull LCharBinaryOperator failSafe) {
+	static char failSafeApplyAsChar(char a1, char a2, LCharBinaryOperator func, @Nonnull LCharBinaryOperator failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsChar(a1, a2);
+			return failSafe.applyAsChar(a1, a2);
 		} else {
-			return func.failSafeDoApplyAsChar(a1, a2, failSafe);
+			return func.failSafeApplyAsChar(a1, a2, failSafe);
 		}
 	}
 
-	static LCharBinaryOperator failSafeCharBinaryOp(LCharBinaryOperator func, @Nonnull LCharBinaryOperator failSafe) {
+	static LCharBinaryOperator failSafe(LCharBinaryOperator func, @Nonnull LCharBinaryOperator failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoApplyAsChar(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeApplyAsChar(a1, a2, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNullDoApplyAsChar(char a1, char a2) {
-		return doApplyAsChar(a1, a2);
+	default char nonNullApplyAsChar(char a1, char a2) {
+		return applyAsChar(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, char a1, char a2, LCharBinaryOperator func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsChar(a1, a2);
+				func.applyAsChar(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsChar(a1, a2);
+				func.applyAsChar(a1, a2);
 			}
 		}
 	}
@@ -216,28 +233,30 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, char a1, char a2, LCharBinaryOperator func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsChar(a1, a2);
+				func.applyAsChar(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsChar(a1, a2);
+				func.applyAsChar(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, char a1, char a2, LCharBinaryOperator func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LCharUnaryOperator lShrink(LCharUnaryOperator left) {
-		return a2 -> doApplyAsChar(left.doApplyAsChar(a2), a2);
+		return a2 -> applyAsChar(left.applyAsChar(a2), a2);
 	}
 
 	public default LCharUnaryOperator lShrinkc(char a1) {
-		return a2 -> doApplyAsChar(a1, a2);
+		return a2 -> applyAsChar(a1, a2);
 	}
 
 	public static LCharUnaryOperator lShrinked(LCharUnaryOperator left, LCharBinaryOperator func) {
@@ -249,11 +268,11 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	public default LCharUnaryOperator rShrink(LCharUnaryOperator right) {
-		return a1 -> doApplyAsChar(a1, right.doApplyAsChar(a1));
+		return a1 -> applyAsChar(a1, right.applyAsChar(a1));
 	}
 
 	public default LCharUnaryOperator rShrinkc(char a2) {
-		return a1 -> doApplyAsChar(a1, a2);
+		return a1 -> applyAsChar(a1, a2);
 	}
 
 	public static LCharUnaryOperator rShrinked(LCharUnaryOperator right, LCharBinaryOperator func) {
@@ -265,13 +284,13 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/**  */
-	public static LCharBinaryOperator uncurryCharBinaryOp(LCharFunction<LCharUnaryOperator> func) {
-		return (char a1, char a2) -> func.doApply(a1).doApplyAsChar(a2);
+	public static LCharBinaryOperator uncurry(LCharFunction<LCharUnaryOperator> func) {
+		return (char a1, char a2) -> func.apply(a1).applyAsChar(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureCharBinaryOp(char a1, char a2) {
-		return () -> this.doApplyAsChar(a1, a2);
+	default LCharSupplier capture(char a1, char a2) {
+		return () -> this.applyAsChar(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -282,13 +301,13 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LCharBinaryOperator apply1stAsChar(@Nonnull LCharUnaryOperator func) {
-		return (a1, a2) -> func.doApplyAsChar(a1);
+		return (a1, a2) -> func.applyAsChar(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LCharBinaryOperator apply2ndAsChar(@Nonnull LCharUnaryOperator func) {
-		return (a1, a2) -> func.doApplyAsChar(a2);
+		return (a1, a2) -> func.applyAsChar(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -301,7 +320,7 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	@Nonnull
 	static LCharBinaryOperator recursive(final @Nonnull LFunction<LCharBinaryOperator, LCharBinaryOperator> selfLambda) {
 		final LCharBinaryOperatorSingle single = new LCharBinaryOperatorSingle();
-		LCharBinaryOperator func = selfLambda.doApply(single);
+		LCharBinaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -310,8 +329,8 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		private LCharBinaryOperator target = null;
 
 		@Override
-		public char doApplyAsCharX(char a1, char a2) throws Throwable {
-			return target.doApplyAsCharX(a1, a2);
+		public char applyAsCharX(char a1, char a2) throws Throwable {
+			return target.applyAsCharX(a1, a2);
 		}
 
 		@Override
@@ -321,24 +340,24 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	@Nonnull
-	static LCharBinaryOperator charBinaryOpThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LCharBinaryOperator charBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LCharBinaryOperator charBinaryOpThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LCharBinaryOperator charBinaryOpThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static char call(char a1, char a2, final @Nonnull LCharBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsChar(a1, a2);
+		return lambda.applyAsChar(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -423,14 +442,14 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharBinaryOperator charBinaryOpComposeChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LCharBinaryOperator compose(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
-	public static LCharBinaryOperator composedChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LCharBinaryOperator after) {
-		return after.charBinaryOpComposeChar(before1, before2);
+	public static LCharBinaryOperator composed(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LCharBinaryOperator after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -438,7 +457,7 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default <V1, V2> LToCharBiFunction<V1, V2> charBinaryOpCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
 	public static <V1, V2> LToCharBiFunction<V1, V2> composed(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2, LCharBinaryOperator after) {
@@ -453,37 +472,26 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	@Nonnull
 	default <V> LBiCharFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doApplyAsChar(a1, a2));
+		return (a1, a2) -> after.apply(this.applyAsChar(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharBinaryOperator thenToChar(@Nonnull LCharUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsChar(this.doApplyAsChar(a1, a2));
+		return (a1, a2) -> after.applyAsChar(this.applyAsChar(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiCharPredicate thenToBool(@Nonnull LCharPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doTest(this.doApplyAsChar(a1, a2));
+		return (a1, a2) -> after.test(this.applyAsChar(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LCharBinaryOperator nestingCharBinaryOp() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBinaryOperator shovingCharBinaryOp() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -492,7 +500,10 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return Function4U.defaultCharacter;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2> void forEach(IndexedRead<C1, aChar> ia1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LCharConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
@@ -500,56 +511,65 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
-			consumer.doAccept(this.doApplyAsChar(a1, a2));
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = oiFunc2.applyAsChar(source2, i);
+			consumer.accept(this.applyAsChar(a1, a2));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LCharConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
-			consumer.doAccept(this.doApplyAsChar(a1, a2));
+		while (testFunc1.test(iterator1) && i < size) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = oiFunc2.applyAsChar(source2, i);
+			consumer.accept(this.applyAsChar(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2> void iterate(IndexedRead<C1, aChar> ia1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LCharConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
-			consumer.doAccept(this.doApplyAsChar(a1, a2));
+		while (i < size && testFunc2.test(iterator2)) {
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = nextFunc2.applyAsChar(iterator2);
+			consumer.accept(this.applyAsChar(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LCharConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LCharConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
-			consumer.doAccept(this.doApplyAsChar(a1, a2));
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = nextFunc2.applyAsChar(iterator2);
+			consumer.accept(this.applyAsChar(a1, a2));
 		}
 	}
 

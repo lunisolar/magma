@@ -63,7 +63,7 @@ public class LSrtIntConsumerTest {
 
 
     private LSrtIntConsumer sut = new LSrtIntConsumer(){
-        public  void doAcceptX(short a1,int a2)  {
+        public  void acceptX(short a1,int a2)  {
             LSrtIntConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LSrtIntConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept((short)100,100);
+            sutAlwaysThrowingUnchecked.nestingAccept((short)100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LSrtIntConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept((short)100,100);
+            sutAlwaysThrowingUnchecked.shovingAccept((short)100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LSrtIntConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtIntConsumer: void doAccept(short a1,int a2)");
+            .isEqualTo("LSrtIntConsumer: void accept(short a1,int a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LSrtIntConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testSrtIntConsComposeSrtInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LSrtIntConsumerTest {
         };
 
         //when
-        LSrtIntConsumer function = sutO.srtIntConsComposeSrtInt(before1,before2);
-        function.doAccept((short)80,81);
+        LSrtIntConsumer function = sutO.compose(before1,before2);
+        function.accept((short)80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LSrtIntConsumerTest {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.srtIntConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LSrtIntConsumerTest {
 
         //when
         LSrtIntConsumer function = sutO.andThen(thenFunction);
-        function.doAccept((short)80,81);
+        function.accept((short)80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingSrtIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtIntConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingSrtIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtIntConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LSrtIntConsumerTest {
         });
 
         // when
-        sutThrowing.shovingSrtIntCons().doAccept((short)100,100);
+        sutThrowing.shovingAccept((short)100,100);
     }
 
 
@@ -277,7 +263,7 @@ public class LSrtIntConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSrtIntConsumer: void doAccept(short a1,int a2)");
+                .contains("LSrtIntConsumer: void accept(short a1,int a2)");
     }
 
 

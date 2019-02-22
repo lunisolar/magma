@@ -65,14 +65,14 @@ public class LTernaryOperatorTest<T> {
 
 
     private LTernaryOperator<Integer> sut = new LTernaryOperator<Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2,Integer a3)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2,Integer a3)  {
             return testValue;
         }
     };
 
 
     private LTernaryOperator<Integer> sutNull = new LTernaryOperator<Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2,Integer a3)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2,Integer a3)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LTernaryOperatorTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100,100))
+        assertThat(sut.apply(100,100,100))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LTernaryOperatorTest<T> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100,100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100,100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100,100);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LTernaryOperatorTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100,100);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LTernaryOperatorTest<T> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTernaryOperator: T doApply(T a1,T a2,T a3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LTernaryOperator: T apply(T a1,T a2,T a3)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100,100);
+        sutNull.nonNullApply(100,100,100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTernaryOperator: T doApply(T a1,T a2,T a3)");
+            .isEqualTo("LTernaryOperator: T apply(T a1,T a2,T a3)");
     }
 
     @Test
@@ -192,7 +192,7 @@ public class LTernaryOperatorTest<T> {
 
         //when
         LTriFunction<Integer,Integer,Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,82);
+        Integer finalValue = function.apply(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -228,7 +228,7 @@ public class LTernaryOperatorTest<T> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,82);
+        int finalValue = function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -264,7 +264,7 @@ public class LTernaryOperatorTest<T> {
 
         //when
         LTriPredicate<Integer,Integer,Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,82);
+        boolean finalValue = function.test(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -277,20 +277,6 @@ public class LTernaryOperatorTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTernaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LTernaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTernaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LTernaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -301,7 +287,7 @@ public class LTernaryOperatorTest<T> {
         });
 
         // when
-        sutThrowing.shovingTernaryOp().doApply(100,100,100);
+        sutThrowing.shovingApply(100,100,100);
     }
 
 
@@ -314,7 +300,7 @@ public class LTernaryOperatorTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTernaryOperator: T doApply(T a1,T a2,T a3)");
+                .contains("LTernaryOperator: T apply(T a1,T a2,T a3)");
     }
 
 

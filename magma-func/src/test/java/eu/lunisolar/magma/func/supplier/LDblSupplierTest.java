@@ -65,7 +65,7 @@ public class LDblSupplierTest {
 
 
     private LDblSupplier sut = new LDblSupplier(){
-        public  double doGetAsDblX()  {
+        public  double getAsDblX()  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LDblSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doGetAsDbl())
+        assertThat(sut.getAsDbl())
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LDblSupplierTest {
     }
 
     @Test
-    public void testNonNullDoGetAsDbl() throws Throwable {
-        assertThat(sut.nonNullDoGetAsDbl())
+    public void testNonNullGetAsDbl() throws Throwable {
+        assertThat(sut.nonNullGetAsDbl())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsDblUnchecked() throws Throwable {
+    public void testNestingGetAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoGetAsDbl();
+            sutAlwaysThrowingUnchecked.nestingGetAsDbl();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LDblSupplierTest {
     }
 
     @Test
-    public void testShovingDoGetAsDblUnchecked() throws Throwable {
+    public void testShovingGetAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoGetAsDbl();
+            sutAlwaysThrowingUnchecked.shovingGetAsDbl();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LDblSupplierTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblSupplier: double doGetAsDbl()");
+            .isEqualTo("LDblSupplier: double getAsDbl()");
     }
 
     @Test
@@ -186,7 +186,7 @@ public class LDblSupplierTest {
 
         //when
         LSupplier<Integer> function = sutO.toSup(thenFunction);
-        Integer finalValue = function.doGet();
+        Integer finalValue = function.get();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -219,7 +219,7 @@ public class LDblSupplierTest {
 
         //when
         LByteSupplier function = sutO.toByteSup(thenFunction);
-        byte finalValue = function.doGetAsByte();
+        byte finalValue = function.getAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -252,7 +252,7 @@ public class LDblSupplierTest {
 
         //when
         LSrtSupplier function = sutO.toSrtSup(thenFunction);
-        short finalValue = function.doGetAsSrt();
+        short finalValue = function.getAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -285,7 +285,7 @@ public class LDblSupplierTest {
 
         //when
         LIntSupplier function = sutO.toIntSup(thenFunction);
-        int finalValue = function.doGetAsInt();
+        int finalValue = function.getAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -318,7 +318,7 @@ public class LDblSupplierTest {
 
         //when
         LLongSupplier function = sutO.toLongSup(thenFunction);
-        long finalValue = function.doGetAsLong();
+        long finalValue = function.getAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -351,7 +351,7 @@ public class LDblSupplierTest {
 
         //when
         LFltSupplier function = sutO.toFltSup(thenFunction);
-        float finalValue = function.doGetAsFlt();
+        float finalValue = function.getAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -384,7 +384,7 @@ public class LDblSupplierTest {
 
         //when
         LDblSupplier function = sutO.toDblSup(thenFunction);
-        double finalValue = function.doGetAsDbl();
+        double finalValue = function.getAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -417,7 +417,7 @@ public class LDblSupplierTest {
 
         //when
         LCharSupplier function = sutO.toCharSup(thenFunction);
-        char finalValue = function.doGetAsChar();
+        char finalValue = function.getAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -450,7 +450,7 @@ public class LDblSupplierTest {
 
         //when
         LBoolSupplier function = sutO.toBoolSup(thenFunction);
-        boolean finalValue = function.doGetAsBool();
+        boolean finalValue = function.getAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -463,20 +463,6 @@ public class LDblSupplierTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblSup())
-            .isSameAs(sut)
-            .isInstanceOf(LDblSupplier.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblSup())
-            .isSameAs(sut)
-            .isInstanceOf(LDblSupplier.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -487,7 +473,7 @@ public class LDblSupplierTest {
         });
 
         // when
-        sutThrowing.shovingDblSup().doGetAsDbl();
+        sutThrowing.shovingGetAsDbl();
     }
 
 
@@ -500,7 +486,7 @@ public class LDblSupplierTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblSupplier: double doGetAsDbl()");
+                .contains("LDblSupplier: double getAsDbl()");
     }
 
 

@@ -65,7 +65,7 @@ public class LDblToByteFunctionTest {
 
 
     private LDblToByteFunction sut = new LDblToByteFunction(){
-        public  byte doApplyAsByteX(double a)  {
+        public  byte applyAsByteX(double a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LDblToByteFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsByte(100d))
+        assertThat(sut.applyAsByte(100d))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LDblToByteFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsByte() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsByte(100d))
+    public void testNonNullApplyAsByte() throws Throwable {
+        assertThat(sut.nonNullApplyAsByte(100d))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsByteUnchecked() throws Throwable {
+    public void testNestingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsByte(100d);
+            sutAlwaysThrowingUnchecked.nestingApplyAsByte(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LDblToByteFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsByteUnchecked() throws Throwable {
+    public void testShovingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsByte(100d);
+            sutAlwaysThrowingUnchecked.shovingApplyAsByte(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LDblToByteFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblToByteFunction: byte doApplyAsByte(double a)");
+            .isEqualTo("LDblToByteFunction: byte applyAsByte(double a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LDblToByteFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblToByteFuncComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LDblToByteFunctionTest {
         };
 
         //when
-        LDblToByteFunction function = sutO.dblToByteFuncComposeDbl(before);
-        function.doApplyAsByte(80d);
+        LDblToByteFunction function = sutO.compose(before);
+        function.applyAsByte(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LToByteFunction<Integer> function = sutO.dblToByteFuncCompose(before);
-        function.doApplyAsByte(80);
+        function.applyAsByte(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80d);
+        Integer finalValue = function.apply(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80d);
+        byte finalValue = function.applyAsByte(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80d);
+        short finalValue = function.applyAsSrt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80d);
+        int finalValue = function.applyAsInt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80d);
+        long finalValue = function.applyAsLong(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80d);
+        float finalValue = function.applyAsFlt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblUnaryOperator function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d);
+        double finalValue = function.applyAsDbl(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80d);
+        char finalValue = function.applyAsChar(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LDblToByteFunctionTest {
 
         //when
         LDblPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80d);
+        boolean finalValue = function.test(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LDblToByteFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblToByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LDblToByteFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblToByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LDblToByteFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LDblToByteFunctionTest {
         });
 
         // when
-        sutThrowing.shovingDblToByteFunc().doApplyAsByte(100d);
+        sutThrowing.shovingApplyAsByte(100d);
     }
 
 
@@ -563,7 +549,7 @@ public class LDblToByteFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblToByteFunction: byte doApplyAsByte(double a)");
+                .contains("LDblToByteFunction: byte applyAsByte(double a)");
     }
 
 

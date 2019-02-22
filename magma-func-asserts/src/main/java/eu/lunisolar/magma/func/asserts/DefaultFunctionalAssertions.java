@@ -187,10 +187,10 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 		};
 	}
 
-	default DefaultFunctionalAssertions<AbstractIterableAssert> withinIteratorCodomain() {
-		return new DefaultFunctionalAssertions<AbstractIterableAssert>() {
+	default DefaultFunctionalAssertions<AbstractIteratorAssert> withinIteratorCodomain() {
+		return new DefaultFunctionalAssertions<AbstractIteratorAssert>() {
 			@Override
-			public AbstractIterableAssert assertThatObj(Object actual) {
+			public AbstractIteratorAssert assertThatObj(Object actual) {
 				return Assertions.assertThat((Iterator) actual);
 			}
 		};

@@ -69,7 +69,7 @@ public class LCharToIntFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsInt('\u0100');
+            function.applyAsInt('\u0100');
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LCharToIntFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsInt('\u0100');
+            function.applyAsInt('\u0100');
 
             fail("No exception were thrown.");
         })

@@ -107,39 +107,39 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
     }
 
     default <Z extends Throwable> SELF replaceIf(
-            @Nonnull Predicate<X> condition, @Nonnull ExceptionWithMessageFactory<Z> factory,
+            @Nonnull Predicate<X> condition, @Nonnull ExMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
         Handling.throwReplacementIf(condition, target(), factory, newMessage, messageParams);
         return self();
     }
 
-    default <Z extends Throwable> SELF wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExceptionWrapFactory<Z> factory) throws Z {
+    default <Z extends Throwable> SELF wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExWF<Z> factory) throws Z {
         Handling.throwWrapperIf(condition, target(), factory);
         return self();
     }
 
     default <Z extends Throwable> SELF wrapIf(
-            @Nonnull Predicate<X> condition, @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull Predicate<X> condition, @Nonnull ExWMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
         Handling.throwWrapperIf(condition, nonNullTarget(), factory, newMessage, messageParams);
         return self();
     }
 
     default <Z extends Throwable> SELF replaceWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWithMessageFactory<Z> factory,
+            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
 
         Handling.throwReplacementIf(condition.test(this), factory, newMessage, messageParams);
         return self();
     }
 
-    default <Z extends Throwable> SELF wrapWhen(@Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapFactory<Z> factory) throws Z {
+    default <Z extends Throwable> SELF wrapWhen(@Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExWF<Z> factory) throws Z {
         Handling.throwWrapperIf(condition.test(this), nonNullTarget(), factory);
         return self();
     }
 
     default <Z extends Throwable> SELF wrapWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExWMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
 
         Handling.throwWrapperIf(condition.test(this), nonNullTarget(), factory, newMessage, messageParams);
@@ -158,17 +158,17 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
     }
 
     default <Z extends Throwable> void throwReplacement(
-            @Nonnull ExceptionWithMessageFactory<Z> factory,
+            @Nonnull ExMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
         throw Handling.throwReplacement(factory, newMessage, messageParams);
     }
 
-    default <Z extends Throwable> void throwWrapper(@Nonnull ExceptionWrapFactory<Z> factory) throws Z {
+    default <Z extends Throwable> void throwWrapper(@Nonnull ExWF<Z> factory) throws Z {
         throw Handling.throwWrapper(nonNullTarget(), factory);
     }
 
     default <Z extends Throwable> void throwWrapper(
-            @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull ExWMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
         throw Handling.throwWrapper(nonNullTarget(), factory, newMessage, messageParams);
     }

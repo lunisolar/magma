@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aByte>, Domain1<aFloat> { // NOSONAR
 
-	String DESCRIPTION = "LFltToByteFunction: byte doApplyAsByte(float a)";
+	String DESCRIPTION = "LFltToByteFunction: byte applyAsByte(float a)";
 
-	// byte doApplyAsByte(float a) ;
-	default byte doApplyAsByte(float a) {
-		// return nestingDoApplyAsByte(a);
+	// byte applyAsByte(float a) ;
+	default byte applyAsByte(float a) {
+		// return nestingApplyAsByte(a);
 		try {
-			return this.doApplyAsByteX(a);
+			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsByte(float a)
+	 * Implement this, but call applyAsByte(float a)
 	 */
-	byte doApplyAsByteX(float a) throws Throwable;
+	byte applyAsByteX(float a) throws Throwable;
 
 	default byte tupleApplyAsByte(LFltSingle args) {
-		return doApplyAsByte(args.value());
+		return applyAsByte(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default byte handlingDoApplyAsByte(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default byte handlingApplyAsByte(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsByteX(a);
+			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default byte tryDoApplyAsByte(float a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LFltToByteFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsByte(a, handling);
+	}
+
+	default byte applyAsByte(float a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsByteX(a);
+			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default byte tryDoApplyAsByte(float a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LFltToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsByte(a, exF, newMessage, messageParams);
+	}
+
+	default byte applyAsByte(float a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsByteX(a);
+			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default byte tryDoApplyAsByteThen(float a, @Nonnull LToByteFunction<Throwable> handler) {
+	default LFltToByteFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsByte(a, exF);
+	}
+
+	default byte applyAsByteThen(float a, @Nonnull LToByteFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsByteX(a);
+			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsByte(e);
+			return handler.applyAsByte(e);
 		}
+	}
+
+	default LFltToByteFunction tryingThen(@Nonnull LToByteFunction<Throwable> handler) {
+		return a -> applyAsByteThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default byte nestingDoApplyAsByte(float a) {
+	default byte nestingApplyAsByte(float a) {
 		try {
-			return this.doApplyAsByteX(a);
+			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default byte shovingDoApplyAsByte(float a) {
+	default byte shovingApplyAsByte(float a) {
 		try {
-			return this.doApplyAsByteX(a);
+			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static byte handlingDoApplyAsByte(float a, LFltToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static byte handlingApplyAsByte(float a, LFltToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsByte(a, handling);
+		return func.handlingApplyAsByte(a, handling);
 	}
 
-	static byte tryDoApplyAsByte(float a, LFltToByteFunction func) {
-		return tryDoApplyAsByte(a, func, null);
-	}
-
-	static byte tryDoApplyAsByte(float a, LFltToByteFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static byte tryApplyAsByte(float a, LFltToByteFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsByte(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsByte(a);
 	}
 
-	static byte tryDoApplyAsByte(float a, LFltToByteFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static byte tryApplyAsByte(float a, LFltToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsByte(a, exceptionFactory);
+		return func.applyAsByte(a, exF, newMessage, messageParams);
 	}
 
-	static byte tryDoApplyAsByteThen(float a, LFltToByteFunction func, @Nonnull LToByteFunction<Throwable> handler) {
+	static byte tryApplyAsByte(float a, LFltToByteFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsByteThen(a, handler);
+		return func.applyAsByte(a, exF);
 	}
 
-	default byte failSafeDoApplyAsByte(float a, @Nonnull LFltToByteFunction failSafe) {
+	static byte tryApplyAsByteThen(float a, LFltToByteFunction func, @Nonnull LToByteFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByteThen(a, handler);
+	}
+
+	default byte failSafeApplyAsByte(float a, @Nonnull LFltToByteFunction failSafe) {
 		try {
-			return doApplyAsByte(a);
+			return applyAsByte(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsByte(a);
+			return failSafe.applyAsByte(a);
 		}
 	}
 
-	static byte failSafeDoApplyAsByte(float a, LFltToByteFunction func, @Nonnull LFltToByteFunction failSafe) {
+	static byte failSafeApplyAsByte(float a, LFltToByteFunction func, @Nonnull LFltToByteFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsByte(a);
+			return failSafe.applyAsByte(a);
 		} else {
-			return func.failSafeDoApplyAsByte(a, failSafe);
+			return func.failSafeApplyAsByte(a, failSafe);
 		}
 	}
 
-	static LFltToByteFunction failSafeFltToByteFunc(LFltToByteFunction func, @Nonnull LFltToByteFunction failSafe) {
+	static LFltToByteFunction failSafe(LFltToByteFunction func, @Nonnull LFltToByteFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsByte(a, func, failSafe);
+		return a -> failSafeApplyAsByte(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNullDoApplyAsByte(float a) {
-		return doApplyAsByte(a);
+	default byte nonNullApplyAsByte(float a) {
+		return applyAsByte(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, float a, LFltToByteFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsByte(a);
+				func.applyAsByte(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsByte(a);
+				func.applyAsByte(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, float a, LFltToByteFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsByte(a);
+				func.applyAsByte(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsByte(a);
+				func.applyAsByte(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, float a, LFltToByteFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureFltToByteFunc(float a) {
-		return () -> this.doApplyAsByte(a);
+	default LByteSupplier capture(float a) {
+		return () -> this.applyAsByte(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	static LFltToByteFunction recursive(final @Nonnull LFunction<LFltToByteFunction, LFltToByteFunction> selfLambda) {
 		final LFltToByteFunctionSingle single = new LFltToByteFunctionSingle();
-		LFltToByteFunction func = selfLambda.doApply(single);
+		LFltToByteFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		private LFltToByteFunction target = null;
 
 		@Override
-		public byte doApplyAsByteX(float a) throws Throwable {
-			return target.doApplyAsByteX(a);
+		public byte applyAsByteX(float a) throws Throwable {
+			return target.applyAsByteX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static LFltToByteFunction fltToByteFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LFltToByteFunction fltToByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LFltToByteFunction fltToByteFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LFltToByteFunction fltToByteFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static byte call(float a, final @Nonnull LFltToByteFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsByte(a);
+		return lambda.applyAsByte(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFltToByteFunction fltToByteFuncComposeFlt(@Nonnull final LFltUnaryOperator before) {
+	default LFltToByteFunction compose(@Nonnull final LFltUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsByte(before.doApplyAsFlt(v));
+		return v -> this.applyAsByte(before.applyAsFlt(v));
 	}
 
-	public static LFltToByteFunction composedFlt(@Nonnull final LFltUnaryOperator before, LFltToByteFunction after) {
-		return after.fltToByteFuncComposeFlt(before);
+	public static LFltToByteFunction composed(@Nonnull final LFltUnaryOperator before, LFltToByteFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToByteFunction<V> fltToByteFuncCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsByte(before.doApplyAsFlt(v));
+		return v -> this.applyAsByte(before.applyAsFlt(v));
 	}
 
 	public static <V> LToByteFunction<V> composed(@Nonnull final LToFltFunction<? super V> before, LFltToByteFunction after) {
@@ -364,79 +383,68 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default <V> LFltFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsByte(a));
+		return a -> after.apply(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsByte(a));
+		return a -> after.applyAsByte(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToSrtFunction thenToSrt(@Nonnull LByteToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsByte(a));
+		return a -> after.applyAsSrt(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsByte(a));
+		return a -> after.applyAsInt(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsByte(a));
+		return a -> after.applyAsLong(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltUnaryOperator thenToFlt(@Nonnull LByteToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsByte(a));
+		return a -> after.applyAsFlt(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToDblFunction thenToDbl(@Nonnull LByteToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsByte(a));
+		return a -> after.applyAsDbl(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsByte(a));
+		return a -> after.applyAsChar(this.applyAsByte(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltPredicate thenToBool(@Nonnull LBytePredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsByte(a));
+		return a -> after.test(this.applyAsByte(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LFltToByteFunction nestingFltToByteFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFltToByteFunction shovingFltToByteFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return Function4U.defaultByte;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=float a, type=IA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aFloat> ia, C0 source, LByteConsumer consumer) {
 		int size = ia.size(source);
 		LOiToFltFunction<Object> oiFunc0 = (LOiToFltFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			float a = oiFunc0.doApplyAsFlt(source, i);
-			consumer.doAccept(this.doApplyAsByte(a));
+			float a = oiFunc0.applyAsFlt(source, i);
+			consumer.accept(this.applyAsByte(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=float a, type=SA}, SourcePurpose{arg=LByteConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aFloat> sa, C0 source, LByteConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			float a = nextFunc0.doApplyAsFlt(iterator0);
-			consumer.doAccept(this.doApplyAsByte(a));
+		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			float a = nextFunc0.applyAsFlt(iterator0);
+			consumer.accept(this.applyAsByte(a));
 		}
 	}
 

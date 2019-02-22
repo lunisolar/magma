@@ -54,7 +54,7 @@ public class LFltBinaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0f);
 
-        assertThat(sut.doApplyAsFlt(100f,100f))
+        assertThat(sut.applyAsFlt(100f,100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LFltBinaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt(100f,100f))
+        assertThat(sut.applyAsFlt(100f,100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

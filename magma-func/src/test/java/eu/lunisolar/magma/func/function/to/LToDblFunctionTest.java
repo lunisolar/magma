@@ -65,7 +65,7 @@ public class LToDblFunctionTest<T> {
 
 
     private LToDblFunction<Integer> sut = new LToDblFunction<Integer>(){
-        public  double doApplyAsDblX(Integer a)  {
+        public  double applyAsDblX(Integer a)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LToDblFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsDbl(100))
+        assertThat(sut.applyAsDbl(100))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LToDblFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsDbl() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsDbl(100))
+    public void testNonNullApplyAsDbl() throws Throwable {
+        assertThat(sut.nonNullApplyAsDbl(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsDblUnchecked() throws Throwable {
+    public void testNestingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsDbl(100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsDbl(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LToDblFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsDblUnchecked() throws Throwable {
+    public void testShovingApplyAsDblUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsDbl(100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsDbl(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LToDblFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToDblFunction: double doApplyAsDbl(T a)");
+            .isEqualTo("LToDblFunction: double applyAsDbl(T a)");
     }
 
     @Test
@@ -164,7 +164,7 @@ public class LToDblFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testToDblFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -183,8 +183,8 @@ public class LToDblFunctionTest<T> {
         };
 
         //when
-        LToDblFunction<Integer> function = sutO.toDblFuncCompose(before);
-        function.doApplyAsDbl(80);
+        LToDblFunction<Integer> function = sutO.compose(before);
+        function.applyAsDbl(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -220,7 +220,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -254,7 +254,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -288,7 +288,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -322,7 +322,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -356,7 +356,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -390,7 +390,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -424,7 +424,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -458,7 +458,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -492,7 +492,7 @@ public class LToDblFunctionTest<T> {
 
         //when
         LPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -505,20 +505,6 @@ public class LToDblFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingToDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToDblFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingToDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToDblFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -529,7 +515,7 @@ public class LToDblFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingToDblFunc().doApplyAsDbl(100);
+        sutThrowing.shovingApplyAsDbl(100);
     }
 
 
@@ -542,7 +528,7 @@ public class LToDblFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToDblFunction: double doApplyAsDbl(T a)");
+                .contains("LToDblFunction: double applyAsDbl(T a)");
     }
 
 

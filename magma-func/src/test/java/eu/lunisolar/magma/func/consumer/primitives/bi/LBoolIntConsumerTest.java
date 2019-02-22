@@ -63,7 +63,7 @@ public class LBoolIntConsumerTest {
 
 
     private LBoolIntConsumer sut = new LBoolIntConsumer(){
-        public  void doAcceptX(boolean a1,int a2)  {
+        public  void acceptX(boolean a1,int a2)  {
             LBoolIntConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LBoolIntConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(true,100);
+            sutAlwaysThrowingUnchecked.nestingAccept(true,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LBoolIntConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(true,100);
+            sutAlwaysThrowingUnchecked.shovingAccept(true,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBoolIntConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolIntConsumer: void doAccept(boolean a1,int a2)");
+            .isEqualTo("LBoolIntConsumer: void accept(boolean a1,int a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LBoolIntConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBoolIntConsComposeBoolInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LBoolIntConsumerTest {
         };
 
         //when
-        LBoolIntConsumer function = sutO.boolIntConsComposeBoolInt(before1,before2);
-        function.doAccept(true,81);
+        LBoolIntConsumer function = sutO.compose(before1,before2);
+        function.accept(true,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LBoolIntConsumerTest {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.boolIntConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LBoolIntConsumerTest {
 
         //when
         LBoolIntConsumer function = sutO.andThen(thenFunction);
-        function.doAccept(true,81);
+        function.accept(true,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBoolIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolIntConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBoolIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolIntConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LBoolIntConsumerTest {
         });
 
         // when
-        sutThrowing.shovingBoolIntCons().doAccept(true,100);
+        sutThrowing.shovingAccept(true,100);
     }
 
 
@@ -277,7 +263,7 @@ public class LBoolIntConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolIntConsumer: void doAccept(boolean a1,int a2)");
+                .contains("LBoolIntConsumer: void accept(boolean a1,int a2)");
     }
 
 

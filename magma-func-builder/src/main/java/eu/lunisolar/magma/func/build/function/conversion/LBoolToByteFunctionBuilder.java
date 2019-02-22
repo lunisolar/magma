@@ -80,8 +80,10 @@ public final class LBoolToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBoolToByteFunction boolToByteFunctionFrom(Function<LBoolToByteFunctionBuilder, LBoolToByteFunction> buildingFunction) {
-		return buildingFunction.apply(new LBoolToByteFunctionBuilder());
+	public static LBoolToByteFunction boolToByteFunctionFrom(Consumer<LBoolToByteFunctionBuilder> buildingFunction) {
+		LBoolToByteFunctionBuilder builder = new LBoolToByteFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LBoolToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		retval = LBoolToByteFunction.boolToByteFunc(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a)) {
-						return aCase.caseFunction().doApplyAsByte(a);
+					if (aCase.casePredicate().apply(a)) {
+						return aCase.caseFunction().applyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a);
+				return eventuallyFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

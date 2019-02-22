@@ -77,8 +77,8 @@ public class LDblFuncDelta<R> extends LDblFuncMemento<R> {
 	}
 
 	@Override
-	public R doApply(double a) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a));
+	public R apply(double a) {
+		return deltaFunction.apply(lastValue(), super.apply(a));
 	}
 
 	// <editor-fold desc="object">

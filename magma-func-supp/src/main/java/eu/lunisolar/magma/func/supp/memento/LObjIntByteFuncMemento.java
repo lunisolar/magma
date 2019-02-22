@@ -72,8 +72,8 @@ public class LObjIntByteFuncMemento<T, R> implements LObjIntByteFunction<T, R> {
 	}
 
 	@Override
-	public R doApplyX(T a1, int a2, byte a3) {
-		return lastValue = function.doApply(a1, a2, a3);
+	public R applyX(T a1, int a2, byte a3) {
+		return lastValue = function.apply(a1, a2, a3);
 	}
 
 	public R lastValue() {

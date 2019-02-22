@@ -54,7 +54,7 @@ public class LByteUnaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo((byte)0);
 
-        assertThat(sut.doApplyAsByte((byte)100))
+        assertThat(sut.applyAsByte((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LByteUnaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte((byte)100))
+        assertThat(sut.applyAsByte((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

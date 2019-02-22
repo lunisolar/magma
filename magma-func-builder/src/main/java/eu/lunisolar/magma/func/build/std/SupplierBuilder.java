@@ -80,8 +80,10 @@ public final class SupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<Sup
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> Supplier<T> supplierFrom(Function<SupplierBuilder<T>, Supplier<T>> buildingFunction) {
-		return buildingFunction.apply(new SupplierBuilder());
+	public static <T> Supplier<T> supplierFrom(Consumer<SupplierBuilder<T>> buildingFunction) {
+		SupplierBuilder builder = new SupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class SupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<Sup
 		retval = Function4U.<T> sup(() -> {
 			try {
 				for (Case<LBoolSupplier, Supplier<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
+					if (aCase.casePredicate().getAsBool()) {
 						return aCase.caseFunction().get();
 					}
 				}

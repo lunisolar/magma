@@ -55,7 +55,7 @@ public class LTieCharFuncDeltaTest <T> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsInt(100,100,'\u0100'))
+        assertThat(sut.applyAsInt(100,100,'\u0100'))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LTieCharFuncDeltaTest <T> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(100,100,'\u0100'))
+        assertThat(sut.applyAsInt(100,100,'\u0100'))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

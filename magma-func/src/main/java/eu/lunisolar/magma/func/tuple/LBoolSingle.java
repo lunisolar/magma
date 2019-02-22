@@ -34,26 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBoolConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolSingle extends LTuple<Boolean> {
+public interface LBoolSingle extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	boolean value();
 
-	default boolean getValue() {
+	default boolean first() {
 		return value();
 	}
 
-	default Boolean get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default boolean getBoolean(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -98,63 +89,8 @@ public interface LBoolSingle extends LTuple<Boolean> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Boolean[] toVoArray(Boolean[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Boolean[] toVoArray(Boolean[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Boolean[] toVoArray() {
-		Boolean[] array = new Boolean[size()];
-
-		return toVoArray(array);
-	}
-
-	default boolean[] toBoolArray(boolean[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default boolean[] toBoolArray(boolean[] array) {
-		return toBoolArray(array, 0);
-	}
-
-	default boolean[] toBoolArray() {
-		boolean[] array = new boolean[size()];
-
-		return toBoolArray(array);
-	}
-
-	@Override
-	default Iterator<Boolean> iterator() {
-		return new Iterator<Boolean>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -164,7 +100,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 			}
 
 			@Override
-			public Boolean next() {
+			public Object next() {
 				index++;
 				return get(index);
 			}
@@ -200,7 +136,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -242,7 +178,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutBoolSingle setValueIfArg(boolean value, LLogicalOperator predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.apply(value)) {
 				this.value = value;
 			}
 			return this;
@@ -251,14 +187,14 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutBoolSingle setValueIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.value = func.doTest(arg);
+				this.value = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutBoolSingle setValueIf(LLogicalOperator predicate, boolean value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.apply(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -267,7 +203,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutBoolSingle setValueIf(boolean value, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.apply(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -276,7 +212,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutBoolSingle setValueIf(LLogicalBinaryOperator predicate, boolean value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.apply(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -322,7 +258,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompBoolSingle setValueIfArg(boolean value, LLogicalOperator predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.apply(value)) {
 				this.value = value;
 			}
 			return this;
@@ -331,14 +267,14 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompBoolSingle setValueIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.value = func.doTest(arg);
+				this.value = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompBoolSingle setValueIf(LLogicalOperator predicate, boolean value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.apply(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -347,7 +283,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompBoolSingle setValueIf(boolean value, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.apply(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -356,7 +292,7 @@ public interface LBoolSingle extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompBoolSingle setValueIf(LLogicalBinaryOperator predicate, boolean value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.apply(this.value, value)) {
 				this.value = value;
 			}
 			return this;

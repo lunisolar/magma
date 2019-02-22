@@ -80,13 +80,12 @@ public interface JreLongSupplierAssert<S extends JreLongSupplierAssert<S, A, RS>
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Long> doesGetAsLong() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.getAsLong());
+				return assertFactory.apply(actual.getAsLong());
 			});
-
 		}
 
 		@Nonnull

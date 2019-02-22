@@ -89,8 +89,8 @@ public class LToFltBiFuncDelta<T1, T2> extends LToFltBiFuncMemento<T1, T2> {
 	}
 
 	@Override
-	public float doApplyAsFlt(T1 a1, T2 a2) {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doApplyAsFlt(a1, a2));
+	public float applyAsFlt(T1 a1, T2 a2) {
+		return deltaFunction.applyAsFlt(lastValue(), super.applyAsFlt(a1, a2));
 	}
 
 	// <editor-fold desc="object">

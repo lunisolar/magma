@@ -55,7 +55,7 @@ public class LOiToDblFuncDeltaTest <T> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsDbl(100,100))
+        assertThat(sut.applyAsDbl(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LOiToDblFuncDeltaTest <T> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsDbl(100,100))
+        assertThat(sut.applyAsDbl(100,100))
             .isEqualTo(9d);
 
         assertThat(functionCallCount).isEqualTo(2);

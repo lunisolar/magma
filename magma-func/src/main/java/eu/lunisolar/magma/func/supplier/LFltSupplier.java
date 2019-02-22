@@ -64,131 +64,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, Codomain<aFloat>, Domain0 { // NOSONAR
 
-	String DESCRIPTION = "LFltSupplier: float doGetAsFlt()";
+	String DESCRIPTION = "LFltSupplier: float getAsFlt()";
 
-	// float doGetAsFlt() ;
-	default float doGetAsFlt() {
-		// return nestingDoGetAsFlt();
+	// float getAsFlt() ;
+	default float getAsFlt() {
+		// return nestingGetAsFlt();
 		try {
-			return this.doGetAsFltX();
+			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doGetAsFlt()
+	 * Implement this, but call getAsFlt()
 	 */
-	float doGetAsFltX() throws Throwable;
+	float getAsFltX() throws Throwable;
 
 	default float tupleGetAsFlt(LTuple.Void args) {
-		return doGetAsFlt();
+		return getAsFlt();
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default float handlingDoGetAsFlt(HandlingInstructions<Throwable, RuntimeException> handling) {
+	default float handlingGetAsFlt(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doGetAsFltX();
+			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default float tryDoGetAsFlt(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LFltSupplier handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return () -> handlingGetAsFlt(handling);
+	}
+
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doGetAsFltX();
+			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default float tryDoGetAsFlt(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return () -> getAsFlt(exF, newMessage, messageParams);
+	}
+
+	default float getAsFlt(@Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doGetAsFltX();
+			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default float tryDoGetAsFltThen(@Nonnull LToFltFunction<Throwable> handler) {
+	default LFltSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
+		return () -> getAsFlt(exF);
+	}
+
+	default float getAsFltThen(@Nonnull LToFltFunction<Throwable> handler) {
 		try {
-			return this.doGetAsFltX();
+			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsFlt(e);
+			return handler.applyAsFlt(e);
 		}
+	}
+
+	default LFltSupplier tryingThen(@Nonnull LToFltFunction<Throwable> handler) {
+		return () -> getAsFltThen(handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default float nestingDoGetAsFlt() {
+	default float nestingGetAsFlt() {
 		try {
-			return this.doGetAsFltX();
+			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default float shovingDoGetAsFlt() {
+	default float shovingGetAsFlt() {
 		try {
-			return this.doGetAsFltX();
+			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static float handlingDoGetAsFlt(LFltSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static float handlingGetAsFlt(LFltSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoGetAsFlt(handling);
+		return func.handlingGetAsFlt(handling);
 	}
 
-	static float tryDoGetAsFlt(LFltSupplier func) {
-		return tryDoGetAsFlt(func, null);
-	}
-
-	static float tryDoGetAsFlt(LFltSupplier func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static float tryGetAsFlt(LFltSupplier func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsFlt(exceptionFactory, newMessage, messageParams);
+		return func.nestingGetAsFlt();
 	}
 
-	static float tryDoGetAsFlt(LFltSupplier func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsFlt(exceptionFactory);
+		return func.getAsFlt(exF, newMessage, messageParams);
 	}
 
-	static float tryDoGetAsFltThen(LFltSupplier func, @Nonnull LToFltFunction<Throwable> handler) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsFltThen(handler);
+		return func.getAsFlt(exF);
 	}
 
-	default float failSafeDoGetAsFlt(@Nonnull LFltSupplier failSafe) {
+	static float tryGetAsFltThen(LFltSupplier func, @Nonnull LToFltFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.getAsFltThen(handler);
+	}
+
+	default float failSafeGetAsFlt(@Nonnull LFltSupplier failSafe) {
 		try {
-			return doGetAsFlt();
+			return getAsFlt();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doGetAsFlt();
+			return failSafe.getAsFlt();
 		}
 	}
 
-	static float failSafeDoGetAsFlt(LFltSupplier func, @Nonnull LFltSupplier failSafe) {
+	static float failSafeGetAsFlt(LFltSupplier func, @Nonnull LFltSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doGetAsFlt();
+			return failSafe.getAsFlt();
 		} else {
-			return func.failSafeDoGetAsFlt(failSafe);
+			return func.failSafeGetAsFlt(failSafe);
 		}
 	}
 
-	static LFltSupplier failSafeFltSup(LFltSupplier func, @Nonnull LFltSupplier failSafe) {
+	static LFltSupplier failSafe(LFltSupplier func, @Nonnull LFltSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeDoGetAsFlt(func, failSafe);
+		return () -> failSafeGetAsFlt(func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNullDoGetAsFlt() {
-		return doGetAsFlt();
+	default float nonNullGetAsFlt() {
+		return getAsFlt();
 	}
 
 	/** Returns description of the functional interface. */
@@ -200,13 +217,13 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, LFltSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doGetAsFlt();
+				func.getAsFlt();
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doGetAsFlt();
+				func.getAsFlt();
 			}
 		}
 	}
@@ -214,19 +231,21 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, LFltSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doGetAsFlt();
+				func.getAsFlt();
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doGetAsFlt();
+				func.getAsFlt();
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, LFltSupplier func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, func);
 	}
 
@@ -245,7 +264,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	@Nonnull
 	static LFltSupplier recursive(final @Nonnull LFunction<LFltSupplier, LFltSupplier> selfLambda) {
 		final LFltSupplierSingle single = new LFltSupplierSingle();
-		LFltSupplier func = selfLambda.doApply(single);
+		LFltSupplier func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -254,8 +273,8 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 		private LFltSupplier target = null;
 
 		@Override
-		public float doGetAsFltX() throws Throwable {
-			return target.doGetAsFltX();
+		public float getAsFltX() throws Throwable {
+			return target.getAsFltX();
 		}
 
 		@Override
@@ -265,24 +284,24 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	}
 
 	@Nonnull
-	static LFltSupplier fltSupThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LFltSupplier fltSupThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LFltSupplier fltSupThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LFltSupplier fltSupThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static float call(final @Nonnull LFltSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doGetAsFlt();
+		return lambda.getAsFlt();
 	}
 
 	// <editor-fold desc="wrap">
@@ -331,79 +350,68 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	@Nonnull
 	default <V> LSupplier<V> toSup(@Nonnull LFltFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApply(this.doGetAsFlt());
+		return () -> after.apply(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteSupplier toByteSup(@Nonnull LFltToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsByte(this.doGetAsFlt());
+		return () -> after.applyAsByte(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtSupplier toSrtSup(@Nonnull LFltToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsSrt(this.doGetAsFlt());
+		return () -> after.applyAsSrt(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntSupplier toIntSup(@Nonnull LFltToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsInt(this.doGetAsFlt());
+		return () -> after.applyAsInt(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongSupplier toLongSup(@Nonnull LFltToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsLong(this.doGetAsFlt());
+		return () -> after.applyAsLong(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltSupplier toFltSup(@Nonnull LFltUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFlt(this.doGetAsFlt());
+		return () -> after.applyAsFlt(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblSupplier toDblSup(@Nonnull LFltToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDbl(this.doGetAsFlt());
+		return () -> after.applyAsDbl(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharSupplier toCharSup(@Nonnull LFltToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsChar(this.doGetAsFlt());
+		return () -> after.applyAsChar(this.getAsFlt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolSupplier toBoolSup(@Nonnull LFltPredicate after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doTest(this.doGetAsFlt());
+		return () -> after.test(this.getAsFlt());
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LFltSupplier nestingFltSup() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFltSupplier shovingFltSup() {
-		return this;
-	}
 
 	// </editor-fold>
 

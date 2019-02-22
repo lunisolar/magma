@@ -80,8 +80,10 @@ public final class LObjFltConsumerBuilder<T> extends PerCaseBuilder.Base<LObjFlt
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LObjFltConsumer<T> objFltConsumerFrom(Function<LObjFltConsumerBuilder<T>, LObjFltConsumer<T>> buildingFunction) {
-		return buildingFunction.apply(new LObjFltConsumerBuilder());
+	public static <T> LObjFltConsumer<T> objFltConsumerFrom(Consumer<LObjFltConsumerBuilder<T>> buildingFunction) {
+		LObjFltConsumerBuilder builder = new LObjFltConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,13 +133,13 @@ public final class LObjFltConsumerBuilder<T> extends PerCaseBuilder.Base<LObjFlt
 		retval = LObjFltConsumer.<T> objFltCons((a1, a2) -> {
 			try {
 				for (Case<LObjFltPredicate<T>, LObjFltConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						aCase.caseFunction().doAccept(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						aCase.caseFunction().accept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1, a2);
+				eventuallyFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

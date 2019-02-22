@@ -82,13 +82,12 @@ public interface LFltToCharFunctionAssert<S extends LFltToCharFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LFltConsumer, A, RS, Character> doesApplyAsChar(float a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsChar(a));
+				return assertFactory.apply(actual.applyAsChar(a));
 			});
-
 		}
 
 	}

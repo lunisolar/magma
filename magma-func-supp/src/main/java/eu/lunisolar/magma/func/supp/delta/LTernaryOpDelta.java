@@ -77,8 +77,8 @@ public class LTernaryOpDelta<T> extends LTernaryOpMemento<T> {
 	}
 
 	@Override
-	public T doApply(T a1, T a2, T a3) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2, a3));
+	public T apply(T a1, T a2, T a3) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));
 	}
 
 	// <editor-fold desc="object">

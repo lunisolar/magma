@@ -80,8 +80,10 @@ public final class RunnableBuilder extends PerCaseBuilder.Base<RunnableBuilder, 
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static Runnable actionFrom(Function<RunnableBuilder, Runnable> buildingFunction) {
-		return buildingFunction.apply(new RunnableBuilder());
+	public static Runnable actionFrom(Consumer<RunnableBuilder> buildingFunction) {
+		RunnableBuilder builder = new RunnableBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class RunnableBuilder extends PerCaseBuilder.Base<RunnableBuilder, 
 		retval = Function4U.act(() -> {
 			try {
 				for (Case<LBoolSupplier, Runnable> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
+					if (aCase.casePredicate().getAsBool()) {
 						aCase.caseFunction().run();
 						return;
 					}

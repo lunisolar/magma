@@ -79,14 +79,13 @@ public interface LBiCharConsumerAssert<S extends LBiCharConsumerAssert<S, A>, A 
 		@Nonnull
 		public SemiEvaluation<S, LBiCharConsumer, A> doesAccept(char a1, char a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				actual.doAccept(a1, a2);
+				actual.accept(a1, a2);
 				return null;
 			});
-
 		}
 
 	}

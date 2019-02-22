@@ -80,8 +80,10 @@ public final class LLongToDblFunctionBuilder extends PerCaseBuilderWithDblProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LLongToDblFunction longToDblFunctionFrom(Function<LLongToDblFunctionBuilder, LLongToDblFunction> buildingFunction) {
-		return buildingFunction.apply(new LLongToDblFunctionBuilder());
+	public static LLongToDblFunction longToDblFunctionFrom(Consumer<LLongToDblFunctionBuilder> buildingFunction) {
+		LLongToDblFunctionBuilder builder = new LLongToDblFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LLongToDblFunctionBuilder extends PerCaseBuilderWithDblProduc
 		retval = LLongToDblFunction.longToDblFunc(a -> {
 			try {
 				for (Case<LLongPredicate, LLongToDblFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsDbl(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsDbl(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsDbl(a);
+				return eventuallyFinal.applyAsDbl(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

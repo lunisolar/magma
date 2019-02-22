@@ -72,90 +72,90 @@ public interface AccessFltPair {
 
 	default void useWith(LBiFltConsumer accessFunction) {
 		LFltPair tuple = accessFltPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiFltConsumer accessFunction) {
 		LFltPair tuple = accessFltPair();
-		accessFunction.doAccept(tuple.second(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiFltConsumer.LFlt1Flt0Cons accessFunction) {
 		LFltPair tuple = accessFltPair();
-		accessFunction.doAcceptFlt1Flt0(tuple.first(), tuple.second());
+		accessFunction.acceptFlt1Flt0(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiFltConsumer.LFlt1Flt0Cons accessFunction) {
 		LFltPair tuple = accessFltPair();
-		accessFunction.doAcceptFlt1Flt0(tuple.second(), tuple.first());
+		accessFunction.acceptFlt1Flt0(tuple.second(), tuple.first());
 	}
 
 	default float useWith(LFltBinaryOperator accessFunction) {
 		LFltPair tuple = accessFltPair();
-		float retval = accessFunction.doApplyAsFlt(tuple.first(), tuple.second());
+		float retval = accessFunction.applyAsFlt(tuple.first(), tuple.second());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default float useWithO1(LFltBinaryOperator accessFunction) {
 		LFltPair tuple = accessFltPair();
-		float retval = accessFunction.doApplyAsFlt(tuple.second(), tuple.first());
+		float retval = accessFunction.applyAsFlt(tuple.second(), tuple.first());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiFltFunction<R> accessFunction) {
 		LFltPair tuple = accessFltPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiFltFunction<R> accessFunction) {
 		LFltPair tuple = accessFltPair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiFltFunction.LFlt1Flt0Func<R> accessFunction) {
 		LFltPair tuple = accessFltPair();
-		R retval = accessFunction.doApplyFlt1Flt0(tuple.first(), tuple.second());
+		R retval = accessFunction.applyFlt1Flt0(tuple.first(), tuple.second());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiFltFunction.LFlt1Flt0Func<R> accessFunction) {
 		LFltPair tuple = accessFltPair();
-		R retval = accessFunction.doApplyFlt1Flt0(tuple.second(), tuple.first());
+		R retval = accessFunction.applyFlt1Flt0(tuple.second(), tuple.first());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiFltPredicate accessFunction) {
 		LFltPair tuple = accessFltPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiFltPredicate accessFunction) {
 		LFltPair tuple = accessFltPair();
-		boolean retval = accessFunction.doTest(tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(tuple.second(), tuple.first());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiFltPredicate.LFlt1Flt0Pred accessFunction) {
 		LFltPair tuple = accessFltPair();
-		boolean retval = accessFunction.doTestFlt1Flt0(tuple.first(), tuple.second());
+		boolean retval = accessFunction.testFlt1Flt0(tuple.first(), tuple.second());
 		releaseFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiFltPredicate.LFlt1Flt0Pred accessFunction) {
 		LFltPair tuple = accessFltPair();
-		boolean retval = accessFunction.doTestFlt1Flt0(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testFlt1Flt0(tuple.second(), tuple.first());
 		releaseFltPair(tuple);
 		return retval;
 	}

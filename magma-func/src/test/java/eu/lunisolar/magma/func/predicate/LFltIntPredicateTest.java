@@ -65,7 +65,7 @@ public class LFltIntPredicateTest {
 
 
     private LFltIntPredicate sut = new LFltIntPredicate(){
-        public  boolean doTestX(float a1,int a2)  {
+        public  boolean testX(float a1,int a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LFltIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100f,100))
+        assertThat(sut.test(100f,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LFltIntPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100f,100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100f,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100f,100);
+            sutAlwaysThrowingUnchecked.nestingTest(100f,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LFltIntPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100f,100);
+            sutAlwaysThrowingUnchecked.shovingTest(100f,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LFltIntPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltIntPredicate: boolean doTest(float a1,int a2)");
+            .isEqualTo("LFltIntPredicate: boolean test(float a1,int a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LFltIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100f,100))
+        assertThat(sut.negate().test(100f,100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LFltIntPredicateTest {
         LFltIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100f,100))
+        assertThat(andFunction.test(100f,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100f,100))
+        assertThat(orFunction.test(100f,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100f,100))
+        assertThat(xorFunction.test(100f,100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LFltIntPredicateTest {
         LFltIntPredicate equals = LFltIntPredicate.isEqual(1f,1);
 
         //then
-        assertThat(equals.doTest(1f,1))
+        assertThat(equals.test(1f,1))
                 .isTrue();
 
-        assertThat(equals.doTest(0f,0))
+        assertThat(equals.test(0f,0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LFltIntPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testFltIntPredComposeFltInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LFltIntPredicateTest {
         };
 
         //when
-        LFltIntPredicate function = sutO.fltIntPredComposeFltInt(before1,before2);
-        function.doTest(80f,81);
+        LFltIntPredicate function = sutO.compose(before1,before2);
+        function.test(80f,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LFltIntPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.fltIntPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LFltIntPredicateTest {
 
         //when
         LFltIntPredicate function = sutO.boolToFltIntPred(thenFunction);
-        boolean finalValue = function.doTest(80f,81);
+        boolean finalValue = function.test(80f,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -327,20 +327,6 @@ public class LFltIntPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingFltIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LFltIntPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingFltIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LFltIntPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -351,7 +337,7 @@ public class LFltIntPredicateTest {
         });
 
         // when
-        sutThrowing.shovingFltIntPred().doTest(100f,100);
+        sutThrowing.shovingTest(100f,100);
     }
 
 
@@ -364,7 +350,7 @@ public class LFltIntPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFltIntPredicate: boolean doTest(float a1,int a2)");
+                .contains("LFltIntPredicate: boolean test(float a1,int a2)");
     }
 
 

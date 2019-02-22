@@ -89,8 +89,8 @@ public class LDblSupDelta extends LDblSupMemento {
 	}
 
 	@Override
-	public double doGetAsDbl() {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doGetAsDbl());
+	public double getAsDbl() {
+		return deltaFunction.applyAsDbl(lastValue(), super.getAsDbl());
 	}
 
 	// <editor-fold desc="object">

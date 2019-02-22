@@ -55,7 +55,7 @@ public class LSrtSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsSrt())
+        assertThat(sut.getAsSrt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LSrtSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsSrt())
+        assertThat(sut.getAsSrt())
             .isEqualTo((short)9);
 
         assertThat(functionCallCount).isEqualTo(2);

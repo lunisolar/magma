@@ -65,14 +65,14 @@ public class LBoolFunctionTest<R> {
 
 
     private LBoolFunction<Integer> sut = new LBoolFunction<Integer>(){
-        public @Nullable Integer doApplyX(boolean a)  {
+        public @Nullable Integer applyX(boolean a)  {
             return testValue;
         }
     };
 
 
     private LBoolFunction<Integer> sutNull = new LBoolFunction<Integer>(){
-        public @Nullable Integer doApplyX(boolean a)  {
+        public @Nullable Integer applyX(boolean a)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBoolFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBoolFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(true))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(true))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(true);
+            sutAlwaysThrowingUnchecked.nestingApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBoolFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(true);
+            sutAlwaysThrowingUnchecked.shovingApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBoolFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBoolFunction: R doApply(boolean a)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBoolFunction: R apply(boolean a)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(true);
+        sutNull.nonNullApply(true);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolFunction: R doApply(boolean a)");
+            .isEqualTo("LBoolFunction: R apply(boolean a)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBoolFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBoolFuncComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -186,8 +186,8 @@ public class LBoolFunctionTest<R> {
         };
 
         //when
-        LBoolFunction<Integer> function = sutO.boolFuncComposeBool(before);
-        function.doApply(true);
+        LBoolFunction<Integer> function = sutO.compose(before);
+        function.apply(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -216,7 +216,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LFunction<Integer,Integer> function = sutO.boolFuncCompose(before);
-        function.doApply(80);
+        function.apply(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -252,7 +252,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true);
+        Integer finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -284,7 +284,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(true);
+        function.accept(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(true);
+        byte finalValue = function.applyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -351,7 +351,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(true);
+        short finalValue = function.applyAsSrt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -385,7 +385,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(true);
+        int finalValue = function.applyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -419,7 +419,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(true);
+        long finalValue = function.applyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -453,7 +453,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(true);
+        float finalValue = function.applyAsFlt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -487,7 +487,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(true);
+        double finalValue = function.applyAsDbl(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -521,7 +521,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LBoolToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(true);
+        char finalValue = function.applyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -555,7 +555,7 @@ public class LBoolFunctionTest<R> {
 
         //when
         LLogicalOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true);
+        boolean finalValue = function.apply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -568,20 +568,6 @@ public class LBoolFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -592,7 +578,7 @@ public class LBoolFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingBoolFunc().doApply(true);
+        sutThrowing.shovingApply(true);
     }
 
 
@@ -605,7 +591,7 @@ public class LBoolFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolFunction: R doApply(boolean a)");
+                .contains("LBoolFunction: R apply(boolean a)");
     }
 
 

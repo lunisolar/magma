@@ -55,7 +55,7 @@ public class PartialCaseWithByteProduct<SELF extends PartialCaseWithByteProduct<
 
 	/** Finalize the case build by providing second required value for the Case. */
 	public final PCB produce(byte directValue) {
-		return this.evaluate(superContext().directToFunction.doApply(directValue));
+		return this.evaluate(superContext().directToFunction.apply(directValue));
 	}
 
 	public static final class The<PCB extends PerCaseBuilderWithByteProduct<PCB, P, F, The<PCB, P, F>>, P, F> extends PartialCaseWithByteProduct<The<PCB, P, F>, PCB, P, F> {

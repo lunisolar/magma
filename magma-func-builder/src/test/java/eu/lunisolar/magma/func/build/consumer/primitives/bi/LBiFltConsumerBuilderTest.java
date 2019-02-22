@@ -69,7 +69,7 @@ public class LBiFltConsumerBuilderTest{
                 .build()
             );
 
-            function.doAccept(100f,100f);
+            function.accept(100f,100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiFltConsumerBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(100f,100f);
+            function.accept(100f,100f);
 
             fail("No exception were thrown.");
         })

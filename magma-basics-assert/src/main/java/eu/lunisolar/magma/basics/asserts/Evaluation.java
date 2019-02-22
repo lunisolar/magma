@@ -19,11 +19,14 @@
 package eu.lunisolar.magma.basics.asserts;
 
 import org.assertj.core.api.Assert;
+import org.assertj.core.description.Description;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
+
+import java.util.function.*;
 
 import static javafx.scene.input.KeyCode.X;
 
@@ -38,14 +41,16 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
 
     public Evaluation(
             @Nonnull CTX context,
+            @Nonnull Supplier<String> description,
+            @Nonnull Supplier<String> caseDescription,
             @Nonnull AssertionFunction<PC, RS> assertFunction,
             @Nullable java.util.function.Consumer<RS> assertPreConsumer) {
-        super(context, assertFunction, assertPreConsumer);
+        super(context, description, caseDescription, assertFunction, assertPreConsumer);
     }
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
     public CTX to(@Nonnull java.util.function.Consumer<RS> assertions) {
-        normalCheck(preconditioner, assertFunction, assertPreConsumer, assertions);
+        normalCheck(description, caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
         return context.self();
     }
 

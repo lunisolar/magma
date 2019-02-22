@@ -82,13 +82,12 @@ public interface LCharToLongFunctionAssert<S extends LCharToLongFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LCharConsumer, A, RS, Long> doesApplyAsLong(char a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a));
+				return assertFactory.apply(actual.applyAsLong(a));
 			});
-
 		}
 
 	}

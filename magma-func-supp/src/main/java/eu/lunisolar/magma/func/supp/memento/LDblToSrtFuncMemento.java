@@ -72,8 +72,8 @@ public class LDblToSrtFuncMemento implements LDblToSrtFunction {
 	}
 
 	@Override
-	public short doApplyAsSrtX(double a) {
-		return lastValue = function.doApplyAsSrt(a);
+	public short applyAsSrtX(double a) {
+		return lastValue = function.applyAsSrt(a);
 	}
 
 	public short lastValue() {

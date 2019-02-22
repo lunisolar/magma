@@ -72,8 +72,8 @@ public class LCharBinaryOpMemento implements LCharBinaryOperator {
 	}
 
 	@Override
-	public char doApplyAsCharX(char a1, char a2) {
-		return lastValue = function.doApplyAsChar(a1, a2);
+	public char applyAsCharX(char a1, char a2) {
+		return lastValue = function.applyAsChar(a1, a2);
 	}
 
 	public char lastValue() {

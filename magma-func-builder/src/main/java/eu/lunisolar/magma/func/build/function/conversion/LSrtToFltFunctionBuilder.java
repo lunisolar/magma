@@ -80,8 +80,10 @@ public final class LSrtToFltFunctionBuilder extends PerCaseBuilderWithFltProduct
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LSrtToFltFunction srtToFltFunctionFrom(Function<LSrtToFltFunctionBuilder, LSrtToFltFunction> buildingFunction) {
-		return buildingFunction.apply(new LSrtToFltFunctionBuilder());
+	public static LSrtToFltFunction srtToFltFunctionFrom(Consumer<LSrtToFltFunctionBuilder> buildingFunction) {
+		LSrtToFltFunctionBuilder builder = new LSrtToFltFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LSrtToFltFunctionBuilder extends PerCaseBuilderWithFltProduct
 		retval = LSrtToFltFunction.srtToFltFunc(a -> {
 			try {
 				for (Case<LSrtPredicate, LSrtToFltFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsFlt(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsFlt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFlt(a);
+				return eventuallyFinal.applyAsFlt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

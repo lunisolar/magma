@@ -69,7 +69,7 @@ public class LSupplierBuilderTest<T>{
                 .build()
             );
 
-            function.doGet();
+            function.get();
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSupplierBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doGet();
+            function.get();
 
             fail("No exception were thrown.");
         })

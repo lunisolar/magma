@@ -69,7 +69,7 @@ public class LDblToCharFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsChar(100d);
+            function.applyAsChar(100d);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LDblToCharFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsChar(100d);
+            function.applyAsChar(100d);
 
             fail("No exception were thrown.");
         })

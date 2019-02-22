@@ -69,7 +69,7 @@ public class LBoolToSrtFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsSrt(true);
+            function.applyAsSrt(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolToSrtFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsSrt(true);
+            function.applyAsSrt(true);
 
             fail("No exception were thrown.");
         })

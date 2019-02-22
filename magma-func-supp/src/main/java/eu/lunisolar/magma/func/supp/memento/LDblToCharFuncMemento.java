@@ -72,8 +72,8 @@ public class LDblToCharFuncMemento implements LDblToCharFunction {
 	}
 
 	@Override
-	public char doApplyAsCharX(double a) {
-		return lastValue = function.doApplyAsChar(a);
+	public char applyAsCharX(double a) {
+		return lastValue = function.applyAsChar(a);
 	}
 
 	public char lastValue() {

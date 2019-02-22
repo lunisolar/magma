@@ -89,8 +89,8 @@ public class LByteSupDelta extends LByteSupMemento {
 	}
 
 	@Override
-	public byte doGetAsByte() {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doGetAsByte());
+	public byte getAsByte() {
+		return deltaFunction.applyAsByte(lastValue(), super.getAsByte());
 	}
 
 	// <editor-fold desc="object">

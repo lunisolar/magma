@@ -65,7 +65,7 @@ public class LIntBinaryOperatorTest {
 
 
     private LIntBinaryOperator sut = new LIntBinaryOperator(){
-        public  int doApplyAsIntX(int a1,int a2)  {
+        public  int applyAsIntX(int a1,int a2)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LIntBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100,100))
+        assertThat(sut.applyAsInt(100,100))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LIntBinaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100,100))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100,100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LIntBinaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100,100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LIntBinaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntBinaryOperator: int doApplyAsInt(int a1,int a2)");
+            .isEqualTo("LIntBinaryOperator: int applyAsInt(int a1,int a2)");
     }
 
     @Test
@@ -166,9 +166,9 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator min =  LIntBinaryOperator.minBy(Integer::compare);
 
         //then
-        assertThat(min.doApplyAsInt(0, 56))
+        assertThat(min.applyAsInt(0, 56))
                 .isEqualTo(0);
-        assertThat(min.doApplyAsInt(56, 0))
+        assertThat(min.applyAsInt(56, 0))
                        .isEqualTo(0);
 
     }
@@ -179,9 +179,9 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator max =  LIntBinaryOperator.maxBy(Integer::compare);
 
         //then
-        assertThat(max.doApplyAsInt(0, 56))
+        assertThat(max.applyAsInt(0, 56))
                 .isEqualTo(56);
-        assertThat(max.doApplyAsInt(56, 0))
+        assertThat(max.applyAsInt(56, 0))
                         .isEqualTo(56);
     }
 
@@ -196,10 +196,10 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator min = LIntBinaryOperator.min();
 
         //then
-        assertThat(min.doApplyAsInt(valueSmall, valueBig))
+        assertThat(min.applyAsInt(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.doApplyAsInt(valueBig, valueSmall))
+        assertThat(min.applyAsInt(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -213,10 +213,10 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator max = LIntBinaryOperator.max();
 
         //then
-        assertThat(max.doApplyAsInt(valueSmall, valueBig))
+        assertThat(max.applyAsInt(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.doApplyAsInt(valueBig, valueSmall))
+        assertThat(max.applyAsInt(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -224,7 +224,7 @@ public class LIntBinaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testIntBinaryOpComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -249,8 +249,8 @@ public class LIntBinaryOperatorTest {
         };
 
         //when
-        LIntBinaryOperator function = sutO.intBinaryOpComposeInt(before1,before2);
-        function.doApplyAsInt(80,81);
+        LIntBinaryOperator function = sutO.compose(before1,before2);
+        function.applyAsInt(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -285,7 +285,7 @@ public class LIntBinaryOperatorTest {
 
         //when
         LToIntBiFunction<Integer,Integer> function = sutO.intBinaryOpCompose(before1,before2);
-        function.doApplyAsInt(80,81);
+        function.applyAsInt(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -322,7 +322,7 @@ public class LIntBinaryOperatorTest {
 
         //when
         LBiIntFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -357,7 +357,7 @@ public class LIntBinaryOperatorTest {
 
         //when
         LIntBinaryOperator function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -392,7 +392,7 @@ public class LIntBinaryOperatorTest {
 
         //when
         LBiIntPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -405,20 +405,6 @@ public class LIntBinaryOperatorTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingIntBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LIntBinaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingIntBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LIntBinaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -429,7 +415,7 @@ public class LIntBinaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingIntBinaryOp().doApplyAsInt(100,100);
+        sutThrowing.shovingApplyAsInt(100,100);
     }
 
 
@@ -442,7 +428,7 @@ public class LIntBinaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntBinaryOperator: int doApplyAsInt(int a1,int a2)");
+                .contains("LIntBinaryOperator: int applyAsInt(int a1,int a2)");
     }
 
 

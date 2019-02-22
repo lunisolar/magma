@@ -63,7 +63,7 @@ public class LBiSrtConsumerTest {
 
 
     private LBiSrtConsumer sut = new LBiSrtConsumer(){
-        public  void doAcceptX(short a1,short a2)  {
+        public  void acceptX(short a1,short a2)  {
             LBiSrtConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LBiSrtConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.nestingAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LBiSrtConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept((short)100,(short)100);
+            sutAlwaysThrowingUnchecked.shovingAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBiSrtConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiSrtConsumer: void doAccept(short a1,short a2)");
+            .isEqualTo("LBiSrtConsumer: void accept(short a1,short a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LBiSrtConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiSrtConsComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LBiSrtConsumerTest {
         };
 
         //when
-        LBiSrtConsumer function = sutO.biSrtConsComposeSrt(before1,before2);
-        function.doAccept((short)80,(short)81);
+        LBiSrtConsumer function = sutO.compose(before1,before2);
+        function.accept((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LBiSrtConsumerTest {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.biSrtConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LBiSrtConsumerTest {
 
         //when
         LBiSrtConsumer function = sutO.andThen(thenFunction);
-        function.doAccept((short)80,(short)81);
+        function.accept((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiSrtCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiSrtConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiSrtCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiSrtConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LBiSrtConsumerTest {
         });
 
         // when
-        sutThrowing.shovingBiSrtCons().doAccept((short)100,(short)100);
+        sutThrowing.shovingAccept((short)100,(short)100);
     }
 
 
@@ -277,7 +263,7 @@ public class LBiSrtConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiSrtConsumer: void doAccept(short a1,short a2)");
+                .contains("LBiSrtConsumer: void accept(short a1,short a2)");
     }
 
 

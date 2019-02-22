@@ -72,8 +72,8 @@ public class LObjIntObjFuncMemento<T1, T2, R> implements LObjIntObjFunction<T1, 
 	}
 
 	@Override
-	public R doApplyX(T1 a1, int a2, T2 a3) {
-		return lastValue = function.doApply(a1, a2, a3);
+	public R applyX(T1 a1, int a2, T2 a3) {
+		return lastValue = function.apply(a1, a2, a3);
 	}
 
 	public R lastValue() {

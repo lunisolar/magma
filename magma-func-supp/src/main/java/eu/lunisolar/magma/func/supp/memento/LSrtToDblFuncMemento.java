@@ -72,8 +72,8 @@ public class LSrtToDblFuncMemento implements LSrtToDblFunction {
 	}
 
 	@Override
-	public double doApplyAsDblX(short a) {
-		return lastValue = function.doApplyAsDbl(a);
+	public double applyAsDblX(short a) {
+		return lastValue = function.applyAsDbl(a);
 	}
 
 	public double lastValue() {

@@ -65,14 +65,14 @@ public class LCharFunctionTest<R> {
 
 
     private LCharFunction<Integer> sut = new LCharFunction<Integer>(){
-        public @Nullable Integer doApplyX(char a)  {
+        public @Nullable Integer applyX(char a)  {
             return testValue;
         }
     };
 
 
     private LCharFunction<Integer> sutNull = new LCharFunction<Integer>(){
-        public @Nullable Integer doApplyX(char a)  {
+        public @Nullable Integer applyX(char a)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LCharFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply('\u0100'))
+        assertThat(sut.apply('\u0100'))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LCharFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply('\u0100'))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply('\u0100'))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply('\u0100');
+            sutAlwaysThrowingUnchecked.nestingApply('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LCharFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply('\u0100');
+            sutAlwaysThrowingUnchecked.shovingApply('\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LCharFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LCharFunction: R doApply(char a)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LCharFunction: R apply(char a)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply('\u0100');
+        sutNull.nonNullApply('\u0100');
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharFunction: R doApply(char a)");
+            .isEqualTo("LCharFunction: R apply(char a)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LCharFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharFuncComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -186,8 +186,8 @@ public class LCharFunctionTest<R> {
         };
 
         //when
-        LCharFunction<Integer> function = sutO.charFuncComposeChar(before);
-        function.doApply('\u0080');
+        LCharFunction<Integer> function = sutO.compose(before);
+        function.apply('\u0080');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -216,7 +216,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LFunction<Integer,Integer> function = sutO.charFuncCompose(before);
-        function.doApply(80);
+        function.apply(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -252,7 +252,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply('\u0080');
+        Integer finalValue = function.apply('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -284,7 +284,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept('\u0080');
+        function.accept('\u0080');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte('\u0080');
+        byte finalValue = function.applyAsByte('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -351,7 +351,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt('\u0080');
+        short finalValue = function.applyAsSrt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -385,7 +385,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt('\u0080');
+        int finalValue = function.applyAsInt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -419,7 +419,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong('\u0080');
+        long finalValue = function.applyAsLong('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -453,7 +453,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt('\u0080');
+        float finalValue = function.applyAsFlt('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -487,7 +487,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl('\u0080');
+        double finalValue = function.applyAsDbl('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -521,7 +521,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharUnaryOperator function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar('\u0080');
+        char finalValue = function.applyAsChar('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -555,7 +555,7 @@ public class LCharFunctionTest<R> {
 
         //when
         LCharPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest('\u0080');
+        boolean finalValue = function.test('\u0080');
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -568,20 +568,6 @@ public class LCharFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -592,7 +578,7 @@ public class LCharFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingCharFunc().doApply('\u0100');
+        sutThrowing.shovingApply('\u0100');
     }
 
 
@@ -605,7 +591,7 @@ public class LCharFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharFunction: R doApply(char a)");
+                .contains("LCharFunction: R apply(char a)");
     }
 
 

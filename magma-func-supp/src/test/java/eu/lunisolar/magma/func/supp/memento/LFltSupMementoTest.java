@@ -54,7 +54,7 @@ public class LFltSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0f);
 
-        assertThat(sut.doGetAsFlt())
+        assertThat(sut.getAsFlt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LFltSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsFlt())
+        assertThat(sut.getAsFlt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

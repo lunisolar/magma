@@ -72,156 +72,156 @@ public interface AccessObjIntCharTriple<T> {
 
 	default void useWith(LTieCharConsumer<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		accessFunction.doAccept(tuple.first(), tuple.second(), tuple.third());
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	default void useWith(LTieCharConsumer.LObjCharIntCons<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		accessFunction.doAcceptObjCharInt(tuple.first(), tuple.third(), tuple.second());
+		accessFunction.acceptObjCharInt(tuple.first(), tuple.third(), tuple.second());
 	}
 
 	default void useWith(LTieCharConsumer.LIntObjCharCons<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		accessFunction.doAcceptIntObjChar(tuple.second(), tuple.first(), tuple.third());
+		accessFunction.acceptIntObjChar(tuple.second(), tuple.first(), tuple.third());
 	}
 
 	default void useWith(LTieCharConsumer.LIntCharObjCons<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		accessFunction.doAcceptIntCharObj(tuple.second(), tuple.third(), tuple.first());
+		accessFunction.acceptIntCharObj(tuple.second(), tuple.third(), tuple.first());
 	}
 
 	default void useWith(LTieCharConsumer.LCharObjIntCons<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		accessFunction.doAcceptCharObjInt(tuple.third(), tuple.first(), tuple.second());
+		accessFunction.acceptCharObjInt(tuple.third(), tuple.first(), tuple.second());
 	}
 
 	default void useWith(LTieCharConsumer.LCharIntObjCons<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		accessFunction.doAcceptCharIntObj(tuple.third(), tuple.second(), tuple.first());
+		accessFunction.acceptCharIntObj(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default <R> R useWith(LObjIntCharFunction<T, R> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second(), tuple.third());
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntCharFunction.LObjCharIntFunc<T, R> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		R retval = accessFunction.doApplyObjCharInt(tuple.first(), tuple.third(), tuple.second());
+		R retval = accessFunction.applyObjCharInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntCharFunction.LIntObjCharFunc<T, R> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		R retval = accessFunction.doApplyIntObjChar(tuple.second(), tuple.first(), tuple.third());
+		R retval = accessFunction.applyIntObjChar(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntCharFunction.LIntCharObjFunc<T, R> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		R retval = accessFunction.doApplyIntCharObj(tuple.second(), tuple.third(), tuple.first());
+		R retval = accessFunction.applyIntCharObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntCharFunction.LCharObjIntFunc<T, R> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		R retval = accessFunction.doApplyCharObjInt(tuple.third(), tuple.first(), tuple.second());
+		R retval = accessFunction.applyCharObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjIntCharFunction.LCharIntObjFunc<T, R> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		R retval = accessFunction.doApplyCharIntObj(tuple.third(), tuple.second(), tuple.first());
+		R retval = accessFunction.applyCharIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieCharFunction<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		int retval = accessFunction.doApplyAsInt(tuple.first(), tuple.second(), tuple.third());
+		int retval = accessFunction.applyAsInt(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieCharFunction.LObjCharIntToIntFunc<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		int retval = accessFunction.doApplyAsIntObjCharInt(tuple.first(), tuple.third(), tuple.second());
+		int retval = accessFunction.applyAsIntObjCharInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieCharFunction.LIntObjCharToIntFunc<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		int retval = accessFunction.doApplyAsIntIntObjChar(tuple.second(), tuple.first(), tuple.third());
+		int retval = accessFunction.applyAsIntIntObjChar(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieCharFunction.LIntCharObjToIntFunc<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		int retval = accessFunction.doApplyAsIntIntCharObj(tuple.second(), tuple.third(), tuple.first());
+		int retval = accessFunction.applyAsIntIntCharObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieCharFunction.LCharObjIntToIntFunc<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		int retval = accessFunction.doApplyAsIntCharObjInt(tuple.third(), tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntCharObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default int useWith(LTieCharFunction.LCharIntObjToIntFunc<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		int retval = accessFunction.doApplyAsIntCharIntObj(tuple.third(), tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsIntCharIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntCharPredicate<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second(), tuple.third());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntCharPredicate.LObjCharIntPred<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		boolean retval = accessFunction.doTestObjCharInt(tuple.first(), tuple.third(), tuple.second());
+		boolean retval = accessFunction.testObjCharInt(tuple.first(), tuple.third(), tuple.second());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntCharPredicate.LIntObjCharPred<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		boolean retval = accessFunction.doTestIntObjChar(tuple.second(), tuple.first(), tuple.third());
+		boolean retval = accessFunction.testIntObjChar(tuple.second(), tuple.first(), tuple.third());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntCharPredicate.LIntCharObjPred<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		boolean retval = accessFunction.doTestIntCharObj(tuple.second(), tuple.third(), tuple.first());
+		boolean retval = accessFunction.testIntCharObj(tuple.second(), tuple.third(), tuple.first());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntCharPredicate.LCharObjIntPred<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		boolean retval = accessFunction.doTestCharObjInt(tuple.third(), tuple.first(), tuple.second());
+		boolean retval = accessFunction.testCharObjInt(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjIntCharPredicate.LCharIntObjPred<T> accessFunction) {
 		LObjIntCharTriple<T> tuple = accessObjIntCharTriple();
-		boolean retval = accessFunction.doTestCharIntObj(tuple.third(), tuple.second(), tuple.first());
+		boolean retval = accessFunction.testCharIntObj(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntCharTriple(tuple);
 		return retval;
 	}

@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aLong>, Domain1<aChar> { // NOSONAR
 
-	String DESCRIPTION = "LCharToLongFunction: long doApplyAsLong(char a)";
+	String DESCRIPTION = "LCharToLongFunction: long applyAsLong(char a)";
 
-	// long doApplyAsLong(char a) ;
-	default long doApplyAsLong(char a) {
-		// return nestingDoApplyAsLong(a);
+	// long applyAsLong(char a) ;
+	default long applyAsLong(char a) {
+		// return nestingApplyAsLong(a);
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsLong(char a)
+	 * Implement this, but call applyAsLong(char a)
 	 */
-	long doApplyAsLongX(char a) throws Throwable;
+	long applyAsLongX(char a) throws Throwable;
 
 	default long tupleApplyAsLong(LCharSingle args) {
-		return doApplyAsLong(args.value());
+		return applyAsLong(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default long handlingDoApplyAsLong(char a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default long handlingApplyAsLong(char a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default long tryDoApplyAsLong(char a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LCharToLongFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsLong(a, handling);
+	}
+
+	default long applyAsLong(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default long tryDoApplyAsLong(char a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LCharToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsLong(a, exF, newMessage, messageParams);
+	}
+
+	default long applyAsLong(char a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default long tryDoApplyAsLongThen(char a, @Nonnull LToLongFunction<Throwable> handler) {
+	default LCharToLongFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsLong(a, exF);
+	}
+
+	default long applyAsLongThen(char a, @Nonnull LToLongFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsLong(e);
+			return handler.applyAsLong(e);
 		}
+	}
+
+	default LCharToLongFunction tryingThen(@Nonnull LToLongFunction<Throwable> handler) {
+		return a -> applyAsLongThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default long nestingDoApplyAsLong(char a) {
+	default long nestingApplyAsLong(char a) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default long shovingDoApplyAsLong(char a) {
+	default long shovingApplyAsLong(char a) {
 		try {
-			return this.doApplyAsLongX(a);
+			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static long handlingDoApplyAsLong(char a, LCharToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingApplyAsLong(char a, LCharToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsLong(a, handling);
+		return func.handlingApplyAsLong(a, handling);
 	}
 
-	static long tryDoApplyAsLong(char a, LCharToLongFunction func) {
-		return tryDoApplyAsLong(a, func, null);
-	}
-
-	static long tryDoApplyAsLong(char a, LCharToLongFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static long tryApplyAsLong(char a, LCharToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLong(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsLong(a);
 	}
 
-	static long tryDoApplyAsLong(char a, LCharToLongFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static long tryApplyAsLong(char a, LCharToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLong(a, exceptionFactory);
+		return func.applyAsLong(a, exF, newMessage, messageParams);
 	}
 
-	static long tryDoApplyAsLongThen(char a, LCharToLongFunction func, @Nonnull LToLongFunction<Throwable> handler) {
+	static long tryApplyAsLong(char a, LCharToLongFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsLongThen(a, handler);
+		return func.applyAsLong(a, exF);
 	}
 
-	default long failSafeDoApplyAsLong(char a, @Nonnull LCharToLongFunction failSafe) {
+	static long tryApplyAsLongThen(char a, LCharToLongFunction func, @Nonnull LToLongFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLongThen(a, handler);
+	}
+
+	default long failSafeApplyAsLong(char a, @Nonnull LCharToLongFunction failSafe) {
 		try {
-			return doApplyAsLong(a);
+			return applyAsLong(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsLong(a);
+			return failSafe.applyAsLong(a);
 		}
 	}
 
-	static long failSafeDoApplyAsLong(char a, LCharToLongFunction func, @Nonnull LCharToLongFunction failSafe) {
+	static long failSafeApplyAsLong(char a, LCharToLongFunction func, @Nonnull LCharToLongFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsLong(a);
+			return failSafe.applyAsLong(a);
 		} else {
-			return func.failSafeDoApplyAsLong(a, failSafe);
+			return func.failSafeApplyAsLong(a, failSafe);
 		}
 	}
 
-	static LCharToLongFunction failSafeCharToLongFunc(LCharToLongFunction func, @Nonnull LCharToLongFunction failSafe) {
+	static LCharToLongFunction failSafe(LCharToLongFunction func, @Nonnull LCharToLongFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsLong(a, func, failSafe);
+		return a -> failSafeApplyAsLong(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNullDoApplyAsLong(char a) {
-		return doApplyAsLong(a);
+	default long nonNullApplyAsLong(char a) {
+		return applyAsLong(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, char a, LCharToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, char a, LCharToLongFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsLong(a);
+				func.applyAsLong(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, char a, LCharToLongFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureCharToLongFunc(char a) {
-		return () -> this.doApplyAsLong(a);
+	default LLongSupplier capture(char a) {
+		return () -> this.applyAsLong(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	static LCharToLongFunction recursive(final @Nonnull LFunction<LCharToLongFunction, LCharToLongFunction> selfLambda) {
 		final LCharToLongFunctionSingle single = new LCharToLongFunctionSingle();
-		LCharToLongFunction func = selfLambda.doApply(single);
+		LCharToLongFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 		private LCharToLongFunction target = null;
 
 		@Override
-		public long doApplyAsLongX(char a) throws Throwable {
-			return target.doApplyAsLongX(a);
+		public long applyAsLongX(char a) throws Throwable {
+			return target.applyAsLongX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	@Nonnull
-	static LCharToLongFunction charToLongFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LCharToLongFunction charToLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LCharToLongFunction charToLongFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LCharToLongFunction charToLongFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static long call(char a, final @Nonnull LCharToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsLong(a);
+		return lambda.applyAsLong(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToLongFunction charToLongFuncComposeChar(@Nonnull final LCharUnaryOperator before) {
+	default LCharToLongFunction compose(@Nonnull final LCharUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsLong(before.doApplyAsChar(v));
+		return v -> this.applyAsLong(before.applyAsChar(v));
 	}
 
-	public static LCharToLongFunction composedChar(@Nonnull final LCharUnaryOperator before, LCharToLongFunction after) {
-		return after.charToLongFuncComposeChar(before);
+	public static LCharToLongFunction composed(@Nonnull final LCharUnaryOperator before, LCharToLongFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToLongFunction<V> charToLongFuncCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsLong(before.doApplyAsChar(v));
+		return v -> this.applyAsLong(before.applyAsChar(v));
 	}
 
 	public static <V> LToLongFunction<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharToLongFunction after) {
@@ -364,79 +383,68 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsLong(a));
+		return a -> after.apply(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsLong(a));
+		return a -> after.applyAsByte(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToSrtFunction thenToSrt(@Nonnull LLongToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsLong(a));
+		return a -> after.applyAsSrt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsLong(a));
+		return a -> after.applyAsInt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsLong(a));
+		return a -> after.applyAsLong(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFltFunction thenToFlt(@Nonnull LLongToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsLong(a));
+		return a -> after.applyAsFlt(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDblFunction thenToDbl(@Nonnull LLongToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsLong(a));
+		return a -> after.applyAsDbl(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsLong(a));
+		return a -> after.applyAsChar(this.applyAsLong(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBool(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsLong(a));
+		return a -> after.test(this.applyAsLong(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LCharToLongFunction nestingCharToLongFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToLongFunction shovingCharToLongFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return Function4U.defaultLong;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=char a, type=IA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aChar> ia, C0 source, LLongConsumer consumer) {
 		int size = ia.size(source);
 		LOiToCharFunction<Object> oiFunc0 = (LOiToCharFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			char a = oiFunc0.doApplyAsChar(source, i);
-			consumer.doAccept(this.doApplyAsLong(a));
+			char a = oiFunc0.applyAsChar(source, i);
+			consumer.accept(this.applyAsLong(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a, type=SA}, SourcePurpose{arg=LLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aChar> sa, C0 source, LLongConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			char a = nextFunc0.doApplyAsChar(iterator0);
-			consumer.doAccept(this.doApplyAsLong(a));
+		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			char a = nextFunc0.applyAsChar(iterator0);
+			consumer.accept(this.applyAsLong(a));
 		}
 	}
 

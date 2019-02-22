@@ -72,393 +72,393 @@ public interface AccessBool {
 
 	default void useWith(LBoolConsumer accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAccept(tuple);
+		accessFunction.accept(tuple);
 	}
 
 	default void useWith(boolean a2, LBiBoolConsumer accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAccept(tuple, a2);
+		accessFunction.accept(tuple, a2);
 	}
 
 	default void useWith(boolean a1, LBiBoolConsumer.LBool1Bool0Cons accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptBool1Bool0(tuple, a1);
+		accessFunction.acceptBool1Bool0(tuple, a1);
 	}
 
 	default void useWith(int a2, LBoolIntConsumer accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAccept(tuple, a2);
+		accessFunction.accept(tuple, a2);
 	}
 
 	default void useWith(int a2, LBoolIntConsumer.LIntBoolCons accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptIntBool(a2, tuple);
+		accessFunction.acceptIntBool(a2, tuple);
 	}
 
 	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjBoolConsumer<T1, T2> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAccept(a1, a2, tuple);
+		accessFunction.accept(a1, a2, tuple);
 	}
 
-	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjBoolConsumer.LObjBoolObj1Cons<T1, T2> accessFunction) {
+	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjBoolConsumer.LObj0Bool2Obj1Cons<T1, T2> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptObjBoolObj1(a1, tuple, a2);
+		accessFunction.acceptObj0Bool2Obj1(a1, tuple, a2);
 	}
 
-	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjBoolConsumer.LBoolObj0Obj1Cons<T1, T2> accessFunction) {
+	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjBoolConsumer.LBool2Obj0Obj1Cons<T1, T2> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptBoolObj0Obj1(tuple, a1, a2);
+		accessFunction.acceptBool2Obj0Obj1(tuple, a1, a2);
 	}
 
 	default <T> void useWith(T a1, LObjBoolConsumer<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAccept(a1, tuple);
+		accessFunction.accept(a1, tuple);
 	}
 
 	default <T> void useWith(T a1, LObjBoolConsumer.LBoolObjCons<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptBoolObj(tuple, a1);
+		accessFunction.acceptBoolObj(tuple, a1);
 	}
 
 	default <T> void useWith(T a1, int a2, LTieBoolConsumer<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAccept(a1, a2, tuple);
+		accessFunction.accept(a1, a2, tuple);
 	}
 
 	default <T> void useWith(T a1, int a2, LTieBoolConsumer.LObjBoolIntCons<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptObjBoolInt(a1, tuple, a2);
+		accessFunction.acceptObjBoolInt(a1, tuple, a2);
 	}
 
 	default <T> void useWith(int a2, T a1, LTieBoolConsumer.LIntObjBoolCons<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptIntObjBool(a2, a1, tuple);
+		accessFunction.acceptIntObjBool(a2, a1, tuple);
 	}
 
 	default <T> void useWith(int a2, T a1, LTieBoolConsumer.LIntBoolObjCons<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptIntBoolObj(a2, tuple, a1);
+		accessFunction.acceptIntBoolObj(a2, tuple, a1);
 	}
 
 	default <T> void useWith(T a1, int a2, LTieBoolConsumer.LBoolObjIntCons<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptBoolObjInt(tuple, a1, a2);
+		accessFunction.acceptBoolObjInt(tuple, a1, a2);
 	}
 
 	default <T> void useWith(int a2, T a1, LTieBoolConsumer.LBoolIntObjCons<T> accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAcceptBoolIntObj(tuple, a2, a1);
+		accessFunction.acceptBoolIntObj(tuple, a2, a1);
 	}
 
 	default void useWith(boolean a2, boolean a3, LTriBoolConsumer accessFunction) {
 		boolean tuple = accessBool();
-		accessFunction.doAccept(tuple, a2, a3);
+		accessFunction.accept(tuple, a2, a3);
 	}
 
 	default boolean useWith(boolean a2, LLogicalBinaryOperator accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doApply(tuple, a2);
+		boolean retval = accessFunction.apply(tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default boolean useWith(boolean a2, boolean a3, LLogicalTernaryOperator accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doApply(tuple, a2, a3);
+		boolean retval = accessFunction.apply(tuple, a2, a3);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LLogicalOperator accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doApply(tuple);
+		boolean retval = accessFunction.apply(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default byte useWith(LBoolToByteFunction accessFunction) {
 		boolean tuple = accessBool();
-		byte retval = accessFunction.doApplyAsByte(tuple);
+		byte retval = accessFunction.applyAsByte(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default char useWith(LBoolToCharFunction accessFunction) {
 		boolean tuple = accessBool();
-		char retval = accessFunction.doApplyAsChar(tuple);
+		char retval = accessFunction.applyAsChar(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default double useWith(LBoolToDblFunction accessFunction) {
 		boolean tuple = accessBool();
-		double retval = accessFunction.doApplyAsDbl(tuple);
+		double retval = accessFunction.applyAsDbl(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default float useWith(LBoolToFltFunction accessFunction) {
 		boolean tuple = accessBool();
-		float retval = accessFunction.doApplyAsFlt(tuple);
+		float retval = accessFunction.applyAsFlt(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default int useWith(LBoolToIntFunction accessFunction) {
 		boolean tuple = accessBool();
-		int retval = accessFunction.doApplyAsInt(tuple);
+		int retval = accessFunction.applyAsInt(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default long useWith(LBoolToLongFunction accessFunction) {
 		boolean tuple = accessBool();
-		long retval = accessFunction.doApplyAsLong(tuple);
+		long retval = accessFunction.applyAsLong(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default short useWith(LBoolToSrtFunction accessFunction) {
 		boolean tuple = accessBool();
-		short retval = accessFunction.doApplyAsSrt(tuple);
+		short retval = accessFunction.applyAsSrt(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(boolean a2, LBiBoolFunction<R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApply(tuple, a2);
+		R retval = accessFunction.apply(tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(boolean a1, LBiBoolFunction.LBool1Bool0Func<R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyBool1Bool0(tuple, a1);
+		R retval = accessFunction.applyBool1Bool0(tuple, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjBoolFunction<T1, T2, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApply(a1, a2, tuple);
+		R retval = accessFunction.apply(a1, a2, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
-	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjBoolFunction.LObjBoolObj1Func<T1, T2, R> accessFunction) {
+	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjBoolFunction.LObj0Bool2Obj1Func<T1, T2, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyObjBoolObj1(a1, tuple, a2);
+		R retval = accessFunction.applyObj0Bool2Obj1(a1, tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
-	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjBoolFunction.LBoolObj0Obj1Func<T1, T2, R> accessFunction) {
+	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjBoolFunction.LBool2Obj0Obj1Func<T1, T2, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyBoolObj0Obj1(tuple, a1, a2);
+		R retval = accessFunction.applyBool2Obj0Obj1(tuple, a1, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBoolFunction<R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApply(tuple);
+		R retval = accessFunction.apply(tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjBoolFunction<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApply(a1, tuple);
+		R retval = accessFunction.apply(a1, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, LObjBoolFunction.LBoolObjFunc<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyBoolObj(tuple, a1);
+		R retval = accessFunction.applyBoolObj(tuple, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, int a2, LObjIntBoolFunction<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApply(a1, a2, tuple);
+		R retval = accessFunction.apply(a1, a2, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, int a2, LObjIntBoolFunction.LObjBoolIntFunc<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyObjBoolInt(a1, tuple, a2);
+		R retval = accessFunction.applyObjBoolInt(a1, tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(int a2, T a1, LObjIntBoolFunction.LIntObjBoolFunc<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyIntObjBool(a2, a1, tuple);
+		R retval = accessFunction.applyIntObjBool(a2, a1, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(int a2, T a1, LObjIntBoolFunction.LIntBoolObjFunc<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyIntBoolObj(a2, tuple, a1);
+		R retval = accessFunction.applyIntBoolObj(a2, tuple, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(T a1, int a2, LObjIntBoolFunction.LBoolObjIntFunc<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyBoolObjInt(tuple, a1, a2);
+		R retval = accessFunction.applyBoolObjInt(tuple, a1, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R, T> R useWith(int a2, T a1, LObjIntBoolFunction.LBoolIntObjFunc<T, R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApplyBoolIntObj(tuple, a2, a1);
+		R retval = accessFunction.applyBoolIntObj(tuple, a2, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(boolean a2, boolean a3, LTriBoolFunction<R> accessFunction) {
 		boolean tuple = accessBool();
-		R retval = accessFunction.doApply(tuple, a2, a3);
+		R retval = accessFunction.apply(tuple, a2, a3);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, int a2, LTieBoolFunction<T> accessFunction) {
 		boolean tuple = accessBool();
-		int retval = accessFunction.doApplyAsInt(a1, a2, tuple);
+		int retval = accessFunction.applyAsInt(a1, a2, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, int a2, LTieBoolFunction.LObjBoolIntToIntFunc<T> accessFunction) {
 		boolean tuple = accessBool();
-		int retval = accessFunction.doApplyAsIntObjBoolInt(a1, tuple, a2);
+		int retval = accessFunction.applyAsIntObjBoolInt(a1, tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(int a2, T a1, LTieBoolFunction.LIntObjBoolToIntFunc<T> accessFunction) {
 		boolean tuple = accessBool();
-		int retval = accessFunction.doApplyAsIntIntObjBool(a2, a1, tuple);
+		int retval = accessFunction.applyAsIntIntObjBool(a2, a1, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(int a2, T a1, LTieBoolFunction.LIntBoolObjToIntFunc<T> accessFunction) {
 		boolean tuple = accessBool();
-		int retval = accessFunction.doApplyAsIntIntBoolObj(a2, tuple, a1);
+		int retval = accessFunction.applyAsIntIntBoolObj(a2, tuple, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(T a1, int a2, LTieBoolFunction.LBoolObjIntToIntFunc<T> accessFunction) {
 		boolean tuple = accessBool();
-		int retval = accessFunction.doApplyAsIntBoolObjInt(tuple, a1, a2);
+		int retval = accessFunction.applyAsIntBoolObjInt(tuple, a1, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> int useWith(int a2, T a1, LTieBoolFunction.LBoolIntObjToIntFunc<T> accessFunction) {
 		boolean tuple = accessBool();
-		int retval = accessFunction.doApplyAsIntBoolIntObj(tuple, a2, a1);
+		int retval = accessFunction.applyAsIntBoolIntObj(tuple, a2, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBoolPredicate<T1, T2> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTest(a1, a2, tuple);
+		boolean retval = accessFunction.test(a1, a2, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
-	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBoolPredicate.LObjBoolObj1Pred<T1, T2> accessFunction) {
+	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBoolPredicate.LObj0Bool2Obj1Pred<T1, T2> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestObjBoolObj1(a1, tuple, a2);
+		boolean retval = accessFunction.testObj0Bool2Obj1(a1, tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
-	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBoolPredicate.LBoolObj0Obj1Pred<T1, T2> accessFunction) {
+	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjBoolPredicate.LBool2Obj0Obj1Pred<T1, T2> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestBoolObj0Obj1(tuple, a1, a2);
+		boolean retval = accessFunction.testBool2Obj0Obj1(tuple, a1, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LBoolIntPredicate accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTest(tuple, a2);
+		boolean retval = accessFunction.test(tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LBoolIntPredicate.LIntBoolPred accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestIntBool(a2, tuple);
+		boolean retval = accessFunction.testIntBool(a2, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjBoolPredicate<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTest(a1, tuple);
+		boolean retval = accessFunction.test(a1, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, LObjBoolPredicate.LBoolObjPred<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestBoolObj(tuple, a1);
+		boolean retval = accessFunction.testBoolObj(tuple, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, int a2, LObjIntBoolPredicate<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTest(a1, a2, tuple);
+		boolean retval = accessFunction.test(a1, a2, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, int a2, LObjIntBoolPredicate.LObjBoolIntPred<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestObjBoolInt(a1, tuple, a2);
+		boolean retval = accessFunction.testObjBoolInt(a1, tuple, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(int a2, T a1, LObjIntBoolPredicate.LIntObjBoolPred<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestIntObjBool(a2, a1, tuple);
+		boolean retval = accessFunction.testIntObjBool(a2, a1, tuple);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(int a2, T a1, LObjIntBoolPredicate.LIntBoolObjPred<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestIntBoolObj(a2, tuple, a1);
+		boolean retval = accessFunction.testIntBoolObj(a2, tuple, a1);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(T a1, int a2, LObjIntBoolPredicate.LBoolObjIntPred<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestBoolObjInt(tuple, a1, a2);
+		boolean retval = accessFunction.testBoolObjInt(tuple, a1, a2);
 		releaseBool(tuple);
 		return retval;
 	}
 
 	default <T> boolean useWith(int a2, T a1, LObjIntBoolPredicate.LBoolIntObjPred<T> accessFunction) {
 		boolean tuple = accessBool();
-		boolean retval = accessFunction.doTestBoolIntObj(tuple, a2, a1);
+		boolean retval = accessFunction.testBoolIntObj(tuple, a2, a1);
 		releaseBool(tuple);
 		return retval;
 	}

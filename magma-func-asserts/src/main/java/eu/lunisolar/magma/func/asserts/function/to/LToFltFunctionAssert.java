@@ -82,13 +82,12 @@ public interface LToFltFunctionAssert<S extends LToFltFunctionAssert<S, A, RS, T
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, Float> doesApplyAsFlt(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsFlt(a));
+				return assertFactory.apply(actual.applyAsFlt(a));
 			});
-
 		}
 
 	}

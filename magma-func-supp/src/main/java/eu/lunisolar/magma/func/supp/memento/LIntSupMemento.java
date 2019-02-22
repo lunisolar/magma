@@ -72,8 +72,8 @@ public class LIntSupMemento implements LIntSupplier {
 	}
 
 	@Override
-	public int doGetAsIntX() {
-		return lastValue = function.doGetAsInt();
+	public int getAsIntX() {
+		return lastValue = function.getAsInt();
 	}
 
 	public int lastValue() {

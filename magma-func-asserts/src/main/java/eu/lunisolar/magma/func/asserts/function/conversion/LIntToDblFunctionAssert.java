@@ -82,13 +82,12 @@ public interface LIntToDblFunctionAssert<S extends LIntToDblFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LIntConsumer, A, RS, Double> doesApplyAsDbl(int a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsDbl(a));
+				return assertFactory.apply(actual.applyAsDbl(a));
 			});
-
 		}
 
 	}

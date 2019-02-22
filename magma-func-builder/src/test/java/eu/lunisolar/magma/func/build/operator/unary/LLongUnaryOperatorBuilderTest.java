@@ -69,7 +69,7 @@ public class LLongUnaryOperatorBuilderTest{
                 .build()
             );
 
-            function.doApplyAsLong(100L);
+            function.applyAsLong(100L);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLongUnaryOperatorBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsLong(100L);
+            function.applyAsLong(100L);
 
             fail("No exception were thrown.");
         })

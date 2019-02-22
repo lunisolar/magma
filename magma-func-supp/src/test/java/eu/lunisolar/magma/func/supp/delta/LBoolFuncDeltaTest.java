@@ -55,7 +55,7 @@ public class LBoolFuncDeltaTest <R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBoolFuncDeltaTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

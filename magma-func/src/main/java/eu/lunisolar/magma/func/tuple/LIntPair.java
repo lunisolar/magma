@@ -34,34 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiIntConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntPair extends LTuple<Integer> {
+public interface LIntPair extends LTuple<Object>, LIntSingle {
 
 	int SIZE = 2;
 
 	int first();
 
-	int second();
-
-	default int getFirst() {
+	default int value() {
 		return first();
 	}
 
-	default int getSecond() {
-		return second();
-	}
+	int second();
 
-	default Integer get(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default int getInt(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -110,69 +95,8 @@ public interface LIntPair extends LTuple<Integer> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Integer[] toVoArray(Integer[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Integer[] toVoArray(Integer[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Integer[] toVoArray() {
-		Integer[] array = new Integer[size()];
-
-		return toVoArray(array);
-	}
-
-	default int[] toIntArray(int[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default int[] toIntArray(int[] array) {
-		return toIntArray(array, 0);
-	}
-
-	default int[] toIntArray() {
-		int[] array = new int[size()];
-
-		return toIntArray(array);
-	}
-
-	@Override
-	default Iterator<Integer> iterator() {
-		return new Iterator<Integer>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -182,27 +106,9 @@ public interface LIntPair extends LTuple<Integer> {
 			}
 
 			@Override
-			public Integer next() {
+			public Object next() {
 				index++;
 				return get(index);
-			}
-		};
-	}
-
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
-
-			private int index;
-
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
-
-			@Override
-			public int nextInt() {
-				index++;
-				return getInt(index);
 			}
 		};
 	}
@@ -237,9 +143,9 @@ public interface LIntPair extends LTuple<Integer> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -292,7 +198,7 @@ public interface LIntPair extends LTuple<Integer> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutIntPair setFirstIfArg(int first, LIntPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -301,14 +207,14 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutIntPair setFirstIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsInt(arg);
+				this.first = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutIntPair setFirstIf(LIntPredicate predicate, int first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -317,7 +223,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutIntPair setFirstIf(int first, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -326,7 +232,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutIntPair setFirstIf(LBiIntPredicate predicate, int first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -339,7 +245,7 @@ public interface LIntPair extends LTuple<Integer> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -348,14 +254,14 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsInt(arg);
+				this.second = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -364,7 +270,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutIntPair setSecondIf(int second, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -373,7 +279,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutIntPair setSecondIf(LBiIntPredicate predicate, int second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -431,7 +337,7 @@ public interface LIntPair extends LTuple<Integer> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompIntPair setFirstIfArg(int first, LIntPredicate predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -440,14 +346,14 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompIntPair setFirstIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.first = func.doApplyAsInt(arg);
+				this.first = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompIntPair setFirstIf(LIntPredicate predicate, int first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -456,7 +362,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompIntPair setFirstIf(int first, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -465,7 +371,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompIntPair setFirstIf(LBiIntPredicate predicate, int first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -478,7 +384,7 @@ public interface LIntPair extends LTuple<Integer> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -487,14 +393,14 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
 			if (arg != null) {
-				this.second = func.doApplyAsInt(arg);
+				this.second = func.applyAsInt(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -503,7 +409,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompIntPair setSecondIf(int second, LBiIntPredicate predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -512,7 +418,7 @@ public interface LIntPair extends LTuple<Integer> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompIntPair setSecondIf(LBiIntPredicate predicate, int second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;

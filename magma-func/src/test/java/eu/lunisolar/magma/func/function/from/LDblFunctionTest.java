@@ -65,14 +65,14 @@ public class LDblFunctionTest<R> {
 
 
     private LDblFunction<Integer> sut = new LDblFunction<Integer>(){
-        public @Nullable Integer doApplyX(double a)  {
+        public @Nullable Integer applyX(double a)  {
             return testValue;
         }
     };
 
 
     private LDblFunction<Integer> sutNull = new LDblFunction<Integer>(){
-        public @Nullable Integer doApplyX(double a)  {
+        public @Nullable Integer applyX(double a)  {
             return null;
         }
     };
@@ -92,7 +92,7 @@ public class LDblFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100d))
+        assertThat(sut.apply(100d))
             .isEqualTo(testValue);
     }
 
@@ -108,17 +108,17 @@ public class LDblFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100d))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100d))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100d);
+            sutAlwaysThrowingUnchecked.nestingApply(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -129,11 +129,11 @@ public class LDblFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100d);
+            sutAlwaysThrowingUnchecked.shovingApply(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -143,16 +143,16 @@ public class LDblFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LDblFunction: R doApply(double a)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LDblFunction: R apply(double a)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100d);
+        sutNull.nonNullApply(100d);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblFunction: R doApply(double a)");
+            .isEqualTo("LDblFunction: R apply(double a)");
     }
 
     @Test
@@ -175,7 +175,7 @@ public class LDblFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblFuncComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -194,8 +194,8 @@ public class LDblFunctionTest<R> {
         };
 
         //when
-        LDblFunction<Integer> function = sutO.dblFuncComposeDbl(before);
-        function.doApply(80d);
+        LDblFunction<Integer> function = sutO.compose(before);
+        function.apply(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -224,7 +224,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LFunction<Integer,Integer> function = sutO.dblFuncCompose(before);
-        function.doApply(80);
+        function.apply(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -260,7 +260,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80d);
+        Integer finalValue = function.apply(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -292,7 +292,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(80d);
+        function.accept(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -325,7 +325,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80d);
+        byte finalValue = function.applyAsByte(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -359,7 +359,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80d);
+        short finalValue = function.applyAsSrt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -393,7 +393,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80d);
+        int finalValue = function.applyAsInt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -427,7 +427,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80d);
+        long finalValue = function.applyAsLong(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -461,7 +461,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80d);
+        float finalValue = function.applyAsFlt(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -495,7 +495,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblUnaryOperator function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80d);
+        double finalValue = function.applyAsDbl(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -529,7 +529,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80d);
+        char finalValue = function.applyAsChar(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -563,7 +563,7 @@ public class LDblFunctionTest<R> {
 
         //when
         LDblPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80d);
+        boolean finalValue = function.test(80d);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -576,20 +576,6 @@ public class LDblFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LDblFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LDblFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -600,7 +586,7 @@ public class LDblFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingDblFunc().doApply(100d);
+        sutThrowing.shovingApply(100d);
     }
 
 
@@ -613,7 +599,7 @@ public class LDblFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblFunction: R doApply(double a)");
+                .contains("LDblFunction: R apply(double a)");
     }
 
 

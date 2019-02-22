@@ -80,8 +80,10 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LLongToByteFunction longToByteFunctionFrom(Function<LLongToByteFunctionBuilder, LLongToByteFunction> buildingFunction) {
-		return buildingFunction.apply(new LLongToByteFunctionBuilder());
+	public static LLongToByteFunction longToByteFunctionFrom(Consumer<LLongToByteFunctionBuilder> buildingFunction) {
+		LLongToByteFunctionBuilder builder = new LLongToByteFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		retval = LLongToByteFunction.longToByteFunc(a -> {
 			try {
 				for (Case<LLongPredicate, LLongToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsByte(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a);
+				return eventuallyFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

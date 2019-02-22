@@ -55,7 +55,7 @@ public class LBiObjFltFuncDeltaTest <T1,T2,R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply(100,100,100f))
+        assertThat(sut.apply(100,100,100f))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBiObjFltFuncDeltaTest <T1,T2,R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100,100,100f))
+        assertThat(sut.apply(100,100,100f))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

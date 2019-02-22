@@ -80,8 +80,10 @@ public final class LCharSupplierBuilder extends PerCaseBuilderWithCharProduct.Ba
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LCharSupplier charSupplierFrom(Function<LCharSupplierBuilder, LCharSupplier> buildingFunction) {
-		return buildingFunction.apply(new LCharSupplierBuilder());
+	public static LCharSupplier charSupplierFrom(Consumer<LCharSupplierBuilder> buildingFunction) {
+		LCharSupplierBuilder builder = new LCharSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LCharSupplierBuilder extends PerCaseBuilderWithCharProduct.Ba
 		retval = LCharSupplier.charSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LCharSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsChar();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsChar();
 					}
 				}
 
-				return eventuallyFinal.doGetAsChar();
+				return eventuallyFinal.getAsChar();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

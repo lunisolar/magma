@@ -69,7 +69,7 @@ public class LBiFltFunctionBuilderTest<R>{
                 .build()
             );
 
-            function.doApply(100f,100f);
+            function.apply(100f,100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiFltFunctionBuilderTest<R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(100f,100f);
+            function.apply(100f,100f);
 
             fail("No exception were thrown.");
         })

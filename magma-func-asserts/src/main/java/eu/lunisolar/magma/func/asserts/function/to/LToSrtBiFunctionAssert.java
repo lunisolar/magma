@@ -82,13 +82,12 @@ public interface LToSrtBiFunctionAssert<S extends LToSrtBiFunctionAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LBiConsumer<T1, T2>, A, RS, Short> doesApplyAsSrt(T1 a1, T2 a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doApplyAsSrt(a1, a2));
+				return assertFactory.apply(actual.applyAsSrt(a1, a2));
 			});
-
 		}
 
 	}

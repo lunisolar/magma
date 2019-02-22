@@ -63,7 +63,7 @@ public class LByteConsumerTest {
 
 
     private LByteConsumer sut = new LByteConsumer(){
-        public  void doAcceptX(byte a)  {
+        public  void acceptX(byte a)  {
             LByteConsumer.doNothing(a);
         }
     };
@@ -93,11 +93,11 @@ public class LByteConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept((byte)100);
+            sutAlwaysThrowingUnchecked.nestingAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LByteConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept((byte)100);
+            sutAlwaysThrowingUnchecked.shovingAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LByteConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteConsumer: void doAccept(byte a)");
+            .isEqualTo("LByteConsumer: void accept(byte a)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LByteConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteConsComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -161,8 +161,8 @@ public class LByteConsumerTest {
         };
 
         //when
-        LByteConsumer function = sutO.byteConsComposeByte(before);
-        function.doAccept((byte)80);
+        LByteConsumer function = sutO.compose(before);
+        function.accept((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -190,7 +190,7 @@ public class LByteConsumerTest {
 
         //when
         LConsumer<Integer> function = sutO.byteConsCompose(before);
-        function.doAccept(80);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -218,27 +218,13 @@ public class LByteConsumerTest {
 
         //when
         LByteConsumer function = sutO.andThen(thenFunction);
-        function.doAccept((byte)80);
+        function.accept((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingByteCons())
-            .isSameAs(sut)
-            .isInstanceOf(LByteConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingByteCons())
-            .isSameAs(sut)
-            .isInstanceOf(LByteConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -250,7 +236,7 @@ public class LByteConsumerTest {
         });
 
         // when
-        sutThrowing.shovingByteCons().doAccept((byte)100);
+        sutThrowing.shovingAccept((byte)100);
     }
 
 
@@ -263,7 +249,7 @@ public class LByteConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteConsumer: void doAccept(byte a)");
+                .contains("LByteConsumer: void accept(byte a)");
     }
 
 

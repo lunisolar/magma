@@ -55,7 +55,7 @@ public class LCharBinaryOpDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsChar('\u0100','\u0100'))
+        assertThat(sut.applyAsChar('\u0100','\u0100'))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LCharBinaryOpDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar('\u0100','\u0100'))
+        assertThat(sut.applyAsChar('\u0100','\u0100'))
             .isEqualTo('\u000F');
 
         assertThat(functionCallCount).isEqualTo(2);

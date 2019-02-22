@@ -80,8 +80,10 @@ public final class LBiCharConsumerBuilder extends PerCaseBuilder.Base<LBiCharCon
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBiCharConsumer biCharConsumerFrom(Function<LBiCharConsumerBuilder, LBiCharConsumer> buildingFunction) {
-		return buildingFunction.apply(new LBiCharConsumerBuilder());
+	public static LBiCharConsumer biCharConsumerFrom(Consumer<LBiCharConsumerBuilder> buildingFunction) {
+		LBiCharConsumerBuilder builder = new LBiCharConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,13 +115,13 @@ public final class LBiCharConsumerBuilder extends PerCaseBuilder.Base<LBiCharCon
 		retval = LBiCharConsumer.biCharCons((a1, a2) -> {
 			try {
 				for (Case<LBiCharPredicate, LBiCharConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						aCase.caseFunction().doAccept(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						aCase.caseFunction().accept(a1, a2);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1, a2);
+				eventuallyFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

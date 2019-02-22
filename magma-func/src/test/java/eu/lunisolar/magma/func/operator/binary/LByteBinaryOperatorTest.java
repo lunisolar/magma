@@ -65,7 +65,7 @@ public class LByteBinaryOperatorTest {
 
 
     private LByteBinaryOperator sut = new LByteBinaryOperator(){
-        public  byte doApplyAsByteX(byte a1,byte a2)  {
+        public  byte applyAsByteX(byte a1,byte a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LByteBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsByte((byte)100,(byte)100))
+        assertThat(sut.applyAsByte((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LByteBinaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsByte() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsByte((byte)100,(byte)100))
+    public void testNonNullApplyAsByte() throws Throwable {
+        assertThat(sut.nonNullApplyAsByte((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsByteUnchecked() throws Throwable {
+    public void testNestingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsByte((byte)100,(byte)100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LByteBinaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsByteUnchecked() throws Throwable {
+    public void testShovingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsByte((byte)100,(byte)100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LByteBinaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteBinaryOperator: byte doApplyAsByte(byte a1,byte a2)");
+            .isEqualTo("LByteBinaryOperator: byte applyAsByte(byte a1,byte a2)");
     }
 
     @Test
@@ -158,9 +158,9 @@ public class LByteBinaryOperatorTest {
         LByteBinaryOperator min =  LByteBinaryOperator.minBy(Byte::compare);
 
         //then
-        assertThat(min.doApplyAsByte((byte)0, (byte)56))
+        assertThat(min.applyAsByte((byte)0, (byte)56))
                 .isEqualTo((byte)0);
-        assertThat(min.doApplyAsByte((byte)56, (byte)0))
+        assertThat(min.applyAsByte((byte)56, (byte)0))
                        .isEqualTo((byte)0);
 
     }
@@ -171,9 +171,9 @@ public class LByteBinaryOperatorTest {
         LByteBinaryOperator max =  LByteBinaryOperator.maxBy(Byte::compare);
 
         //then
-        assertThat(max.doApplyAsByte((byte)0, (byte)56))
+        assertThat(max.applyAsByte((byte)0, (byte)56))
                 .isEqualTo((byte)56);
-        assertThat(max.doApplyAsByte((byte)56, (byte)0))
+        assertThat(max.applyAsByte((byte)56, (byte)0))
                         .isEqualTo((byte)56);
     }
 
@@ -188,10 +188,10 @@ public class LByteBinaryOperatorTest {
         LByteBinaryOperator min = LByteBinaryOperator.min();
 
         //then
-        assertThat(min.doApplyAsByte(valueSmall, valueBig))
+        assertThat(min.applyAsByte(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.doApplyAsByte(valueBig, valueSmall))
+        assertThat(min.applyAsByte(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -205,10 +205,10 @@ public class LByteBinaryOperatorTest {
         LByteBinaryOperator max = LByteBinaryOperator.max();
 
         //then
-        assertThat(max.doApplyAsByte(valueSmall, valueBig))
+        assertThat(max.applyAsByte(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.doApplyAsByte(valueBig, valueSmall))
+        assertThat(max.applyAsByte(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -216,7 +216,7 @@ public class LByteBinaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteBinaryOpComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LByteBinaryOperatorTest {
         };
 
         //when
-        LByteBinaryOperator function = sutO.byteBinaryOpComposeByte(before1,before2);
-        function.doApplyAsByte((byte)80,(byte)81);
+        LByteBinaryOperator function = sutO.compose(before1,before2);
+        function.applyAsByte((byte)80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LByteBinaryOperatorTest {
 
         //when
         LToByteBiFunction<Integer,Integer> function = sutO.byteBinaryOpCompose(before1,before2);
-        function.doApplyAsByte(80,81);
+        function.applyAsByte(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LByteBinaryOperatorTest {
 
         //when
         LBiByteFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((byte)80,(byte)81);
+        Integer finalValue = function.apply((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LByteBinaryOperatorTest {
 
         //when
         LByteBinaryOperator function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((byte)80,(byte)81);
+        byte finalValue = function.applyAsByte((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LByteBinaryOperatorTest {
 
         //when
         LBiBytePredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((byte)80,(byte)81);
+        boolean finalValue = function.test((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -397,20 +397,6 @@ public class LByteBinaryOperatorTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingByteBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LByteBinaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingByteBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LByteBinaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -421,7 +407,7 @@ public class LByteBinaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingByteBinaryOp().doApplyAsByte((byte)100,(byte)100);
+        sutThrowing.shovingApplyAsByte((byte)100,(byte)100);
     }
 
 
@@ -434,7 +420,7 @@ public class LByteBinaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteBinaryOperator: byte doApplyAsByte(byte a1,byte a2)");
+                .contains("LByteBinaryOperator: byte applyAsByte(byte a1,byte a2)");
     }
 
 

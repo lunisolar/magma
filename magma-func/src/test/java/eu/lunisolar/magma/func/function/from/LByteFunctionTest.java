@@ -65,14 +65,14 @@ public class LByteFunctionTest<R> {
 
 
     private LByteFunction<Integer> sut = new LByteFunction<Integer>(){
-        public @Nullable Integer doApplyX(byte a)  {
+        public @Nullable Integer applyX(byte a)  {
             return testValue;
         }
     };
 
 
     private LByteFunction<Integer> sutNull = new LByteFunction<Integer>(){
-        public @Nullable Integer doApplyX(byte a)  {
+        public @Nullable Integer applyX(byte a)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LByteFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply((byte)100))
+        assertThat(sut.apply((byte)100))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LByteFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply((byte)100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply((byte)100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply((byte)100);
+            sutAlwaysThrowingUnchecked.nestingApply((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LByteFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply((byte)100);
+            sutAlwaysThrowingUnchecked.shovingApply((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LByteFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LByteFunction: R doApply(byte a)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LByteFunction: R apply(byte a)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply((byte)100);
+        sutNull.nonNullApply((byte)100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteFunction: R doApply(byte a)");
+            .isEqualTo("LByteFunction: R apply(byte a)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LByteFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteFuncComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -186,8 +186,8 @@ public class LByteFunctionTest<R> {
         };
 
         //when
-        LByteFunction<Integer> function = sutO.byteFuncComposeByte(before);
-        function.doApply((byte)80);
+        LByteFunction<Integer> function = sutO.compose(before);
+        function.apply((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -216,7 +216,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LFunction<Integer,Integer> function = sutO.byteFuncCompose(before);
-        function.doApply(80);
+        function.apply(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -252,7 +252,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((byte)80);
+        Integer finalValue = function.apply((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -284,7 +284,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept((byte)80);
+        function.accept((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteUnaryOperator function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((byte)80);
+        byte finalValue = function.applyAsByte((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -351,7 +351,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((byte)80);
+        short finalValue = function.applyAsSrt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -385,7 +385,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((byte)80);
+        int finalValue = function.applyAsInt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -419,7 +419,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((byte)80);
+        long finalValue = function.applyAsLong((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -453,7 +453,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt((byte)80);
+        float finalValue = function.applyAsFlt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -487,7 +487,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl((byte)80);
+        double finalValue = function.applyAsDbl((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -521,7 +521,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LByteToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((byte)80);
+        char finalValue = function.applyAsChar((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -555,7 +555,7 @@ public class LByteFunctionTest<R> {
 
         //when
         LBytePredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((byte)80);
+        boolean finalValue = function.test((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -568,20 +568,6 @@ public class LByteFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LByteFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LByteFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -592,7 +578,7 @@ public class LByteFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingByteFunc().doApply((byte)100);
+        sutThrowing.shovingApply((byte)100);
     }
 
 
@@ -605,7 +591,7 @@ public class LByteFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteFunction: R doApply(byte a)");
+                .contains("LByteFunction: R apply(byte a)");
     }
 
 

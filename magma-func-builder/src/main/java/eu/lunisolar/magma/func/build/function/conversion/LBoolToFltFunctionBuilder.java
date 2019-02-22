@@ -80,8 +80,10 @@ public final class LBoolToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LBoolToFltFunction boolToFltFunctionFrom(Function<LBoolToFltFunctionBuilder, LBoolToFltFunction> buildingFunction) {
-		return buildingFunction.apply(new LBoolToFltFunctionBuilder());
+	public static LBoolToFltFunction boolToFltFunctionFrom(Consumer<LBoolToFltFunctionBuilder> buildingFunction) {
+		LBoolToFltFunctionBuilder builder = new LBoolToFltFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LBoolToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 		retval = LBoolToFltFunction.boolToFltFunc(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolToFltFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a)) {
-						return aCase.caseFunction().doApplyAsFlt(a);
+					if (aCase.casePredicate().apply(a)) {
+						return aCase.caseFunction().applyAsFlt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsFlt(a);
+				return eventuallyFinal.applyAsFlt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

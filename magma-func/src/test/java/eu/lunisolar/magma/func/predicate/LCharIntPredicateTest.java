@@ -65,7 +65,7 @@ public class LCharIntPredicateTest {
 
 
     private LCharIntPredicate sut = new LCharIntPredicate(){
-        public  boolean doTestX(char a1,int a2)  {
+        public  boolean testX(char a1,int a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LCharIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest('\u0100',100))
+        assertThat(sut.test('\u0100',100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LCharIntPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest('\u0100',100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest('\u0100',100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest('\u0100',100);
+            sutAlwaysThrowingUnchecked.nestingTest('\u0100',100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LCharIntPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest('\u0100',100);
+            sutAlwaysThrowingUnchecked.shovingTest('\u0100',100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LCharIntPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharIntPredicate: boolean doTest(char a1,int a2)");
+            .isEqualTo("LCharIntPredicate: boolean test(char a1,int a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LCharIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest('\u0100',100))
+        assertThat(sut.negate().test('\u0100',100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LCharIntPredicateTest {
         LCharIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest('\u0100',100))
+        assertThat(andFunction.test('\u0100',100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest('\u0100',100))
+        assertThat(orFunction.test('\u0100',100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest('\u0100',100))
+        assertThat(xorFunction.test('\u0100',100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LCharIntPredicateTest {
         LCharIntPredicate equals = LCharIntPredicate.isEqual('\u0001',1);
 
         //then
-        assertThat(equals.doTest('\u0001',1))
+        assertThat(equals.test('\u0001',1))
                 .isTrue();
 
-        assertThat(equals.doTest('\u0000',0))
+        assertThat(equals.test('\u0000',0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LCharIntPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testCharIntPredComposeCharInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LCharIntPredicateTest {
         };
 
         //when
-        LCharIntPredicate function = sutO.charIntPredComposeCharInt(before1,before2);
-        function.doTest('\u0080',81);
+        LCharIntPredicate function = sutO.compose(before1,before2);
+        function.test('\u0080',81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LCharIntPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.charIntPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LCharIntPredicateTest {
 
         //when
         LCharIntPredicate function = sutO.boolToCharIntPred(thenFunction);
-        boolean finalValue = function.doTest('\u0080',81);
+        boolean finalValue = function.test('\u0080',81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -327,20 +327,6 @@ public class LCharIntPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCharIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LCharIntPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCharIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LCharIntPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -351,7 +337,7 @@ public class LCharIntPredicateTest {
         });
 
         // when
-        sutThrowing.shovingCharIntPred().doTest('\u0100',100);
+        sutThrowing.shovingTest('\u0100',100);
     }
 
 
@@ -364,7 +350,7 @@ public class LCharIntPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharIntPredicate: boolean doTest(char a1,int a2)");
+                .contains("LCharIntPredicate: boolean test(char a1,int a2)");
     }
 
 

@@ -85,8 +85,8 @@ public class LBoolSupDelta extends LBoolSupMemento {
 	}
 
 	@Override
-	public boolean doGetAsBool() {
-		return deltaFunction.doApply(lastValue(), super.doGetAsBool());
+	public boolean getAsBool() {
+		return deltaFunction.apply(lastValue(), super.getAsBool());
 	}
 
 	// <editor-fold desc="object">

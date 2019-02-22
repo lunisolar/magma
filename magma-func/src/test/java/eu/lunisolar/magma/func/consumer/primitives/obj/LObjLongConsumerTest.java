@@ -63,7 +63,7 @@ public class LObjLongConsumerTest<T> {
 
 
     private LObjLongConsumer<Integer> sut = new LObjLongConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,long a2)  {
+        public  void acceptX(Integer a1,long a2)  {
             LObjLongConsumer.doNothing(a1,a2);
         }
     };
@@ -95,11 +95,11 @@ public class LObjLongConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100L);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -110,11 +110,11 @@ public class LObjLongConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100L);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -128,7 +128,7 @@ public class LObjLongConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjLongConsumer: void doAccept(T a1,long a2)");
+            .isEqualTo("LObjLongConsumer: void accept(T a1,long a2)");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class LObjLongConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjLongConsComposeLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LObjLongConsumerTest<T> {
         };
 
         //when
-        LObjLongConsumer<Integer> function = sutO.objLongConsComposeLong(before1,before2);
-        function.doAccept(80,81L);
+        LObjLongConsumer<Integer> function = sutO.compose(before1,before2);
+        function.accept(80,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -210,7 +210,7 @@ public class LObjLongConsumerTest<T> {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.objLongConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -240,27 +240,13 @@ public class LObjLongConsumerTest<T> {
 
         //when
         LObjLongConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81L);
+        function.accept(80,81L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LObjLongConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -272,7 +258,7 @@ public class LObjLongConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjLongCons().doAccept(100,100L);
+        sutThrowing.shovingAccept(100,100L);
     }
 
 
@@ -285,7 +271,7 @@ public class LObjLongConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjLongConsumer: void doAccept(T a1,long a2)");
+                .contains("LObjLongConsumer: void accept(T a1,long a2)");
     }
 
 

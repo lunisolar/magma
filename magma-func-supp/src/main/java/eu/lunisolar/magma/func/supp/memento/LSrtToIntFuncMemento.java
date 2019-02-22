@@ -72,8 +72,8 @@ public class LSrtToIntFuncMemento implements LSrtToIntFunction {
 	}
 
 	@Override
-	public int doApplyAsIntX(short a) {
-		return lastValue = function.doApplyAsInt(a);
+	public int applyAsIntX(short a) {
+		return lastValue = function.applyAsInt(a);
 	}
 
 	public int lastValue() {

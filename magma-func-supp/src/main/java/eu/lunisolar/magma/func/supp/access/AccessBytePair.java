@@ -72,90 +72,90 @@ public interface AccessBytePair {
 
 	default void useWith(LBiByteConsumer accessFunction) {
 		LBytePair tuple = accessBytePair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiByteConsumer accessFunction) {
 		LBytePair tuple = accessBytePair();
-		accessFunction.doAccept(tuple.second(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiByteConsumer.LByte1Byte0Cons accessFunction) {
 		LBytePair tuple = accessBytePair();
-		accessFunction.doAcceptByte1Byte0(tuple.first(), tuple.second());
+		accessFunction.acceptByte1Byte0(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiByteConsumer.LByte1Byte0Cons accessFunction) {
 		LBytePair tuple = accessBytePair();
-		accessFunction.doAcceptByte1Byte0(tuple.second(), tuple.first());
+		accessFunction.acceptByte1Byte0(tuple.second(), tuple.first());
 	}
 
 	default byte useWith(LByteBinaryOperator accessFunction) {
 		LBytePair tuple = accessBytePair();
-		byte retval = accessFunction.doApplyAsByte(tuple.first(), tuple.second());
+		byte retval = accessFunction.applyAsByte(tuple.first(), tuple.second());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default byte useWithO1(LByteBinaryOperator accessFunction) {
 		LBytePair tuple = accessBytePair();
-		byte retval = accessFunction.doApplyAsByte(tuple.second(), tuple.first());
+		byte retval = accessFunction.applyAsByte(tuple.second(), tuple.first());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiByteFunction<R> accessFunction) {
 		LBytePair tuple = accessBytePair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiByteFunction<R> accessFunction) {
 		LBytePair tuple = accessBytePair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiByteFunction.LByte1Byte0Func<R> accessFunction) {
 		LBytePair tuple = accessBytePair();
-		R retval = accessFunction.doApplyByte1Byte0(tuple.first(), tuple.second());
+		R retval = accessFunction.applyByte1Byte0(tuple.first(), tuple.second());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiByteFunction.LByte1Byte0Func<R> accessFunction) {
 		LBytePair tuple = accessBytePair();
-		R retval = accessFunction.doApplyByte1Byte0(tuple.second(), tuple.first());
+		R retval = accessFunction.applyByte1Byte0(tuple.second(), tuple.first());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiBytePredicate accessFunction) {
 		LBytePair tuple = accessBytePair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiBytePredicate accessFunction) {
 		LBytePair tuple = accessBytePair();
-		boolean retval = accessFunction.doTest(tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(tuple.second(), tuple.first());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiBytePredicate.LByte1Byte0Pred accessFunction) {
 		LBytePair tuple = accessBytePair();
-		boolean retval = accessFunction.doTestByte1Byte0(tuple.first(), tuple.second());
+		boolean retval = accessFunction.testByte1Byte0(tuple.first(), tuple.second());
 		releaseBytePair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiBytePredicate.LByte1Byte0Pred accessFunction) {
 		LBytePair tuple = accessBytePair();
-		boolean retval = accessFunction.doTestByte1Byte0(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testByte1Byte0(tuple.second(), tuple.first());
 		releaseBytePair(tuple);
 		return retval;
 	}

@@ -72,8 +72,8 @@ public class LToLongFuncMemento<T> implements LToLongFunction<T> {
 	}
 
 	@Override
-	public long doApplyAsLongX(T a) {
-		return lastValue = function.doApplyAsLong(a);
+	public long applyAsLongX(T a) {
+		return lastValue = function.applyAsLong(a);
 	}
 
 	public long lastValue() {

@@ -54,7 +54,7 @@ public class LSrtToByteFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo((byte)0);
 
-        assertThat(sut.doApplyAsByte((short)100))
+        assertThat(sut.applyAsByte((short)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LSrtToByteFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte((short)100))
+        assertThat(sut.applyAsByte((short)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

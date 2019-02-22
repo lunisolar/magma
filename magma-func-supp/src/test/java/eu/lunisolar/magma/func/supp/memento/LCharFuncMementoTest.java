@@ -54,7 +54,7 @@ public class LCharFuncMementoTest <R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply('\u0100'))
+        assertThat(sut.apply('\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LCharFuncMementoTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply('\u0100'))
+        assertThat(sut.apply('\u0100'))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

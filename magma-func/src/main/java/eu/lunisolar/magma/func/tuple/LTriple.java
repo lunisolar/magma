@@ -34,27 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LTriConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
+public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.Entry<T2, T1> {
 
 	int SIZE = 3;
 
 	T1 first();
 
-	T2 second();
-
-	T3 third();
-
-	default T1 getFirst() {
+	default T1 value() {
 		return first();
 	}
 
-	default T2 getSecond() {
-		return second();
-	}
+	T2 second();
 
-	default T3 getThird() {
-		return third();
-	}
+	T3 third();
 
 	default Object get(int index) {
 		switch (index) {
@@ -76,18 +68,20 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 	// <editor-fold desc="Map.Entry">
 
+	/** Returns key as Entry.key() */
 	@Override
-	default T1 getKey() {
+	default T2 getKey() {
+		return second();
+	}
+
+	/** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
+	@Override
+	default T1 getValue() {
 		return first();
 	}
 
 	@Override
-	default T2 getValue() {
-		return second();
-	}
-
-	@Override
-	default T2 setValue(T2 value) {
+	default T1 setValue(T1 value) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -128,29 +122,6 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-		i++;
-		array[i] = third();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -200,11 +171,11 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(',');
-			sb.append(getThird());
+			sb.append(third());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -268,7 +239,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutTriple<T1, T2, T3> setFirstIfArg(T1 first, LPredicate<T1> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -277,14 +248,14 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutTriple<T1, T2, T3> setFirstIfArgNotNull(R arg, LFunction<R, T1> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutTriple<T1, T2, T3> setFirstIf(LPredicate<T1> predicate, T1 first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -293,7 +264,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutTriple<T1, T2, T3> setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -302,7 +273,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutTriple<T1, T2, T3> setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -315,7 +286,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutTriple<T1, T2, T3> setSecondIfArg(T2 second, LPredicate<T2> predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -324,14 +295,14 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutTriple<T1, T2, T3> setSecondIfArgNotNull(R arg, LFunction<R, T2> func) {
 			if (arg != null) {
-				this.second = func.doApply(arg);
+				this.second = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutTriple<T1, T2, T3> setSecondIf(LPredicate<T2> predicate, T2 second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -340,7 +311,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutTriple<T1, T2, T3> setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -349,7 +320,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutTriple<T1, T2, T3> setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -362,7 +333,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutTriple<T1, T2, T3> setThirdIfArg(T3 third, LPredicate<T3> predicate) {
-			if (predicate.doTest(third)) {
+			if (predicate.test(third)) {
 				this.third = third;
 			}
 			return this;
@@ -371,14 +342,14 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutTriple<T1, T2, T3> setThirdIfArgNotNull(R arg, LFunction<R, T3> func) {
 			if (arg != null) {
-				this.third = func.doApply(arg);
+				this.third = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutTriple<T1, T2, T3> setThirdIf(LPredicate<T3> predicate, T3 third) {
-			if (predicate.doTest(this.third)) {
+			if (predicate.test(this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -387,7 +358,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutTriple<T1, T2, T3> setThirdIf(T3 third, LBiPredicate<T3, T3> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(third, this.third)) {
+			if (predicate.test(third, this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -396,7 +367,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutTriple<T1, T2, T3> setThirdIf(LBiPredicate<T3, T3> predicate, T3 third) {
 
-			if (predicate.doTest(this.third, third)) {
+			if (predicate.test(this.third, third)) {
 				this.third = third;
 			}
 			return this;
@@ -466,7 +437,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompTriple<T1, T2, T3> setFirstIfArg(T1 first, LPredicate<T1> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -475,14 +446,14 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompTriple<T1, T2, T3> setFirstIfArgNotNull(R arg, LFunction<R, T1> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompTriple<T1, T2, T3> setFirstIf(LPredicate<T1> predicate, T1 first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -491,7 +462,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompTriple<T1, T2, T3> setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -500,7 +471,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompTriple<T1, T2, T3> setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -513,7 +484,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompTriple<T1, T2, T3> setSecondIfArg(T2 second, LPredicate<T2> predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -522,14 +493,14 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompTriple<T1, T2, T3> setSecondIfArgNotNull(R arg, LFunction<R, T2> func) {
 			if (arg != null) {
-				this.second = func.doApply(arg);
+				this.second = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompTriple<T1, T2, T3> setSecondIf(LPredicate<T2> predicate, T2 second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -538,7 +509,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompTriple<T1, T2, T3> setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -547,7 +518,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompTriple<T1, T2, T3> setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -560,7 +531,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompTriple<T1, T2, T3> setThirdIfArg(T3 third, LPredicate<T3> predicate) {
-			if (predicate.doTest(third)) {
+			if (predicate.test(third)) {
 				this.third = third;
 			}
 			return this;
@@ -569,14 +540,14 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompTriple<T1, T2, T3> setThirdIfArgNotNull(R arg, LFunction<R, T3> func) {
 			if (arg != null) {
-				this.third = func.doApply(arg);
+				this.third = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompTriple<T1, T2, T3> setThirdIf(LPredicate<T3> predicate, T3 third) {
-			if (predicate.doTest(this.third)) {
+			if (predicate.test(this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -585,7 +556,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompTriple<T1, T2, T3> setThirdIf(T3 third, LBiPredicate<T3, T3> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(third, this.third)) {
+			if (predicate.test(third, this.third)) {
 				this.third = third;
 			}
 			return this;
@@ -594,7 +565,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompTriple<T1, T2, T3> setThirdIf(LBiPredicate<T3, T3> predicate, T3 third) {
 
-			if (predicate.doTest(this.third, third)) {
+			if (predicate.test(this.third, third)) {
 				this.third = third;
 			}
 			return this;

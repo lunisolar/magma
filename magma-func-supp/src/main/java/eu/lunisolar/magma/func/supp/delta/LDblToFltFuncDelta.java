@@ -89,8 +89,8 @@ public class LDblToFltFuncDelta extends LDblToFltFuncMemento {
 	}
 
 	@Override
-	public float doApplyAsFlt(double a) {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doApplyAsFlt(a));
+	public float applyAsFlt(double a) {
+		return deltaFunction.applyAsFlt(lastValue(), super.applyAsFlt(a));
 	}
 
 	// <editor-fold desc="object">

@@ -80,8 +80,10 @@ public final class LObjIntCharFunctionBuilder<T, R> extends PerCaseBuilderWithPr
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T, R> LObjIntCharFunction<T, R> objIntCharFunctionFrom(Function<LObjIntCharFunctionBuilder<T, R>, LObjIntCharFunction<T, R>> buildingFunction) {
-		return buildingFunction.apply(new LObjIntCharFunctionBuilder());
+	public static <T, R> LObjIntCharFunction<T, R> objIntCharFunctionFrom(Consumer<LObjIntCharFunctionBuilder<T, R>> buildingFunction) {
+		LObjIntCharFunctionBuilder builder = new LObjIntCharFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LObjIntCharFunctionBuilder<T, R> extends PerCaseBuilderWithPr
 		retval = LObjIntCharFunction.<T, R> objIntCharFunc((a1, a2, a3) -> {
 			try {
 				for (Case<LObjIntCharPredicate<T>, LObjIntCharFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2, a3)) {
-						return aCase.caseFunction().doApply(a1, a2, a3);
+					if (aCase.casePredicate().test(a1, a2, a3)) {
+						return aCase.caseFunction().apply(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1, a2, a3);
+				return eventuallyFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

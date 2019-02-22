@@ -69,7 +69,7 @@ public class LCharPredicateBuilderTest{
                 .build()
             );
 
-            function.doTest('\u0100');
+            function.test('\u0100');
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LCharPredicateBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest('\u0100');
+            function.test('\u0100');
 
             fail("No exception were thrown.");
         })

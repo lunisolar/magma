@@ -72,8 +72,8 @@ public class LToSrtFuncMemento<T> implements LToSrtFunction<T> {
 	}
 
 	@Override
-	public short doApplyAsSrtX(T a) {
-		return lastValue = function.doApplyAsSrt(a);
+	public short applyAsSrtX(T a) {
+		return lastValue = function.applyAsSrt(a);
 	}
 
 	public short lastValue() {

@@ -69,7 +69,7 @@ public class LByteToSrtFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsSrt((byte)100);
+            function.applyAsSrt((byte)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LByteToSrtFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsSrt((byte)100);
+            function.applyAsSrt((byte)100);
 
             fail("No exception were thrown.");
         })

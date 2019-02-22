@@ -69,7 +69,7 @@ public class LDblToFltFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsFlt(100d);
+            function.applyAsFlt(100d);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LDblToFltFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsFlt(100d);
+            function.applyAsFlt(100d);
 
             fail("No exception were thrown.");
         })

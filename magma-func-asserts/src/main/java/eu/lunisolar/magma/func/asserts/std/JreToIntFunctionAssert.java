@@ -80,13 +80,12 @@ public interface JreToIntFunctionAssert<S extends JreToIntFunctionAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, Integer> doesApplyAsInt(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.applyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

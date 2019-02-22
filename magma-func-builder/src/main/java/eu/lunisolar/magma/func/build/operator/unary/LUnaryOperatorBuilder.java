@@ -80,8 +80,10 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LUnaryOperator<T> unaryOperatorFrom(Function<LUnaryOperatorBuilder<T>, LUnaryOperator<T>> buildingFunction) {
-		return buildingFunction.apply(new LUnaryOperatorBuilder());
+	public static <T> LUnaryOperator<T> unaryOperatorFrom(Consumer<LUnaryOperatorBuilder<T>> buildingFunction) {
+		LUnaryOperatorBuilder builder = new LUnaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		retval = LUnaryOperator.<T> unaryOp(a -> {
 			try {
 				for (Case<LPredicate<T>, LUnaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApply(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().apply(a);
 					}
 				}
 
-				return eventuallyFinal.doApply(a);
+				return eventuallyFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

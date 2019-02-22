@@ -80,8 +80,10 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LByteBinaryOperator byteBinaryOperatorFrom(Function<LByteBinaryOperatorBuilder, LByteBinaryOperator> buildingFunction) {
-		return buildingFunction.apply(new LByteBinaryOperatorBuilder());
+	public static LByteBinaryOperator byteBinaryOperatorFrom(Consumer<LByteBinaryOperatorBuilder> buildingFunction) {
+		LByteBinaryOperatorBuilder builder = new LByteBinaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 		retval = LByteBinaryOperator.byteBinaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiBytePredicate, LByteBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
-						return aCase.caseFunction().doApplyAsByte(a1, a2);
+					if (aCase.casePredicate().test(a1, a2)) {
+						return aCase.caseFunction().applyAsByte(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a1, a2);
+				return eventuallyFinal.applyAsByte(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

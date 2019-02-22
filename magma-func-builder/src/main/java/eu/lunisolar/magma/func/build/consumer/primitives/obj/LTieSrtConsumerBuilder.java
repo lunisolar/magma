@@ -80,8 +80,10 @@ public final class LTieSrtConsumerBuilder<T> extends PerCaseBuilder.Base<LTieSrt
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> LTieSrtConsumer<T> tieSrtConsumerFrom(Function<LTieSrtConsumerBuilder<T>, LTieSrtConsumer<T>> buildingFunction) {
-		return buildingFunction.apply(new LTieSrtConsumerBuilder());
+	public static <T> LTieSrtConsumer<T> tieSrtConsumerFrom(Consumer<LTieSrtConsumerBuilder<T>> buildingFunction) {
+		LTieSrtConsumerBuilder builder = new LTieSrtConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,13 +133,13 @@ public final class LTieSrtConsumerBuilder<T> extends PerCaseBuilder.Base<LTieSrt
 		retval = LTieSrtConsumer.<T> tieSrtCons((a1, a2, a3) -> {
 			try {
 				for (Case<LObjIntSrtPredicate<T>, LTieSrtConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2, a3)) {
-						aCase.caseFunction().doAccept(a1, a2, a3);
+					if (aCase.casePredicate().test(a1, a2, a3)) {
+						aCase.caseFunction().accept(a1, a2, a3);
 						return;
 					}
 				}
 
-				eventuallyFinal.doAccept(a1, a2, a3);
+				eventuallyFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

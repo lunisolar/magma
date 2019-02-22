@@ -69,7 +69,7 @@ public class LObjCharPredicateBuilderTest<T>{
                 .build()
             );
 
-            function.doTest(100,'\u0100');
+            function.test(100,'\u0100');
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LObjCharPredicateBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest(100,'\u0100');
+            function.test(100,'\u0100');
 
             fail("No exception were thrown.");
         })

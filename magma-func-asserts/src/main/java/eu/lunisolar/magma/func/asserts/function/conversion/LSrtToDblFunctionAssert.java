@@ -82,13 +82,12 @@ public interface LSrtToDblFunctionAssert<S extends LSrtToDblFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LSrtConsumer, A, RS, Double> doesApplyAsDbl(short a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsDbl(a));
+				return assertFactory.apply(actual.applyAsDbl(a));
 			});
-
 		}
 
 	}

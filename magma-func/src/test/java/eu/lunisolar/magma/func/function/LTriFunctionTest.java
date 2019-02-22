@@ -65,14 +65,14 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
 
     private LTriFunction<Integer,Integer,Integer,Integer> sut = new LTriFunction<Integer,Integer,Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2,Integer a3)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2,Integer a3)  {
             return testValue;
         }
     };
 
 
     private LTriFunction<Integer,Integer,Integer,Integer> sutNull = new LTriFunction<Integer,Integer,Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2,Integer a3)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2,Integer a3)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100,100))
+        assertThat(sut.apply(100,100,100))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LTriFunctionTest<T1,T2,T3,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100,100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100,100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100,100);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LTriFunctionTest<T1,T2,T3,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100,100);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LTriFunctionTest<T1,T2,T3,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LTriFunction: R apply(T1 a1,T2 a2,T3 a3)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100,100);
+        sutNull.nonNullApply(100,100,100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)");
+            .isEqualTo("LTriFunction: R apply(T1 a1,T2 a2,T3 a3)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -198,8 +198,8 @@ public class LTriFunctionTest<T1,T2,T3,R> {
         };
 
         //when
-        LTriFunction<Integer,Integer,Integer,Integer> function = sutO.triFuncCompose(before1,before2,before3);
-        function.doApply(80,81,82);
+        LTriFunction<Integer,Integer,Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.apply(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -237,7 +237,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
         //when
         LTriFunction<Integer,Integer,Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,82);
+        Integer finalValue = function.apply(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -271,7 +271,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -306,7 +306,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,82);
+        int finalValue = function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -342,7 +342,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
         //when
         LTriPredicate<Integer,Integer,Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,82);
+        boolean finalValue = function.test(80,81,82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -355,20 +355,6 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTriFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTriFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTriFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTriFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -379,7 +365,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
         });
 
         // when
-        sutThrowing.shovingTriFunc().doApply(100,100,100);
+        sutThrowing.shovingApply(100,100,100);
     }
 
 
@@ -392,7 +378,7 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriFunction: R doApply(T1 a1,T2 a2,T3 a3)");
+                .contains("LTriFunction: R apply(T1 a1,T2 a2,T3 a3)");
     }
 
 
@@ -404,27 +390,27 @@ public class LTriFunctionTest<T1,T2,T3,R> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantLObjObj2Obj1Func(Integer a1,Integer a3,Integer a2) {
+    private Integer variantLObj0Obj2Obj1Func(Integer a1,Integer a3,Integer a2) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLObjObj2Obj1Func() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/objObj2Obj1Func(this::variantLObjObj2Obj1Func);
+    public void compilerSubstituteVariantLObj0Obj2Obj1Func() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/obj0Obj2Obj1Func(this::variantLObj0Obj2Obj1Func);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.LObjObj2Obj1Func.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LObj0Obj2Obj1Func.class);
     }
 
 
-    private Integer variantLObj1BiObjFunc(Integer a2,Integer a1,Integer a3) {
+    private Integer variantLObj1BiObj2Func(Integer a2,Integer a1,Integer a3) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1BiObjFunc() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/obj1BiObjFunc(this::variantLObj1BiObjFunc);
+    public void compilerSubstituteVariantLObj1BiObj2Func() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/obj1BiObj2Func(this::variantLObj1BiObj2Func);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.LObj1BiObjFunc.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LObj1BiObj2Func.class);
     }
 
 
@@ -452,15 +438,15 @@ public class LTriFunctionTest<T1,T2,T3,R> {
     }
 
 
-    private Integer variantLBiObjObj0Func(Integer a3,Integer a2,Integer a1) {
+    private Integer variantLBiObj1Obj0Func(Integer a3,Integer a2,Integer a1) {
         return 100;
     }
 
     @Test
-    public void compilerSubstituteVariantLBiObjObj0Func() {
-        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/biObjObj0Func(this::variantLBiObjObj0Func);
+    public void compilerSubstituteVariantLBiObj1Obj0Func() {
+        LTriFunction lambda = LTriFunction./*<T1,T2,T3,R>*/biObj1Obj0Func(this::variantLBiObj1Obj0Func);
 
-        assertThat(lambda).isInstanceOf(LTriFunction.LBiObjObj0Func.class);
+        assertThat(lambda).isInstanceOf(LTriFunction.LBiObj1Obj0Func.class);
     }
 
     //</editor-fold>

@@ -55,7 +55,7 @@ public class LFltSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsFlt())
+        assertThat(sut.getAsFlt())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LFltSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsFlt())
+        assertThat(sut.getAsFlt())
             .isEqualTo(9f);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -63,13 +63,13 @@ public class LazyFlt extends LFltSupMemento implements LFltSingle {
 	}
 
 	public static <E> LazyFlt lazyValue(E e, LToFltFunction<E> function) {
-		return new LazyFlt(() -> function.doApplyAsFlt(e));
+		return new LazyFlt(() -> function.applyAsFlt(e));
 	}
 
 	@Override
-	public float doGetAsFlt() {
+	public float getAsFlt() {
 		if (function != null) {
-			lastValue = function.doGetAsFlt();
+			lastValue = function.getAsFlt();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazyFlt extends LFltSupMemento implements LFltSingle {
 	}
 
 	public float value() {
-		return doGetAsFlt();
+		return getAsFlt();
 	}
 
 	public static boolean argEquals(LazyFlt the, Object that) {

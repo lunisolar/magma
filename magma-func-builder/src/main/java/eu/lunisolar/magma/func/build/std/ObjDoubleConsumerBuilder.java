@@ -80,8 +80,10 @@ public final class ObjDoubleConsumerBuilder<T> extends PerCaseBuilder.Base<ObjDo
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> ObjDoubleConsumer<T> objDblConsumerFrom(Function<ObjDoubleConsumerBuilder<T>, ObjDoubleConsumer<T>> buildingFunction) {
-		return buildingFunction.apply(new ObjDoubleConsumerBuilder());
+	public static <T> ObjDoubleConsumer<T> objDblConsumerFrom(Consumer<ObjDoubleConsumerBuilder<T>> buildingFunction) {
+		ObjDoubleConsumerBuilder builder = new ObjDoubleConsumerBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class ObjDoubleConsumerBuilder<T> extends PerCaseBuilder.Base<ObjDo
 		retval = Function4U.<T> objDblCons((a1, a2) -> {
 			try {
 				for (Case<LObjDblPredicate<T>, ObjDoubleConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
+					if (aCase.casePredicate().test(a1, a2)) {
 						aCase.caseFunction().accept(a1, a2);
 						return;
 					}

@@ -72,194 +72,194 @@ public interface AccessObjFltPair<T> {
 
 	default void useWith(LObjFltConsumer<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWith(LObjFltConsumer.LFltObjCons<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAcceptFltObj(tuple.second(), tuple.first());
+		accessFunction.acceptFltObj(tuple.second(), tuple.first());
 	}
 
 	default void useWith(int a2, LTieFltConsumer<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAccept(tuple.first(), a2, tuple.second());
+		accessFunction.accept(tuple.first(), a2, tuple.second());
 	}
 
 	default void useWith(int a2, LTieFltConsumer.LObjFltIntCons<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAcceptObjFltInt(tuple.first(), tuple.second(), a2);
+		accessFunction.acceptObjFltInt(tuple.first(), tuple.second(), a2);
 	}
 
 	default void useWith(int a2, LTieFltConsumer.LIntObjFltCons<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAcceptIntObjFlt(a2, tuple.first(), tuple.second());
+		accessFunction.acceptIntObjFlt(a2, tuple.first(), tuple.second());
 	}
 
 	default void useWith(int a2, LTieFltConsumer.LIntFltObjCons<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAcceptIntFltObj(a2, tuple.second(), tuple.first());
+		accessFunction.acceptIntFltObj(a2, tuple.second(), tuple.first());
 	}
 
 	default void useWith(int a2, LTieFltConsumer.LFltObjIntCons<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAcceptFltObjInt(tuple.second(), tuple.first(), a2);
+		accessFunction.acceptFltObjInt(tuple.second(), tuple.first(), a2);
 	}
 
 	default void useWith(int a2, LTieFltConsumer.LFltIntObjCons<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		accessFunction.doAcceptFltIntObj(tuple.second(), a2, tuple.first());
+		accessFunction.acceptFltIntObj(tuple.second(), a2, tuple.first());
 	}
 
 	default <R> R useWith(LObjFltFunction<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LObjFltFunction.LFltObjFunc<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApplyFltObj(tuple.second(), tuple.first());
+		R retval = accessFunction.applyFltObj(tuple.second(), tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(int a2, LObjIntFltFunction<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApply(tuple.first(), a2, tuple.second());
+		R retval = accessFunction.apply(tuple.first(), a2, tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(int a2, LObjIntFltFunction.LObjFltIntFunc<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApplyObjFltInt(tuple.first(), tuple.second(), a2);
+		R retval = accessFunction.applyObjFltInt(tuple.first(), tuple.second(), a2);
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(int a2, LObjIntFltFunction.LIntObjFltFunc<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApplyIntObjFlt(a2, tuple.first(), tuple.second());
+		R retval = accessFunction.applyIntObjFlt(a2, tuple.first(), tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(int a2, LObjIntFltFunction.LIntFltObjFunc<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApplyIntFltObj(a2, tuple.second(), tuple.first());
+		R retval = accessFunction.applyIntFltObj(a2, tuple.second(), tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(int a2, LObjIntFltFunction.LFltObjIntFunc<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApplyFltObjInt(tuple.second(), tuple.first(), a2);
+		R retval = accessFunction.applyFltObjInt(tuple.second(), tuple.first(), a2);
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(int a2, LObjIntFltFunction.LFltIntObjFunc<T, R> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		R retval = accessFunction.doApplyFltIntObj(tuple.second(), a2, tuple.first());
+		R retval = accessFunction.applyFltIntObj(tuple.second(), a2, tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default int useWith(int a2, LTieFltFunction<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		int retval = accessFunction.doApplyAsInt(tuple.first(), a2, tuple.second());
+		int retval = accessFunction.applyAsInt(tuple.first(), a2, tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default int useWith(int a2, LTieFltFunction.LObjFltIntToIntFunc<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		int retval = accessFunction.doApplyAsIntObjFltInt(tuple.first(), tuple.second(), a2);
+		int retval = accessFunction.applyAsIntObjFltInt(tuple.first(), tuple.second(), a2);
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default int useWith(int a2, LTieFltFunction.LIntObjFltToIntFunc<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		int retval = accessFunction.doApplyAsIntIntObjFlt(a2, tuple.first(), tuple.second());
+		int retval = accessFunction.applyAsIntIntObjFlt(a2, tuple.first(), tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default int useWith(int a2, LTieFltFunction.LIntFltObjToIntFunc<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		int retval = accessFunction.doApplyAsIntIntFltObj(a2, tuple.second(), tuple.first());
+		int retval = accessFunction.applyAsIntIntFltObj(a2, tuple.second(), tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default int useWith(int a2, LTieFltFunction.LFltObjIntToIntFunc<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		int retval = accessFunction.doApplyAsIntFltObjInt(tuple.second(), tuple.first(), a2);
+		int retval = accessFunction.applyAsIntFltObjInt(tuple.second(), tuple.first(), a2);
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default int useWith(int a2, LTieFltFunction.LFltIntObjToIntFunc<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		int retval = accessFunction.doApplyAsIntFltIntObj(tuple.second(), a2, tuple.first());
+		int retval = accessFunction.applyAsIntFltIntObj(tuple.second(), a2, tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjFltPredicate<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LObjFltPredicate.LFltObjPred<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTestFltObj(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testFltObj(tuple.second(), tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LObjIntFltPredicate<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTest(tuple.first(), a2, tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), a2, tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LObjIntFltPredicate.LObjFltIntPred<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTestObjFltInt(tuple.first(), tuple.second(), a2);
+		boolean retval = accessFunction.testObjFltInt(tuple.first(), tuple.second(), a2);
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LObjIntFltPredicate.LIntObjFltPred<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTestIntObjFlt(a2, tuple.first(), tuple.second());
+		boolean retval = accessFunction.testIntObjFlt(a2, tuple.first(), tuple.second());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LObjIntFltPredicate.LIntFltObjPred<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTestIntFltObj(a2, tuple.second(), tuple.first());
+		boolean retval = accessFunction.testIntFltObj(a2, tuple.second(), tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LObjIntFltPredicate.LFltObjIntPred<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTestFltObjInt(tuple.second(), tuple.first(), a2);
+		boolean retval = accessFunction.testFltObjInt(tuple.second(), tuple.first(), a2);
 		releaseObjFltPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(int a2, LObjIntFltPredicate.LFltIntObjPred<T> accessFunction) {
 		LObjFltPair<T> tuple = accessObjFltPair();
-		boolean retval = accessFunction.doTestFltIntObj(tuple.second(), a2, tuple.first());
+		boolean retval = accessFunction.testFltIntObj(tuple.second(), a2, tuple.first());
 		releaseObjFltPair(tuple);
 		return retval;
 	}

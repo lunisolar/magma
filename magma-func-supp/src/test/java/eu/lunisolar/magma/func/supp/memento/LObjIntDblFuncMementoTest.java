@@ -54,7 +54,7 @@ public class LObjIntDblFuncMementoTest <T,R> {
         assertThat(sut.lastValue())
             .isNull();
 
-        assertThat(sut.doApply(100,100,100d))
+        assertThat(sut.apply(100,100,100d))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LObjIntDblFuncMementoTest <T,R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100,100,100d))
+        assertThat(sut.apply(100,100,100d))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

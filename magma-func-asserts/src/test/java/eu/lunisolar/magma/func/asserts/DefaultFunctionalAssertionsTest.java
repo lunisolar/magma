@@ -219,10 +219,10 @@ public class DefaultFunctionalAssertionsTest {
         DefaultFunctionalAssertions initial = new DefaultFunctionalAssertions(){
         };
 
-        DefaultFunctionalAssertions<AbstractIterableAssert> specialized = initial.withinIteratorCodomain();
+        DefaultFunctionalAssertions<AbstractIteratorAssert> specialized = initial.withinIteratorCodomain();
 
         specialized.assertFunc(LFunction.func(i->i))
-            .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIterableAssert.class))
+            .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIteratorAssert.class))
             .doesApply(null).toEqualTo(null);
     }
 

@@ -63,7 +63,7 @@ public class LConsumerTest<T> {
 
 
     private LConsumer<Integer> sut = new LConsumer<Integer>(){
-        public  void doAcceptX(Integer a)  {
+        public  void acceptX(Integer a)  {
             LConsumer.doNothing(a);
         }
     };
@@ -95,11 +95,11 @@ public class LConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -110,11 +110,11 @@ public class LConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -128,7 +128,7 @@ public class LConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LConsumer: void doAccept(T a)");
+            .isEqualTo("LConsumer: void accept(T a)");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class LConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testConsCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -169,8 +169,8 @@ public class LConsumerTest<T> {
         };
 
         //when
-        LConsumer<Integer> function = sutO.consCompose(before);
-        function.doAccept(80);
+        LConsumer<Integer> function = sutO.compose(before);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -198,27 +198,13 @@ public class LConsumerTest<T> {
 
         //when
         LConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingCons())
-            .isSameAs(sut)
-            .isInstanceOf(LConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingCons())
-            .isSameAs(sut)
-            .isInstanceOf(LConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -230,7 +216,7 @@ public class LConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingCons().doAccept(100);
+        sutThrowing.shovingAccept(100);
     }
 
 
@@ -243,7 +229,7 @@ public class LConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LConsumer: void doAccept(T a)");
+                .contains("LConsumer: void accept(T a)");
     }
 
 

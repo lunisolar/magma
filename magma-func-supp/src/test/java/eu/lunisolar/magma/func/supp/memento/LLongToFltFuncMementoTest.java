@@ -54,7 +54,7 @@ public class LLongToFltFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0f);
 
-        assertThat(sut.doApplyAsFlt(100L))
+        assertThat(sut.applyAsFlt(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongToFltFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt(100L))
+        assertThat(sut.applyAsFlt(100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

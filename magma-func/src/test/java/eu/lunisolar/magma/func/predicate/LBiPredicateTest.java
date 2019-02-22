@@ -65,7 +65,7 @@ public class LBiPredicateTest<T1,T2> {
 
 
     private LBiPredicate<Integer,Integer> sut = new LBiPredicate<Integer,Integer>(){
-        public  boolean doTestX(Integer a1,Integer a2)  {
+        public  boolean testX(Integer a1,Integer a2)  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LBiPredicateTest<T1,T2> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100,100))
+        assertThat(sut.test(100,100))
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LBiPredicateTest<T1,T2> {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100,100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100,100);
+            sutAlwaysThrowingUnchecked.nestingTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LBiPredicateTest<T1,T2> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100,100);
+            sutAlwaysThrowingUnchecked.shovingTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -148,7 +148,7 @@ public class LBiPredicateTest<T1,T2> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiPredicate: boolean doTest(T1 a1,T2 a2)");
+            .isEqualTo("LBiPredicate: boolean test(T1 a1,T2 a2)");
     }
 
     @Test
@@ -168,7 +168,7 @@ public class LBiPredicateTest<T1,T2> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100,100))
+        assertThat(sut.negate().test(100,100))
             .isEqualTo(!testValue);
     }
 
@@ -196,13 +196,13 @@ public class LBiPredicateTest<T1,T2> {
         LBiPredicate<Integer,Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100,100))
+        assertThat(andFunction.test(100,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100,100))
+        assertThat(orFunction.test(100,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100,100))
+        assertThat(xorFunction.test(100,100))
                 .isEqualTo(xorResult);
     }
 
@@ -212,10 +212,10 @@ public class LBiPredicateTest<T1,T2> {
         LBiPredicate<Integer,Integer> equals = LBiPredicate.isEqual(1,1);
 
         //then
-        assertThat(equals.doTest(1,1))
+        assertThat(equals.test(1,1))
                 .isTrue();
 
-        assertThat(equals.doTest(0,0))
+        assertThat(equals.test(0,0))
                 .isFalse();
     }
 
@@ -224,7 +224,7 @@ public class LBiPredicateTest<T1,T2> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiPredCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -249,8 +249,8 @@ public class LBiPredicateTest<T1,T2> {
         };
 
         //when
-        LBiPredicate<Integer,Integer> function = sutO.biPredCompose(before1,before2);
-        function.doTest(80,81);
+        LBiPredicate<Integer,Integer> function = sutO.compose(before1,before2);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -287,7 +287,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.boolToBiFunc(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -322,7 +322,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LToByteBiFunction<Integer,Integer> function = sutO.boolToToByteBiFunc(thenFunction);
-        byte finalValue = function.doApplyAsByte(80,81);
+        byte finalValue = function.applyAsByte(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -357,7 +357,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LToSrtBiFunction<Integer,Integer> function = sutO.boolToToSrtBiFunc(thenFunction);
-        short finalValue = function.doApplyAsSrt(80,81);
+        short finalValue = function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -392,7 +392,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LToIntBiFunction<Integer,Integer> function = sutO.boolToToIntBiFunc(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -427,7 +427,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LToLongBiFunction<Integer,Integer> function = sutO.boolToToLongBiFunc(thenFunction);
-        long finalValue = function.doApplyAsLong(80,81);
+        long finalValue = function.applyAsLong(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -462,7 +462,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LToFltBiFunction<Integer,Integer> function = sutO.boolToToFltBiFunc(thenFunction);
-        float finalValue = function.doApplyAsFlt(80,81);
+        float finalValue = function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -497,7 +497,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LToDblBiFunction<Integer,Integer> function = sutO.boolToToDblBiFunc(thenFunction);
-        double finalValue = function.doApplyAsDbl(80,81);
+        double finalValue = function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -532,7 +532,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LToCharBiFunction<Integer,Integer> function = sutO.boolToToCharBiFunc(thenFunction);
-        char finalValue = function.doApplyAsChar(80,81);
+        char finalValue = function.applyAsChar(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -567,7 +567,7 @@ public class LBiPredicateTest<T1,T2> {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.boolToBiPred(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -580,20 +580,6 @@ public class LBiPredicateTest<T1,T2> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -604,7 +590,7 @@ public class LBiPredicateTest<T1,T2> {
         });
 
         // when
-        sutThrowing.shovingBiPred().doTest(100,100);
+        sutThrowing.shovingTest(100,100);
     }
 
 
@@ -617,7 +603,7 @@ public class LBiPredicateTest<T1,T2> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiPredicate: boolean doTest(T1 a1,T2 a2)");
+                .contains("LBiPredicate: boolean test(T1 a1,T2 a2)");
     }
 
 

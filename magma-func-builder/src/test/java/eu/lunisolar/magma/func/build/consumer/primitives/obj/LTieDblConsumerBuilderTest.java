@@ -69,7 +69,7 @@ public class LTieDblConsumerBuilderTest<T>{
                 .build()
             );
 
-            function.doAccept(100,100,100d);
+            function.accept(100,100,100d);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LTieDblConsumerBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(100,100,100d);
+            function.accept(100,100,100d);
 
             fail("No exception were thrown.");
         })

@@ -63,7 +63,7 @@ public class LDblConsumerTest {
 
 
     private LDblConsumer sut = new LDblConsumer(){
-        public  void doAcceptX(double a)  {
+        public  void acceptX(double a)  {
             LDblConsumer.doNothing(a);
         }
     };
@@ -95,11 +95,11 @@ public class LDblConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100d);
+            sutAlwaysThrowingUnchecked.nestingAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -110,11 +110,11 @@ public class LDblConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100d);
+            sutAlwaysThrowingUnchecked.shovingAccept(100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -128,7 +128,7 @@ public class LDblConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblConsumer: void doAccept(double a)");
+            .isEqualTo("LDblConsumer: void accept(double a)");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class LDblConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testDblConsComposeDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -169,8 +169,8 @@ public class LDblConsumerTest {
         };
 
         //when
-        LDblConsumer function = sutO.dblConsComposeDbl(before);
-        function.doAccept(80d);
+        LDblConsumer function = sutO.compose(before);
+        function.accept(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -198,7 +198,7 @@ public class LDblConsumerTest {
 
         //when
         LConsumer<Integer> function = sutO.dblConsCompose(before);
-        function.doAccept(80);
+        function.accept(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -226,27 +226,13 @@ public class LDblConsumerTest {
 
         //when
         LDblConsumer function = sutO.andThen(thenFunction);
-        function.doAccept(80d);
+        function.accept(80d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingDblCons())
-            .isSameAs(sut)
-            .isInstanceOf(LDblConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingDblCons())
-            .isSameAs(sut)
-            .isInstanceOf(LDblConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -258,7 +244,7 @@ public class LDblConsumerTest {
         });
 
         // when
-        sutThrowing.shovingDblCons().doAccept(100d);
+        sutThrowing.shovingAccept(100d);
     }
 
 
@@ -271,7 +257,7 @@ public class LDblConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDblConsumer: void doAccept(double a)");
+                .contains("LDblConsumer: void accept(double a)");
     }
 
 

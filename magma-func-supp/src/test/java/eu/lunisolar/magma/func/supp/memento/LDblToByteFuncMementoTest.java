@@ -54,7 +54,7 @@ public class LDblToByteFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo((byte)0);
 
-        assertThat(sut.doApplyAsByte(100d))
+        assertThat(sut.applyAsByte(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LDblToByteFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsByte(100d))
+        assertThat(sut.applyAsByte(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

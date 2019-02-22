@@ -82,13 +82,12 @@ public interface LByteFunctionAssert<S extends LByteFunctionAssert<S, A, RS, R>,
 		@Nonnull
 		public Evaluation<S, LByteConsumer, A, RS, R> doesApply(byte a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApply(a));
+				return assertFactory.apply(actual.apply(a));
 			});
-
 		}
 
 	}

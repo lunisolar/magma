@@ -72,8 +72,8 @@ public class LOiToLongFuncMemento<T> implements LOiToLongFunction<T> {
 	}
 
 	@Override
-	public long doApplyAsLongX(T a1, int a2) {
-		return lastValue = function.doApplyAsLong(a1, a2);
+	public long applyAsLongX(T a1, int a2) {
+		return lastValue = function.applyAsLong(a1, a2);
 	}
 
 	public long lastValue() {

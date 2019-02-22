@@ -77,8 +77,8 @@ public class LBinaryOpDelta<T> extends LBinaryOpMemento<T> {
 	}
 
 	@Override
-	public T doApply(T a1, T a2) {
-		return deltaFunction.doApply(lastValue(), super.doApply(a1, a2));
+	public T apply(T a1, T a2) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2));
 	}
 
 	// <editor-fold desc="object">

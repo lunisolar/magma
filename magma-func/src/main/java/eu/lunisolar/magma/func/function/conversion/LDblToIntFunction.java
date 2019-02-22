@@ -66,141 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aDouble> { // NOSONAR
 
-	String DESCRIPTION = "LDblToIntFunction: int doApplyAsInt(double a)";
+	String DESCRIPTION = "LDblToIntFunction: int applyAsInt(double a)";
 
-	/**
-	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LDblToIntFunction interface should be discouraged.
-	 */
-	@Override
-	@Deprecated
+	// int applyAsInt(double a) ;
 	default int applyAsInt(double a) {
-		return this.doApplyAsInt(a);
-	}
-
-	// int doApplyAsInt(double a) ;
-	default int doApplyAsInt(double a) {
-		// return nestingDoApplyAsInt(a);
+		// return nestingApplyAsInt(a);
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsInt(double a)
+	 * Implement this, but call applyAsInt(double a)
 	 */
-	int doApplyAsIntX(double a) throws Throwable;
+	int applyAsIntX(double a) throws Throwable;
 
 	default int tupleApplyAsInt(LDblSingle args) {
-		return doApplyAsInt(args.value());
+		return applyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default int handlingDoApplyAsInt(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default int handlingApplyAsInt(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default int tryDoApplyAsInt(double a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LDblToIntFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsInt(a, handling);
+	}
+
+	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default int tryDoApplyAsInt(double a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsInt(a, exF, newMessage, messageParams);
+	}
+
+	default int applyAsInt(double a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default int tryDoApplyAsIntThen(double a, @Nonnull LToIntFunction<Throwable> handler) {
+	default LDblToIntFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsInt(a, exF);
+	}
+
+	default int applyAsIntThen(double a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsInt(e);
+			return handler.applyAsInt(e);
 		}
+	}
+
+	default LDblToIntFunction tryingThen(@Nonnull LToIntFunction<Throwable> handler) {
+		return a -> applyAsIntThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(double a) {
+	default int nestingApplyAsInt(double a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(double a) {
+	default int shovingApplyAsInt(double a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static int handlingDoApplyAsInt(double a, LDblToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(double a, LDblToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsInt(a, handling);
+		return func.handlingApplyAsInt(a, handling);
 	}
 
-	static int tryDoApplyAsInt(double a, LDblToIntFunction func) {
-		return tryDoApplyAsInt(a, func, null);
-	}
-
-	static int tryDoApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryDoApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory);
+		return func.applyAsInt(a, exF, newMessage, messageParams);
 	}
 
-	static int tryDoApplyAsIntThen(double a, LDblToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsIntThen(a, handler);
+		return func.applyAsInt(a, exF);
 	}
 
-	default int failSafeDoApplyAsInt(double a, @Nonnull LDblToIntFunction failSafe) {
+	static int tryApplyAsIntThen(double a, LDblToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsIntThen(a, handler);
+	}
+
+	default int failSafeApplyAsInt(double a, @Nonnull LDblToIntFunction failSafe) {
 		try {
-			return doApplyAsInt(a);
+			return applyAsInt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		}
 	}
 
-	static int failSafeDoApplyAsInt(double a, LDblToIntFunction func, @Nonnull LDblToIntFunction failSafe) {
+	static int failSafeApplyAsInt(double a, LDblToIntFunction func, @Nonnull LDblToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		} else {
-			return func.failSafeDoApplyAsInt(a, failSafe);
+			return func.failSafeApplyAsInt(a, failSafe);
 		}
 	}
 
-	static LDblToIntFunction failSafeDblToIntFunc(LDblToIntFunction func, @Nonnull LDblToIntFunction failSafe) {
+	static LDblToIntFunction failSafe(LDblToIntFunction func, @Nonnull LDblToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsInt(a, func, failSafe);
+		return a -> failSafeApplyAsInt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(double a) {
-		return doApplyAsInt(a);
+	default int nonNullApplyAsInt(double a) {
+		return applyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -212,13 +219,13 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, double a, LDblToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
@@ -226,25 +233,27 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, double a, LDblToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, double a, LDblToIntFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureDblToIntFunc(double a) {
-		return () -> this.doApplyAsInt(a);
+	default LIntSupplier capture(double a) {
+		return () -> this.applyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -262,7 +271,7 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	@Nonnull
 	static LDblToIntFunction recursive(final @Nonnull LFunction<LDblToIntFunction, LDblToIntFunction> selfLambda) {
 		final LDblToIntFunctionSingle single = new LDblToIntFunctionSingle();
-		LDblToIntFunction func = selfLambda.doApply(single);
+		LDblToIntFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -271,8 +280,8 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		private LDblToIntFunction target = null;
 
 		@Override
-		public int doApplyAsIntX(double a) throws Throwable {
-			return target.doApplyAsIntX(a);
+		public int applyAsIntX(double a) throws Throwable {
+			return target.applyAsIntX(a);
 		}
 
 		@Override
@@ -282,24 +291,24 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	}
 
 	@Nonnull
-	static LDblToIntFunction dblToIntFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToIntFunction dblToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LDblToIntFunction dblToIntFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblToIntFunction dblToIntFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static int call(double a, final @Nonnull LDblToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a);
+		return lambda.applyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -351,20 +360,20 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDblToIntFunction dblToIntFuncComposeDbl(@Nonnull final LDblUnaryOperator before) {
+	default LDblToIntFunction compose(@Nonnull final LDblUnaryOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsDbl(v));
+		return v -> this.applyAsInt(before.applyAsDbl(v));
 	}
 
-	public static LDblToIntFunction composedDbl(@Nonnull final LDblUnaryOperator before, LDblToIntFunction after) {
-		return after.dblToIntFuncComposeDbl(before);
+	public static LDblToIntFunction composed(@Nonnull final LDblUnaryOperator before, LDblToIntFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToIntFunction<V> dblToIntFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApplyAsDbl(v));
+		return v -> this.applyAsInt(before.applyAsDbl(v));
 	}
 
 	public static <V> LToIntFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToIntFunction after) {
@@ -379,79 +388,68 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	@Nonnull
 	default <V> LDblFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsInt(a));
+		return a -> after.apply(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
+		return a -> after.applyAsByte(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToSrtFunction thenToSrt(@Nonnull LIntToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsInt(a));
+		return a -> after.applyAsSrt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
+		return a -> after.applyAsInt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
+		return a -> after.applyAsLong(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToFltFunction thenToFlt(@Nonnull LIntToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsInt(a));
+		return a -> after.applyAsFlt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblUnaryOperator thenToDbl(@Nonnull LIntToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsInt(a));
+		return a -> after.applyAsDbl(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
+		return a -> after.applyAsChar(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblPredicate thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsInt(a));
+		return a -> after.test(this.applyAsInt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LDblToIntFunction nestingDblToIntFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDblToIntFunction shovingDblToIntFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -460,25 +458,31 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		return Function4U.defaultInteger;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=double a, type=IA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aDouble> ia, C0 source, LIntConsumer consumer) {
 		int size = ia.size(source);
 		LOiToDblFunction<Object> oiFunc0 = (LOiToDblFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			double a = oiFunc0.doApplyAsDbl(source, i);
-			consumer.doAccept(this.doApplyAsInt(a));
+			double a = oiFunc0.applyAsDbl(source, i);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=double a, type=SA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aDouble> sa, C0 source, LIntConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			double a = nextFunc0.doApplyAsDbl(iterator0);
-			consumer.doAccept(this.doApplyAsInt(a));
+		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			double a = nextFunc0.applyAsDbl(iterator0);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 

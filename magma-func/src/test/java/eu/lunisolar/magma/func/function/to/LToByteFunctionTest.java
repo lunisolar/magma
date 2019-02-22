@@ -65,7 +65,7 @@ public class LToByteFunctionTest<T> {
 
 
     private LToByteFunction<Integer> sut = new LToByteFunction<Integer>(){
-        public  byte doApplyAsByteX(Integer a)  {
+        public  byte applyAsByteX(Integer a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LToByteFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsByte(100))
+        assertThat(sut.applyAsByte(100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LToByteFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsByte() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsByte(100))
+    public void testNonNullApplyAsByte() throws Throwable {
+        assertThat(sut.nonNullApplyAsByte(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsByteUnchecked() throws Throwable {
+    public void testNestingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsByte(100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsByte(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LToByteFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsByteUnchecked() throws Throwable {
+    public void testShovingApplyAsByteUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsByte(100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsByte(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LToByteFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToByteFunction: byte doApplyAsByte(T a)");
+            .isEqualTo("LToByteFunction: byte applyAsByte(T a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LToByteFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testToByteFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LToByteFunctionTest<T> {
         };
 
         //when
-        LToByteFunction<Integer> function = sutO.toByteFuncCompose(before);
-        function.doApplyAsByte(80);
+        LToByteFunction<Integer> function = sutO.compose(before);
+        function.applyAsByte(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -212,7 +212,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -246,7 +246,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -280,7 +280,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -314,7 +314,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -348,7 +348,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -382,7 +382,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -416,7 +416,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -450,7 +450,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -484,7 +484,7 @@ public class LToByteFunctionTest<T> {
 
         //when
         LPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -497,20 +497,6 @@ public class LToByteFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingToByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToByteFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingToByteFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToByteFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -521,7 +507,7 @@ public class LToByteFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingToByteFunc().doApplyAsByte(100);
+        sutThrowing.shovingApplyAsByte(100);
     }
 
 
@@ -534,7 +520,7 @@ public class LToByteFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToByteFunction: byte doApplyAsByte(T a)");
+                .contains("LToByteFunction: byte applyAsByte(T a)");
     }
 
 

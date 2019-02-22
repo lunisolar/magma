@@ -34,21 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LObjBoolConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjBoolPair<T> extends LTuple<Object> {
+public interface LObjBoolPair<T> extends LTuple<Object>, LSingle<T> {
 
 	int SIZE = 2;
 
 	T first();
 
-	boolean second();
-
-	default T getFirst() {
+	default T value() {
 		return first();
 	}
 
-	default boolean getSecond() {
-		return second();
-	}
+	boolean second();
 
 	default Object get(int index) {
 		switch (index) {
@@ -99,27 +95,6 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -168,9 +143,9 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -223,7 +198,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutObjBoolPair<T> setFirstIfArg(T first, LPredicate<T> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -232,14 +207,14 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutObjBoolPair<T> setFirstIfArgNotNull(R arg, LFunction<R, T> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutObjBoolPair<T> setFirstIf(LPredicate<T> predicate, T first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -248,7 +223,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutObjBoolPair<T> setFirstIf(T first, LBiPredicate<T, T> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -257,7 +232,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutObjBoolPair<T> setFirstIf(LBiPredicate<T, T> predicate, T first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -270,7 +245,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutObjBoolPair<T> setSecondIfArg(boolean second, LLogicalOperator predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.apply(second)) {
 				this.second = second;
 			}
 			return this;
@@ -279,14 +254,14 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutObjBoolPair<T> setSecondIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.second = func.doTest(arg);
+				this.second = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutObjBoolPair<T> setSecondIf(LLogicalOperator predicate, boolean second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.apply(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -295,7 +270,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutObjBoolPair<T> setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.apply(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -304,7 +279,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutObjBoolPair<T> setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.apply(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -362,7 +337,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompObjBoolPair<T> setFirstIfArg(T first, LPredicate<T> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -371,14 +346,14 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompObjBoolPair<T> setFirstIfArgNotNull(R arg, LFunction<R, T> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompObjBoolPair<T> setFirstIf(LPredicate<T> predicate, T first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -387,7 +362,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompObjBoolPair<T> setFirstIf(T first, LBiPredicate<T, T> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -396,7 +371,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompObjBoolPair<T> setFirstIf(LBiPredicate<T, T> predicate, T first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -409,7 +384,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompObjBoolPair<T> setSecondIfArg(boolean second, LLogicalOperator predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.apply(second)) {
 				this.second = second;
 			}
 			return this;
@@ -418,14 +393,14 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompObjBoolPair<T> setSecondIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.second = func.doTest(arg);
+				this.second = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompObjBoolPair<T> setSecondIf(LLogicalOperator predicate, boolean second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.apply(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -434,7 +409,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompObjBoolPair<T> setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.apply(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -443,7 +418,7 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompObjBoolPair<T> setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.apply(this.second, second)) {
 				this.second = second;
 			}
 			return this;

@@ -69,7 +69,7 @@ public class LLogicalBinaryOperatorBuilderTest{
                 .build()
             );
 
-            function.doApply(true,true);
+            function.apply(true,true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLogicalBinaryOperatorBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(true,true);
+            function.apply(true,true);
 
             fail("No exception were thrown.");
         })

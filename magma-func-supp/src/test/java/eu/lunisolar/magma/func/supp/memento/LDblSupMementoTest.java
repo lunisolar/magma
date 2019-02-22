@@ -54,7 +54,7 @@ public class LDblSupMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0d);
 
-        assertThat(sut.doGetAsDbl())
+        assertThat(sut.getAsDbl())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LDblSupMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsDbl())
+        assertThat(sut.getAsDbl())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

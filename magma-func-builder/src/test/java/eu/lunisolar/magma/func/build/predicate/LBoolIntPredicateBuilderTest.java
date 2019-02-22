@@ -69,7 +69,7 @@ public class LBoolIntPredicateBuilderTest{
                 .build()
             );
 
-            function.doTest(true,100);
+            function.test(true,100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolIntPredicateBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest(true,100);
+            function.test(true,100);
 
             fail("No exception were thrown.");
         })

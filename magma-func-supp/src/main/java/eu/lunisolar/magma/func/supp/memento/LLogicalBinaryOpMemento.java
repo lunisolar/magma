@@ -72,8 +72,8 @@ public class LLogicalBinaryOpMemento implements LLogicalBinaryOperator {
 	}
 
 	@Override
-	public boolean doApplyX(boolean a1, boolean a2) {
-		return lastValue = function.doApply(a1, a2);
+	public boolean applyX(boolean a1, boolean a2) {
+		return lastValue = function.apply(a1, a2);
 	}
 
 	public boolean lastValue() {

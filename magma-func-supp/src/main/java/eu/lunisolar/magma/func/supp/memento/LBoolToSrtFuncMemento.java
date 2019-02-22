@@ -72,8 +72,8 @@ public class LBoolToSrtFuncMemento implements LBoolToSrtFunction {
 	}
 
 	@Override
-	public short doApplyAsSrtX(boolean a) {
-		return lastValue = function.doApplyAsSrt(a);
+	public short applyAsSrtX(boolean a) {
+		return lastValue = function.applyAsSrt(a);
 	}
 
 	public short lastValue() {

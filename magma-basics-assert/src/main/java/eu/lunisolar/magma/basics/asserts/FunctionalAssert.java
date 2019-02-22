@@ -20,11 +20,9 @@ package eu.lunisolar.magma.basics.asserts;
 
 import eu.lunisolar.magma.basics.fluent.Fluent;
 import org.assertj.core.api.Assert;
-import org.assertj.core.api.ThrowableAssert;
 
 import javax.annotation.Nonnull;
-
-import static javafx.scene.input.KeyCode.X;
+import java.util.function.*;
 
 public interface FunctionalAssert<S extends FunctionalAssert<S, PC, A, RA>, PC, A, RA>
         extends RecurringAsserts<S, A, RA>, Assert<S, A>, Fluent<S> {
@@ -43,8 +41,9 @@ public interface FunctionalAssert<S extends FunctionalAssert<S, PC, A, RA>, PC, 
         }
 
         @Nonnull
-        protected SemiEvaluation<S, PC, A> evaluation(@Nonnull AssertionFunction<PC, ?> assertFunction) {
-            return new SemiEvaluation(self(), recurringAssert, assertFunction);
+        protected SemiEvaluation<S, PC, A> evaluation(
+                Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, ?> assertFunction) {
+            return new SemiEvaluation(self(), ()->descriptionText(), caseDescription, recurringAssert, assertFunction);
         }
 
     }

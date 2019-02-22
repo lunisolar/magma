@@ -82,13 +82,12 @@ public interface LByteToLongFunctionAssert<S extends LByteToLongFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LByteConsumer, A, RS, Long> doesApplyAsLong(byte a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsLong(a));
+				return assertFactory.apply(actual.applyAsLong(a));
 			});
-
 		}
 
 	}

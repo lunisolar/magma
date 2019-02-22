@@ -82,13 +82,12 @@ public interface LSupplierAssert<S extends LSupplierAssert<S, A, RS, T>, A exten
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, T> doesGet() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.doGet());
+				return assertFactory.apply(actual.get());
 			});
-
 		}
 
 		@Nonnull

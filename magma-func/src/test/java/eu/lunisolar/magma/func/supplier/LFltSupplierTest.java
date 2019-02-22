@@ -65,7 +65,7 @@ public class LFltSupplierTest {
 
 
     private LFltSupplier sut = new LFltSupplier(){
-        public  float doGetAsFltX()  {
+        public  float getAsFltX()  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LFltSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doGetAsFlt())
+        assertThat(sut.getAsFlt())
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LFltSupplierTest {
     }
 
     @Test
-    public void testNonNullDoGetAsFlt() throws Throwable {
-        assertThat(sut.nonNullDoGetAsFlt())
+    public void testNonNullGetAsFlt() throws Throwable {
+        assertThat(sut.nonNullGetAsFlt())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsFltUnchecked() throws Throwable {
+    public void testNestingGetAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoGetAsFlt();
+            sutAlwaysThrowingUnchecked.nestingGetAsFlt();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LFltSupplierTest {
     }
 
     @Test
-    public void testShovingDoGetAsFltUnchecked() throws Throwable {
+    public void testShovingGetAsFltUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoGetAsFlt();
+            sutAlwaysThrowingUnchecked.shovingGetAsFlt();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LFltSupplierTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltSupplier: float doGetAsFlt()");
+            .isEqualTo("LFltSupplier: float getAsFlt()");
     }
 
     @Test
@@ -178,7 +178,7 @@ public class LFltSupplierTest {
 
         //when
         LSupplier<Integer> function = sutO.toSup(thenFunction);
-        Integer finalValue = function.doGet();
+        Integer finalValue = function.get();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -211,7 +211,7 @@ public class LFltSupplierTest {
 
         //when
         LByteSupplier function = sutO.toByteSup(thenFunction);
-        byte finalValue = function.doGetAsByte();
+        byte finalValue = function.getAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -244,7 +244,7 @@ public class LFltSupplierTest {
 
         //when
         LSrtSupplier function = sutO.toSrtSup(thenFunction);
-        short finalValue = function.doGetAsSrt();
+        short finalValue = function.getAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -277,7 +277,7 @@ public class LFltSupplierTest {
 
         //when
         LIntSupplier function = sutO.toIntSup(thenFunction);
-        int finalValue = function.doGetAsInt();
+        int finalValue = function.getAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -310,7 +310,7 @@ public class LFltSupplierTest {
 
         //when
         LLongSupplier function = sutO.toLongSup(thenFunction);
-        long finalValue = function.doGetAsLong();
+        long finalValue = function.getAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -343,7 +343,7 @@ public class LFltSupplierTest {
 
         //when
         LFltSupplier function = sutO.toFltSup(thenFunction);
-        float finalValue = function.doGetAsFlt();
+        float finalValue = function.getAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -376,7 +376,7 @@ public class LFltSupplierTest {
 
         //when
         LDblSupplier function = sutO.toDblSup(thenFunction);
-        double finalValue = function.doGetAsDbl();
+        double finalValue = function.getAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -409,7 +409,7 @@ public class LFltSupplierTest {
 
         //when
         LCharSupplier function = sutO.toCharSup(thenFunction);
-        char finalValue = function.doGetAsChar();
+        char finalValue = function.getAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -442,7 +442,7 @@ public class LFltSupplierTest {
 
         //when
         LBoolSupplier function = sutO.toBoolSup(thenFunction);
-        boolean finalValue = function.doGetAsBool();
+        boolean finalValue = function.getAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -455,20 +455,6 @@ public class LFltSupplierTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingFltSup())
-            .isSameAs(sut)
-            .isInstanceOf(LFltSupplier.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingFltSup())
-            .isSameAs(sut)
-            .isInstanceOf(LFltSupplier.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -479,7 +465,7 @@ public class LFltSupplierTest {
         });
 
         // when
-        sutThrowing.shovingFltSup().doGetAsFlt();
+        sutThrowing.shovingGetAsFlt();
     }
 
 
@@ -492,7 +478,7 @@ public class LFltSupplierTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFltSupplier: float doGetAsFlt()");
+                .contains("LFltSupplier: float getAsFlt()");
     }
 
 

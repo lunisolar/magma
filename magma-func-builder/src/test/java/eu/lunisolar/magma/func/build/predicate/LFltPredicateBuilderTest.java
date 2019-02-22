@@ -69,7 +69,7 @@ public class LFltPredicateBuilderTest{
                 .build()
             );
 
-            function.doTest(100f);
+            function.test(100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LFltPredicateBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest(100f);
+            function.test(100f);
 
             fail("No exception were thrown.");
         })

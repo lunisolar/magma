@@ -55,7 +55,7 @@ public class LLogicalOpDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LLogicalOpDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(true))
+        assertThat(sut.apply(true))
             .isEqualTo(true);
 
         assertThat(functionCallCount).isEqualTo(2);

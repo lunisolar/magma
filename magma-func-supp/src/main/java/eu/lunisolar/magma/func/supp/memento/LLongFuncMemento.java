@@ -72,8 +72,8 @@ public class LLongFuncMemento<R> implements LLongFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(long a) {
-		return lastValue = function.doApply(a);
+	public R applyX(long a) {
+		return lastValue = function.apply(a);
 	}
 
 	public R lastValue() {

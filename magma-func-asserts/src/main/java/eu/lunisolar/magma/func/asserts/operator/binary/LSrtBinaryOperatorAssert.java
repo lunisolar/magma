@@ -82,13 +82,12 @@ public interface LSrtBinaryOperatorAssert<S extends LSrtBinaryOperatorAssert<S, 
 		@Nonnull
 		public Evaluation<S, LBiSrtConsumer, A, RS, Short> doesApplyAsSrt(short a1, short a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doApplyAsSrt(a1, a2));
+				return assertFactory.apply(actual.applyAsSrt(a1, a2));
 			});
-
 		}
 
 	}

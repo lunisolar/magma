@@ -72,8 +72,8 @@ public class LDblToLongFuncMemento implements LDblToLongFunction {
 	}
 
 	@Override
-	public long doApplyAsLongX(double a) {
-		return lastValue = function.doApplyAsLong(a);
+	public long applyAsLongX(double a) {
+		return lastValue = function.applyAsLong(a);
 	}
 
 	public long lastValue() {

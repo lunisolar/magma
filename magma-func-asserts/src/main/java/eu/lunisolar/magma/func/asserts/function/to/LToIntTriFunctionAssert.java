@@ -87,13 +87,12 @@ public interface LToIntTriFunctionAssert<S extends LToIntTriFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LTriConsumer<T1, T2, T3>, A, RS, Integer> doesApplyAsInt(T1 a1, T2 a2, T3 a3) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2, a3);
+					pc.accept(a1, a2, a3);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a1, a2, a3));
+				return assertFactory.apply(actual.applyAsInt(a1, a2, a3));
 			});
-
 		}
 
 	}

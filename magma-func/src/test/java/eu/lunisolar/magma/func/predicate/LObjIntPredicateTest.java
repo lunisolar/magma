@@ -65,7 +65,7 @@ public class LObjIntPredicateTest<T> {
 
 
     private LObjIntPredicate<Integer> sut = new LObjIntPredicate<Integer>(){
-        public  boolean doTestX(Integer a1,int a2)  {
+        public  boolean testX(Integer a1,int a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LObjIntPredicateTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100,100))
+        assertThat(sut.test(100,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LObjIntPredicateTest<T> {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100,100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100,100);
+            sutAlwaysThrowingUnchecked.nestingTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LObjIntPredicateTest<T> {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100,100);
+            sutAlwaysThrowingUnchecked.shovingTest(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LObjIntPredicateTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjIntPredicate: boolean doTest(T a1,int a2)");
+            .isEqualTo("LObjIntPredicate: boolean test(T a1,int a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LObjIntPredicateTest<T> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100,100))
+        assertThat(sut.negate().test(100,100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LObjIntPredicateTest<T> {
         LObjIntPredicate<Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100,100))
+        assertThat(andFunction.test(100,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100,100))
+        assertThat(orFunction.test(100,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100,100))
+        assertThat(xorFunction.test(100,100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LObjIntPredicateTest<T> {
         LObjIntPredicate<Integer> equals = LObjIntPredicate.isEqual(1,1);
 
         //then
-        assertThat(equals.doTest(1,1))
+        assertThat(equals.test(1,1))
                 .isTrue();
 
-        assertThat(equals.doTest(0,0))
+        assertThat(equals.test(0,0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LObjIntPredicateTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testObjIntPredComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LObjIntPredicateTest<T> {
         };
 
         //when
-        LObjIntPredicate<Integer> function = sutO.objIntPredComposeInt(before1,before2);
-        function.doTest(80,81);
+        LObjIntPredicate<Integer> function = sutO.compose(before1,before2);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.objIntPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiFunction<Integer,Integer> function = sutO.boolToOiFunc(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiToByteFunction<Integer> function = sutO.boolToOiToByteFunc(thenFunction);
-        byte finalValue = function.doApplyAsByte(80,81);
+        byte finalValue = function.applyAsByte(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiToSrtFunction<Integer> function = sutO.boolToOiToSrtFunc(thenFunction);
-        short finalValue = function.doApplyAsSrt(80,81);
+        short finalValue = function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiToIntFunction<Integer> function = sutO.boolToOiToIntFunc(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -454,7 +454,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiToLongFunction<Integer> function = sutO.boolToOiToLongFunc(thenFunction);
-        long finalValue = function.doApplyAsLong(80,81);
+        long finalValue = function.applyAsLong(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -489,7 +489,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiToFltFunction<Integer> function = sutO.boolToOiToFltFunc(thenFunction);
-        float finalValue = function.doApplyAsFlt(80,81);
+        float finalValue = function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -524,7 +524,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiToDblFunction<Integer> function = sutO.boolToOiToDblFunc(thenFunction);
-        double finalValue = function.doApplyAsDbl(80,81);
+        double finalValue = function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -559,7 +559,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LOiToCharFunction<Integer> function = sutO.boolToOiToCharFunc(thenFunction);
-        char finalValue = function.doApplyAsChar(80,81);
+        char finalValue = function.applyAsChar(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -594,7 +594,7 @@ public class LObjIntPredicateTest<T> {
 
         //when
         LObjIntPredicate<Integer> function = sutO.boolToObjIntPred(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -607,20 +607,6 @@ public class LObjIntPredicateTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingObjIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LObjIntPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingObjIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LObjIntPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -631,7 +617,7 @@ public class LObjIntPredicateTest<T> {
         });
 
         // when
-        sutThrowing.shovingObjIntPred().doTest(100,100);
+        sutThrowing.shovingTest(100,100);
     }
 
 
@@ -644,7 +630,7 @@ public class LObjIntPredicateTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjIntPredicate: boolean doTest(T a1,int a2)");
+                .contains("LObjIntPredicate: boolean test(T a1,int a2)");
     }
 
 

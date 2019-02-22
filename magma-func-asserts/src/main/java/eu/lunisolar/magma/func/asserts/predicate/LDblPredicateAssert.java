@@ -82,13 +82,12 @@ public interface LDblPredicateAssert<S extends LDblPredicateAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LDblConsumer, A, RS, Boolean> doesTest(double a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

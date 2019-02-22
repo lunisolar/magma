@@ -82,13 +82,12 @@ public interface LBoolToIntFunctionAssert<S extends LBoolToIntFunctionAssert<S, 
 		@Nonnull
 		public Evaluation<S, LBoolConsumer, A, RS, Integer> doesApplyAsInt(boolean a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsInt(a));
+				return assertFactory.apply(actual.applyAsInt(a));
 			});
-
 		}
 
 	}

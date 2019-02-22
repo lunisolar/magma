@@ -72,8 +72,8 @@ public class LBiIntFuncMemento<R> implements LBiIntFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(int a1, int a2) {
-		return lastValue = function.doApply(a1, a2);
+	public R applyX(int a1, int a2) {
+		return lastValue = function.apply(a1, a2);
 	}
 
 	public R lastValue() {

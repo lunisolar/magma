@@ -80,8 +80,10 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LByteToIntFunction byteToIntFunctionFrom(Function<LByteToIntFunctionBuilder, LByteToIntFunction> buildingFunction) {
-		return buildingFunction.apply(new LByteToIntFunctionBuilder());
+	public static LByteToIntFunction byteToIntFunctionFrom(Consumer<LByteToIntFunctionBuilder> buildingFunction) {
+		LByteToIntFunctionBuilder builder = new LByteToIntFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		retval = LByteToIntFunction.byteToIntFunc(a -> {
 			try {
 				for (Case<LBytePredicate, LByteToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsInt(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a);
+				return eventuallyFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -55,7 +55,7 @@ public class LByteToFltFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsFlt((byte)100))
+        assertThat(sut.applyAsFlt((byte)100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LByteToFltFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt((byte)100))
+        assertThat(sut.applyAsFlt((byte)100))
             .isEqualTo(9f);
 
         assertThat(functionCallCount).isEqualTo(2);

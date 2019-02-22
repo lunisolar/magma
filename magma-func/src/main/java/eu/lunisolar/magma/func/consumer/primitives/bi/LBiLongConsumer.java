@@ -66,127 +66,144 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing {
+public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing, Codomain<aVoid>, Domain2<aLong, aLong> {
 
-	String DESCRIPTION = "LBiLongConsumer: void doAccept(long a1,long a2)";
+	String DESCRIPTION = "LBiLongConsumer: void accept(long a1,long a2)";
 
-	// void doAccept(long a1,long a2) ;
-	default void doAccept(long a1, long a2) {
-		// nestingDoAccept(a1,a2);
+	// void accept(long a1,long a2) ;
+	default void accept(long a1, long a2) {
+		// nestingAccept(a1,a2);
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doAccept(long a1,long a2)
+	 * Implement this, but call accept(long a1,long a2)
 	 */
-	void doAcceptX(long a1, long a2) throws Throwable;
+	void acceptX(long a1, long a2) throws Throwable;
 
 	default LTuple.Void tupleAccept(LLongPair args) {
-		doAccept(args.first(), args.second());
+		accept(args.first(), args.second());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default void handlingDoAccept(long a1, long a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default void handlingAccept(long a1, long a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default void tryDoAccept(long a1, long a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiLongConsumer handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingAccept(a1, a2, handling);
+	}
+
+	default void accept(long a1, long a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default void tryDoAccept(long a1, long a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiLongConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default void accept(long a1, long a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default void tryDoAcceptThen(long a1, long a2, @Nonnull LConsumer<Throwable> handler) {
+	default LBiLongConsumer trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> accept(a1, a2, exF);
+	}
+
+	default void acceptThen(long a1, long a2, @Nonnull LConsumer<Throwable> handler) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			handler.doAccept(e);
+			handler.accept(e);
 		}
+	}
+
+	default LBiLongConsumer tryingThen(@Nonnull LConsumer<Throwable> handler) {
+		return (a1, a2) -> acceptThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(long a1, long a2) {
+	default void nestingAccept(long a1, long a2) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default void shovingDoAccept(long a1, long a2) {
+	default void shovingAccept(long a1, long a2) {
 		try {
-			this.doAcceptX(a1, a2);
+			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static void handlingDoAccept(long a1, long a2, LBiLongConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static void handlingAccept(long a1, long a2, LBiLongConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		func.handlingDoAccept(a1, a2, handling);
+		func.handlingAccept(a1, a2, handling);
 	}
 
-	static void tryDoAccept(long a1, long a2, LBiLongConsumer func) {
-		tryDoAccept(a1, a2, func, null);
-	}
-
-	static void tryDoAccept(long a1, long a2, LBiLongConsumer func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static void tryAccept(long a1, long a2, LBiLongConsumer func) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a1, a2, exceptionFactory, newMessage, messageParams);
+		func.nestingAccept(a1, a2);
 	}
 
-	static void tryDoAccept(long a1, long a2, LBiLongConsumer func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static void tryAccept(long a1, long a2, LBiLongConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a1, a2, exceptionFactory);
+		func.accept(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static void tryDoAcceptThen(long a1, long a2, LBiLongConsumer func, @Nonnull LConsumer<Throwable> handler) {
+	static void tryAccept(long a1, long a2, LBiLongConsumer func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAcceptThen(a1, a2, handler);
+		func.accept(a1, a2, exF);
 	}
 
-	default void failSafeDoAccept(long a1, long a2, @Nonnull LBiLongConsumer failSafe) {
+	static void tryAcceptThen(long a1, long a2, LBiLongConsumer func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.acceptThen(a1, a2, handler);
+	}
+
+	default void failSafeAccept(long a1, long a2, @Nonnull LBiLongConsumer failSafe) {
 		try {
-			doAccept(a1, a2);
+			accept(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			failSafe.doAccept(a1, a2);
+			failSafe.accept(a1, a2);
 		}
 	}
 
-	static void failSafeDoAccept(long a1, long a2, LBiLongConsumer func, @Nonnull LBiLongConsumer failSafe) {
+	static void failSafeAccept(long a1, long a2, LBiLongConsumer func, @Nonnull LBiLongConsumer failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			failSafe.doAccept(a1, a2);
+			failSafe.accept(a1, a2);
 		} else {
-			func.failSafeDoAccept(a1, a2, failSafe);
+			func.failSafeAccept(a1, a2, failSafe);
 		}
 	}
 
-	static LBiLongConsumer failSafeBiLongCons(LBiLongConsumer func, @Nonnull LBiLongConsumer failSafe) {
+	static LBiLongConsumer failSafe(LBiLongConsumer func, @Nonnull LBiLongConsumer failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoAccept(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
@@ -198,13 +215,13 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, long a1, long a2, LBiLongConsumer func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		}
 	}
@@ -212,28 +229,30 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, long a1, long a2, LBiLongConsumer func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doAccept(a1, a2);
+				func.accept(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, long a1, long a2, LBiLongConsumer func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LLongConsumer lShrink(LLongUnaryOperator left) {
-		return a2 -> doAccept(left.doApplyAsLong(a2), a2);
+		return a2 -> accept(left.applyAsLong(a2), a2);
 	}
 
 	public default LLongConsumer lShrinkc(long a1) {
-		return a2 -> doAccept(a1, a2);
+		return a2 -> accept(a1, a2);
 	}
 
 	public static LLongConsumer lShrinked(LLongUnaryOperator left, LBiLongConsumer func) {
@@ -245,11 +264,11 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	public default LLongConsumer rShrink(LLongUnaryOperator right) {
-		return a1 -> doAccept(a1, right.doApplyAsLong(a1));
+		return a1 -> accept(a1, right.applyAsLong(a1));
 	}
 
 	public default LLongConsumer rShrinkc(long a2) {
-		return a1 -> doAccept(a1, a2);
+		return a1 -> accept(a1, a2);
 	}
 
 	public static LLongConsumer rShrinked(LLongUnaryOperator right, LBiLongConsumer func) {
@@ -261,25 +280,25 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/**  */
-	public static LBiLongConsumer uncurryBiLongCons(LLongFunction<LLongConsumer> func) {
-		return (long a1, long a2) -> func.doApply(a1).doAccept(a2);
+	public static LBiLongConsumer uncurry(LLongFunction<LLongConsumer> func) {
+		return (long a1, long a2) -> func.apply(a1).accept(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBiLongCons(long a1, long a2) {
-		return () -> this.doAccept(a1, a2);
+	default LAction capture(long a1, long a2) {
+		return () -> this.accept(a1, a2);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LBiLongConsumer accept1st(@Nonnull LLongConsumer func) {
-		return (a1, a2) -> func.doAccept(a1);
+		return (a1, a2) -> func.accept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LBiLongConsumer accept2nd(@Nonnull LLongConsumer func) {
-		return (a1, a2) -> func.doAccept(a2);
+		return (a1, a2) -> func.accept(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -292,7 +311,7 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@Nonnull
 	static LBiLongConsumer recursive(final @Nonnull LFunction<LBiLongConsumer, LBiLongConsumer> selfLambda) {
 		final LBiLongConsumerSingle single = new LBiLongConsumerSingle();
-		LBiLongConsumer func = selfLambda.doApply(single);
+		LBiLongConsumer func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -301,8 +320,8 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		private LBiLongConsumer target = null;
 
 		@Override
-		public void doAcceptX(long a1, long a2) throws Throwable {
-			target.doAcceptX(a1, a2);
+		public void acceptX(long a1, long a2) throws Throwable {
+			target.acceptX(a1, a2);
 		}
 
 		@Override
@@ -312,18 +331,18 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	@Nonnull
-	static LBiLongConsumer biLongConsThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiLongConsumer biLongConsThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBiLongConsumer biLongConsThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBiLongConsumer biLongConsThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -340,7 +359,7 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	static void call(long a1, long a2, final @Nonnull LBiLongConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1, a2);
+		lambda.accept(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -387,14 +406,14 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiLongConsumer biLongConsComposeLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
+	default LBiLongConsumer compose(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
 	}
 
-	public static LBiLongConsumer composedLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2, LBiLongConsumer after) {
-		return after.biLongConsComposeLong(before1, before2);
+	public static LBiLongConsumer composed(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2, LBiLongConsumer after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -402,7 +421,7 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	default <V1, V2> LBiConsumer<V1, V2> biLongConsCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
+		return (v1, v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
 	}
 
 	public static <V1, V2> LBiConsumer<V1, V2> composed(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, LBiLongConsumer after) {
@@ -418,25 +437,14 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	default LBiLongConsumer andThen(@Nonnull LBiLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> {
-			this.doAccept(a1, a2);
-			after.doAccept(a1, a2);
+			this.accept(a1, a2);
+			after.accept(a1, a2);
 		};
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiLongConsumer nestingBiLongCons() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiLongConsumer shovingBiLongCons() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -446,11 +454,11 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@FunctionalInterface
 	interface LLong1Long0Cons extends LBiLongConsumer {
 
-		void doAcceptLong1Long0(long a2, long a1);
+		void acceptLong1Long0(long a2, long a1);
 
 		@Override
-		default void doAcceptX(long a1, long a2) {
-			this.doAcceptLong1Long0(a2, a1);
+		default void acceptX(long a1, long a2) {
+			this.acceptLong1Long0(a2, a1);
 		}
 	}
 
@@ -461,7 +469,11 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		// NOSONAR
 	}
 
-	// JUST_CONSUME: FOR, [SourcePurpose{arg=long a1, type=IA}, SourcePurpose{arg=long a2, type=IA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2> int forEach(IndexedRead<C1, aLong> ia1, C1 source1, IndexedRead<C2, aLong> ia2, C2 source2, LBiLongConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToLongFunction<Object> oiFunc1 = (LOiToLongFunction) ia1.getter();
@@ -469,148 +481,182 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		LOiToLongFunction<Object> oiFunc2 = (LOiToLongFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			long a1 = oiFunc1.doApplyAsLong(source1, i);
-			long a2 = oiFunc2.doApplyAsLong(source2, i);
-			consumer.doAccept(a1, a2);
+			long a1 = oiFunc1.applyAsLong(source1, i);
+			long a2 = oiFunc2.applyAsLong(source2, i);
+			consumer.accept(a1, a2);
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=long a1, type=SA}, SourcePurpose{arg=long a2, type=IA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2> int iterate(SequentialRead<C1, I1, aLong> sa1, C1 source1, IndexedRead<C2, aLong> ia2, C2 source2, LBiLongConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToLongFunction<Object> nextFunc1 = (LToLongFunction) sa1.getter();
+		LToLongFunction<Object> nextFunc1 = (LToLongFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToLongFunction<Object> oiFunc2 = (LOiToLongFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			long a1 = nextFunc1.doApplyAsLong(iterator1);
-			long a2 = oiFunc2.doApplyAsLong(source2, i);
-			consumer.doAccept(a1, a2);
+		while (testFunc1.test(iterator1) && i < size) {
+			long a1 = nextFunc1.applyAsLong(iterator1);
+			long a2 = oiFunc2.applyAsLong(source2, i);
+			consumer.accept(a1, a2);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=long a1, type=IA}, SourcePurpose{arg=long a2, type=SA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2, I2> int iterate(IndexedRead<C1, aLong> ia1, C1 source1, SequentialRead<C2, I2, aLong> sa2, C2 source2, LBiLongConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToLongFunction<Object> oiFunc1 = (LOiToLongFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.getter();
+		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			long a1 = oiFunc1.doApplyAsLong(source1, i);
-			long a2 = nextFunc2.doApplyAsLong(iterator2);
-			consumer.doAccept(a1, a2);
+		while (i < size && testFunc2.test(iterator2)) {
+			long a1 = oiFunc1.applyAsLong(source1, i);
+			long a2 = nextFunc2.applyAsLong(iterator2);
+			consumer.accept(a1, a2);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=long a1, type=SA}, SourcePurpose{arg=long a2, type=SA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2, I2> int iterate(SequentialRead<C1, I1, aLong> sa1, C1 source1, SequentialRead<C2, I2, aLong> sa2, C2 source2, LBiLongConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToLongFunction<Object> nextFunc1 = (LToLongFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToLongFunction<Object> nextFunc1 = (LToLongFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.getter();
+		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.supplier();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			long a1 = nextFunc1.doApplyAsLong(iterator1);
-			long a2 = nextFunc2.doApplyAsLong(iterator2);
-			consumer.doAccept(a1, a2);
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			long a1 = nextFunc1.applyAsLong(iterator1);
+			long a2 = nextFunc2.applyAsLong(iterator2);
+			consumer.accept(a1, a2);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_WITH_INDEX: FOR, [SourcePurpose{arg=long a2, type=IA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index).
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C2> long indexed1stForEach(IndexedRead<C2, aLong> ia2, C2 source2, LBiLongConsumer consumer) {
 		int size = ia2.size(source2);
 		LOiToLongFunction<Object> oiFunc2 = (LOiToLongFunction) ia2.getter();
 		long a1 = 0;
 		for (; a1 < size; a1++) {
-			long a2 = oiFunc2.doApplyAsLong(source2, (int) a1);
-			consumer.doAccept(a1, a2);
+			long a2 = oiFunc2.applyAsLong(source2, (int) a1);
+			consumer.accept(a1, a2);
 		}
 		return a1;
 
 	}
 
-	// JUST_WITH_INDEX: WHILE, [SourcePurpose{arg=long a2, type=SA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index).
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns iterations count
+	*/
 	public static <C2, I2> long indexed1stIterate(SequentialRead<C2, I2, aLong> sa2, C2 source2, LBiLongConsumer consumer) {
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.getter();
+		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.supplier();
 		long a1 = 0;
-		while (testFunc2.doTest(iterator2)) {
-			long a2 = nextFunc2.doApplyAsLong(iterator2);
-			consumer.doAccept(a1, a2);
+		while (testFunc2.test(iterator2)) {
+			long a2 = nextFunc2.applyAsLong(iterator2);
+			consumer.accept(a1, a2);
 			a1++;
 		}
 		return a1;
 
 	}
 
-	// JUST_WITH_INDEX: FOR, [SourcePurpose{arg=long a1, type=IA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index).
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1> long indexed2ndForEach(IndexedRead<C1, aLong> ia1, C1 source1, LBiLongConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToLongFunction<Object> oiFunc1 = (LOiToLongFunction) ia1.getter();
 		long a2 = 0;
 		for (; a2 < size; a2++) {
-			long a1 = oiFunc1.doApplyAsLong(source1, (int) a2);
-			consumer.doAccept(a1, a2);
+			long a1 = oiFunc1.applyAsLong(source1, (int) a2);
+			consumer.accept(a1, a2);
 		}
 		return a2;
 
 	}
 
-	// JUST_WITH_INDEX: WHILE, [SourcePurpose{arg=long a1, type=SA}, SourcePurpose{arg=LBiLongConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer (with index).
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns iterations count
+	*/
 	public static <C1, I1> long indexed2ndIterate(SequentialRead<C1, I1, aLong> sa1, C1 source1, LBiLongConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToLongFunction<Object> nextFunc1 = (LToLongFunction) sa1.getter();
+		LToLongFunction<Object> nextFunc1 = (LToLongFunction) sa1.supplier();
 		long a2 = 0;
-		while (testFunc1.doTest(iterator1)) {
-			long a1 = nextFunc1.doApplyAsLong(iterator1);
-			consumer.doAccept(a1, a2);
+		while (testFunc1.test(iterator1)) {
+			long a1 = nextFunc1.applyAsLong(iterator1);
+			consumer.accept(a1, a2);
 			a2++;
 		}
 		return a2;
 
 	}
 
-	// CONSUME_WITH_TARGET: FOR, [SourcePurpose{arg=long a1, type=CONST}, SourcePurpose{arg=long a2, type=IA}, SourcePurpose{arg=LBiLongConsumer consumer,
-	// type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns 'target' object
+	*/
 	public static <C2> long targetedForEach(long a1, IndexedRead<C2, aLong> ia2, C2 source2, LBiLongConsumer consumer) {
 		int size = ia2.size(source2);
 		LOiToLongFunction<Object> oiFunc2 = (LOiToLongFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			long a2 = oiFunc2.doApplyAsLong(source2, i);
-			consumer.doAccept(a1, a2);
+			long a2 = oiFunc2.applyAsLong(source2, i);
+			consumer.accept(a1, a2);
 		}
 		return a1;
 
 	}
 
-	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=long a1, type=CONST}, SourcePurpose{arg=long a2, type=SA}, SourcePurpose{arg=LBiLongConsumer consumer,
-	// type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns 'target' object
+	*/
 	public static <C2, I2> long targetedIterate(long a1, SequentialRead<C2, I2, aLong> sa2, C2 source2, LBiLongConsumer consumer) {
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.getter();
-		while (testFunc2.doTest(iterator2)) {
-			long a2 = nextFunc2.doApplyAsLong(iterator2);
-			consumer.doAccept(a1, a2);
+		LToLongFunction<Object> nextFunc2 = (LToLongFunction) sa2.supplier();
+		while (testFunc2.test(iterator2)) {
+			long a2 = nextFunc2.applyAsLong(iterator2);
+			consumer.accept(a1, a2);
 		}
 		return a1;
 

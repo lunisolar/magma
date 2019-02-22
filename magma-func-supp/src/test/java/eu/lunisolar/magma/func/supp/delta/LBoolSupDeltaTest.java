@@ -55,7 +55,7 @@ public class LBoolSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsBool())
+        assertThat(sut.getAsBool())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBoolSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsBool())
+        assertThat(sut.getAsBool())
             .isEqualTo(true);
 
         assertThat(functionCallCount).isEqualTo(2);

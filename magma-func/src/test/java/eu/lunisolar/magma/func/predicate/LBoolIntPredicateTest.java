@@ -65,7 +65,7 @@ public class LBoolIntPredicateTest {
 
 
     private LBoolIntPredicate sut = new LBoolIntPredicate(){
-        public  boolean doTestX(boolean a1,int a2)  {
+        public  boolean testX(boolean a1,int a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBoolIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(true,100))
+        assertThat(sut.test(true,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBoolIntPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(true,100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(true,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(true,100);
+            sutAlwaysThrowingUnchecked.nestingTest(true,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBoolIntPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(true,100);
+            sutAlwaysThrowingUnchecked.shovingTest(true,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBoolIntPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolIntPredicate: boolean doTest(boolean a1,int a2)");
+            .isEqualTo("LBoolIntPredicate: boolean test(boolean a1,int a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LBoolIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(true,100))
+        assertThat(sut.negate().test(true,100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LBoolIntPredicateTest {
         LBoolIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(true,100))
+        assertThat(andFunction.test(true,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(true,100))
+        assertThat(orFunction.test(true,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(true,100))
+        assertThat(xorFunction.test(true,100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LBoolIntPredicateTest {
         LBoolIntPredicate equals = LBoolIntPredicate.isEqual(true,1);
 
         //then
-        assertThat(equals.doTest(true,1))
+        assertThat(equals.test(true,1))
                 .isTrue();
 
-        assertThat(equals.doTest(false,0))
+        assertThat(equals.test(false,0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LBoolIntPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBoolIntPredComposeBoolInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LBoolIntPredicateTest {
         };
 
         //when
-        LBoolIntPredicate function = sutO.boolIntPredComposeBoolInt(before1,before2);
-        function.doTest(true,81);
+        LBoolIntPredicate function = sutO.compose(before1,before2);
+        function.test(true,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LBoolIntPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.boolIntPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LBoolIntPredicateTest {
 
         //when
         LBoolIntPredicate function = sutO.boolToBoolIntPred(thenFunction);
-        boolean finalValue = function.doTest(true,81);
+        boolean finalValue = function.test(true,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -327,20 +327,6 @@ public class LBoolIntPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBoolIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolIntPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBoolIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolIntPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -351,7 +337,7 @@ public class LBoolIntPredicateTest {
         });
 
         // when
-        sutThrowing.shovingBoolIntPred().doTest(true,100);
+        sutThrowing.shovingTest(true,100);
     }
 
 
@@ -364,7 +350,7 @@ public class LBoolIntPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolIntPredicate: boolean doTest(boolean a1,int a2)");
+                .contains("LBoolIntPredicate: boolean test(boolean a1,int a2)");
     }
 
 

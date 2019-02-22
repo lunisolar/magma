@@ -72,8 +72,8 @@ public class LTriBoolFuncMemento<R> implements LTriBoolFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(boolean a1, boolean a2, boolean a3) {
-		return lastValue = function.doApply(a1, a2, a3);
+	public R applyX(boolean a1, boolean a2, boolean a3) {
+		return lastValue = function.apply(a1, a2, a3);
 	}
 
 	public R lastValue() {

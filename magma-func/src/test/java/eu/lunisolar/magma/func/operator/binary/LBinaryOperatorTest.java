@@ -65,14 +65,14 @@ public class LBinaryOperatorTest<T> {
 
 
     private LBinaryOperator<Integer> sut = new LBinaryOperator<Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2)  {
             return testValue;
         }
     };
 
 
     private LBinaryOperator<Integer> sutNull = new LBinaryOperator<Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2)  {
             return null;
         }
     };
@@ -92,7 +92,7 @@ public class LBinaryOperatorTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100))
+        assertThat(sut.apply(100,100))
             .isEqualTo(testValue);
     }
 
@@ -108,17 +108,17 @@ public class LBinaryOperatorTest<T> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -129,11 +129,11 @@ public class LBinaryOperatorTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -143,16 +143,16 @@ public class LBinaryOperatorTest<T> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBinaryOperator: T doApply(T a1,T a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBinaryOperator: T apply(T a1,T a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100);
+        sutNull.nonNullApply(100,100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBinaryOperator: T doApply(T a1,T a2)");
+            .isEqualTo("LBinaryOperator: T apply(T a1,T a2)");
     }
 
     @Test
@@ -177,9 +177,9 @@ public class LBinaryOperatorTest<T> {
         LBinaryOperator<Integer> min =  LBinaryOperator.minBy(Integer::compare);
 
         //then
-        assertThat(min.doApply(0, 56))
+        assertThat(min.apply(0, 56))
                 .isEqualTo(0);
-        assertThat(min.doApply(56, 0))
+        assertThat(min.apply(56, 0))
                        .isEqualTo(0);
 
     }
@@ -190,9 +190,9 @@ public class LBinaryOperatorTest<T> {
         LBinaryOperator<Integer> max =  LBinaryOperator.maxBy(Integer::compare);
 
         //then
-        assertThat(max.doApply(0, 56))
+        assertThat(max.apply(0, 56))
                 .isEqualTo(56);
-        assertThat(max.doApply(56, 0))
+        assertThat(max.apply(56, 0))
                         .isEqualTo(56);
     }
 
@@ -225,7 +225,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -260,7 +260,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LToByteBiFunction<Integer,Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80,81);
+        byte finalValue = function.applyAsByte(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -295,7 +295,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LToSrtBiFunction<Integer,Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80,81);
+        short finalValue = function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -330,7 +330,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LToIntBiFunction<Integer,Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -365,7 +365,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LToLongBiFunction<Integer,Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80,81);
+        long finalValue = function.applyAsLong(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -400,7 +400,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LToFltBiFunction<Integer,Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80,81);
+        float finalValue = function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -435,7 +435,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LToDblBiFunction<Integer,Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80,81);
+        double finalValue = function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -470,7 +470,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LToCharBiFunction<Integer,Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80,81);
+        char finalValue = function.applyAsChar(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -505,7 +505,7 @@ public class LBinaryOperatorTest<T> {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -518,20 +518,6 @@ public class LBinaryOperatorTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LBinaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBinaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LBinaryOperator.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -542,7 +528,7 @@ public class LBinaryOperatorTest<T> {
         });
 
         // when
-        sutThrowing.shovingBinaryOp().doApply(100,100);
+        sutThrowing.shovingApply(100,100);
     }
 
 
@@ -555,7 +541,7 @@ public class LBinaryOperatorTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBinaryOperator: T doApply(T a1,T a2)");
+                .contains("LBinaryOperator: T apply(T a1,T a2)");
     }
 
 

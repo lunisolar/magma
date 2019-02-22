@@ -55,7 +55,7 @@ public class LToSrtBiFuncDeltaTest <T1,T2> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsSrt(100,100))
+        assertThat(sut.applyAsSrt(100,100))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LToSrtBiFuncDeltaTest <T1,T2> {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsSrt(100,100))
+        assertThat(sut.applyAsSrt(100,100))
             .isEqualTo((short)9);
 
         assertThat(functionCallCount).isEqualTo(2);

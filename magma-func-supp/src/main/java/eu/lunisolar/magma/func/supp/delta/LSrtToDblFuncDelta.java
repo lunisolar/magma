@@ -89,8 +89,8 @@ public class LSrtToDblFuncDelta extends LSrtToDblFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDbl(short a) {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doApplyAsDbl(a));
+	public double applyAsDbl(short a) {
+		return deltaFunction.applyAsDbl(lastValue(), super.applyAsDbl(a));
 	}
 
 	// <editor-fold desc="object">

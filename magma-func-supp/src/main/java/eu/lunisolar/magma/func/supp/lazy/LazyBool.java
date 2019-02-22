@@ -63,13 +63,13 @@ public class LazyBool extends LBoolSupMemento implements LBoolSingle {
 	}
 
 	public static <E> LazyBool lazyValue(E e, LPredicate<E> function) {
-		return new LazyBool(() -> function.doTest(e));
+		return new LazyBool(() -> function.test(e));
 	}
 
 	@Override
-	public boolean doGetAsBool() {
+	public boolean getAsBool() {
 		if (function != null) {
-			lastValue = function.doGetAsBool();
+			lastValue = function.getAsBool();
 			function = null;
 		}
 
@@ -77,7 +77,7 @@ public class LazyBool extends LBoolSupMemento implements LBoolSingle {
 	}
 
 	public boolean value() {
-		return doGetAsBool();
+		return getAsBool();
 	}
 
 	public static boolean argEquals(LazyBool the, Object that) {

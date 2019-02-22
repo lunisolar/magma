@@ -66,9 +66,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aDouble>, Domain2<aDouble, aDouble> { // NOSONAR
 
-	String DESCRIPTION = "LDblBinaryOperator: double doApplyAsDbl(double a1,double a2)";
+	String DESCRIPTION = "LDblBinaryOperator: double applyAsDbl(double a1,double a2)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -77,130 +77,147 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	@Override
 	@Deprecated
 	default double applyAsDouble(double a1, double a2) {
-		return this.doApplyAsDbl(a1, a2);
+		return this.applyAsDbl(a1, a2);
 	}
 
-	// double doApplyAsDbl(double a1,double a2) ;
-	default double doApplyAsDbl(double a1, double a2) {
-		// return nestingDoApplyAsDbl(a1,a2);
+	// double applyAsDbl(double a1,double a2) ;
+	default double applyAsDbl(double a1, double a2) {
+		// return nestingApplyAsDbl(a1,a2);
 		try {
-			return this.doApplyAsDblX(a1, a2);
+			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsDbl(double a1,double a2)
+	 * Implement this, but call applyAsDbl(double a1,double a2)
 	 */
-	double doApplyAsDblX(double a1, double a2) throws Throwable;
+	double applyAsDblX(double a1, double a2) throws Throwable;
 
 	default double tupleApplyAsDbl(LDblPair args) {
-		return doApplyAsDbl(args.first(), args.second());
+		return applyAsDbl(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default double handlingDoApplyAsDbl(double a1, double a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default double handlingApplyAsDbl(double a1, double a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsDblX(a1, a2);
+			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default double tryDoApplyAsDbl(double a1, double a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LDblBinaryOperator handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingApplyAsDbl(a1, a2, handling);
+	}
+
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsDblX(a1, a2);
+			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default double tryDoApplyAsDbl(double a1, double a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsDblX(a1, a2);
+			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default double tryDoApplyAsDblThen(double a1, double a2, @Nonnull LToDblFunction<Throwable> handler) {
+	default LDblBinaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF);
+	}
+
+	default double applyAsDblThen(double a1, double a2, @Nonnull LToDblFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsDblX(a1, a2);
+			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsDbl(e);
+			return handler.applyAsDbl(e);
 		}
+	}
+
+	default LDblBinaryOperator tryingThen(@Nonnull LToDblFunction<Throwable> handler) {
+		return (a1, a2) -> applyAsDblThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default double nestingDoApplyAsDbl(double a1, double a2) {
+	default double nestingApplyAsDbl(double a1, double a2) {
 		try {
-			return this.doApplyAsDblX(a1, a2);
+			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDbl(double a1, double a2) {
+	default double shovingApplyAsDbl(double a1, double a2) {
 		try {
-			return this.doApplyAsDblX(a1, a2);
+			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static double handlingDoApplyAsDbl(double a1, double a2, LDblBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static double handlingApplyAsDbl(double a1, double a2, LDblBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsDbl(a1, a2, handling);
+		return func.handlingApplyAsDbl(a1, a2, handling);
 	}
 
-	static double tryDoApplyAsDbl(double a1, double a2, LDblBinaryOperator func) {
-		return tryDoApplyAsDbl(a1, a2, func, null);
-	}
-
-	static double tryDoApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDbl(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsDbl(a1, a2);
 	}
 
-	static double tryDoApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDbl(a1, a2, exceptionFactory);
+		return func.applyAsDbl(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static double tryDoApplyAsDblThen(double a1, double a2, LDblBinaryOperator func, @Nonnull LToDblFunction<Throwable> handler) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDblThen(a1, a2, handler);
+		return func.applyAsDbl(a1, a2, exF);
 	}
 
-	default double failSafeDoApplyAsDbl(double a1, double a2, @Nonnull LDblBinaryOperator failSafe) {
+	static double tryApplyAsDblThen(double a1, double a2, LDblBinaryOperator func, @Nonnull LToDblFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDblThen(a1, a2, handler);
+	}
+
+	default double failSafeApplyAsDbl(double a1, double a2, @Nonnull LDblBinaryOperator failSafe) {
 		try {
-			return doApplyAsDbl(a1, a2);
+			return applyAsDbl(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsDbl(a1, a2);
+			return failSafe.applyAsDbl(a1, a2);
 		}
 	}
 
-	static double failSafeDoApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull LDblBinaryOperator failSafe) {
+	static double failSafeApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull LDblBinaryOperator failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsDbl(a1, a2);
+			return failSafe.applyAsDbl(a1, a2);
 		} else {
-			return func.failSafeDoApplyAsDbl(a1, a2, failSafe);
+			return func.failSafeApplyAsDbl(a1, a2, failSafe);
 		}
 	}
 
-	static LDblBinaryOperator failSafeDblBinaryOp(LDblBinaryOperator func, @Nonnull LDblBinaryOperator failSafe) {
+	static LDblBinaryOperator failSafe(LDblBinaryOperator func, @Nonnull LDblBinaryOperator failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoApplyAsDbl(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeApplyAsDbl(a1, a2, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDbl(double a1, double a2) {
-		return doApplyAsDbl(a1, a2);
+	default double nonNullApplyAsDbl(double a1, double a2) {
+		return applyAsDbl(a1, a2);
 	}
 
 	/** Returns description of the functional interface. */
@@ -212,13 +229,13 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, double a1, double a2, LDblBinaryOperator func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsDbl(a1, a2);
+				func.applyAsDbl(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsDbl(a1, a2);
+				func.applyAsDbl(a1, a2);
 			}
 		}
 	}
@@ -226,28 +243,30 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, double a1, double a2, LDblBinaryOperator func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsDbl(a1, a2);
+				func.applyAsDbl(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsDbl(a1, a2);
+				func.applyAsDbl(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, double a1, double a2, LDblBinaryOperator func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LDblUnaryOperator lShrink(LDblUnaryOperator left) {
-		return a2 -> doApplyAsDbl(left.doApplyAsDbl(a2), a2);
+		return a2 -> applyAsDbl(left.applyAsDbl(a2), a2);
 	}
 
 	public default LDblUnaryOperator lShrinkc(double a1) {
-		return a2 -> doApplyAsDbl(a1, a2);
+		return a2 -> applyAsDbl(a1, a2);
 	}
 
 	public static LDblUnaryOperator lShrinked(LDblUnaryOperator left, LDblBinaryOperator func) {
@@ -259,11 +278,11 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	public default LDblUnaryOperator rShrink(LDblUnaryOperator right) {
-		return a1 -> doApplyAsDbl(a1, right.doApplyAsDbl(a1));
+		return a1 -> applyAsDbl(a1, right.applyAsDbl(a1));
 	}
 
 	public default LDblUnaryOperator rShrinkc(double a2) {
-		return a1 -> doApplyAsDbl(a1, a2);
+		return a1 -> applyAsDbl(a1, a2);
 	}
 
 	public static LDblUnaryOperator rShrinked(LDblUnaryOperator right, LDblBinaryOperator func) {
@@ -275,13 +294,13 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/**  */
-	public static LDblBinaryOperator uncurryDblBinaryOp(LDblFunction<LDblUnaryOperator> func) {
-		return (double a1, double a2) -> func.doApply(a1).doApplyAsDbl(a2);
+	public static LDblBinaryOperator uncurry(LDblFunction<LDblUnaryOperator> func) {
+		return (double a1, double a2) -> func.apply(a1).applyAsDbl(a2);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier captureDblBinaryOp(double a1, double a2) {
-		return () -> this.doApplyAsDbl(a1, a2);
+	default LDblSupplier capture(double a1, double a2) {
+		return () -> this.applyAsDbl(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -292,13 +311,13 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static LDblBinaryOperator apply1stAsDbl(@Nonnull LDblUnaryOperator func) {
-		return (a1, a2) -> func.doApplyAsDbl(a1);
+		return (a1, a2) -> func.applyAsDbl(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static LDblBinaryOperator apply2ndAsDbl(@Nonnull LDblUnaryOperator func) {
-		return (a1, a2) -> func.doApplyAsDbl(a2);
+		return (a1, a2) -> func.applyAsDbl(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -311,7 +330,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	@Nonnull
 	static LDblBinaryOperator recursive(final @Nonnull LFunction<LDblBinaryOperator, LDblBinaryOperator> selfLambda) {
 		final LDblBinaryOperatorSingle single = new LDblBinaryOperatorSingle();
-		LDblBinaryOperator func = selfLambda.doApply(single);
+		LDblBinaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -320,8 +339,8 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		private LDblBinaryOperator target = null;
 
 		@Override
-		public double doApplyAsDblX(double a1, double a2) throws Throwable {
-			return target.doApplyAsDblX(a1, a2);
+		public double applyAsDblX(double a1, double a2) throws Throwable {
+			return target.applyAsDblX(a1, a2);
 		}
 
 		@Override
@@ -331,24 +350,24 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	@Nonnull
-	static LDblBinaryOperator dblBinaryOpThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblBinaryOperator dblBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LDblBinaryOperator dblBinaryOpThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LDblBinaryOperator dblBinaryOpThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static double call(double a1, double a2, final @Nonnull LDblBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsDbl(a1, a2);
+		return lambda.applyAsDbl(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -438,14 +457,14 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDblBinaryOperator dblBinaryOpComposeDbl(@Nonnull final LDblUnaryOperator before1, @Nonnull final LDblUnaryOperator before2) {
+	default LDblBinaryOperator compose(@Nonnull final LDblUnaryOperator before1, @Nonnull final LDblUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApplyAsDbl(before1.doApplyAsDbl(v1), before2.doApplyAsDbl(v2));
+		return (v1, v2) -> this.applyAsDbl(before1.applyAsDbl(v1), before2.applyAsDbl(v2));
 	}
 
-	public static LDblBinaryOperator composedDbl(@Nonnull final LDblUnaryOperator before1, @Nonnull final LDblUnaryOperator before2, LDblBinaryOperator after) {
-		return after.dblBinaryOpComposeDbl(before1, before2);
+	public static LDblBinaryOperator composed(@Nonnull final LDblUnaryOperator before1, @Nonnull final LDblUnaryOperator before2, LDblBinaryOperator after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -453,7 +472,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default <V1, V2> LToDblBiFunction<V1, V2> dblBinaryOpCompose(@Nonnull final LToDblFunction<? super V1> before1, @Nonnull final LToDblFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApplyAsDbl(before1.doApplyAsDbl(v1), before2.doApplyAsDbl(v2));
+		return (v1, v2) -> this.applyAsDbl(before1.applyAsDbl(v1), before2.applyAsDbl(v2));
 	}
 
 	public static <V1, V2> LToDblBiFunction<V1, V2> composed(@Nonnull final LToDblFunction<? super V1> before1, @Nonnull final LToDblFunction<? super V2> before2, LDblBinaryOperator after) {
@@ -468,37 +487,26 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	@Nonnull
 	default <V> LBiDblFunction<V> then(@Nonnull LDblFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doApplyAsDbl(a1, a2));
+		return (a1, a2) -> after.apply(this.applyAsDbl(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblBinaryOperator thenToDbl(@Nonnull LDblUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsDbl(this.doApplyAsDbl(a1, a2));
+		return (a1, a2) -> after.applyAsDbl(this.applyAsDbl(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiDblPredicate thenToBool(@Nonnull LDblPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doTest(this.doApplyAsDbl(a1, a2));
+		return (a1, a2) -> after.test(this.applyAsDbl(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LDblBinaryOperator nestingDblBinaryOp() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDblBinaryOperator shovingDblBinaryOp() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -507,7 +515,10 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return Function4U.defaultDouble;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=double a1, type=IA}, SourcePurpose{arg=double a2, type=IA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2> void forEach(IndexedRead<C1, aDouble> ia1, C1 source1, IndexedRead<C2, aDouble> ia2, C2 source2, LDblConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToDblFunction<Object> oiFunc1 = (LOiToDblFunction) ia1.getter();
@@ -515,56 +526,65 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		LOiToDblFunction<Object> oiFunc2 = (LOiToDblFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			double a1 = oiFunc1.doApplyAsDbl(source1, i);
-			double a2 = oiFunc2.doApplyAsDbl(source2, i);
-			consumer.doAccept(this.doApplyAsDbl(a1, a2));
+			double a1 = oiFunc1.applyAsDbl(source1, i);
+			double a2 = oiFunc2.applyAsDbl(source2, i);
+			consumer.accept(this.applyAsDbl(a1, a2));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=double a1, type=SA}, SourcePurpose{arg=double a2, type=IA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aDouble> sa1, C1 source1, IndexedRead<C2, aDouble> ia2, C2 source2, LDblConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToDblFunction<Object> nextFunc1 = (LToDblFunction) sa1.getter();
+		LToDblFunction<Object> nextFunc1 = (LToDblFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToDblFunction<Object> oiFunc2 = (LOiToDblFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			double a1 = nextFunc1.doApplyAsDbl(iterator1);
-			double a2 = oiFunc2.doApplyAsDbl(source2, i);
-			consumer.doAccept(this.doApplyAsDbl(a1, a2));
+		while (testFunc1.test(iterator1) && i < size) {
+			double a1 = nextFunc1.applyAsDbl(iterator1);
+			double a2 = oiFunc2.applyAsDbl(source2, i);
+			consumer.accept(this.applyAsDbl(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=double a1, type=IA}, SourcePurpose{arg=double a2, type=SA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2> void iterate(IndexedRead<C1, aDouble> ia1, C1 source1, SequentialRead<C2, I2, aDouble> sa2, C2 source2, LDblConsumer consumer) {
 		int size = ia1.size(source1);
 		LOiToDblFunction<Object> oiFunc1 = (LOiToDblFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToDblFunction<Object> nextFunc2 = (LToDblFunction) sa2.getter();
+		LToDblFunction<Object> nextFunc2 = (LToDblFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			double a1 = oiFunc1.doApplyAsDbl(source1, i);
-			double a2 = nextFunc2.doApplyAsDbl(iterator2);
-			consumer.doAccept(this.doApplyAsDbl(a1, a2));
+		while (i < size && testFunc2.test(iterator2)) {
+			double a1 = oiFunc1.applyAsDbl(source1, i);
+			double a2 = nextFunc2.applyAsDbl(iterator2);
+			consumer.accept(this.applyAsDbl(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=double a1, type=SA}, SourcePurpose{arg=double a2, type=SA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aDouble> sa1, C1 source1, SequentialRead<C2, I2, aDouble> sa2, C2 source2, LDblConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToDblFunction<Object> nextFunc1 = (LToDblFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToDblFunction<Object> nextFunc1 = (LToDblFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToDblFunction<Object> nextFunc2 = (LToDblFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			double a1 = nextFunc1.doApplyAsDbl(iterator1);
-			double a2 = nextFunc2.doApplyAsDbl(iterator2);
-			consumer.doAccept(this.doApplyAsDbl(a1, a2));
+		LToDblFunction<Object> nextFunc2 = (LToDblFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			double a1 = nextFunc1.applyAsDbl(iterator1);
+			double a2 = nextFunc2.applyAsDbl(iterator2);
+			consumer.accept(this.applyAsDbl(a1, a2));
 		}
 	}
 

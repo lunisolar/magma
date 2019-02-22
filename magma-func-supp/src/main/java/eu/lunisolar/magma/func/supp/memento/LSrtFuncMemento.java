@@ -72,8 +72,8 @@ public class LSrtFuncMemento<R> implements LSrtFunction<R> {
 	}
 
 	@Override
-	public R doApplyX(short a) {
-		return lastValue = function.doApply(a);
+	public R applyX(short a) {
+		return lastValue = function.apply(a);
 	}
 
 	public R lastValue() {

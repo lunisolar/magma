@@ -72,8 +72,8 @@ public class LLongUnaryOpMemento implements LLongUnaryOperator {
 	}
 
 	@Override
-	public long doApplyAsLongX(long a) {
-		return lastValue = function.doApplyAsLong(a);
+	public long applyAsLongX(long a) {
+		return lastValue = function.applyAsLong(a);
 	}
 
 	public long lastValue() {

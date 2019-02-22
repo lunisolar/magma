@@ -80,8 +80,10 @@ public final class LDblToIntFunctionBuilder extends PerCaseBuilderWithIntProduct
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LDblToIntFunction dblToIntFunctionFrom(Function<LDblToIntFunctionBuilder, LDblToIntFunction> buildingFunction) {
-		return buildingFunction.apply(new LDblToIntFunctionBuilder());
+	public static LDblToIntFunction dblToIntFunctionFrom(Consumer<LDblToIntFunctionBuilder> buildingFunction) {
+		LDblToIntFunctionBuilder builder = new LDblToIntFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LDblToIntFunctionBuilder extends PerCaseBuilderWithIntProduct
 		retval = LDblToIntFunction.dblToIntFunc(a -> {
 			try {
 				for (Case<LDblPredicate, LDblToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsInt(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsInt(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsInt(a);
+				return eventuallyFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

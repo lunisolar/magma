@@ -72,8 +72,8 @@ public class LLongBinaryOpMemento implements LLongBinaryOperator {
 	}
 
 	@Override
-	public long doApplyAsLongX(long a1, long a2) {
-		return lastValue = function.doApplyAsLong(a1, a2);
+	public long applyAsLongX(long a1, long a2) {
+		return lastValue = function.applyAsLong(a1, a2);
 	}
 
 	public long lastValue() {

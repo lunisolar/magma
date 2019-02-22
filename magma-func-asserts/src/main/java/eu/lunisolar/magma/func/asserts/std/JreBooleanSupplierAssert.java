@@ -80,13 +80,12 @@ public interface JreBooleanSupplierAssert<S extends JreBooleanSupplierAssert<S, 
 		@Nonnull
 		public Evaluation<S, LAction, A, RS, Boolean> doesGetAsBool() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				return assertFactory.doApply(actual.getAsBoolean());
+				return assertFactory.apply(actual.getAsBoolean());
 			});
-
 		}
 
 		@Nonnull

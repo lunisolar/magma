@@ -55,7 +55,7 @@ public class LFltFuncDeltaTest <R> {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApply(100f))
+        assertThat(sut.apply(100f))
             .isSameAs(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LFltFuncDeltaTest <R> {
             .isSameAs(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApply(100f))
+        assertThat(sut.apply(100f))
             .isEqualTo(9);
 
         assertThat(functionCallCount).isEqualTo(2);

@@ -80,13 +80,12 @@ public interface JreLongPredicateAssert<S extends JreLongPredicateAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LLongConsumer, A, RS, Boolean> doesTest(long a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.test(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

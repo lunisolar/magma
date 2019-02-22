@@ -80,8 +80,10 @@ public final class LSrtSupplierBuilder extends PerCaseBuilderWithSrtProduct.Base
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LSrtSupplier srtSupplierFrom(Function<LSrtSupplierBuilder, LSrtSupplier> buildingFunction) {
-		return buildingFunction.apply(new LSrtSupplierBuilder());
+	public static LSrtSupplier srtSupplierFrom(Consumer<LSrtSupplierBuilder> buildingFunction) {
+		LSrtSupplierBuilder builder = new LSrtSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LSrtSupplierBuilder extends PerCaseBuilderWithSrtProduct.Base
 		retval = LSrtSupplier.srtSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LSrtSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsSrt();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsSrt();
 					}
 				}
 
-				return eventuallyFinal.doGetAsSrt();
+				return eventuallyFinal.getAsSrt();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

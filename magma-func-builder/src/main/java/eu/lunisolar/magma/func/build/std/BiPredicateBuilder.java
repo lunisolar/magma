@@ -80,8 +80,10 @@ public final class BiPredicateBuilder<T1, T2> extends PerCaseBuilderWithBoolProd
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2> BiPredicate<T1, T2> biPredicateFrom(Function<BiPredicateBuilder<T1, T2>, BiPredicate<T1, T2>> buildingFunction) {
-		return buildingFunction.apply(new BiPredicateBuilder());
+	public static <T1, T2> BiPredicate<T1, T2> biPredicateFrom(Consumer<BiPredicateBuilder<T1, T2>> buildingFunction) {
+		BiPredicateBuilder builder = new BiPredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class BiPredicateBuilder<T1, T2> extends PerCaseBuilderWithBoolProd
 		retval = Function4U.<T1, T2> biPred((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, BiPredicate<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
+					if (aCase.casePredicate().test(a1, a2)) {
 						return aCase.caseFunction().test(a1, a2);
 					}
 				}

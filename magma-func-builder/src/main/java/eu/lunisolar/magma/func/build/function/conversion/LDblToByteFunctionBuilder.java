@@ -80,8 +80,10 @@ public final class LDblToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LDblToByteFunction dblToByteFunctionFrom(Function<LDblToByteFunctionBuilder, LDblToByteFunction> buildingFunction) {
-		return buildingFunction.apply(new LDblToByteFunctionBuilder());
+	public static LDblToByteFunction dblToByteFunctionFrom(Consumer<LDblToByteFunctionBuilder> buildingFunction) {
+		LDblToByteFunctionBuilder builder = new LDblToByteFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LDblToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 		retval = LDblToByteFunction.dblToByteFunc(a -> {
 			try {
 				for (Case<LDblPredicate, LDblToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doApplyAsByte(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().applyAsByte(a);
 					}
 				}
 
-				return eventuallyFinal.doApplyAsByte(a);
+				return eventuallyFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

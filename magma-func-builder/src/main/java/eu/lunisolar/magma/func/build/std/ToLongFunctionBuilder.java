@@ -80,8 +80,10 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> ToLongFunction<T> toLongFunctionFrom(Function<ToLongFunctionBuilder<T>, ToLongFunction<T>> buildingFunction) {
-		return buildingFunction.apply(new ToLongFunctionBuilder());
+	public static <T> ToLongFunction<T> toLongFunctionFrom(Consumer<ToLongFunctionBuilder<T>> buildingFunction) {
+		ToLongFunctionBuilder builder = new ToLongFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 		retval = Function4U.<T> toLongFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, ToLongFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().applyAsLong(a);
 					}
 				}

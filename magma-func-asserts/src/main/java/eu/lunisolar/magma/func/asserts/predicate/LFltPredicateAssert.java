@@ -82,13 +82,12 @@ public interface LFltPredicateAssert<S extends LFltPredicateAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LFltConsumer, A, RS, Boolean> doesTest(float a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

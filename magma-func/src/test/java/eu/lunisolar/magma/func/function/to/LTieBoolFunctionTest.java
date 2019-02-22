@@ -65,7 +65,7 @@ public class LTieBoolFunctionTest<T> {
 
 
     private LTieBoolFunction<Integer> sut = new LTieBoolFunction<Integer>(){
-        public  int doApplyAsIntX(Integer a1,int a2,boolean a3)  {
+        public  int applyAsIntX(Integer a1,int a2,boolean a3)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LTieBoolFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsInt(100,100,true))
+        assertThat(sut.applyAsInt(100,100,true))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LTieBoolFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsInt(100,100,true))
+    public void testNonNullApplyAsInt() throws Throwable {
+        assertThat(sut.nonNullApplyAsInt(100,100,true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsIntUnchecked() throws Throwable {
+    public void testNestingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsInt(100,100,true);
+            sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LTieBoolFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsIntUnchecked() throws Throwable {
+    public void testShovingApplyAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsInt(100,100,true);
+            sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LTieBoolFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieBoolFunction: int doApplyAsInt(T a1,int a2,boolean a3)");
+            .isEqualTo("LTieBoolFunction: int applyAsInt(T a1,int a2,boolean a3)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LTieBoolFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieBoolFuncComposeIntBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -187,8 +187,8 @@ public class LTieBoolFunctionTest<T> {
         };
 
         //when
-        LTieBoolFunction<Integer> function = sutO.tieBoolFuncComposeIntBool(before1,before2,before3);
-        function.doApplyAsInt(80,81,true);
+        LTieBoolFunction<Integer> function = sutO.compose(before1,before2,before3);
+        function.applyAsInt(80,81,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -229,7 +229,7 @@ public class LTieBoolFunctionTest<T> {
 
         //when
         LToIntTriFunction<Integer,Integer,Integer> function = sutO.tieBoolFuncCompose(before1,before2,before3);
-        function.doApplyAsInt(80,81,82);
+        function.applyAsInt(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -267,7 +267,7 @@ public class LTieBoolFunctionTest<T> {
 
         //when
         LObjIntBoolFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81,true);
+        Integer finalValue = function.apply(80,81,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -303,7 +303,7 @@ public class LTieBoolFunctionTest<T> {
 
         //when
         LTieBoolFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81,true);
+        int finalValue = function.applyAsInt(80,81,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -339,7 +339,7 @@ public class LTieBoolFunctionTest<T> {
 
         //when
         LObjIntBoolPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81,true);
+        boolean finalValue = function.test(80,81,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -352,20 +352,6 @@ public class LTieBoolFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieBoolFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTieBoolFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -376,7 +362,7 @@ public class LTieBoolFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieBoolFunc().doApplyAsInt(100,100,true);
+        sutThrowing.shovingApplyAsInt(100,100,true);
     }
 
 
@@ -389,7 +375,7 @@ public class LTieBoolFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieBoolFunction: int doApplyAsInt(T a1,int a2,boolean a3)");
+                .contains("LTieBoolFunction: int applyAsInt(T a1,int a2,boolean a3)");
     }
 
 

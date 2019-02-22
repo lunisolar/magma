@@ -69,7 +69,7 @@ public class LBiByteFunctionBuilderTest<R>{
                 .build()
             );
 
-            function.doApply((byte)100,(byte)100);
+            function.apply((byte)100,(byte)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiByteFunctionBuilderTest<R>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply((byte)100,(byte)100);
+            function.apply((byte)100,(byte)100);
 
             fail("No exception were thrown.");
         })

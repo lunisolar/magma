@@ -63,7 +63,7 @@ public class LByteIntConsumerTest {
 
 
     private LByteIntConsumer sut = new LByteIntConsumer(){
-        public  void doAcceptX(byte a1,int a2)  {
+        public  void acceptX(byte a1,int a2)  {
             LByteIntConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LByteIntConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept((byte)100,100);
+            sutAlwaysThrowingUnchecked.nestingAccept((byte)100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LByteIntConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept((byte)100,100);
+            sutAlwaysThrowingUnchecked.shovingAccept((byte)100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LByteIntConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteIntConsumer: void doAccept(byte a1,int a2)");
+            .isEqualTo("LByteIntConsumer: void accept(byte a1,int a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LByteIntConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testByteIntConsComposeByteInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LByteIntConsumerTest {
         };
 
         //when
-        LByteIntConsumer function = sutO.byteIntConsComposeByteInt(before1,before2);
-        function.doAccept((byte)80,81);
+        LByteIntConsumer function = sutO.compose(before1,before2);
+        function.accept((byte)80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LByteIntConsumerTest {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.byteIntConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LByteIntConsumerTest {
 
         //when
         LByteIntConsumer function = sutO.andThen(thenFunction);
-        function.doAccept((byte)80,81);
+        function.accept((byte)80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingByteIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LByteIntConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingByteIntCons())
-            .isSameAs(sut)
-            .isInstanceOf(LByteIntConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LByteIntConsumerTest {
         });
 
         // when
-        sutThrowing.shovingByteIntCons().doAccept((byte)100,100);
+        sutThrowing.shovingAccept((byte)100,100);
     }
 
 
@@ -277,7 +263,7 @@ public class LByteIntConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteIntConsumer: void doAccept(byte a1,int a2)");
+                .contains("LByteIntConsumer: void accept(byte a1,int a2)");
     }
 
 

@@ -39,8 +39,8 @@ public interface FullFunctionalAssert<S extends FullFunctionalAssert<S, PC, A, R
         }
 
         @Nonnull
-        protected Evaluation<S, PC, A, RS, R> evaluation(AssertionFunction<PC, RS> assertFunction) {
-            return new Evaluation<>(self(), (PC pc) -> {
+        protected Evaluation<S, PC, A, RS, R> evaluation(Supplier<String> caseDescription, AssertionFunction<PC, RS> assertFunction) {
+            return new Evaluation<>(self(), ()-> descriptionText(),  caseDescription, (PC pc) -> {
                 isNotNull();
                 return assertFunction.applyAndCreateResultAssert(pc);
             }, recurringAssert);

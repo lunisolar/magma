@@ -65,7 +65,7 @@ public class LToCharFunctionTest<T> {
 
 
     private LToCharFunction<Integer> sut = new LToCharFunction<Integer>(){
-        public  char doApplyAsCharX(Integer a)  {
+        public  char applyAsCharX(Integer a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LToCharFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsChar(100))
+        assertThat(sut.applyAsChar(100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LToCharFunctionTest<T> {
     }
 
     @Test
-    public void testNonNullDoApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsChar(100))
+    public void testNonNullApplyAsChar() throws Throwable {
+        assertThat(sut.nonNullApplyAsChar(100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsCharUnchecked() throws Throwable {
+    public void testNestingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsChar(100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsChar(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LToCharFunctionTest<T> {
     }
 
     @Test
-    public void testShovingDoApplyAsCharUnchecked() throws Throwable {
+    public void testShovingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsChar(100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsChar(100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LToCharFunctionTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToCharFunction: char doApplyAsChar(T a)");
+            .isEqualTo("LToCharFunction: char applyAsChar(T a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LToCharFunctionTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testToCharFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LToCharFunctionTest<T> {
         };
 
         //when
-        LToCharFunction<Integer> function = sutO.toCharFuncCompose(before);
-        function.doApplyAsChar(80);
+        LToCharFunction<Integer> function = sutO.compose(before);
+        function.applyAsChar(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -212,7 +212,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LFunction<Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80);
+        Integer finalValue = function.apply(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -246,7 +246,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LToByteFunction<Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80);
+        byte finalValue = function.applyAsByte(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -280,7 +280,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LToSrtFunction<Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80);
+        short finalValue = function.applyAsSrt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -314,7 +314,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LToIntFunction<Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80);
+        int finalValue = function.applyAsInt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -348,7 +348,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LToLongFunction<Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80);
+        long finalValue = function.applyAsLong(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -382,7 +382,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LToFltFunction<Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80);
+        float finalValue = function.applyAsFlt(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -416,7 +416,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LToDblFunction<Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80);
+        double finalValue = function.applyAsDbl(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -450,7 +450,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LToCharFunction<Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80);
+        char finalValue = function.applyAsChar(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -484,7 +484,7 @@ public class LToCharFunctionTest<T> {
 
         //when
         LPredicate<Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80);
+        boolean finalValue = function.test(80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -497,20 +497,6 @@ public class LToCharFunctionTest<T> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LToCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -521,7 +507,7 @@ public class LToCharFunctionTest<T> {
         });
 
         // when
-        sutThrowing.shovingToCharFunc().doApplyAsChar(100);
+        sutThrowing.shovingApplyAsChar(100);
     }
 
 
@@ -534,7 +520,7 @@ public class LToCharFunctionTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToCharFunction: char doApplyAsChar(T a)");
+                .contains("LToCharFunction: char applyAsChar(T a)");
     }
 
 

@@ -65,7 +65,7 @@ public class LBiBytePredicateTest {
 
 
     private LBiBytePredicate sut = new LBiBytePredicate(){
-        public  boolean doTestX(byte a1,byte a2)  {
+        public  boolean testX(byte a1,byte a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LBiBytePredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest((byte)100,(byte)100))
+        assertThat(sut.test((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LBiBytePredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest((byte)100,(byte)100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest((byte)100,(byte)100);
+            sutAlwaysThrowingUnchecked.nestingTest((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LBiBytePredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest((byte)100,(byte)100);
+            sutAlwaysThrowingUnchecked.shovingTest((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiBytePredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiBytePredicate: boolean doTest(byte a1,byte a2)");
+            .isEqualTo("LBiBytePredicate: boolean test(byte a1,byte a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LBiBytePredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest((byte)100,(byte)100))
+        assertThat(sut.negate().test((byte)100,(byte)100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LBiBytePredicateTest {
         LBiBytePredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest((byte)100,(byte)100))
+        assertThat(andFunction.test((byte)100,(byte)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest((byte)100,(byte)100))
+        assertThat(orFunction.test((byte)100,(byte)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest((byte)100,(byte)100))
+        assertThat(xorFunction.test((byte)100,(byte)100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LBiBytePredicateTest {
         LBiBytePredicate equals = LBiBytePredicate.isEqual((byte)1,(byte)1);
 
         //then
-        assertThat(equals.doTest((byte)1,(byte)1))
+        assertThat(equals.test((byte)1,(byte)1))
                 .isTrue();
 
-        assertThat(equals.doTest((byte)0,(byte)0))
+        assertThat(equals.test((byte)0,(byte)0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LBiBytePredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiBytePredComposeByte() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LBiBytePredicateTest {
         };
 
         //when
-        LBiBytePredicate function = sutO.biBytePredComposeByte(before1,before2);
-        function.doTest((byte)80,(byte)81);
+        LBiBytePredicate function = sutO.compose(before1,before2);
+        function.test((byte)80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LBiBytePredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.biBytePredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LBiBytePredicateTest {
 
         //when
         LBiByteFunction<Integer> function = sutO.boolToBiByteFunc(thenFunction);
-        Integer finalValue = function.doApply((byte)80,(byte)81);
+        Integer finalValue = function.apply((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -349,7 +349,7 @@ public class LBiBytePredicateTest {
 
         //when
         LByteBinaryOperator function = sutO.boolToByteBinaryOp(thenFunction);
-        byte finalValue = function.doApplyAsByte((byte)80,(byte)81);
+        byte finalValue = function.applyAsByte((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LBiBytePredicateTest {
 
         //when
         LBiBytePredicate function = sutO.boolToBiBytePred(thenFunction);
-        boolean finalValue = function.doTest((byte)80,(byte)81);
+        boolean finalValue = function.test((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -397,20 +397,6 @@ public class LBiBytePredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiBytePred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiBytePredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiBytePred())
-            .isSameAs(sut)
-            .isInstanceOf(LBiBytePredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -421,7 +407,7 @@ public class LBiBytePredicateTest {
         });
 
         // when
-        sutThrowing.shovingBiBytePred().doTest((byte)100,(byte)100);
+        sutThrowing.shovingTest((byte)100,(byte)100);
     }
 
 
@@ -434,7 +420,7 @@ public class LBiBytePredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiBytePredicate: boolean doTest(byte a1,byte a2)");
+                .contains("LBiBytePredicate: boolean test(byte a1,byte a2)");
     }
 
 

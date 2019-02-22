@@ -72,90 +72,90 @@ public interface AccessLongPair {
 
 	default void useWith(LBiLongConsumer accessFunction) {
 		LLongPair tuple = accessLongPair();
-		accessFunction.doAccept(tuple.first(), tuple.second());
+		accessFunction.accept(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiLongConsumer accessFunction) {
 		LLongPair tuple = accessLongPair();
-		accessFunction.doAccept(tuple.second(), tuple.first());
+		accessFunction.accept(tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiLongConsumer.LLong1Long0Cons accessFunction) {
 		LLongPair tuple = accessLongPair();
-		accessFunction.doAcceptLong1Long0(tuple.first(), tuple.second());
+		accessFunction.acceptLong1Long0(tuple.first(), tuple.second());
 	}
 
 	default void useWithO1(LBiLongConsumer.LLong1Long0Cons accessFunction) {
 		LLongPair tuple = accessLongPair();
-		accessFunction.doAcceptLong1Long0(tuple.second(), tuple.first());
+		accessFunction.acceptLong1Long0(tuple.second(), tuple.first());
 	}
 
 	default long useWith(LLongBinaryOperator accessFunction) {
 		LLongPair tuple = accessLongPair();
-		long retval = accessFunction.doApplyAsLong(tuple.first(), tuple.second());
+		long retval = accessFunction.applyAsLong(tuple.first(), tuple.second());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default long useWithO1(LLongBinaryOperator accessFunction) {
 		LLongPair tuple = accessLongPair();
-		long retval = accessFunction.doApplyAsLong(tuple.second(), tuple.first());
+		long retval = accessFunction.applyAsLong(tuple.second(), tuple.first());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiLongFunction<R> accessFunction) {
 		LLongPair tuple = accessLongPair();
-		R retval = accessFunction.doApply(tuple.first(), tuple.second());
+		R retval = accessFunction.apply(tuple.first(), tuple.second());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiLongFunction<R> accessFunction) {
 		LLongPair tuple = accessLongPair();
-		R retval = accessFunction.doApply(tuple.second(), tuple.first());
+		R retval = accessFunction.apply(tuple.second(), tuple.first());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWith(LBiLongFunction.LLong1Long0Func<R> accessFunction) {
 		LLongPair tuple = accessLongPair();
-		R retval = accessFunction.doApplyLong1Long0(tuple.first(), tuple.second());
+		R retval = accessFunction.applyLong1Long0(tuple.first(), tuple.second());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default <R> R useWithO1(LBiLongFunction.LLong1Long0Func<R> accessFunction) {
 		LLongPair tuple = accessLongPair();
-		R retval = accessFunction.doApplyLong1Long0(tuple.second(), tuple.first());
+		R retval = accessFunction.applyLong1Long0(tuple.second(), tuple.first());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiLongPredicate accessFunction) {
 		LLongPair tuple = accessLongPair();
-		boolean retval = accessFunction.doTest(tuple.first(), tuple.second());
+		boolean retval = accessFunction.test(tuple.first(), tuple.second());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiLongPredicate accessFunction) {
 		LLongPair tuple = accessLongPair();
-		boolean retval = accessFunction.doTest(tuple.second(), tuple.first());
+		boolean retval = accessFunction.test(tuple.second(), tuple.first());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default boolean useWith(LBiLongPredicate.LLong1Long0Pred accessFunction) {
 		LLongPair tuple = accessLongPair();
-		boolean retval = accessFunction.doTestLong1Long0(tuple.first(), tuple.second());
+		boolean retval = accessFunction.testLong1Long0(tuple.first(), tuple.second());
 		releaseLongPair(tuple);
 		return retval;
 	}
 
 	default boolean useWithO1(LBiLongPredicate.LLong1Long0Pred accessFunction) {
 		LLongPair tuple = accessLongPair();
-		boolean retval = accessFunction.doTestLong1Long0(tuple.second(), tuple.first());
+		boolean retval = accessFunction.testLong1Long0(tuple.second(), tuple.first());
 		releaseLongPair(tuple);
 		return retval;
 	}

@@ -89,8 +89,8 @@ public class LIntToCharFuncDelta extends LIntToCharFuncMemento {
 	}
 
 	@Override
-	public char doApplyAsChar(int a) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
+	public char applyAsChar(int a) {
+		return deltaFunction.applyAsChar(lastValue(), super.applyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

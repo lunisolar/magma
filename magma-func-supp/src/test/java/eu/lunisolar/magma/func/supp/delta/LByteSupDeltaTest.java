@@ -55,7 +55,7 @@ public class LByteSupDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doGetAsByte())
+        assertThat(sut.getAsByte())
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LByteSupDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doGetAsByte())
+        assertThat(sut.getAsByte())
             .isEqualTo((byte)9);
 
         assertThat(functionCallCount).isEqualTo(2);

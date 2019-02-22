@@ -80,8 +80,10 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDblProd
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static DoubleBinaryOperator dblBinaryOperatorFrom(Function<DoubleBinaryOperatorBuilder, DoubleBinaryOperator> buildingFunction) {
-		return buildingFunction.apply(new DoubleBinaryOperatorBuilder());
+	public static DoubleBinaryOperator dblBinaryOperatorFrom(Consumer<DoubleBinaryOperatorBuilder> buildingFunction) {
+		DoubleBinaryOperatorBuilder builder = new DoubleBinaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDblProd
 		retval = Function4U.dblBinaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiDblPredicate, DoubleBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2)) {
+					if (aCase.casePredicate().test(a1, a2)) {
 						return aCase.caseFunction().applyAsDouble(a1, a2);
 					}
 				}

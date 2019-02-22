@@ -89,8 +89,8 @@ public class LDblUnaryOpDelta extends LDblUnaryOpMemento {
 	}
 
 	@Override
-	public double doApplyAsDbl(double a) {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doApplyAsDbl(a));
+	public double applyAsDbl(double a) {
+		return deltaFunction.applyAsDbl(lastValue(), super.applyAsDbl(a));
 	}
 
 	// <editor-fold desc="object">

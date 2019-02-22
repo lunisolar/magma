@@ -69,7 +69,7 @@ public class LTieByteConsumerBuilderTest<T>{
                 .build()
             );
 
-            function.doAccept(100,100,(byte)100);
+            function.accept(100,100,(byte)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LTieByteConsumerBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(100,100,(byte)100);
+            function.accept(100,100,(byte)100);
 
             fail("No exception were thrown.");
         })

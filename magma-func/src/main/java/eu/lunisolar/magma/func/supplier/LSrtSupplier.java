@@ -64,131 +64,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing { // NOSONAR
+public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, Codomain<aShort>, Domain0 { // NOSONAR
 
-	String DESCRIPTION = "LSrtSupplier: short doGetAsSrt()";
+	String DESCRIPTION = "LSrtSupplier: short getAsSrt()";
 
-	// short doGetAsSrt() ;
-	default short doGetAsSrt() {
-		// return nestingDoGetAsSrt();
+	// short getAsSrt() ;
+	default short getAsSrt() {
+		// return nestingGetAsSrt();
 		try {
-			return this.doGetAsSrtX();
+			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doGetAsSrt()
+	 * Implement this, but call getAsSrt()
 	 */
-	short doGetAsSrtX() throws Throwable;
+	short getAsSrtX() throws Throwable;
 
 	default short tupleGetAsSrt(LTuple.Void args) {
-		return doGetAsSrt();
+		return getAsSrt();
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default short handlingDoGetAsSrt(HandlingInstructions<Throwable, RuntimeException> handling) {
+	default short handlingGetAsSrt(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doGetAsSrtX();
+			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default short tryDoGetAsSrt(@Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LSrtSupplier handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return () -> handlingGetAsSrt(handling);
+	}
+
+	default short getAsSrt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doGetAsSrtX();
+			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default short tryDoGetAsSrt(@Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LSrtSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return () -> getAsSrt(exF, newMessage, messageParams);
+	}
+
+	default short getAsSrt(@Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doGetAsSrtX();
+			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default short tryDoGetAsSrtThen(@Nonnull LToSrtFunction<Throwable> handler) {
+	default LSrtSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
+		return () -> getAsSrt(exF);
+	}
+
+	default short getAsSrtThen(@Nonnull LToSrtFunction<Throwable> handler) {
 		try {
-			return this.doGetAsSrtX();
+			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsSrt(e);
+			return handler.applyAsSrt(e);
 		}
+	}
+
+	default LSrtSupplier tryingThen(@Nonnull LToSrtFunction<Throwable> handler) {
+		return () -> getAsSrtThen(handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default short nestingDoGetAsSrt() {
+	default short nestingGetAsSrt() {
 		try {
-			return this.doGetAsSrtX();
+			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default short shovingDoGetAsSrt() {
+	default short shovingGetAsSrt() {
 		try {
-			return this.doGetAsSrtX();
+			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static short handlingDoGetAsSrt(LSrtSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static short handlingGetAsSrt(LSrtSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoGetAsSrt(handling);
+		return func.handlingGetAsSrt(handling);
 	}
 
-	static short tryDoGetAsSrt(LSrtSupplier func) {
-		return tryDoGetAsSrt(func, null);
-	}
-
-	static short tryDoGetAsSrt(LSrtSupplier func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static short tryGetAsSrt(LSrtSupplier func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsSrt(exceptionFactory, newMessage, messageParams);
+		return func.nestingGetAsSrt();
 	}
 
-	static short tryDoGetAsSrt(LSrtSupplier func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsSrt(exceptionFactory);
+		return func.getAsSrt(exF, newMessage, messageParams);
 	}
 
-	static short tryDoGetAsSrtThen(LSrtSupplier func, @Nonnull LToSrtFunction<Throwable> handler) {
+	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoGetAsSrtThen(handler);
+		return func.getAsSrt(exF);
 	}
 
-	default short failSafeDoGetAsSrt(@Nonnull LSrtSupplier failSafe) {
+	static short tryGetAsSrtThen(LSrtSupplier func, @Nonnull LToSrtFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.getAsSrtThen(handler);
+	}
+
+	default short failSafeGetAsSrt(@Nonnull LSrtSupplier failSafe) {
 		try {
-			return doGetAsSrt();
+			return getAsSrt();
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doGetAsSrt();
+			return failSafe.getAsSrt();
 		}
 	}
 
-	static short failSafeDoGetAsSrt(LSrtSupplier func, @Nonnull LSrtSupplier failSafe) {
+	static short failSafeGetAsSrt(LSrtSupplier func, @Nonnull LSrtSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doGetAsSrt();
+			return failSafe.getAsSrt();
 		} else {
-			return func.failSafeDoGetAsSrt(failSafe);
+			return func.failSafeGetAsSrt(failSafe);
 		}
 	}
 
-	static LSrtSupplier failSafeSrtSup(LSrtSupplier func, @Nonnull LSrtSupplier failSafe) {
+	static LSrtSupplier failSafe(LSrtSupplier func, @Nonnull LSrtSupplier failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeDoGetAsSrt(func, failSafe);
+		return () -> failSafeGetAsSrt(func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNullDoGetAsSrt() {
-		return doGetAsSrt();
+	default short nonNullGetAsSrt() {
+		return getAsSrt();
 	}
 
 	/** Returns description of the functional interface. */
@@ -200,13 +217,13 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, LSrtSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doGetAsSrt();
+				func.getAsSrt();
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doGetAsSrt();
+				func.getAsSrt();
 			}
 		}
 	}
@@ -214,19 +231,21 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, LSrtSupplier func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doGetAsSrt();
+				func.getAsSrt();
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doGetAsSrt();
+				func.getAsSrt();
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, LSrtSupplier func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, func);
 	}
 
@@ -245,7 +264,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	@Nonnull
 	static LSrtSupplier recursive(final @Nonnull LFunction<LSrtSupplier, LSrtSupplier> selfLambda) {
 		final LSrtSupplierSingle single = new LSrtSupplierSingle();
-		LSrtSupplier func = selfLambda.doApply(single);
+		LSrtSupplier func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -254,8 +273,8 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 		private LSrtSupplier target = null;
 
 		@Override
-		public short doGetAsSrtX() throws Throwable {
-			return target.doGetAsSrtX();
+		public short getAsSrtX() throws Throwable {
+			return target.getAsSrtX();
 		}
 
 		@Override
@@ -265,24 +284,24 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	}
 
 	@Nonnull
-	static LSrtSupplier srtSupThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LSrtSupplier srtSupThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LSrtSupplier srtSupThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LSrtSupplier srtSupThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return () -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static short call(final @Nonnull LSrtSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doGetAsSrt();
+		return lambda.getAsSrt();
 	}
 
 	// <editor-fold desc="wrap">
@@ -331,79 +350,68 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing { 
 	@Nonnull
 	default <V> LSupplier<V> toSup(@Nonnull LSrtFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApply(this.doGetAsSrt());
+		return () -> after.apply(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteSupplier toByteSup(@Nonnull LSrtToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsByte(this.doGetAsSrt());
+		return () -> after.applyAsByte(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LSrtSupplier toSrtSup(@Nonnull LSrtUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsSrt(this.doGetAsSrt());
+		return () -> after.applyAsSrt(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntSupplier toIntSup(@Nonnull LSrtToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsInt(this.doGetAsSrt());
+		return () -> after.applyAsInt(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongSupplier toLongSup(@Nonnull LSrtToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsLong(this.doGetAsSrt());
+		return () -> after.applyAsLong(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFltSupplier toFltSup(@Nonnull LSrtToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsFlt(this.doGetAsSrt());
+		return () -> after.applyAsFlt(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDblSupplier toDblSup(@Nonnull LSrtToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsDbl(this.doGetAsSrt());
+		return () -> after.applyAsDbl(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharSupplier toCharSup(@Nonnull LSrtToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsChar(this.doGetAsSrt());
+		return () -> after.applyAsChar(this.getAsSrt());
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolSupplier toBoolSup(@Nonnull LSrtPredicate after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doTest(this.doGetAsSrt());
+		return () -> after.test(this.getAsSrt());
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LSrtSupplier nestingSrtSup() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSrtSupplier shovingSrtSup() {
-		return this;
-	}
 
 	// </editor-fold>
 

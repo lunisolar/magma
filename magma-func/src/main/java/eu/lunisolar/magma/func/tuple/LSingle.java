@@ -34,17 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LSingle<T> extends LTuple<T> {
+public interface LSingle<T> extends LTuple<Object> {
 
 	int SIZE = 1;
 
 	T value();
 
-	default T getValue() {
+	default T first() {
 		return value();
 	}
 
-	default T get(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -89,27 +89,8 @@ public interface LSingle<T> extends LTuple<T> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = value();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	@Override
-	default Iterator<T> iterator() {
-		return new Iterator<T>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -119,7 +100,7 @@ public interface LSingle<T> extends LTuple<T> {
 			}
 
 			@Override
-			public T next() {
+			public Object next() {
 				index++;
 				return get(index);
 			}
@@ -155,7 +136,7 @@ public interface LSingle<T> extends LTuple<T> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getValue());
+			sb.append(value());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -197,7 +178,7 @@ public interface LSingle<T> extends LTuple<T> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutSingle<T> setValueIfArg(T value, LPredicate<T> predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -206,14 +187,14 @@ public interface LSingle<T> extends LTuple<T> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutSingle<T> setValueIfArgNotNull(R arg, LFunction<R, T> func) {
 			if (arg != null) {
-				this.value = func.doApply(arg);
+				this.value = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutSingle<T> setValueIf(LPredicate<T> predicate, T value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -222,7 +203,7 @@ public interface LSingle<T> extends LTuple<T> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutSingle<T> setValueIf(T value, LBiPredicate<T, T> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -231,7 +212,7 @@ public interface LSingle<T> extends LTuple<T> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutSingle<T> setValueIf(LBiPredicate<T, T> predicate, T value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;
@@ -277,7 +258,7 @@ public interface LSingle<T> extends LTuple<T> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompSingle<T> setValueIfArg(T value, LPredicate<T> predicate) {
-			if (predicate.doTest(value)) {
+			if (predicate.test(value)) {
 				this.value = value;
 			}
 			return this;
@@ -286,14 +267,14 @@ public interface LSingle<T> extends LTuple<T> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompSingle<T> setValueIfArgNotNull(R arg, LFunction<R, T> func) {
 			if (arg != null) {
-				this.value = func.doApply(arg);
+				this.value = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompSingle<T> setValueIf(LPredicate<T> predicate, T value) {
-			if (predicate.doTest(this.value)) {
+			if (predicate.test(this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -302,7 +283,7 @@ public interface LSingle<T> extends LTuple<T> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompSingle<T> setValueIf(T value, LBiPredicate<T, T> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(value, this.value)) {
+			if (predicate.test(value, this.value)) {
 				this.value = value;
 			}
 			return this;
@@ -311,7 +292,7 @@ public interface LSingle<T> extends LTuple<T> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompSingle<T> setValueIf(LBiPredicate<T, T> predicate, T value) {
 
-			if (predicate.doTest(this.value, value)) {
+			if (predicate.test(this.value, value)) {
 				this.value = value;
 			}
 			return this;

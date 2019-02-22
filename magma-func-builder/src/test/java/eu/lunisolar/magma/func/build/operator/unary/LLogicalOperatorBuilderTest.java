@@ -69,7 +69,7 @@ public class LLogicalOperatorBuilderTest{
                 .build()
             );
 
-            function.doApply(true);
+            function.apply(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LLogicalOperatorBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApply(true);
+            function.apply(true);
 
             fail("No exception were thrown.");
         })

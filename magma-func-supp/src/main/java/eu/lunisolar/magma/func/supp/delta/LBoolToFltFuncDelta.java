@@ -89,8 +89,8 @@ public class LBoolToFltFuncDelta extends LBoolToFltFuncMemento {
 	}
 
 	@Override
-	public float doApplyAsFlt(boolean a) {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doApplyAsFlt(a));
+	public float applyAsFlt(boolean a) {
+		return deltaFunction.applyAsFlt(lastValue(), super.applyAsFlt(a));
 	}
 
 	// <editor-fold desc="object">

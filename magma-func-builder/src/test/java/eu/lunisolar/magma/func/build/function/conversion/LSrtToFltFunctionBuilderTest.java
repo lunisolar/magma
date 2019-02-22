@@ -69,7 +69,7 @@ public class LSrtToFltFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsFlt((short)100);
+            function.applyAsFlt((short)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSrtToFltFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsFlt((short)100);
+            function.applyAsFlt((short)100);
 
             fail("No exception were thrown.");
         })

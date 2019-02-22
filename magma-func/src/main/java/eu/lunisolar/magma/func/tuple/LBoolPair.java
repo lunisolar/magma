@@ -34,34 +34,19 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiBoolConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolPair extends LTuple<Boolean> {
+public interface LBoolPair extends LTuple<Object>, LBoolSingle {
 
 	int SIZE = 2;
 
 	boolean first();
 
-	boolean second();
-
-	default boolean getFirst() {
+	default boolean value() {
 		return first();
 	}
 
-	default boolean getSecond() {
-		return second();
-	}
+	boolean second();
 
-	default Boolean get(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
-
-	default boolean getBoolean(int index) {
+	default Object get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -110,69 +95,8 @@ public interface LBoolPair extends LTuple<Boolean> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	default Boolean[] toVoArray(Boolean[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Boolean[] toVoArray(Boolean[] array) {
-		return toVoArray(array, 0);
-	}
-
-	default Boolean[] toVoArray() {
-		Boolean[] array = new Boolean[size()];
-
-		return toVoArray(array);
-	}
-
-	default boolean[] toBoolArray(boolean[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default boolean[] toBoolArray(boolean[] array) {
-		return toBoolArray(array, 0);
-	}
-
-	default boolean[] toBoolArray() {
-		boolean[] array = new boolean[size()];
-
-		return toBoolArray(array);
-	}
-
-	@Override
-	default Iterator<Boolean> iterator() {
-		return new Iterator<Boolean>() {
+	default Iterator<Object> iterator() {
+		return new Iterator<Object>() {
 
 			private int index;
 
@@ -182,7 +106,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 			}
 
 			@Override
-			public Boolean next() {
+			public Object next() {
 				index++;
 				return get(index);
 			}
@@ -219,9 +143,9 @@ public interface LBoolPair extends LTuple<Boolean> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -274,7 +198,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutBoolPair setFirstIfArg(boolean first, LLogicalOperator predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.apply(first)) {
 				this.first = first;
 			}
 			return this;
@@ -283,14 +207,14 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutBoolPair setFirstIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.first = func.doTest(arg);
+				this.first = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutBoolPair setFirstIf(LLogicalOperator predicate, boolean first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.apply(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -299,7 +223,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutBoolPair setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.apply(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -308,7 +232,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutBoolPair setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.apply(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -321,7 +245,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutBoolPair setSecondIfArg(boolean second, LLogicalOperator predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.apply(second)) {
 				this.second = second;
 			}
 			return this;
@@ -330,14 +254,14 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutBoolPair setSecondIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.second = func.doTest(arg);
+				this.second = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutBoolPair setSecondIf(LLogicalOperator predicate, boolean second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.apply(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -346,7 +270,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutBoolPair setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.apply(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -355,7 +279,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutBoolPair setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.apply(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -413,7 +337,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompBoolPair setFirstIfArg(boolean first, LLogicalOperator predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.apply(first)) {
 				this.first = first;
 			}
 			return this;
@@ -422,14 +346,14 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompBoolPair setFirstIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.first = func.doTest(arg);
+				this.first = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompBoolPair setFirstIf(LLogicalOperator predicate, boolean first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.apply(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -438,7 +362,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompBoolPair setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.apply(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -447,7 +371,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompBoolPair setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.apply(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -460,7 +384,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompBoolPair setSecondIfArg(boolean second, LLogicalOperator predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.apply(second)) {
 				this.second = second;
 			}
 			return this;
@@ -469,14 +393,14 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompBoolPair setSecondIfArgNotNull(R arg, LPredicate<R> func) {
 			if (arg != null) {
-				this.second = func.doTest(arg);
+				this.second = func.test(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompBoolPair setSecondIf(LLogicalOperator predicate, boolean second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.apply(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -485,7 +409,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompBoolPair setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.apply(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -494,7 +418,7 @@ public interface LBoolPair extends LTuple<Boolean> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompBoolPair setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.apply(this.second, second)) {
 				this.second = second;
 			}
 			return this;

@@ -89,8 +89,8 @@ public class LByteToCharFuncDelta extends LByteToCharFuncMemento {
 	}
 
 	@Override
-	public char doApplyAsChar(byte a) {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doApplyAsChar(a));
+	public char applyAsChar(byte a) {
+		return deltaFunction.applyAsChar(lastValue(), super.applyAsChar(a));
 	}
 
 	// <editor-fold desc="object">

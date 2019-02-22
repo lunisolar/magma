@@ -65,7 +65,7 @@ public class LSrtToCharFunctionTest {
 
 
     private LSrtToCharFunction sut = new LSrtToCharFunction(){
-        public  char doApplyAsCharX(short a)  {
+        public  char applyAsCharX(short a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LSrtToCharFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsChar((short)100))
+        assertThat(sut.applyAsChar((short)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LSrtToCharFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsChar((short)100))
+    public void testNonNullApplyAsChar() throws Throwable {
+        assertThat(sut.nonNullApplyAsChar((short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsCharUnchecked() throws Throwable {
+    public void testNestingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsChar((short)100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsChar((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LSrtToCharFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsCharUnchecked() throws Throwable {
+    public void testShovingApplyAsCharUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsChar((short)100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsChar((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LSrtToCharFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtToCharFunction: char doApplyAsChar(short a)");
+            .isEqualTo("LSrtToCharFunction: char applyAsChar(short a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LSrtToCharFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testSrtToCharFuncComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LSrtToCharFunctionTest {
         };
 
         //when
-        LSrtToCharFunction function = sutO.srtToCharFuncComposeSrt(before);
-        function.doApplyAsChar((short)80);
+        LSrtToCharFunction function = sutO.compose(before);
+        function.applyAsChar((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LToCharFunction<Integer> function = sutO.srtToCharFuncCompose(before);
-        function.doApplyAsChar(80);
+        function.applyAsChar(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((short)80);
+        Integer finalValue = function.apply((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((short)80);
+        byte finalValue = function.applyAsByte((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtUnaryOperator function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((short)80);
+        short finalValue = function.applyAsSrt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((short)80);
+        int finalValue = function.applyAsInt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((short)80);
+        long finalValue = function.applyAsLong((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt((short)80);
+        float finalValue = function.applyAsFlt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl((short)80);
+        double finalValue = function.applyAsDbl((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((short)80);
+        char finalValue = function.applyAsChar((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LSrtToCharFunctionTest {
 
         //when
         LSrtPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((short)80);
+        boolean finalValue = function.test((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LSrtToCharFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingSrtToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtToCharFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingSrtToCharFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtToCharFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LSrtToCharFunctionTest {
         });
 
         // when
-        sutThrowing.shovingSrtToCharFunc().doApplyAsChar((short)100);
+        sutThrowing.shovingApplyAsChar((short)100);
     }
 
 
@@ -563,7 +549,7 @@ public class LSrtToCharFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSrtToCharFunction: char doApplyAsChar(short a)");
+                .contains("LSrtToCharFunction: char applyAsChar(short a)");
     }
 
 

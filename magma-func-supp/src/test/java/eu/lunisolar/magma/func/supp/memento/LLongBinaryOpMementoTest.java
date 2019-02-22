@@ -54,7 +54,7 @@ public class LLongBinaryOpMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0L);
 
-        assertThat(sut.doApplyAsLong(100L,100L))
+        assertThat(sut.applyAsLong(100L,100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LLongBinaryOpMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsLong(100L,100L))
+        assertThat(sut.applyAsLong(100L,100L))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

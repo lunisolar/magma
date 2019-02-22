@@ -54,7 +54,7 @@ public class LDblToFltFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0f);
 
-        assertThat(sut.doApplyAsFlt(100d))
+        assertThat(sut.applyAsFlt(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LDblToFltFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt(100d))
+        assertThat(sut.applyAsFlt(100d))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

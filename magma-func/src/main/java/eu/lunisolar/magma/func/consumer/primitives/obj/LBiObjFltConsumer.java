@@ -66,127 +66,144 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThrowing {
+public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThrowing, Codomain<aVoid>, Domain3<a<T1>, a<T2>, aFloat> {
 
-	String DESCRIPTION = "LBiObjFltConsumer: void doAccept(T1 a1,T2 a2,float a3)";
+	String DESCRIPTION = "LBiObjFltConsumer: void accept(T1 a1,T2 a2,float a3)";
 
-	// void doAccept(T1 a1,T2 a2,float a3) ;
-	default void doAccept(T1 a1, T2 a2, float a3) {
-		// nestingDoAccept(a1,a2,a3);
+	// void accept(T1 a1,T2 a2,float a3) ;
+	default void accept(T1 a1, T2 a2, float a3) {
+		// nestingAccept(a1,a2,a3);
 		try {
-			this.doAcceptX(a1, a2, a3);
+			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doAccept(T1 a1,T2 a2,float a3)
+	 * Implement this, but call accept(T1 a1,T2 a2,float a3)
 	 */
-	void doAcceptX(T1 a1, T2 a2, float a3) throws Throwable;
+	void acceptX(T1 a1, T2 a2, float a3) throws Throwable;
 
 	default LTuple.Void tupleAccept(LBiObjFltTriple<T1, T2> args) {
-		doAccept(args.first(), args.second(), args.third());
+		accept(args.first(), args.second(), args.third());
 		return LTuple.Void.INSTANCE;
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default void handlingDoAccept(T1 a1, T2 a2, float a3, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default void handlingAccept(T1 a1, T2 a2, float a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			this.doAcceptX(a1, a2, a3);
+			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default void tryDoAccept(T1 a1, T2 a2, float a3, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiObjFltConsumer<T1, T2> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2, a3) -> handlingAccept(a1, a2, a3, handling);
+	}
+
+	default void accept(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			this.doAcceptX(a1, a2, a3);
+			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default void tryDoAccept(T1 a1, T2 a2, float a3, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiObjFltConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, exF, newMessage, messageParams);
+	}
+
+	default void accept(T1 a1, T2 a2, float a3, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			this.doAcceptX(a1, a2, a3);
+			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default void tryDoAcceptThen(T1 a1, T2 a2, float a3, @Nonnull LConsumer<Throwable> handler) {
+	default LBiObjFltConsumer<T1, T2> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, exF);
+	}
+
+	default void acceptThen(T1 a1, T2 a2, float a3, @Nonnull LConsumer<Throwable> handler) {
 		try {
-			this.doAcceptX(a1, a2, a3);
+			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			handler.doAccept(e);
+			handler.accept(e);
 		}
+	}
+
+	default LBiObjFltConsumer<T1, T2> tryingThen(@Nonnull LConsumer<Throwable> handler) {
+		return (a1, a2, a3) -> acceptThen(a1, a2, a3, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default void nestingDoAccept(T1 a1, T2 a2, float a3) {
+	default void nestingAccept(T1 a1, T2 a2, float a3) {
 		try {
-			this.doAcceptX(a1, a2, a3);
+			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default void shovingDoAccept(T1 a1, T2 a2, float a3) {
+	default void shovingAccept(T1 a1, T2 a2, float a3) {
 		try {
-			this.doAcceptX(a1, a2, a3);
+			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <T1, T2> void handlingDoAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2> void handlingAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		func.handlingDoAccept(a1, a2, a3, handling);
+		func.handlingAccept(a1, a2, a3, handling);
 	}
 
-	static <T1, T2> void tryDoAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func) {
-		tryDoAccept(a1, a2, a3, func, null);
-	}
-
-	static <T1, T2> void tryDoAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a1, a2, a3, exceptionFactory, newMessage, messageParams);
+		func.nestingAccept(a1, a2, a3);
 	}
 
-	static <T1, T2> void tryDoAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAccept(a1, a2, a3, exceptionFactory);
+		func.accept(a1, a2, a3, exF, newMessage, messageParams);
 	}
 
-	static <T1, T2> void tryDoAcceptThen(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull LConsumer<Throwable> handler) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		func.tryDoAcceptThen(a1, a2, a3, handler);
+		func.accept(a1, a2, a3, exF);
 	}
 
-	default void failSafeDoAccept(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
+	static <T1, T2> void tryAcceptThen(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull LConsumer<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		func.acceptThen(a1, a2, a3, handler);
+	}
+
+	default void failSafeAccept(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
 		try {
-			doAccept(a1, a2, a3);
+			accept(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			failSafe.doAccept(a1, a2, a3);
+			failSafe.accept(a1, a2, a3);
 		}
 	}
 
-	static <T1, T2> void failSafeDoAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
+	static <T1, T2> void failSafeAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			failSafe.doAccept(a1, a2, a3);
+			failSafe.accept(a1, a2, a3);
 		} else {
-			func.failSafeDoAccept(a1, a2, a3, failSafe);
+			func.failSafeAccept(a1, a2, a3, failSafe);
 		}
 	}
 
-	static <T1, T2> LBiObjFltConsumer<T1, T2> failSafeBiObjFltCons(LBiObjFltConsumer<T1, T2> func, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
+	static <T1, T2> LBiObjFltConsumer<T1, T2> failSafe(LBiObjFltConsumer<T1, T2> func, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeDoAccept(a1, a2, a3, func, failSafe);
+		return (a1, a2, a3) -> failSafeAccept(a1, a2, a3, func, failSafe);
 	}
 
 	/** Returns description of the functional interface. */
@@ -198,13 +215,13 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doAccept(a1, a2, a3);
+				func.accept(a1, a2, a3);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doAccept(a1, a2, a3);
+				func.accept(a1, a2, a3);
 			}
 		}
 	}
@@ -212,28 +229,30 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doAccept(a1, a2, a3);
+				func.accept(a1, a2, a3);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doAccept(a1, a2, a3);
+				func.accept(a1, a2, a3);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	public default LObjFltConsumer<T2> lShrink(LObjFltFunction<T2, T1> left) {
-		return (a2, a3) -> doAccept(left.doApply(a2, a3), a2, a3);
+		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
 	}
 
 	public default LObjFltConsumer<T2> lShrinkc(T1 a1) {
-		return (a2, a3) -> doAccept(a1, a2, a3);
+		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
 	public static <T2, T1> LObjFltConsumer<T2> lShrinked(LObjFltFunction<T2, T1> left, LBiObjFltConsumer<T1, T2> func) {
@@ -245,11 +264,11 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	public default LBiConsumer<T1, T2> rShrink(LToFltBiFunction<T1, T2> right) {
-		return (a1, a2) -> doAccept(a1, a2, right.doApplyAsFlt(a1, a2));
+		return (a1, a2) -> accept(a1, a2, right.applyAsFlt(a1, a2));
 	}
 
 	public default LBiConsumer<T1, T2> rShrinkc(float a3) {
-		return (a1, a2) -> doAccept(a1, a2, a3);
+		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
 	public static <T1, T2> LBiConsumer<T1, T2> rShrinked(LToFltBiFunction<T1, T2> right, LBiObjFltConsumer<T1, T2> func) {
@@ -261,31 +280,46 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	/**  */
-	public static <T1, T2> LBiObjFltConsumer<T1, T2> uncurryBiObjFltCons(LFunction<T1, LFunction<T2, LFltConsumer>> func) {
-		return (T1 a1, T2 a2, float a3) -> func.doApply(a1).doApply(a2).doAccept(a3);
+	public static <T1, T2> LBiObjFltConsumer<T1, T2> uncurry(LFunction<T1, LFunction<T2, LFltConsumer>> func) {
+		return (T1 a1, T2 a2, float a3) -> func.apply(a1).apply(a2).accept(a3);
+	}
+
+	/** Cast that removes generics. */
+	public default LBiObjFltConsumer untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2, V3> LBiObjFltConsumer<V2, V3> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, V3, T1, T2> LBiObjFltConsumer<V2, V3> cast(LBiObjFltConsumer<T1, T2> function) {
+		return (LBiObjFltConsumer) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBiObjFltCons(T1 a1, T2 a2, float a3) {
-		return () -> this.doAccept(a1, a2, a3);
+	default LAction capture(T1 a1, T2 a2, float a3) {
+		return () -> this.accept(a1, a2, a3);
 	}
 
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjFltConsumer<T1, T2> accept1st(@Nonnull LConsumer<T1> func) {
-		return (a1, a2, a3) -> func.doAccept(a1);
+		return (a1, a2, a3) -> func.accept(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjFltConsumer<T1, T2> accept2nd(@Nonnull LConsumer<T2> func) {
-		return (a1, a2, a3) -> func.doAccept(a2);
+		return (a1, a2, a3) -> func.accept(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2> LBiObjFltConsumer<T1, T2> accept3rd(@Nonnull LFltConsumer func) {
-		return (a1, a2, a3) -> func.doAccept(a3);
+		return (a1, a2, a3) -> func.accept(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -298,7 +332,7 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	@Nonnull
 	static <T1, T2> LBiObjFltConsumer<T1, T2> recursive(final @Nonnull LFunction<LBiObjFltConsumer<T1, T2>, LBiObjFltConsumer<T1, T2>> selfLambda) {
 		final LBiObjFltConsumerSingle<T1, T2> single = new LBiObjFltConsumerSingle();
-		LBiObjFltConsumer<T1, T2> func = selfLambda.doApply(single);
+		LBiObjFltConsumer<T1, T2> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -307,8 +341,8 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		private LBiObjFltConsumer<T1, T2> target = null;
 
 		@Override
-		public void doAcceptX(T1 a1, T2 a2, float a3) throws Throwable {
-			target.doAcceptX(a1, a2, a3);
+		public void acceptX(T1 a1, T2 a2, float a3) throws Throwable {
+			target.acceptX(a1, a2, a3);
 		}
 
 		@Override
@@ -318,18 +352,18 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	@Nonnull
-	static <T1, T2> LBiObjFltConsumer<T1, T2> biObjFltConsThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T1, T2> LBiObjFltConsumer<T1, T2> biObjFltConsThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <T1, T2> LBiObjFltConsumer<T1, T2> biObjFltConsThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T1, T2> LBiObjFltConsumer<T1, T2> biObjFltConsThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -337,35 +371,35 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LObjFltObj1Cons<T1, T2> objFltObj1Cons(final @Nonnull LObjFltObj1Cons<T1, T2> lambda) {
+	static <T1, T2> LObj0Flt2Obj1Cons<T1, T2> obj0Flt2Obj1Cons(final @Nonnull LObj0Flt2Obj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Obj0FltCons<T2, T1> obj1Obj0FltCons(final @Nonnull LObj1Obj0FltCons<T2, T1> lambda) {
+	static <T2, T1> LObj1Obj0Flt2Cons<T2, T1> obj1Obj0Flt2Cons(final @Nonnull LObj1Obj0Flt2Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1FltObj0Cons<T2, T1> obj1FltObj0Cons(final @Nonnull LObj1FltObj0Cons<T2, T1> lambda) {
+	static <T2, T1> LObj1Flt2Obj0Cons<T2, T1> obj1Flt2Obj0Cons(final @Nonnull LObj1Flt2Obj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LFltObj0Obj1Cons<T1, T2> fltObj0Obj1Cons(final @Nonnull LFltObj0Obj1Cons<T1, T2> lambda) {
+	static <T1, T2> LFlt2Obj0Obj1Cons<T1, T2> flt2Obj0Obj1Cons(final @Nonnull LFlt2Obj0Obj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LFltObjObj0Cons<T2, T1> fltObjObj0Cons(final @Nonnull LFltObjObj0Cons<T2, T1> lambda) {
+	static <T2, T1> LFlt2Obj1Obj0Cons<T2, T1> flt2Obj1Obj0Cons(final @Nonnull LFlt2Obj1Obj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -374,7 +408,7 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	static <T1, T2> void call(T1 a1, T2 a2, float a3, final @Nonnull LBiObjFltConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		lambda.doAccept(a1, a2, a3);
+		lambda.accept(a1, a2, a3);
 	}
 
 	// <editor-fold desc="wrap">
@@ -421,16 +455,16 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjFltConsumer<V1, V2> biObjFltConsComposeFlt(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFltUnaryOperator before3) {
+	default <V1, V2> LBiObjFltConsumer<V1, V2> compose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFltUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFlt(v3));
+		return (v1, v2, v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsFlt(v3));
 	}
 
-	public static <V1, V2, T1, T2> LBiObjFltConsumer<V1, V2> composedFlt(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFltUnaryOperator before3,
+	public static <V1, V2, T1, T2> LBiObjFltConsumer<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFltUnaryOperator before3,
 			LBiObjFltConsumer<T1, T2> after) {
-		return after.biObjFltConsComposeFlt(before1, before2, before3);
+		return after.compose(before1, before2, before3);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -439,7 +473,7 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFlt(v3));
+		return (v1, v2, v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsFlt(v3));
 	}
 
 	public static <V1, V2, V3, T1, T2> LTriConsumer<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToFltFunction<? super V3> before3,
@@ -456,8 +490,8 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	default LBiObjFltConsumer<T1, T2> andThen(@Nonnull LBiObjFltConsumer<? super T1, ? super T2> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> {
-			this.doAccept(a1, a2, a3);
-			after.doAccept(a1, a2, a3);
+			this.accept(a1, a2, a3);
+			after.accept(a1, a2, a3);
 		};
 	}
 
@@ -465,78 +499,67 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiObjFltConsumer<T1, T2> nestingBiObjFltCons() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjFltConsumer<T1, T2> shovingBiObjFltCons() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="interface variants">
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
-	interface LObjFltObj1Cons<T1, T2> extends LBiObjFltConsumer<T1, T2> {
+	interface LObj0Flt2Obj1Cons<T1, T2> extends LBiObjFltConsumer<T1, T2> {
 
-		void doAcceptObjFltObj1(T1 a1, float a3, T2 a2);
+		void acceptObj0Flt2Obj1(T1 a1, float a3, T2 a2);
 
 		@Override
-		default void doAcceptX(T1 a1, T2 a2, float a3) {
-			this.doAcceptObjFltObj1(a1, a3, a2);
+		default void acceptX(T1 a1, T2 a2, float a3) {
+			this.acceptObj0Flt2Obj1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
-	interface LObj1Obj0FltCons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
+	interface LObj1Obj0Flt2Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
 
-		void doAcceptObj1Obj0Flt(T2 a2, T1 a1, float a3);
+		void acceptObj1Obj0Flt2(T2 a2, T1 a1, float a3);
 
 		@Override
-		default void doAcceptX(T1 a1, T2 a2, float a3) {
-			this.doAcceptObj1Obj0Flt(a2, a1, a3);
+		default void acceptX(T1 a1, T2 a2, float a3) {
+			this.acceptObj1Obj0Flt2(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
-	interface LObj1FltObj0Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
+	interface LObj1Flt2Obj0Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
 
-		void doAcceptObj1FltObj0(T2 a2, float a3, T1 a1);
+		void acceptObj1Flt2Obj0(T2 a2, float a3, T1 a1);
 
 		@Override
-		default void doAcceptX(T1 a1, T2 a2, float a3) {
-			this.doAcceptObj1FltObj0(a2, a3, a1);
+		default void acceptX(T1 a1, T2 a2, float a3) {
+			this.acceptObj1Flt2Obj0(a2, a3, a1);
 		}
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
-	interface LFltObj0Obj1Cons<T1, T2> extends LBiObjFltConsumer<T1, T2> {
+	interface LFlt2Obj0Obj1Cons<T1, T2> extends LBiObjFltConsumer<T1, T2> {
 
-		void doAcceptFltObj0Obj1(float a3, T1 a1, T2 a2);
+		void acceptFlt2Obj0Obj1(float a3, T1 a1, T2 a2);
 
 		@Override
-		default void doAcceptX(T1 a1, T2 a2, float a3) {
-			this.doAcceptFltObj0Obj1(a3, a1, a2);
+		default void acceptX(T1 a1, T2 a2, float a3) {
+			this.acceptFlt2Obj0Obj1(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
-	interface LFltObjObj0Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
+	interface LFlt2Obj1Obj0Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
 
-		void doAcceptFltObjObj0(float a3, T2 a2, T1 a1);
+		void acceptFlt2Obj1Obj0(float a3, T2 a2, T1 a1);
 
 		@Override
-		default void doAcceptX(T1 a1, T2 a2, float a3) {
-			this.doAcceptFltObjObj0(a3, a2, a1);
+		default void acceptX(T1 a1, T2 a2, float a3) {
+			this.acceptFlt2Obj1Obj0(a3, a2, a1);
 		}
 	}
 
@@ -547,18 +570,21 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		// NOSONAR
 	}
 
-	/** Does nothing (LBiObjFltConsumer.LObjFltObj1Cons) */
+	/** Does nothing (LBiObjFltConsumer.LObj0Flt2Obj1Cons) */
 	public static <T1, T2> void doNothing(T1 a1, float a3, T2 a2) {
 		// NOSONAR
 	}
 
-	/** Does nothing (LBiObjFltConsumer.LFltObj0Obj1Cons) */
+	/** Does nothing (LBiObjFltConsumer.LFlt2Obj0Obj1Cons) */
 	public static <T1, T2> void doNothing(float a3, T1 a1, T2 a2) {
 		// NOSONAR
 	}
 
-	// JUST_CONSUME: FOR, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=float a3, type=IA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2, C3, T1, T2> int forEach(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aFloat> ia3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
@@ -568,176 +594,200 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		LOiToFltFunction<Object> oiFunc3 = (LOiToFltFunction) ia3.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			float a3 = oiFunc3.doApplyAsFlt(source3, i);
-			consumer.doAccept(a1, a2, a3);
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = oiFunc2.apply(source2, i);
+			float a3 = oiFunc3.applyAsFlt(source3, i);
+			consumer.accept(a1, a2, a3);
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=float a3, type=IA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2, C3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aFloat> ia3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
 		size = Integer.min(size, ia3.size(source3));
 		LOiToFltFunction<Object> oiFunc3 = (LOiToFltFunction) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			float a3 = oiFunc3.doApplyAsFlt(source3, i);
-			consumer.doAccept(a1, a2, a3);
+		while (testFunc1.test(iterator1) && i < size) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = oiFunc2.apply(source2, i);
+			float a3 = oiFunc3.applyAsFlt(source3, i);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=float a3, type=IA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2, I2, C3, T1, T2> int iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aFloat> ia3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
 		size = Integer.min(size, ia3.size(source3));
 		LOiToFltFunction<Object> oiFunc3 = (LOiToFltFunction) ia3.getter();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			float a3 = oiFunc3.doApplyAsFlt(source3, i);
-			consumer.doAccept(a1, a2, a3);
+		while (i < size && testFunc2.test(iterator2)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = nextFunc2.apply(iterator2);
+			float a3 = oiFunc3.applyAsFlt(source3, i);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=float a3, type=IA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2, I2, C3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aFloat> ia3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
 		int size = ia3.size(source3);
 		LOiToFltFunction<Object> oiFunc3 = (LOiToFltFunction) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && i < size) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			float a3 = oiFunc3.doApplyAsFlt(source3, i);
-			consumer.doAccept(a1, a2, a3);
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && i < size) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = nextFunc2.apply(iterator2);
+			float a3 = oiFunc3.applyAsFlt(source3, i);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=float a3, type=SA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2, C3, I3, T1, T2> int iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aFloat> sa3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.getter();
+		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc3.doTest(iterator3)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			float a3 = nextFunc3.doApplyAsFlt(iterator3);
-			consumer.doAccept(a1, a2, a3);
+		while (i < size && testFunc3.test(iterator3)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = oiFunc2.apply(source2, i);
+			float a3 = nextFunc3.applyAsFlt(iterator3);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=float a3, type=SA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2, C3, I3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aFloat> sa3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.getter();
+		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.supplier();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size && testFunc3.doTest(iterator3)) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = oiFunc2.doApply(source2, i);
-			float a3 = nextFunc3.doApplyAsFlt(iterator3);
-			consumer.doAccept(a1, a2, a3);
+		while (testFunc1.test(iterator1) && i < size && testFunc3.test(iterator3)) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = oiFunc2.apply(source2, i);
+			float a3 = nextFunc3.applyAsFlt(iterator3);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=float a3, type=SA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns iterations count
+	*/
 	public static <C1, C2, I2, C3, I3, T1, T2> int iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aFloat> sa3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.getter();
+		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			float a3 = nextFunc3.doApplyAsFlt(iterator3);
-			consumer.doAccept(a1, a2, a3);
+		while (i < size && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			T2 a2 = nextFunc2.apply(iterator2);
+			float a3 = nextFunc3.applyAsFlt(iterator3);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return i;
 
 	}
 
-	// JUST_CONSUME: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=float a3, type=SA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns iterations count
+	*/
 	public static <C1, I1, C2, I2, C3, I3, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aFloat> sa3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.getter();
+		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.supplier();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			T2 a2 = nextFunc2.doApply(iterator2);
-			float a3 = nextFunc3.doApplyAsFlt(iterator3);
-			consumer.doAccept(a1, a2, a3);
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			T2 a2 = nextFunc2.apply(iterator2);
+			float a3 = nextFunc3.applyAsFlt(iterator3);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return i;
 
 	}
 
-	// CONSUME_WITH_TARGET: FOR, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=float a3, type=IA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns 'target' object
+	*/
 	public static <T1, C2, C3, T2> T1 targetedForEach(T1 a1, IndexedRead<C2, a<T2>> ia2, C2 source2, IndexedRead<C3, aFloat> ia3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
 		int size = ia2.size(source2);
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
@@ -745,65 +795,74 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		LOiToFltFunction<Object> oiFunc3 = (LOiToFltFunction) ia3.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T2 a2 = oiFunc2.doApply(source2, i);
-			float a3 = oiFunc3.doApplyAsFlt(source3, i);
-			consumer.doAccept(a1, a2, a3);
+			T2 a2 = oiFunc2.apply(source2, i);
+			float a3 = oiFunc3.applyAsFlt(source3, i);
+			consumer.accept(a1, a2, a3);
 		}
 		return a1;
 
 	}
 
-	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=float a3, type=IA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns 'target' object
+	*/
 	public static <T1, C2, I2, C3, T2> T1 targetedIterate(T1 a1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, IndexedRead<C3, aFloat> ia3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
 		int size = ia3.size(source3);
 		LOiToFltFunction<Object> oiFunc3 = (LOiToFltFunction) ia3.getter();
 		int i = 0;
-		while (testFunc2.doTest(iterator2) && i < size) {
-			T2 a2 = nextFunc2.doApply(iterator2);
-			float a3 = oiFunc3.doApplyAsFlt(source3, i);
-			consumer.doAccept(a1, a2, a3);
+		while (testFunc2.test(iterator2) && i < size) {
+			T2 a2 = nextFunc2.apply(iterator2);
+			float a3 = oiFunc3.applyAsFlt(source3, i);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return a1;
 
 	}
 
-	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=IA}, SourcePurpose{arg=float a3, type=SA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	* @returns 'target' object
+	*/
 	public static <T1, C2, C3, I3, T2> T1 targetedIterate(T1 a1, IndexedRead<C2, a<T2>> ia2, C2 source2, SequentialRead<C3, I3, aFloat> sa3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
 		int size = ia2.size(source2);
 		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.getter();
+		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc3.doTest(iterator3)) {
-			T2 a2 = oiFunc2.doApply(source2, i);
-			float a3 = nextFunc3.doApplyAsFlt(iterator3);
-			consumer.doAccept(a1, a2, a3);
+		while (i < size && testFunc3.test(iterator3)) {
+			T2 a2 = oiFunc2.apply(source2, i);
+			float a3 = nextFunc3.applyAsFlt(iterator3);
+			consumer.accept(a1, a2, a3);
 			i++;
 		}
 		return a1;
 
 	}
 
-	// CONSUME_WITH_TARGET: WHILE, [SourcePurpose{arg=T1 a1, type=CONST}, SourcePurpose{arg=T2 a2, type=SA}, SourcePurpose{arg=float a3, type=SA},
-	// SourcePurpose{arg=LBiObjFltConsumer<? super T1,? super T2> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the consumer. First argument is designated as 'target' object.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	* @returns 'target' object
+	*/
 	public static <T1, C2, I2, C3, I3, T2> T1 targetedIterate(T1 a1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, SequentialRead<C3, I3, aFloat> sa3, C3 source3, LBiObjFltConsumer<? super T1, ? super T2> consumer) {
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.getter();
-		while (testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T2 a2 = nextFunc2.doApply(iterator2);
-			float a3 = nextFunc3.doApplyAsFlt(iterator3);
-			consumer.doAccept(a1, a2, a3);
+		LToFltFunction<Object> nextFunc3 = (LToFltFunction) sa3.supplier();
+		while (testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T2 a2 = nextFunc2.apply(iterator2);
+			float a3 = nextFunc3.applyAsFlt(iterator3);
+			consumer.accept(a1, a2, a3);
 		}
 		return a1;
 

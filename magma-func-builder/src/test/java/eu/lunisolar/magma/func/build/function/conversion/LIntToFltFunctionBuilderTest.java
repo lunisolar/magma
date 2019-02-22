@@ -69,7 +69,7 @@ public class LIntToFltFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsFlt(100);
+            function.applyAsFlt(100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LIntToFltFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsFlt(100);
+            function.applyAsFlt(100);
 
             fail("No exception were thrown.");
         })

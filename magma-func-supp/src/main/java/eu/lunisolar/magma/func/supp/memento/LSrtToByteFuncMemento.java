@@ -72,8 +72,8 @@ public class LSrtToByteFuncMemento implements LSrtToByteFunction {
 	}
 
 	@Override
-	public byte doApplyAsByteX(short a) {
-		return lastValue = function.doApplyAsByte(a);
+	public byte applyAsByteX(short a) {
+		return lastValue = function.applyAsByte(a);
 	}
 
 	public byte lastValue() {

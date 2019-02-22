@@ -72,7 +72,7 @@ public class LToIntTriFunctionAssertTest<T1,T2,T3> {
 
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case .* should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertToIntTriFunc(functionThrowing)

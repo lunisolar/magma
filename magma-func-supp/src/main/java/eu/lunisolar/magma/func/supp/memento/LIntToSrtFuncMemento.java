@@ -72,8 +72,8 @@ public class LIntToSrtFuncMemento implements LIntToSrtFunction {
 	}
 
 	@Override
-	public short doApplyAsSrtX(int a) {
-		return lastValue = function.doApplyAsSrt(a);
+	public short applyAsSrtX(int a) {
+		return lastValue = function.applyAsSrt(a);
 	}
 
 	public short lastValue() {

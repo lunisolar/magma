@@ -72,8 +72,8 @@ public class LOiToDblFuncMemento<T> implements LOiToDblFunction<T> {
 	}
 
 	@Override
-	public double doApplyAsDblX(T a1, int a2) {
-		return lastValue = function.doApplyAsDbl(a1, a2);
+	public double applyAsDblX(T a1, int a2) {
+		return lastValue = function.applyAsDbl(a1, a2);
 	}
 
 	public double lastValue() {

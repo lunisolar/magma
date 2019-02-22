@@ -69,7 +69,7 @@ public class LCharToByteFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsByte('\u0100');
+            function.applyAsByte('\u0100');
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LCharToByteFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsByte('\u0100');
+            function.applyAsByte('\u0100');
 
             fail("No exception were thrown.");
         })

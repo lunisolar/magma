@@ -82,13 +82,12 @@ public interface LPredicateAssert<S extends LPredicateAssert<S, A, RS, T>, A ext
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, Boolean> doesTest(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

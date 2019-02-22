@@ -69,7 +69,7 @@ public class LSrtToLongFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsLong((short)100);
+            function.applyAsLong((short)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LSrtToLongFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsLong((short)100);
+            function.applyAsLong((short)100);
 
             fail("No exception were thrown.");
         })

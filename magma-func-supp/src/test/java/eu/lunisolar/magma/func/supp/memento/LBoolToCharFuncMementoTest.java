@@ -54,7 +54,7 @@ public class LBoolToCharFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo('\u0000');
 
-        assertThat(sut.doApplyAsChar(true))
+        assertThat(sut.applyAsChar(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBoolToCharFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsChar(true))
+        assertThat(sut.applyAsChar(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

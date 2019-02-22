@@ -68,9 +68,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aDouble> { // NOSONAR
+public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aDouble>, Codomain<aDouble>, Domain1<a<T>> { // NOSONAR
 
-	String DESCRIPTION = "LToDblFunction: double doApplyAsDbl(T a)";
+	String DESCRIPTION = "LToDblFunction: double applyAsDbl(T a)";
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
@@ -79,130 +79,147 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	@Override
 	@Deprecated
 	default double applyAsDouble(T a) {
-		return this.doApplyAsDbl(a);
+		return this.applyAsDbl(a);
 	}
 
-	// double doApplyAsDbl(T a) ;
-	default double doApplyAsDbl(T a) {
-		// return nestingDoApplyAsDbl(a);
+	// double applyAsDbl(T a) ;
+	default double applyAsDbl(T a) {
+		// return nestingApplyAsDbl(a);
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsDbl(T a)
+	 * Implement this, but call applyAsDbl(T a)
 	 */
-	double doApplyAsDblX(T a) throws Throwable;
+	double applyAsDblX(T a) throws Throwable;
 
 	default double tupleApplyAsDbl(LSingle<T> args) {
-		return doApplyAsDbl(args.value());
+		return applyAsDbl(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default double handlingDoApplyAsDbl(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default double handlingApplyAsDbl(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default double tryDoApplyAsDbl(T a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LToDblFunction<T> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsDbl(a, handling);
+	}
+
+	default double applyAsDbl(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default double tryDoApplyAsDbl(T a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LToDblFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsDbl(a, exF, newMessage, messageParams);
+	}
+
+	default double applyAsDbl(T a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default double tryDoApplyAsDblThen(T a, @Nonnull LToDblFunction<Throwable> handler) {
+	default LToDblFunction<T> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsDbl(a, exF);
+	}
+
+	default double applyAsDblThen(T a, @Nonnull LToDblFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsDbl(e);
+			return handler.applyAsDbl(e);
 		}
+	}
+
+	default LToDblFunction<T> tryingThen(@Nonnull LToDblFunction<Throwable> handler) {
+		return a -> applyAsDblThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default double nestingDoApplyAsDbl(T a) {
+	default double nestingApplyAsDbl(T a) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default double shovingDoApplyAsDbl(T a) {
+	default double shovingApplyAsDbl(T a) {
 		try {
-			return this.doApplyAsDblX(a);
+			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <T> double handlingDoApplyAsDbl(T a, LToDblFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> double handlingApplyAsDbl(T a, LToDblFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsDbl(a, handling);
+		return func.handlingApplyAsDbl(a, handling);
 	}
 
-	static <T> double tryDoApplyAsDbl(T a, LToDblFunction<T> func) {
-		return tryDoApplyAsDbl(a, func, null);
-	}
-
-	static <T> double tryDoApplyAsDbl(T a, LToDblFunction<T> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> double tryApplyAsDbl(T a, LToDblFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDbl(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsDbl(a);
 	}
 
-	static <T> double tryDoApplyAsDbl(T a, LToDblFunction<T> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <T> double tryApplyAsDbl(T a, LToDblFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDbl(a, exceptionFactory);
+		return func.applyAsDbl(a, exF, newMessage, messageParams);
 	}
 
-	static <T> double tryDoApplyAsDblThen(T a, LToDblFunction<T> func, @Nonnull LToDblFunction<Throwable> handler) {
+	static <T> double tryApplyAsDbl(T a, LToDblFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsDblThen(a, handler);
+		return func.applyAsDbl(a, exF);
 	}
 
-	default double failSafeDoApplyAsDbl(T a, @Nonnull LToDblFunction<T> failSafe) {
+	static <T> double tryApplyAsDblThen(T a, LToDblFunction<T> func, @Nonnull LToDblFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDblThen(a, handler);
+	}
+
+	default double failSafeApplyAsDbl(T a, @Nonnull LToDblFunction<T> failSafe) {
 		try {
-			return doApplyAsDbl(a);
+			return applyAsDbl(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsDbl(a);
+			return failSafe.applyAsDbl(a);
 		}
 	}
 
-	static <T> double failSafeDoApplyAsDbl(T a, LToDblFunction<T> func, @Nonnull LToDblFunction<T> failSafe) {
+	static <T> double failSafeApplyAsDbl(T a, LToDblFunction<T> func, @Nonnull LToDblFunction<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsDbl(a);
+			return failSafe.applyAsDbl(a);
 		} else {
-			return func.failSafeDoApplyAsDbl(a, failSafe);
+			return func.failSafeApplyAsDbl(a, failSafe);
 		}
 	}
 
-	static <T> LToDblFunction<T> failSafeToDblFunc(LToDblFunction<T> func, @Nonnull LToDblFunction<T> failSafe) {
+	static <T> LToDblFunction<T> failSafe(LToDblFunction<T> func, @Nonnull LToDblFunction<T> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsDbl(a, func, failSafe);
+		return a -> failSafeApplyAsDbl(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNullDoApplyAsDbl(T a) {
-		return doApplyAsDbl(a);
+	default double nonNullApplyAsDbl(T a) {
+		return applyAsDbl(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -214,13 +231,13 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTo(int min_i, int max_i, T a, LToDblFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		}
 	}
@@ -228,25 +245,42 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void fromTill(int min_i, int max_i, T a, LToDblFunction<T> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsDbl(a);
+				func.applyAsDbl(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T> void times(int max_i, T a, LToDblFunction<T> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Cast that removes generics. */
+	public default LToDblFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LToDblFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, T> LToDblFunction<V2> cast(LToDblFunction<T> function) {
+		return (LToDblFunction) function;
+	}
+
 	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier captureToDblFunc(T a) {
-		return () -> this.doApplyAsDbl(a);
+	default LDblSupplier capture(T a) {
+		return () -> this.applyAsDbl(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -264,7 +298,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	@Nonnull
 	static <T> LToDblFunction<T> recursive(final @Nonnull LFunction<LToDblFunction<T>, LToDblFunction<T>> selfLambda) {
 		final LToDblFunctionSingle<T> single = new LToDblFunctionSingle();
-		LToDblFunction<T> func = selfLambda.doApply(single);
+		LToDblFunction<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -273,8 +307,8 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		private LToDblFunction<T> target = null;
 
 		@Override
-		public double doApplyAsDblX(T a) throws Throwable {
-			return target.doApplyAsDblX(a);
+		public double applyAsDblX(T a) throws Throwable {
+			return target.applyAsDblX(a);
 		}
 
 		@Override
@@ -284,24 +318,24 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	@Nonnull
-	static <T> LToDblFunction<T> toDblFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LToDblFunction<T> toDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <T> LToDblFunction<T> toDblFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T> LToDblFunction<T> toDblFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static <T> double call(T a, final @Nonnull LToDblFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsDbl(a);
+		return lambda.applyAsDbl(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -353,13 +387,13 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToDblFunction<V> toDblFuncCompose(@Nonnull final LFunction<? super V, ? extends T> before) {
+	default <V> LToDblFunction<V> compose(@Nonnull final LFunction<? super V, ? extends T> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsDbl(before.doApply(v));
+		return v -> this.applyAsDbl(before.apply(v));
 	}
 
 	public static <V, T> LToDblFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToDblFunction<T> after) {
-		return after.toDblFuncCompose(before);
+		return after.compose(before);
 	}
 
 	// </editor-fold>
@@ -370,79 +404,68 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LDblFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsDbl(a));
+		return a -> after.apply(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LDblToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsDbl(a));
+		return a -> after.applyAsByte(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToSrtFunction<T> thenToSrt(@Nonnull LDblToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsDbl(a));
+		return a -> after.applyAsSrt(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LDblToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsDbl(a));
+		return a -> after.applyAsInt(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LDblToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsDbl(a));
+		return a -> after.applyAsLong(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFltFunction<T> thenToFlt(@Nonnull LDblToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsDbl(a));
+		return a -> after.applyAsFlt(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDblFunction<T> thenToDbl(@Nonnull LDblUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsDbl(a));
+		return a -> after.applyAsDbl(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LDblToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsDbl(a));
+		return a -> after.applyAsChar(this.applyAsDbl(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBool(@Nonnull LDblPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsDbl(a));
+		return a -> after.test(this.applyAsDbl(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LToDblFunction<T> nestingToDblFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDblFunction<T> shovingToDblFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -451,25 +474,31 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return Function4U.defaultDouble;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=T a, type=IA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, a<T>> ia, C0 source, LDblConsumer consumer) {
 		int size = ia.size(source);
 		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T a = oiFunc0.doApply(source, i);
-			consumer.doAccept(this.doApplyAsDbl(a));
+			T a = oiFunc0.apply(source, i);
+			consumer.accept(this.applyAsDbl(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T a, type=SA}, SourcePurpose{arg=LDblConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, a<T>> sa, C0 source, LDblConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LFunction<Object, T> nextFunc0 = (LFunction) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			T a = nextFunc0.doApply(iterator0);
-			consumer.doAccept(this.doApplyAsDbl(a));
+		LFunction<Object, T> nextFunc0 = (LFunction) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			T a = nextFunc0.apply(iterator0);
+			consumer.accept(this.applyAsDbl(a));
 		}
 	}
 

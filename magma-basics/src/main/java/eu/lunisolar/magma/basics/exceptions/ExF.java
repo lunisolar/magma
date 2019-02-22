@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 /**
  */
 @FunctionalInterface
-public interface ExceptionWithMessageFactory<X extends Throwable> {
+public interface ExF<X extends Throwable> {
     @Nonnull
-    X produce(@Nonnull String message);
+    X produce();
 }

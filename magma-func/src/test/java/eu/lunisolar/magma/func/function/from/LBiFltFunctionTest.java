@@ -65,14 +65,14 @@ public class LBiFltFunctionTest<R> {
 
 
     private LBiFltFunction<Integer> sut = new LBiFltFunction<Integer>(){
-        public @Nullable Integer doApplyX(float a1,float a2)  {
+        public @Nullable Integer applyX(float a1,float a2)  {
             return testValue;
         }
     };
 
 
     private LBiFltFunction<Integer> sutNull = new LBiFltFunction<Integer>(){
-        public @Nullable Integer doApplyX(float a1,float a2)  {
+        public @Nullable Integer applyX(float a1,float a2)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LBiFltFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100f,100f))
+        assertThat(sut.apply(100f,100f))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LBiFltFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100f,100f))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100f,100f))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100f,100f);
+            sutAlwaysThrowingUnchecked.nestingApply(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LBiFltFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100f,100f);
+            sutAlwaysThrowingUnchecked.shovingApply(100f,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LBiFltFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiFltFunction: R doApply(float a1,float a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiFltFunction: R apply(float a1,float a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100f,100f);
+        sutNull.nonNullApply(100f,100f);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiFltFunction: R doApply(float a1,float a2)");
+            .isEqualTo("LBiFltFunction: R apply(float a1,float a2)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LBiFltFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiFltFuncComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -192,8 +192,8 @@ public class LBiFltFunctionTest<R> {
         };
 
         //when
-        LBiFltFunction<Integer> function = sutO.biFltFuncComposeFlt(before1,before2);
-        function.doApply(80f,81f);
+        LBiFltFunction<Integer> function = sutO.compose(before1,before2);
+        function.apply(80f,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -228,7 +228,7 @@ public class LBiFltFunctionTest<R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.biFltFuncCompose(before1,before2);
-        function.doApply(80,81);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -265,7 +265,7 @@ public class LBiFltFunctionTest<R> {
 
         //when
         LBiFltFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80f,81f);
+        Integer finalValue = function.apply(80f,81f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -298,7 +298,7 @@ public class LBiFltFunctionTest<R> {
 
         //when
         LBiFltConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(80f,81f);
+        function.accept(80f,81f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LBiFltFunctionTest<R> {
 
         //when
         LFltBinaryOperator function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80f,81f);
+        float finalValue = function.applyAsFlt(80f,81f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -367,7 +367,7 @@ public class LBiFltFunctionTest<R> {
 
         //when
         LBiFltPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80f,81f);
+        boolean finalValue = function.test(80f,81f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -380,20 +380,6 @@ public class LBiFltFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -404,7 +390,7 @@ public class LBiFltFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingBiFltFunc().doApply(100f,100f);
+        sutThrowing.shovingApply(100f,100f);
     }
 
 
@@ -417,7 +403,7 @@ public class LBiFltFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiFltFunction: R doApply(float a1,float a2)");
+                .contains("LBiFltFunction: R apply(float a1,float a2)");
     }
 
 

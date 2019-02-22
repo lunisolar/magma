@@ -72,8 +72,8 @@ public class LByteToCharFuncMemento implements LByteToCharFunction {
 	}
 
 	@Override
-	public char doApplyAsCharX(byte a) {
-		return lastValue = function.doApplyAsChar(a);
+	public char applyAsCharX(byte a) {
+		return lastValue = function.applyAsChar(a);
 	}
 
 	public char lastValue() {

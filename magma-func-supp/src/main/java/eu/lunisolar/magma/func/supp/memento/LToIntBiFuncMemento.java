@@ -72,8 +72,8 @@ public class LToIntBiFuncMemento<T1, T2> implements LToIntBiFunction<T1, T2> {
 	}
 
 	@Override
-	public int doApplyAsIntX(T1 a1, T2 a2) {
-		return lastValue = function.doApplyAsInt(a1, a2);
+	public int applyAsIntX(T1 a1, T2 a2) {
+		return lastValue = function.applyAsInt(a1, a2);
 	}
 
 	public int lastValue() {

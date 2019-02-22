@@ -89,8 +89,8 @@ public class LByteToSrtFuncDelta extends LByteToSrtFuncMemento {
 	}
 
 	@Override
-	public short doApplyAsSrt(byte a) {
-		return deltaFunction.doApplyAsSrt(lastValue(), super.doApplyAsSrt(a));
+	public short applyAsSrt(byte a) {
+		return deltaFunction.applyAsSrt(lastValue(), super.applyAsSrt(a));
 	}
 
 	// <editor-fold desc="object">

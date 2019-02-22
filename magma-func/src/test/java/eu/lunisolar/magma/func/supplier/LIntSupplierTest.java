@@ -65,7 +65,7 @@ public class LIntSupplierTest {
 
 
     private LIntSupplier sut = new LIntSupplier(){
-        public  int doGetAsIntX()  {
+        public  int getAsIntX()  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LIntSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doGetAsInt())
+        assertThat(sut.getAsInt())
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LIntSupplierTest {
     }
 
     @Test
-    public void testNonNullDoGetAsInt() throws Throwable {
-        assertThat(sut.nonNullDoGetAsInt())
+    public void testNonNullGetAsInt() throws Throwable {
+        assertThat(sut.nonNullGetAsInt())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsIntUnchecked() throws Throwable {
+    public void testNestingGetAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoGetAsInt();
+            sutAlwaysThrowingUnchecked.nestingGetAsInt();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LIntSupplierTest {
     }
 
     @Test
-    public void testShovingDoGetAsIntUnchecked() throws Throwable {
+    public void testShovingGetAsIntUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoGetAsInt();
+            sutAlwaysThrowingUnchecked.shovingGetAsInt();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LIntSupplierTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntSupplier: int doGetAsInt()");
+            .isEqualTo("LIntSupplier: int getAsInt()");
     }
 
     @Test
@@ -186,7 +186,7 @@ public class LIntSupplierTest {
 
         //when
         LSupplier<Integer> function = sutO.toSup(thenFunction);
-        Integer finalValue = function.doGet();
+        Integer finalValue = function.get();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -219,7 +219,7 @@ public class LIntSupplierTest {
 
         //when
         LByteSupplier function = sutO.toByteSup(thenFunction);
-        byte finalValue = function.doGetAsByte();
+        byte finalValue = function.getAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -252,7 +252,7 @@ public class LIntSupplierTest {
 
         //when
         LSrtSupplier function = sutO.toSrtSup(thenFunction);
-        short finalValue = function.doGetAsSrt();
+        short finalValue = function.getAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -285,7 +285,7 @@ public class LIntSupplierTest {
 
         //when
         LIntSupplier function = sutO.toIntSup(thenFunction);
-        int finalValue = function.doGetAsInt();
+        int finalValue = function.getAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -318,7 +318,7 @@ public class LIntSupplierTest {
 
         //when
         LLongSupplier function = sutO.toLongSup(thenFunction);
-        long finalValue = function.doGetAsLong();
+        long finalValue = function.getAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -351,7 +351,7 @@ public class LIntSupplierTest {
 
         //when
         LFltSupplier function = sutO.toFltSup(thenFunction);
-        float finalValue = function.doGetAsFlt();
+        float finalValue = function.getAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -384,7 +384,7 @@ public class LIntSupplierTest {
 
         //when
         LDblSupplier function = sutO.toDblSup(thenFunction);
-        double finalValue = function.doGetAsDbl();
+        double finalValue = function.getAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -417,7 +417,7 @@ public class LIntSupplierTest {
 
         //when
         LCharSupplier function = sutO.toCharSup(thenFunction);
-        char finalValue = function.doGetAsChar();
+        char finalValue = function.getAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -450,7 +450,7 @@ public class LIntSupplierTest {
 
         //when
         LBoolSupplier function = sutO.toBoolSup(thenFunction);
-        boolean finalValue = function.doGetAsBool();
+        boolean finalValue = function.getAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -463,20 +463,6 @@ public class LIntSupplierTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingIntSup())
-            .isSameAs(sut)
-            .isInstanceOf(LIntSupplier.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingIntSup())
-            .isSameAs(sut)
-            .isInstanceOf(LIntSupplier.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -487,7 +473,7 @@ public class LIntSupplierTest {
         });
 
         // when
-        sutThrowing.shovingIntSup().doGetAsInt();
+        sutThrowing.shovingGetAsInt();
     }
 
 
@@ -500,7 +486,7 @@ public class LIntSupplierTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntSupplier: int doGetAsInt()");
+                .contains("LIntSupplier: int getAsInt()");
     }
 
 

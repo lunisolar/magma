@@ -63,7 +63,7 @@ public class LTieConsumerTest<T1,T2> {
 
 
     private LTieConsumer<Integer,Integer> sut = new LTieConsumer<Integer,Integer>(){
-        public  void doAcceptX(Integer a1,int a2,Integer a3)  {
+        public  void acceptX(Integer a1,int a2,Integer a3)  {
             LTieConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTieConsumerTest<T1,T2> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTieConsumerTest<T1,T2> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTieConsumerTest<T1,T2> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieConsumer: void doAccept(T1 a1,int a2,T2 a3)");
+            .isEqualTo("LTieConsumer: void accept(T1 a1,int a2,T2 a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTieConsumerTest<T1,T2> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieConsComposeInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTieConsumerTest<T1,T2> {
         };
 
         //when
-        LTieConsumer<Integer,Integer> function = sutO.tieConsComposeInt(before1,before2,before3);
-        function.doAccept(80,81,82);
+        LTieConsumer<Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTieConsumerTest<T1,T2> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.tieConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTieConsumerTest<T1,T2> {
 
         //when
         LTieConsumer<Integer,Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTieConsumerTest<T1,T2> {
         });
 
         // when
-        sutThrowing.shovingTieCons().doAccept(100,100,100);
+        sutThrowing.shovingAccept(100,100,100);
     }
 
 
@@ -291,7 +277,7 @@ public class LTieConsumerTest<T1,T2> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieConsumer: void doAccept(T1 a1,int a2,T2 a3)");
+                .contains("LTieConsumer: void accept(T1 a1,int a2,T2 a3)");
     }
 
 
@@ -303,58 +289,58 @@ public class LTieConsumerTest<T1,T2> {
 
     //<editor-fold desc="Variants">
 
-    private void variantLObjObj2IntCons(Integer a1,Integer a3,int a2) {
+    private void variantLObj0Obj2Int1Cons(Integer a1,Integer a3,int a2) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObjObj2IntCons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/objObj2IntCons(this::variantLObjObj2IntCons);
+    public void compilerSubstituteVariantLObj0Obj2Int1Cons() {
+        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj0Obj2Int1Cons(this::variantLObj0Obj2Int1Cons);
 
-        assertThat(lambda).isInstanceOf(LTieConsumer.LObjObj2IntCons.class);
+        assertThat(lambda).isInstanceOf(LTieConsumer.LObj0Obj2Int1Cons.class);
     }
 
 
-    private void variantLIntBiObjCons(int a2,Integer a1,Integer a3) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntBiObjCons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/intBiObjCons(this::variantLIntBiObjCons);
-
-        assertThat(lambda).isInstanceOf(LTieConsumer.LIntBiObjCons.class);
-    }
-
-
-    private void variantLIntObj2Obj0Cons(int a2,Integer a3,Integer a1) {
+    private void variantLInt1BiObj2Cons(int a2,Integer a1,Integer a3) {
     }
 
     @Test
-    public void compilerSubstituteVariantLIntObj2Obj0Cons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/intObj2Obj0Cons(this::variantLIntObj2Obj0Cons);
+    public void compilerSubstituteVariantLInt1BiObj2Cons() {
+        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/int1BiObj2Cons(this::variantLInt1BiObj2Cons);
 
-        assertThat(lambda).isInstanceOf(LTieConsumer.LIntObj2Obj0Cons.class);
+        assertThat(lambda).isInstanceOf(LTieConsumer.LInt1BiObj2Cons.class);
     }
 
 
-    private void variantLObj2Obj0IntCons(Integer a3,Integer a1,int a2) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj2Obj0IntCons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj2Obj0IntCons(this::variantLObj2Obj0IntCons);
-
-        assertThat(lambda).isInstanceOf(LTieConsumer.LObj2Obj0IntCons.class);
-    }
-
-
-    private void variantLObj2IntObj0Cons(Integer a3,int a2,Integer a1) {
+    private void variantLInt1Obj2Obj0Cons(int a2,Integer a3,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObj2IntObj0Cons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj2IntObj0Cons(this::variantLObj2IntObj0Cons);
+    public void compilerSubstituteVariantLInt1Obj2Obj0Cons() {
+        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/int1Obj2Obj0Cons(this::variantLInt1Obj2Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LTieConsumer.LObj2IntObj0Cons.class);
+        assertThat(lambda).isInstanceOf(LTieConsumer.LInt1Obj2Obj0Cons.class);
+    }
+
+
+    private void variantLObj2Obj0Int1Cons(Integer a3,Integer a1,int a2) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantLObj2Obj0Int1Cons() {
+        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj2Obj0Int1Cons(this::variantLObj2Obj0Int1Cons);
+
+        assertThat(lambda).isInstanceOf(LTieConsumer.LObj2Obj0Int1Cons.class);
+    }
+
+
+    private void variantLObj2Int1Obj0Cons(Integer a3,int a2,Integer a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantLObj2Int1Obj0Cons() {
+        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj2Int1Obj0Cons(this::variantLObj2Int1Obj0Cons);
+
+        assertThat(lambda).isInstanceOf(LTieConsumer.LObj2Int1Obj0Cons.class);
     }
 
     //</editor-fold>

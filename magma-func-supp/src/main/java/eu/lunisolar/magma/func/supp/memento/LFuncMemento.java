@@ -72,8 +72,8 @@ public class LFuncMemento<T, R> implements LFunction<T, R> {
 	}
 
 	@Override
-	public R doApplyX(T a) {
-		return lastValue = function.doApply(a);
+	public R applyX(T a) {
+		return lastValue = function.apply(a);
 	}
 
 	public R lastValue() {

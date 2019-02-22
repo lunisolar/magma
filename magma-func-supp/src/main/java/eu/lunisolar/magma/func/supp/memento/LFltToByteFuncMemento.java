@@ -72,8 +72,8 @@ public class LFltToByteFuncMemento implements LFltToByteFunction {
 	}
 
 	@Override
-	public byte doApplyAsByteX(float a) {
-		return lastValue = function.doApplyAsByte(a);
+	public byte applyAsByteX(float a) {
+		return lastValue = function.applyAsByte(a);
 	}
 
 	public byte lastValue() {

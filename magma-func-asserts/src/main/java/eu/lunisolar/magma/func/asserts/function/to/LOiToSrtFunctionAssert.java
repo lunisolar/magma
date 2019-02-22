@@ -82,13 +82,12 @@ public interface LOiToSrtFunctionAssert<S extends LOiToSrtFunctionAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LObjIntConsumer<T>, A, RS, Short> doesApplyAsSrt(T a1, int a2) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s)", a1, a2), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2);
+					pc.accept(a1, a2);
 				}
-				return assertFactory.doApply(actual.doApplyAsSrt(a1, a2));
+				return assertFactory.apply(actual.applyAsSrt(a1, a2));
 			});
-
 		}
 
 	}

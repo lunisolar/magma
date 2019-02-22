@@ -80,8 +80,10 @@ public final class LLogicalBinaryOperatorBuilder extends PerCaseBuilderWithBoolP
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LLogicalBinaryOperator logicalBinaryOperatorFrom(Function<LLogicalBinaryOperatorBuilder, LLogicalBinaryOperator> buildingFunction) {
-		return buildingFunction.apply(new LLogicalBinaryOperatorBuilder());
+	public static LLogicalBinaryOperator logicalBinaryOperatorFrom(Consumer<LLogicalBinaryOperatorBuilder> buildingFunction) {
+		LLogicalBinaryOperatorBuilder builder = new LLogicalBinaryOperatorBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LLogicalBinaryOperatorBuilder extends PerCaseBuilderWithBoolP
 		retval = LLogicalBinaryOperator.logicalBinaryOp((a1, a2) -> {
 			try {
 				for (Case<LLogicalBinaryOperator, LLogicalBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().doApply(a1, a2)) {
-						return aCase.caseFunction().doApply(a1, a2);
+					if (aCase.casePredicate().apply(a1, a2)) {
+						return aCase.caseFunction().apply(a1, a2);
 					}
 				}
 
-				return eventuallyFinal.doApply(a1, a2);
+				return eventuallyFinal.apply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

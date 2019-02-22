@@ -63,7 +63,7 @@ public class LTieLongConsumerTest<T> {
 
 
     private LTieLongConsumer<Integer> sut = new LTieLongConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,int a2,long a3)  {
+        public  void acceptX(Integer a1,int a2,long a3)  {
             LTieLongConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTieLongConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100L);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTieLongConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100L);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100L);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTieLongConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieLongConsumer: void doAccept(T a1,int a2,long a3)");
+            .isEqualTo("LTieLongConsumer: void accept(T a1,int a2,long a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTieLongConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieLongConsComposeIntLong() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTieLongConsumerTest<T> {
         };
 
         //when
-        LTieLongConsumer<Integer> function = sutO.tieLongConsComposeIntLong(before1,before2,before3);
-        function.doAccept(80,81,82L);
+        LTieLongConsumer<Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,82L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTieLongConsumerTest<T> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.tieLongConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTieLongConsumerTest<T> {
 
         //when
         LTieLongConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,82L);
+        function.accept(80,81,82L);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieLongConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieLongCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieLongConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTieLongConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieLongCons().doAccept(100,100,100L);
+        sutThrowing.shovingAccept(100,100,100L);
     }
 
 
@@ -291,7 +277,7 @@ public class LTieLongConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieLongConsumer: void doAccept(T a1,int a2,long a3)");
+                .contains("LTieLongConsumer: void accept(T a1,int a2,long a3)");
     }
 
 

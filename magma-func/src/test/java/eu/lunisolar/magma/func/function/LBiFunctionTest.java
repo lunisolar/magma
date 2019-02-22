@@ -65,14 +65,14 @@ public class LBiFunctionTest<T1,T2,R> {
 
 
     private LBiFunction<Integer,Integer,Integer> sut = new LBiFunction<Integer,Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2)  {
             return testValue;
         }
     };
 
 
     private LBiFunction<Integer,Integer,Integer> sutNull = new LBiFunction<Integer,Integer,Integer>(){
-        public @Nullable Integer doApplyX(Integer a1,Integer a2)  {
+        public @Nullable Integer applyX(Integer a1,Integer a2)  {
             return null;
         }
     };
@@ -92,7 +92,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100,100))
+        assertThat(sut.apply(100,100))
             .isEqualTo(testValue);
     }
 
@@ -108,17 +108,17 @@ public class LBiFunctionTest<T1,T2,R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100,100))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100,100);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -129,11 +129,11 @@ public class LBiFunctionTest<T1,T2,R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100,100);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -143,16 +143,16 @@ public class LBiFunctionTest<T1,T2,R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiFunction: R doApply(T1 a1,T2 a2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LBiFunction: R apply(T1 a1,T2 a2)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100,100);
+        sutNull.nonNullApply(100,100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiFunction: R doApply(T1 a1,T2 a2)");
+            .isEqualTo("LBiFunction: R apply(T1 a1,T2 a2)");
     }
 
     @Test
@@ -175,7 +175,7 @@ public class LBiFunctionTest<T1,T2,R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiFuncCompose() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -200,8 +200,8 @@ public class LBiFunctionTest<T1,T2,R> {
         };
 
         //when
-        LBiFunction<Integer,Integer,Integer> function = sutO.biFuncCompose(before1,before2);
-        function.doApply(80,81);
+        LBiFunction<Integer,Integer,Integer> function = sutO.compose(before1,before2);
+        function.apply(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -238,7 +238,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LBiFunction<Integer,Integer,Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80,81);
+        Integer finalValue = function.apply(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -271,7 +271,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.thenConsume(thenFunction);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -305,7 +305,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LToByteBiFunction<Integer,Integer> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80,81);
+        byte finalValue = function.applyAsByte(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -340,7 +340,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LToSrtBiFunction<Integer,Integer> function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80,81);
+        short finalValue = function.applyAsSrt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -375,7 +375,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LToIntBiFunction<Integer,Integer> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80,81);
+        int finalValue = function.applyAsInt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -410,7 +410,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LToLongBiFunction<Integer,Integer> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80,81);
+        long finalValue = function.applyAsLong(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -445,7 +445,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LToFltBiFunction<Integer,Integer> function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80,81);
+        float finalValue = function.applyAsFlt(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -480,7 +480,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LToDblBiFunction<Integer,Integer> function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80,81);
+        double finalValue = function.applyAsDbl(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -515,7 +515,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LToCharBiFunction<Integer,Integer> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80,81);
+        char finalValue = function.applyAsChar(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -550,7 +550,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80,81);
+        boolean finalValue = function.test(80,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -563,20 +563,6 @@ public class LBiFunctionTest<T1,T2,R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LBiFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -587,7 +573,7 @@ public class LBiFunctionTest<T1,T2,R> {
         });
 
         // when
-        sutThrowing.shovingBiFunc().doApply(100,100);
+        sutThrowing.shovingApply(100,100);
     }
 
 
@@ -600,7 +586,7 @@ public class LBiFunctionTest<T1,T2,R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiFunction: R doApply(T1 a1,T2 a2)");
+                .contains("LBiFunction: R apply(T1 a1,T2 a2)");
     }
 
 

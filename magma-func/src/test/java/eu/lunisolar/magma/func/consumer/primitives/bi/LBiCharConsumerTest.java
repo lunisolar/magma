@@ -63,7 +63,7 @@ public class LBiCharConsumerTest {
 
 
     private LBiCharConsumer sut = new LBiCharConsumer(){
-        public  void doAcceptX(char a1,char a2)  {
+        public  void acceptX(char a1,char a2)  {
             LBiCharConsumer.doNothing(a1,a2);
         }
     };
@@ -93,11 +93,11 @@ public class LBiCharConsumerTest {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept('\u0100','\u0100');
+            sutAlwaysThrowingUnchecked.nestingAccept('\u0100','\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LBiCharConsumerTest {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept('\u0100','\u0100');
+            sutAlwaysThrowingUnchecked.shovingAccept('\u0100','\u0100');
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBiCharConsumerTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiCharConsumer: void doAccept(char a1,char a2)");
+            .isEqualTo("LBiCharConsumer: void accept(char a1,char a2)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LBiCharConsumerTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiCharConsComposeChar() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -167,8 +167,8 @@ public class LBiCharConsumerTest {
         };
 
         //when
-        LBiCharConsumer function = sutO.biCharConsComposeChar(before1,before2);
-        function.doAccept('\u0080','\u0081');
+        LBiCharConsumer function = sutO.compose(before1,before2);
+        function.accept('\u0080','\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -202,7 +202,7 @@ public class LBiCharConsumerTest {
 
         //when
         LBiConsumer<Integer,Integer> function = sutO.biCharConsCompose(before1,before2);
-        function.doAccept(80,81);
+        function.accept(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -232,27 +232,13 @@ public class LBiCharConsumerTest {
 
         //when
         LBiCharConsumer function = sutO.andThen(thenFunction);
-        function.doAccept('\u0080','\u0081');
+        function.accept('\u0080','\u0081');
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiCharCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiCharCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiCharConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -264,7 +250,7 @@ public class LBiCharConsumerTest {
         });
 
         // when
-        sutThrowing.shovingBiCharCons().doAccept('\u0100','\u0100');
+        sutThrowing.shovingAccept('\u0100','\u0100');
     }
 
 
@@ -277,7 +263,7 @@ public class LBiCharConsumerTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiCharConsumer: void doAccept(char a1,char a2)");
+                .contains("LBiCharConsumer: void accept(char a1,char a2)");
     }
 
 

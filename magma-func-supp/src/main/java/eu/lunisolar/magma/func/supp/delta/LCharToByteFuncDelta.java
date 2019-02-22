@@ -89,8 +89,8 @@ public class LCharToByteFuncDelta extends LCharToByteFuncMemento {
 	}
 
 	@Override
-	public byte doApplyAsByte(char a) {
-		return deltaFunction.doApplyAsByte(lastValue(), super.doApplyAsByte(a));
+	public byte applyAsByte(char a) {
+		return deltaFunction.applyAsByte(lastValue(), super.applyAsByte(a));
 	}
 
 	// <editor-fold desc="object">

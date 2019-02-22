@@ -72,8 +72,8 @@ public class LIntToDblFuncMemento implements LIntToDblFunction {
 	}
 
 	@Override
-	public double doApplyAsDblX(int a) {
-		return lastValue = function.doApplyAsDbl(a);
+	public double applyAsDblX(int a) {
+		return lastValue = function.applyAsDbl(a);
 	}
 
 	public double lastValue() {

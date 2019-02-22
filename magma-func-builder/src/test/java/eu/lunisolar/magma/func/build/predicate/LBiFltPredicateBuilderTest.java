@@ -69,7 +69,7 @@ public class LBiFltPredicateBuilderTest{
                 .build()
             );
 
-            function.doTest(100f,100f);
+            function.test(100f,100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBiFltPredicateBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest(100f,100f);
+            function.test(100f,100f);
 
             fail("No exception were thrown.");
         })

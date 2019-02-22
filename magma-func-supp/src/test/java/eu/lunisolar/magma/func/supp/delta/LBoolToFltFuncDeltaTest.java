@@ -55,7 +55,7 @@ public class LBoolToFltFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsFlt(true))
+        assertThat(sut.applyAsFlt(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LBoolToFltFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsFlt(true))
+        assertThat(sut.applyAsFlt(true))
             .isEqualTo(9f);
 
         assertThat(functionCallCount).isEqualTo(2);

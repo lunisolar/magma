@@ -54,7 +54,7 @@ public class LBoolToIntFuncMementoTest  {
         assertThat(sut.lastValue())
             .isEqualTo(0);
 
-        assertThat(sut.doApplyAsInt(true))
+        assertThat(sut.applyAsInt(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -68,7 +68,7 @@ public class LBoolToIntFuncMementoTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsInt(true))
+        assertThat(sut.applyAsInt(true))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(2);
 

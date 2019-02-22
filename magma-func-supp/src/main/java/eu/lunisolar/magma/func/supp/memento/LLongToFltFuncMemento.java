@@ -72,8 +72,8 @@ public class LLongToFltFuncMemento implements LLongToFltFunction {
 	}
 
 	@Override
-	public float doApplyAsFltX(long a) {
-		return lastValue = function.doApplyAsFlt(a);
+	public float applyAsFltX(long a) {
+		return lastValue = function.applyAsFlt(a);
 	}
 
 	public float lastValue() {

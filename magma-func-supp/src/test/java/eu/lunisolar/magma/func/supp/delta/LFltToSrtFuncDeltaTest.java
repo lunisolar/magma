@@ -55,7 +55,7 @@ public class LFltToSrtFuncDeltaTest  {
         assertThat(sut.lastValue())
             .isEqualTo(initialLastValue);
 
-        assertThat(sut.doApplyAsSrt(100f))
+        assertThat(sut.applyAsSrt(100f))
             .isEqualTo(testValue);
         assertThat(functionCallCount).isEqualTo(1);
 
@@ -69,7 +69,7 @@ public class LFltToSrtFuncDeltaTest  {
             .isEqualTo(initialTestValue);
         assertThat(functionCallCount).isEqualTo(1);
 
-        assertThat(sut.doApplyAsSrt(100f))
+        assertThat(sut.applyAsSrt(100f))
             .isEqualTo((short)9);
 
         assertThat(functionCallCount).isEqualTo(2);

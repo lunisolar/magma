@@ -72,8 +72,8 @@ public class LCharToLongFuncMemento implements LCharToLongFunction {
 	}
 
 	@Override
-	public long doApplyAsLongX(char a) {
-		return lastValue = function.doApplyAsLong(a);
+	public long applyAsLongX(char a) {
+		return lastValue = function.applyAsLong(a);
 	}
 
 	public long lastValue() {

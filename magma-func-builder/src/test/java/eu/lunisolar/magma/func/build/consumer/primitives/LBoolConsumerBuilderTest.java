@@ -69,7 +69,7 @@ public class LBoolConsumerBuilderTest{
                 .build()
             );
 
-            function.doAccept(true);
+            function.accept(true);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LBoolConsumerBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doAccept(true);
+            function.accept(true);
 
             fail("No exception were thrown.");
         })

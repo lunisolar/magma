@@ -79,14 +79,13 @@ public interface LTriConsumerAssert<S extends LTriConsumerAssert<S, A, T1, T2, T
 		@Nonnull
 		public SemiEvaluation<S, LTriConsumer<T1, T2, T3>, A> doesAccept(T1 a1, T2 a2, T3 a3) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
 				if (pc != null) {
-					pc.doAccept(a1, a2, a3);
+					pc.accept(a1, a2, a3);
 				}
-				actual.doAccept(a1, a2, a3);
+				actual.accept(a1, a2, a3);
 				return null;
 			});
-
 		}
 
 	}

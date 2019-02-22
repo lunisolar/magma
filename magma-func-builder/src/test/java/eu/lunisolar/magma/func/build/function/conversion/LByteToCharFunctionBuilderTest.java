@@ -69,7 +69,7 @@ public class LByteToCharFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsChar((byte)100);
+            function.applyAsChar((byte)100);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LByteToCharFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsChar((byte)100);
+            function.applyAsChar((byte)100);
 
             fail("No exception were thrown.");
         })

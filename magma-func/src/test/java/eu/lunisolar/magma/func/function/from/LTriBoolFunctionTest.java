@@ -65,14 +65,14 @@ public class LTriBoolFunctionTest<R> {
 
 
     private LTriBoolFunction<Integer> sut = new LTriBoolFunction<Integer>(){
-        public @Nullable Integer doApplyX(boolean a1,boolean a2,boolean a3)  {
+        public @Nullable Integer applyX(boolean a1,boolean a2,boolean a3)  {
             return testValue;
         }
     };
 
 
     private LTriBoolFunction<Integer> sutNull = new LTriBoolFunction<Integer>(){
-        public @Nullable Integer doApplyX(boolean a1,boolean a2,boolean a3)  {
+        public @Nullable Integer applyX(boolean a1,boolean a2,boolean a3)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LTriBoolFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(true,true,true))
+        assertThat(sut.apply(true,true,true))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LTriBoolFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(true,true,true))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(true,true,true))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(true,true,true);
+            sutAlwaysThrowingUnchecked.nestingApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LTriBoolFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(true,true,true);
+            sutAlwaysThrowingUnchecked.shovingApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LTriBoolFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LTriBoolFunction: R doApply(boolean a1,boolean a2,boolean a3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LTriBoolFunction: R apply(boolean a1,boolean a2,boolean a3)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(true,true,true);
+        sutNull.nonNullApply(true,true,true);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriBoolFunction: R doApply(boolean a1,boolean a2,boolean a3)");
+            .isEqualTo("LTriBoolFunction: R apply(boolean a1,boolean a2,boolean a3)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LTriBoolFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTriBoolFuncComposeBool() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -198,8 +198,8 @@ public class LTriBoolFunctionTest<R> {
         };
 
         //when
-        LTriBoolFunction<Integer> function = sutO.triBoolFuncComposeBool(before1,before2,before3);
-        function.doApply(true,true,true);
+        LTriBoolFunction<Integer> function = sutO.compose(before1,before2,before3);
+        function.apply(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -240,7 +240,7 @@ public class LTriBoolFunctionTest<R> {
 
         //when
         LTriFunction<Integer,Integer,Integer,Integer> function = sutO.triBoolFuncCompose(before1,before2,before3);
-        function.doApply(80,81,82);
+        function.apply(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LTriBoolFunctionTest<R> {
 
         //when
         LTriBoolFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(true,true,true);
+        Integer finalValue = function.apply(true,true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -312,7 +312,7 @@ public class LTriBoolFunctionTest<R> {
 
         //when
         LTriBoolConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(true,true,true);
+        function.accept(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -347,7 +347,7 @@ public class LTriBoolFunctionTest<R> {
 
         //when
         LLogicalTernaryOperator function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doApply(true,true,true);
+        boolean finalValue = function.apply(true,true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -360,20 +360,6 @@ public class LTriBoolFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTriBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTriBoolFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LTriBoolFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -384,7 +370,7 @@ public class LTriBoolFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingTriBoolFunc().doApply(true,true,true);
+        sutThrowing.shovingApply(true,true,true);
     }
 
 
@@ -397,7 +383,7 @@ public class LTriBoolFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriBoolFunction: R doApply(boolean a1,boolean a2,boolean a3)");
+                .contains("LTriBoolFunction: R apply(boolean a1,boolean a2,boolean a3)");
     }
 
 

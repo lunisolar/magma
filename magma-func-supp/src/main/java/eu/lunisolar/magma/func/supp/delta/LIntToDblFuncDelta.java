@@ -89,8 +89,8 @@ public class LIntToDblFuncDelta extends LIntToDblFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDbl(int a) {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doApplyAsDbl(a));
+	public double applyAsDbl(int a) {
+		return deltaFunction.applyAsDbl(lastValue(), super.applyAsDbl(a));
 	}
 
 	// <editor-fold desc="object">

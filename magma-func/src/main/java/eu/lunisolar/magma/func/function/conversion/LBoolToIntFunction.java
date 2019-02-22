@@ -66,131 +66,148 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aBool> { // NOSONAR
 
-	String DESCRIPTION = "LBoolToIntFunction: int doApplyAsInt(boolean a)";
+	String DESCRIPTION = "LBoolToIntFunction: int applyAsInt(boolean a)";
 
-	// int doApplyAsInt(boolean a) ;
-	default int doApplyAsInt(boolean a) {
-		// return nestingDoApplyAsInt(a);
+	// int applyAsInt(boolean a) ;
+	default int applyAsInt(boolean a) {
+		// return nestingApplyAsInt(a);
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApplyAsInt(boolean a)
+	 * Implement this, but call applyAsInt(boolean a)
 	 */
-	int doApplyAsIntX(boolean a) throws Throwable;
+	int applyAsIntX(boolean a) throws Throwable;
 
 	default int tupleApplyAsInt(LBoolSingle args) {
-		return doApplyAsInt(args.value());
+		return applyAsInt(args.value());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default int handlingDoApplyAsInt(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default int handlingApplyAsInt(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default int tryDoApplyAsInt(boolean a, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBoolToIntFunction handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return a -> handlingApplyAsInt(a, handling);
+	}
+
+	default int applyAsInt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default int tryDoApplyAsInt(boolean a, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBoolToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return a -> applyAsInt(a, exF, newMessage, messageParams);
+	}
+
+	default int applyAsInt(boolean a, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default int tryDoApplyAsIntThen(boolean a, @Nonnull LToIntFunction<Throwable> handler) {
+	default LBoolToIntFunction trying(@Nonnull ExWF<RuntimeException> exF) {
+		return a -> applyAsInt(a, exF);
+	}
+
+	default int applyAsIntThen(boolean a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApplyAsInt(e);
+			return handler.applyAsInt(e);
 		}
+	}
+
+	default LBoolToIntFunction tryingThen(@Nonnull LToIntFunction<Throwable> handler) {
+		return a -> applyAsIntThen(a, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default int nestingDoApplyAsInt(boolean a) {
+	default int nestingApplyAsInt(boolean a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default int shovingDoApplyAsInt(boolean a) {
+	default int shovingApplyAsInt(boolean a) {
 		try {
-			return this.doApplyAsIntX(a);
+			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static int handlingDoApplyAsInt(boolean a, LBoolToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(boolean a, LBoolToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApplyAsInt(a, handling);
+		return func.handlingApplyAsInt(a, handling);
 	}
 
-	static int tryDoApplyAsInt(boolean a, LBoolToIntFunction func) {
-		return tryDoApplyAsInt(a, func, null);
-	}
-
-	static int tryDoApplyAsInt(boolean a, LBoolToIntFunction func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static int tryApplyAsInt(boolean a, LBoolToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory, newMessage, messageParams);
+		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryDoApplyAsInt(boolean a, LBoolToIntFunction func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static int tryApplyAsInt(boolean a, LBoolToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsInt(a, exceptionFactory);
+		return func.applyAsInt(a, exF, newMessage, messageParams);
 	}
 
-	static int tryDoApplyAsIntThen(boolean a, LBoolToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+	static int tryApplyAsInt(boolean a, LBoolToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyAsIntThen(a, handler);
+		return func.applyAsInt(a, exF);
 	}
 
-	default int failSafeDoApplyAsInt(boolean a, @Nonnull LBoolToIntFunction failSafe) {
+	static int tryApplyAsIntThen(boolean a, LBoolToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsIntThen(a, handler);
+	}
+
+	default int failSafeApplyAsInt(boolean a, @Nonnull LBoolToIntFunction failSafe) {
 		try {
-			return doApplyAsInt(a);
+			return applyAsInt(a);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		}
 	}
 
-	static int failSafeDoApplyAsInt(boolean a, LBoolToIntFunction func, @Nonnull LBoolToIntFunction failSafe) {
+	static int failSafeApplyAsInt(boolean a, LBoolToIntFunction func, @Nonnull LBoolToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApplyAsInt(a);
+			return failSafe.applyAsInt(a);
 		} else {
-			return func.failSafeDoApplyAsInt(a, failSafe);
+			return func.failSafeApplyAsInt(a, failSafe);
 		}
 	}
 
-	static LBoolToIntFunction failSafeBoolToIntFunc(LBoolToIntFunction func, @Nonnull LBoolToIntFunction failSafe) {
+	static LBoolToIntFunction failSafe(LBoolToIntFunction func, @Nonnull LBoolToIntFunction failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeDoApplyAsInt(a, func, failSafe);
+		return a -> failSafeApplyAsInt(a, func, failSafe);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNullDoApplyAsInt(boolean a) {
-		return doApplyAsInt(a);
+	default int nonNullApplyAsInt(boolean a) {
+		return applyAsInt(a);
 	}
 
 	/** Returns description of the functional interface. */
@@ -202,13 +219,13 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, boolean a, LBoolToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
@@ -216,25 +233,27 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTill(int min_i, int max_i, boolean a, LBoolToIntFunction func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApplyAsInt(a);
+				func.applyAsInt(a);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void times(int max_i, boolean a, LBoolToIntFunction func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureBoolToIntFunc(boolean a) {
-		return () -> this.doApplyAsInt(a);
+	default LIntSupplier capture(boolean a) {
+		return () -> this.applyAsInt(a);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -252,7 +271,7 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	static LBoolToIntFunction recursive(final @Nonnull LFunction<LBoolToIntFunction, LBoolToIntFunction> selfLambda) {
 		final LBoolToIntFunctionSingle single = new LBoolToIntFunctionSingle();
-		LBoolToIntFunction func = selfLambda.doApply(single);
+		LBoolToIntFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -261,8 +280,8 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		private LBoolToIntFunction target = null;
 
 		@Override
-		public int doApplyAsIntX(boolean a) throws Throwable {
-			return target.doApplyAsIntX(a);
+		public int applyAsIntX(boolean a) throws Throwable {
+			return target.applyAsIntX(a);
 		}
 
 		@Override
@@ -272,24 +291,24 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static LBoolToIntFunction boolToIntFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolToIntFunction boolToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static LBoolToIntFunction boolToIntFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static LBoolToIntFunction boolToIntFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return a -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
 	static int call(boolean a, final @Nonnull LBoolToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApplyAsInt(a);
+		return lambda.applyAsInt(a);
 	}
 
 	// <editor-fold desc="wrap">
@@ -336,20 +355,20 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBoolToIntFunction boolToIntFuncComposeBool(@Nonnull final LLogicalOperator before) {
+	default LBoolToIntFunction compose(@Nonnull final LLogicalOperator before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doApply(v));
+		return v -> this.applyAsInt(before.apply(v));
 	}
 
-	public static LBoolToIntFunction composedBool(@Nonnull final LLogicalOperator before, LBoolToIntFunction after) {
-		return after.boolToIntFuncComposeBool(before);
+	public static LBoolToIntFunction composed(@Nonnull final LLogicalOperator before, LBoolToIntFunction after) {
+		return after.compose(before);
 	}
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
 	default <V> LToIntFunction<V> boolToIntFuncCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
-		return v -> this.doApplyAsInt(before.doTest(v));
+		return v -> this.applyAsInt(before.test(v));
 	}
 
 	public static <V> LToIntFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToIntFunction after) {
@@ -364,79 +383,68 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default <V> LBoolFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApply(this.doApplyAsInt(a));
+		return a -> after.apply(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsByte(this.doApplyAsInt(a));
+		return a -> after.applyAsByte(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToSrtFunction thenToSrt(@Nonnull LIntToSrtFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsSrt(this.doApplyAsInt(a));
+		return a -> after.applyAsSrt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsInt(this.doApplyAsInt(a));
+		return a -> after.applyAsInt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsLong(this.doApplyAsInt(a));
+		return a -> after.applyAsLong(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToFltFunction thenToFlt(@Nonnull LIntToFltFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsFlt(this.doApplyAsInt(a));
+		return a -> after.applyAsFlt(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToDblFunction thenToDbl(@Nonnull LIntToDblFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsDbl(this.doApplyAsInt(a));
+		return a -> after.applyAsDbl(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBoolToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doApplyAsChar(this.doApplyAsInt(a));
+		return a -> after.applyAsChar(this.applyAsInt(a));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLogicalOperator thenToBool(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return a -> after.doTest(this.doApplyAsInt(a));
+		return a -> after.test(this.applyAsInt(a));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBoolToIntFunction nestingBoolToIntFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBoolToIntFunction shovingBoolToIntFunc() {
-		return this;
-	}
 
 	// </editor-fold>
 
@@ -445,25 +453,31 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return Function4U.defaultInteger;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=boolean a, type=IA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C0> void forEach(IndexedRead<C0, aBool> ia, C0 source, LIntConsumer consumer) {
 		int size = ia.size(source);
 		LObjIntPredicate<Object> oiFunc0 = (LObjIntPredicate) ia.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			boolean a = oiFunc0.doTest(source, i);
-			consumer.doAccept(this.doApplyAsInt(a));
+			boolean a = oiFunc0.test(source, i);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=boolean a, type=SA}, SourcePurpose{arg=LIntConsumer consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aBool> sa, C0 source, LIntConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).doApply(source);
+		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
 		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LPredicate<Object> nextFunc0 = (LPredicate) sa.getter();
-		while (testFunc0.doTest(iterator0)) {
-			boolean a = nextFunc0.doTest(iterator0);
-			consumer.doAccept(this.doApplyAsInt(a));
+		LPredicate<Object> nextFunc0 = (LPredicate) sa.supplier();
+		while (testFunc0.test(iterator0)) {
+			boolean a = nextFunc0.test(iterator0);
+			consumer.accept(this.applyAsInt(a));
 		}
 	}
 

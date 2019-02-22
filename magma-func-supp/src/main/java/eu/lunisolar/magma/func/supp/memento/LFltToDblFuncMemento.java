@@ -72,8 +72,8 @@ public class LFltToDblFuncMemento implements LFltToDblFunction {
 	}
 
 	@Override
-	public double doApplyAsDblX(float a) {
-		return lastValue = function.doApplyAsDbl(a);
+	public double applyAsDblX(float a) {
+		return lastValue = function.applyAsDbl(a);
 	}
 
 	public double lastValue() {

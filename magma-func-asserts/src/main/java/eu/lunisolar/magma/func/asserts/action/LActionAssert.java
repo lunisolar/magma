@@ -79,14 +79,13 @@ public interface LActionAssert<S extends LActionAssert<S, A>, A extends LAction>
 		@Nonnull
 		public SemiEvaluation<S, LAction, A> doesExecute() {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("()"), pc -> {
 				if (pc != null) {
-					pc.doExecute();
+					pc.execute();
 				}
-				actual.doExecute();
+				actual.execute();
 				return null;
 			});
-
 		}
 
 	}

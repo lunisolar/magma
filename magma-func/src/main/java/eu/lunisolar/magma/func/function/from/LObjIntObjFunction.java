@@ -66,135 +66,152 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain3<a<T1>, aInt, a<T2>> { // NOSONAR
 
-	String DESCRIPTION = "LObjIntObjFunction: R doApply(T1 a1,int a2,T2 a3)";
+	String DESCRIPTION = "LObjIntObjFunction: R apply(T1 a1,int a2,T2 a3)";
 
 	@Nullable
-	// R doApply(T1 a1,int a2,T2 a3) ;
-	default R doApply(T1 a1, int a2, T2 a3) {
-		// return nestingDoApply(a1,a2,a3);
+	// R apply(T1 a1,int a2,T2 a3) ;
+	default R apply(T1 a1, int a2, T2 a3) {
+		// return nestingApply(a1,a2,a3);
 		try {
-			return this.doApplyX(a1, a2, a3);
+			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApply(T1 a1,int a2,T2 a3)
+	 * Implement this, but call apply(T1 a1,int a2,T2 a3)
 	 */
-	R doApplyX(T1 a1, int a2, T2 a3) throws Throwable;
+	R applyX(T1 a1, int a2, T2 a3) throws Throwable;
 
 	default R tupleApply(LObjIntObjTriple<T1, T2> args) {
-		return doApply(args.first(), args.second(), args.third());
+		return apply(args.first(), args.second(), args.third());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default R handlingDoApply(T1 a1, int a2, T2 a3, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default R handlingApply(T1 a1, int a2, T2 a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyX(a1, a2, a3);
+			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default R tryDoApply(T1 a1, int a2, T2 a3, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LObjIntObjFunction<T1, T2, R> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2, a3) -> handlingApply(a1, a2, a3, handling);
+	}
+
+	default R apply(T1 a1, int a2, T2 a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyX(a1, a2, a3);
+			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default R tryDoApply(T1 a1, int a2, T2 a3, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LObjIntObjFunction<T1, T2, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, messageParams);
+	}
+
+	default R apply(T1 a1, int a2, T2 a3, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyX(a1, a2, a3);
+			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default R tryDoApplyThen(T1 a1, int a2, T2 a3, @Nonnull LFunction<Throwable, R> handler) {
+	default LObjIntObjFunction<T1, T2, R> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, exF);
+	}
+
+	default R applyThen(T1 a1, int a2, T2 a3, @Nonnull LFunction<Throwable, R> handler) {
 		try {
-			return this.doApplyX(a1, a2, a3);
+			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApply(e);
+			return handler.apply(e);
 		}
+	}
+
+	default LObjIntObjFunction<T1, T2, R> tryingThen(@Nonnull LFunction<Throwable, R> handler) {
+		return (a1, a2, a3) -> applyThen(a1, a2, a3, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(T1 a1, int a2, T2 a3) {
+	default R nestingApply(T1 a1, int a2, T2 a3) {
 		try {
-			return this.doApplyX(a1, a2, a3);
+			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default R shovingDoApply(T1 a1, int a2, T2 a3) {
+	default R shovingApply(T1 a1, int a2, T2 a3) {
 		try {
-			return this.doApplyX(a1, a2, a3);
+			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <T1, T2, R> R handlingDoApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, R> R handlingApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApply(a1, a2, a3, handling);
+		return func.handlingApply(a1, a2, a3, handling);
 	}
 
-	static <T1, T2, R> R tryDoApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
-		return tryDoApply(a1, a2, a3, func, null);
-	}
-
-	static <T1, T2, R> R tryDoApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T1, T2, R> R tryApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, a3, exceptionFactory, newMessage, messageParams);
+		return func.nestingApply(a1, a2, a3);
 	}
 
-	static <T1, T2, R> R tryDoApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <T1, T2, R> R tryApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, a3, exceptionFactory);
+		return func.apply(a1, a2, a3, exF, newMessage, messageParams);
 	}
 
-	static <T1, T2, R> R tryDoApplyThen(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull LFunction<Throwable, R> handler) {
+	static <T1, T2, R> R tryApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyThen(a1, a2, a3, handler);
+		return func.apply(a1, a2, a3, exF);
 	}
 
-	default R failSafeDoApply(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjFunction<T1, T2, R> failSafe) {
+	static <T1, T2, R> R tryApplyThen(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyThen(a1, a2, a3, handler);
+	}
+
+	default R failSafeApply(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjFunction<T1, T2, R> failSafe) {
 		try {
-			return doApply(a1, a2, a3);
+			return apply(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApply(a1, a2, a3);
+			return failSafe.apply(a1, a2, a3);
 		}
 	}
 
-	static <T1, T2, R> R failSafeDoApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull LObjIntObjFunction<T1, T2, R> failSafe) {
+	static <T1, T2, R> R failSafeApply(T1 a1, int a2, T2 a3, LObjIntObjFunction<T1, T2, R> func, @Nonnull LObjIntObjFunction<T1, T2, R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApply(a1, a2, a3);
+			return failSafe.apply(a1, a2, a3);
 		} else {
-			return func.failSafeDoApply(a1, a2, a3, failSafe);
+			return func.failSafeApply(a1, a2, a3, failSafe);
 		}
 	}
 
-	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> failSafeObjIntObjFunc(LObjIntObjFunction<T1, T2, R> func, @Nonnull LObjIntObjFunction<T1, T2, R> failSafe) {
+	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> failSafe(LObjIntObjFunction<T1, T2, R> func, @Nonnull LObjIntObjFunction<T1, T2, R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeDoApply(a1, a2, a3, func, failSafe);
+		return (a1, a2, a3) -> failSafeApply(a1, a2, a3, func, failSafe);
 	}
 
-	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(T1 a1, int a2, T2 a3) {
-		return Null.requireNonNull(doApply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullApply(T1 a1, int a2, T2 a3) {
+		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -206,13 +223,13 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2, R> void fromTo(int min_a2, int max_a2, T1 a1, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_a2 <= min_a2) {
+		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
-				func.doApply(a1, a2, a3);
+				func.apply(a1, a2, a3);
 			}
 		} else {
 			for (int a2 = min_a2; a2 >= max_a2; a2--) {
-				func.doApply(a1, a2, a3);
+				func.apply(a1, a2, a3);
 			}
 		}
 	}
@@ -220,30 +237,47 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2, R> void fromTill(int min_a2, int max_a2, T1 a1, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_a2 <= min_a2) {
+		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
-				func.doApply(a1, a2, a3);
+				func.apply(a1, a2, a3);
 			}
 		} else {
 			for (int a2 = min_a2; a2 > max_a2; a2--) {
-				func.doApply(a1, a2, a3);
+				func.apply(a1, a2, a3);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2, R> void times(int max_a2, T1 a1, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
+		if (max_a2 < 0)
+			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/**  */
-	public static <T1, T2, R> LObjIntObjFunction<T1, T2, R> uncurryObjIntObjFunc(LFunction<T1, LIntFunction<LFunction<T2, R>>> func) {
-		return (T1 a1, int a2, T2 a3) -> func.doApply(a1).doApply(a2).doApply(a3);
+	public static <T1, T2, R> LObjIntObjFunction<T1, T2, R> uncurry(LFunction<T1, LIntFunction<LFunction<T2, R>>> func) {
+		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).apply(a3);
+	}
+
+	/** Cast that removes generics. */
+	public default LObjIntObjFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2, V3, V4> LObjIntObjFunction<V2, V3, V4> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, V3, V4, T1, T2, R> LObjIntObjFunction<V2, V3, V4> cast(LObjIntObjFunction<T1, T2, R> function) {
+		return (LObjIntObjFunction) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureObjIntObjFunc(T1 a1, int a2, T2 a3) {
-		return () -> this.doApply(a1, a2, a3);
+	default LSupplier<R> capture(T1 a1, int a2, T2 a3) {
+		return () -> this.apply(a1, a2, a3);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -254,19 +288,19 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> apply1st(@Nonnull LFunction<T1, R> func) {
-		return (a1, a2, a3) -> func.doApply(a1);
+		return (a1, a2, a3) -> func.apply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> apply2nd(@Nonnull LIntFunction<R> func) {
-		return (a1, a2, a3) -> func.doApply(a2);
+		return (a1, a2, a3) -> func.apply(a2);
 	}
 
 	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
 	@Nonnull
 	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> apply3rd(@Nonnull LFunction<T2, R> func) {
-		return (a1, a2, a3) -> func.doApply(a3);
+		return (a1, a2, a3) -> func.apply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -279,7 +313,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	@Nonnull
 	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> recursive(final @Nonnull LFunction<LObjIntObjFunction<T1, T2, R>, LObjIntObjFunction<T1, T2, R>> selfLambda) {
 		final LObjIntObjFunctionSingle<T1, T2, R> single = new LObjIntObjFunctionSingle();
-		LObjIntObjFunction<T1, T2, R> func = selfLambda.doApply(single);
+		LObjIntObjFunction<T1, T2, R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -288,8 +322,8 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		private LObjIntObjFunction<T1, T2, R> target = null;
 
 		@Override
-		public R doApplyX(T1 a1, int a2, T2 a3) throws Throwable {
-			return target.doApplyX(a1, a2, a3);
+		public R applyX(T1 a1, int a2, T2 a3) throws Throwable {
+			return target.applyX(a1, a2, a3);
 		}
 
 		@Override
@@ -299,18 +333,18 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	@Nonnull
-	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> objIntObjFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> objIntObjFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> objIntObjFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> objIntObjFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2, a3) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -318,35 +352,35 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2, R> LObjObj2IntFunc<T1, T2, R> objObj2IntFunc(final @Nonnull LObjObj2IntFunc<T1, T2, R> lambda) {
+	static <T1, T2, R> LObj0Obj2Int1Func<T1, T2, R> obj0Obj2Int1Func(final @Nonnull LObj0Obj2Int1Func<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2, R> LIntBiObjFunc<T1, T2, R> intBiObjFunc(final @Nonnull LIntBiObjFunc<T1, T2, R> lambda) {
+	static <T1, T2, R> LInt1BiObj2Func<T1, T2, R> int1BiObj2Func(final @Nonnull LInt1BiObj2Func<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> LIntObj2Obj0Func<T2, T1, R> intObj2Obj0Func(final @Nonnull LIntObj2Obj0Func<T2, T1, R> lambda) {
+	static <T2, T1, R> LInt1Obj2Obj0Func<T2, T1, R> int1Obj2Obj0Func(final @Nonnull LInt1Obj2Obj0Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> LObj2Obj0IntFunc<T2, T1, R> obj2Obj0IntFunc(final @Nonnull LObj2Obj0IntFunc<T2, T1, R> lambda) {
+	static <T2, T1, R> LObj2Obj0Int1Func<T2, T1, R> obj2Obj0Int1Func(final @Nonnull LObj2Obj0Int1Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> LObj2IntObj0Func<T2, T1, R> obj2IntObj0Func(final @Nonnull LObj2IntObj0Func<T2, T1, R> lambda) {
+	static <T2, T1, R> LObj2Int1Obj0Func<T2, T1, R> obj2Int1Obj0Func(final @Nonnull LObj2Int1Obj0Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -355,7 +389,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	static <T1, T2, R> R call(T1 a1, int a2, T2 a3, final @Nonnull LObjIntObjFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a1, a2, a3);
+		return lambda.apply(a1, a2, a3);
 	}
 
 	// <editor-fold desc="wrap">
@@ -402,16 +436,16 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V3> LObjIntObjFunction<V1, V3, R> objIntObjFuncComposeInt(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LFunction<? super V3, ? extends T2> before3) {
+	default <V1, V3> LObjIntObjFunction<V1, V3, R> compose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LFunction<? super V3, ? extends T2> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApplyAsInt(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.applyAsInt(v2), before3.apply(v3));
 	}
 
-	public static <V1, V3, T1, T2, R> LObjIntObjFunction<V1, V3, R> composedInt(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LFunction<? super V3, ? extends T2> before3,
+	public static <V1, V3, T1, T2, R> LObjIntObjFunction<V1, V3, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LFunction<? super V3, ? extends T2> before3,
 			LObjIntObjFunction<T1, T2, R> after) {
-		return after.objIntObjFuncComposeInt(before1, before2, before3);
+		return after.compose(before1, before2, before3);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -420,7 +454,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (v1, v2, v3) -> this.doApply(before1.doApply(v1), before2.doApplyAsInt(v2), before3.doApply(v3));
+		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.applyAsInt(v2), before3.apply(v3));
 	}
 
 	public static <V1, V2, V3, T1, T2, R> LTriFunction<V1, V2, V3, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LFunction<? super V3, ? extends T2> before3,
@@ -436,22 +470,22 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	@Nonnull
 	default <V> LObjIntObjFunction<T1, T2, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doApply(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.apply(this.apply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTieConsumer<T1, T2> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doAccept(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.accept(this.apply(a1, a2, a3));
 	}
 
 	@Nonnull
 	default LObjIntObjFunction<T1, T2, R> before(@Nonnull LTieConsumer<? super T1, ? super T2> before) {
 		Null.nonNullArg(before, "before");
 		return (a1, a2, a3) -> {
-			before.doAccept(a1, a2, a3);
-			return this.doApply(a1, a2, a3);
+			before.accept(a1, a2, a3);
+			return this.apply(a1, a2, a3);
 		};
 	}
 
@@ -459,8 +493,8 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	default LObjIntObjFunction<T1, T2, R> after(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> {
-			R result = this.doApply(a1, a2, a3);
-			after.doAccept(result);
+			R result = this.apply(a1, a2, a3);
+			after.accept(result);
 			return result;
 		};
 	}
@@ -469,98 +503,87 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	@Nonnull
 	default LTieFunction<T1, T2> thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doApplyAsInt(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.applyAsInt(this.apply(a1, a2, a3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjIntObjPredicate<T1, T2> thenToBool(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> after.doTest(this.doApply(a1, a2, a3));
+		return (a1, a2, a3) -> after.test(this.apply(a1, a2, a3));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LObjIntObjFunction<T1, T2, R> nestingObjIntObjFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntObjFunction<T1, T2, R> shovingObjIntObjFunc() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LObjIntObjFunction<T1, T2, R> nonNullObjIntObjFunc() {
-		return this::nonNullDoApply;
+	default LObjIntObjFunction<T1, T2, R> nonNullable() {
+		return this::nonNullApply;
 	}
 
 	// <editor-fold desc="interface variants">
 
 	/** Permutation of LObjIntObjFunction for method references. */
 	@FunctionalInterface
-	interface LObjObj2IntFunc<T1, T2, R> extends LObjIntObjFunction<T1, T2, R> {
+	interface LObj0Obj2Int1Func<T1, T2, R> extends LObjIntObjFunction<T1, T2, R> {
 		@Nullable
-		R doApplyObjObj2Int(T1 a1, T2 a3, int a2);
+		R applyObj0Obj2Int1(T1 a1, T2 a3, int a2);
 
 		@Override
-		default R doApplyX(T1 a1, int a2, T2 a3) {
-			return this.doApplyObjObj2Int(a1, a3, a2);
+		default R applyX(T1 a1, int a2, T2 a3) {
+			return this.applyObj0Obj2Int1(a1, a3, a2);
 		}
 	}
 
 	/** Permutation of LObjIntObjFunction for method references. */
 	@FunctionalInterface
-	interface LIntBiObjFunc<T1, T2, R> extends LObjIntObjFunction<T1, T2, R> {
+	interface LInt1BiObj2Func<T1, T2, R> extends LObjIntObjFunction<T1, T2, R> {
 		@Nullable
-		R doApplyIntBiObj(int a2, T1 a1, T2 a3);
+		R applyInt1BiObj2(int a2, T1 a1, T2 a3);
 
 		@Override
-		default R doApplyX(T1 a1, int a2, T2 a3) {
-			return this.doApplyIntBiObj(a2, a1, a3);
+		default R applyX(T1 a1, int a2, T2 a3) {
+			return this.applyInt1BiObj2(a2, a1, a3);
 		}
 	}
 
 	/** Permutation of LObjIntObjFunction for method references. */
 	@FunctionalInterface
-	interface LIntObj2Obj0Func<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
+	interface LInt1Obj2Obj0Func<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
 		@Nullable
-		R doApplyIntObj2Obj0(int a2, T2 a3, T1 a1);
+		R applyInt1Obj2Obj0(int a2, T2 a3, T1 a1);
 
 		@Override
-		default R doApplyX(T1 a1, int a2, T2 a3) {
-			return this.doApplyIntObj2Obj0(a2, a3, a1);
+		default R applyX(T1 a1, int a2, T2 a3) {
+			return this.applyInt1Obj2Obj0(a2, a3, a1);
 		}
 	}
 
 	/** Permutation of LObjIntObjFunction for method references. */
 	@FunctionalInterface
-	interface LObj2Obj0IntFunc<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
+	interface LObj2Obj0Int1Func<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
 		@Nullable
-		R doApplyObj2Obj0Int(T2 a3, T1 a1, int a2);
+		R applyObj2Obj0Int1(T2 a3, T1 a1, int a2);
 
 		@Override
-		default R doApplyX(T1 a1, int a2, T2 a3) {
-			return this.doApplyObj2Obj0Int(a3, a1, a2);
+		default R applyX(T1 a1, int a2, T2 a3) {
+			return this.applyObj2Obj0Int1(a3, a1, a2);
 		}
 	}
 
 	/** Permutation of LObjIntObjFunction for method references. */
 	@FunctionalInterface
-	interface LObj2IntObj0Func<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
+	interface LObj2Int1Obj0Func<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
 		@Nullable
-		R doApplyObj2IntObj0(T2 a3, int a2, T1 a1);
+		R applyObj2Int1Obj0(T2 a3, int a2, T1 a1);
 
 		@Override
-		default R doApplyX(T1 a1, int a2, T2 a3) {
-			return this.doApplyObj2IntObj0(a3, a2, a1);
+		default R applyX(T1 a1, int a2, T2 a3) {
+			return this.applyObj2Int1Obj0(a3, a2, a1);
 		}
 	}
 
@@ -571,18 +594,20 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return (R) Function4U.defaultObject;
 	}
 
-	/** Does nothing (LObjIntObjFunction.LObjObj2IntFunc) Function */
+	/** Does nothing (LObjIntObjFunction.LObj0Obj2Int1Func) Function */
 	public static <T1, T2, R> R produce(T1 a1, T2 a3, int a2) {
 		return (R) Function4U.defaultObject;
 	}
 
-	/** Does nothing (LObjIntObjFunction.LIntBiObjFunc) Function */
+	/** Does nothing (LObjIntObjFunction.LInt1BiObj2Func) Function */
 	public static <T1, T2, R> R produce(int a2, T1 a1, T2 a3) {
 		return (R) Function4U.defaultObject;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=T2 a3, type=IA}, SourcePurpose{arg=LConsumer<? super
-	// R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, C3> void forEach(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, IndexedRead<C3, a<T2>> ia3, C3 source3, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
@@ -592,153 +617,167 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		LOiFunction<Object, T2> oiFunc3 = (LOiFunction) ia3.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			T2 a3 = oiFunc3.doApply(source3, i);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+			T1 a1 = oiFunc1.apply(source1, i);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			T2 a3 = oiFunc3.apply(source3, i);
+			consumer.accept(this.apply(a1, a2, a3));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=T2 a3, type=IA}, SourcePurpose{arg=LConsumer<?
-	// super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2, C3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, IndexedRead<C3, a<T2>> ia3, C3 source3, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
 		size = Integer.min(size, ia3.size(source3));
 		LOiFunction<Object, T2> oiFunc3 = (LOiFunction) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			T2 a3 = oiFunc3.doApply(source3, i);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+		while (testFunc1.test(iterator1) && i < size) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			T2 a3 = oiFunc3.apply(source3, i);
+			consumer.accept(this.apply(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=T2 a3, type=IA}, SourcePurpose{arg=LConsumer<?
-	// super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2, C3> void iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, IndexedRead<C3, a<T2>> ia3, C3 source3, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
 		size = Integer.min(size, ia3.size(source3));
 		LOiFunction<Object, T2> oiFunc3 = (LOiFunction) ia3.getter();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			T2 a3 = oiFunc3.doApply(source3, i);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+		while (i < size && testFunc2.test(iterator2)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			T2 a3 = oiFunc3.apply(source3, i);
+			consumer.accept(this.apply(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=T2 a3, type=IA}, SourcePurpose{arg=LConsumer<?
-	// super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2, I2, C3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, IndexedRead<C3, a<T2>> ia3, C3 source3, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
 		int size = ia3.size(source3);
 		LOiFunction<Object, T2> oiFunc3 = (LOiFunction) ia3.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && i < size) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			T2 a3 = oiFunc3.doApply(source3, i);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && i < size) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			T2 a3 = oiFunc3.apply(source3, i);
+			consumer.accept(this.apply(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=T2 a3, type=SA}, SourcePurpose{arg=LConsumer<?
-	// super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, C3, I3> void iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, SequentialRead<C3, I3, a<T2>> sa3, C3 source3, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
 		size = Integer.min(size, ia2.size(source2));
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.getter();
+		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc3.doTest(iterator3)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			T2 a3 = nextFunc3.doApply(iterator3);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+		while (i < size && testFunc3.test(iterator3)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			T2 a3 = nextFunc3.apply(iterator3);
+			consumer.accept(this.apply(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=int a2, type=IA}, SourcePurpose{arg=T2 a3, type=SA}, SourcePurpose{arg=LConsumer<?
-	// super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2, C3, I3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, SequentialRead<C3, I3, a<T2>> sa3, C3 source3, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.getter();
+		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.supplier();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size && testFunc3.doTest(iterator3)) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			int a2 = oiFunc2.doApplyAsInt(source2, i);
-			T2 a3 = nextFunc3.doApply(iterator3);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+		while (testFunc1.test(iterator1) && i < size && testFunc3.test(iterator3)) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			int a2 = oiFunc2.applyAsInt(source2, i);
+			T2 a3 = nextFunc3.apply(iterator3);
+			consumer.accept(this.apply(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=IA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=T2 a3, type=SA}, SourcePurpose{arg=LConsumer<?
-	// super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2, C3, I3> void iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, SequentialRead<C3, I3, a<T2>> sa3, C3 source3, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.getter();
+		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T1 a1 = oiFunc1.doApply(source1, i);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			T2 a3 = nextFunc3.doApply(iterator3);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+		while (i < size && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T1 a1 = oiFunc1.apply(source1, i);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			T2 a3 = nextFunc3.apply(iterator3);
+			consumer.accept(this.apply(a1, a2, a3));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=T1 a1, type=SA}, SourcePurpose{arg=int a2, type=SA}, SourcePurpose{arg=T2 a3, type=SA}, SourcePurpose{arg=LConsumer<?
-	// super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2, C3, I3> void iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, SequentialRead<C3, I3, a<T2>> sa3, C3 source3, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).doApply(source3);
+		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
 		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2) && testFunc3.doTest(iterator3)) {
-			T1 a1 = nextFunc1.doApply(iterator1);
-			int a2 = nextFunc2.doApplyAsInt(iterator2);
-			T2 a3 = nextFunc3.doApply(iterator3);
-			consumer.doAccept(this.doApply(a1, a2, a3));
+		LFunction<Object, T2> nextFunc3 = (LFunction) sa3.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
+			T1 a1 = nextFunc1.apply(iterator1);
+			int a2 = nextFunc2.applyAsInt(iterator2);
+			T2 a3 = nextFunc3.apply(iterator3);
+			consumer.accept(this.apply(a1, a2, a3));
 		}
 	}
 

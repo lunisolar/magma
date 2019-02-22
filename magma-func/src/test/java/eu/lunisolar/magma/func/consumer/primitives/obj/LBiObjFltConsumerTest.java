@@ -63,7 +63,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
 
 
     private LBiObjFltConsumer<Integer,Integer> sut = new LBiObjFltConsumer<Integer,Integer>(){
-        public  void doAcceptX(Integer a1,Integer a2,float a3)  {
+        public  void acceptX(Integer a1,Integer a2,float a3)  {
             LBiObjFltConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LBiObjFltConsumerTest<T1,T2> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100f);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LBiObjFltConsumerTest<T1,T2> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100f);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjFltConsumer: void doAccept(T1 a1,T2 a2,float a3)");
+            .isEqualTo("LBiObjFltConsumer: void accept(T1 a1,T2 a2,float a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testBiObjFltConsComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LBiObjFltConsumerTest<T1,T2> {
         };
 
         //when
-        LBiObjFltConsumer<Integer,Integer> function = sutO.biObjFltConsComposeFlt(before1,before2,before3);
-        function.doAccept(80,81,82f);
+        LBiObjFltConsumer<Integer,Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,82f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.biObjFltConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LBiObjFltConsumerTest<T1,T2> {
 
         //when
         LBiObjFltConsumer<Integer,Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,82f);
+        function.accept(80,81,82f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBiObjFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjFltConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBiObjFltCons())
-            .isSameAs(sut)
-            .isInstanceOf(LBiObjFltConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
         });
 
         // when
-        sutThrowing.shovingBiObjFltCons().doAccept(100,100,100f);
+        sutThrowing.shovingAccept(100,100,100f);
     }
 
 
@@ -291,7 +277,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiObjFltConsumer: void doAccept(T1 a1,T2 a2,float a3)");
+                .contains("LBiObjFltConsumer: void accept(T1 a1,T2 a2,float a3)");
     }
 
 
@@ -303,58 +289,58 @@ public class LBiObjFltConsumerTest<T1,T2> {
 
     //<editor-fold desc="Variants">
 
-    private void variantLObjFltObj1Cons(Integer a1,float a3,Integer a2) {
+    private void variantLObj0Flt2Obj1Cons(Integer a1,float a3,Integer a2) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObjFltObj1Cons() {
-        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/objFltObj1Cons(this::variantLObjFltObj1Cons);
+    public void compilerSubstituteVariantLObj0Flt2Obj1Cons() {
+        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj0Flt2Obj1Cons(this::variantLObj0Flt2Obj1Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObjFltObj1Cons.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj0Flt2Obj1Cons.class);
     }
 
 
-    private void variantLObj1Obj0FltCons(Integer a2,Integer a1,float a3) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Obj0FltCons() {
-        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj1Obj0FltCons(this::variantLObj1Obj0FltCons);
-
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj1Obj0FltCons.class);
-    }
-
-
-    private void variantLObj1FltObj0Cons(Integer a2,float a3,Integer a1) {
+    private void variantLObj1Obj0Flt2Cons(Integer a2,Integer a1,float a3) {
     }
 
     @Test
-    public void compilerSubstituteVariantLObj1FltObj0Cons() {
-        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj1FltObj0Cons(this::variantLObj1FltObj0Cons);
+    public void compilerSubstituteVariantLObj1Obj0Flt2Cons() {
+        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj1Obj0Flt2Cons(this::variantLObj1Obj0Flt2Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj1FltObj0Cons.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj1Obj0Flt2Cons.class);
     }
 
 
-    private void variantLFltObj0Obj1Cons(float a3,Integer a1,Integer a2) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLFltObj0Obj1Cons() {
-        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/fltObj0Obj1Cons(this::variantLFltObj0Obj1Cons);
-
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LFltObj0Obj1Cons.class);
-    }
-
-
-    private void variantLFltObjObj0Cons(float a3,Integer a2,Integer a1) {
+    private void variantLObj1Flt2Obj0Cons(Integer a2,float a3,Integer a1) {
     }
 
     @Test
-    public void compilerSubstituteVariantLFltObjObj0Cons() {
-        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/fltObjObj0Cons(this::variantLFltObjObj0Cons);
+    public void compilerSubstituteVariantLObj1Flt2Obj0Cons() {
+        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj1Flt2Obj0Cons(this::variantLObj1Flt2Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LFltObjObj0Cons.class);
+        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj1Flt2Obj0Cons.class);
+    }
+
+
+    private void variantLFlt2Obj0Obj1Cons(float a3,Integer a1,Integer a2) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantLFlt2Obj0Obj1Cons() {
+        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/flt2Obj0Obj1Cons(this::variantLFlt2Obj0Obj1Cons);
+
+        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LFlt2Obj0Obj1Cons.class);
+    }
+
+
+    private void variantLFlt2Obj1Obj0Cons(float a3,Integer a2,Integer a1) {
+    }
+
+    @Test
+    public void compilerSubstituteVariantLFlt2Obj1Obj0Cons() {
+        LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/flt2Obj1Obj0Cons(this::variantLFlt2Obj1Obj0Cons);
+
+        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LFlt2Obj1Obj0Cons.class);
     }
 
     //</editor-fold>

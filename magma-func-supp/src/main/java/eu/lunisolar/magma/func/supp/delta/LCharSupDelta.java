@@ -89,8 +89,8 @@ public class LCharSupDelta extends LCharSupMemento {
 	}
 
 	@Override
-	public char doGetAsChar() {
-		return deltaFunction.doApplyAsChar(lastValue(), super.doGetAsChar());
+	public char getAsChar() {
+		return deltaFunction.applyAsChar(lastValue(), super.getAsChar());
 	}
 
 	// <editor-fold desc="object">

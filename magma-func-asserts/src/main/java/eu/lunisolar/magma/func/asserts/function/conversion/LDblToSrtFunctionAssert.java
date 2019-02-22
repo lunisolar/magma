@@ -82,13 +82,12 @@ public interface LDblToSrtFunctionAssert<S extends LDblToSrtFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LDblConsumer, A, RS, Short> doesApplyAsSrt(double a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsSrt(a));
+				return assertFactory.apply(actual.applyAsSrt(a));
 			});
-
 		}
 
 	}

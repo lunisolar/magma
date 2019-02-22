@@ -65,7 +65,7 @@ public class LSrtUnaryOperatorTest {
 
 
     private LSrtUnaryOperator sut = new LSrtUnaryOperator(){
-        public  short doApplyAsSrtX(short a)  {
+        public  short applyAsSrtX(short a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LSrtUnaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsSrt((short)100))
+        assertThat(sut.applyAsSrt((short)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LSrtUnaryOperatorTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsSrt() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsSrt((short)100))
+    public void testNonNullApplyAsSrt() throws Throwable {
+        assertThat(sut.nonNullApplyAsSrt((short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsSrtUnchecked() throws Throwable {
+    public void testNestingApplyAsSrtUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsSrt((short)100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsSrt((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LSrtUnaryOperatorTest {
     }
 
     @Test
-    public void testShovingDoApplyAsSrtUnchecked() throws Throwable {
+    public void testShovingApplyAsSrtUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsSrt((short)100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsSrt((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LSrtUnaryOperatorTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtUnaryOperator: short doApplyAsSrt(short a)");
+            .isEqualTo("LSrtUnaryOperator: short applyAsSrt(short a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LSrtUnaryOperatorTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testSrtUnaryOpComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LSrtUnaryOperatorTest {
         };
 
         //when
-        LSrtUnaryOperator function = sutO.srtUnaryOpComposeSrt(before);
-        function.doApplyAsSrt((short)80);
+        LSrtUnaryOperator function = sutO.compose(before);
+        function.applyAsSrt((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LToSrtFunction<Integer> function = sutO.srtUnaryOpCompose(before);
-        function.doApplyAsSrt(80);
+        function.applyAsSrt(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((short)80);
+        Integer finalValue = function.apply((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((short)80);
+        byte finalValue = function.applyAsByte((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtUnaryOperator function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((short)80);
+        short finalValue = function.applyAsSrt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((short)80);
+        int finalValue = function.applyAsInt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((short)80);
+        long finalValue = function.applyAsLong((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt((short)80);
+        float finalValue = function.applyAsFlt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl((short)80);
+        double finalValue = function.applyAsDbl((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((short)80);
+        char finalValue = function.applyAsChar((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LSrtUnaryOperatorTest {
 
         //when
         LSrtPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((short)80);
+        boolean finalValue = function.test((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -529,23 +529,9 @@ public class LSrtUnaryOperatorTest {
     public void identity() throws Throwable {
         LSrtUnaryOperator identityFunction = LSrtUnaryOperator.identity();
 
-        assertThat(identityFunction.doApplyAsSrt((short)8)).isEqualTo((short)8);
+        assertThat(identityFunction.applyAsSrt((short)8)).isEqualTo((short)8);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingSrtUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtUnaryOperator.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingSrtUnaryOp())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtUnaryOperator.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -557,7 +543,7 @@ public class LSrtUnaryOperatorTest {
         });
 
         // when
-        sutThrowing.shovingSrtUnaryOp().doApplyAsSrt((short)100);
+        sutThrowing.shovingApplyAsSrt((short)100);
     }
 
 
@@ -570,7 +556,7 @@ public class LSrtUnaryOperatorTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSrtUnaryOperator: short doApplyAsSrt(short a)");
+                .contains("LSrtUnaryOperator: short applyAsSrt(short a)");
     }
 
 

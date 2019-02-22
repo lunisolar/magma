@@ -80,8 +80,10 @@ public final class LLongPredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LLongPredicate longPredicateFrom(Function<LLongPredicateBuilder, LLongPredicate> buildingFunction) {
-		return buildingFunction.apply(new LLongPredicateBuilder());
+	public static LLongPredicate longPredicateFrom(Consumer<LLongPredicateBuilder> buildingFunction) {
+		LLongPredicateBuilder builder = new LLongPredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LLongPredicateBuilder extends PerCaseBuilderWithBoolProduct.B
 		retval = LLongPredicate.longPred(a -> {
 			try {
 				for (Case<LLongPredicate, LLongPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
-						return aCase.caseFunction().doTest(a);
+					if (aCase.casePredicate().test(a)) {
+						return aCase.caseFunction().test(a);
 					}
 				}
 
-				return eventuallyFinal.doTest(a);
+				return eventuallyFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

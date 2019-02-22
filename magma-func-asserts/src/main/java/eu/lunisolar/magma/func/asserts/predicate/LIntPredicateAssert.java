@@ -82,13 +82,12 @@ public interface LIntPredicateAssert<S extends LIntPredicateAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LIntConsumer, A, RS, Boolean> doesTest(int a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doTest(a));
+				return assertFactory.apply(actual.test(a));
 			});
-
 		}
 
 	}

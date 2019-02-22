@@ -69,7 +69,7 @@ public class LFltToSrtFunctionBuilderTest{
                 .build()
             );
 
-            function.doApplyAsSrt(100f);
+            function.applyAsSrt(100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LFltToSrtFunctionBuilderTest{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doApplyAsSrt(100f);
+            function.applyAsSrt(100f);
 
             fail("No exception were thrown.");
         })

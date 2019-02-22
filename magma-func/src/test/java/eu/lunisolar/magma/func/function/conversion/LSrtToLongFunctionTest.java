@@ -65,7 +65,7 @@ public class LSrtToLongFunctionTest {
 
 
     private LSrtToLongFunction sut = new LSrtToLongFunction(){
-        public  long doApplyAsLongX(short a)  {
+        public  long applyAsLongX(short a)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LSrtToLongFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApplyAsLong((short)100))
+        assertThat(sut.applyAsLong((short)100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LSrtToLongFunctionTest {
     }
 
     @Test
-    public void testNonNullDoApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullDoApplyAsLong((short)100))
+    public void testNonNullApplyAsLong() throws Throwable {
+        assertThat(sut.nonNullApplyAsLong((short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsLongUnchecked() throws Throwable {
+    public void testNestingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApplyAsLong((short)100);
+            sutAlwaysThrowingUnchecked.nestingApplyAsLong((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LSrtToLongFunctionTest {
     }
 
     @Test
-    public void testShovingDoApplyAsLongUnchecked() throws Throwable {
+    public void testShovingApplyAsLongUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApplyAsLong((short)100);
+            sutAlwaysThrowingUnchecked.shovingApplyAsLong((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LSrtToLongFunctionTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtToLongFunction: long doApplyAsLong(short a)");
+            .isEqualTo("LSrtToLongFunction: long applyAsLong(short a)");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LSrtToLongFunctionTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testSrtToLongFuncComposeSrt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -175,8 +175,8 @@ public class LSrtToLongFunctionTest {
         };
 
         //when
-        LSrtToLongFunction function = sutO.srtToLongFuncComposeSrt(before);
-        function.doApplyAsLong((short)80);
+        LSrtToLongFunction function = sutO.compose(before);
+        function.applyAsLong((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -205,7 +205,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LToLongFunction<Integer> function = sutO.srtToLongFuncCompose(before);
-        function.doApplyAsLong(80);
+        function.applyAsLong(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -241,7 +241,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply((short)80);
+        Integer finalValue = function.apply((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -275,7 +275,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte((short)80);
+        byte finalValue = function.applyAsByte((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -309,7 +309,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtUnaryOperator function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt((short)80);
+        short finalValue = function.applyAsSrt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -343,7 +343,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt((short)80);
+        int finalValue = function.applyAsInt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -377,7 +377,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong((short)80);
+        long finalValue = function.applyAsLong((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -411,7 +411,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtToFltFunction function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt((short)80);
+        float finalValue = function.applyAsFlt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -445,7 +445,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl((short)80);
+        double finalValue = function.applyAsDbl((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -479,7 +479,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar((short)80);
+        char finalValue = function.applyAsChar((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -513,7 +513,7 @@ public class LSrtToLongFunctionTest {
 
         //when
         LSrtPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest((short)80);
+        boolean finalValue = function.test((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -526,20 +526,6 @@ public class LSrtToLongFunctionTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingSrtToLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtToLongFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingSrtToLongFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LSrtToLongFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -550,7 +536,7 @@ public class LSrtToLongFunctionTest {
         });
 
         // when
-        sutThrowing.shovingSrtToLongFunc().doApplyAsLong((short)100);
+        sutThrowing.shovingApplyAsLong((short)100);
     }
 
 
@@ -563,7 +549,7 @@ public class LSrtToLongFunctionTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSrtToLongFunction: long doApplyAsLong(short a)");
+                .contains("LSrtToLongFunction: long applyAsLong(short a)");
     }
 
 

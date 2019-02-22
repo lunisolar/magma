@@ -80,8 +80,10 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T> ToIntFunction<T> toIntFunctionFrom(Function<ToIntFunctionBuilder<T>, ToIntFunction<T>> buildingFunction) {
-		return buildingFunction.apply(new ToIntFunctionBuilder());
+	public static <T> ToIntFunction<T> toIntFunctionFrom(Consumer<ToIntFunctionBuilder<T>> buildingFunction) {
+		ToIntFunctionBuilder builder = new ToIntFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,7 +133,7 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 		retval = Function4U.<T> toIntFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, ToIntFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().applyAsInt(a);
 					}
 				}

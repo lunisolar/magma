@@ -63,7 +63,7 @@ public class LTieDblConsumerTest<T> {
 
 
     private LTieDblConsumer<Integer> sut = new LTieDblConsumer<Integer>(){
-        public  void doAcceptX(Integer a1,int a2,double a3)  {
+        public  void acceptX(Integer a1,int a2,double a3)  {
             LTieDblConsumer.doNothing(a1,a2,a3);
         }
     };
@@ -93,11 +93,11 @@ public class LTieDblConsumerTest<T> {
     }
 
     @Test
-    public void testNestingDoAcceptUnchecked() throws Throwable {
+    public void testNestingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoAccept(100,100,100d);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +108,11 @@ public class LTieDblConsumerTest<T> {
     }
 
     @Test
-    public void testShovingDoAcceptUnchecked() throws Throwable {
+    public void testShovingAcceptUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoAccept(100,100,100d);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100d);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LTieDblConsumerTest<T> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieDblConsumer: void doAccept(T a1,int a2,double a3)");
+            .isEqualTo("LTieDblConsumer: void accept(T a1,int a2,double a3)");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class LTieDblConsumerTest<T> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testTieDblConsComposeIntDbl() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -173,8 +173,8 @@ public class LTieDblConsumerTest<T> {
         };
 
         //when
-        LTieDblConsumer<Integer> function = sutO.tieDblConsComposeIntDbl(before1,before2,before3);
-        function.doAccept(80,81,82d);
+        LTieDblConsumer<Integer> function = sutO.compose(before1,before2,before3);
+        function.accept(80,81,82d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -214,7 +214,7 @@ public class LTieDblConsumerTest<T> {
 
         //when
         LTriConsumer<Integer,Integer,Integer> function = sutO.tieDblConsCompose(before1,before2,before3);
-        function.doAccept(80,81,82);
+        function.accept(80,81,82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -246,27 +246,13 @@ public class LTieDblConsumerTest<T> {
 
         //when
         LTieDblConsumer<Integer> function = sutO.andThen(thenFunction);
-        function.doAccept(80,81,82d);
+        function.accept(80,81,82d);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingTieDblCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieDblConsumer.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingTieDblCons())
-            .isSameAs(sut)
-            .isInstanceOf(LTieDblConsumer.class);
-    }
 
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -278,7 +264,7 @@ public class LTieDblConsumerTest<T> {
         });
 
         // when
-        sutThrowing.shovingTieDblCons().doAccept(100,100,100d);
+        sutThrowing.shovingAccept(100,100,100d);
     }
 
 
@@ -291,7 +277,7 @@ public class LTieDblConsumerTest<T> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTieDblConsumer: void doAccept(T a1,int a2,double a3)");
+                .contains("LTieDblConsumer: void accept(T a1,int a2,double a3)");
     }
 
 

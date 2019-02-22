@@ -89,8 +89,8 @@ public class LFltToDblFuncDelta extends LFltToDblFuncMemento {
 	}
 
 	@Override
-	public double doApplyAsDbl(float a) {
-		return deltaFunction.doApplyAsDbl(lastValue(), super.doApplyAsDbl(a));
+	public double applyAsDbl(float a) {
+		return deltaFunction.applyAsDbl(lastValue(), super.applyAsDbl(a));
 	}
 
 	// <editor-fold desc="object">

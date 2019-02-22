@@ -80,8 +80,10 @@ public final class LTriPredicateBuilder<T1, T2, T3> extends PerCaseBuilderWithBo
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPredicateFrom(Function<LTriPredicateBuilder<T1, T2, T3>, LTriPredicate<T1, T2, T3>> buildingFunction) {
-		return buildingFunction.apply(new LTriPredicateBuilder());
+	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPredicateFrom(Consumer<LTriPredicateBuilder<T1, T2, T3>> buildingFunction) {
+		LTriPredicateBuilder builder = new LTriPredicateBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -131,12 +133,12 @@ public final class LTriPredicateBuilder<T1, T2, T3> extends PerCaseBuilderWithBo
 		retval = LTriPredicate.<T1, T2, T3> triPred((a1, a2, a3) -> {
 			try {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a1, a2, a3)) {
-						return aCase.caseFunction().doTest(a1, a2, a3);
+					if (aCase.casePredicate().test(a1, a2, a3)) {
+						return aCase.caseFunction().test(a1, a2, a3);
 					}
 				}
 
-				return eventuallyFinal.doTest(a1, a2, a3);
+				return eventuallyFinal.test(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

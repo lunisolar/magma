@@ -65,7 +65,7 @@ public class LBoolSupplierTest {
 
 
     private LBoolSupplier sut = new LBoolSupplier(){
-        public  boolean doGetAsBoolX()  {
+        public  boolean getAsBoolX()  {
             return testValue;
         }
     };
@@ -86,7 +86,7 @@ public class LBoolSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doGetAsBool())
+        assertThat(sut.getAsBool())
             .isEqualTo(testValue);
     }
 
@@ -102,17 +102,17 @@ public class LBoolSupplierTest {
     }
 
     @Test
-    public void testNonNullDoGetAsBool() throws Throwable {
-        assertThat(sut.nonNullDoGetAsBool())
+    public void testNonNullGetAsBool() throws Throwable {
+        assertThat(sut.nonNullGetAsBool())
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoGetAsBoolUnchecked() throws Throwable {
+    public void testNestingGetAsBoolUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoGetAsBool();
+            sutAlwaysThrowingUnchecked.nestingGetAsBool();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -123,11 +123,11 @@ public class LBoolSupplierTest {
     }
 
     @Test
-    public void testShovingDoGetAsBoolUnchecked() throws Throwable {
+    public void testShovingGetAsBoolUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoGetAsBool();
+            sutAlwaysThrowingUnchecked.shovingGetAsBool();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,7 +141,7 @@ public class LBoolSupplierTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolSupplier: boolean doGetAsBool()");
+            .isEqualTo("LBoolSupplier: boolean getAsBool()");
     }
 
     @Test
@@ -186,7 +186,7 @@ public class LBoolSupplierTest {
 
         //when
         LSupplier<Integer> function = sutO.toSup(thenFunction);
-        Integer finalValue = function.doGet();
+        Integer finalValue = function.get();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -219,7 +219,7 @@ public class LBoolSupplierTest {
 
         //when
         LByteSupplier function = sutO.toByteSup(thenFunction);
-        byte finalValue = function.doGetAsByte();
+        byte finalValue = function.getAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -252,7 +252,7 @@ public class LBoolSupplierTest {
 
         //when
         LSrtSupplier function = sutO.toSrtSup(thenFunction);
-        short finalValue = function.doGetAsSrt();
+        short finalValue = function.getAsSrt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -285,7 +285,7 @@ public class LBoolSupplierTest {
 
         //when
         LIntSupplier function = sutO.toIntSup(thenFunction);
-        int finalValue = function.doGetAsInt();
+        int finalValue = function.getAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -318,7 +318,7 @@ public class LBoolSupplierTest {
 
         //when
         LLongSupplier function = sutO.toLongSup(thenFunction);
-        long finalValue = function.doGetAsLong();
+        long finalValue = function.getAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -351,7 +351,7 @@ public class LBoolSupplierTest {
 
         //when
         LFltSupplier function = sutO.toFltSup(thenFunction);
-        float finalValue = function.doGetAsFlt();
+        float finalValue = function.getAsFlt();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -384,7 +384,7 @@ public class LBoolSupplierTest {
 
         //when
         LDblSupplier function = sutO.toDblSup(thenFunction);
-        double finalValue = function.doGetAsDbl();
+        double finalValue = function.getAsDbl();
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -417,7 +417,7 @@ public class LBoolSupplierTest {
 
         //when
         LCharSupplier function = sutO.toCharSup(thenFunction);
-        char finalValue = function.doGetAsChar();
+        char finalValue = function.getAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -450,7 +450,7 @@ public class LBoolSupplierTest {
 
         //when
         LBoolSupplier function = sutO.toBoolSup(thenFunction);
-        boolean finalValue = function.doGetAsBool();
+        boolean finalValue = function.getAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -463,20 +463,6 @@ public class LBoolSupplierTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingBoolSup())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolSupplier.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingBoolSup())
-            .isSameAs(sut)
-            .isInstanceOf(LBoolSupplier.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -487,7 +473,7 @@ public class LBoolSupplierTest {
         });
 
         // when
-        sutThrowing.shovingBoolSup().doGetAsBool();
+        sutThrowing.shovingGetAsBool();
     }
 
 
@@ -500,7 +486,7 @@ public class LBoolSupplierTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBoolSupplier: boolean doGetAsBool()");
+                .contains("LBoolSupplier: boolean getAsBool()");
     }
 
 

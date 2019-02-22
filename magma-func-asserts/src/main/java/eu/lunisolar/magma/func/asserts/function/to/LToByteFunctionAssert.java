@@ -82,13 +82,12 @@ public interface LToByteFunctionAssert<S extends LToByteFunctionAssert<S, A, RS,
 		@Nonnull
 		public Evaluation<S, LConsumer<T>, A, RS, Byte> doesApplyAsByte(T a) {
 
-			return evaluation(pc -> {
+			return evaluation(() -> String.format("(%s)", a), pc -> {
 				if (pc != null) {
-					pc.doAccept(a);
+					pc.accept(a);
 				}
-				return assertFactory.doApply(actual.doApplyAsByte(a));
+				return assertFactory.apply(actual.applyAsByte(a));
 			});
-
 		}
 
 	}

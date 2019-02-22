@@ -89,8 +89,8 @@ public class LCharToIntFuncDelta extends LCharToIntFuncMemento {
 	}
 
 	@Override
-	public int doApplyAsInt(char a) {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doApplyAsInt(a));
+	public int applyAsInt(char a) {
+		return deltaFunction.applyAsInt(lastValue(), super.applyAsInt(a));
 	}
 
 	// <editor-fold desc="object">

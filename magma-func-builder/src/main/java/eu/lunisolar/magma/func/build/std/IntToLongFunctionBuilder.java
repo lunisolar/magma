@@ -80,8 +80,10 @@ public final class IntToLongFunctionBuilder extends PerCaseBuilderWithLongProduc
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static IntToLongFunction intToLongFunctionFrom(Function<IntToLongFunctionBuilder, IntToLongFunction> buildingFunction) {
-		return buildingFunction.apply(new IntToLongFunctionBuilder());
+	public static IntToLongFunction intToLongFunctionFrom(Consumer<IntToLongFunctionBuilder> buildingFunction) {
+		IntToLongFunctionBuilder builder = new IntToLongFunctionBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,7 +115,7 @@ public final class IntToLongFunctionBuilder extends PerCaseBuilderWithLongProduc
 		retval = Function4U.intToLongFunc(a -> {
 			try {
 				for (Case<LIntPredicate, IntToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doTest(a)) {
+					if (aCase.casePredicate().test(a)) {
 						return aCase.caseFunction().applyAsLong(a);
 					}
 				}

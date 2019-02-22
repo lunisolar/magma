@@ -80,8 +80,10 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 
 	/** One of ways of creating builder. This is possibly the least verbose way where compiler should be able to guess the generic parameters. */
 	@Nonnull
-	public static LLongSupplier longSupplierFrom(Function<LLongSupplierBuilder, LLongSupplier> buildingFunction) {
-		return buildingFunction.apply(new LLongSupplierBuilder());
+	public static LLongSupplier longSupplierFrom(Consumer<LLongSupplierBuilder> buildingFunction) {
+		LLongSupplierBuilder builder = new LLongSupplierBuilder();
+		buildingFunction.accept(builder);
+		return builder.build();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
@@ -113,12 +115,12 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 		retval = LLongSupplier.longSup(() -> {
 			try {
 				for (Case<LBoolSupplier, LLongSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBool()) {
-						return aCase.caseFunction().doGetAsLong();
+					if (aCase.casePredicate().getAsBool()) {
+						return aCase.caseFunction().getAsLong();
 					}
 				}
 
-				return eventuallyFinal.doGetAsLong();
+				return eventuallyFinal.getAsLong();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

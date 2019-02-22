@@ -72,8 +72,8 @@ public class LToLongBiFuncMemento<T1, T2> implements LToLongBiFunction<T1, T2> {
 	}
 
 	@Override
-	public long doApplyAsLongX(T1 a1, T2 a2) {
-		return lastValue = function.doApplyAsLong(a1, a2);
+	public long applyAsLongX(T1 a1, T2 a2) {
+		return lastValue = function.applyAsLong(a1, a2);
 	}
 
 	public long lastValue() {

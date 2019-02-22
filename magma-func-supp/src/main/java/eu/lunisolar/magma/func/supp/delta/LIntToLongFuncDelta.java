@@ -89,8 +89,8 @@ public class LIntToLongFuncDelta extends LIntToLongFuncMemento {
 	}
 
 	@Override
-	public long doApplyAsLong(int a) {
-		return deltaFunction.doApplyAsLong(lastValue(), super.doApplyAsLong(a));
+	public long applyAsLong(int a) {
+		return deltaFunction.applyAsLong(lastValue(), super.applyAsLong(a));
 	}
 
 	// <editor-fold desc="object">

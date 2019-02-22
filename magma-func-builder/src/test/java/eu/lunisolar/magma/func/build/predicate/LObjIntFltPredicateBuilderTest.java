@@ -69,7 +69,7 @@ public class LObjIntFltPredicateBuilderTest<T>{
                 .build()
             );
 
-            function.doTest(100,100,100f);
+            function.test(100,100,100f);
 
             fail("No exception were thrown.");
         })
@@ -104,7 +104,7 @@ public class LObjIntFltPredicateBuilderTest<T>{
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
-            function.doTest(100,100,100f);
+            function.test(100,100,100f);
 
             fail("No exception were thrown.");
         })

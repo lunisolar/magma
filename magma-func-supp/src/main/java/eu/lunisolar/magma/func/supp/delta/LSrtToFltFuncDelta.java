@@ -89,8 +89,8 @@ public class LSrtToFltFuncDelta extends LSrtToFltFuncMemento {
 	}
 
 	@Override
-	public float doApplyAsFlt(short a) {
-		return deltaFunction.doApplyAsFlt(lastValue(), super.doApplyAsFlt(a));
+	public float applyAsFlt(short a) {
+		return deltaFunction.applyAsFlt(lastValue(), super.applyAsFlt(a));
 	}
 
 	// <editor-fold desc="object">

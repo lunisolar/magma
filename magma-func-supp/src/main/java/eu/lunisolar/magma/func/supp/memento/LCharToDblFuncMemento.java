@@ -72,8 +72,8 @@ public class LCharToDblFuncMemento implements LCharToDblFunction {
 	}
 
 	@Override
-	public double doApplyAsDblX(char a) {
-		return lastValue = function.doApplyAsDbl(a);
+	public double applyAsDblX(char a) {
+		return lastValue = function.applyAsDbl(a);
 	}
 
 	public double lastValue() {

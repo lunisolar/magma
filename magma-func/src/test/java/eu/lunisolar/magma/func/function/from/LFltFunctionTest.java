@@ -65,14 +65,14 @@ public class LFltFunctionTest<R> {
 
 
     private LFltFunction<Integer> sut = new LFltFunction<Integer>(){
-        public @Nullable Integer doApplyX(float a)  {
+        public @Nullable Integer applyX(float a)  {
             return testValue;
         }
     };
 
 
     private LFltFunction<Integer> sutNull = new LFltFunction<Integer>(){
-        public @Nullable Integer doApplyX(float a)  {
+        public @Nullable Integer applyX(float a)  {
             return null;
         }
     };
@@ -90,7 +90,7 @@ public class LFltFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doApply(100f))
+        assertThat(sut.apply(100f))
             .isEqualTo(testValue);
     }
 
@@ -106,17 +106,17 @@ public class LFltFunctionTest<R> {
     }
 
     @Test
-    public void testNonNullDoApply() throws Throwable {
-        assertThat(sut.nonNullDoApply(100f))
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100f))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApplyUnchecked() throws Throwable {
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoApply(100f);
+            sutAlwaysThrowingUnchecked.nestingApply(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -127,11 +127,11 @@ public class LFltFunctionTest<R> {
     }
 
     @Test
-    public void testShovingDoApplyUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoApply(100f);
+            sutAlwaysThrowingUnchecked.shovingApply(100f);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -141,16 +141,16 @@ public class LFltFunctionTest<R> {
         }
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LFltFunction: R doApply(float a)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LFltFunction: R apply(float a)).\\E")
     public void testNonNullCapturesNull() throws Throwable {
-        sutNull.nonNullDoApply(100f);
+        sutNull.nonNullApply(100f);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltFunction: R doApply(float a)");
+            .isEqualTo("LFltFunction: R apply(float a)");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class LFltFunctionTest<R> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testFltFuncComposeFlt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -186,8 +186,8 @@ public class LFltFunctionTest<R> {
         };
 
         //when
-        LFltFunction<Integer> function = sutO.fltFuncComposeFlt(before);
-        function.doApply(80f);
+        LFltFunction<Integer> function = sutO.compose(before);
+        function.apply(80f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -216,7 +216,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFunction<Integer,Integer> function = sutO.fltFuncCompose(before);
-        function.doApply(80);
+        function.apply(80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -252,7 +252,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltFunction<Integer> function = sutO.then(thenFunction);
-        Integer finalValue = function.doApply(80f);
+        Integer finalValue = function.apply(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -284,7 +284,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltConsumer function = sutO.thenConsume(thenFunction);
-        function.doAccept(80f);
+        function.accept(80f);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.doApplyAsByte(80f);
+        byte finalValue = function.applyAsByte(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -351,7 +351,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltToSrtFunction function = sutO.thenToSrt(thenFunction);
-        short finalValue = function.doApplyAsSrt(80f);
+        short finalValue = function.applyAsSrt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -385,7 +385,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.doApplyAsInt(80f);
+        int finalValue = function.applyAsInt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100);
@@ -419,7 +419,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.doApplyAsLong(80f);
+        long finalValue = function.applyAsLong(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100L);
@@ -453,7 +453,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltUnaryOperator function = sutO.thenToFlt(thenFunction);
-        float finalValue = function.doApplyAsFlt(80f);
+        float finalValue = function.applyAsFlt(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100f);
@@ -487,7 +487,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltToDblFunction function = sutO.thenToDbl(thenFunction);
-        double finalValue = function.doApplyAsDbl(80f);
+        double finalValue = function.applyAsDbl(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(100d);
@@ -521,7 +521,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.doApplyAsChar(80f);
+        char finalValue = function.applyAsChar(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo('\u0100');
@@ -555,7 +555,7 @@ public class LFltFunctionTest<R> {
 
         //when
         LFltPredicate function = sutO.thenToBool(thenFunction);
-        boolean finalValue = function.doTest(80f);
+        boolean finalValue = function.test(80f);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -568,20 +568,6 @@ public class LFltFunctionTest<R> {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LFltFunction.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingFltFunc())
-            .isSameAs(sut)
-            .isInstanceOf(LFltFunction.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -592,7 +578,7 @@ public class LFltFunctionTest<R> {
         });
 
         // when
-        sutThrowing.shovingFltFunc().doApply(100f);
+        sutThrowing.shovingApply(100f);
     }
 
 
@@ -605,7 +591,7 @@ public class LFltFunctionTest<R> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFltFunction: R doApply(float a)");
+                .contains("LFltFunction: R apply(float a)");
     }
 
 

@@ -66,135 +66,152 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain2<aChar, aChar> { // NOSONAR
 
-	String DESCRIPTION = "LBiCharFunction: R doApply(char a1,char a2)";
+	String DESCRIPTION = "LBiCharFunction: R apply(char a1,char a2)";
 
 	@Nullable
-	// R doApply(char a1,char a2) ;
-	default R doApply(char a1, char a2) {
-		// return nestingDoApply(a1,a2);
+	// R apply(char a1,char a2) ;
+	default R apply(char a1, char a2) {
+		// return nestingApply(a1,a2);
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/**
-	 * Implement this, but call doApply(char a1,char a2)
+	 * Implement this, but call apply(char a1,char a2)
 	 */
-	R doApplyX(char a1, char a2) throws Throwable;
+	R applyX(char a1, char a2) throws Throwable;
 
 	default R tupleApply(LCharPair args) {
-		return doApply(args.first(), args.second());
+		return apply(args.first(), args.second());
 	}
 
 	/** Function call that handles exceptions according to the instructions. */
-	default R handlingDoApply(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
+	default R handlingApply(char a1, char a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
 
-	default R tryDoApply(char a1, char a2, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default LBiCharFunction<R> handling(HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (a1, a2) -> handlingApply(a1, a2, handling);
+	}
+
+	default R apply(char a1, char a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage, messageParams);
 		}
 	}
 
-	default R tryDoApply(char a1, char a2, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	default LBiCharFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, messageParams);
+	}
+
+	default R apply(char a1, char a2, @Nonnull ExWF<RuntimeException> exF) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exceptionFactory);
+			throw Handling.wrap(e, exF);
 		}
 	}
 
-	default R tryDoApplyThen(char a1, char a2, @Nonnull LFunction<Throwable, R> handler) {
+	default LBiCharFunction<R> trying(@Nonnull ExWF<RuntimeException> exF) {
+		return (a1, a2) -> apply(a1, a2, exF);
+	}
+
+	default R applyThen(char a1, char a2, @Nonnull LFunction<Throwable, R> handler) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return handler.doApply(e);
+			return handler.apply(e);
 		}
+	}
+
+	default LBiCharFunction<R> tryingThen(@Nonnull LFunction<Throwable, R> handler) {
+		return (a1, a2) -> applyThen(a1, a2, handler);
 	}
 
 	/** Function call that handles exceptions by always nesting checked exceptions and propagating the others as is. */
-	default R nestingDoApply(char a1, char a2) {
+	default R nestingApply(char a1, char a2) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
 	/** Function call that handles exceptions by always propagating them as is, even when they are undeclared checked ones. */
-	default R shovingDoApply(char a1, char a2) {
+	default R shovingApply(char a1, char a2) {
 		try {
-			return this.doApplyX(a1, a2);
+			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
 
-	static <R> R handlingDoApply(char a1, char a2, LBiCharFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(char a1, char a2, LBiCharFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
-		return func.handlingDoApply(a1, a2, handling);
+		return func.handlingApply(a1, a2, handling);
 	}
 
-	static <R> R tryDoApply(char a1, char a2, LBiCharFunction<R> func) {
-		return tryDoApply(a1, a2, func, null);
-	}
-
-	static <R> R tryDoApply(char a1, char a2, LBiCharFunction<R> func, @Nonnull ExceptionWrapWithMessageFactory<RuntimeException> exceptionFactory, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <R> R tryApply(char a1, char a2, LBiCharFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, exceptionFactory, newMessage, messageParams);
+		return func.nestingApply(a1, a2);
 	}
 
-	static <R> R tryDoApply(char a1, char a2, LBiCharFunction<R> func, @Nonnull ExceptionWrapFactory<RuntimeException> exceptionFactory) {
+	static <R> R tryApply(char a1, char a2, LBiCharFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApply(a1, a2, exceptionFactory);
+		return func.apply(a1, a2, exF, newMessage, messageParams);
 	}
 
-	static <R> R tryDoApplyThen(char a1, char a2, LBiCharFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+	static <R> R tryApply(char a1, char a2, LBiCharFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {
 		Null.nonNullArg(func, "func");
-		return func.tryDoApplyThen(a1, a2, handler);
+		return func.apply(a1, a2, exF);
 	}
 
-	default R failSafeDoApply(char a1, char a2, @Nonnull LBiCharFunction<R> failSafe) {
+	static <R> R tryApplyThen(char a1, char a2, LBiCharFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {
+		Null.nonNullArg(func, "func");
+		return func.applyThen(a1, a2, handler);
+	}
+
+	default R failSafeApply(char a1, char a2, @Nonnull LBiCharFunction<R> failSafe) {
 		try {
-			return doApply(a1, a2);
+			return apply(a1, a2);
 		} catch (Throwable e) { // NOSONAR
 			Handling.handleErrors(e);
-			return failSafe.doApply(a1, a2);
+			return failSafe.apply(a1, a2);
 		}
 	}
 
-	static <R> R failSafeDoApply(char a1, char a2, LBiCharFunction<R> func, @Nonnull LBiCharFunction<R> failSafe) {
+	static <R> R failSafeApply(char a1, char a2, LBiCharFunction<R> func, @Nonnull LBiCharFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
 		if (func == null) {
-			return failSafe.doApply(a1, a2);
+			return failSafe.apply(a1, a2);
 		} else {
-			return func.failSafeDoApply(a1, a2, failSafe);
+			return func.failSafeApply(a1, a2, failSafe);
 		}
 	}
 
-	static <R> LBiCharFunction<R> failSafeBiCharFunc(LBiCharFunction<R> func, @Nonnull LBiCharFunction<R> failSafe) {
+	static <R> LBiCharFunction<R> failSafe(LBiCharFunction<R> func, @Nonnull LBiCharFunction<R> failSafe) {
 		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeDoApply(a1, a2, func, failSafe);
+		return (a1, a2) -> failSafeApply(a1, a2, func, failSafe);
 	}
 
-	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */
 	@Nonnull
-	default R nonNullDoApply(char a1, char a2) {
-		return Null.requireNonNull(doApply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+	default R nonNullApply(char a1, char a2) {
+		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -206,13 +223,13 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTo(int min_i, int max_i, char a1, char a2, LBiCharFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i >= max_i; i--) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		}
 	}
@@ -220,28 +237,30 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void fromTill(int min_i, int max_i, char a1, char a2, LBiCharFunction<R> func) {
 		Null.nonNullArg(func, "func");
-		if (min_i <= min_i) {
+		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		} else {
 			for (int i = min_i; i > max_i; i--) {
-				func.doApply(a1, a2);
+				func.apply(a1, a2);
 			}
 		}
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <R> void times(int max_i, char a1, char a2, LBiCharFunction<R> func) {
+		if (max_i < 0)
+			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	public default LCharFunction<R> lShrink(LCharUnaryOperator left) {
-		return a2 -> doApply(left.doApplyAsChar(a2), a2);
+		return a2 -> apply(left.applyAsChar(a2), a2);
 	}
 
 	public default LCharFunction<R> lShrinkc(char a1) {
-		return a2 -> doApply(a1, a2);
+		return a2 -> apply(a1, a2);
 	}
 
 	public static <R> LCharFunction<R> lShrinked(LCharUnaryOperator left, LBiCharFunction<R> func) {
@@ -253,11 +272,11 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	public default LCharFunction<R> rShrink(LCharUnaryOperator right) {
-		return a1 -> doApply(a1, right.doApplyAsChar(a1));
+		return a1 -> apply(a1, right.applyAsChar(a1));
 	}
 
 	public default LCharFunction<R> rShrinkc(char a2) {
-		return a1 -> doApply(a1, a2);
+		return a1 -> apply(a1, a2);
 	}
 
 	public static <R> LCharFunction<R> rShrinked(LCharUnaryOperator right, LBiCharFunction<R> func) {
@@ -269,13 +288,28 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/**  */
-	public static <R> LBiCharFunction<R> uncurryBiCharFunc(LCharFunction<LCharFunction<R>> func) {
-		return (char a1, char a2) -> func.doApply(a1).doApply(a2);
+	public static <R> LBiCharFunction<R> uncurry(LCharFunction<LCharFunction<R>> func) {
+		return (char a1, char a2) -> func.apply(a1).apply(a2);
+	}
+
+	/** Cast that removes generics. */
+	public default LBiCharFunction untyped() {
+		return this;
+	}
+
+	/** Cast that replace generics. */
+	public default <V2> LBiCharFunction<V2> cast() {
+		return untyped();
+	}
+
+	/** Cast that replace generics. */
+	public static <V2, R> LBiCharFunction<V2> cast(LBiCharFunction<R> function) {
+		return (LBiCharFunction) function;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureBiCharFunc(char a1, char a2) {
-		return () -> this.doApply(a1, a2);
+	default LSupplier<R> capture(char a1, char a2) {
+		return () -> this.apply(a1, a2);
 	}
 
 	/** Creates function that always returns the same value. */
@@ -286,13 +320,13 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** Captures single parameter function into this interface where only 1st parameter will be used. */
 	@Nonnull
 	static <R> LBiCharFunction<R> apply1st(@Nonnull LCharFunction<R> func) {
-		return (a1, a2) -> func.doApply(a1);
+		return (a1, a2) -> func.apply(a1);
 	}
 
 	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
 	@Nonnull
 	static <R> LBiCharFunction<R> apply2nd(@Nonnull LCharFunction<R> func) {
-		return (a1, a2) -> func.doApply(a2);
+		return (a1, a2) -> func.apply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -305,7 +339,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	static <R> LBiCharFunction<R> recursive(final @Nonnull LFunction<LBiCharFunction<R>, LBiCharFunction<R>> selfLambda) {
 		final LBiCharFunctionSingle<R> single = new LBiCharFunctionSingle();
-		LBiCharFunction<R> func = selfLambda.doApply(single);
+		LBiCharFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
@@ -314,8 +348,8 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		private LBiCharFunction<R> target = null;
 
 		@Override
-		public R doApplyX(char a1, char a2) throws Throwable {
-			return target.doApplyX(a1, a2);
+		public R applyX(char a1, char a2) throws Throwable {
+			return target.applyX(a1, a2);
 		}
 
 		@Override
@@ -325,18 +359,18 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	@Nonnull
-	static <R> LBiCharFunction<R> biCharFuncThrowing(final @Nonnull ExceptionFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LBiCharFunction<R> biCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce();
+			throw exF.produce();
 		};
 	}
 
 	@Nonnull
-	static <R> LBiCharFunction<R> biCharFuncThrowing(final String message, final @Nonnull ExceptionWithMessageFactory<Throwable> exceptionFactory) {
-		Null.nonNullArg(exceptionFactory, "exceptionFactory");
+	static <R> LBiCharFunction<R> biCharFuncThrowing(final String message, final @Nonnull ExMF<Throwable> exF) {
+		Null.nonNullArg(exF, "exF");
 		return (a1, a2) -> {
-			throw exceptionFactory.produce(message);
+			throw exF.produce(message);
 		};
 	}
 
@@ -353,7 +387,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	static <R> R call(char a1, char a2, final @Nonnull LBiCharFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
-		return lambda.doApply(a1, a2);
+		return lambda.apply(a1, a2);
 	}
 
 	// <editor-fold desc="wrap">
@@ -400,14 +434,14 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiCharFunction<R> biCharFuncComposeChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LBiCharFunction<R> compose(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.apply(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
-	public static <R> LBiCharFunction<R> composedChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LBiCharFunction<R> after) {
-		return after.biCharFuncComposeChar(before1, before2);
+	public static <R> LBiCharFunction<R> composed(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LBiCharFunction<R> after) {
+		return after.compose(before1, before2);
 	}
 
 	/** Allows to manipulate the domain of the function. */
@@ -415,7 +449,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default <V1, V2> LBiFunction<V1, V2, R> biCharFuncCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (v1, v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
+		return (v1, v2) -> this.apply(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
 	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2, LBiCharFunction<R> after) {
@@ -430,22 +464,22 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default <V> LBiCharFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApply(this.doApply(a1, a2));
+		return (a1, a2) -> after.apply(this.apply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiCharConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doAccept(this.doApply(a1, a2));
+		return (a1, a2) -> after.accept(this.apply(a1, a2));
 	}
 
 	@Nonnull
 	default LBiCharFunction<R> before(@Nonnull LBiCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (a1, a2) -> {
-			before.doAccept(a1, a2);
-			return this.doApply(a1, a2);
+			before.accept(a1, a2);
+			return this.apply(a1, a2);
 		};
 	}
 
@@ -453,8 +487,8 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default LBiCharFunction<R> after(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> {
-			R result = this.doApply(a1, a2);
-			after.doAccept(result);
+			R result = this.apply(a1, a2);
+			after.accept(result);
 			return result;
 		};
 	}
@@ -463,37 +497,26 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nonnull
 	default LCharBinaryOperator thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doApplyAsChar(this.doApply(a1, a2));
+		return (a1, a2) -> after.applyAsChar(this.apply(a1, a2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiCharPredicate thenToBool(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (a1, a2) -> after.doTest(this.doApply(a1, a2));
+		return (a1, a2) -> after.test(this.apply(a1, a2));
 	}
 
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to non-throwing variant (if required). */
-	@Nonnull
-	default LBiCharFunction<R> nestingBiCharFunc() {
-		return this;
-	}
-
-	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiCharFunction<R> shovingBiCharFunc() {
-		return this;
-	}
-
 	// </editor-fold>
 
 	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LBiCharFunction<R> nonNullBiCharFunc() {
-		return this::nonNullDoApply;
+	default LBiCharFunction<R> nonNullable() {
+		return this::nonNullApply;
 	}
 
 	// <editor-fold desc="interface variants">
@@ -502,11 +525,11 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LChar1Char0Func<R> extends LBiCharFunction<R> {
 		@Nullable
-		R doApplyChar1Char0(char a2, char a1);
+		R applyChar1Char0(char a2, char a1);
 
 		@Override
-		default R doApplyX(char a1, char a2) {
-			return this.doApplyChar1Char0(a2, a1);
+		default R applyX(char a1, char a2) {
+			return this.applyChar1Char0(a2, a1);
 		}
 	}
 
@@ -517,7 +540,10 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (R) Function4U.defaultObject;
 	}
 
-	// MAP: FOR, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2> void forEach(IndexedRead<C1, aChar> ia1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
@@ -525,56 +551,65 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
 		for (; i < size; i++) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
-			consumer.doAccept(this.doApply(a1, a2));
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = oiFunc2.applyAsChar(source2, i);
+			consumer.accept(this.apply(a1, a2));
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=IA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, I1, C2> void iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, IndexedRead<C2, aChar> ia2, C2 source2, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
 		int size = ia2.size(source2);
 		LOiToCharFunction<Object> oiFunc2 = (LOiToCharFunction) ia2.getter();
 		int i = 0;
-		while (testFunc1.doTest(iterator1) && i < size) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = oiFunc2.doApplyAsChar(source2, i);
-			consumer.doAccept(this.doApply(a1, a2));
+		while (testFunc1.test(iterator1) && i < size) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = oiFunc2.applyAsChar(source2, i);
+			consumer.accept(this.apply(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a1, type=IA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method is not expected.
+	*/
 	default <C1, C2, I2> void iterate(IndexedRead<C1, aChar> ia1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LConsumer<? super R> consumer) {
 		int size = ia1.size(source1);
 		LOiToCharFunction<Object> oiFunc1 = (LOiToCharFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
 		int i = 0;
-		while (i < size && testFunc2.doTest(iterator2)) {
-			char a1 = oiFunc1.doApplyAsChar(source1, i);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
-			consumer.doAccept(this.doApply(a1, a2));
+		while (i < size && testFunc2.test(iterator2)) {
+			char a1 = oiFunc1.applyAsChar(source1, i);
+			char a2 = nextFunc2.applyAsChar(iterator2);
+			consumer.accept(this.apply(a1, a2));
 			i++;
 		}
 	}
 
-	// MAP: WHILE, [SourcePurpose{arg=char a1, type=SA}, SourcePurpose{arg=char a2, type=SA}, SourcePurpose{arg=LConsumer<? super R> consumer, type=CONST}]
+	/**
+	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
+	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
+	*/
 	default <C1, I1, C2, I2> void iterate(SequentialRead<C1, I1, aChar> sa1, C1 source1, SequentialRead<C2, I2, aChar> sa2, C2 source2, LConsumer<? super R> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).doApply(source1);
+		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
 		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).doApply(source2);
+		LToCharFunction<Object> nextFunc1 = (LToCharFunction) sa1.supplier();
+		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
 		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.getter();
-		while (testFunc1.doTest(iterator1) && testFunc2.doTest(iterator2)) {
-			char a1 = nextFunc1.doApplyAsChar(iterator1);
-			char a2 = nextFunc2.doApplyAsChar(iterator2);
-			consumer.doAccept(this.doApply(a1, a2));
+		LToCharFunction<Object> nextFunc2 = (LToCharFunction) sa2.supplier();
+		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
+			char a1 = nextFunc1.applyAsChar(iterator1);
+			char a2 = nextFunc2.applyAsChar(iterator2);
+			consumer.accept(this.apply(a1, a2));
 		}
 	}
 

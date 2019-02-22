@@ -34,21 +34,17 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
+public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2, T1> {
 
 	int SIZE = 2;
 
 	T1 first();
 
-	T2 second();
-
-	default T1 getFirst() {
+	default T1 value() {
 		return first();
 	}
 
-	default T2 getSecond() {
-		return second();
-	}
+	T2 second();
 
 	default Object get(int index) {
 		switch (index) {
@@ -68,18 +64,20 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 	// <editor-fold desc="Map.Entry">
 
+	/** Returns key as Entry.key() */
 	@Override
-	default T1 getKey() {
+	default T2 getKey() {
+		return second();
+	}
+
+	/** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
+	@Override
+	default T1 getValue() {
 		return first();
 	}
 
 	@Override
-	default T2 getValue() {
-		return second();
-	}
-
-	@Override
-	default T2 setValue(T2 value) {
+	default T1 setValue(T1 value) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -118,27 +116,6 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 			});
 	}
 
-	default Object[] toArray(Object[] array, int startingIndex) {
-		int i = startingIndex;
-
-		array[i] = first();
-		i++;
-		array[i] = second();
-
-		return array;
-	}
-
-	default Object[] toArray(Object[] array) {
-		return toArray(array, 0);
-	}
-
-	default Object[] toArray() {
-		Object[] array = new Object[size()];
-
-		return toArray(array);
-	}
-
-	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -187,9 +164,9 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(getFirst());
+			sb.append(first());
 			sb.append(',');
-			sb.append(getSecond());
+			sb.append(second());
 			sb.append(')');
 			return sb.toString();
 		}
@@ -242,7 +219,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutPair<T1, T2> setFirstIfArg(T1 first, LPredicate<T1> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -251,14 +228,14 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutPair<T1, T2> setFirstIfArgNotNull(R arg, LFunction<R, T1> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutPair<T1, T2> setFirstIf(LPredicate<T1> predicate, T1 first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -267,7 +244,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutPair<T1, T2> setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -276,7 +253,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutPair<T1, T2> setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -289,7 +266,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutPair<T1, T2> setSecondIfArg(T2 second, LPredicate<T2> predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -298,14 +275,14 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutPair<T1, T2> setSecondIfArgNotNull(R arg, LFunction<R, T2> func) {
 			if (arg != null) {
-				this.second = func.doApply(arg);
+				this.second = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutPair<T1, T2> setSecondIf(LPredicate<T2> predicate, T2 second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -314,7 +291,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutPair<T1, T2> setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -323,7 +300,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutPair<T1, T2> setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;
@@ -381,7 +358,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompPair<T1, T2> setFirstIfArg(T1 first, LPredicate<T1> predicate) {
-			if (predicate.doTest(first)) {
+			if (predicate.test(first)) {
 				this.first = first;
 			}
 			return this;
@@ -390,14 +367,14 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompPair<T1, T2> setFirstIfArgNotNull(R arg, LFunction<R, T1> func) {
 			if (arg != null) {
-				this.first = func.doApply(arg);
+				this.first = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompPair<T1, T2> setFirstIf(LPredicate<T1> predicate, T1 first) {
-			if (predicate.doTest(this.first)) {
+			if (predicate.test(this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -406,7 +383,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompPair<T1, T2> setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(first, this.first)) {
+			if (predicate.test(first, this.first)) {
 				this.first = first;
 			}
 			return this;
@@ -415,7 +392,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompPair<T1, T2> setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
 
-			if (predicate.doTest(this.first, first)) {
+			if (predicate.test(this.first, first)) {
 				this.first = first;
 			}
 			return this;
@@ -428,7 +405,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		/** Sets value if predicate(newValue) OR newValue::predicate is true */
 		public MutCompPair<T1, T2> setSecondIfArg(T2 second, LPredicate<T2> predicate) {
-			if (predicate.doTest(second)) {
+			if (predicate.test(second)) {
 				this.second = second;
 			}
 			return this;
@@ -437,14 +414,14 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets value derived from non-null argument, only if argument is not null. */
 		public <R> MutCompPair<T1, T2> setSecondIfArgNotNull(R arg, LFunction<R, T2> func) {
 			if (arg != null) {
-				this.second = func.doApply(arg);
+				this.second = func.apply(arg);
 			}
 			return this;
 		}
 
 		/** Sets value if predicate(current) OR current::predicate is true */
 		public MutCompPair<T1, T2> setSecondIf(LPredicate<T2> predicate, T2 second) {
-			if (predicate.doTest(this.second)) {
+			if (predicate.test(this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -453,7 +430,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
 		public MutCompPair<T1, T2> setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
 			// the order of arguments is intentional, to allow predicate:
-			if (predicate.doTest(second, this.second)) {
+			if (predicate.test(second, this.second)) {
 				this.second = second;
 			}
 			return this;
@@ -462,7 +439,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
 		public MutCompPair<T1, T2> setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
 
-			if (predicate.doTest(this.second, second)) {
+			if (predicate.test(this.second, second)) {
 				this.second = second;
 			}
 			return this;

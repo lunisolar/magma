@@ -65,7 +65,7 @@ public class LLongIntPredicateTest {
 
 
     private LLongIntPredicate sut = new LLongIntPredicate(){
-        public  boolean doTestX(long a1,int a2)  {
+        public  boolean testX(long a1,int a2)  {
             return testValue;
         }
     };
@@ -84,7 +84,7 @@ public class LLongIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.doTest(100L,100))
+        assertThat(sut.test(100L,100))
             .isEqualTo(testValue);
     }
 
@@ -100,17 +100,17 @@ public class LLongIntPredicateTest {
     }
 
     @Test
-    public void testNonNullDoTest() throws Throwable {
-        assertThat(sut.nonNullDoTest(100L,100))
+    public void testNonNullTest() throws Throwable {
+        assertThat(sut.nonNullTest(100L,100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoTestUnchecked() throws Throwable {
+    public void testNestingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingDoTest(100L,100);
+            sutAlwaysThrowingUnchecked.nestingTest(100L,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -121,11 +121,11 @@ public class LLongIntPredicateTest {
     }
 
     @Test
-    public void testShovingDoTestUnchecked() throws Throwable {
+    public void testShovingTestUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingDoTest(100L,100);
+            sutAlwaysThrowingUnchecked.shovingTest(100L,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LLongIntPredicateTest {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongIntPredicate: boolean doTest(long a1,int a2)");
+            .isEqualTo("LLongIntPredicate: boolean test(long a1,int a2)");
     }
 
     @Test
@@ -160,7 +160,7 @@ public class LLongIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().doTest(100L,100))
+        assertThat(sut.negate().test(100L,100))
             .isEqualTo(!testValue);
     }
 
@@ -188,13 +188,13 @@ public class LLongIntPredicateTest {
         LLongIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.doTest(100L,100))
+        assertThat(andFunction.test(100L,100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.doTest(100L,100))
+        assertThat(orFunction.test(100L,100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.doTest(100L,100))
+        assertThat(xorFunction.test(100L,100))
                 .isEqualTo(xorResult);
     }
 
@@ -204,10 +204,10 @@ public class LLongIntPredicateTest {
         LLongIntPredicate equals = LLongIntPredicate.isEqual(1L,1);
 
         //then
-        assertThat(equals.doTest(1L,1))
+        assertThat(equals.test(1L,1))
                 .isTrue();
 
-        assertThat(equals.doTest(0L,0))
+        assertThat(equals.test(0L,0))
                 .isFalse();
     }
 
@@ -216,7 +216,7 @@ public class LLongIntPredicateTest {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testLongIntPredComposeLongInt() throws Throwable {
+    public void testCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -241,8 +241,8 @@ public class LLongIntPredicateTest {
         };
 
         //when
-        LLongIntPredicate function = sutO.longIntPredComposeLongInt(before1,before2);
-        function.doTest(80L,81);
+        LLongIntPredicate function = sutO.compose(before1,before2);
+        function.test(80L,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -277,7 +277,7 @@ public class LLongIntPredicateTest {
 
         //when
         LBiPredicate<Integer,Integer> function = sutO.longIntPredCompose(before1,before2);
-        function.doTest(80,81);
+        function.test(80,81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LLongIntPredicateTest {
 
         //when
         LLongIntPredicate function = sutO.boolToLongIntPred(thenFunction);
-        boolean finalValue = function.doTest(80L,81);
+        boolean finalValue = function.test(80L,81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -327,20 +327,6 @@ public class LLongIntPredicateTest {
 
     // </editor-fold>
 
-    @Test
-    public void testNesting() {
-        assertThat(sut.nestingLongIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LLongIntPredicate.class);
-    }
-
-    @Test
-    public void testShoving() {
-        assertThat(sut.shovingLongIntPred())
-            .isSameAs(sut)
-            .isInstanceOf(LLongIntPredicate.class);
-    }
-
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
@@ -351,7 +337,7 @@ public class LLongIntPredicateTest {
         });
 
         // when
-        sutThrowing.shovingLongIntPred().doTest(100L,100);
+        sutThrowing.shovingTest(100L,100);
     }
 
 
@@ -364,7 +350,7 @@ public class LLongIntPredicateTest {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongIntPredicate: boolean doTest(long a1,int a2)");
+                .contains("LLongIntPredicate: boolean test(long a1,int a2)");
     }
 
 

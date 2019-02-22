@@ -89,8 +89,8 @@ public class LIntSupDelta extends LIntSupMemento {
 	}
 
 	@Override
-	public int doGetAsInt() {
-		return deltaFunction.doApplyAsInt(lastValue(), super.doGetAsInt());
+	public int getAsInt() {
+		return deltaFunction.applyAsInt(lastValue(), super.getAsInt());
 	}
 
 	// <editor-fold desc="object">
