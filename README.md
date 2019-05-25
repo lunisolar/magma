@@ -24,21 +24,21 @@ annoying. So I started to moving those classes to the separate project.
 There are three main goals that this library was started to be build for:  
 
 + **Throwing lambda expressions and functional interfaces that declare and throw
- checked exceptions**.      
+ checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.      
 + **More primitive types supported**. 
 + **More combinations of arguments.**
  
-Each of the above goals adds to the actual number of interfaces so this is not 
+Most of the above goals adds to the actual number of interfaces so this is not 
 very tinny library as one would think. And behind each of those goals there are
 reasons that do not apply for every day to day use cases that programmer can run 
 into. Apart from that, I can easily state programming paradigms that are in 
 opposition to the goals of ths library, e.g.:
  
-+ Checked exceptions are evil. 
++ ~~Checked exceptions are evil~~ (since 2.0 all checked exception are wrapped by default). 
 + Fully object oriented programming should avoid usage of primitive types.
 + Any multiple arguments can be replaced with instance of single object wrapping them. 
 
-So, this is no silver bullet. **So choose the weapon accordingly to what you 
+So, this is no silver bullet. **Choose the weapon accordingly to what you 
 are aiming _at at any given time_.**  
 
 #### Additional goals
@@ -57,8 +57,8 @@ consisted of pairs:
 + extended **exception handling**, not just preset propagation and wrapping rules.     
 
 ### General advice
-By writing and using those interfaces even if just in the unit tests that were 
-generated for those interfaces I found that a Java compiler sometimes need a help
+By writing and using those interfaces, even if just in the unit tests that were 
+generated for those interfaces, I found that a Java compiler sometimes need a help
 in inferring the type of the generics. And then sometimes even more help is required 
 to infer the generic types in throwing expressions. Mind that, in the end, it is 
 after all only 3rd level language and compiler do not YET utilise AI engine. There 
@@ -71,14 +71,6 @@ convention. I do not like to use a HTML browser to actually be able to _read_ th
 comments in the code, so I use MD. Thankfully there is a doclet for that :) - if not 
 that plugin I would simply use doxygen.
 
-### The interface(s) you want is not here?
-Create an issue for that. It will not be immediate, but I could add it. If not in the 
-main library module, then in auxiliary one.     
-
 #### Code repository
 
 Code is hosted at github: <a href="https://github.com/lunisolar/magma/" target="_blank">repository</a>
-
-#### Documentation
-
-[Documentation](http://lunisolar.eu/magma)
