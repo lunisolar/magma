@@ -18,15 +18,11 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.basics.exceptions.NestedException;
-import eu.lunisolar.magma.examples.support.CheckedException;
 import eu.lunisolar.magma.func.function.conversion.LIntToFltFunction;
-import eu.lunisolar.magma.func.predicate.LPredicateX;
 import org.assertj.core.util.Lists;
 import org.testng.annotations.Test;
 
 import java.util.*;
-import java.util.function.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -79,7 +75,7 @@ public class Example_Goal2And3_Test {
     public void problemToSolve() {
         LIntToFltFunction toFloat = i -> (float) i;
 
-        assertThat(typeToString(toFloat.doApplyAsFlt(10)))
+        assertThat(typeToString(toFloat.applyAsFlt(10)))
                 .isEqualTo("float primitive");
     }
     //>example<
