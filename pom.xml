@@ -22,7 +22,7 @@
 
     <groupId>eu.lunisolar</groupId>
     <artifactId>magma</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Lunisolar Magma</name>
@@ -48,7 +48,7 @@
     <scm>
         <url>https://github.com/lunisolar/magma</url>
         <connection>scm:git:ssh://git@github.com/lunisolar/magma.git</connection>
-      <tag>magma-2.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>
