@@ -67,8 +67,18 @@ public class LToFltFuncMemento<T> implements LToFltFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LToFltFuncMemento<T> mementoOf(LToFltFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LToFltFuncMemento<T> hollowMementoOf(LToFltFunction<T> supplier) {
 		return new LToFltFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LToFltFuncMemento<T> mementoOf(T a, LToFltFunction<T> supplier) {
+		return new LToFltFuncMemento<T>(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToFltFuncMemento<T> implements LToFltFunction<T> {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(T a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(T a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

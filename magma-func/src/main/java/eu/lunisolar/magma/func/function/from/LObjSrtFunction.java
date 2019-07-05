@@ -255,6 +255,19 @@ public interface LObjSrtFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, short a2, LObjSrtFunction<V, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2);
+		}
+
+		return null;
+	}
+
 	public default LSrtFunction<R> lShrink(LSrtFunction<T> left) {
 		return a2 -> apply(left.apply(a2), a2);
 	}

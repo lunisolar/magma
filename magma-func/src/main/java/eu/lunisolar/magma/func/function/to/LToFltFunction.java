@@ -253,6 +253,19 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> float from(M container, LBiFunction<M, K, V> extractor, K key, LToFltFunction<V> function, float orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsFlt(value);
+		}
+
+		return orElse;
+	}
+
 	/** Cast that removes generics. */
 	public default LToFltFunction untyped() {
 		return this;

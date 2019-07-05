@@ -599,18 +599,6 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return false;
 	}
 
-	// >>> LIntCharPred
-
-	/** Returns TRUE. */
-	public static boolean alwaysTrue(int a2, char a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static boolean alwaysFalse(int a2, char a1) {
-		return false;
-	}
-
 	/**
 	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
 	* Thread safety, fail-fast, fail-safety of this method is not expected.

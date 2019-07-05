@@ -43,7 +43,7 @@ public class LFltSupMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LFltSupMemento sut =  LFltSupMemento.mementoOf( () ->{
+    private LFltSupMemento sut =  LFltSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

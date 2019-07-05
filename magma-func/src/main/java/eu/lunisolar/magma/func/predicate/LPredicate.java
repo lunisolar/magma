@@ -345,6 +345,19 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, LPredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value);
+		}
+
+		return false;
+	}
+
 	/** Cast that removes generics. */
 	public default LPredicate untyped() {
 		return this;

@@ -308,6 +308,19 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, short a2, LObjSrtPredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2);
+		}
+
+		return false;
+	}
+
 	public default LSrtPredicate lShrink(LSrtFunction<T> left) {
 		return a2 -> test(left.apply(a2), a2);
 	}
@@ -610,18 +623,6 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 
 	/** Returns FALSE. */
 	public static <T> boolean alwaysFalse(T a1, short a2) {
-		return false;
-	}
-
-	// >>> LSrtObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(short a2, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(short a2, T a1) {
 		return false;
 	}
 

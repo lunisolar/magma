@@ -43,7 +43,7 @@ public class LCharToSrtFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LCharToSrtFuncMemento sut =  LCharToSrtFuncMemento.mementoOf( a ->{
+    private LCharToSrtFuncMemento sut =  LCharToSrtFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

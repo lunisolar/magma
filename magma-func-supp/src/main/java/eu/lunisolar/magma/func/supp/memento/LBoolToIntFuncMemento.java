@@ -67,8 +67,18 @@ public class LBoolToIntFuncMemento implements LBoolToIntFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LBoolToIntFuncMemento mementoOf(LBoolToIntFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LBoolToIntFuncMemento hollowMementoOf(LBoolToIntFunction supplier) {
 		return new LBoolToIntFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LBoolToIntFuncMemento mementoOf(boolean a, LBoolToIntFunction supplier) {
+		return new LBoolToIntFuncMemento(supplier.applyAsInt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LBoolToIntFuncMemento implements LBoolToIntFunction {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(boolean a) {
+		int last = lastValue;
+		return (int) (applyAsInt(a) - last);
+	}
+
+	public int delta(boolean a, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a), last);
 	}
 
 	// <editor-fold desc="object">

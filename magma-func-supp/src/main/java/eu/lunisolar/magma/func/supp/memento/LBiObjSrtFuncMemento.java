@@ -67,8 +67,18 @@ public class LBiObjSrtFuncMemento<T1, T2, R> implements LBiObjSrtFunction<T1, T2
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, R> LBiObjSrtFuncMemento<T1, T2, R> mementoOf(LBiObjSrtFunction<T1, T2, R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T1, T2, R> LBiObjSrtFuncMemento<T1, T2, R> hollowMementoOf(LBiObjSrtFunction<T1, T2, R> supplier) {
 		return new LBiObjSrtFuncMemento<T1, T2, R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T1, T2, R> LBiObjSrtFuncMemento<T1, T2, R> mementoOf(T1 a1, T2 a2, short a3, LBiObjSrtFunction<T1, T2, R> supplier) {
+		return new LBiObjSrtFuncMemento<T1, T2, R>(supplier.apply(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBiObjSrtFuncMemento<T1, T2, R> implements LBiObjSrtFunction<T1, T2
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(T1 a1, T2 a2, short a3, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

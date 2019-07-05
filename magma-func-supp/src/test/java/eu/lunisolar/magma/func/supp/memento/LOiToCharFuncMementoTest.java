@@ -43,7 +43,7 @@ public class LOiToCharFuncMementoTest <T> {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LOiToCharFuncMemento<Integer> sut =  LOiToCharFuncMemento.<Integer>mementoOf( (a1,a2) ->{
+    private LOiToCharFuncMemento<Integer> sut =  LOiToCharFuncMemento.<Integer>hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

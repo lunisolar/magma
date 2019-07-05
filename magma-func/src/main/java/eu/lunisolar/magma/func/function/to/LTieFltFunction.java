@@ -253,6 +253,19 @@ public interface LTieFltFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> int from(M container, LBiFunction<M, K, V> extractor, K key, int a2, float a3, LTieFltFunction<V> function, int orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsInt(value, a2, a3);
+		}
+
+		return orElse;
+	}
+
 	/**  */
 	public static <T> LTieFltFunction<T> uncurry(LFunction<T, LIntFunction<LFltToIntFunction>> func) {
 		return (T a1, int a2, float a3) -> func.apply(a1).apply(a2).applyAsInt(a3);

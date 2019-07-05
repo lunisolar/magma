@@ -67,8 +67,18 @@ public class LBoolToByteFuncMemento implements LBoolToByteFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LBoolToByteFuncMemento mementoOf(LBoolToByteFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LBoolToByteFuncMemento hollowMementoOf(LBoolToByteFunction supplier) {
 		return new LBoolToByteFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LBoolToByteFuncMemento mementoOf(boolean a, LBoolToByteFunction supplier) {
+		return new LBoolToByteFuncMemento(supplier.applyAsByte(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LBoolToByteFuncMemento implements LBoolToByteFunction {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(boolean a) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a) - last);
+	}
+
+	public byte delta(boolean a, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a), last);
 	}
 
 	// <editor-fold desc="object">

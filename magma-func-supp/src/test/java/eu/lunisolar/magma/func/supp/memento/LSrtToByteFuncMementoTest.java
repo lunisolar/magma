@@ -43,7 +43,7 @@ public class LSrtToByteFuncMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LSrtToByteFuncMemento sut =  LSrtToByteFuncMemento.mementoOf( a ->{
+    private LSrtToByteFuncMemento sut =  LSrtToByteFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

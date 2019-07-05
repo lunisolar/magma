@@ -299,6 +299,19 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2, T3> boolean from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, LTriPredicate<V, T2, T3> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2, a3);
+		}
+
+		return false;
+	}
+
 	public default LBiPredicate<T2, T3> lShrink(LBiFunction<T2, T3, T1> left) {
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}

@@ -43,7 +43,7 @@ public class LSrtSupMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LSrtSupMemento sut =  LSrtSupMemento.mementoOf( () ->{
+    private LSrtSupMemento sut =  LSrtSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

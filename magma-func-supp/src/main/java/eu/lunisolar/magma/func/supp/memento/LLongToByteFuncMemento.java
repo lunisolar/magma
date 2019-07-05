@@ -67,8 +67,18 @@ public class LLongToByteFuncMemento implements LLongToByteFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongToByteFuncMemento mementoOf(LLongToByteFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongToByteFuncMemento hollowMementoOf(LLongToByteFunction supplier) {
 		return new LLongToByteFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongToByteFuncMemento mementoOf(long a, LLongToByteFunction supplier) {
+		return new LLongToByteFuncMemento(supplier.applyAsByte(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongToByteFuncMemento implements LLongToByteFunction {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(long a) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a) - last);
+	}
+
+	public byte delta(long a, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -43,7 +43,7 @@ public class LCharToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LCharToLongFuncMemento sut =  LCharToLongFuncMemento.mementoOf( a ->{
+    private LCharToLongFuncMemento sut =  LCharToLongFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -67,8 +67,18 @@ public class LBiFltFuncMemento<R> implements LBiFltFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LBiFltFuncMemento<R> mementoOf(LBiFltFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LBiFltFuncMemento<R> hollowMementoOf(LBiFltFunction<R> supplier) {
 		return new LBiFltFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LBiFltFuncMemento<R> mementoOf(float a1, float a2, LBiFltFunction<R> supplier) {
+		return new LBiFltFuncMemento<R>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBiFltFuncMemento<R> implements LBiFltFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(float a1, float a2, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

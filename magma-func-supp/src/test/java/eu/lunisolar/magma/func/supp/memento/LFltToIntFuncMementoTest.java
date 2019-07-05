@@ -43,7 +43,7 @@ public class LFltToIntFuncMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LFltToIntFuncMemento sut =  LFltToIntFuncMemento.mementoOf( a ->{
+    private LFltToIntFuncMemento sut =  LFltToIntFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

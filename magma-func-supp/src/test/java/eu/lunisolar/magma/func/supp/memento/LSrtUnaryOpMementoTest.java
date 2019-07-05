@@ -43,7 +43,7 @@ public class LSrtUnaryOpMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LSrtUnaryOpMemento sut =  LSrtUnaryOpMemento.mementoOf( a ->{
+    private LSrtUnaryOpMemento sut =  LSrtUnaryOpMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

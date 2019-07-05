@@ -239,6 +239,19 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <T, M, K, V> T from(M container, LBiFunction<M, K, V> extractor, K key, T a2, LBiFunction<V, T, T> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2);
+		}
+
+		return null;
+	}
+
 	public default LUnaryOperator<T> lShrink(LUnaryOperator<T> left) {
 		return a2 -> apply(left.apply(a2), a2);
 	}

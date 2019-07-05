@@ -67,8 +67,18 @@ public class LSrtToLongFuncMemento implements LSrtToLongFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtToLongFuncMemento mementoOf(LSrtToLongFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtToLongFuncMemento hollowMementoOf(LSrtToLongFunction supplier) {
 		return new LSrtToLongFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtToLongFuncMemento mementoOf(short a, LSrtToLongFunction supplier) {
+		return new LSrtToLongFuncMemento(supplier.applyAsLong(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtToLongFuncMemento implements LSrtToLongFunction {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta(short a) {
+		long last = lastValue;
+		return (long) (applyAsLong(a) - last);
+	}
+
+	public long delta(short a, LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(applyAsLong(a), last);
 	}
 
 	// <editor-fold desc="object">

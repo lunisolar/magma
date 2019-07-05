@@ -67,8 +67,18 @@ public class LOiToLongFuncMemento<T> implements LOiToLongFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LOiToLongFuncMemento<T> mementoOf(LOiToLongFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LOiToLongFuncMemento<T> hollowMementoOf(LOiToLongFunction<T> supplier) {
 		return new LOiToLongFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LOiToLongFuncMemento<T> mementoOf(T a1, int a2, LOiToLongFunction<T> supplier) {
+		return new LOiToLongFuncMemento<T>(supplier.applyAsLong(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LOiToLongFuncMemento<T> implements LOiToLongFunction<T> {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta(T a1, int a2) {
+		long last = lastValue;
+		return (long) (applyAsLong(a1, a2) - last);
+	}
+
+	public long delta(T a1, int a2, LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(applyAsLong(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

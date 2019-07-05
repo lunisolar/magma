@@ -253,6 +253,19 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> int from(M container, LBiFunction<M, K, V> extractor, K key, int a2, boolean a3, LTieBoolFunction<V> function, int orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsInt(value, a2, a3);
+		}
+
+		return orElse;
+	}
+
 	/**  */
 	public static <T> LTieBoolFunction<T> uncurry(LFunction<T, LIntFunction<LBoolToIntFunction>> func) {
 		return (T a1, int a2, boolean a3) -> func.apply(a1).apply(a2).applyAsInt(a3);

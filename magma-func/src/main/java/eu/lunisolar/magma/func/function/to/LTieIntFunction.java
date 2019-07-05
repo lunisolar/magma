@@ -253,6 +253,19 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> int from(M container, LBiFunction<M, K, V> extractor, K key, int a2, int a3, LTieIntFunction<V> function, int orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsInt(value, a2, a3);
+		}
+
+		return orElse;
+	}
+
 	public default LIntBinaryOperator lShrink(LBiIntFunction<T> left) {
 		return (a2, a3) -> applyAsInt(left.apply(a2, a3), a2, a3);
 	}

@@ -43,7 +43,7 @@ public class LCharUnaryOpMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LCharUnaryOpMemento sut =  LCharUnaryOpMemento.mementoOf( a ->{
+    private LCharUnaryOpMemento sut =  LCharUnaryOpMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

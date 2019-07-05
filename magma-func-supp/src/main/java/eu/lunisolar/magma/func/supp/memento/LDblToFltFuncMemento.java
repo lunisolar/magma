@@ -67,8 +67,18 @@ public class LDblToFltFuncMemento implements LDblToFltFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LDblToFltFuncMemento mementoOf(LDblToFltFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LDblToFltFuncMemento hollowMementoOf(LDblToFltFunction supplier) {
 		return new LDblToFltFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LDblToFltFuncMemento mementoOf(double a, LDblToFltFunction supplier) {
+		return new LDblToFltFuncMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LDblToFltFuncMemento implements LDblToFltFunction {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(double a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(double a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

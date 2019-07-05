@@ -67,8 +67,18 @@ public class LObjCharFuncMemento<T, R> implements LObjCharFunction<T, R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T, R> LObjCharFuncMemento<T, R> mementoOf(LObjCharFunction<T, R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T, R> LObjCharFuncMemento<T, R> hollowMementoOf(LObjCharFunction<T, R> supplier) {
 		return new LObjCharFuncMemento<T, R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T, R> LObjCharFuncMemento<T, R> mementoOf(T a1, char a2, LObjCharFunction<T, R> supplier) {
+		return new LObjCharFuncMemento<T, R>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LObjCharFuncMemento<T, R> implements LObjCharFunction<T, R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(T a1, char a2, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

@@ -67,8 +67,18 @@ public class LSrtToByteFuncMemento implements LSrtToByteFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtToByteFuncMemento mementoOf(LSrtToByteFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtToByteFuncMemento hollowMementoOf(LSrtToByteFunction supplier) {
 		return new LSrtToByteFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtToByteFuncMemento mementoOf(short a, LSrtToByteFunction supplier) {
+		return new LSrtToByteFuncMemento(supplier.applyAsByte(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtToByteFuncMemento implements LSrtToByteFunction {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(short a) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a) - last);
+	}
+
+	public byte delta(short a, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a), last);
 	}
 
 	// <editor-fold desc="object">

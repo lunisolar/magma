@@ -67,8 +67,18 @@ public class LSrtToDblFuncMemento implements LSrtToDblFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtToDblFuncMemento mementoOf(LSrtToDblFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtToDblFuncMemento hollowMementoOf(LSrtToDblFunction supplier) {
 		return new LSrtToDblFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtToDblFuncMemento mementoOf(short a, LSrtToDblFunction supplier) {
+		return new LSrtToDblFuncMemento(supplier.applyAsDbl(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtToDblFuncMemento implements LSrtToDblFunction {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(short a) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a) - last);
+	}
+
+	public double delta(short a, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a), last);
 	}
 
 	// <editor-fold desc="object">

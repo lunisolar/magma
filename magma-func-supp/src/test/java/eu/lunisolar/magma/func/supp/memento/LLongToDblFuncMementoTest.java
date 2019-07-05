@@ -43,7 +43,7 @@ public class LLongToDblFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LLongToDblFuncMemento sut =  LLongToDblFuncMemento.mementoOf( a ->{
+    private LLongToDblFuncMemento sut =  LLongToDblFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -67,8 +67,18 @@ public class LToIntFuncMemento<T> implements LToIntFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LToIntFuncMemento<T> mementoOf(LToIntFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LToIntFuncMemento<T> hollowMementoOf(LToIntFunction<T> supplier) {
 		return new LToIntFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LToIntFuncMemento<T> mementoOf(T a, LToIntFunction<T> supplier) {
+		return new LToIntFuncMemento<T>(supplier.applyAsInt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToIntFuncMemento<T> implements LToIntFunction<T> {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(T a) {
+		int last = lastValue;
+		return (int) (applyAsInt(a) - last);
+	}
+
+	public int delta(T a, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a), last);
 	}
 
 	// <editor-fold desc="object">

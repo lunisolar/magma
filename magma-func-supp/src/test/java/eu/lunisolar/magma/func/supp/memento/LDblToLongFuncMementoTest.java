@@ -43,7 +43,7 @@ public class LDblToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LDblToLongFuncMemento sut =  LDblToLongFuncMemento.mementoOf( a ->{
+    private LDblToLongFuncMemento sut =  LDblToLongFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

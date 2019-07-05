@@ -308,6 +308,19 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		fromTill(0, max_a2, a1, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, long a2, LObjLongPredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2);
+		}
+
+		return false;
+	}
+
 	public default LLongPredicate lShrink(LLongFunction<T> left) {
 		return a2 -> test(left.apply(a2), a2);
 	}
@@ -610,18 +623,6 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 
 	/** Returns FALSE. */
 	public static <T> boolean alwaysFalse(T a1, long a2) {
-		return false;
-	}
-
-	// >>> LLongObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(long a2, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(long a2, T a1) {
 		return false;
 	}
 

@@ -43,7 +43,7 @@ public class LFltFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LFltFuncMemento<Integer> sut =  LFltFuncMemento.<Integer>mementoOf( a ->{
+    private LFltFuncMemento<Integer> sut =  LFltFuncMemento.<Integer>hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

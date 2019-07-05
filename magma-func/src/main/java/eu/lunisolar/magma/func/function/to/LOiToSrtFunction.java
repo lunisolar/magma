@@ -253,6 +253,19 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_a2, a1, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> short from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToSrtFunction<V> function, short orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsSrt(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LIntToSrtFunction lShrink(LIntFunction<T> left) {
 		return a2 -> applyAsSrt(left.apply(a2), a2);
 	}

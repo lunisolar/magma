@@ -43,7 +43,7 @@ public class LIntUnaryOpMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LIntUnaryOpMemento sut =  LIntUnaryOpMemento.mementoOf( a ->{
+    private LIntUnaryOpMemento sut =  LIntUnaryOpMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

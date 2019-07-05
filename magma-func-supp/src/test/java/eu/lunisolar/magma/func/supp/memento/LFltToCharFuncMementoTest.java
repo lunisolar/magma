@@ -43,7 +43,7 @@ public class LFltToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LFltToCharFuncMemento sut =  LFltToCharFuncMemento.mementoOf( a ->{
+    private LFltToCharFuncMemento sut =  LFltToCharFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

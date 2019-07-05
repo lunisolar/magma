@@ -67,8 +67,18 @@ public class LOiToDblFuncMemento<T> implements LOiToDblFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LOiToDblFuncMemento<T> mementoOf(LOiToDblFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LOiToDblFuncMemento<T> hollowMementoOf(LOiToDblFunction<T> supplier) {
 		return new LOiToDblFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LOiToDblFuncMemento<T> mementoOf(T a1, int a2, LOiToDblFunction<T> supplier) {
+		return new LOiToDblFuncMemento<T>(supplier.applyAsDbl(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LOiToDblFuncMemento<T> implements LOiToDblFunction<T> {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(T a1, int a2) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a1, a2) - last);
+	}
+
+	public double delta(T a1, int a2, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

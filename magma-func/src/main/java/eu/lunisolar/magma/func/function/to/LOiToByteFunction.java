@@ -253,6 +253,19 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		fromTill(0, max_a2, a1, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> byte from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToByteFunction<V> function, byte orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsByte(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LIntToByteFunction lShrink(LIntFunction<T> left) {
 		return a2 -> applyAsByte(left.apply(a2), a2);
 	}

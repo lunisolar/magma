@@ -43,7 +43,7 @@ public class LCharBinaryOpMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LCharBinaryOpMemento sut =  LCharBinaryOpMemento.mementoOf( (a1,a2) ->{
+    private LCharBinaryOpMemento sut =  LCharBinaryOpMemento.hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

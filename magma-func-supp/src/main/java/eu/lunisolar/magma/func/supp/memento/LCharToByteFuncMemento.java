@@ -67,8 +67,18 @@ public class LCharToByteFuncMemento implements LCharToByteFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharToByteFuncMemento mementoOf(LCharToByteFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharToByteFuncMemento hollowMementoOf(LCharToByteFunction supplier) {
 		return new LCharToByteFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharToByteFuncMemento mementoOf(char a, LCharToByteFunction supplier) {
+		return new LCharToByteFuncMemento(supplier.applyAsByte(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharToByteFuncMemento implements LCharToByteFunction {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(char a) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a) - last);
+	}
+
+	public byte delta(char a, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a), last);
 	}
 
 	// <editor-fold desc="object">

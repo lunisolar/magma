@@ -67,8 +67,18 @@ public class LLogicalOpMemento implements LLogicalOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LLogicalOpMemento mementoOf(LLogicalOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLogicalOpMemento hollowMementoOf(LLogicalOperator supplier) {
 		return new LLogicalOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLogicalOpMemento mementoOf(boolean a, LLogicalOperator supplier) {
+		return new LLogicalOpMemento(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LLogicalOpMemento implements LLogicalOperator {
 
 	public boolean lastValue() {
 		return lastValue;
+	}
+
+	public boolean delta(boolean a, LLogicalBinaryOperator deltaFunction) {
+		boolean last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

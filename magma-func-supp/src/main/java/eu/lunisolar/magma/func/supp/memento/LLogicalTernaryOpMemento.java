@@ -67,8 +67,18 @@ public class LLogicalTernaryOpMemento implements LLogicalTernaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LLogicalTernaryOpMemento mementoOf(LLogicalTernaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLogicalTernaryOpMemento hollowMementoOf(LLogicalTernaryOperator supplier) {
 		return new LLogicalTernaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLogicalTernaryOpMemento mementoOf(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator supplier) {
+		return new LLogicalTernaryOpMemento(supplier.apply(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LLogicalTernaryOpMemento implements LLogicalTernaryOperator {
 
 	public boolean lastValue() {
 		return lastValue;
+	}
+
+	public boolean delta(boolean a1, boolean a2, boolean a3, LLogicalBinaryOperator deltaFunction) {
+		boolean last = lastValue;
+		return deltaFunction.apply(apply(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

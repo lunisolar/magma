@@ -67,8 +67,18 @@ public class LFltToCharFuncMemento implements LFltToCharFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LFltToCharFuncMemento mementoOf(LFltToCharFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LFltToCharFuncMemento hollowMementoOf(LFltToCharFunction supplier) {
 		return new LFltToCharFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LFltToCharFuncMemento mementoOf(float a, LFltToCharFunction supplier) {
+		return new LFltToCharFuncMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LFltToCharFuncMemento implements LFltToCharFunction {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(float a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(float a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

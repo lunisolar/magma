@@ -67,8 +67,18 @@ public class LOiToByteFuncMemento<T> implements LOiToByteFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LOiToByteFuncMemento<T> mementoOf(LOiToByteFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LOiToByteFuncMemento<T> hollowMementoOf(LOiToByteFunction<T> supplier) {
 		return new LOiToByteFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LOiToByteFuncMemento<T> mementoOf(T a1, int a2, LOiToByteFunction<T> supplier) {
+		return new LOiToByteFuncMemento<T>(supplier.applyAsByte(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LOiToByteFuncMemento<T> implements LOiToByteFunction<T> {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(T a1, int a2) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a1, a2) - last);
+	}
+
+	public byte delta(T a1, int a2, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

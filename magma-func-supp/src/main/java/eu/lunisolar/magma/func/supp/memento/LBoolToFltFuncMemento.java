@@ -67,8 +67,18 @@ public class LBoolToFltFuncMemento implements LBoolToFltFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LBoolToFltFuncMemento mementoOf(LBoolToFltFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LBoolToFltFuncMemento hollowMementoOf(LBoolToFltFunction supplier) {
 		return new LBoolToFltFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LBoolToFltFuncMemento mementoOf(boolean a, LBoolToFltFunction supplier) {
+		return new LBoolToFltFuncMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LBoolToFltFuncMemento implements LBoolToFltFunction {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(boolean a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(boolean a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

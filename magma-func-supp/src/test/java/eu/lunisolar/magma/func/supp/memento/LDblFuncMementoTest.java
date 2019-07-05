@@ -43,7 +43,7 @@ public class LDblFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LDblFuncMemento<Integer> sut =  LDblFuncMemento.<Integer>mementoOf( a ->{
+    private LDblFuncMemento<Integer> sut =  LDblFuncMemento.<Integer>hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

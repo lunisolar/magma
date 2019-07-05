@@ -43,7 +43,7 @@ public class LSrtBinaryOpMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LSrtBinaryOpMemento sut =  LSrtBinaryOpMemento.mementoOf( (a1,a2) ->{
+    private LSrtBinaryOpMemento sut =  LSrtBinaryOpMemento.hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

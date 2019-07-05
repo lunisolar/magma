@@ -67,8 +67,18 @@ public class LDblFuncMemento<R> implements LDblFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LDblFuncMemento<R> mementoOf(LDblFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LDblFuncMemento<R> hollowMementoOf(LDblFunction<R> supplier) {
 		return new LDblFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LDblFuncMemento<R> mementoOf(double a, LDblFunction<R> supplier) {
+		return new LDblFuncMemento<R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LDblFuncMemento<R> implements LDblFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(double a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

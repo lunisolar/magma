@@ -67,8 +67,18 @@ public class LToSrtFuncMemento<T> implements LToSrtFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LToSrtFuncMemento<T> mementoOf(LToSrtFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LToSrtFuncMemento<T> hollowMementoOf(LToSrtFunction<T> supplier) {
 		return new LToSrtFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LToSrtFuncMemento<T> mementoOf(T a, LToSrtFunction<T> supplier) {
+		return new LToSrtFuncMemento<T>(supplier.applyAsSrt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToSrtFuncMemento<T> implements LToSrtFunction<T> {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(T a) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a) - last);
+	}
+
+	public short delta(T a, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a), last);
 	}
 
 	// <editor-fold desc="object">

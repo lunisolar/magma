@@ -308,6 +308,19 @@ public interface LObjCharPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, char a2, LObjCharPredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2);
+		}
+
+		return false;
+	}
+
 	public default LCharPredicate lShrink(LCharFunction<T> left) {
 		return a2 -> test(left.apply(a2), a2);
 	}
@@ -610,18 +623,6 @@ public interface LObjCharPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 
 	/** Returns FALSE. */
 	public static <T> boolean alwaysFalse(T a1, char a2) {
-		return false;
-	}
-
-	// >>> LCharObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(char a2, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(char a2, T a1) {
 		return false;
 	}
 

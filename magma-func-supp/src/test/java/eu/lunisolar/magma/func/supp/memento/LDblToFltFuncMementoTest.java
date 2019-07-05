@@ -43,7 +43,7 @@ public class LDblToFltFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LDblToFltFuncMemento sut =  LDblToFltFuncMemento.mementoOf( a ->{
+    private LDblToFltFuncMemento sut =  LDblToFltFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

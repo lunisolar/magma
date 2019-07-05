@@ -67,8 +67,18 @@ public class LToCharBiFuncMemento<T1, T2> implements LToCharBiFunction<T1, T2> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2> LToCharBiFuncMemento<T1, T2> mementoOf(LToCharBiFunction<T1, T2> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T1, T2> LToCharBiFuncMemento<T1, T2> hollowMementoOf(LToCharBiFunction<T1, T2> supplier) {
 		return new LToCharBiFuncMemento<T1, T2>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T1, T2> LToCharBiFuncMemento<T1, T2> mementoOf(T1 a1, T2 a2, LToCharBiFunction<T1, T2> supplier) {
+		return new LToCharBiFuncMemento<T1, T2>(supplier.applyAsChar(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToCharBiFuncMemento<T1, T2> implements LToCharBiFunction<T1, T2> {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(T1 a1, T2 a2) {
+		char last = lastValue;
+		return (char) (applyAsChar(a1, a2) - last);
+	}
+
+	public char delta(T1 a1, T2 a2, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

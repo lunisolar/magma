@@ -67,8 +67,18 @@ public class LDblUnaryOpMemento implements LDblUnaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LDblUnaryOpMemento mementoOf(LDblUnaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LDblUnaryOpMemento hollowMementoOf(LDblUnaryOperator supplier) {
 		return new LDblUnaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LDblUnaryOpMemento mementoOf(double a, LDblUnaryOperator supplier) {
+		return new LDblUnaryOpMemento(supplier.applyAsDbl(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LDblUnaryOpMemento implements LDblUnaryOperator {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(double a) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a) - last);
+	}
+
+	public double delta(double a, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a), last);
 	}
 
 	// <editor-fold desc="object">

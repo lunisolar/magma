@@ -67,8 +67,18 @@ public class LToIntTriFuncMemento<T1, T2, T3> implements LToIntTriFunction<T1, T
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, T3> LToIntTriFuncMemento<T1, T2, T3> mementoOf(LToIntTriFunction<T1, T2, T3> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T1, T2, T3> LToIntTriFuncMemento<T1, T2, T3> hollowMementoOf(LToIntTriFunction<T1, T2, T3> supplier) {
 		return new LToIntTriFuncMemento<T1, T2, T3>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T1, T2, T3> LToIntTriFuncMemento<T1, T2, T3> mementoOf(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> supplier) {
+		return new LToIntTriFuncMemento<T1, T2, T3>(supplier.applyAsInt(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToIntTriFuncMemento<T1, T2, T3> implements LToIntTriFunction<T1, T
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(T1 a1, T2 a2, T3 a3) {
+		int last = lastValue;
+		return (int) (applyAsInt(a1, a2, a3) - last);
+	}
+
+	public int delta(T1 a1, T2 a2, T3 a3, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

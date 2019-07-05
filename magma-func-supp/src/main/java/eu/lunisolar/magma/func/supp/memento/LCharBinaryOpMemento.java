@@ -67,8 +67,18 @@ public class LCharBinaryOpMemento implements LCharBinaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharBinaryOpMemento mementoOf(LCharBinaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharBinaryOpMemento hollowMementoOf(LCharBinaryOperator supplier) {
 		return new LCharBinaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharBinaryOpMemento mementoOf(char a1, char a2, LCharBinaryOperator supplier) {
+		return new LCharBinaryOpMemento(supplier.applyAsChar(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharBinaryOpMemento implements LCharBinaryOperator {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(char a1, char a2) {
+		char last = lastValue;
+		return (char) (applyAsChar(a1, a2) - last);
+	}
+
+	public char delta(char a1, char a2, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

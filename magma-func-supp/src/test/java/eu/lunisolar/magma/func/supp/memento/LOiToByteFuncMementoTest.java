@@ -43,7 +43,7 @@ public class LOiToByteFuncMementoTest <T> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LOiToByteFuncMemento<Integer> sut =  LOiToByteFuncMemento.<Integer>mementoOf( (a1,a2) ->{
+    private LOiToByteFuncMemento<Integer> sut =  LOiToByteFuncMemento.<Integer>hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

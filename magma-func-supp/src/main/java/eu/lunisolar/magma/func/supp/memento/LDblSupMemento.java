@@ -67,8 +67,18 @@ public class LDblSupMemento implements LDblSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LDblSupMemento mementoOf(LDblSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LDblSupMemento hollowMementoOf(LDblSupplier supplier) {
 		return new LDblSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LDblSupMemento mementoOf(LDblSupplier supplier) {
+		return new LDblSupMemento(supplier.getAsDbl(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LDblSupMemento implements LDblSupplier {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta() {
+		double last = lastValue;
+		return (double) (getAsDbl() - last);
+	}
+
+	public double delta(LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(getAsDbl(), last);
 	}
 
 	// <editor-fold desc="object">

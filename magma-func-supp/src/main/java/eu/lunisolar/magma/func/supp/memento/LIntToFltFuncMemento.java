@@ -67,8 +67,18 @@ public class LIntToFltFuncMemento implements LIntToFltFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LIntToFltFuncMemento mementoOf(LIntToFltFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LIntToFltFuncMemento hollowMementoOf(LIntToFltFunction supplier) {
 		return new LIntToFltFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LIntToFltFuncMemento mementoOf(int a, LIntToFltFunction supplier) {
+		return new LIntToFltFuncMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LIntToFltFuncMemento implements LIntToFltFunction {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(int a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(int a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

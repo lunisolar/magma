@@ -43,7 +43,7 @@ public class LByteSupMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LByteSupMemento sut =  LByteSupMemento.mementoOf( () ->{
+    private LByteSupMemento sut =  LByteSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

@@ -67,8 +67,18 @@ public class LToLongBiFuncMemento<T1, T2> implements LToLongBiFunction<T1, T2> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2> LToLongBiFuncMemento<T1, T2> mementoOf(LToLongBiFunction<T1, T2> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T1, T2> LToLongBiFuncMemento<T1, T2> hollowMementoOf(LToLongBiFunction<T1, T2> supplier) {
 		return new LToLongBiFuncMemento<T1, T2>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T1, T2> LToLongBiFuncMemento<T1, T2> mementoOf(T1 a1, T2 a2, LToLongBiFunction<T1, T2> supplier) {
+		return new LToLongBiFuncMemento<T1, T2>(supplier.applyAsLong(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToLongBiFuncMemento<T1, T2> implements LToLongBiFunction<T1, T2> {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta(T1 a1, T2 a2) {
+		long last = lastValue;
+		return (long) (applyAsLong(a1, a2) - last);
+	}
+
+	public long delta(T1 a1, T2 a2, LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(applyAsLong(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

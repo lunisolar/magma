@@ -67,8 +67,18 @@ public class LIntToSrtFuncMemento implements LIntToSrtFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LIntToSrtFuncMemento mementoOf(LIntToSrtFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LIntToSrtFuncMemento hollowMementoOf(LIntToSrtFunction supplier) {
 		return new LIntToSrtFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LIntToSrtFuncMemento mementoOf(int a, LIntToSrtFunction supplier) {
+		return new LIntToSrtFuncMemento(supplier.applyAsSrt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LIntToSrtFuncMemento implements LIntToSrtFunction {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(int a) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a) - last);
+	}
+
+	public short delta(int a, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a), last);
 	}
 
 	// <editor-fold desc="object">

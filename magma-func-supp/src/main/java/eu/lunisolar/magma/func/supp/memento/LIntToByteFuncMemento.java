@@ -67,8 +67,18 @@ public class LIntToByteFuncMemento implements LIntToByteFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LIntToByteFuncMemento mementoOf(LIntToByteFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LIntToByteFuncMemento hollowMementoOf(LIntToByteFunction supplier) {
 		return new LIntToByteFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LIntToByteFuncMemento mementoOf(int a, LIntToByteFunction supplier) {
+		return new LIntToByteFuncMemento(supplier.applyAsByte(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LIntToByteFuncMemento implements LIntToByteFunction {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(int a) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a) - last);
+	}
+
+	public byte delta(int a, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a), last);
 	}
 
 	// <editor-fold desc="object">

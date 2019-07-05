@@ -67,8 +67,18 @@ public class LBiLongFuncMemento<R> implements LBiLongFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LBiLongFuncMemento<R> mementoOf(LBiLongFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LBiLongFuncMemento<R> hollowMementoOf(LBiLongFunction<R> supplier) {
 		return new LBiLongFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LBiLongFuncMemento<R> mementoOf(long a1, long a2, LBiLongFunction<R> supplier) {
+		return new LBiLongFuncMemento<R>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBiLongFuncMemento<R> implements LBiLongFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(long a1, long a2, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

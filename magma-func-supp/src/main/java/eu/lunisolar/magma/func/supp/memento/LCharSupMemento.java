@@ -67,8 +67,18 @@ public class LCharSupMemento implements LCharSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharSupMemento mementoOf(LCharSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharSupMemento hollowMementoOf(LCharSupplier supplier) {
 		return new LCharSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharSupMemento mementoOf(LCharSupplier supplier) {
+		return new LCharSupMemento(supplier.getAsChar(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharSupMemento implements LCharSupplier {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta() {
+		char last = lastValue;
+		return (char) (getAsChar() - last);
+	}
+
+	public char delta(LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(getAsChar(), last);
 	}
 
 	// <editor-fold desc="object">

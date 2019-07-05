@@ -43,7 +43,7 @@ public class LByteToSrtFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LByteToSrtFuncMemento sut =  LByteToSrtFuncMemento.mementoOf( a ->{
+    private LByteToSrtFuncMemento sut =  LByteToSrtFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

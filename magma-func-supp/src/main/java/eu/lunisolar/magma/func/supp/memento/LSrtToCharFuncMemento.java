@@ -67,8 +67,18 @@ public class LSrtToCharFuncMemento implements LSrtToCharFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtToCharFuncMemento mementoOf(LSrtToCharFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtToCharFuncMemento hollowMementoOf(LSrtToCharFunction supplier) {
 		return new LSrtToCharFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtToCharFuncMemento mementoOf(short a, LSrtToCharFunction supplier) {
+		return new LSrtToCharFuncMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtToCharFuncMemento implements LSrtToCharFunction {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(short a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(short a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

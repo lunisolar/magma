@@ -261,6 +261,19 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> double from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LToDblBiFunction<V, T2> function, double orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsDbl(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LToDblFunction<T2> lShrink(LFunction<T2, T1> left) {
 		return a2 -> applyAsDbl(left.apply(a2), a2);
 	}

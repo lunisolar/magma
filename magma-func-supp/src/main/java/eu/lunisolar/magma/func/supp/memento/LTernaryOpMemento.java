@@ -67,8 +67,18 @@ public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LTernaryOpMemento<T> mementoOf(LTernaryOperator<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LTernaryOpMemento<T> hollowMementoOf(LTernaryOperator<T> supplier) {
 		return new LTernaryOpMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LTernaryOpMemento<T> mementoOf(T a1, T a2, T a3, LTernaryOperator<T> supplier) {
+		return new LTernaryOpMemento<T>(supplier.apply(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LTernaryOpMemento<T> implements LTernaryOperator<T> {
 
 	public T lastValue() {
 		return lastValue;
+	}
+
+	public T delta(T a1, T a2, T a3, LBinaryOperator<T> deltaFunction) {
+		T last = lastValue;
+		return deltaFunction.apply(apply(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

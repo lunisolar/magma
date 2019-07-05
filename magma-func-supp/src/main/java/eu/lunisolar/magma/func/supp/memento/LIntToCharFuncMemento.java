@@ -67,8 +67,18 @@ public class LIntToCharFuncMemento implements LIntToCharFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LIntToCharFuncMemento mementoOf(LIntToCharFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LIntToCharFuncMemento hollowMementoOf(LIntToCharFunction supplier) {
 		return new LIntToCharFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LIntToCharFuncMemento mementoOf(int a, LIntToCharFunction supplier) {
+		return new LIntToCharFuncMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LIntToCharFuncMemento implements LIntToCharFunction {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(int a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(int a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -43,7 +43,7 @@ public class LBoolToFltFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LBoolToFltFuncMemento sut =  LBoolToFltFuncMemento.mementoOf( a ->{
+    private LBoolToFltFuncMemento sut =  LBoolToFltFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

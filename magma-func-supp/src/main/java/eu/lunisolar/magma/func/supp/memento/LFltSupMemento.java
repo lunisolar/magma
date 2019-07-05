@@ -67,8 +67,18 @@ public class LFltSupMemento implements LFltSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LFltSupMemento mementoOf(LFltSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LFltSupMemento hollowMementoOf(LFltSupplier supplier) {
 		return new LFltSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LFltSupMemento mementoOf(LFltSupplier supplier) {
+		return new LFltSupMemento(supplier.getAsFlt(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LFltSupMemento implements LFltSupplier {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta() {
+		float last = lastValue;
+		return (float) (getAsFlt() - last);
+	}
+
+	public float delta(LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(getAsFlt(), last);
 	}
 
 	// <editor-fold desc="object">

@@ -43,7 +43,7 @@ public class LBoolToByteFuncMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LBoolToByteFuncMemento sut =  LBoolToByteFuncMemento.mementoOf( a ->{
+    private LBoolToByteFuncMemento sut =  LBoolToByteFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

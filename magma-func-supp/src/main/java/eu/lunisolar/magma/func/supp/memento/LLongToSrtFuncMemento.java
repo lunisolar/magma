@@ -67,8 +67,18 @@ public class LLongToSrtFuncMemento implements LLongToSrtFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongToSrtFuncMemento mementoOf(LLongToSrtFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongToSrtFuncMemento hollowMementoOf(LLongToSrtFunction supplier) {
 		return new LLongToSrtFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongToSrtFuncMemento mementoOf(long a, LLongToSrtFunction supplier) {
+		return new LLongToSrtFuncMemento(supplier.applyAsSrt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongToSrtFuncMemento implements LLongToSrtFunction {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(long a) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a) - last);
+	}
+
+	public short delta(long a, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a), last);
 	}
 
 	// <editor-fold desc="object">

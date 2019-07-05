@@ -67,8 +67,18 @@ public class LBoolSupMemento implements LBoolSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LBoolSupMemento mementoOf(LBoolSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LBoolSupMemento hollowMementoOf(LBoolSupplier supplier) {
 		return new LBoolSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LBoolSupMemento mementoOf(LBoolSupplier supplier) {
+		return new LBoolSupMemento(supplier.getAsBool(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBoolSupMemento implements LBoolSupplier {
 
 	public boolean lastValue() {
 		return lastValue;
+	}
+
+	public boolean delta(LLogicalBinaryOperator deltaFunction) {
+		boolean last = lastValue;
+		return deltaFunction.apply(getAsBool(), last);
 	}
 
 	// <editor-fold desc="object">

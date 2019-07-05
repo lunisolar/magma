@@ -299,6 +299,19 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, int a3, LObjBiIntPredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2, a3);
+		}
+
+		return false;
+	}
+
 	public default LBiIntPredicate lShrink(LBiIntFunction<T> left) {
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
@@ -693,30 +706,6 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 
 	/** Returns FALSE. */
 	public static <T> boolean alwaysFalse(T a1, int a2, int a3) {
-		return false;
-	}
-
-	// >>> LInt1Obj0Int2Pred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(int a2, T a1, int a3) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(int a2, T a1, int a3) {
-		return false;
-	}
-
-	// >>> LInt1Int2Obj0Pred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(int a2, int a3, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(int a2, int a3, T a1) {
 		return false;
 	}
 

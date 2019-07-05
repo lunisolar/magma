@@ -67,8 +67,18 @@ public class LLongToCharFuncMemento implements LLongToCharFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongToCharFuncMemento mementoOf(LLongToCharFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongToCharFuncMemento hollowMementoOf(LLongToCharFunction supplier) {
 		return new LLongToCharFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongToCharFuncMemento mementoOf(long a, LLongToCharFunction supplier) {
+		return new LLongToCharFuncMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongToCharFuncMemento implements LLongToCharFunction {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(long a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(long a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -67,8 +67,18 @@ public class LByteFuncMemento<R> implements LByteFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LByteFuncMemento<R> mementoOf(LByteFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LByteFuncMemento<R> hollowMementoOf(LByteFunction<R> supplier) {
 		return new LByteFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LByteFuncMemento<R> mementoOf(byte a, LByteFunction<R> supplier) {
+		return new LByteFuncMemento<R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LByteFuncMemento<R> implements LByteFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(byte a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -67,8 +67,18 @@ public class LTriFuncMemento<T1, T2, T3, R> implements LTriFunction<T1, T2, T3, 
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, T3, R> LTriFuncMemento<T1, T2, T3, R> mementoOf(LTriFunction<T1, T2, T3, R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T1, T2, T3, R> LTriFuncMemento<T1, T2, T3, R> hollowMementoOf(LTriFunction<T1, T2, T3, R> supplier) {
 		return new LTriFuncMemento<T1, T2, T3, R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T1, T2, T3, R> LTriFuncMemento<T1, T2, T3, R> mementoOf(T1 a1, T2 a2, T3 a3, LTriFunction<T1, T2, T3, R> supplier) {
+		return new LTriFuncMemento<T1, T2, T3, R>(supplier.apply(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LTriFuncMemento<T1, T2, T3, R> implements LTriFunction<T1, T2, T3, 
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(T1 a1, T2 a2, T3 a3, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

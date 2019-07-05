@@ -317,6 +317,19 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> boolean from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LBiPredicate<V, T2> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2);
+		}
+
+		return false;
+	}
+
 	public default LPredicate<T2> lShrink(LFunction<T2, T1> left) {
 		return a2 -> test(left.apply(a2), a2);
 	}

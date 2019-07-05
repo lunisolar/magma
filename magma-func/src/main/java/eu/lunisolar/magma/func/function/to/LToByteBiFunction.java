@@ -251,6 +251,19 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> byte from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LToByteBiFunction<V, T2> function, byte orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsByte(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LToByteFunction<T2> lShrink(LFunction<T2, T1> left) {
 		return a2 -> applyAsByte(left.apply(a2), a2);
 	}

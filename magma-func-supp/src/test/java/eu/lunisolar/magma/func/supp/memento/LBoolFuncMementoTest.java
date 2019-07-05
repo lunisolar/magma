@@ -43,7 +43,7 @@ public class LBoolFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBoolFuncMemento<Integer> sut =  LBoolFuncMemento.<Integer>mementoOf( a ->{
+    private LBoolFuncMemento<Integer> sut =  LBoolFuncMemento.<Integer>hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

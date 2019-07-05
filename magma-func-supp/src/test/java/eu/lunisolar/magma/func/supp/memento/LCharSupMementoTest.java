@@ -43,7 +43,7 @@ public class LCharSupMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LCharSupMemento sut =  LCharSupMemento.mementoOf( () ->{
+    private LCharSupMemento sut =  LCharSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

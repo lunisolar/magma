@@ -43,7 +43,7 @@ public class LDblToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LDblToCharFuncMemento sut =  LDblToCharFuncMemento.mementoOf( a ->{
+    private LDblToCharFuncMemento sut =  LDblToCharFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LBoolToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LBoolToCharFuncMemento sut =  LBoolToCharFuncMemento.mementoOf( a ->{
+    private LBoolToCharFuncMemento sut =  LBoolToCharFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

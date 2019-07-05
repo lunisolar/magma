@@ -67,8 +67,18 @@ public class LObjIntDblFuncMemento<T, R> implements LObjIntDblFunction<T, R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T, R> LObjIntDblFuncMemento<T, R> mementoOf(LObjIntDblFunction<T, R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T, R> LObjIntDblFuncMemento<T, R> hollowMementoOf(LObjIntDblFunction<T, R> supplier) {
 		return new LObjIntDblFuncMemento<T, R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T, R> LObjIntDblFuncMemento<T, R> mementoOf(T a1, int a2, double a3, LObjIntDblFunction<T, R> supplier) {
+		return new LObjIntDblFuncMemento<T, R>(supplier.apply(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LObjIntDblFuncMemento<T, R> implements LObjIntDblFunction<T, R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(T a1, int a2, double a3, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

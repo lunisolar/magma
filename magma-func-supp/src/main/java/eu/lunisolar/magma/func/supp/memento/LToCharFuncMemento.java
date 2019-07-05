@@ -67,8 +67,18 @@ public class LToCharFuncMemento<T> implements LToCharFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LToCharFuncMemento<T> mementoOf(LToCharFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LToCharFuncMemento<T> hollowMementoOf(LToCharFunction<T> supplier) {
 		return new LToCharFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LToCharFuncMemento<T> mementoOf(T a, LToCharFunction<T> supplier) {
+		return new LToCharFuncMemento<T>(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToCharFuncMemento<T> implements LToCharFunction<T> {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(T a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(T a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

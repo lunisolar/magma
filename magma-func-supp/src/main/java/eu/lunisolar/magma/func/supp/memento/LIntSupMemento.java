@@ -67,8 +67,18 @@ public class LIntSupMemento implements LIntSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LIntSupMemento mementoOf(LIntSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LIntSupMemento hollowMementoOf(LIntSupplier supplier) {
 		return new LIntSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LIntSupMemento mementoOf(LIntSupplier supplier) {
+		return new LIntSupMemento(supplier.getAsInt(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LIntSupMemento implements LIntSupplier {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta() {
+		int last = lastValue;
+		return (int) (getAsInt() - last);
+	}
+
+	public int delta(LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(getAsInt(), last);
 	}
 
 	// <editor-fold desc="object">

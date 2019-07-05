@@ -67,8 +67,18 @@ public class LLongToFltFuncMemento implements LLongToFltFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongToFltFuncMemento mementoOf(LLongToFltFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongToFltFuncMemento hollowMementoOf(LLongToFltFunction supplier) {
 		return new LLongToFltFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongToFltFuncMemento mementoOf(long a, LLongToFltFunction supplier) {
+		return new LLongToFltFuncMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongToFltFuncMemento implements LLongToFltFunction {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(long a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(long a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

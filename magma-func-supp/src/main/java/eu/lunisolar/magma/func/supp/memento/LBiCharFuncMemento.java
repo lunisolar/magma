@@ -67,8 +67,18 @@ public class LBiCharFuncMemento<R> implements LBiCharFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LBiCharFuncMemento<R> mementoOf(LBiCharFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LBiCharFuncMemento<R> hollowMementoOf(LBiCharFunction<R> supplier) {
 		return new LBiCharFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LBiCharFuncMemento<R> mementoOf(char a1, char a2, LBiCharFunction<R> supplier) {
+		return new LBiCharFuncMemento<R>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBiCharFuncMemento<R> implements LBiCharFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(char a1, char a2, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

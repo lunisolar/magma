@@ -67,8 +67,18 @@ public class LDblBinaryOpMemento implements LDblBinaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LDblBinaryOpMemento mementoOf(LDblBinaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LDblBinaryOpMemento hollowMementoOf(LDblBinaryOperator supplier) {
 		return new LDblBinaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LDblBinaryOpMemento mementoOf(double a1, double a2, LDblBinaryOperator supplier) {
+		return new LDblBinaryOpMemento(supplier.applyAsDbl(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LDblBinaryOpMemento implements LDblBinaryOperator {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(double a1, double a2) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a1, a2) - last);
+	}
+
+	public double delta(double a1, double a2, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

@@ -255,6 +255,19 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		fromTill(0, max_a2, a1, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, long a2, LObjLongFunction<V, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2);
+		}
+
+		return null;
+	}
+
 	public default LLongFunction<R> lShrink(LLongFunction<T> left) {
 		return a2 -> apply(left.apply(a2), a2);
 	}

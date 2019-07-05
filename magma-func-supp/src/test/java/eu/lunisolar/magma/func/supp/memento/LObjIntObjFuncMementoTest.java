@@ -43,7 +43,7 @@ public class LObjIntObjFuncMementoTest <T1,T2,R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LObjIntObjFuncMemento<Integer,Integer,Integer> sut =  LObjIntObjFuncMemento.<Integer,Integer,Integer>mementoOf( (a1,a2,a3) ->{
+    private LObjIntObjFuncMemento<Integer,Integer,Integer> sut =  LObjIntObjFuncMemento.<Integer,Integer,Integer>hollowMementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

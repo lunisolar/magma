@@ -43,7 +43,7 @@ public class LBiLongFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiLongFuncMemento<Integer> sut =  LBiLongFuncMemento.<Integer>mementoOf( (a1,a2) ->{
+    private LBiLongFuncMemento<Integer> sut =  LBiLongFuncMemento.<Integer>hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

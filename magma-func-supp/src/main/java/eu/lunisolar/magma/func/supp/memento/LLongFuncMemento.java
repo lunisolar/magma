@@ -67,8 +67,18 @@ public class LLongFuncMemento<R> implements LLongFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LLongFuncMemento<R> mementoOf(LLongFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LLongFuncMemento<R> hollowMementoOf(LLongFunction<R> supplier) {
 		return new LLongFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LLongFuncMemento<R> mementoOf(long a, LLongFunction<R> supplier) {
+		return new LLongFuncMemento<R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LLongFuncMemento<R> implements LLongFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(long a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

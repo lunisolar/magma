@@ -43,7 +43,7 @@ public class LFltToByteFuncMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LFltToByteFuncMemento sut =  LFltToByteFuncMemento.mementoOf( a ->{
+    private LFltToByteFuncMemento sut =  LFltToByteFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

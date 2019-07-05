@@ -67,8 +67,18 @@ public class LFltToSrtFuncMemento implements LFltToSrtFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LFltToSrtFuncMemento mementoOf(LFltToSrtFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LFltToSrtFuncMemento hollowMementoOf(LFltToSrtFunction supplier) {
 		return new LFltToSrtFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LFltToSrtFuncMemento mementoOf(float a, LFltToSrtFunction supplier) {
+		return new LFltToSrtFuncMemento(supplier.applyAsSrt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LFltToSrtFuncMemento implements LFltToSrtFunction {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(float a) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a) - last);
+	}
+
+	public short delta(float a, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -43,7 +43,7 @@ public class LIntToCharFuncMementoTest  {
     private char initialTestValue = '\u0001';
     private char testValue = initialTestValue;
 
-    private LIntToCharFuncMemento sut =  LIntToCharFuncMemento.mementoOf( a ->{
+    private LIntToCharFuncMemento sut =  LIntToCharFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

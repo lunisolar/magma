@@ -308,6 +308,19 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, float a2, LObjFltPredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2);
+		}
+
+		return false;
+	}
+
 	public default LFltPredicate lShrink(LFltFunction<T> left) {
 		return a2 -> test(left.apply(a2), a2);
 	}
@@ -610,18 +623,6 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 
 	/** Returns FALSE. */
 	public static <T> boolean alwaysFalse(T a1, float a2) {
-		return false;
-	}
-
-	// >>> LFltObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(float a2, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(float a2, T a1) {
 		return false;
 	}
 

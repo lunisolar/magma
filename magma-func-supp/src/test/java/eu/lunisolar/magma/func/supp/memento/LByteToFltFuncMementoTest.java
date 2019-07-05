@@ -43,7 +43,7 @@ public class LByteToFltFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LByteToFltFuncMemento sut =  LByteToFltFuncMemento.mementoOf( a ->{
+    private LByteToFltFuncMemento sut =  LByteToFltFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

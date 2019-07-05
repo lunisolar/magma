@@ -299,6 +299,19 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, byte a3, LObjIntBytePredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2, a3);
+		}
+
+		return false;
+	}
+
 	/**  */
 	public static <T> LObjIntBytePredicate<T> uncurry(LFunction<T, LIntFunction<LBytePredicate>> func) {
 		return (T a1, int a2, byte a3) -> func.apply(a1).apply(a2).test(a3);
@@ -661,66 +674,6 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** Returns FALSE. */
 	public static <T> boolean alwaysFalse(T a1, int a2, byte a3) {
-		return false;
-	}
-
-	// >>> LObjByteIntPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T a1, byte a3, int a2) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T a1, byte a3, int a2) {
-		return false;
-	}
-
-	// >>> LIntObjBytePred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(int a2, T a1, byte a3) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(int a2, T a1, byte a3) {
-		return false;
-	}
-
-	// >>> LIntByteObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(int a2, byte a3, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(int a2, byte a3, T a1) {
-		return false;
-	}
-
-	// >>> LByteObjIntPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(byte a3, T a1, int a2) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(byte a3, T a1, int a2) {
-		return false;
-	}
-
-	// >>> LByteIntObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(byte a3, int a2, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(byte a3, int a2, T a1) {
 		return false;
 	}
 

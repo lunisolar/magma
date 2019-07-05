@@ -67,8 +67,18 @@ public class LByteToSrtFuncMemento implements LByteToSrtFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LByteToSrtFuncMemento mementoOf(LByteToSrtFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LByteToSrtFuncMemento hollowMementoOf(LByteToSrtFunction supplier) {
 		return new LByteToSrtFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LByteToSrtFuncMemento mementoOf(byte a, LByteToSrtFunction supplier) {
+		return new LByteToSrtFuncMemento(supplier.applyAsSrt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LByteToSrtFuncMemento implements LByteToSrtFunction {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(byte a) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a) - last);
+	}
+
+	public short delta(byte a, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a), last);
 	}
 
 	// <editor-fold desc="object">

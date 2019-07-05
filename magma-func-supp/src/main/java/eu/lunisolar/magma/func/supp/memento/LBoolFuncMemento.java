@@ -67,8 +67,18 @@ public class LBoolFuncMemento<R> implements LBoolFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LBoolFuncMemento<R> mementoOf(LBoolFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LBoolFuncMemento<R> hollowMementoOf(LBoolFunction<R> supplier) {
 		return new LBoolFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LBoolFuncMemento<R> mementoOf(boolean a, LBoolFunction<R> supplier) {
+		return new LBoolFuncMemento<R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBoolFuncMemento<R> implements LBoolFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(boolean a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

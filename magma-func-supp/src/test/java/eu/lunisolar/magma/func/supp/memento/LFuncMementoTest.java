@@ -43,7 +43,7 @@ public class LFuncMementoTest <T,R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LFuncMemento<Integer,Integer> sut =  LFuncMemento.<Integer,Integer>mementoOf( a ->{
+    private LFuncMemento<Integer,Integer> sut =  LFuncMemento.<Integer,Integer>hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

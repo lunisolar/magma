@@ -299,6 +299,19 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, double a3, LObjIntDblPredicate<V> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2, a3);
+		}
+
+		return false;
+	}
+
 	/**  */
 	public static <T> LObjIntDblPredicate<T> uncurry(LFunction<T, LIntFunction<LDblPredicate>> func) {
 		return (T a1, int a2, double a3) -> func.apply(a1).apply(a2).test(a3);
@@ -661,66 +674,6 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 
 	/** Returns FALSE. */
 	public static <T> boolean alwaysFalse(T a1, int a2, double a3) {
-		return false;
-	}
-
-	// >>> LObjDblIntPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(T a1, double a3, int a2) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(T a1, double a3, int a2) {
-		return false;
-	}
-
-	// >>> LIntObjDblPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(int a2, T a1, double a3) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(int a2, T a1, double a3) {
-		return false;
-	}
-
-	// >>> LIntDblObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(int a2, double a3, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(int a2, double a3, T a1) {
-		return false;
-	}
-
-	// >>> LDblObjIntPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(double a3, T a1, int a2) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(double a3, T a1, int a2) {
-		return false;
-	}
-
-	// >>> LDblIntObjPred<T>
-
-	/** Returns TRUE. */
-	public static <T> boolean alwaysTrue(double a3, int a2, T a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T> boolean alwaysFalse(double a3, int a2, T a1) {
 		return false;
 	}
 

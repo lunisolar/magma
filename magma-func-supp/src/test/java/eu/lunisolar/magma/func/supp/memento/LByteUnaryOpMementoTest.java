@@ -43,7 +43,7 @@ public class LByteUnaryOpMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LByteUnaryOpMemento sut =  LByteUnaryOpMemento.mementoOf( a ->{
+    private LByteUnaryOpMemento sut =  LByteUnaryOpMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

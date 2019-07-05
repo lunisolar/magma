@@ -67,8 +67,18 @@ public class LSrtSupMemento implements LSrtSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtSupMemento mementoOf(LSrtSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtSupMemento hollowMementoOf(LSrtSupplier supplier) {
 		return new LSrtSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtSupMemento mementoOf(LSrtSupplier supplier) {
+		return new LSrtSupMemento(supplier.getAsSrt(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtSupMemento implements LSrtSupplier {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta() {
+		short last = lastValue;
+		return (short) (getAsSrt() - last);
+	}
+
+	public short delta(LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(getAsSrt(), last);
 	}
 
 	// <editor-fold desc="object">

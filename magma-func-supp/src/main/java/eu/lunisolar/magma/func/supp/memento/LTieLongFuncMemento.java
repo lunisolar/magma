@@ -67,8 +67,18 @@ public class LTieLongFuncMemento<T> implements LTieLongFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LTieLongFuncMemento<T> mementoOf(LTieLongFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LTieLongFuncMemento<T> hollowMementoOf(LTieLongFunction<T> supplier) {
 		return new LTieLongFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LTieLongFuncMemento<T> mementoOf(T a1, int a2, long a3, LTieLongFunction<T> supplier) {
+		return new LTieLongFuncMemento<T>(supplier.applyAsInt(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LTieLongFuncMemento<T> implements LTieLongFunction<T> {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(T a1, int a2, long a3) {
+		int last = lastValue;
+		return (int) (applyAsInt(a1, a2, a3) - last);
+	}
+
+	public int delta(T a1, int a2, long a3, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

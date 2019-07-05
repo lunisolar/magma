@@ -43,7 +43,7 @@ public class LLogicalOpMementoTest  {
     private boolean initialTestValue = true;
     private boolean testValue = initialTestValue;
 
-    private LLogicalOpMemento sut =  LLogicalOpMemento.mementoOf( a ->{
+    private LLogicalOpMemento sut =  LLogicalOpMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

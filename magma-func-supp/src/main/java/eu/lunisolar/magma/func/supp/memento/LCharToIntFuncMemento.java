@@ -67,8 +67,18 @@ public class LCharToIntFuncMemento implements LCharToIntFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharToIntFuncMemento mementoOf(LCharToIntFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharToIntFuncMemento hollowMementoOf(LCharToIntFunction supplier) {
 		return new LCharToIntFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharToIntFuncMemento mementoOf(char a, LCharToIntFunction supplier) {
+		return new LCharToIntFuncMemento(supplier.applyAsInt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharToIntFuncMemento implements LCharToIntFunction {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(char a) {
+		int last = lastValue;
+		return (int) (applyAsInt(a) - last);
+	}
+
+	public int delta(char a, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -43,7 +43,7 @@ public class LLogicalBinaryOpMementoTest  {
     private boolean initialTestValue = true;
     private boolean testValue = initialTestValue;
 
-    private LLogicalBinaryOpMemento sut =  LLogicalBinaryOpMemento.mementoOf( (a1,a2) ->{
+    private LLogicalBinaryOpMemento sut =  LLogicalBinaryOpMemento.hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

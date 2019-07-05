@@ -251,6 +251,19 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> int from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LToIntBiFunction<V, T2> function, int orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsInt(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LToIntFunction<T2> lShrink(LFunction<T2, T1> left) {
 		return a2 -> applyAsInt(left.apply(a2), a2);
 	}

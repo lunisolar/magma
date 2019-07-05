@@ -67,8 +67,18 @@ public class LDblToCharFuncMemento implements LDblToCharFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LDblToCharFuncMemento mementoOf(LDblToCharFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LDblToCharFuncMemento hollowMementoOf(LDblToCharFunction supplier) {
 		return new LDblToCharFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LDblToCharFuncMemento mementoOf(double a, LDblToCharFunction supplier) {
+		return new LDblToCharFuncMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LDblToCharFuncMemento implements LDblToCharFunction {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(double a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(double a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

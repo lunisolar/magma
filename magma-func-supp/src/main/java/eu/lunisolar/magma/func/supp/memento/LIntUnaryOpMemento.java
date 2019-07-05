@@ -67,8 +67,18 @@ public class LIntUnaryOpMemento implements LIntUnaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LIntUnaryOpMemento mementoOf(LIntUnaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LIntUnaryOpMemento hollowMementoOf(LIntUnaryOperator supplier) {
 		return new LIntUnaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LIntUnaryOpMemento mementoOf(int a, LIntUnaryOperator supplier) {
+		return new LIntUnaryOpMemento(supplier.applyAsInt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LIntUnaryOpMemento implements LIntUnaryOperator {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(int a) {
+		int last = lastValue;
+		return (int) (applyAsInt(a) - last);
+	}
+
+	public int delta(int a, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a), last);
 	}
 
 	// <editor-fold desc="object">

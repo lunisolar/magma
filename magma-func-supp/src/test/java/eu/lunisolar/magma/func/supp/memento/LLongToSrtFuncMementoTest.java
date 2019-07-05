@@ -43,7 +43,7 @@ public class LLongToSrtFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LLongToSrtFuncMemento sut =  LLongToSrtFuncMemento.mementoOf( a ->{
+    private LLongToSrtFuncMemento sut =  LLongToSrtFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

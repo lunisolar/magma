@@ -67,8 +67,18 @@ public class LLongToDblFuncMemento implements LLongToDblFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongToDblFuncMemento mementoOf(LLongToDblFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongToDblFuncMemento hollowMementoOf(LLongToDblFunction supplier) {
 		return new LLongToDblFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongToDblFuncMemento mementoOf(long a, LLongToDblFunction supplier) {
+		return new LLongToDblFuncMemento(supplier.applyAsDbl(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongToDblFuncMemento implements LLongToDblFunction {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(long a) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a) - last);
+	}
+
+	public double delta(long a, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a), last);
 	}
 
 	// <editor-fold desc="object">

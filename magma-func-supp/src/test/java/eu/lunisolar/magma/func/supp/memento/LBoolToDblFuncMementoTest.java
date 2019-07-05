@@ -43,7 +43,7 @@ public class LBoolToDblFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LBoolToDblFuncMemento sut =  LBoolToDblFuncMemento.mementoOf( a ->{
+    private LBoolToDblFuncMemento sut =  LBoolToDblFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

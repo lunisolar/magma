@@ -67,8 +67,18 @@ public class LBoolToCharFuncMemento implements LBoolToCharFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LBoolToCharFuncMemento mementoOf(LBoolToCharFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LBoolToCharFuncMemento hollowMementoOf(LBoolToCharFunction supplier) {
 		return new LBoolToCharFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LBoolToCharFuncMemento mementoOf(boolean a, LBoolToCharFunction supplier) {
+		return new LBoolToCharFuncMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LBoolToCharFuncMemento implements LBoolToCharFunction {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(boolean a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(boolean a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

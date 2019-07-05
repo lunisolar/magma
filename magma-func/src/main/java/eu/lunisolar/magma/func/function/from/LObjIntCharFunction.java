@@ -255,6 +255,19 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, char a3, LObjIntCharFunction<V, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2, a3);
+		}
+
+		return null;
+	}
+
 	/**  */
 	public static <T, R> LObjIntCharFunction<T, R> uncurry(LFunction<T, LIntFunction<LCharFunction<R>>> func) {
 		return (T a1, int a2, char a3) -> func.apply(a1).apply(a2).apply(a3);

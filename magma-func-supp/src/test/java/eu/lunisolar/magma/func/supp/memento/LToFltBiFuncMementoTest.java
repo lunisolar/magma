@@ -43,7 +43,7 @@ public class LToFltBiFuncMementoTest <T1,T2> {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LToFltBiFuncMemento<Integer,Integer> sut =  LToFltBiFuncMemento.<Integer,Integer>mementoOf( (a1,a2) ->{
+    private LToFltBiFuncMemento<Integer,Integer> sut =  LToFltBiFuncMemento.<Integer,Integer>hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

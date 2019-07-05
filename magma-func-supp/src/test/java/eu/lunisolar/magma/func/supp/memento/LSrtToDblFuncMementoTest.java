@@ -43,7 +43,7 @@ public class LSrtToDblFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LSrtToDblFuncMemento sut =  LSrtToDblFuncMemento.mementoOf( a ->{
+    private LSrtToDblFuncMemento sut =  LSrtToDblFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

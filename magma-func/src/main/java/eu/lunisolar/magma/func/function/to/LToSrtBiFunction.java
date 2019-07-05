@@ -251,6 +251,19 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> short from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LToSrtBiFunction<V, T2> function, short orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsSrt(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LToSrtFunction<T2> lShrink(LFunction<T2, T1> left) {
 		return a2 -> applyAsSrt(left.apply(a2), a2);
 	}

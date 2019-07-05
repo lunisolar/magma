@@ -43,7 +43,7 @@ public class LLongSupMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LLongSupMemento sut =  LLongSupMemento.mementoOf( () ->{
+    private LLongSupMemento sut =  LLongSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

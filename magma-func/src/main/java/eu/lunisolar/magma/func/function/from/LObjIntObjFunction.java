@@ -255,6 +255,19 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V, T2> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, T2 a3, LObjIntObjFunction<V, T2, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2, a3);
+		}
+
+		return null;
+	}
+
 	/**  */
 	public static <T1, T2, R> LObjIntObjFunction<T1, T2, R> uncurry(LFunction<T1, LIntFunction<LFunction<T2, R>>> func) {
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).apply(a3);

@@ -43,7 +43,7 @@ public class LFltToSrtFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LFltToSrtFuncMemento sut =  LFltToSrtFuncMemento.mementoOf( a ->{
+    private LFltToSrtFuncMemento sut =  LFltToSrtFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

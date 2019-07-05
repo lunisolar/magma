@@ -67,8 +67,18 @@ public class LTriBoolFuncMemento<R> implements LTriBoolFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LTriBoolFuncMemento<R> mementoOf(LTriBoolFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LTriBoolFuncMemento<R> hollowMementoOf(LTriBoolFunction<R> supplier) {
 		return new LTriBoolFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LTriBoolFuncMemento<R> mementoOf(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> supplier) {
+		return new LTriBoolFuncMemento<R>(supplier.apply(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LTriBoolFuncMemento<R> implements LTriBoolFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(boolean a1, boolean a2, boolean a3, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

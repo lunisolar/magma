@@ -43,7 +43,7 @@ public class LDblToSrtFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LDblToSrtFuncMemento sut =  LDblToSrtFuncMemento.mementoOf( a ->{
+    private LDblToSrtFuncMemento sut =  LDblToSrtFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

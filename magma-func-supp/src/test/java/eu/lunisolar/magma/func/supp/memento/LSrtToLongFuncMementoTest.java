@@ -43,7 +43,7 @@ public class LSrtToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LSrtToLongFuncMemento sut =  LSrtToLongFuncMemento.mementoOf( a ->{
+    private LSrtToLongFuncMemento sut =  LSrtToLongFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

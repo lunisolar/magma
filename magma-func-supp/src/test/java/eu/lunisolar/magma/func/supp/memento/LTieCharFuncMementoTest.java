@@ -43,7 +43,7 @@ public class LTieCharFuncMementoTest <T> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LTieCharFuncMemento<Integer> sut =  LTieCharFuncMemento.<Integer>mementoOf( (a1,a2,a3) ->{
+    private LTieCharFuncMemento<Integer> sut =  LTieCharFuncMemento.<Integer>hollowMementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

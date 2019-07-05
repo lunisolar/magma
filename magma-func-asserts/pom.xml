@@ -23,7 +23,7 @@
     <parent>
         <groupId>eu.lunisolar.magma</groupId>
         <artifactId>magma-pom</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>2.1.0-SNAPSHOT</version>
         <relativePath>../magma-pom</relativePath>
     </parent>
 
@@ -31,7 +31,7 @@
     <artifactId>magma-func-asserts</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
 
     <properties>
 

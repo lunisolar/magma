@@ -67,8 +67,18 @@ public class LByteSupMemento implements LByteSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LByteSupMemento mementoOf(LByteSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LByteSupMemento hollowMementoOf(LByteSupplier supplier) {
 		return new LByteSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LByteSupMemento mementoOf(LByteSupplier supplier) {
+		return new LByteSupMemento(supplier.getAsByte(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LByteSupMemento implements LByteSupplier {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta() {
+		byte last = lastValue;
+		return (byte) (getAsByte() - last);
+	}
+
+	public byte delta(LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(getAsByte(), last);
 	}
 
 	// <editor-fold desc="object">

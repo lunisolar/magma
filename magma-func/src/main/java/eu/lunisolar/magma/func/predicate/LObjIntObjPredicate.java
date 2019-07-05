@@ -299,6 +299,19 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, T2 a3, LObjIntObjPredicate<V, T2> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2, a3);
+		}
+
+		return false;
+	}
+
 	/**  */
 	public static <T1, T2> LObjIntObjPredicate<T1, T2> uncurry(LFunction<T1, LIntFunction<LPredicate<T2>>> func) {
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).test(a3);
@@ -662,30 +675,6 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	/** Returns FALSE. */
 	public static <T1, T2> boolean alwaysFalse(T1 a1, int a2, T2 a3) {
-		return false;
-	}
-
-	// >>> LObj0Obj2Int1Pred<T1,T2>
-
-	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 a1, T2 a3, int a2) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a3, int a2) {
-		return false;
-	}
-
-	// >>> LInt1BiObj2Pred<T1,T2>
-
-	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(int a2, T1 a1, T2 a3) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(int a2, T1 a1, T2 a3) {
 		return false;
 	}
 

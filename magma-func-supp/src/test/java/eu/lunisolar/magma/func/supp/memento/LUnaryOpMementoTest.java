@@ -43,7 +43,7 @@ public class LUnaryOpMementoTest <T> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LUnaryOpMemento<Integer> sut =  LUnaryOpMemento.<Integer>mementoOf( a ->{
+    private LUnaryOpMemento<Integer> sut =  LUnaryOpMemento.<Integer>hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

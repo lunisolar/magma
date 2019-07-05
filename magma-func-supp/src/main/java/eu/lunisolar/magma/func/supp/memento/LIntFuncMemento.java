@@ -67,8 +67,18 @@ public class LIntFuncMemento<R> implements LIntFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LIntFuncMemento<R> mementoOf(LIntFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LIntFuncMemento<R> hollowMementoOf(LIntFunction<R> supplier) {
 		return new LIntFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LIntFuncMemento<R> mementoOf(int a, LIntFunction<R> supplier) {
+		return new LIntFuncMemento<R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LIntFuncMemento<R> implements LIntFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(int a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -67,8 +67,18 @@ public class LCharToLongFuncMemento implements LCharToLongFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharToLongFuncMemento mementoOf(LCharToLongFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharToLongFuncMemento hollowMementoOf(LCharToLongFunction supplier) {
 		return new LCharToLongFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharToLongFuncMemento mementoOf(char a, LCharToLongFunction supplier) {
+		return new LCharToLongFuncMemento(supplier.applyAsLong(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharToLongFuncMemento implements LCharToLongFunction {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta(char a) {
+		long last = lastValue;
+		return (long) (applyAsLong(a) - last);
+	}
+
+	public long delta(char a, LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(applyAsLong(a), last);
 	}
 
 	// <editor-fold desc="object">

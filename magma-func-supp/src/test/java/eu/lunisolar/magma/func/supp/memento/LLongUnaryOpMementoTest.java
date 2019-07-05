@@ -43,7 +43,7 @@ public class LLongUnaryOpMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LLongUnaryOpMemento sut =  LLongUnaryOpMemento.mementoOf( a ->{
+    private LLongUnaryOpMemento sut =  LLongUnaryOpMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

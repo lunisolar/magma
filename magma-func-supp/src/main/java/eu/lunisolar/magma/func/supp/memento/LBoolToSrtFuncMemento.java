@@ -67,8 +67,18 @@ public class LBoolToSrtFuncMemento implements LBoolToSrtFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LBoolToSrtFuncMemento mementoOf(LBoolToSrtFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LBoolToSrtFuncMemento hollowMementoOf(LBoolToSrtFunction supplier) {
 		return new LBoolToSrtFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LBoolToSrtFuncMemento mementoOf(boolean a, LBoolToSrtFunction supplier) {
+		return new LBoolToSrtFuncMemento(supplier.applyAsSrt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LBoolToSrtFuncMemento implements LBoolToSrtFunction {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(boolean a) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a) - last);
+	}
+
+	public short delta(boolean a, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a), last);
 	}
 
 	// <editor-fold desc="object">

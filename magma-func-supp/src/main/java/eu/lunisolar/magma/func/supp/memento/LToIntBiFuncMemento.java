@@ -67,8 +67,18 @@ public class LToIntBiFuncMemento<T1, T2> implements LToIntBiFunction<T1, T2> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2> LToIntBiFuncMemento<T1, T2> mementoOf(LToIntBiFunction<T1, T2> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T1, T2> LToIntBiFuncMemento<T1, T2> hollowMementoOf(LToIntBiFunction<T1, T2> supplier) {
 		return new LToIntBiFuncMemento<T1, T2>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T1, T2> LToIntBiFuncMemento<T1, T2> mementoOf(T1 a1, T2 a2, LToIntBiFunction<T1, T2> supplier) {
+		return new LToIntBiFuncMemento<T1, T2>(supplier.applyAsInt(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LToIntBiFuncMemento<T1, T2> implements LToIntBiFunction<T1, T2> {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(T1 a1, T2 a2) {
+		int last = lastValue;
+		return (int) (applyAsInt(a1, a2) - last);
+	}
+
+	public int delta(T1 a1, T2 a2, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

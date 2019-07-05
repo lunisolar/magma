@@ -251,6 +251,19 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> long from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LToLongBiFunction<V, T2> function, long orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsLong(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LToLongFunction<T2> lShrink(LFunction<T2, T1> left) {
 		return a2 -> applyAsLong(left.apply(a2), a2);
 	}

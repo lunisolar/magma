@@ -299,6 +299,19 @@ public interface LBiObjBytePredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> boolean from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, byte a3, LBiObjBytePredicate<V, T2> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.test(value, a2, a3);
+		}
+
+		return false;
+	}
+
 	public default LObjBytePredicate<T2> lShrink(LObjByteFunction<T2, T1> left) {
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
@@ -687,30 +700,6 @@ public interface LBiObjBytePredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	/** Returns FALSE. */
 	public static <T1, T2> boolean alwaysFalse(T1 a1, T2 a2, byte a3) {
-		return false;
-	}
-
-	// >>> LObj0Byte2Obj1Pred<T1,T2>
-
-	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(T1 a1, byte a3, T2 a2) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(T1 a1, byte a3, T2 a2) {
-		return false;
-	}
-
-	// >>> LByte2Obj0Obj1Pred<T1,T2>
-
-	/** Returns TRUE. */
-	public static <T1, T2> boolean alwaysTrue(byte a3, T1 a1, T2 a2) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static <T1, T2> boolean alwaysFalse(byte a3, T1 a1, T2 a2) {
 		return false;
 	}
 

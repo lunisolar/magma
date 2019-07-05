@@ -43,7 +43,7 @@ public class LTernaryOpMementoTest <T> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LTernaryOpMemento<Integer> sut =  LTernaryOpMemento.<Integer>mementoOf( (a1,a2,a3) ->{
+    private LTernaryOpMemento<Integer> sut =  LTernaryOpMemento.<Integer>hollowMementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

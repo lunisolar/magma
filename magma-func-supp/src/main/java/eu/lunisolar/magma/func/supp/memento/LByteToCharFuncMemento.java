@@ -67,8 +67,18 @@ public class LByteToCharFuncMemento implements LByteToCharFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LByteToCharFuncMemento mementoOf(LByteToCharFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LByteToCharFuncMemento hollowMementoOf(LByteToCharFunction supplier) {
 		return new LByteToCharFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LByteToCharFuncMemento mementoOf(byte a, LByteToCharFunction supplier) {
+		return new LByteToCharFuncMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LByteToCharFuncMemento implements LByteToCharFunction {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(byte a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(byte a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

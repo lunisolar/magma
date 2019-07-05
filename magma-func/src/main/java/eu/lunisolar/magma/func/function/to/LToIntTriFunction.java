@@ -251,6 +251,19 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2, T3> int from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, LToIntTriFunction<V, T2, T3> function, int orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsInt(value, a2, a3);
+		}
+
+		return orElse;
+	}
+
 	public default LToIntBiFunction<T2, T3> lShrink(LBiFunction<T2, T3, T1> left) {
 		return (a2, a3) -> applyAsInt(left.apply(a2, a3), a2, a3);
 	}

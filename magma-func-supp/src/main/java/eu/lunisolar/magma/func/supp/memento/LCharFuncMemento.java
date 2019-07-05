@@ -67,8 +67,18 @@ public class LCharFuncMemento<R> implements LCharFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LCharFuncMemento<R> mementoOf(LCharFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LCharFuncMemento<R> hollowMementoOf(LCharFunction<R> supplier) {
 		return new LCharFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LCharFuncMemento<R> mementoOf(char a, LCharFunction<R> supplier) {
+		return new LCharFuncMemento<R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LCharFuncMemento<R> implements LCharFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(char a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

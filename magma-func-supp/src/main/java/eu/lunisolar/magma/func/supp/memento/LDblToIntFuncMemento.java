@@ -67,8 +67,18 @@ public class LDblToIntFuncMemento implements LDblToIntFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LDblToIntFuncMemento mementoOf(LDblToIntFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LDblToIntFuncMemento hollowMementoOf(LDblToIntFunction supplier) {
 		return new LDblToIntFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LDblToIntFuncMemento mementoOf(double a, LDblToIntFunction supplier) {
+		return new LDblToIntFuncMemento(supplier.applyAsInt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LDblToIntFuncMemento implements LDblToIntFunction {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(double a) {
+		int last = lastValue;
+		return (int) (applyAsInt(a) - last);
+	}
+
+	public int delta(double a, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -67,8 +67,18 @@ public class LBoolToLongFuncMemento implements LBoolToLongFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LBoolToLongFuncMemento mementoOf(LBoolToLongFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LBoolToLongFuncMemento hollowMementoOf(LBoolToLongFunction supplier) {
 		return new LBoolToLongFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LBoolToLongFuncMemento mementoOf(boolean a, LBoolToLongFunction supplier) {
+		return new LBoolToLongFuncMemento(supplier.applyAsLong(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LBoolToLongFuncMemento implements LBoolToLongFunction {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta(boolean a) {
+		long last = lastValue;
+		return (long) (applyAsLong(a) - last);
+	}
+
+	public long delta(boolean a, LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(applyAsLong(a), last);
 	}
 
 	// <editor-fold desc="object">

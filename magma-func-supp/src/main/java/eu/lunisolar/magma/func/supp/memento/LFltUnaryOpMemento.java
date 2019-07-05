@@ -67,8 +67,18 @@ public class LFltUnaryOpMemento implements LFltUnaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LFltUnaryOpMemento mementoOf(LFltUnaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LFltUnaryOpMemento hollowMementoOf(LFltUnaryOperator supplier) {
 		return new LFltUnaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LFltUnaryOpMemento mementoOf(float a, LFltUnaryOperator supplier) {
+		return new LFltUnaryOpMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LFltUnaryOpMemento implements LFltUnaryOperator {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(float a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(float a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

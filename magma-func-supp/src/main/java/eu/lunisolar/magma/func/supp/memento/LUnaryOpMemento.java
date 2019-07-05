@@ -67,8 +67,18 @@ public class LUnaryOpMemento<T> implements LUnaryOperator<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LUnaryOpMemento<T> mementoOf(LUnaryOperator<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LUnaryOpMemento<T> hollowMementoOf(LUnaryOperator<T> supplier) {
 		return new LUnaryOpMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LUnaryOpMemento<T> mementoOf(T a, LUnaryOperator<T> supplier) {
+		return new LUnaryOpMemento<T>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LUnaryOpMemento<T> implements LUnaryOperator<T> {
 
 	public T lastValue() {
 		return lastValue;
+	}
+
+	public T delta(T a, LBinaryOperator<T> deltaFunction) {
+		T last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

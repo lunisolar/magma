@@ -67,8 +67,18 @@ public class LByteToDblFuncMemento implements LByteToDblFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LByteToDblFuncMemento mementoOf(LByteToDblFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LByteToDblFuncMemento hollowMementoOf(LByteToDblFunction supplier) {
 		return new LByteToDblFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LByteToDblFuncMemento mementoOf(byte a, LByteToDblFunction supplier) {
+		return new LByteToDblFuncMemento(supplier.applyAsDbl(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LByteToDblFuncMemento implements LByteToDblFunction {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(byte a) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a) - last);
+	}
+
+	public double delta(byte a, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a), last);
 	}
 
 	// <editor-fold desc="object">

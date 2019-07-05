@@ -43,7 +43,7 @@ public class LBinaryOpMementoTest <T> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBinaryOpMemento<Integer> sut =  LBinaryOpMemento.<Integer>mementoOf( (a1,a2) ->{
+    private LBinaryOpMemento<Integer> sut =  LBinaryOpMemento.<Integer>hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

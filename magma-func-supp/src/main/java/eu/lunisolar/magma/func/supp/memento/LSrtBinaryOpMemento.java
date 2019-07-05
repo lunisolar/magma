@@ -67,8 +67,18 @@ public class LSrtBinaryOpMemento implements LSrtBinaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtBinaryOpMemento mementoOf(LSrtBinaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtBinaryOpMemento hollowMementoOf(LSrtBinaryOperator supplier) {
 		return new LSrtBinaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtBinaryOpMemento mementoOf(short a1, short a2, LSrtBinaryOperator supplier) {
+		return new LSrtBinaryOpMemento(supplier.applyAsSrt(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtBinaryOpMemento implements LSrtBinaryOperator {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(short a1, short a2) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a1, a2) - last);
+	}
+
+	public short delta(short a1, short a2, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

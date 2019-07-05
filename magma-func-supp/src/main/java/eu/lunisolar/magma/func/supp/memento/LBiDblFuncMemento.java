@@ -67,8 +67,18 @@ public class LBiDblFuncMemento<R> implements LBiDblFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LBiDblFuncMemento<R> mementoOf(LBiDblFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LBiDblFuncMemento<R> hollowMementoOf(LBiDblFunction<R> supplier) {
 		return new LBiDblFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LBiDblFuncMemento<R> mementoOf(double a1, double a2, LBiDblFunction<R> supplier) {
+		return new LBiDblFuncMemento<R>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBiDblFuncMemento<R> implements LBiDblFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(double a1, double a2, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

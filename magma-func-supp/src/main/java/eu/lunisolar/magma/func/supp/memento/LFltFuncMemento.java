@@ -67,8 +67,18 @@ public class LFltFuncMemento<R> implements LFltFunction<R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <R> LFltFuncMemento<R> mementoOf(LFltFunction<R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <R> LFltFuncMemento<R> hollowMementoOf(LFltFunction<R> supplier) {
 		return new LFltFuncMemento<R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <R> LFltFuncMemento<R> mementoOf(float a, LFltFunction<R> supplier) {
+		return new LFltFuncMemento<R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LFltFuncMemento<R> implements LFltFunction<R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(float a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

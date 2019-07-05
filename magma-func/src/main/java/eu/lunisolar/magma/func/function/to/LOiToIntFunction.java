@@ -253,6 +253,19 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_a2, a1, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> int from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToIntFunction<V> function, int orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsInt(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LIntUnaryOperator lShrink(LIntFunction<T> left) {
 		return a2 -> applyAsInt(left.apply(a2), a2);
 	}

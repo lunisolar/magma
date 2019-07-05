@@ -43,7 +43,7 @@ public class LIntToByteFuncMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LIntToByteFuncMemento sut =  LIntToByteFuncMemento.mementoOf( a ->{
+    private LIntToByteFuncMemento sut =  LIntToByteFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

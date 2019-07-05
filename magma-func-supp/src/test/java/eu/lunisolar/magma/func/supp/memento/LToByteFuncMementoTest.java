@@ -43,7 +43,7 @@ public class LToByteFuncMementoTest <T> {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LToByteFuncMemento<Integer> sut =  LToByteFuncMemento.<Integer>mementoOf( a ->{
+    private LToByteFuncMemento<Integer> sut =  LToByteFuncMemento.<Integer>hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

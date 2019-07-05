@@ -253,6 +253,19 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> long from(M container, LBiFunction<M, K, V> extractor, K key, LToLongFunction<V> function, long orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsLong(value);
+		}
+
+		return orElse;
+	}
+
 	/** Cast that removes generics. */
 	public default LToLongFunction untyped() {
 		return this;

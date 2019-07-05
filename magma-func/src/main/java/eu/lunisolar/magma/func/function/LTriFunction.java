@@ -255,6 +255,19 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V, T2, T3> R from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, LTriFunction<V, T2, T3, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2, a3);
+		}
+
+		return null;
+	}
+
 	public default LBiFunction<T2, T3, R> lShrink(LBiFunction<T2, T3, T1> left) {
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}

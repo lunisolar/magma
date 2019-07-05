@@ -67,8 +67,18 @@ public class LLongBinaryOpMemento implements LLongBinaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongBinaryOpMemento mementoOf(LLongBinaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongBinaryOpMemento hollowMementoOf(LLongBinaryOperator supplier) {
 		return new LLongBinaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongBinaryOpMemento mementoOf(long a1, long a2, LLongBinaryOperator supplier) {
+		return new LLongBinaryOpMemento(supplier.applyAsLong(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongBinaryOpMemento implements LLongBinaryOperator {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta(long a1, long a2) {
+		long last = lastValue;
+		return (long) (applyAsLong(a1, a2) - last);
+	}
+
+	public long delta(long a1, long a2, LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(applyAsLong(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

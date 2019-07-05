@@ -43,7 +43,7 @@ public class LTieFltFuncMementoTest <T> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LTieFltFuncMemento<Integer> sut =  LTieFltFuncMemento.<Integer>mementoOf( (a1,a2,a3) ->{
+    private LTieFltFuncMemento<Integer> sut =  LTieFltFuncMemento.<Integer>hollowMementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

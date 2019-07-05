@@ -67,8 +67,18 @@ public class LBinaryOpMemento<T> implements LBinaryOperator<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LBinaryOpMemento<T> mementoOf(LBinaryOperator<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LBinaryOpMemento<T> hollowMementoOf(LBinaryOperator<T> supplier) {
 		return new LBinaryOpMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LBinaryOpMemento<T> mementoOf(T a1, T a2, LBinaryOperator<T> supplier) {
+		return new LBinaryOpMemento<T>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBinaryOpMemento<T> implements LBinaryOperator<T> {
 
 	public T lastValue() {
 		return lastValue;
+	}
+
+	public T delta(T a1, T a2, LBinaryOperator<T> deltaFunction) {
+		T last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

@@ -599,18 +599,6 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return false;
 	}
 
-	// >>> LIntLongPred
-
-	/** Returns TRUE. */
-	public static boolean alwaysTrue(int a2, long a1) {
-		return true;
-	}
-
-	/** Returns FALSE. */
-	public static boolean alwaysFalse(int a2, long a1) {
-		return false;
-	}
-
 	/**
 	* For each element (or tuple) from arguments, calls the consumer if predicate test passes.
 	* Thread safety, fail-fast, fail-safety of this method is not expected.

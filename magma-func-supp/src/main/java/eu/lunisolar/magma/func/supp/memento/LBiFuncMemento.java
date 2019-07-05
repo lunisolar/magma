@@ -67,8 +67,18 @@ public class LBiFuncMemento<T1, T2, R> implements LBiFunction<T1, T2, R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T1, T2, R> LBiFuncMemento<T1, T2, R> mementoOf(LBiFunction<T1, T2, R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T1, T2, R> LBiFuncMemento<T1, T2, R> hollowMementoOf(LBiFunction<T1, T2, R> supplier) {
 		return new LBiFuncMemento<T1, T2, R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T1, T2, R> LBiFuncMemento<T1, T2, R> mementoOf(T1 a1, T2 a2, LBiFunction<T1, T2, R> supplier) {
+		return new LBiFuncMemento<T1, T2, R>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LBiFuncMemento<T1, T2, R> implements LBiFunction<T1, T2, R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(T1 a1, T2 a2, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

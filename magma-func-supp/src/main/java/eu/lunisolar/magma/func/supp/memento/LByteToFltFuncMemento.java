@@ -67,8 +67,18 @@ public class LByteToFltFuncMemento implements LByteToFltFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LByteToFltFuncMemento mementoOf(LByteToFltFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LByteToFltFuncMemento hollowMementoOf(LByteToFltFunction supplier) {
 		return new LByteToFltFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LByteToFltFuncMemento mementoOf(byte a, LByteToFltFunction supplier) {
+		return new LByteToFltFuncMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LByteToFltFuncMemento implements LByteToFltFunction {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(byte a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(byte a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

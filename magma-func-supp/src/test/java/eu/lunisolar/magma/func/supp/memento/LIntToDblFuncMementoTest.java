@@ -43,7 +43,7 @@ public class LIntToDblFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LIntToDblFuncMemento sut =  LIntToDblFuncMemento.mementoOf( a ->{
+    private LIntToDblFuncMemento sut =  LIntToDblFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

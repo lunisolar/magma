@@ -43,7 +43,7 @@ public class LBiObjBoolFuncMementoTest <T1,T2,R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LBiObjBoolFuncMemento<Integer,Integer,Integer> sut =  LBiObjBoolFuncMemento.<Integer,Integer,Integer>mementoOf( (a1,a2,a3) ->{
+    private LBiObjBoolFuncMemento<Integer,Integer,Integer> sut =  LBiObjBoolFuncMemento.<Integer,Integer,Integer>hollowMementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

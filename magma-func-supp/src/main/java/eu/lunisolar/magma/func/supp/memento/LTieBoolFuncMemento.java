@@ -67,8 +67,18 @@ public class LTieBoolFuncMemento<T> implements LTieBoolFunction<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LTieBoolFuncMemento<T> mementoOf(LTieBoolFunction<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LTieBoolFuncMemento<T> hollowMementoOf(LTieBoolFunction<T> supplier) {
 		return new LTieBoolFuncMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LTieBoolFuncMemento<T> mementoOf(T a1, int a2, boolean a3, LTieBoolFunction<T> supplier) {
+		return new LTieBoolFuncMemento<T>(supplier.applyAsInt(a1, a2, a3), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LTieBoolFuncMemento<T> implements LTieBoolFunction<T> {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(T a1, int a2, boolean a3) {
+		int last = lastValue;
+		return (int) (applyAsInt(a1, a2, a3) - last);
+	}
+
+	public int delta(T a1, int a2, boolean a3, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a1, a2, a3), last);
 	}
 
 	// <editor-fold desc="object">

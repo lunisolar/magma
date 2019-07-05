@@ -43,7 +43,7 @@ public class LLongBinaryOpMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LLongBinaryOpMemento sut =  LLongBinaryOpMemento.mementoOf( (a1,a2) ->{
+    private LLongBinaryOpMemento sut =  LLongBinaryOpMemento.hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

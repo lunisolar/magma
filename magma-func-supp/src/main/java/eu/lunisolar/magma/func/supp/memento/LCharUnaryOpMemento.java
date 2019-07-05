@@ -67,8 +67,18 @@ public class LCharUnaryOpMemento implements LCharUnaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharUnaryOpMemento mementoOf(LCharUnaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharUnaryOpMemento hollowMementoOf(LCharUnaryOperator supplier) {
 		return new LCharUnaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharUnaryOpMemento mementoOf(char a, LCharUnaryOperator supplier) {
+		return new LCharUnaryOpMemento(supplier.applyAsChar(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharUnaryOpMemento implements LCharUnaryOperator {
 
 	public char lastValue() {
 		return lastValue;
+	}
+
+	public char delta(char a) {
+		char last = lastValue;
+		return (char) (applyAsChar(a) - last);
+	}
+
+	public char delta(char a, LCharBinaryOperator deltaFunction) {
+		char last = lastValue;
+		return deltaFunction.applyAsChar(applyAsChar(a), last);
 	}
 
 	// <editor-fold desc="object">

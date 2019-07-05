@@ -67,8 +67,18 @@ public class LFltToIntFuncMemento implements LFltToIntFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LFltToIntFuncMemento mementoOf(LFltToIntFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LFltToIntFuncMemento hollowMementoOf(LFltToIntFunction supplier) {
 		return new LFltToIntFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LFltToIntFuncMemento mementoOf(float a, LFltToIntFunction supplier) {
+		return new LFltToIntFuncMemento(supplier.applyAsInt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LFltToIntFuncMemento implements LFltToIntFunction {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(float a) {
+		int last = lastValue;
+		return (int) (applyAsInt(a) - last);
+	}
+
+	public int delta(float a, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a), last);
 	}
 
 	// <editor-fold desc="object">

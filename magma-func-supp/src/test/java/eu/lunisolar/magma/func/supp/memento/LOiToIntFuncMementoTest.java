@@ -43,7 +43,7 @@ public class LOiToIntFuncMementoTest <T> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LOiToIntFuncMemento<Integer> sut =  LOiToIntFuncMemento.<Integer>mementoOf( (a1,a2) ->{
+    private LOiToIntFuncMemento<Integer> sut =  LOiToIntFuncMemento.<Integer>hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

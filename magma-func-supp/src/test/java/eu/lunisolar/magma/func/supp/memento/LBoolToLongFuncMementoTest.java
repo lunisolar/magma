@@ -43,7 +43,7 @@ public class LBoolToLongFuncMementoTest  {
     private long initialTestValue = 1L;
     private long testValue = initialTestValue;
 
-    private LBoolToLongFuncMemento sut =  LBoolToLongFuncMemento.mementoOf( a ->{
+    private LBoolToLongFuncMemento sut =  LBoolToLongFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

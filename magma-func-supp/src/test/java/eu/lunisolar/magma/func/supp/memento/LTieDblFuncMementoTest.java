@@ -43,7 +43,7 @@ public class LTieDblFuncMementoTest <T> {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LTieDblFuncMemento<Integer> sut =  LTieDblFuncMemento.<Integer>mementoOf( (a1,a2,a3) ->{
+    private LTieDblFuncMemento<Integer> sut =  LTieDblFuncMemento.<Integer>hollowMementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

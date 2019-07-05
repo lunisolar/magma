@@ -253,6 +253,19 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> char from(M container, LBiFunction<M, K, V> extractor, K key, LToCharFunction<V> function, char orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsChar(value);
+		}
+
+		return orElse;
+	}
+
 	/** Cast that removes generics. */
 	public default LToCharFunction untyped() {
 		return this;

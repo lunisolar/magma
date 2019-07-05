@@ -43,7 +43,7 @@ public class LSrtToFltFuncMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LSrtToFltFuncMemento sut =  LSrtToFltFuncMemento.mementoOf( a ->{
+    private LSrtToFltFuncMemento sut =  LSrtToFltFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

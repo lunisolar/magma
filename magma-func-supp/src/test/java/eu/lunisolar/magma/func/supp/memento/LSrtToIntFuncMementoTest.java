@@ -43,7 +43,7 @@ public class LSrtToIntFuncMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LSrtToIntFuncMemento sut =  LSrtToIntFuncMemento.mementoOf( a ->{
+    private LSrtToIntFuncMemento sut =  LSrtToIntFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

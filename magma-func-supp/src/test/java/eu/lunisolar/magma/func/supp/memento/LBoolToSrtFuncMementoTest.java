@@ -43,7 +43,7 @@ public class LBoolToSrtFuncMementoTest  {
     private short initialTestValue = (short)1;
     private short testValue = initialTestValue;
 
-    private LBoolToSrtFuncMemento sut =  LBoolToSrtFuncMemento.mementoOf( a ->{
+    private LBoolToSrtFuncMemento sut =  LBoolToSrtFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

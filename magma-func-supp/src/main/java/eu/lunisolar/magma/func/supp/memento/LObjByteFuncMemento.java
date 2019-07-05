@@ -67,8 +67,18 @@ public class LObjByteFuncMemento<T, R> implements LObjByteFunction<T, R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T, R> LObjByteFuncMemento<T, R> mementoOf(LObjByteFunction<T, R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T, R> LObjByteFuncMemento<T, R> hollowMementoOf(LObjByteFunction<T, R> supplier) {
 		return new LObjByteFuncMemento<T, R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T, R> LObjByteFuncMemento<T, R> mementoOf(T a1, byte a2, LObjByteFunction<T, R> supplier) {
+		return new LObjByteFuncMemento<T, R>(supplier.apply(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LObjByteFuncMemento<T, R> implements LObjByteFunction<T, R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(T a1, byte a2, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

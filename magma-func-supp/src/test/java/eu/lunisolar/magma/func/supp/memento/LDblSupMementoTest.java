@@ -43,7 +43,7 @@ public class LDblSupMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDblSupMemento sut =  LDblSupMemento.mementoOf( () ->{
+    private LDblSupMemento sut =  LDblSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

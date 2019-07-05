@@ -43,7 +43,7 @@ public class LSrtFuncMementoTest <R> {
     private Integer initialTestValue = 1;
     private Integer testValue = initialTestValue;
 
-    private LSrtFuncMemento<Integer> sut =  LSrtFuncMemento.<Integer>mementoOf( a ->{
+    private LSrtFuncMemento<Integer> sut =  LSrtFuncMemento.<Integer>hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

@@ -43,7 +43,7 @@ public class LLogicalTernaryOpMementoTest  {
     private boolean initialTestValue = true;
     private boolean testValue = initialTestValue;
 
-    private LLogicalTernaryOpMemento sut =  LLogicalTernaryOpMemento.mementoOf( (a1,a2,a3) ->{
+    private LLogicalTernaryOpMemento sut =  LLogicalTernaryOpMemento.hollowMementoOf( (a1,a2,a3) ->{
         functionCallCount++;
         return testValue;
     });

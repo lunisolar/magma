@@ -67,8 +67,18 @@ public class LCharToFltFuncMemento implements LCharToFltFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharToFltFuncMemento mementoOf(LCharToFltFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharToFltFuncMemento hollowMementoOf(LCharToFltFunction supplier) {
 		return new LCharToFltFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharToFltFuncMemento mementoOf(char a, LCharToFltFunction supplier) {
+		return new LCharToFltFuncMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharToFltFuncMemento implements LCharToFltFunction {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(char a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(char a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

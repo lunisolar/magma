@@ -67,8 +67,18 @@ public class LByteBinaryOpMemento implements LByteBinaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LByteBinaryOpMemento mementoOf(LByteBinaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LByteBinaryOpMemento hollowMementoOf(LByteBinaryOperator supplier) {
 		return new LByteBinaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LByteBinaryOpMemento mementoOf(byte a1, byte a2, LByteBinaryOperator supplier) {
+		return new LByteBinaryOpMemento(supplier.applyAsByte(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LByteBinaryOpMemento implements LByteBinaryOperator {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(byte a1, byte a2) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a1, a2) - last);
+	}
+
+	public byte delta(byte a1, byte a2, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

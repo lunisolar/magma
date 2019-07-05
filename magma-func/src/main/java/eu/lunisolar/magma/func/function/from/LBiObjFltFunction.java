@@ -255,6 +255,19 @@ public interface LBiObjFltFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V, T2> R from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, float a3, LBiObjFltFunction<V, T2, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2, a3);
+		}
+
+		return null;
+	}
+
 	public default LObjFltFunction<T2, R> lShrink(LObjFltFunction<T2, T1> left) {
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}

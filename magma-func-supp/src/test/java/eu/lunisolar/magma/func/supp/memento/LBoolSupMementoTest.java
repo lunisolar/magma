@@ -43,7 +43,7 @@ public class LBoolSupMementoTest  {
     private boolean initialTestValue = true;
     private boolean testValue = initialTestValue;
 
-    private LBoolSupMemento sut =  LBoolSupMemento.mementoOf( () ->{
+    private LBoolSupMemento sut =  LBoolSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

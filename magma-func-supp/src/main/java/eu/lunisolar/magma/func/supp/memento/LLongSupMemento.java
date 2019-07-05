@@ -67,8 +67,18 @@ public class LLongSupMemento implements LLongSupplier {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongSupMemento mementoOf(LLongSupplier supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongSupMemento hollowMementoOf(LLongSupplier supplier) {
 		return new LLongSupMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongSupMemento mementoOf(LLongSupplier supplier) {
+		return new LLongSupMemento(supplier.getAsLong(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongSupMemento implements LLongSupplier {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta() {
+		long last = lastValue;
+		return (long) (getAsLong() - last);
+	}
+
+	public long delta(LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(getAsLong(), last);
 	}
 
 	// <editor-fold desc="object">

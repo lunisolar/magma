@@ -43,7 +43,7 @@ public class LOiToDblFuncMementoTest <T> {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LOiToDblFuncMemento<Integer> sut =  LOiToDblFuncMemento.<Integer>mementoOf( (a1,a2) ->{
+    private LOiToDblFuncMemento<Integer> sut =  LOiToDblFuncMemento.<Integer>hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

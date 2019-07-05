@@ -67,8 +67,18 @@ public class LFuncMemento<T, R> implements LFunction<T, R> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T, R> LFuncMemento<T, R> mementoOf(LFunction<T, R> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T, R> LFuncMemento<T, R> hollowMementoOf(LFunction<T, R> supplier) {
 		return new LFuncMemento<T, R>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T, R> LFuncMemento<T, R> mementoOf(T a, LFunction<T, R> supplier) {
+		return new LFuncMemento<T, R>(supplier.apply(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LFuncMemento<T, R> implements LFunction<T, R> {
 
 	public R lastValue() {
 		return lastValue;
+	}
+
+	public R delta(T a, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a), last);
 	}
 
 	// <editor-fold desc="object">

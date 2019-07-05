@@ -43,7 +43,7 @@ public class LFltBinaryOpMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LFltBinaryOpMemento sut =  LFltBinaryOpMemento.mementoOf( (a1,a2) ->{
+    private LFltBinaryOpMemento sut =  LFltBinaryOpMemento.hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

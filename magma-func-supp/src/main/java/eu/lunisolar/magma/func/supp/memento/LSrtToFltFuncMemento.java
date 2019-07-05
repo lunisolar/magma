@@ -67,8 +67,18 @@ public class LSrtToFltFuncMemento implements LSrtToFltFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtToFltFuncMemento mementoOf(LSrtToFltFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtToFltFuncMemento hollowMementoOf(LSrtToFltFunction supplier) {
 		return new LSrtToFltFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtToFltFuncMemento mementoOf(short a, LSrtToFltFunction supplier) {
+		return new LSrtToFltFuncMemento(supplier.applyAsFlt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtToFltFuncMemento implements LSrtToFltFunction {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(short a) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a) - last);
+	}
+
+	public float delta(short a, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a), last);
 	}
 
 	// <editor-fold desc="object">

@@ -43,7 +43,7 @@ public class LDblBinaryOpMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LDblBinaryOpMemento sut =  LDblBinaryOpMemento.mementoOf( (a1,a2) ->{
+    private LDblBinaryOpMemento sut =  LDblBinaryOpMemento.hollowMementoOf( (a1,a2) ->{
         functionCallCount++;
         return testValue;
     });

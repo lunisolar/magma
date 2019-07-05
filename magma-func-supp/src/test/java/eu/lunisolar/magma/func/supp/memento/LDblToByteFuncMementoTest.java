@@ -43,7 +43,7 @@ public class LDblToByteFuncMementoTest  {
     private byte initialTestValue = (byte)1;
     private byte testValue = initialTestValue;
 
-    private LDblToByteFuncMemento sut =  LDblToByteFuncMemento.mementoOf( a ->{
+    private LDblToByteFuncMemento sut =  LDblToByteFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

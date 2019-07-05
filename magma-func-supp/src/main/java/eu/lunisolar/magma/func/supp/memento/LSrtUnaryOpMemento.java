@@ -67,8 +67,18 @@ public class LSrtUnaryOpMemento implements LSrtUnaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LSrtUnaryOpMemento mementoOf(LSrtUnaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LSrtUnaryOpMemento hollowMementoOf(LSrtUnaryOperator supplier) {
 		return new LSrtUnaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LSrtUnaryOpMemento mementoOf(short a, LSrtUnaryOperator supplier) {
+		return new LSrtUnaryOpMemento(supplier.applyAsSrt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LSrtUnaryOpMemento implements LSrtUnaryOperator {
 
 	public short lastValue() {
 		return lastValue;
+	}
+
+	public short delta(short a) {
+		short last = lastValue;
+		return (short) (applyAsSrt(a) - last);
+	}
+
+	public short delta(short a, LSrtBinaryOperator deltaFunction) {
+		short last = lastValue;
+		return deltaFunction.applyAsSrt(applyAsSrt(a), last);
 	}
 
 	// <editor-fold desc="object">

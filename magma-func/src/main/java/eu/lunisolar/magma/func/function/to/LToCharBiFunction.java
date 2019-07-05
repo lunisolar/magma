@@ -251,6 +251,19 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V, T2> char from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LToCharBiFunction<V, T2> function, char orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsChar(value, a2);
+		}
+
+		return orElse;
+	}
+
 	public default LToCharFunction<T2> lShrink(LFunction<T2, T1> left) {
 		return a2 -> applyAsChar(left.apply(a2), a2);
 	}

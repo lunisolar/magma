@@ -255,6 +255,19 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, int a3, LObjBiIntFunction<V, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2, a3);
+		}
+
+		return null;
+	}
+
 	public default LBiIntFunction<R> lShrink(LBiIntFunction<T> left) {
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}

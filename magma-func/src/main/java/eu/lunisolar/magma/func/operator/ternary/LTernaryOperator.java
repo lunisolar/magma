@@ -239,6 +239,19 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	/** Extract and apply function. */
+	public static <T, M, K, V> T from(M container, LBiFunction<M, K, V> extractor, K key, T a2, T a3, LTriFunction<V, T, T, T> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2, a3);
+		}
+
+		return null;
+	}
+
 	public default LBinaryOperator<T> lShrink(LBinaryOperator<T> left) {
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}

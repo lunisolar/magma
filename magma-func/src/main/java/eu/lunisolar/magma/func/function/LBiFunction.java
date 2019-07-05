@@ -255,6 +255,19 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V, T2> R from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LBiFunction<V, T2, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2);
+		}
+
+		return null;
+	}
+
 	public default LFunction<T2, R> lShrink(LFunction<T2, T1> left) {
 		return a2 -> apply(left.apply(a2), a2);
 	}

@@ -67,8 +67,18 @@ public class LFltBinaryOpMemento implements LFltBinaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LFltBinaryOpMemento mementoOf(LFltBinaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LFltBinaryOpMemento hollowMementoOf(LFltBinaryOperator supplier) {
 		return new LFltBinaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LFltBinaryOpMemento mementoOf(float a1, float a2, LFltBinaryOperator supplier) {
+		return new LFltBinaryOpMemento(supplier.applyAsFlt(a1, a2), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LFltBinaryOpMemento implements LFltBinaryOperator {
 
 	public float lastValue() {
 		return lastValue;
+	}
+
+	public float delta(float a1, float a2) {
+		float last = lastValue;
+		return (float) (applyAsFlt(a1, a2) - last);
+	}
+
+	public float delta(float a1, float a2, LFltBinaryOperator deltaFunction) {
+		float last = lastValue;
+		return deltaFunction.applyAsFlt(applyAsFlt(a1, a2), last);
 	}
 
 	// <editor-fold desc="object">

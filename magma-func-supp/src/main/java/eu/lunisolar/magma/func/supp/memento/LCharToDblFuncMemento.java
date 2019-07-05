@@ -67,8 +67,18 @@ public class LCharToDblFuncMemento implements LCharToDblFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LCharToDblFuncMemento mementoOf(LCharToDblFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LCharToDblFuncMemento hollowMementoOf(LCharToDblFunction supplier) {
 		return new LCharToDblFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LCharToDblFuncMemento mementoOf(char a, LCharToDblFunction supplier) {
+		return new LCharToDblFuncMemento(supplier.applyAsDbl(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LCharToDblFuncMemento implements LCharToDblFunction {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(char a) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a) - last);
+	}
+
+	public double delta(char a, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a), last);
 	}
 
 	// <editor-fold desc="object">

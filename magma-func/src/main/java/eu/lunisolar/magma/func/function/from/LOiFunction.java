@@ -257,6 +257,19 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_a2, a1, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiFunction<V, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value, a2);
+		}
+
+		return null;
+	}
+
 	public default LIntFunction<R> lShrink(LIntFunction<T> left) {
 		return a2 -> apply(left.apply(a2), a2);
 	}

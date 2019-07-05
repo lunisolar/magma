@@ -253,6 +253,19 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Extract and apply function. */
+	public static <M, K, V> short from(M container, LBiFunction<M, K, V> extractor, K key, LToSrtFunction<V> function, short orElse) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.applyAsSrt(value);
+		}
+
+		return orElse;
+	}
+
 	/** Cast that removes generics. */
 	public default LToSrtFunction untyped() {
 		return this;

@@ -67,8 +67,18 @@ public class LByteUnaryOpMemento implements LByteUnaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LByteUnaryOpMemento mementoOf(LByteUnaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LByteUnaryOpMemento hollowMementoOf(LByteUnaryOperator supplier) {
 		return new LByteUnaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LByteUnaryOpMemento mementoOf(byte a, LByteUnaryOperator supplier) {
+		return new LByteUnaryOpMemento(supplier.applyAsByte(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LByteUnaryOpMemento implements LByteUnaryOperator {
 
 	public byte lastValue() {
 		return lastValue;
+	}
+
+	public byte delta(byte a) {
+		byte last = lastValue;
+		return (byte) (applyAsByte(a) - last);
+	}
+
+	public byte delta(byte a, LByteBinaryOperator deltaFunction) {
+		byte last = lastValue;
+		return deltaFunction.applyAsByte(applyAsByte(a), last);
 	}
 
 	// <editor-fold desc="object">

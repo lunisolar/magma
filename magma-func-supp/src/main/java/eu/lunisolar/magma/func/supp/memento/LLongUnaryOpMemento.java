@@ -67,8 +67,18 @@ public class LLongUnaryOpMemento implements LLongUnaryOperator {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongUnaryOpMemento mementoOf(LLongUnaryOperator supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongUnaryOpMemento hollowMementoOf(LLongUnaryOperator supplier) {
 		return new LLongUnaryOpMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongUnaryOpMemento mementoOf(long a, LLongUnaryOperator supplier) {
+		return new LLongUnaryOpMemento(supplier.applyAsLong(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongUnaryOpMemento implements LLongUnaryOperator {
 
 	public long lastValue() {
 		return lastValue;
+	}
+
+	public long delta(long a) {
+		long last = lastValue;
+		return (long) (applyAsLong(a) - last);
+	}
+
+	public long delta(long a, LLongBinaryOperator deltaFunction) {
+		long last = lastValue;
+		return deltaFunction.applyAsLong(applyAsLong(a), last);
 	}
 
 	// <editor-fold desc="object">

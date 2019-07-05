@@ -43,7 +43,7 @@ public class LIntSupMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LIntSupMemento sut =  LIntSupMemento.mementoOf( () ->{
+    private LIntSupMemento sut =  LIntSupMemento.hollowMementoOf( () ->{
         functionCallCount++;
         return testValue;
     });

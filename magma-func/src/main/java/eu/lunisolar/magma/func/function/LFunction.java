@@ -257,6 +257,19 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Extract and apply function. */
+	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, LFunction<V, R> function) {
+		Null.nonNullArg(container, "container");
+		Null.nonNullArg(function, "function");
+		V value = extractor.apply(container, key);
+
+		if (value != null) {
+			return function.apply(value);
+		}
+
+		return null;
+	}
+
 	/** Cast that removes generics. */
 	public default LFunction untyped() {
 		return this;

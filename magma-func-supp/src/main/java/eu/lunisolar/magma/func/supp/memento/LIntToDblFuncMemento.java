@@ -67,8 +67,18 @@ public class LIntToDblFuncMemento implements LIntToDblFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LIntToDblFuncMemento mementoOf(LIntToDblFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LIntToDblFuncMemento hollowMementoOf(LIntToDblFunction supplier) {
 		return new LIntToDblFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LIntToDblFuncMemento mementoOf(int a, LIntToDblFunction supplier) {
+		return new LIntToDblFuncMemento(supplier.applyAsDbl(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LIntToDblFuncMemento implements LIntToDblFunction {
 
 	public double lastValue() {
 		return lastValue;
+	}
+
+	public double delta(int a) {
+		double last = lastValue;
+		return (double) (applyAsDbl(a) - last);
+	}
+
+	public double delta(int a, LDblBinaryOperator deltaFunction) {
+		double last = lastValue;
+		return deltaFunction.applyAsDbl(applyAsDbl(a), last);
 	}
 
 	// <editor-fold desc="object">

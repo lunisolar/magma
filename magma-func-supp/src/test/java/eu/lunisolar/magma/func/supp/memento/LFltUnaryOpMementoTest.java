@@ -43,7 +43,7 @@ public class LFltUnaryOpMementoTest  {
     private float initialTestValue = 1f;
     private float testValue = initialTestValue;
 
-    private LFltUnaryOpMemento sut =  LFltUnaryOpMemento.mementoOf( a ->{
+    private LFltUnaryOpMemento sut =  LFltUnaryOpMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

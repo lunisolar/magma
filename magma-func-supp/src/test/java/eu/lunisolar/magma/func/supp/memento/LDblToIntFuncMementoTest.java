@@ -43,7 +43,7 @@ public class LDblToIntFuncMementoTest  {
     private int initialTestValue = 1;
     private int testValue = initialTestValue;
 
-    private LDblToIntFuncMemento sut =  LDblToIntFuncMemento.mementoOf( a ->{
+    private LDblToIntFuncMemento sut =  LDblToIntFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });

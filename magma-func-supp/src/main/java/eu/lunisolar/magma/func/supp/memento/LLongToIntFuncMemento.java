@@ -67,8 +67,18 @@ public class LLongToIntFuncMemento implements LLongToIntFunction {
 		this.lastValue = initialValue;
 	}
 
-	public static LLongToIntFuncMemento mementoOf(LLongToIntFunction supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static LLongToIntFuncMemento hollowMementoOf(LLongToIntFunction supplier) {
 		return new LLongToIntFuncMemento(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static LLongToIntFuncMemento mementoOf(long a, LLongToIntFunction supplier) {
+		return new LLongToIntFuncMemento(supplier.applyAsInt(a), supplier);
 	}
 
 	@Override
@@ -78,6 +88,16 @@ public class LLongToIntFuncMemento implements LLongToIntFunction {
 
 	public int lastValue() {
 		return lastValue;
+	}
+
+	public int delta(long a) {
+		int last = lastValue;
+		return (int) (applyAsInt(a) - last);
+	}
+
+	public int delta(long a, LIntBinaryOperator deltaFunction) {
+		int last = lastValue;
+		return deltaFunction.applyAsInt(applyAsInt(a), last);
 	}
 
 	// <editor-fold desc="object">

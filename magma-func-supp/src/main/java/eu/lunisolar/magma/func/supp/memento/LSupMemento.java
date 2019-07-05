@@ -67,8 +67,18 @@ public class LSupMemento<T> implements LSupplier<T> {
 		this.lastValue = initialValue;
 	}
 
-	public static <T> LSupMemento<T> mementoOf(LSupplier<T> supplier) {
+	/**
+	 * Memento of a function, without taking the initial value from it.  
+	 */
+	public static <T> LSupMemento<T> hollowMementoOf(LSupplier<T> supplier) {
 		return new LSupMemento<T>(supplier);
+	}
+
+	/**
+	 * Memento of a function, initialized with value from it.   
+	 */
+	public static <T> LSupMemento<T> mementoOf(LSupplier<T> supplier) {
+		return new LSupMemento<T>(supplier.get(), supplier);
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class LSupMemento<T> implements LSupplier<T> {
 
 	public T lastValue() {
 		return lastValue;
+	}
+
+	public T delta(LBinaryOperator<T> deltaFunction) {
+		T last = lastValue;
+		return deltaFunction.apply(get(), last);
 	}
 
 	// <editor-fold desc="object">

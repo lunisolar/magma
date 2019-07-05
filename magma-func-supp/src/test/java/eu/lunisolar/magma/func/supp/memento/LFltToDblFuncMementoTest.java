@@ -43,7 +43,7 @@ public class LFltToDblFuncMementoTest  {
     private double initialTestValue = 1d;
     private double testValue = initialTestValue;
 
-    private LFltToDblFuncMemento sut =  LFltToDblFuncMemento.mementoOf( a ->{
+    private LFltToDblFuncMemento sut =  LFltToDblFuncMemento.hollowMementoOf( a ->{
         functionCallCount++;
         return testValue;
     });
