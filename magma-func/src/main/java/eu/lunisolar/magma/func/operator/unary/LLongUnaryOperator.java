@@ -455,6 +455,10 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		return t -> t;
 	}
 
+	static long identity(long a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

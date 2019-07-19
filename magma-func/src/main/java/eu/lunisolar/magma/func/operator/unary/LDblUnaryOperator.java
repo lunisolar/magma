@@ -465,6 +465,10 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		return t -> t;
 	}
 
+	static double identity(double a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

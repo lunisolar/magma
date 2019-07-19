@@ -450,6 +450,10 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return t -> t;
 	}
 
+	static float identity(float a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

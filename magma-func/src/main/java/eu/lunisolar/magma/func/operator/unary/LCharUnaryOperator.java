@@ -450,6 +450,10 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return t -> t;
 	}
 
+	static char identity(char a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

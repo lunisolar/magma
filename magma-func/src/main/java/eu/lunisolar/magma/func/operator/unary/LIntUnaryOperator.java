@@ -455,6 +455,10 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		return t -> t;
 	}
 
+	static int identity(int a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

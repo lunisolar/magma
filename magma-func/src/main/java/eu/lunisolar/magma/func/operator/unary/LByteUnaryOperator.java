@@ -450,6 +450,10 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return t -> t;
 	}
 
+	static byte identity(byte a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

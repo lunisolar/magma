@@ -504,6 +504,10 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return t -> t;
 	}
 
+	static <R> R identity(R a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

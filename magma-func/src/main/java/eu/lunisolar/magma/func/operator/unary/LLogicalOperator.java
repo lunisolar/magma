@@ -575,6 +575,10 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return t -> t;
 	}
 
+	static boolean identity(boolean a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

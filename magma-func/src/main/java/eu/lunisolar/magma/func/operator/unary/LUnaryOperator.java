@@ -447,6 +447,10 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return t -> t;
 	}
 
+	static <T> T identity(T a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

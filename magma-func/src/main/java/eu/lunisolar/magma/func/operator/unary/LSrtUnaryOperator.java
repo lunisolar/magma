@@ -450,6 +450,10 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return t -> t;
 	}
 
+	static short identity(short a) {
+		return a;
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>
