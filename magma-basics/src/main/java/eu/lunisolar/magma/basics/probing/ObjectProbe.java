@@ -23,6 +23,7 @@ import eu.lunisolar.magma.basics.Null;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.*;
 
 /**
  *
@@ -102,6 +103,14 @@ public interface ObjectProbe<T> extends Probe<T> {
 
     default boolean isNotExactlyInstanceOf(@Nonnull Class<?> type) {
         return !isExactlyInstanceOf(type);
+    }
+
+    default <R> boolean has(@Nonnull Function<T, R> valueFunction, @Nonnull Predicate<R> valuePredicate) {
+        return valuePredicate.test(valueFunction.apply(target()));
+    }
+
+    default <R> boolean doesNotHave(@Nonnull Function<T, R> valueFunction, @Nonnull Predicate<R> valuePredicate) {
+        return !has(valueFunction, valuePredicate);
     }
 
     final class The<T> implements ObjectProbe<T> {
