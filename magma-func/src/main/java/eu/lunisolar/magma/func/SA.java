@@ -29,6 +29,7 @@ import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 import eu.lunisolar.magma.func.predicate.LPredicate;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.*;
 
@@ -42,32 +43,34 @@ import static eu.lunisolar.magma.func.function.LFunction.identity;
 @SuppressWarnings("unchecked")
 public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, SequentialWrite<C, E> {
 
-	public static final LToIntFunction UNKNOWN_SIZE = c -> -1;
+	private static @Nonnull <T> LToIntFunction<T> unknownSize() {
+		return c -> -1;
+	}
 
 	public static class The<C, I, E extends aType> implements SA<C, I, E> {
 
 		private static final SA<Collection, Iterator, a<Object>> COLLECTION = sA(Collection::size, Collection::iterator, Iterator::hasNext, func(Iterator::next), biCons(Collection::add));
 
-		private static final SA<Iterable, Iterator, a<Object>> ITERABLE = sA(UNKNOWN_SIZE, Iterable::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
+		private static final SA<Iterable, Iterator, a<Object>> ITERABLE = sA(unknownSize(), Iterable::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
 			throw new UnsupportedOperationException();
 		}));
 
-		private static final SA<Stream, Iterator, a<Object>> STREAM = sA(UNKNOWN_SIZE, Stream::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
+		private static final SA<Stream, Iterator, a<Object>> STREAM = sA(unknownSize(), Stream::iterator, Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
 			throw new UnsupportedOperationException();
 		}));
 
-		private static final SA<Iterator, Iterator, a<Object>> ITERATOR = sA(UNKNOWN_SIZE, identity(), Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
+		private static final SA<Iterator, Iterator, a<Object>> ITERATOR = sA(unknownSize(), identity(), Iterator::hasNext, func(Iterator::next), biCons((t, e) -> {
 			throw new UnsupportedOperationException();
 		}));
 
-		private static final SA<Enumeration, Enumeration, a<Object>> ENUMERATION = sA(UNKNOWN_SIZE, identity(), Enumeration::hasMoreElements, func(Enumeration::nextElement), biCons((t, e) -> {
+		private static final SA<Enumeration, Enumeration, a<Object>> ENUMERATION = sA(unknownSize(), identity(), Enumeration::hasMoreElements, func(Enumeration::nextElement), biCons((t, e) -> {
 			throw new UnsupportedOperationException();
 		}));
 
 		/* adds depending on position */
-		private static final SA<ListIterator, ListIterator, a<Object>> LIST_ITERATOR = sA(UNKNOWN_SIZE, identity(), ListIterator::hasNext, func(ListIterator::next), biCons(ListIterator::add));
+		private static final SA<ListIterator, ListIterator, a<Object>> LIST_ITERATOR = sA(unknownSize(), identity(), ListIterator::hasNext, func(ListIterator::next), biCons(ListIterator::add));
 
-		private static final SA<Map, Iterator<Map.Entry>, a<Map.Entry>> MAP = sA(UNKNOWN_SIZE, map -> map.entrySet().iterator(), Iterator::hasNext, func(Iterator::next), biCons((Map t, Map.Entry e) -> {
+		private static final SA<Map, Iterator<Map.Entry>, a<Map.Entry>> MAP = sA(unknownSize(), map -> map.entrySet().iterator(), Iterator::hasNext, func(Iterator::next), biCons((Map t, Map.Entry e) -> {
 			t.put(e.getKey(), e.getValue());
 		}));
 
@@ -81,7 +84,7 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		private final TeConsumer<C, E> consumer;
 
 		public The(LToIntFunction<C> sizeFunc, LFunction<C, I> adapter, LPredicate<I> tester, OFunction<I, E> getter, TeConsumer<C, E> consumer) {
-			this.sizeFunc = sizeFunc == null ? UNKNOWN_SIZE : sizeFunc;
+			this.sizeFunc = sizeFunc == null ? unknownSize() : sizeFunc;
 			this.adapter = adapter;
 			this.tester = tester;
 			this.getter = getter;

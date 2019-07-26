@@ -24,8 +24,6 @@ import org.assertj.core.api.Assert;
 import javax.annotation.Nonnull;
 import java.util.function.*;
 
-import static javafx.scene.input.KeyCode.X;
-
 public interface FullFunctionalAssert<S extends FullFunctionalAssert<S, PC, A, RS, R>, PC, A, RS extends Assert<RS, R>, R>
         extends FunctionalAssert<S, PC, A, Consumer<RS>>, Assert<S, A>, Fluent<S> {
 

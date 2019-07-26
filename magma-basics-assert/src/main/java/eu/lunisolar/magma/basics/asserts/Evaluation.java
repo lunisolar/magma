@@ -28,8 +28,6 @@ import javax.annotation.concurrent.ThreadSafe;
 
 import java.util.function.*;
 
-import static javafx.scene.input.KeyCode.X;
-
 /**
  * Fluent sub-context for functional interface assertions.
  */
