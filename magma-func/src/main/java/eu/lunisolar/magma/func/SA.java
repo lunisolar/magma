@@ -43,7 +43,7 @@ import static eu.lunisolar.magma.func.function.LFunction.identity;
 @SuppressWarnings("unchecked")
 public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, SequentialWrite<C, E> {
 
-	private static @Nonnull <T> LToIntFunction<T> unknownSize() {
+	public static @Nonnull <T> LToIntFunction<T> unknownSize() {
 		return c -> -1;
 	}
 
