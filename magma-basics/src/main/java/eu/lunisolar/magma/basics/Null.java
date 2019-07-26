@@ -44,6 +44,18 @@ public class Null {
         return obj;
     }
 
+    public static <T> T[] nonNullArg(String argName, T... obj) {
+        if (obj == null) {
+            throw new NullPointerException(argNullMessage(argName));
+        }
+
+        for (T t : obj) {
+            nonNullArg(t, argName);
+        }
+
+        return obj;
+    }
+
     public static <T> T requireNonNull(T obj, Supplier<String> messageSupplier) {
         return Objects.requireNonNull(obj, messageSupplier);
     }
