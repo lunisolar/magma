@@ -325,6 +325,13 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LObjSrtConsumer<T> objSrtCons(Class<T> c1, final @Nonnull LObjSrtConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LObjSrtConsumer<T> recursive(final @Nonnull LFunction<LObjSrtConsumer<T>, LObjSrtConsumer<T>> selfLambda) {
 		final LObjSrtConsumerSingle<T> single = new LObjSrtConsumerSingle();

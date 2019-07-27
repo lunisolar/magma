@@ -329,6 +329,13 @@ public interface LBiObjByteConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T1, T2> LBiObjByteConsumer<T1, T2> biObjByteCons(Class<T1> c1, Class<T2> c2, final @Nonnull LBiObjByteConsumer<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T1, T2> LBiObjByteConsumer<T1, T2> recursive(final @Nonnull LFunction<LBiObjByteConsumer<T1, T2>, LBiObjByteConsumer<T1, T2>> selfLambda) {
 		final LBiObjByteConsumerSingle<T1, T2> single = new LBiObjByteConsumerSingle();

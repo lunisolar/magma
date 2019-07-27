@@ -292,6 +292,13 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <R> LIntFunction<R> intFunc(Class<R> c1, final @Nonnull LIntFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <R> LIntFunction<R> recursive(final @Nonnull LFunction<LIntFunction<R>, LIntFunction<R>> selfLambda) {
 		final LIntFunctionSingle<R> single = new LIntFunctionSingle();

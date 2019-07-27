@@ -341,6 +341,13 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <R> LBiCharFunction<R> biCharFunc(Class<R> c1, final @Nonnull LBiCharFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <R> LBiCharFunction<R> recursive(final @Nonnull LFunction<LBiCharFunction<R>, LBiCharFunction<R>> selfLambda) {
 		final LBiCharFunctionSingle<R> single = new LBiCharFunctionSingle();

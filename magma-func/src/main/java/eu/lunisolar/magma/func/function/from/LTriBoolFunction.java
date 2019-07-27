@@ -347,6 +347,13 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <R> LTriBoolFunction<R> triBoolFunc(Class<R> c1, final @Nonnull LTriBoolFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <R> LTriBoolFunction<R> recursive(final @Nonnull LFunction<LTriBoolFunction<R>, LTriBoolFunction<R>> selfLambda) {
 		final LTriBoolFunctionSingle<R> single = new LTriBoolFunctionSingle();

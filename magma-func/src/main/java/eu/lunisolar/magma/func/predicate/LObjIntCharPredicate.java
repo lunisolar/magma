@@ -372,6 +372,13 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LObjIntCharPredicate<T> objIntCharPred(Class<T> c1, final @Nonnull LObjIntCharPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LObjIntCharPredicate<T> recursive(final @Nonnull LFunction<LObjIntCharPredicate<T>, LObjIntCharPredicate<T>> selfLambda) {
 		final LObjIntCharPredicateSingle<T> single = new LObjIntCharPredicateSingle();

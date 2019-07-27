@@ -328,6 +328,13 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T, R> LObjIntByteFunction<T, R> objIntByteFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjIntByteFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T, R> LObjIntByteFunction<T, R> recursive(final @Nonnull LFunction<LObjIntByteFunction<T, R>, LObjIntByteFunction<T, R>> selfLambda) {
 		final LObjIntByteFunctionSingle<T, R> single = new LObjIntByteFunctionSingle();

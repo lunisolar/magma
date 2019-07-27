@@ -352,6 +352,13 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LOiToLongFunction<T> oiToLongFunc(Class<T> c1, final @Nonnull LOiToLongFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LOiToLongFunction<T> recursive(final @Nonnull LFunction<LOiToLongFunction<T>, LOiToLongFunction<T>> selfLambda) {
 		final LOiToLongFunctionSingle<T> single = new LOiToLongFunctionSingle();

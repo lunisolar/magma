@@ -292,6 +292,13 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <R> LSrtFunction<R> srtFunc(Class<R> c1, final @Nonnull LSrtFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <R> LSrtFunction<R> recursive(final @Nonnull LFunction<LSrtFunction<R>, LSrtFunction<R>> selfLambda) {
 		final LSrtFunctionSingle<R> single = new LSrtFunctionSingle();

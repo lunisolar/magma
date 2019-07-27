@@ -407,6 +407,13 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LObjSrtPredicate<T> objSrtPred(Class<T> c1, final @Nonnull LObjSrtPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LObjSrtPredicate<T> recursive(final @Nonnull LFunction<LObjSrtPredicate<T>, LObjSrtPredicate<T>> selfLambda) {
 		final LObjSrtPredicateSingle<T> single = new LObjSrtPredicateSingle();

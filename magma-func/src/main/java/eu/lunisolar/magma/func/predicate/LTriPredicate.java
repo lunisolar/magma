@@ -404,6 +404,13 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPred(Class<T1> c1, Class<T2> c2, Class<T3> c3, final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T1, T2, T3> LTriPredicate<T1, T2, T3> recursive(final @Nonnull LFunction<LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>> selfLambda) {
 		final LTriPredicateSingle<T1, T2, T3> single = new LTriPredicateSingle();

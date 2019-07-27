@@ -395,6 +395,13 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LPredicate<T> pred(Class<T> c1, final @Nonnull LPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LPredicate<T> recursive(final @Nonnull LFunction<LPredicate<T>, LPredicate<T>> selfLambda) {
 		final LPredicateSingle<T> single = new LPredicateSingle();

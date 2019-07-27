@@ -326,6 +326,13 @@ public interface LTieSrtFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LTieSrtFunction<T> tieSrtFunc(Class<T> c1, final @Nonnull LTieSrtFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LTieSrtFunction<T> recursive(final @Nonnull LFunction<LTieSrtFunction<T>, LTieSrtFunction<T>> selfLambda) {
 		final LTieSrtFunctionSingle<T> single = new LTieSrtFunctionSingle();

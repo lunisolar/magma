@@ -326,6 +326,13 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LTieByteFunction<T> tieByteFunc(Class<T> c1, final @Nonnull LTieByteFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LTieByteFunction<T> recursive(final @Nonnull LFunction<LTieByteFunction<T>, LTieByteFunction<T>> selfLambda) {
 		final LTieByteFunctionSingle<T> single = new LTieByteFunctionSingle();

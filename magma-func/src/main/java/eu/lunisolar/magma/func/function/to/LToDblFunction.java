@@ -313,6 +313,13 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LToDblFunction<T> toDblFunc(Class<T> c1, final @Nonnull LToDblFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LToDblFunction<T> recursive(final @Nonnull LFunction<LToDblFunction<T>, LToDblFunction<T>> selfLambda) {
 		final LToDblFunctionSingle<T> single = new LToDblFunctionSingle();

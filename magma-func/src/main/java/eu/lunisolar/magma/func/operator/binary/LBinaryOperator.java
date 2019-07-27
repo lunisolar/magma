@@ -338,6 +338,13 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LBinaryOperator<T> binaryOp(Class<T> c1, final @Nonnull LBinaryOperator<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LBinaryOperator<T> recursive(final @Nonnull LFunction<LBinaryOperator<T>, LBinaryOperator<T>> selfLambda) {
 		final LBinaryOperatorSingle<T> single = new LBinaryOperatorSingle();

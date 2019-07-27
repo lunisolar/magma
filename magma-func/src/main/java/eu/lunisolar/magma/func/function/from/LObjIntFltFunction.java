@@ -328,6 +328,13 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T, R> LObjIntFltFunction<T, R> objIntFltFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjIntFltFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T, R> LObjIntFltFunction<T, R> recursive(final @Nonnull LFunction<LObjIntFltFunction<T, R>, LObjIntFltFunction<T, R>> selfLambda) {
 		final LObjIntFltFunctionSingle<T, R> single = new LObjIntFltFunctionSingle();

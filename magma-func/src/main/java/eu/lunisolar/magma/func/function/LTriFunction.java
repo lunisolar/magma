@@ -360,6 +360,13 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> triFunc(Class<T1> c1, Class<T2> c2, Class<T3> c3, Class<R> c4, final @Nonnull LTriFunction<T1, T2, T3, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> recursive(final @Nonnull LFunction<LTriFunction<T1, T2, T3, R>, LTriFunction<T1, T2, T3, R>> selfLambda) {
 		final LTriFunctionSingle<T1, T2, T3, R> single = new LTriFunctionSingle();

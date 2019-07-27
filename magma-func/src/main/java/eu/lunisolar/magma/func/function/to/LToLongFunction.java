@@ -303,6 +303,13 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LToLongFunction<T> toLongFunc(Class<T> c1, final @Nonnull LToLongFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LToLongFunction<T> recursive(final @Nonnull LFunction<LToLongFunction<T>, LToLongFunction<T>> selfLambda) {
 		final LToLongFunctionSingle<T> single = new LToLongFunctionSingle();

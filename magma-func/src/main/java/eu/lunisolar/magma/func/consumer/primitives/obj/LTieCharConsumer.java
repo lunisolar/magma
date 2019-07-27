@@ -306,6 +306,13 @@ public interface LTieCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LTieCharConsumer<T> tieCharCons(Class<T> c1, final @Nonnull LTieCharConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LTieCharConsumer<T> recursive(final @Nonnull LFunction<LTieCharConsumer<T>, LTieCharConsumer<T>> selfLambda) {
 		final LTieCharConsumerSingle<T> single = new LTieCharConsumerSingle();

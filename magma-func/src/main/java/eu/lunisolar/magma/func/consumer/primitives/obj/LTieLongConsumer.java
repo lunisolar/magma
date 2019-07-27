@@ -306,6 +306,13 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LTieLongConsumer<T> tieLongCons(Class<T> c1, final @Nonnull LTieLongConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LTieLongConsumer<T> recursive(final @Nonnull LFunction<LTieLongConsumer<T>, LTieLongConsumer<T>> selfLambda) {
 		final LTieLongConsumerSingle<T> single = new LTieLongConsumerSingle();

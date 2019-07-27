@@ -352,6 +352,13 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LOiToDblFunction<T> oiToDblFunc(Class<T> c1, final @Nonnull LOiToDblFunction<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LOiToDblFunction<T> recursive(final @Nonnull LFunction<LOiToDblFunction<T>, LOiToDblFunction<T>> selfLambda) {
 		final LOiToDblFunctionSingle<T> single = new LOiToDblFunctionSingle();

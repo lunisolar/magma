@@ -354,6 +354,13 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> biFunc(Class<T1> c1, Class<T2> c2, Class<R> c3, final @Nonnull LBiFunction<T1, T2, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T1, T2, R> LBiFunction<T1, T2, R> recursive(final @Nonnull LFunction<LBiFunction<T1, T2, R>, LBiFunction<T1, T2, R>> selfLambda) {
 		final LBiFunctionSingle<T1, T2, R> single = new LBiFunctionSingle();

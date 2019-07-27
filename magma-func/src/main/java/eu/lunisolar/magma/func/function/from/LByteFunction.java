@@ -292,6 +292,13 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <R> LByteFunction<R> byteFunc(Class<R> c1, final @Nonnull LByteFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <R> LByteFunction<R> recursive(final @Nonnull LFunction<LByteFunction<R>, LByteFunction<R>> selfLambda) {
 		final LByteFunctionSingle<R> single = new LByteFunctionSingle();

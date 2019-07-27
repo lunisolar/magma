@@ -360,6 +360,13 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T, R> LObjBiIntFunction<T, R> objBiIntFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjBiIntFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T, R> LObjBiIntFunction<T, R> recursive(final @Nonnull LFunction<LObjBiIntFunction<T, R>, LObjBiIntFunction<T, R>> selfLambda) {
 		final LObjBiIntFunctionSingle<T, R> single = new LObjBiIntFunctionSingle();

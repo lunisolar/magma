@@ -360,6 +360,13 @@ public interface LBiObjLongFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T1, T2, R> LBiObjLongFunction<T1, T2, R> biObjLongFunc(Class<T1> c1, Class<T2> c2, Class<R> c3, final @Nonnull LBiObjLongFunction<T1, T2, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T1, T2, R> LBiObjLongFunction<T1, T2, R> recursive(final @Nonnull LFunction<LBiObjLongFunction<T1, T2, R>, LBiObjLongFunction<T1, T2, R>> selfLambda) {
 		final LBiObjLongFunctionSingle<T1, T2, R> single = new LBiObjLongFunctionSingle();

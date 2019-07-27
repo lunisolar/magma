@@ -328,6 +328,13 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T, R> LObjIntLongFunction<T, R> objIntLongFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjIntLongFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T, R> LObjIntLongFunction<T, R> recursive(final @Nonnull LFunction<LObjIntLongFunction<T, R>, LObjIntLongFunction<T, R>> selfLambda) {
 		final LObjIntLongFunctionSingle<T, R> single = new LObjIntLongFunctionSingle();

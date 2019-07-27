@@ -360,6 +360,13 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T1, T2> LToDblBiFunction<T1, T2> toDblBiFunc(Class<T1> c1, Class<T2> c2, final @Nonnull LToDblBiFunction<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T1, T2> LToDblBiFunction<T1, T2> recursive(final @Nonnull LFunction<LToDblBiFunction<T1, T2>, LToDblBiFunction<T1, T2>> selfLambda) {
 		final LToDblBiFunctionSingle<T1, T2> single = new LToDblBiFunctionSingle();

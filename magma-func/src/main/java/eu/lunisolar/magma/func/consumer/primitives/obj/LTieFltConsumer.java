@@ -306,6 +306,13 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LTieFltConsumer<T> tieFltCons(Class<T> c1, final @Nonnull LTieFltConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LTieFltConsumer<T> recursive(final @Nonnull LFunction<LTieFltConsumer<T>, LTieFltConsumer<T>> selfLambda) {
 		final LTieFltConsumerSingle<T> single = new LTieFltConsumerSingle();

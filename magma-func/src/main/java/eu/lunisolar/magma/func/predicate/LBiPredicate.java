@@ -416,6 +416,13 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T1, T2> LBiPredicate<T1, T2> biPred(Class<T1> c1, Class<T2> c2, final @Nonnull LBiPredicate<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T1, T2> LBiPredicate<T1, T2> recursive(final @Nonnull LFunction<LBiPredicate<T1, T2>, LBiPredicate<T1, T2>> selfLambda) {
 		final LBiPredicateSingle<T1, T2> single = new LBiPredicateSingle();

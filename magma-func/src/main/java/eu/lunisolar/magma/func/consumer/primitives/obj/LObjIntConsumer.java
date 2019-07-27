@@ -325,6 +325,13 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LObjIntConsumer<T> objIntCons(Class<T> c1, final @Nonnull LObjIntConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LObjIntConsumer<T> recursive(final @Nonnull LFunction<LObjIntConsumer<T>, LObjIntConsumer<T>> selfLambda) {
 		final LObjIntConsumerSingle<T> single = new LObjIntConsumerSingle();

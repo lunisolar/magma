@@ -372,6 +372,13 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <T> LObjIntLongPredicate<T> objIntLongPred(Class<T> c1, final @Nonnull LObjIntLongPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <T> LObjIntLongPredicate<T> recursive(final @Nonnull LFunction<LObjIntLongPredicate<T>, LObjIntLongPredicate<T>> selfLambda) {
 		final LObjIntLongPredicateSingle<T> single = new LObjIntLongPredicateSingle();

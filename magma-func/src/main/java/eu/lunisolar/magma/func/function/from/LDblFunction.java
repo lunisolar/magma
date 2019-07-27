@@ -292,6 +292,13 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <R> LDblFunction<R> dblFunc(Class<R> c1, final @Nonnull LDblFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <R> LDblFunction<R> recursive(final @Nonnull LFunction<LDblFunction<R>, LDblFunction<R>> selfLambda) {
 		final LDblFunctionSingle<R> single = new LDblFunctionSingle();

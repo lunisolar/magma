@@ -292,6 +292,13 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
+	@Nonnull
+	static <R> LFltFunction<R> fltFunc(Class<R> c1, final @Nonnull LFltFunction<R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
 	@Nonnull
 	static <R> LFltFunction<R> recursive(final @Nonnull LFunction<LFltFunction<R>, LFltFunction<R>> selfLambda) {
 		final LFltFunctionSingle<R> single = new LFltFunctionSingle();
