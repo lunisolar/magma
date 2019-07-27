@@ -219,7 +219,7 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, int a3, LTieIntFunction<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, int a3, @Nonnull LTieIntFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -233,7 +233,7 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, int a3, LTieIntFunction<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, int a3, @Nonnull LTieIntFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -247,14 +247,14 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, int a2, int a3, LTieIntFunction<T> func) {
+	public static <T> void times(int max_i, T a1, int a2, int a3, @Nonnull LTieIntFunction<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> int from(M container, LBiFunction<M, K, V> extractor, K key, int a2, int a3, LTieIntFunction<V> function, int orElse) {
+	public static <M, K, V> int from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, int a3, @Nonnull LTieIntFunction<V> function, int orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -266,40 +266,49 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
-	public default LIntBinaryOperator lShrink(LBiIntFunction<T> left) {
+	public default LIntBinaryOperator lShrink(@Nonnull LBiIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> applyAsInt(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LIntBinaryOperator lShrinkc(T a1) {
+	public default LIntBinaryOperator lShrink_(T a1) {
 		return (a2, a3) -> applyAsInt(a1, a2, a3);
 	}
 
-	public static <T> LIntBinaryOperator lShrinked(LBiIntFunction<T> left, LTieIntFunction<T> func) {
+	public static <T> LIntBinaryOperator lShrunken(@Nonnull LBiIntFunction<T> left, @Nonnull LTieIntFunction<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LIntBinaryOperator lShrinkedc(T a1, LTieIntFunction<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LIntBinaryOperator lShrunken_(T a1, @Nonnull LTieIntFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LOiToIntFunction<T> rShrink(LOiToIntFunction<T> right) {
+	public default LOiToIntFunction<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> applyAsInt(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LOiToIntFunction<T> rShrinkc(int a3) {
+	public default LOiToIntFunction<T> rShrink_(int a3) {
 		return (a1, a2) -> applyAsInt(a1, a2, a3);
 	}
 
-	public static <T> LOiToIntFunction<T> rShrinked(LOiToIntFunction<T> right, LTieIntFunction<T> func) {
+	public static <T> LOiToIntFunction<T> rShrunken(@Nonnull LOiToIntFunction<T> right, @Nonnull LTieIntFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LOiToIntFunction<T> rShrinkedc(int a3, LTieIntFunction<T> func) {
-		return func.rShrinkc(a3);
+	public static <T> LOiToIntFunction<T> rShrunken_(int a3, @Nonnull LTieIntFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T> LTieIntFunction<T> uncurry(LFunction<T, LIntFunction<LIntUnaryOperator>> func) {
+	public static <T> LTieIntFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LIntUnaryOperator>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, int a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
@@ -321,6 +330,25 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	/** Change function to consumer that ignores output. */
 	public default LTieIntConsumer<T> toConsumer() {
 		return this::applyAsInt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTieIntFunction<T> before(@Nonnull LTieIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, int a3) -> {
+			before.accept(a1, a2, a3);
+			return applyAsInt(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LTieIntFunction<T> after(@Nonnull LIntConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, int a3) -> {
+			final int retval = applyAsInt(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -360,7 +388,7 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LTieIntFunction<T> tieIntFunc(Class<T> c1, final @Nonnull LTieIntFunction<T> lambda) {
+	static <T> LTieIntFunction<T> tieIntFunc(@Nullable Class<T> c1, final @Nonnull LTieIntFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

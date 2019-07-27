@@ -221,7 +221,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_a, int max_a, LIntFunction<R> func) {
+	public static <R> void fromTo(int min_a, int max_a, @Nonnull LIntFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
@@ -235,7 +235,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_a, int max_a, LIntFunction<R> func) {
+	public static <R> void fromTill(int min_a, int max_a, @Nonnull LIntFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
@@ -249,7 +249,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_a, LIntFunction<R> func) {
+	public static <R> void times(int max_a, @Nonnull LIntFunction<R> func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -275,6 +275,25 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LIntFunction<R> before(@Nonnull LIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (int a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LIntFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (int a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(int a) {
 		return () -> this.apply(a);
@@ -294,7 +313,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LIntFunction<R> intFunc(Class<R> c1, final @Nonnull LIntFunction<R> lambda) {
+	static <R> LIntFunction<R> intFunc(@Nullable Class<R> c1, final @Nonnull LIntFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -427,25 +446,6 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	default LIntConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LIntFunction<R> before(@Nonnull LIntConsumer before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LIntFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

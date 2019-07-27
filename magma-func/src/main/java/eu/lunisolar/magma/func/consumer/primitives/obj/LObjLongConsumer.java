@@ -215,7 +215,7 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(long min_a2, long max_a2, T a1, LObjLongConsumer<T> func) {
+	public static <T> void fromTo(long min_a2, long max_a2, T a1, @Nonnull LObjLongConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (long a2 = min_a2; a2 <= max_a2; a2++) {
@@ -229,7 +229,7 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(long min_a2, long max_a2, T a1, LObjLongConsumer<T> func) {
+	public static <T> void fromTill(long min_a2, long max_a2, T a1, @Nonnull LObjLongConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (long a2 = min_a2; a2 < max_a2; a2++) {
@@ -243,46 +243,55 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(long max_a2, T a1, LObjLongConsumer<T> func) {
+	public static <T> void times(long max_a2, T a1, @Nonnull LObjLongConsumer<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LLongConsumer lShrink(LLongFunction<T> left) {
+	public default LLongConsumer lShrink(@Nonnull LLongFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LLongConsumer lShrinkc(T a1) {
+	public default LLongConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static <T> LLongConsumer lShrinked(LLongFunction<T> left, LObjLongConsumer<T> func) {
+	public static <T> LLongConsumer lShrunken(@Nonnull LLongFunction<T> left, @Nonnull LObjLongConsumer<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LLongConsumer lShrinkedc(T a1, LObjLongConsumer<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LLongConsumer lShrunken_(T a1, @Nonnull LObjLongConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(LToLongFunction<T> right) {
+	public default LConsumer<T> rShrink(@Nonnull LToLongFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsLong(a1));
 	}
 
-	public default LConsumer<T> rShrinkc(long a2) {
+	public default LConsumer<T> rShrink_(long a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static <T> LConsumer<T> rShrinked(LToLongFunction<T> right, LObjLongConsumer<T> func) {
+	public static <T> LConsumer<T> rShrunken(@Nonnull LToLongFunction<T> right, @Nonnull LObjLongConsumer<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LConsumer<T> rShrinkedc(long a2, LObjLongConsumer<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LConsumer<T> rShrunken_(long a2, @Nonnull LObjLongConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LObjLongConsumer<T> uncurry(LFunction<T, LLongConsumer> func) {
+	public static <T> LObjLongConsumer<T> uncurry(@Nonnull LFunction<T, LLongConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, long a2) -> func.apply(a1).accept(a2);
 	}
 
@@ -299,6 +308,15 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 	/** Cast that replace generics. */
 	public static <V2, T> LObjLongConsumer<V2> cast(LObjLongConsumer<T> function) {
 		return (LObjLongConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjLongConsumer<T> before(@Nonnull LObjLongConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, long a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -327,7 +345,7 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjLongConsumer<T> objLongCons(Class<T> c1, final @Nonnull LObjLongConsumer<T> lambda) {
+	static <T> LObjLongConsumer<T> objLongCons(@Nullable Class<T> c1, final @Nonnull LObjLongConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

@@ -265,7 +265,7 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, byte a3, LObjIntBytePredicate<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, byte a3, @Nonnull LObjIntBytePredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -279,7 +279,7 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, byte a3, LObjIntBytePredicate<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, byte a3, @Nonnull LObjIntBytePredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -293,14 +293,14 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, byte a3, LObjIntBytePredicate<T> func) {
+	public static <T> void times(int max_a2, T a1, byte a3, @Nonnull LObjIntBytePredicate<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, byte a3, LObjIntBytePredicate<V> function) {
+	public static <M, K, V> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, byte a3, @Nonnull LObjIntBytePredicate<V> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -313,7 +313,8 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/**  */
-	public static <T> LObjIntBytePredicate<T> uncurry(LFunction<T, LIntFunction<LBytePredicate>> func) {
+	public static <T> LObjIntBytePredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LBytePredicate>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, byte a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
@@ -335,6 +336,25 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	/** Change function to consumer that ignores output. */
 	public default LTieByteConsumer<T> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjIntBytePredicate<T> before(@Nonnull LTieByteConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, byte a3) -> {
+			before.accept(a1, a2, a3);
+			return test(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjIntBytePredicate<T> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, byte a3) -> {
+			final boolean retval = test(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -374,7 +394,7 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjIntBytePredicate<T> objIntBytePred(Class<T> c1, final @Nonnull LObjIntBytePredicate<T> lambda) {
+	static <T> LObjIntBytePredicate<T> objIntBytePred(@Nullable Class<T> c1, final @Nonnull LObjIntBytePredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

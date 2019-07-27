@@ -222,7 +222,7 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTo(int min_a2, int max_a2, T1 a1, T2 a3, LTieConsumer<T1, T2> func) {
+	public static <T1, T2> void fromTo(int min_a2, int max_a2, T1 a1, T2 a3, @Nonnull LTieConsumer<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -236,7 +236,7 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTill(int min_a2, int max_a2, T1 a1, T2 a3, LTieConsumer<T1, T2> func) {
+	public static <T1, T2> void fromTill(int min_a2, int max_a2, T1 a1, T2 a3, @Nonnull LTieConsumer<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -250,14 +250,15 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void times(int max_a2, T1 a1, T2 a3, LTieConsumer<T1, T2> func) {
+	public static <T1, T2> void times(int max_a2, T1 a1, T2 a3, @Nonnull LTieConsumer<T1, T2> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/**  */
-	public static <T1, T2> LTieConsumer<T1, T2> uncurry(LFunction<T1, LIntFunction<LConsumer<T2>>> func) {
+	public static <T1, T2> LTieConsumer<T1, T2> uncurry(@Nonnull LFunction<T1, LIntFunction<LConsumer<T2>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
@@ -274,6 +275,15 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 	/** Cast that replace generics. */
 	public static <V2, V3, T1, T2> LTieConsumer<V2, V3> cast(LTieConsumer<T1, T2> function) {
 		return (LTieConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTieConsumer<T1, T2> before(@Nonnull LTieConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, int a2, T2 a3) -> {
+			before.accept(a1, a2, a3);
+			accept(a1, a2, a3);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -308,7 +318,7 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2> LTieConsumer<T1, T2> tieCons(Class<T1> c1, Class<T2> c2, final @Nonnull LTieConsumer<T1, T2> lambda) {
+	static <T1, T2> LTieConsumer<T1, T2> tieCons(@Nullable Class<T1> c1, @Nullable Class<T2> c2, final @Nonnull LTieConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

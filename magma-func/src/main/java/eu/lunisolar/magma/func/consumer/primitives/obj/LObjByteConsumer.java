@@ -215,7 +215,7 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, byte a2, LObjByteConsumer<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, byte a2, @Nonnull LObjByteConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -229,7 +229,7 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, byte a2, LObjByteConsumer<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, byte a2, @Nonnull LObjByteConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -243,46 +243,55 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, byte a2, LObjByteConsumer<T> func) {
+	public static <T> void times(int max_i, T a1, byte a2, @Nonnull LObjByteConsumer<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LByteConsumer lShrink(LByteFunction<T> left) {
+	public default LByteConsumer lShrink(@Nonnull LByteFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LByteConsumer lShrinkc(T a1) {
+	public default LByteConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static <T> LByteConsumer lShrinked(LByteFunction<T> left, LObjByteConsumer<T> func) {
+	public static <T> LByteConsumer lShrunken(@Nonnull LByteFunction<T> left, @Nonnull LObjByteConsumer<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LByteConsumer lShrinkedc(T a1, LObjByteConsumer<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LByteConsumer lShrunken_(T a1, @Nonnull LObjByteConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(LToByteFunction<T> right) {
+	public default LConsumer<T> rShrink(@Nonnull LToByteFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsByte(a1));
 	}
 
-	public default LConsumer<T> rShrinkc(byte a2) {
+	public default LConsumer<T> rShrink_(byte a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static <T> LConsumer<T> rShrinked(LToByteFunction<T> right, LObjByteConsumer<T> func) {
+	public static <T> LConsumer<T> rShrunken(@Nonnull LToByteFunction<T> right, @Nonnull LObjByteConsumer<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LConsumer<T> rShrinkedc(byte a2, LObjByteConsumer<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LConsumer<T> rShrunken_(byte a2, @Nonnull LObjByteConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LObjByteConsumer<T> uncurry(LFunction<T, LByteConsumer> func) {
+	public static <T> LObjByteConsumer<T> uncurry(@Nonnull LFunction<T, LByteConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, byte a2) -> func.apply(a1).accept(a2);
 	}
 
@@ -299,6 +308,15 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	/** Cast that replace generics. */
 	public static <V2, T> LObjByteConsumer<V2> cast(LObjByteConsumer<T> function) {
 		return (LObjByteConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjByteConsumer<T> before(@Nonnull LObjByteConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, byte a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -327,7 +345,7 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjByteConsumer<T> objByteCons(Class<T> c1, final @Nonnull LObjByteConsumer<T> lambda) {
+	static <T> LObjByteConsumer<T> objByteCons(@Nullable Class<T> c1, final @Nonnull LObjByteConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

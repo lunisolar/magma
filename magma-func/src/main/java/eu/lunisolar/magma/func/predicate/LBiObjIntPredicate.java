@@ -265,7 +265,7 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTo(int min_a3, int max_a3, T1 a1, T2 a2, LBiObjIntPredicate<T1, T2> func) {
+	public static <T1, T2> void fromTo(int min_a3, int max_a3, T1 a1, T2 a2, @Nonnull LBiObjIntPredicate<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a3 <= max_a3) {
 			for (int a3 = min_a3; a3 <= max_a3; a3++) {
@@ -279,7 +279,7 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTill(int min_a3, int max_a3, T1 a1, T2 a2, LBiObjIntPredicate<T1, T2> func) {
+	public static <T1, T2> void fromTill(int min_a3, int max_a3, T1 a1, T2 a2, @Nonnull LBiObjIntPredicate<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a3 <= max_a3) {
 			for (int a3 = min_a3; a3 < max_a3; a3++) {
@@ -293,14 +293,14 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void times(int max_a3, T1 a1, T2 a2, LBiObjIntPredicate<T1, T2> func) {
+	public static <T1, T2> void times(int max_a3, T1 a1, T2 a2, @Nonnull LBiObjIntPredicate<T1, T2> func) {
 		if (max_a3 < 0)
 			return;
 		fromTill(0, max_a3, a1, a2, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V, T2> boolean from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, int a3, LBiObjIntPredicate<V, T2> function) {
+	public static <M, K, V, T2> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, int a3, @Nonnull LBiObjIntPredicate<V, T2> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -312,40 +312,49 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return false;
 	}
 
-	public default LObjIntPredicate<T2> lShrink(LOiFunction<T2, T1> left) {
+	public default LObjIntPredicate<T2> lShrink(@Nonnull LOiFunction<T2, T1> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LObjIntPredicate<T2> lShrinkc(T1 a1) {
+	public default LObjIntPredicate<T2> lShrink_(T1 a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
-	public static <T2, T1> LObjIntPredicate<T2> lShrinked(LOiFunction<T2, T1> left, LBiObjIntPredicate<T1, T2> func) {
+	public static <T2, T1> LObjIntPredicate<T2> lShrunken(@Nonnull LOiFunction<T2, T1> left, @Nonnull LBiObjIntPredicate<T1, T2> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, T1> LObjIntPredicate<T2> lShrinkedc(T1 a1, LBiObjIntPredicate<T1, T2> func) {
-		return func.lShrinkc(a1);
+	public static <T2, T1> LObjIntPredicate<T2> lShrunken_(T1 a1, @Nonnull LBiObjIntPredicate<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBiPredicate<T1, T2> rShrink(LToIntBiFunction<T1, T2> right) {
+	public default LBiPredicate<T1, T2> rShrink(@Nonnull LToIntBiFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LBiPredicate<T1, T2> rShrinkc(int a3) {
+	public default LBiPredicate<T1, T2> rShrink_(int a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiPredicate<T1, T2> rShrinked(LToIntBiFunction<T1, T2> right, LBiObjIntPredicate<T1, T2> func) {
+	public static <T1, T2> LBiPredicate<T1, T2> rShrunken(@Nonnull LToIntBiFunction<T1, T2> right, @Nonnull LBiObjIntPredicate<T1, T2> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, T2> LBiPredicate<T1, T2> rShrinkedc(int a3, LBiObjIntPredicate<T1, T2> func) {
-		return func.rShrinkc(a3);
+	public static <T1, T2> LBiPredicate<T1, T2> rShrunken_(int a3, @Nonnull LBiObjIntPredicate<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T1, T2> LBiObjIntPredicate<T1, T2> uncurry(LFunction<T1, LFunction<T2, LIntPredicate>> func) {
+	public static <T1, T2> LBiObjIntPredicate<T1, T2> uncurry(@Nonnull LFunction<T1, LFunction<T2, LIntPredicate>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2, int a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
@@ -367,6 +376,25 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	/** Change function to consumer that ignores output. */
 	public default LBiObjIntConsumer<T1, T2> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiObjIntPredicate<T1, T2> before(@Nonnull LBiObjIntConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2, int a3) -> {
+			before.accept(a1, a2, a3);
+			return test(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiObjIntPredicate<T1, T2> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, T2 a2, int a3) -> {
+			final boolean retval = test(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -406,7 +434,7 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2> LBiObjIntPredicate<T1, T2> biObjIntPred(Class<T1> c1, Class<T2> c2, final @Nonnull LBiObjIntPredicate<T1, T2> lambda) {
+	static <T1, T2> LBiObjIntPredicate<T1, T2> biObjIntPred(@Nullable Class<T1> c1, @Nullable Class<T2> c2, final @Nonnull LBiObjIntPredicate<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

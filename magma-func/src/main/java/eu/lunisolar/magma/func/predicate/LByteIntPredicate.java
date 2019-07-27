@@ -264,7 +264,8 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return LByteIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, byte a3, LTieByteConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, byte a3, @Nonnull LTieByteConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -273,7 +274,8 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, byte a3, LTieByteFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, byte a3, @Nonnull LTieByteFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -282,7 +284,7 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a2, int max_a2, byte a1, LByteIntPredicate func) {
+	public static void fromTo(int min_a2, int max_a2, byte a1, @Nonnull LByteIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -296,7 +298,7 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a2, int max_a2, byte a1, LByteIntPredicate func) {
+	public static void fromTill(int min_a2, int max_a2, byte a1, @Nonnull LByteIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -310,52 +312,80 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a2, byte a1, LByteIntPredicate func) {
+	public static void times(int max_a2, byte a1, @Nonnull LByteIntPredicate func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntPredicate lShrink(LIntToByteFunction left) {
+	public default LIntPredicate lShrink(@Nonnull LIntToByteFunction left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsByte(a2), a2);
 	}
 
-	public default LIntPredicate lShrinkc(byte a1) {
+	public default LIntPredicate lShrink_(byte a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LIntPredicate lShrinked(LIntToByteFunction left, LByteIntPredicate func) {
+	public static LIntPredicate lShrunken(@Nonnull LIntToByteFunction left, @Nonnull LByteIntPredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntPredicate lShrinkedc(byte a1, LByteIntPredicate func) {
-		return func.lShrinkc(a1);
+	public static LIntPredicate lShrunken_(byte a1, @Nonnull LByteIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBytePredicate rShrink(LByteToIntFunction right) {
+	public default LBytePredicate rShrink(@Nonnull LByteToIntFunction right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LBytePredicate rShrinkc(int a2) {
+	public default LBytePredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LBytePredicate rShrinked(LByteToIntFunction right, LByteIntPredicate func) {
+	public static LBytePredicate rShrunken(@Nonnull LByteToIntFunction right, @Nonnull LByteIntPredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LBytePredicate rShrinkedc(int a2, LByteIntPredicate func) {
-		return func.rShrinkc(a2);
+	public static LBytePredicate rShrunken_(int a2, @Nonnull LByteIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LByteIntPredicate uncurry(LByteFunction<LIntPredicate> func) {
+	public static LByteIntPredicate uncurry(@Nonnull LByteFunction<LIntPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (byte a1, int a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LByteIntConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LByteIntPredicate before(@Nonnull LByteIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (byte a1, int a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LByteIntPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (byte a1, int a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

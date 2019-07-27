@@ -221,7 +221,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_a2, int max_a2, T a1, boolean a3, LObjIntBoolFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_a2, int max_a2, T a1, boolean a3, @Nonnull LObjIntBoolFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -235,7 +235,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_a2, int max_a2, T a1, boolean a3, LObjIntBoolFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_a2, int max_a2, T a1, boolean a3, @Nonnull LObjIntBoolFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -249,14 +249,14 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_a2, T a1, boolean a3, LObjIntBoolFunction<T, R> func) {
+	public static <T, R> void times(int max_a2, T a1, boolean a3, @Nonnull LObjIntBoolFunction<T, R> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, boolean a3, LObjIntBoolFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, boolean a3, @Nonnull LObjIntBoolFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -269,7 +269,8 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/**  */
-	public static <T, R> LObjIntBoolFunction<T, R> uncurry(LFunction<T, LIntFunction<LBoolFunction<R>>> func) {
+	public static <T, R> LObjIntBoolFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LBoolFunction<R>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
@@ -291,6 +292,25 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Change function to consumer that ignores output. */
 	public default LTieBoolConsumer<T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjIntBoolFunction<T, R> before(@Nonnull LTieBoolConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, boolean a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjIntBoolFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, boolean a3) -> {
+			final R retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -330,7 +350,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LObjIntBoolFunction<T, R> objIntBoolFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjIntBoolFunction<T, R> lambda) {
+	static <T, R> LObjIntBoolFunction<T, R> objIntBoolFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LObjIntBoolFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -502,25 +522,6 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	default LTieBoolConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.accept(this.apply(a1, a2, a3));
-	}
-
-	@Nonnull
-	default LObjIntBoolFunction<T, R> before(@Nonnull LTieBoolConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2, a3) -> {
-			before.accept(a1, a2, a3);
-			return this.apply(a1, a2, a3);
-		};
-	}
-
-	@Nonnull
-	default LObjIntBoolFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> {
-			R result = this.apply(a1, a2, a3);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

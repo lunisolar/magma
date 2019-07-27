@@ -264,7 +264,8 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return LCharIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, char a3, LTieCharConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, char a3, @Nonnull LTieCharConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -273,7 +274,8 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, char a3, LTieCharFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, char a3, @Nonnull LTieCharFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -282,7 +284,7 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a2, int max_a2, char a1, LCharIntPredicate func) {
+	public static void fromTo(int min_a2, int max_a2, char a1, @Nonnull LCharIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -296,7 +298,7 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a2, int max_a2, char a1, LCharIntPredicate func) {
+	public static void fromTill(int min_a2, int max_a2, char a1, @Nonnull LCharIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -310,52 +312,80 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a2, char a1, LCharIntPredicate func) {
+	public static void times(int max_a2, char a1, @Nonnull LCharIntPredicate func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntPredicate lShrink(LIntToCharFunction left) {
+	public default LIntPredicate lShrink(@Nonnull LIntToCharFunction left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsChar(a2), a2);
 	}
 
-	public default LIntPredicate lShrinkc(char a1) {
+	public default LIntPredicate lShrink_(char a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LIntPredicate lShrinked(LIntToCharFunction left, LCharIntPredicate func) {
+	public static LIntPredicate lShrunken(@Nonnull LIntToCharFunction left, @Nonnull LCharIntPredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntPredicate lShrinkedc(char a1, LCharIntPredicate func) {
-		return func.lShrinkc(a1);
+	public static LIntPredicate lShrunken_(char a1, @Nonnull LCharIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LCharPredicate rShrink(LCharToIntFunction right) {
+	public default LCharPredicate rShrink(@Nonnull LCharToIntFunction right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LCharPredicate rShrinkc(int a2) {
+	public default LCharPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LCharPredicate rShrinked(LCharToIntFunction right, LCharIntPredicate func) {
+	public static LCharPredicate rShrunken(@Nonnull LCharToIntFunction right, @Nonnull LCharIntPredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LCharPredicate rShrinkedc(int a2, LCharIntPredicate func) {
-		return func.rShrinkc(a2);
+	public static LCharPredicate rShrunken_(int a2, @Nonnull LCharIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LCharIntPredicate uncurry(LCharFunction<LIntPredicate> func) {
+	public static LCharIntPredicate uncurry(@Nonnull LCharFunction<LIntPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (char a1, int a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LCharIntConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LCharIntPredicate before(@Nonnull LCharIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (char a1, int a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LCharIntPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (char a1, int a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

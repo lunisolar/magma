@@ -213,7 +213,7 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, boolean a, LBoolConsumer func) {
+	public static void fromTo(int min_i, int max_i, boolean a, @Nonnull LBoolConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, boolean a, LBoolConsumer func) {
+	public static void fromTill(int min_i, int max_i, boolean a, @Nonnull LBoolConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,10 +241,19 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, boolean a, LBoolConsumer func) {
+	public static void times(int max_i, boolean a, @Nonnull LBoolConsumer func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBoolConsumer before(@Nonnull LBoolConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (boolean a) -> {
+			before.accept(a);
+			accept(a);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

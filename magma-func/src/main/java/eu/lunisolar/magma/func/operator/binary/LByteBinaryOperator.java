@@ -217,7 +217,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, byte a1, byte a2, LByteBinaryOperator func) {
+	public static void fromTo(int min_i, int max_i, byte a1, byte a2, @Nonnull LByteBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, byte a1, byte a2, LByteBinaryOperator func) {
+	public static void fromTill(int min_i, int max_i, byte a1, byte a2, @Nonnull LByteBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,52 +245,80 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, byte a1, byte a2, LByteBinaryOperator func) {
+	public static void times(int max_i, byte a1, byte a2, @Nonnull LByteBinaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LByteUnaryOperator lShrink(LByteUnaryOperator left) {
+	public default LByteUnaryOperator lShrink(@Nonnull LByteUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsByte(left.applyAsByte(a2), a2);
 	}
 
-	public default LByteUnaryOperator lShrinkc(byte a1) {
+	public default LByteUnaryOperator lShrink_(byte a1) {
 		return a2 -> applyAsByte(a1, a2);
 	}
 
-	public static LByteUnaryOperator lShrinked(LByteUnaryOperator left, LByteBinaryOperator func) {
+	public static LByteUnaryOperator lShrunken(@Nonnull LByteUnaryOperator left, @Nonnull LByteBinaryOperator func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LByteUnaryOperator lShrinkedc(byte a1, LByteBinaryOperator func) {
-		return func.lShrinkc(a1);
+	public static LByteUnaryOperator lShrunken_(byte a1, @Nonnull LByteBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LByteUnaryOperator rShrink(LByteUnaryOperator right) {
+	public default LByteUnaryOperator rShrink(@Nonnull LByteUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsByte(a1, right.applyAsByte(a1));
 	}
 
-	public default LByteUnaryOperator rShrinkc(byte a2) {
+	public default LByteUnaryOperator rShrink_(byte a2) {
 		return a1 -> applyAsByte(a1, a2);
 	}
 
-	public static LByteUnaryOperator rShrinked(LByteUnaryOperator right, LByteBinaryOperator func) {
+	public static LByteUnaryOperator rShrunken(@Nonnull LByteUnaryOperator right, @Nonnull LByteBinaryOperator func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LByteUnaryOperator rShrinkedc(byte a2, LByteBinaryOperator func) {
-		return func.rShrinkc(a2);
+	public static LByteUnaryOperator rShrunken_(byte a2, @Nonnull LByteBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LByteBinaryOperator uncurry(LByteFunction<LByteUnaryOperator> func) {
+	public static LByteBinaryOperator uncurry(@Nonnull LByteFunction<LByteUnaryOperator> func) {
+		Null.nonNullArg(func, "func");
 		return (byte a1, byte a2) -> func.apply(a1).applyAsByte(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiByteConsumer toConsumer() {
 		return this::applyAsByte;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LByteBinaryOperator before(@Nonnull LBiByteConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (byte a1, byte a2) -> {
+			before.accept(a1, a2);
+			return applyAsByte(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LByteBinaryOperator after(@Nonnull LByteConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (byte a1, byte a2) -> {
+			final byte retval = applyAsByte(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

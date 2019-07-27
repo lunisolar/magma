@@ -264,7 +264,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func) {
+	public static void fromTo(int min_i, int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -278,7 +278,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func) {
+	public static void fromTill(int min_i, int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -292,52 +292,80 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func) {
+	public static void times(int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LLogicalBinaryOperator lShrink(LLogicalBinaryOperator left) {
+	public default LLogicalBinaryOperator lShrink(@Nonnull LLogicalBinaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LLogicalBinaryOperator lShrinkc(boolean a1) {
+	public default LLogicalBinaryOperator lShrink_(boolean a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
-	public static LLogicalBinaryOperator lShrinked(LLogicalBinaryOperator left, LLogicalTernaryOperator func) {
+	public static LLogicalBinaryOperator lShrunken(@Nonnull LLogicalBinaryOperator left, @Nonnull LLogicalTernaryOperator func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LLogicalBinaryOperator lShrinkedc(boolean a1, LLogicalTernaryOperator func) {
-		return func.lShrinkc(a1);
+	public static LLogicalBinaryOperator lShrunken_(boolean a1, @Nonnull LLogicalTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LLogicalBinaryOperator rShrink(LLogicalBinaryOperator right) {
+	public default LLogicalBinaryOperator rShrink(@Nonnull LLogicalBinaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LLogicalBinaryOperator rShrinkc(boolean a3) {
+	public default LLogicalBinaryOperator rShrink_(boolean a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
-	public static LLogicalBinaryOperator rShrinked(LLogicalBinaryOperator right, LLogicalTernaryOperator func) {
+	public static LLogicalBinaryOperator rShrunken(@Nonnull LLogicalBinaryOperator right, @Nonnull LLogicalTernaryOperator func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LLogicalBinaryOperator rShrinkedc(boolean a3, LLogicalTernaryOperator func) {
-		return func.rShrinkc(a3);
+	public static LLogicalBinaryOperator rShrunken_(boolean a3, @Nonnull LLogicalTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static LLogicalTernaryOperator uncurry(LBoolFunction<LBoolFunction<LLogicalOperator>> func) {
+	public static LLogicalTernaryOperator uncurry(@Nonnull LBoolFunction<LBoolFunction<LLogicalOperator>> func) {
+		Null.nonNullArg(func, "func");
 		return (boolean a1, boolean a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LTriBoolConsumer toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLogicalTernaryOperator before(@Nonnull LTriBoolConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (boolean a1, boolean a2, boolean a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLogicalTernaryOperator after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (boolean a1, boolean a2, boolean a3) -> {
+			final boolean retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

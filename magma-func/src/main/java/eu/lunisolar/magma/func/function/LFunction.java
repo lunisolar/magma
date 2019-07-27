@@ -223,7 +223,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_i, int max_i, T a, LFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_i, int max_i, T a, @Nonnull LFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -237,7 +237,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_i, int max_i, T a, LFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_i, int max_i, T a, @Nonnull LFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -251,14 +251,14 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_i, T a, LFunction<T, R> func) {
+	public static <T, R> void times(int max_i, T a, @Nonnull LFunction<T, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, LFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -290,6 +290,25 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LFunction<T, R> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T a) {
 		return () -> this.apply(a);
@@ -309,7 +328,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LFunction<T, R> func(Class<T> c1, Class<R> c2, final @Nonnull LFunction<T, R> lambda) {
+	static <T, R> LFunction<T, R> func(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -431,25 +450,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default LConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LFunction<T, R> before(@Nonnull LConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

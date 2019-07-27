@@ -205,7 +205,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, T a2, LBinaryOperator<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, T a2, @Nonnull LBinaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -219,7 +219,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, T a2, LBinaryOperator<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, T a2, @Nonnull LBinaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -233,14 +233,14 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, T a2, LBinaryOperator<T> func) {
+	public static <T> void times(int max_i, T a1, T a2, @Nonnull LBinaryOperator<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	/** Extract and apply function. */
-	public static <T, M, K, V> T from(M container, LBiFunction<M, K, V> extractor, K key, T a2, LBiFunction<V, T, T> function) {
+	public static <T, M, K, V> T from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T a2, @Nonnull LBiFunction<V, T, T> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -252,40 +252,49 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return null;
 	}
 
-	public default LUnaryOperator<T> lShrink(LUnaryOperator<T> left) {
+	public default LUnaryOperator<T> lShrink(@Nonnull LUnaryOperator<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LUnaryOperator<T> lShrinkc(T a1) {
+	public default LUnaryOperator<T> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <T> LUnaryOperator<T> lShrinked(LUnaryOperator<T> left, LBinaryOperator<T> func) {
+	public static <T> LUnaryOperator<T> lShrunken(@Nonnull LUnaryOperator<T> left, @Nonnull LBinaryOperator<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LUnaryOperator<T> lShrinkedc(T a1, LBinaryOperator<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LUnaryOperator<T> lShrunken_(T a1, @Nonnull LBinaryOperator<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LUnaryOperator<T> rShrink(LUnaryOperator<T> right) {
+	public default LUnaryOperator<T> rShrink(@Nonnull LUnaryOperator<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.apply(a1));
 	}
 
-	public default LUnaryOperator<T> rShrinkc(T a2) {
+	public default LUnaryOperator<T> rShrink_(T a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <T> LUnaryOperator<T> rShrinked(LUnaryOperator<T> right, LBinaryOperator<T> func) {
+	public static <T> LUnaryOperator<T> rShrunken(@Nonnull LUnaryOperator<T> right, @Nonnull LBinaryOperator<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LUnaryOperator<T> rShrinkedc(T a2, LBinaryOperator<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LUnaryOperator<T> rShrunken_(T a2, @Nonnull LBinaryOperator<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LBinaryOperator<T> uncurry(LFunction<T, LUnaryOperator<T>> func) {
+	public static <T> LBinaryOperator<T> uncurry(@Nonnull LFunction<T, LUnaryOperator<T>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, T a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -307,6 +316,25 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	/** Change function to consumer that ignores output. */
 	public default LBiConsumer<T, T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBinaryOperator<T> before(@Nonnull LBiConsumer<T, T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, T a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBinaryOperator<T> after(@Nonnull LConsumer<T> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, T a2) -> {
+			final T retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -340,7 +368,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LBinaryOperator<T> binaryOp(Class<T> c1, final @Nonnull LBinaryOperator<T> lambda) {
+	static <T> LBinaryOperator<T> binaryOp(@Nullable Class<T> c1, final @Nonnull LBinaryOperator<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

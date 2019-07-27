@@ -264,7 +264,8 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return LCharPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, char a2, LObjCharConsumer<V> consumer) {
+	public default <V> boolean doIf(V a1, char a2, @Nonnull LObjCharConsumer<V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
 			return true;
@@ -273,7 +274,8 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, char a3, LTieCharConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, char a3, @Nonnull LTieCharConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -282,7 +284,8 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, char a3, LTieCharFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, char a3, @Nonnull LTieCharFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -291,7 +294,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, char a, LCharPredicate func) {
+	public static void fromTo(int min_i, int max_i, char a, @Nonnull LCharPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -305,7 +308,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, char a, LCharPredicate func) {
+	public static void fromTill(int min_i, int max_i, char a, @Nonnull LCharPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -319,7 +322,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, char a, LCharPredicate func) {
+	public static void times(int max_i, char a, @Nonnull LCharPredicate func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -328,6 +331,25 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	/** Change function to consumer that ignores output. */
 	public default LCharConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LCharPredicate before(@Nonnull LCharConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (char a) -> {
+			before.accept(a);
+			return test(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LCharPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (char a) -> {
+			final boolean retval = test(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

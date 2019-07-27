@@ -227,7 +227,7 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, double a, LDblUnaryOperator func) {
+	public static void fromTo(int min_i, int max_i, double a, @Nonnull LDblUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -241,7 +241,7 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, double a, LDblUnaryOperator func) {
+	public static void fromTill(int min_i, int max_i, double a, @Nonnull LDblUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -255,7 +255,7 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, double a, LDblUnaryOperator func) {
+	public static void times(int max_i, double a, @Nonnull LDblUnaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -264,6 +264,25 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 	/** Change function to consumer that ignores output. */
 	public default LDblConsumer toConsumer() {
 		return this::applyAsDbl;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LDblUnaryOperator before(@Nonnull LDblConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (double a) -> {
+			before.accept(a);
+			return applyAsDbl(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LDblUnaryOperator after(@Nonnull LDblConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (double a) -> {
+			final double retval = applyAsDbl(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

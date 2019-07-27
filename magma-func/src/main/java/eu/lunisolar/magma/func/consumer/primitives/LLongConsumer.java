@@ -213,7 +213,7 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(long min_a, long max_a, LLongConsumer func) {
+	public static void fromTo(long min_a, long max_a, @Nonnull LLongConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a <= max_a; a++) {
@@ -227,7 +227,7 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(long min_a, long max_a, LLongConsumer func) {
+	public static void fromTill(long min_a, long max_a, @Nonnull LLongConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a < max_a; a++) {
@@ -241,10 +241,19 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(long max_a, LLongConsumer func) {
+	public static void times(long max_a, @Nonnull LLongConsumer func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLongConsumer before(@Nonnull LLongConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (long a) -> {
+			before.accept(a);
+			accept(a);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

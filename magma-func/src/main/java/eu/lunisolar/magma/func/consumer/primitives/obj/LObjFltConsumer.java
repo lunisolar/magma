@@ -215,7 +215,7 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, float a2, LObjFltConsumer<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, float a2, @Nonnull LObjFltConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -229,7 +229,7 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, float a2, LObjFltConsumer<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, float a2, @Nonnull LObjFltConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -243,46 +243,55 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, float a2, LObjFltConsumer<T> func) {
+	public static <T> void times(int max_i, T a1, float a2, @Nonnull LObjFltConsumer<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltConsumer lShrink(LFltFunction<T> left) {
+	public default LFltConsumer lShrink(@Nonnull LFltFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LFltConsumer lShrinkc(T a1) {
+	public default LFltConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static <T> LFltConsumer lShrinked(LFltFunction<T> left, LObjFltConsumer<T> func) {
+	public static <T> LFltConsumer lShrunken(@Nonnull LFltFunction<T> left, @Nonnull LObjFltConsumer<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LFltConsumer lShrinkedc(T a1, LObjFltConsumer<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LFltConsumer lShrunken_(T a1, @Nonnull LObjFltConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(LToFltFunction<T> right) {
+	public default LConsumer<T> rShrink(@Nonnull LToFltFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsFlt(a1));
 	}
 
-	public default LConsumer<T> rShrinkc(float a2) {
+	public default LConsumer<T> rShrink_(float a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static <T> LConsumer<T> rShrinked(LToFltFunction<T> right, LObjFltConsumer<T> func) {
+	public static <T> LConsumer<T> rShrunken(@Nonnull LToFltFunction<T> right, @Nonnull LObjFltConsumer<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LConsumer<T> rShrinkedc(float a2, LObjFltConsumer<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LConsumer<T> rShrunken_(float a2, @Nonnull LObjFltConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LObjFltConsumer<T> uncurry(LFunction<T, LFltConsumer> func) {
+	public static <T> LObjFltConsumer<T> uncurry(@Nonnull LFunction<T, LFltConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, float a2) -> func.apply(a1).accept(a2);
 	}
 
@@ -299,6 +308,15 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	/** Cast that replace generics. */
 	public static <V2, T> LObjFltConsumer<V2> cast(LObjFltConsumer<T> function) {
 		return (LObjFltConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjFltConsumer<T> before(@Nonnull LObjFltConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, float a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -327,7 +345,7 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjFltConsumer<T> objFltCons(Class<T> c1, final @Nonnull LObjFltConsumer<T> lambda) {
+	static <T> LObjFltConsumer<T> objFltCons(@Nullable Class<T> c1, final @Nonnull LObjFltConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

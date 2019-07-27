@@ -217,7 +217,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, short a, LSrtUnaryOperator func) {
+	public static void fromTo(int min_i, int max_i, short a, @Nonnull LSrtUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, short a, LSrtUnaryOperator func) {
+	public static void fromTill(int min_i, int max_i, short a, @Nonnull LSrtUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,7 +245,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, short a, LSrtUnaryOperator func) {
+	public static void times(int max_i, short a, @Nonnull LSrtUnaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -254,6 +254,25 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	/** Change function to consumer that ignores output. */
 	public default LSrtConsumer toConsumer() {
 		return this::applyAsSrt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LSrtUnaryOperator before(@Nonnull LSrtConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (short a) -> {
+			before.accept(a);
+			return applyAsSrt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LSrtUnaryOperator after(@Nonnull LSrtConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (short a) -> {
+			final short retval = applyAsSrt(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

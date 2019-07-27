@@ -215,7 +215,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, LIntSupplier func) {
+	public static void fromTo(int min_i, int max_i, @Nonnull LIntSupplier func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -229,7 +229,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, LIntSupplier func) {
+	public static void fromTill(int min_i, int max_i, @Nonnull LIntSupplier func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -243,7 +243,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, LIntSupplier func) {
+	public static void times(int max_i, @Nonnull LIntSupplier func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, func);
@@ -252,6 +252,16 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	/** Change function to consumer that ignores output. */
 	public default LAction toConsumer() {
 		return this::getAsInt;
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LIntSupplier after(@Nonnull LIntConsumer after) {
+		Null.nonNullArg(after, "after");
+		return () -> {
+			final int retval = getAsInt();
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Creates function that always returns the same value. */

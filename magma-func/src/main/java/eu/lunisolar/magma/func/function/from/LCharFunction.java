@@ -221,7 +221,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, char a, LCharFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, char a, @Nonnull LCharFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, char a, LCharFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, char a, @Nonnull LCharFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,7 +249,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, char a, LCharFunction<R> func) {
+	public static <R> void times(int max_i, char a, @Nonnull LCharFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -275,6 +275,25 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LCharFunction<R> before(@Nonnull LCharConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (char a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LCharFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (char a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(char a) {
 		return () -> this.apply(a);
@@ -294,7 +313,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LCharFunction<R> charFunc(Class<R> c1, final @Nonnull LCharFunction<R> lambda) {
+	static <R> LCharFunction<R> charFunc(@Nullable Class<R> c1, final @Nonnull LCharFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -422,25 +441,6 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default LCharConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LCharFunction<R> before(@Nonnull LCharConsumer before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LCharFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

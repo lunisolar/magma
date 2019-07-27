@@ -217,7 +217,7 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, float a1, float a2, LFltBinaryOperator func) {
+	public static void fromTo(int min_i, int max_i, float a1, float a2, @Nonnull LFltBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, float a1, float a2, LFltBinaryOperator func) {
+	public static void fromTill(int min_i, int max_i, float a1, float a2, @Nonnull LFltBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,52 +245,80 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, float a1, float a2, LFltBinaryOperator func) {
+	public static void times(int max_i, float a1, float a2, @Nonnull LFltBinaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltUnaryOperator lShrink(LFltUnaryOperator left) {
+	public default LFltUnaryOperator lShrink(@Nonnull LFltUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsFlt(left.applyAsFlt(a2), a2);
 	}
 
-	public default LFltUnaryOperator lShrinkc(float a1) {
+	public default LFltUnaryOperator lShrink_(float a1) {
 		return a2 -> applyAsFlt(a1, a2);
 	}
 
-	public static LFltUnaryOperator lShrinked(LFltUnaryOperator left, LFltBinaryOperator func) {
+	public static LFltUnaryOperator lShrunken(@Nonnull LFltUnaryOperator left, @Nonnull LFltBinaryOperator func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LFltUnaryOperator lShrinkedc(float a1, LFltBinaryOperator func) {
-		return func.lShrinkc(a1);
+	public static LFltUnaryOperator lShrunken_(float a1, @Nonnull LFltBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFltUnaryOperator rShrink(LFltUnaryOperator right) {
+	public default LFltUnaryOperator rShrink(@Nonnull LFltUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsFlt(a1, right.applyAsFlt(a1));
 	}
 
-	public default LFltUnaryOperator rShrinkc(float a2) {
+	public default LFltUnaryOperator rShrink_(float a2) {
 		return a1 -> applyAsFlt(a1, a2);
 	}
 
-	public static LFltUnaryOperator rShrinked(LFltUnaryOperator right, LFltBinaryOperator func) {
+	public static LFltUnaryOperator rShrunken(@Nonnull LFltUnaryOperator right, @Nonnull LFltBinaryOperator func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LFltUnaryOperator rShrinkedc(float a2, LFltBinaryOperator func) {
-		return func.rShrinkc(a2);
+	public static LFltUnaryOperator rShrunken_(float a2, @Nonnull LFltBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LFltBinaryOperator uncurry(LFltFunction<LFltUnaryOperator> func) {
+	public static LFltBinaryOperator uncurry(@Nonnull LFltFunction<LFltUnaryOperator> func) {
+		Null.nonNullArg(func, "func");
 		return (float a1, float a2) -> func.apply(a1).applyAsFlt(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiFltConsumer toConsumer() {
 		return this::applyAsFlt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LFltBinaryOperator before(@Nonnull LBiFltConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (float a1, float a2) -> {
+			before.accept(a1, a2);
+			return applyAsFlt(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LFltBinaryOperator after(@Nonnull LFltConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (float a1, float a2) -> {
+			final float retval = applyAsFlt(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

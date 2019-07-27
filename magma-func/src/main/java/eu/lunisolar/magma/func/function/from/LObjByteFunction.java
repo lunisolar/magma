@@ -221,7 +221,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_i, int max_i, T a1, byte a2, LObjByteFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_i, int max_i, T a1, byte a2, @Nonnull LObjByteFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_i, int max_i, T a1, byte a2, LObjByteFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_i, int max_i, T a1, byte a2, @Nonnull LObjByteFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,14 +249,14 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_i, T a1, byte a2, LObjByteFunction<T, R> func) {
+	public static <T, R> void times(int max_i, T a1, byte a2, @Nonnull LObjByteFunction<T, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, byte a2, LObjByteFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, byte a2, @Nonnull LObjByteFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -268,40 +268,49 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
-	public default LByteFunction<R> lShrink(LByteFunction<T> left) {
+	public default LByteFunction<R> lShrink(@Nonnull LByteFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LByteFunction<R> lShrinkc(T a1) {
+	public default LByteFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R, T> LByteFunction<R> lShrinked(LByteFunction<T> left, LObjByteFunction<T, R> func) {
+	public static <R, T> LByteFunction<R> lShrunken(@Nonnull LByteFunction<T> left, @Nonnull LObjByteFunction<T, R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R, T> LByteFunction<R> lShrinkedc(T a1, LObjByteFunction<T, R> func) {
-		return func.lShrinkc(a1);
+	public static <R, T> LByteFunction<R> lShrunken_(T a1, @Nonnull LObjByteFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(LToByteFunction<T> right) {
+	public default LFunction<T, R> rShrink(@Nonnull LToByteFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsByte(a1));
 	}
 
-	public default LFunction<T, R> rShrinkc(byte a2) {
+	public default LFunction<T, R> rShrink_(byte a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinked(LToByteFunction<T> right, LObjByteFunction<T, R> func) {
+	public static <T, R> LFunction<T, R> rShrunken(@Nonnull LToByteFunction<T> right, @Nonnull LObjByteFunction<T, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinkedc(byte a2, LObjByteFunction<T, R> func) {
-		return func.rShrinkc(a2);
+	public static <T, R> LFunction<T, R> rShrunken_(byte a2, @Nonnull LObjByteFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T, R> LObjByteFunction<T, R> uncurry(LFunction<T, LByteFunction<R>> func) {
+	public static <T, R> LObjByteFunction<T, R> uncurry(@Nonnull LFunction<T, LByteFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, byte a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -323,6 +332,25 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	/** Change function to consumer that ignores output. */
 	public default LObjByteConsumer<T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjByteFunction<T, R> before(@Nonnull LObjByteConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, byte a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjByteFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, byte a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -356,7 +384,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LObjByteFunction<T, R> objByteFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjByteFunction<T, R> lambda) {
+	static <T, R> LObjByteFunction<T, R> objByteFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LObjByteFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -497,25 +525,6 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	default LObjByteConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LObjByteFunction<T, R> before(@Nonnull LObjByteConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LObjByteFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

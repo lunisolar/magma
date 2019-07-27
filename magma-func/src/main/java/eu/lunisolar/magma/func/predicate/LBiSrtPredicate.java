@@ -265,7 +265,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, short a1, short a2, LBiSrtPredicate func) {
+	public static void fromTo(int min_i, int max_i, short a1, short a2, @Nonnull LBiSrtPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -279,7 +279,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, short a1, short a2, LBiSrtPredicate func) {
+	public static void fromTill(int min_i, int max_i, short a1, short a2, @Nonnull LBiSrtPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -293,52 +293,80 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, short a1, short a2, LBiSrtPredicate func) {
+	public static void times(int max_i, short a1, short a2, @Nonnull LBiSrtPredicate func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LSrtPredicate lShrink(LSrtUnaryOperator left) {
+	public default LSrtPredicate lShrink(@Nonnull LSrtUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsSrt(a2), a2);
 	}
 
-	public default LSrtPredicate lShrinkc(short a1) {
+	public default LSrtPredicate lShrink_(short a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LSrtPredicate lShrinked(LSrtUnaryOperator left, LBiSrtPredicate func) {
+	public static LSrtPredicate lShrunken(@Nonnull LSrtUnaryOperator left, @Nonnull LBiSrtPredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LSrtPredicate lShrinkedc(short a1, LBiSrtPredicate func) {
-		return func.lShrinkc(a1);
+	public static LSrtPredicate lShrunken_(short a1, @Nonnull LBiSrtPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LSrtPredicate rShrink(LSrtUnaryOperator right) {
+	public default LSrtPredicate rShrink(@Nonnull LSrtUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsSrt(a1));
 	}
 
-	public default LSrtPredicate rShrinkc(short a2) {
+	public default LSrtPredicate rShrink_(short a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LSrtPredicate rShrinked(LSrtUnaryOperator right, LBiSrtPredicate func) {
+	public static LSrtPredicate rShrunken(@Nonnull LSrtUnaryOperator right, @Nonnull LBiSrtPredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LSrtPredicate rShrinkedc(short a2, LBiSrtPredicate func) {
-		return func.rShrinkc(a2);
+	public static LSrtPredicate rShrunken_(short a2, @Nonnull LBiSrtPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LBiSrtPredicate uncurry(LSrtFunction<LSrtPredicate> func) {
+	public static LBiSrtPredicate uncurry(@Nonnull LSrtFunction<LSrtPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (short a1, short a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiSrtConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiSrtPredicate before(@Nonnull LBiSrtConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (short a1, short a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiSrtPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (short a1, short a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

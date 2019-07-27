@@ -217,7 +217,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, long a1, long a2, LLongBinaryOperator func) {
+	public static void fromTo(int min_i, int max_i, long a1, long a2, @Nonnull LLongBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, long a1, long a2, LLongBinaryOperator func) {
+	public static void fromTill(int min_i, int max_i, long a1, long a2, @Nonnull LLongBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,52 +245,80 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, long a1, long a2, LLongBinaryOperator func) {
+	public static void times(int max_i, long a1, long a2, @Nonnull LLongBinaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LLongUnaryOperator lShrink(LLongUnaryOperator left) {
+	public default LLongUnaryOperator lShrink(@Nonnull LLongUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsLong(left.applyAsLong(a2), a2);
 	}
 
-	public default LLongUnaryOperator lShrinkc(long a1) {
+	public default LLongUnaryOperator lShrink_(long a1) {
 		return a2 -> applyAsLong(a1, a2);
 	}
 
-	public static LLongUnaryOperator lShrinked(LLongUnaryOperator left, LLongBinaryOperator func) {
+	public static LLongUnaryOperator lShrunken(@Nonnull LLongUnaryOperator left, @Nonnull LLongBinaryOperator func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LLongUnaryOperator lShrinkedc(long a1, LLongBinaryOperator func) {
-		return func.lShrinkc(a1);
+	public static LLongUnaryOperator lShrunken_(long a1, @Nonnull LLongBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LLongUnaryOperator rShrink(LLongUnaryOperator right) {
+	public default LLongUnaryOperator rShrink(@Nonnull LLongUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsLong(a1, right.applyAsLong(a1));
 	}
 
-	public default LLongUnaryOperator rShrinkc(long a2) {
+	public default LLongUnaryOperator rShrink_(long a2) {
 		return a1 -> applyAsLong(a1, a2);
 	}
 
-	public static LLongUnaryOperator rShrinked(LLongUnaryOperator right, LLongBinaryOperator func) {
+	public static LLongUnaryOperator rShrunken(@Nonnull LLongUnaryOperator right, @Nonnull LLongBinaryOperator func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LLongUnaryOperator rShrinkedc(long a2, LLongBinaryOperator func) {
-		return func.rShrinkc(a2);
+	public static LLongUnaryOperator rShrunken_(long a2, @Nonnull LLongBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LLongBinaryOperator uncurry(LLongFunction<LLongUnaryOperator> func) {
+	public static LLongBinaryOperator uncurry(@Nonnull LLongFunction<LLongUnaryOperator> func) {
+		Null.nonNullArg(func, "func");
 		return (long a1, long a2) -> func.apply(a1).applyAsLong(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiLongConsumer toConsumer() {
 		return this::applyAsLong;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLongBinaryOperator before(@Nonnull LBiLongConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (long a1, long a2) -> {
+			before.accept(a1, a2);
+			return applyAsLong(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLongBinaryOperator after(@Nonnull LLongConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (long a1, long a2) -> {
+			final long retval = applyAsLong(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

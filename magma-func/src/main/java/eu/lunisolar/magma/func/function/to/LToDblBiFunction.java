@@ -227,7 +227,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, LToDblBiFunction<T1, T2> func) {
+	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, @Nonnull LToDblBiFunction<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -241,7 +241,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, LToDblBiFunction<T1, T2> func) {
+	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, @Nonnull LToDblBiFunction<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -255,14 +255,14 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, LToDblBiFunction<T1, T2> func) {
+	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, @Nonnull LToDblBiFunction<T1, T2> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V, T2> double from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LToDblBiFunction<V, T2> function, double orElse) {
+	public static <M, K, V, T2> double from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, @Nonnull LToDblBiFunction<V, T2> function, double orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -274,40 +274,49 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return orElse;
 	}
 
-	public default LToDblFunction<T2> lShrink(LFunction<T2, T1> left) {
+	public default LToDblFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsDbl(left.apply(a2), a2);
 	}
 
-	public default LToDblFunction<T2> lShrinkc(T1 a1) {
+	public default LToDblFunction<T2> lShrink_(T1 a1) {
 		return a2 -> applyAsDbl(a1, a2);
 	}
 
-	public static <T2, T1> LToDblFunction<T2> lShrinked(LFunction<T2, T1> left, LToDblBiFunction<T1, T2> func) {
+	public static <T2, T1> LToDblFunction<T2> lShrunken(@Nonnull LFunction<T2, T1> left, @Nonnull LToDblBiFunction<T1, T2> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, T1> LToDblFunction<T2> lShrinkedc(T1 a1, LToDblBiFunction<T1, T2> func) {
-		return func.lShrinkc(a1);
+	public static <T2, T1> LToDblFunction<T2> lShrunken_(T1 a1, @Nonnull LToDblBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LToDblFunction<T1> rShrink(LFunction<T1, T2> right) {
+	public default LToDblFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsDbl(a1, right.apply(a1));
 	}
 
-	public default LToDblFunction<T1> rShrinkc(T2 a2) {
+	public default LToDblFunction<T1> rShrink_(T2 a2) {
 		return a1 -> applyAsDbl(a1, a2);
 	}
 
-	public static <T1, T2> LToDblFunction<T1> rShrinked(LFunction<T1, T2> right, LToDblBiFunction<T1, T2> func) {
+	public static <T1, T2> LToDblFunction<T1> rShrunken(@Nonnull LFunction<T1, T2> right, @Nonnull LToDblBiFunction<T1, T2> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, T2> LToDblFunction<T1> rShrinkedc(T2 a2, LToDblBiFunction<T1, T2> func) {
-		return func.rShrinkc(a2);
+	public static <T1, T2> LToDblFunction<T1> rShrunken_(T2 a2, @Nonnull LToDblBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T1, T2> LToDblBiFunction<T1, T2> uncurry(LFunction<T1, LToDblFunction<T2>> func) {
+	public static <T1, T2> LToDblBiFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LToDblFunction<T2>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsDbl(a2);
 	}
 
@@ -329,6 +338,25 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	/** Change function to consumer that ignores output. */
 	public default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsDbl;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LToDblBiFunction<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2) -> {
+			before.accept(a1, a2);
+			return applyAsDbl(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LToDblBiFunction<T1, T2> after(@Nonnull LDblConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, T2 a2) -> {
+			final double retval = applyAsDbl(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -362,7 +390,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2> LToDblBiFunction<T1, T2> toDblBiFunc(Class<T1> c1, Class<T2> c2, final @Nonnull LToDblBiFunction<T1, T2> lambda) {
+	static <T1, T2> LToDblBiFunction<T1, T2> toDblBiFunc(@Nullable Class<T1> c1, @Nullable Class<T2> c2, final @Nonnull LToDblBiFunction<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

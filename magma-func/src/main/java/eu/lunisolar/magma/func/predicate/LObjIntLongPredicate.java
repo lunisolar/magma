@@ -265,7 +265,7 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, long a3, LObjIntLongPredicate<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -279,7 +279,7 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, long a3, LObjIntLongPredicate<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -293,14 +293,14 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, int a2, long a3, LObjIntLongPredicate<T> func) {
+	public static <T> void times(int max_i, T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, long a3, LObjIntLongPredicate<V> function) {
+	public static <M, K, V> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, long a3, @Nonnull LObjIntLongPredicate<V> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -313,7 +313,8 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/**  */
-	public static <T> LObjIntLongPredicate<T> uncurry(LFunction<T, LIntFunction<LLongPredicate>> func) {
+	public static <T> LObjIntLongPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLongPredicate>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, long a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
@@ -335,6 +336,25 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	/** Change function to consumer that ignores output. */
 	public default LTieLongConsumer<T> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjIntLongPredicate<T> before(@Nonnull LTieLongConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, long a3) -> {
+			before.accept(a1, a2, a3);
+			return test(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjIntLongPredicate<T> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, long a3) -> {
+			final boolean retval = test(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -374,7 +394,7 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjIntLongPredicate<T> objIntLongPred(Class<T> c1, final @Nonnull LObjIntLongPredicate<T> lambda) {
+	static <T> LObjIntLongPredicate<T> objIntLongPred(@Nullable Class<T> c1, final @Nonnull LObjIntLongPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

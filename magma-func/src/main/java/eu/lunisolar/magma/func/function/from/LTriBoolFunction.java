@@ -221,7 +221,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,46 +249,55 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func) {
+	public static <R> void times(int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiBoolFunction<R> lShrink(LLogicalBinaryOperator left) {
+	public default LBiBoolFunction<R> lShrink(@Nonnull LLogicalBinaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiBoolFunction<R> lShrinkc(boolean a1) {
+	public default LBiBoolFunction<R> lShrink_(boolean a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
-	public static <R> LBiBoolFunction<R> lShrinked(LLogicalBinaryOperator left, LTriBoolFunction<R> func) {
+	public static <R> LBiBoolFunction<R> lShrunken(@Nonnull LLogicalBinaryOperator left, @Nonnull LTriBoolFunction<R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R> LBiBoolFunction<R> lShrinkedc(boolean a1, LTriBoolFunction<R> func) {
-		return func.lShrinkc(a1);
+	public static <R> LBiBoolFunction<R> lShrunken_(boolean a1, @Nonnull LTriBoolFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBiBoolFunction<R> rShrink(LLogicalBinaryOperator right) {
+	public default LBiBoolFunction<R> rShrink(@Nonnull LLogicalBinaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBiBoolFunction<R> rShrinkc(boolean a3) {
+	public default LBiBoolFunction<R> rShrink_(boolean a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
-	public static <R> LBiBoolFunction<R> rShrinked(LLogicalBinaryOperator right, LTriBoolFunction<R> func) {
+	public static <R> LBiBoolFunction<R> rShrunken(@Nonnull LLogicalBinaryOperator right, @Nonnull LTriBoolFunction<R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <R> LBiBoolFunction<R> rShrinkedc(boolean a3, LTriBoolFunction<R> func) {
-		return func.rShrinkc(a3);
+	public static <R> LBiBoolFunction<R> rShrunken_(boolean a3, @Nonnull LTriBoolFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <R> LTriBoolFunction<R> uncurry(LBoolFunction<LBoolFunction<LBoolFunction<R>>> func) {
+	public static <R> LTriBoolFunction<R> uncurry(@Nonnull LBoolFunction<LBoolFunction<LBoolFunction<R>>> func) {
+		Null.nonNullArg(func, "func");
 		return (boolean a1, boolean a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
@@ -310,6 +319,25 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	/** Change function to consumer that ignores output. */
 	public default LTriBoolConsumer toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTriBoolFunction<R> before(@Nonnull LTriBoolConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (boolean a1, boolean a2, boolean a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LTriBoolFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (boolean a1, boolean a2, boolean a3) -> {
+			final R retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -349,7 +377,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LTriBoolFunction<R> triBoolFunc(Class<R> c1, final @Nonnull LTriBoolFunction<R> lambda) {
+	static <R> LTriBoolFunction<R> triBoolFunc(@Nullable Class<R> c1, final @Nonnull LTriBoolFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -481,25 +509,6 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default LTriBoolConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.accept(this.apply(a1, a2, a3));
-	}
-
-	@Nonnull
-	default LTriBoolFunction<R> before(@Nonnull LTriBoolConsumer before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2, a3) -> {
-			before.accept(a1, a2, a3);
-			return this.apply(a1, a2, a3);
-		};
-	}
-
-	@Nonnull
-	default LTriBoolFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> {
-			R result = this.apply(a1, a2, a3);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

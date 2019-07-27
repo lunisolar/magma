@@ -264,7 +264,8 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return LDblPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, double a2, LObjDblConsumer<V> consumer) {
+	public default <V> boolean doIf(V a1, double a2, @Nonnull LObjDblConsumer<V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
 			return true;
@@ -273,7 +274,8 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, double a3, LTieDblConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, double a3, @Nonnull LTieDblConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -282,7 +284,8 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, double a3, LTieDblFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, double a3, @Nonnull LTieDblFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -291,7 +294,7 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, double a, LDblPredicate func) {
+	public static void fromTo(int min_i, int max_i, double a, @Nonnull LDblPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -305,7 +308,7 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, double a, LDblPredicate func) {
+	public static void fromTill(int min_i, int max_i, double a, @Nonnull LDblPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -319,7 +322,7 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, double a, LDblPredicate func) {
+	public static void times(int max_i, double a, @Nonnull LDblPredicate func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -328,6 +331,25 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	/** Change function to consumer that ignores output. */
 	public default LDblConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LDblPredicate before(@Nonnull LDblConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (double a) -> {
+			before.accept(a);
+			return test(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LDblPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (double a) -> {
+			final boolean retval = test(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

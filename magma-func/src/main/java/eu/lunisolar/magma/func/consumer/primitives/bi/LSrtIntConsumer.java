@@ -213,7 +213,7 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a2, int max_a2, short a1, LSrtIntConsumer func) {
+	public static void fromTo(int min_a2, int max_a2, short a1, @Nonnull LSrtIntConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -227,7 +227,7 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a2, int max_a2, short a1, LSrtIntConsumer func) {
+	public static void fromTill(int min_a2, int max_a2, short a1, @Nonnull LSrtIntConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -241,47 +241,65 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a2, short a1, LSrtIntConsumer func) {
+	public static void times(int max_a2, short a1, @Nonnull LSrtIntConsumer func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntConsumer lShrink(LIntToSrtFunction left) {
+	public default LIntConsumer lShrink(@Nonnull LIntToSrtFunction left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsSrt(a2), a2);
 	}
 
-	public default LIntConsumer lShrinkc(short a1) {
+	public default LIntConsumer lShrink_(short a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static LIntConsumer lShrinked(LIntToSrtFunction left, LSrtIntConsumer func) {
+	public static LIntConsumer lShrunken(@Nonnull LIntToSrtFunction left, @Nonnull LSrtIntConsumer func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntConsumer lShrinkedc(short a1, LSrtIntConsumer func) {
-		return func.lShrinkc(a1);
+	public static LIntConsumer lShrunken_(short a1, @Nonnull LSrtIntConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LSrtConsumer rShrink(LSrtToIntFunction right) {
+	public default LSrtConsumer rShrink(@Nonnull LSrtToIntFunction right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsInt(a1));
 	}
 
-	public default LSrtConsumer rShrinkc(int a2) {
+	public default LSrtConsumer rShrink_(int a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static LSrtConsumer rShrinked(LSrtToIntFunction right, LSrtIntConsumer func) {
+	public static LSrtConsumer rShrunken(@Nonnull LSrtToIntFunction right, @Nonnull LSrtIntConsumer func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LSrtConsumer rShrinkedc(int a2, LSrtIntConsumer func) {
-		return func.rShrinkc(a2);
+	public static LSrtConsumer rShrunken_(int a2, @Nonnull LSrtIntConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LSrtIntConsumer uncurry(LSrtFunction<LIntConsumer> func) {
+	public static LSrtIntConsumer uncurry(@Nonnull LSrtFunction<LIntConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (short a1, int a2) -> func.apply(a1).accept(a2);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LSrtIntConsumer before(@Nonnull LSrtIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (short a1, int a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

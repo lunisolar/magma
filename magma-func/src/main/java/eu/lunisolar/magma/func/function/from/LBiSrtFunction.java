@@ -221,7 +221,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, short a1, short a2, LBiSrtFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, short a1, short a2, @Nonnull LBiSrtFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, short a1, short a2, LBiSrtFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, short a1, short a2, @Nonnull LBiSrtFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,46 +249,55 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, short a1, short a2, LBiSrtFunction<R> func) {
+	public static <R> void times(int max_i, short a1, short a2, @Nonnull LBiSrtFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LSrtFunction<R> lShrink(LSrtUnaryOperator left) {
+	public default LSrtFunction<R> lShrink(@Nonnull LSrtUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsSrt(a2), a2);
 	}
 
-	public default LSrtFunction<R> lShrinkc(short a1) {
+	public default LSrtFunction<R> lShrink_(short a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R> LSrtFunction<R> lShrinked(LSrtUnaryOperator left, LBiSrtFunction<R> func) {
+	public static <R> LSrtFunction<R> lShrunken(@Nonnull LSrtUnaryOperator left, @Nonnull LBiSrtFunction<R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R> LSrtFunction<R> lShrinkedc(short a1, LBiSrtFunction<R> func) {
-		return func.lShrinkc(a1);
+	public static <R> LSrtFunction<R> lShrunken_(short a1, @Nonnull LBiSrtFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LSrtFunction<R> rShrink(LSrtUnaryOperator right) {
+	public default LSrtFunction<R> rShrink(@Nonnull LSrtUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsSrt(a1));
 	}
 
-	public default LSrtFunction<R> rShrinkc(short a2) {
+	public default LSrtFunction<R> rShrink_(short a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <R> LSrtFunction<R> rShrinked(LSrtUnaryOperator right, LBiSrtFunction<R> func) {
+	public static <R> LSrtFunction<R> rShrunken(@Nonnull LSrtUnaryOperator right, @Nonnull LBiSrtFunction<R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <R> LSrtFunction<R> rShrinkedc(short a2, LBiSrtFunction<R> func) {
-		return func.rShrinkc(a2);
+	public static <R> LSrtFunction<R> rShrunken_(short a2, @Nonnull LBiSrtFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <R> LBiSrtFunction<R> uncurry(LSrtFunction<LSrtFunction<R>> func) {
+	public static <R> LBiSrtFunction<R> uncurry(@Nonnull LSrtFunction<LSrtFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (short a1, short a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -310,6 +319,25 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Change function to consumer that ignores output. */
 	public default LBiSrtConsumer toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiSrtFunction<R> before(@Nonnull LBiSrtConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (short a1, short a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiSrtFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (short a1, short a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -343,7 +371,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LBiSrtFunction<R> biSrtFunc(Class<R> c1, final @Nonnull LBiSrtFunction<R> lambda) {
+	static <R> LBiSrtFunction<R> biSrtFunc(@Nullable Class<R> c1, final @Nonnull LBiSrtFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -484,25 +512,6 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default LBiSrtConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LBiSrtFunction<R> before(@Nonnull LBiSrtConsumer before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LBiSrtFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

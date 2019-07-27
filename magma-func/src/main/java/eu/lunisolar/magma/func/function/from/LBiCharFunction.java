@@ -221,7 +221,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, char a1, char a2, LBiCharFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, char a1, char a2, @Nonnull LBiCharFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, char a1, char a2, LBiCharFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, char a1, char a2, @Nonnull LBiCharFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,46 +249,55 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, char a1, char a2, LBiCharFunction<R> func) {
+	public static <R> void times(int max_i, char a1, char a2, @Nonnull LBiCharFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LCharFunction<R> lShrink(LCharUnaryOperator left) {
+	public default LCharFunction<R> lShrink(@Nonnull LCharUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsChar(a2), a2);
 	}
 
-	public default LCharFunction<R> lShrinkc(char a1) {
+	public default LCharFunction<R> lShrink_(char a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R> LCharFunction<R> lShrinked(LCharUnaryOperator left, LBiCharFunction<R> func) {
+	public static <R> LCharFunction<R> lShrunken(@Nonnull LCharUnaryOperator left, @Nonnull LBiCharFunction<R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R> LCharFunction<R> lShrinkedc(char a1, LBiCharFunction<R> func) {
-		return func.lShrinkc(a1);
+	public static <R> LCharFunction<R> lShrunken_(char a1, @Nonnull LBiCharFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LCharFunction<R> rShrink(LCharUnaryOperator right) {
+	public default LCharFunction<R> rShrink(@Nonnull LCharUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsChar(a1));
 	}
 
-	public default LCharFunction<R> rShrinkc(char a2) {
+	public default LCharFunction<R> rShrink_(char a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <R> LCharFunction<R> rShrinked(LCharUnaryOperator right, LBiCharFunction<R> func) {
+	public static <R> LCharFunction<R> rShrunken(@Nonnull LCharUnaryOperator right, @Nonnull LBiCharFunction<R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <R> LCharFunction<R> rShrinkedc(char a2, LBiCharFunction<R> func) {
-		return func.rShrinkc(a2);
+	public static <R> LCharFunction<R> rShrunken_(char a2, @Nonnull LBiCharFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <R> LBiCharFunction<R> uncurry(LCharFunction<LCharFunction<R>> func) {
+	public static <R> LBiCharFunction<R> uncurry(@Nonnull LCharFunction<LCharFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (char a1, char a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -310,6 +319,25 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** Change function to consumer that ignores output. */
 	public default LBiCharConsumer toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiCharFunction<R> before(@Nonnull LBiCharConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (char a1, char a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiCharFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (char a1, char a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -343,7 +371,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LBiCharFunction<R> biCharFunc(Class<R> c1, final @Nonnull LBiCharFunction<R> lambda) {
+	static <R> LBiCharFunction<R> biCharFunc(@Nullable Class<R> c1, final @Nonnull LBiCharFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -484,25 +512,6 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default LBiCharConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LBiCharFunction<R> before(@Nonnull LBiCharConsumer before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LBiCharFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

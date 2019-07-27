@@ -213,7 +213,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a2, int max_a2, boolean a1, LBoolIntConsumer func) {
+	public static void fromTo(int min_a2, int max_a2, boolean a1, @Nonnull LBoolIntConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -227,7 +227,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a2, int max_a2, boolean a1, LBoolIntConsumer func) {
+	public static void fromTill(int min_a2, int max_a2, boolean a1, @Nonnull LBoolIntConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -241,47 +241,65 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a2, boolean a1, LBoolIntConsumer func) {
+	public static void times(int max_a2, boolean a1, @Nonnull LBoolIntConsumer func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntConsumer lShrink(LIntPredicate left) {
+	public default LIntConsumer lShrink(@Nonnull LIntPredicate left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.test(a2), a2);
 	}
 
-	public default LIntConsumer lShrinkc(boolean a1) {
+	public default LIntConsumer lShrink_(boolean a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static LIntConsumer lShrinked(LIntPredicate left, LBoolIntConsumer func) {
+	public static LIntConsumer lShrunken(@Nonnull LIntPredicate left, @Nonnull LBoolIntConsumer func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntConsumer lShrinkedc(boolean a1, LBoolIntConsumer func) {
-		return func.lShrinkc(a1);
+	public static LIntConsumer lShrunken_(boolean a1, @Nonnull LBoolIntConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBoolConsumer rShrink(LBoolToIntFunction right) {
+	public default LBoolConsumer rShrink(@Nonnull LBoolToIntFunction right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsInt(a1));
 	}
 
-	public default LBoolConsumer rShrinkc(int a2) {
+	public default LBoolConsumer rShrink_(int a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static LBoolConsumer rShrinked(LBoolToIntFunction right, LBoolIntConsumer func) {
+	public static LBoolConsumer rShrunken(@Nonnull LBoolToIntFunction right, @Nonnull LBoolIntConsumer func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LBoolConsumer rShrinkedc(int a2, LBoolIntConsumer func) {
-		return func.rShrinkc(a2);
+	public static LBoolConsumer rShrunken_(int a2, @Nonnull LBoolIntConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LBoolIntConsumer uncurry(LBoolFunction<LIntConsumer> func) {
+	public static LBoolIntConsumer uncurry(@Nonnull LBoolFunction<LIntConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (boolean a1, int a2) -> func.apply(a1).accept(a2);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBoolIntConsumer before(@Nonnull LBoolIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (boolean a1, int a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

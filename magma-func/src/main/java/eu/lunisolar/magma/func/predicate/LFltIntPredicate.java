@@ -264,7 +264,8 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return LFltIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, float a3, LTieFltConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, float a3, @Nonnull LTieFltConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -273,7 +274,8 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, float a3, LTieFltFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, float a3, @Nonnull LTieFltFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -282,7 +284,7 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a2, int max_a2, float a1, LFltIntPredicate func) {
+	public static void fromTo(int min_a2, int max_a2, float a1, @Nonnull LFltIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -296,7 +298,7 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a2, int max_a2, float a1, LFltIntPredicate func) {
+	public static void fromTill(int min_a2, int max_a2, float a1, @Nonnull LFltIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -310,52 +312,80 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a2, float a1, LFltIntPredicate func) {
+	public static void times(int max_a2, float a1, @Nonnull LFltIntPredicate func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntPredicate lShrink(LIntToFltFunction left) {
+	public default LIntPredicate lShrink(@Nonnull LIntToFltFunction left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsFlt(a2), a2);
 	}
 
-	public default LIntPredicate lShrinkc(float a1) {
+	public default LIntPredicate lShrink_(float a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LIntPredicate lShrinked(LIntToFltFunction left, LFltIntPredicate func) {
+	public static LIntPredicate lShrunken(@Nonnull LIntToFltFunction left, @Nonnull LFltIntPredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntPredicate lShrinkedc(float a1, LFltIntPredicate func) {
-		return func.lShrinkc(a1);
+	public static LIntPredicate lShrunken_(float a1, @Nonnull LFltIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFltPredicate rShrink(LFltToIntFunction right) {
+	public default LFltPredicate rShrink(@Nonnull LFltToIntFunction right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LFltPredicate rShrinkc(int a2) {
+	public default LFltPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LFltPredicate rShrinked(LFltToIntFunction right, LFltIntPredicate func) {
+	public static LFltPredicate rShrunken(@Nonnull LFltToIntFunction right, @Nonnull LFltIntPredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LFltPredicate rShrinkedc(int a2, LFltIntPredicate func) {
-		return func.rShrinkc(a2);
+	public static LFltPredicate rShrunken_(int a2, @Nonnull LFltIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LFltIntPredicate uncurry(LFltFunction<LIntPredicate> func) {
+	public static LFltIntPredicate uncurry(@Nonnull LFltFunction<LIntPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (float a1, int a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LFltIntConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LFltIntPredicate before(@Nonnull LFltIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (float a1, int a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LFltIntPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (float a1, int a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

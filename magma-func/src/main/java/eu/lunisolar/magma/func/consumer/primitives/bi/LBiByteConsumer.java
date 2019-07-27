@@ -213,7 +213,7 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, byte a1, byte a2, LBiByteConsumer func) {
+	public static void fromTo(int min_i, int max_i, byte a1, byte a2, @Nonnull LBiByteConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, byte a1, byte a2, LBiByteConsumer func) {
+	public static void fromTill(int min_i, int max_i, byte a1, byte a2, @Nonnull LBiByteConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,47 +241,65 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, byte a1, byte a2, LBiByteConsumer func) {
+	public static void times(int max_i, byte a1, byte a2, @Nonnull LBiByteConsumer func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LByteConsumer lShrink(LByteUnaryOperator left) {
+	public default LByteConsumer lShrink(@Nonnull LByteUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsByte(a2), a2);
 	}
 
-	public default LByteConsumer lShrinkc(byte a1) {
+	public default LByteConsumer lShrink_(byte a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static LByteConsumer lShrinked(LByteUnaryOperator left, LBiByteConsumer func) {
+	public static LByteConsumer lShrunken(@Nonnull LByteUnaryOperator left, @Nonnull LBiByteConsumer func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LByteConsumer lShrinkedc(byte a1, LBiByteConsumer func) {
-		return func.lShrinkc(a1);
+	public static LByteConsumer lShrunken_(byte a1, @Nonnull LBiByteConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LByteConsumer rShrink(LByteUnaryOperator right) {
+	public default LByteConsumer rShrink(@Nonnull LByteUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsByte(a1));
 	}
 
-	public default LByteConsumer rShrinkc(byte a2) {
+	public default LByteConsumer rShrink_(byte a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static LByteConsumer rShrinked(LByteUnaryOperator right, LBiByteConsumer func) {
+	public static LByteConsumer rShrunken(@Nonnull LByteUnaryOperator right, @Nonnull LBiByteConsumer func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LByteConsumer rShrinkedc(byte a2, LBiByteConsumer func) {
-		return func.rShrinkc(a2);
+	public static LByteConsumer rShrunken_(byte a2, @Nonnull LBiByteConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LBiByteConsumer uncurry(LByteFunction<LByteConsumer> func) {
+	public static LBiByteConsumer uncurry(@Nonnull LByteFunction<LByteConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (byte a1, byte a2) -> func.apply(a1).accept(a2);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiByteConsumer before(@Nonnull LBiByteConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (byte a1, byte a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

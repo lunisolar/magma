@@ -221,7 +221,7 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, double a1, double a2, LBiDblFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, double a1, double a2, @Nonnull LBiDblFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, double a1, double a2, LBiDblFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, double a1, double a2, @Nonnull LBiDblFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,46 +249,55 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, double a1, double a2, LBiDblFunction<R> func) {
+	public static <R> void times(int max_i, double a1, double a2, @Nonnull LBiDblFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LDblFunction<R> lShrink(LDblUnaryOperator left) {
+	public default LDblFunction<R> lShrink(@Nonnull LDblUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsDbl(a2), a2);
 	}
 
-	public default LDblFunction<R> lShrinkc(double a1) {
+	public default LDblFunction<R> lShrink_(double a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R> LDblFunction<R> lShrinked(LDblUnaryOperator left, LBiDblFunction<R> func) {
+	public static <R> LDblFunction<R> lShrunken(@Nonnull LDblUnaryOperator left, @Nonnull LBiDblFunction<R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R> LDblFunction<R> lShrinkedc(double a1, LBiDblFunction<R> func) {
-		return func.lShrinkc(a1);
+	public static <R> LDblFunction<R> lShrunken_(double a1, @Nonnull LBiDblFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LDblFunction<R> rShrink(LDblUnaryOperator right) {
+	public default LDblFunction<R> rShrink(@Nonnull LDblUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsDbl(a1));
 	}
 
-	public default LDblFunction<R> rShrinkc(double a2) {
+	public default LDblFunction<R> rShrink_(double a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <R> LDblFunction<R> rShrinked(LDblUnaryOperator right, LBiDblFunction<R> func) {
+	public static <R> LDblFunction<R> rShrunken(@Nonnull LDblUnaryOperator right, @Nonnull LBiDblFunction<R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <R> LDblFunction<R> rShrinkedc(double a2, LBiDblFunction<R> func) {
-		return func.rShrinkc(a2);
+	public static <R> LDblFunction<R> rShrunken_(double a2, @Nonnull LBiDblFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <R> LBiDblFunction<R> uncurry(LDblFunction<LDblFunction<R>> func) {
+	public static <R> LBiDblFunction<R> uncurry(@Nonnull LDblFunction<LDblFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (double a1, double a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -310,6 +319,25 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Change function to consumer that ignores output. */
 	public default LBiDblConsumer toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiDblFunction<R> before(@Nonnull LBiDblConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (double a1, double a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiDblFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (double a1, double a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -343,7 +371,7 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LBiDblFunction<R> biDblFunc(Class<R> c1, final @Nonnull LBiDblFunction<R> lambda) {
+	static <R> LBiDblFunction<R> biDblFunc(@Nullable Class<R> c1, final @Nonnull LBiDblFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -484,25 +512,6 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default LBiDblConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LBiDblFunction<R> before(@Nonnull LBiDblConsumer before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LBiDblFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

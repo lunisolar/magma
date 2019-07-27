@@ -264,7 +264,8 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return LObjLongPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T a2, long a3, LBiObjLongConsumer<V, ? super T> consumer) {
+	public default <V> boolean doIf(V a1, T a2, long a3, @Nonnull LBiObjLongConsumer<V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -274,7 +275,7 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(long min_a2, long max_a2, T a1, LObjLongPredicate<T> func) {
+	public static <T> void fromTo(long min_a2, long max_a2, T a1, @Nonnull LObjLongPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (long a2 = min_a2; a2 <= max_a2; a2++) {
@@ -288,7 +289,7 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(long min_a2, long max_a2, T a1, LObjLongPredicate<T> func) {
+	public static <T> void fromTill(long min_a2, long max_a2, T a1, @Nonnull LObjLongPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (long a2 = min_a2; a2 < max_a2; a2++) {
@@ -302,14 +303,14 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(long max_a2, T a1, LObjLongPredicate<T> func) {
+	public static <T> void times(long max_a2, T a1, @Nonnull LObjLongPredicate<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, long a2, LObjLongPredicate<V> function) {
+	public static <M, K, V> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, long a2, @Nonnull LObjLongPredicate<V> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -321,40 +322,49 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return false;
 	}
 
-	public default LLongPredicate lShrink(LLongFunction<T> left) {
+	public default LLongPredicate lShrink(@Nonnull LLongFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.apply(a2), a2);
 	}
 
-	public default LLongPredicate lShrinkc(T a1) {
+	public default LLongPredicate lShrink_(T a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static <T> LLongPredicate lShrinked(LLongFunction<T> left, LObjLongPredicate<T> func) {
+	public static <T> LLongPredicate lShrunken(@Nonnull LLongFunction<T> left, @Nonnull LObjLongPredicate<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LLongPredicate lShrinkedc(T a1, LObjLongPredicate<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LLongPredicate lShrunken_(T a1, @Nonnull LObjLongPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LPredicate<T> rShrink(LToLongFunction<T> right) {
+	public default LPredicate<T> rShrink(@Nonnull LToLongFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsLong(a1));
 	}
 
-	public default LPredicate<T> rShrinkc(long a2) {
+	public default LPredicate<T> rShrink_(long a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static <T> LPredicate<T> rShrinked(LToLongFunction<T> right, LObjLongPredicate<T> func) {
+	public static <T> LPredicate<T> rShrunken(@Nonnull LToLongFunction<T> right, @Nonnull LObjLongPredicate<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LPredicate<T> rShrinkedc(long a2, LObjLongPredicate<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LPredicate<T> rShrunken_(long a2, @Nonnull LObjLongPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LObjLongPredicate<T> uncurry(LFunction<T, LLongPredicate> func) {
+	public static <T> LObjLongPredicate<T> uncurry(@Nonnull LFunction<T, LLongPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, long a2) -> func.apply(a1).test(a2);
 	}
 
@@ -376,6 +386,25 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	/** Change function to consumer that ignores output. */
 	public default LObjLongConsumer<T> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjLongPredicate<T> before(@Nonnull LObjLongConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, long a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjLongPredicate<T> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, long a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -409,7 +438,7 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjLongPredicate<T> objLongPred(Class<T> c1, final @Nonnull LObjLongPredicate<T> lambda) {
+	static <T> LObjLongPredicate<T> objLongPred(@Nullable Class<T> c1, final @Nonnull LObjLongPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

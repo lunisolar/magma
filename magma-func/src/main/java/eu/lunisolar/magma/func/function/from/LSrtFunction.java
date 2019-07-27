@@ -221,7 +221,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, short a, LSrtFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, short a, @Nonnull LSrtFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, short a, LSrtFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, short a, @Nonnull LSrtFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,7 +249,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, short a, LSrtFunction<R> func) {
+	public static <R> void times(int max_i, short a, @Nonnull LSrtFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -275,6 +275,25 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LSrtFunction<R> before(@Nonnull LSrtConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (short a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LSrtFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (short a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(short a) {
 		return () -> this.apply(a);
@@ -294,7 +313,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LSrtFunction<R> srtFunc(Class<R> c1, final @Nonnull LSrtFunction<R> lambda) {
+	static <R> LSrtFunction<R> srtFunc(@Nullable Class<R> c1, final @Nonnull LSrtFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -422,25 +441,6 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default LSrtConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LSrtFunction<R> before(@Nonnull LSrtConsumer before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LSrtFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

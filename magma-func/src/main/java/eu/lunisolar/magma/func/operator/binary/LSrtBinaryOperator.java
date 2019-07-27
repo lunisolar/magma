@@ -217,7 +217,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, short a1, short a2, LSrtBinaryOperator func) {
+	public static void fromTo(int min_i, int max_i, short a1, short a2, @Nonnull LSrtBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, short a1, short a2, LSrtBinaryOperator func) {
+	public static void fromTill(int min_i, int max_i, short a1, short a2, @Nonnull LSrtBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,52 +245,80 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, short a1, short a2, LSrtBinaryOperator func) {
+	public static void times(int max_i, short a1, short a2, @Nonnull LSrtBinaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LSrtUnaryOperator lShrink(LSrtUnaryOperator left) {
+	public default LSrtUnaryOperator lShrink(@Nonnull LSrtUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsSrt(left.applyAsSrt(a2), a2);
 	}
 
-	public default LSrtUnaryOperator lShrinkc(short a1) {
+	public default LSrtUnaryOperator lShrink_(short a1) {
 		return a2 -> applyAsSrt(a1, a2);
 	}
 
-	public static LSrtUnaryOperator lShrinked(LSrtUnaryOperator left, LSrtBinaryOperator func) {
+	public static LSrtUnaryOperator lShrunken(@Nonnull LSrtUnaryOperator left, @Nonnull LSrtBinaryOperator func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LSrtUnaryOperator lShrinkedc(short a1, LSrtBinaryOperator func) {
-		return func.lShrinkc(a1);
+	public static LSrtUnaryOperator lShrunken_(short a1, @Nonnull LSrtBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LSrtUnaryOperator rShrink(LSrtUnaryOperator right) {
+	public default LSrtUnaryOperator rShrink(@Nonnull LSrtUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsSrt(a1, right.applyAsSrt(a1));
 	}
 
-	public default LSrtUnaryOperator rShrinkc(short a2) {
+	public default LSrtUnaryOperator rShrink_(short a2) {
 		return a1 -> applyAsSrt(a1, a2);
 	}
 
-	public static LSrtUnaryOperator rShrinked(LSrtUnaryOperator right, LSrtBinaryOperator func) {
+	public static LSrtUnaryOperator rShrunken(@Nonnull LSrtUnaryOperator right, @Nonnull LSrtBinaryOperator func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LSrtUnaryOperator rShrinkedc(short a2, LSrtBinaryOperator func) {
-		return func.rShrinkc(a2);
+	public static LSrtUnaryOperator rShrunken_(short a2, @Nonnull LSrtBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LSrtBinaryOperator uncurry(LSrtFunction<LSrtUnaryOperator> func) {
+	public static LSrtBinaryOperator uncurry(@Nonnull LSrtFunction<LSrtUnaryOperator> func) {
+		Null.nonNullArg(func, "func");
 		return (short a1, short a2) -> func.apply(a1).applyAsSrt(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiSrtConsumer toConsumer() {
 		return this::applyAsSrt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LSrtBinaryOperator before(@Nonnull LBiSrtConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (short a1, short a2) -> {
+			before.accept(a1, a2);
+			return applyAsSrt(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LSrtBinaryOperator after(@Nonnull LSrtConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (short a1, short a2) -> {
+			final short retval = applyAsSrt(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

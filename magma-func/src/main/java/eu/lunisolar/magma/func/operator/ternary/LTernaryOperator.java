@@ -205,7 +205,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, T a2, T a3, LTernaryOperator<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -219,7 +219,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, T a2, T a3, LTernaryOperator<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -233,14 +233,14 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, T a2, T a3, LTernaryOperator<T> func) {
+	public static <T> void times(int max_i, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <T, M, K, V> T from(M container, LBiFunction<M, K, V> extractor, K key, T a2, T a3, LTriFunction<V, T, T, T> function) {
+	public static <T, M, K, V> T from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T a2, T a3, @Nonnull LTriFunction<V, T, T, T> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -252,40 +252,49 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return null;
 	}
 
-	public default LBinaryOperator<T> lShrink(LBinaryOperator<T> left) {
+	public default LBinaryOperator<T> lShrink(@Nonnull LBinaryOperator<T> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBinaryOperator<T> lShrinkc(T a1) {
+	public default LBinaryOperator<T> lShrink_(T a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
-	public static <T> LBinaryOperator<T> lShrinked(LBinaryOperator<T> left, LTernaryOperator<T> func) {
+	public static <T> LBinaryOperator<T> lShrunken(@Nonnull LBinaryOperator<T> left, @Nonnull LTernaryOperator<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LBinaryOperator<T> lShrinkedc(T a1, LTernaryOperator<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LBinaryOperator<T> lShrunken_(T a1, @Nonnull LTernaryOperator<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBinaryOperator<T> rShrink(LBinaryOperator<T> right) {
+	public default LBinaryOperator<T> rShrink(@Nonnull LBinaryOperator<T> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBinaryOperator<T> rShrinkc(T a3) {
+	public default LBinaryOperator<T> rShrink_(T a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
-	public static <T> LBinaryOperator<T> rShrinked(LBinaryOperator<T> right, LTernaryOperator<T> func) {
+	public static <T> LBinaryOperator<T> rShrunken(@Nonnull LBinaryOperator<T> right, @Nonnull LTernaryOperator<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LBinaryOperator<T> rShrinkedc(T a3, LTernaryOperator<T> func) {
-		return func.rShrinkc(a3);
+	public static <T> LBinaryOperator<T> rShrunken_(T a3, @Nonnull LTernaryOperator<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T> LTernaryOperator<T> uncurry(LFunction<T, LFunction<T, LUnaryOperator<T>>> func) {
+	public static <T> LTernaryOperator<T> uncurry(@Nonnull LFunction<T, LFunction<T, LUnaryOperator<T>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, T a2, T a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
@@ -307,6 +316,25 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	/** Change function to consumer that ignores output. */
 	public default LTriConsumer<T, T, T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTernaryOperator<T> before(@Nonnull LTriConsumer<T, T, T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, T a2, T a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LTernaryOperator<T> after(@Nonnull LConsumer<T> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, T a2, T a3) -> {
+			final T retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -346,7 +374,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LTernaryOperator<T> ternaryOp(Class<T> c1, final @Nonnull LTernaryOperator<T> lambda) {
+	static <T> LTernaryOperator<T> ternaryOp(@Nullable Class<T> c1, final @Nonnull LTernaryOperator<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

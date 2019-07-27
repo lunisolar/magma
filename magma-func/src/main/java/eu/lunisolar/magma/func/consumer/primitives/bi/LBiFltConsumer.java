@@ -213,7 +213,7 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, float a1, float a2, LBiFltConsumer func) {
+	public static void fromTo(int min_i, int max_i, float a1, float a2, @Nonnull LBiFltConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, float a1, float a2, LBiFltConsumer func) {
+	public static void fromTill(int min_i, int max_i, float a1, float a2, @Nonnull LBiFltConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,47 +241,65 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, float a1, float a2, LBiFltConsumer func) {
+	public static void times(int max_i, float a1, float a2, @Nonnull LBiFltConsumer func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltConsumer lShrink(LFltUnaryOperator left) {
+	public default LFltConsumer lShrink(@Nonnull LFltUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsFlt(a2), a2);
 	}
 
-	public default LFltConsumer lShrinkc(float a1) {
+	public default LFltConsumer lShrink_(float a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static LFltConsumer lShrinked(LFltUnaryOperator left, LBiFltConsumer func) {
+	public static LFltConsumer lShrunken(@Nonnull LFltUnaryOperator left, @Nonnull LBiFltConsumer func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LFltConsumer lShrinkedc(float a1, LBiFltConsumer func) {
-		return func.lShrinkc(a1);
+	public static LFltConsumer lShrunken_(float a1, @Nonnull LBiFltConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFltConsumer rShrink(LFltUnaryOperator right) {
+	public default LFltConsumer rShrink(@Nonnull LFltUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsFlt(a1));
 	}
 
-	public default LFltConsumer rShrinkc(float a2) {
+	public default LFltConsumer rShrink_(float a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static LFltConsumer rShrinked(LFltUnaryOperator right, LBiFltConsumer func) {
+	public static LFltConsumer rShrunken(@Nonnull LFltUnaryOperator right, @Nonnull LBiFltConsumer func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LFltConsumer rShrinkedc(float a2, LBiFltConsumer func) {
-		return func.rShrinkc(a2);
+	public static LFltConsumer rShrunken_(float a2, @Nonnull LBiFltConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LBiFltConsumer uncurry(LFltFunction<LFltConsumer> func) {
+	public static LBiFltConsumer uncurry(@Nonnull LFltFunction<LFltConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (float a1, float a2) -> func.apply(a1).accept(a2);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiFltConsumer before(@Nonnull LBiFltConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (float a1, float a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

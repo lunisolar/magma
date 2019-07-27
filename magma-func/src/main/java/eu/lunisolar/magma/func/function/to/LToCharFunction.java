@@ -219,7 +219,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LToCharFunction<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LToCharFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -233,7 +233,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LToCharFunction<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LToCharFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -247,14 +247,14 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LToCharFunction<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LToCharFunction<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> char from(M container, LBiFunction<M, K, V> extractor, K key, LToCharFunction<V> function, char orElse) {
+	public static <M, K, V> char from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LToCharFunction<V> function, char orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -286,6 +286,25 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return this::applyAsChar;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LToCharFunction<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return applyAsChar(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LToCharFunction<T> after(@Nonnull LCharConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final char retval = applyAsChar(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(T a) {
 		return () -> this.applyAsChar(a);
@@ -305,7 +324,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LToCharFunction<T> toCharFunc(Class<T> c1, final @Nonnull LToCharFunction<T> lambda) {
+	static <T> LToCharFunction<T> toCharFunc(@Nullable Class<T> c1, final @Nonnull LToCharFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

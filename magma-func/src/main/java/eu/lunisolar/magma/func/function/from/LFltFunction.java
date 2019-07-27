@@ -221,7 +221,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, float a, LFltFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, float a, @Nonnull LFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, float a, LFltFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, float a, @Nonnull LFltFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,7 +249,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, float a, LFltFunction<R> func) {
+	public static <R> void times(int max_i, float a, @Nonnull LFltFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -275,6 +275,25 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LFltFunction<R> before(@Nonnull LFltConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (float a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LFltFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (float a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(float a) {
 		return () -> this.apply(a);
@@ -294,7 +313,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LFltFunction<R> fltFunc(Class<R> c1, final @Nonnull LFltFunction<R> lambda) {
+	static <R> LFltFunction<R> fltFunc(@Nullable Class<R> c1, final @Nonnull LFltFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -422,25 +441,6 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default LFltConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LFltFunction<R> before(@Nonnull LFltConsumer before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LFltFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

@@ -264,7 +264,8 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return LDblIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, double a3, LTieDblConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, double a3, @Nonnull LTieDblConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -273,7 +274,8 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, double a3, LTieDblFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, double a3, @Nonnull LTieDblFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -282,7 +284,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a2, int max_a2, double a1, LDblIntPredicate func) {
+	public static void fromTo(int min_a2, int max_a2, double a1, @Nonnull LDblIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -296,7 +298,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a2, int max_a2, double a1, LDblIntPredicate func) {
+	public static void fromTill(int min_a2, int max_a2, double a1, @Nonnull LDblIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -310,52 +312,80 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a2, double a1, LDblIntPredicate func) {
+	public static void times(int max_a2, double a1, @Nonnull LDblIntPredicate func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntPredicate lShrink(LIntToDblFunction left) {
+	public default LIntPredicate lShrink(@Nonnull LIntToDblFunction left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsDbl(a2), a2);
 	}
 
-	public default LIntPredicate lShrinkc(double a1) {
+	public default LIntPredicate lShrink_(double a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LIntPredicate lShrinked(LIntToDblFunction left, LDblIntPredicate func) {
+	public static LIntPredicate lShrunken(@Nonnull LIntToDblFunction left, @Nonnull LDblIntPredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntPredicate lShrinkedc(double a1, LDblIntPredicate func) {
-		return func.lShrinkc(a1);
+	public static LIntPredicate lShrunken_(double a1, @Nonnull LDblIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LDblPredicate rShrink(LDblToIntFunction right) {
+	public default LDblPredicate rShrink(@Nonnull LDblToIntFunction right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LDblPredicate rShrinkc(int a2) {
+	public default LDblPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LDblPredicate rShrinked(LDblToIntFunction right, LDblIntPredicate func) {
+	public static LDblPredicate rShrunken(@Nonnull LDblToIntFunction right, @Nonnull LDblIntPredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LDblPredicate rShrinkedc(int a2, LDblIntPredicate func) {
-		return func.rShrinkc(a2);
+	public static LDblPredicate rShrunken_(int a2, @Nonnull LDblIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LDblIntPredicate uncurry(LDblFunction<LIntPredicate> func) {
+	public static LDblIntPredicate uncurry(@Nonnull LDblFunction<LIntPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (double a1, int a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LDblIntConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LDblIntPredicate before(@Nonnull LDblIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (double a1, int a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LDblIntPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (double a1, int a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

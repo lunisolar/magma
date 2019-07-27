@@ -264,7 +264,8 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return LLongIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, long a3, LTieLongConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, long a3, @Nonnull LTieLongConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -273,7 +274,8 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, long a3, LTieLongFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, long a3, @Nonnull LTieLongFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -282,7 +284,7 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, long a1, int a2, LLongIntPredicate func) {
+	public static void fromTo(int min_i, int max_i, long a1, int a2, @Nonnull LLongIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -296,7 +298,7 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, long a1, int a2, LLongIntPredicate func) {
+	public static void fromTill(int min_i, int max_i, long a1, int a2, @Nonnull LLongIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -310,52 +312,80 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, long a1, int a2, LLongIntPredicate func) {
+	public static void times(int max_i, long a1, int a2, @Nonnull LLongIntPredicate func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LIntPredicate lShrink(LIntToLongFunction left) {
+	public default LIntPredicate lShrink(@Nonnull LIntToLongFunction left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsLong(a2), a2);
 	}
 
-	public default LIntPredicate lShrinkc(long a1) {
+	public default LIntPredicate lShrink_(long a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LIntPredicate lShrinked(LIntToLongFunction left, LLongIntPredicate func) {
+	public static LIntPredicate lShrunken(@Nonnull LIntToLongFunction left, @Nonnull LLongIntPredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntPredicate lShrinkedc(long a1, LLongIntPredicate func) {
-		return func.lShrinkc(a1);
+	public static LIntPredicate lShrunken_(long a1, @Nonnull LLongIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LLongPredicate rShrink(LLongToIntFunction right) {
+	public default LLongPredicate rShrink(@Nonnull LLongToIntFunction right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LLongPredicate rShrinkc(int a2) {
+	public default LLongPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LLongPredicate rShrinked(LLongToIntFunction right, LLongIntPredicate func) {
+	public static LLongPredicate rShrunken(@Nonnull LLongToIntFunction right, @Nonnull LLongIntPredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LLongPredicate rShrinkedc(int a2, LLongIntPredicate func) {
-		return func.rShrinkc(a2);
+	public static LLongPredicate rShrunken_(int a2, @Nonnull LLongIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LLongIntPredicate uncurry(LLongFunction<LIntPredicate> func) {
+	public static LLongIntPredicate uncurry(@Nonnull LLongFunction<LIntPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (long a1, int a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LLongIntConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLongIntPredicate before(@Nonnull LLongIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (long a1, int a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLongIntPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (long a1, int a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

@@ -215,7 +215,7 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, LCharSupplier func) {
+	public static void fromTo(int min_i, int max_i, @Nonnull LCharSupplier func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -229,7 +229,7 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, LCharSupplier func) {
+	public static void fromTill(int min_i, int max_i, @Nonnull LCharSupplier func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -243,7 +243,7 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, LCharSupplier func) {
+	public static void times(int max_i, @Nonnull LCharSupplier func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, func);
@@ -252,6 +252,16 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	/** Change function to consumer that ignores output. */
 	public default LAction toConsumer() {
 		return this::getAsChar;
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LCharSupplier after(@Nonnull LCharConsumer after) {
+		Null.nonNullArg(after, "after");
+		return () -> {
+			final char retval = getAsChar();
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Creates function that always returns the same value. */

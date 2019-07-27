@@ -213,7 +213,7 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, boolean a1, boolean a2, boolean a3, LTriBoolConsumer func) {
+	public static void fromTo(int min_i, int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, boolean a1, boolean a2, boolean a3, LTriBoolConsumer func) {
+	public static void fromTill(int min_i, int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,47 +241,65 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, boolean a1, boolean a2, boolean a3, LTriBoolConsumer func) {
+	public static void times(int max_i, boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolConsumer func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiBoolConsumer lShrink(LLogicalBinaryOperator left) {
+	public default LBiBoolConsumer lShrink(@Nonnull LLogicalBinaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiBoolConsumer lShrinkc(boolean a1) {
+	public default LBiBoolConsumer lShrink_(boolean a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
-	public static LBiBoolConsumer lShrinked(LLogicalBinaryOperator left, LTriBoolConsumer func) {
+	public static LBiBoolConsumer lShrunken(@Nonnull LLogicalBinaryOperator left, @Nonnull LTriBoolConsumer func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LBiBoolConsumer lShrinkedc(boolean a1, LTriBoolConsumer func) {
-		return func.lShrinkc(a1);
+	public static LBiBoolConsumer lShrunken_(boolean a1, @Nonnull LTriBoolConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBiBoolConsumer rShrink(LLogicalBinaryOperator right) {
+	public default LBiBoolConsumer rShrink(@Nonnull LLogicalBinaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBiBoolConsumer rShrinkc(boolean a3) {
+	public default LBiBoolConsumer rShrink_(boolean a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
-	public static LBiBoolConsumer rShrinked(LLogicalBinaryOperator right, LTriBoolConsumer func) {
+	public static LBiBoolConsumer rShrunken(@Nonnull LLogicalBinaryOperator right, @Nonnull LTriBoolConsumer func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LBiBoolConsumer rShrinkedc(boolean a3, LTriBoolConsumer func) {
-		return func.rShrinkc(a3);
+	public static LBiBoolConsumer rShrunken_(boolean a3, @Nonnull LTriBoolConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static LTriBoolConsumer uncurry(LBoolFunction<LBoolFunction<LBoolConsumer>> func) {
+	public static LTriBoolConsumer uncurry(@Nonnull LBoolFunction<LBoolFunction<LBoolConsumer>> func) {
+		Null.nonNullArg(func, "func");
 		return (boolean a1, boolean a2, boolean a3) -> func.apply(a1).apply(a2).accept(a3);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTriBoolConsumer before(@Nonnull LTriBoolConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (boolean a1, boolean a2, boolean a3) -> {
+			before.accept(a1, a2, a3);
+			accept(a1, a2, a3);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

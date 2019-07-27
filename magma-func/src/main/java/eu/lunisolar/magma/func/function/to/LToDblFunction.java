@@ -229,7 +229,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LToDblFunction<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LToDblFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -243,7 +243,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LToDblFunction<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LToDblFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -257,14 +257,14 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LToDblFunction<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LToDblFunction<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> double from(M container, LBiFunction<M, K, V> extractor, K key, LToDblFunction<V> function, double orElse) {
+	public static <M, K, V> double from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LToDblFunction<V> function, double orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -296,6 +296,25 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return this::applyAsDbl;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LToDblFunction<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return applyAsDbl(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LToDblFunction<T> after(@Nonnull LDblConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final double retval = applyAsDbl(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LDblSupplier capture(T a) {
 		return () -> this.applyAsDbl(a);
@@ -315,7 +334,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LToDblFunction<T> toDblFunc(Class<T> c1, final @Nonnull LToDblFunction<T> lambda) {
+	static <T> LToDblFunction<T> toDblFunc(@Nullable Class<T> c1, final @Nonnull LToDblFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

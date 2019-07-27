@@ -213,7 +213,7 @@ public interface LBiObjSrtConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, short a3, LBiObjSrtConsumer<T1, T2> func) {
+	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtConsumer<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LBiObjSrtConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, short a3, LBiObjSrtConsumer<T1, T2> func) {
+	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtConsumer<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,46 +241,55 @@ public interface LBiObjSrtConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, short a3, LBiObjSrtConsumer<T1, T2> func) {
+	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtConsumer<T1, T2> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LObjSrtConsumer<T2> lShrink(LObjSrtFunction<T2, T1> left) {
+	public default LObjSrtConsumer<T2> lShrink(@Nonnull LObjSrtFunction<T2, T1> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LObjSrtConsumer<T2> lShrinkc(T1 a1) {
+	public default LObjSrtConsumer<T2> lShrink_(T1 a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
-	public static <T2, T1> LObjSrtConsumer<T2> lShrinked(LObjSrtFunction<T2, T1> left, LBiObjSrtConsumer<T1, T2> func) {
+	public static <T2, T1> LObjSrtConsumer<T2> lShrunken(@Nonnull LObjSrtFunction<T2, T1> left, @Nonnull LBiObjSrtConsumer<T1, T2> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, T1> LObjSrtConsumer<T2> lShrinkedc(T1 a1, LBiObjSrtConsumer<T1, T2> func) {
-		return func.lShrinkc(a1);
+	public static <T2, T1> LObjSrtConsumer<T2> lShrunken_(T1 a1, @Nonnull LBiObjSrtConsumer<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBiConsumer<T1, T2> rShrink(LToSrtBiFunction<T1, T2> right) {
+	public default LBiConsumer<T1, T2> rShrink(@Nonnull LToSrtBiFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsSrt(a1, a2));
 	}
 
-	public default LBiConsumer<T1, T2> rShrinkc(short a3) {
+	public default LBiConsumer<T1, T2> rShrink_(short a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiConsumer<T1, T2> rShrinked(LToSrtBiFunction<T1, T2> right, LBiObjSrtConsumer<T1, T2> func) {
+	public static <T1, T2> LBiConsumer<T1, T2> rShrunken(@Nonnull LToSrtBiFunction<T1, T2> right, @Nonnull LBiObjSrtConsumer<T1, T2> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, T2> LBiConsumer<T1, T2> rShrinkedc(short a3, LBiObjSrtConsumer<T1, T2> func) {
-		return func.rShrinkc(a3);
+	public static <T1, T2> LBiConsumer<T1, T2> rShrunken_(short a3, @Nonnull LBiObjSrtConsumer<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T1, T2> LBiObjSrtConsumer<T1, T2> uncurry(LFunction<T1, LFunction<T2, LSrtConsumer>> func) {
+	public static <T1, T2> LBiObjSrtConsumer<T1, T2> uncurry(@Nonnull LFunction<T1, LFunction<T2, LSrtConsumer>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2, short a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
@@ -297,6 +306,15 @@ public interface LBiObjSrtConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	/** Cast that replace generics. */
 	public static <V2, V3, T1, T2> LBiObjSrtConsumer<V2, V3> cast(LBiObjSrtConsumer<T1, T2> function) {
 		return (LBiObjSrtConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiObjSrtConsumer<T1, T2> before(@Nonnull LBiObjSrtConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2, short a3) -> {
+			before.accept(a1, a2, a3);
+			accept(a1, a2, a3);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -331,7 +349,7 @@ public interface LBiObjSrtConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2> LBiObjSrtConsumer<T1, T2> biObjSrtCons(Class<T1> c1, Class<T2> c2, final @Nonnull LBiObjSrtConsumer<T1, T2> lambda) {
+	static <T1, T2> LBiObjSrtConsumer<T1, T2> biObjSrtCons(@Nullable Class<T1> c1, @Nullable Class<T2> c2, final @Nonnull LBiObjSrtConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

@@ -221,7 +221,7 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void fromTo(int min_i, int max_i, T1 a1, T2 a2, short a3, LBiObjSrtFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void fromTo(int min_i, int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void fromTill(int min_i, int max_i, T1 a1, T2 a2, short a3, LBiObjSrtFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void fromTill(int min_i, int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,14 +249,14 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void times(int max_i, T1 a1, T2 a2, short a3, LBiObjSrtFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void times(int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtFunction<T1, T2, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V, T2> R from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, short a3, LBiObjSrtFunction<V, T2, R> function) {
+	public static <R, M, K, V, T2> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, short a3, @Nonnull LBiObjSrtFunction<V, T2, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -268,40 +268,49 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		return null;
 	}
 
-	public default LObjSrtFunction<T2, R> lShrink(LObjSrtFunction<T2, T1> left) {
+	public default LObjSrtFunction<T2, R> lShrink(@Nonnull LObjSrtFunction<T2, T1> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LObjSrtFunction<T2, R> lShrinkc(T1 a1) {
+	public default LObjSrtFunction<T2, R> lShrink_(T1 a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
-	public static <T2, R, T1> LObjSrtFunction<T2, R> lShrinked(LObjSrtFunction<T2, T1> left, LBiObjSrtFunction<T1, T2, R> func) {
+	public static <T2, R, T1> LObjSrtFunction<T2, R> lShrunken(@Nonnull LObjSrtFunction<T2, T1> left, @Nonnull LBiObjSrtFunction<T1, T2, R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, R, T1> LObjSrtFunction<T2, R> lShrinkedc(T1 a1, LBiObjSrtFunction<T1, T2, R> func) {
-		return func.lShrinkc(a1);
+	public static <T2, R, T1> LObjSrtFunction<T2, R> lShrunken_(T1 a1, @Nonnull LBiObjSrtFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBiFunction<T1, T2, R> rShrink(LToSrtBiFunction<T1, T2> right) {
+	public default LBiFunction<T1, T2, R> rShrink(@Nonnull LToSrtBiFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.applyAsSrt(a1, a2));
 	}
 
-	public default LBiFunction<T1, T2, R> rShrinkc(short a3) {
+	public default LBiFunction<T1, T2, R> rShrink_(short a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
-	public static <T1, T2, R> LBiFunction<T1, T2, R> rShrinked(LToSrtBiFunction<T1, T2> right, LBiObjSrtFunction<T1, T2, R> func) {
+	public static <T1, T2, R> LBiFunction<T1, T2, R> rShrunken(@Nonnull LToSrtBiFunction<T1, T2> right, @Nonnull LBiObjSrtFunction<T1, T2, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, T2, R> LBiFunction<T1, T2, R> rShrinkedc(short a3, LBiObjSrtFunction<T1, T2, R> func) {
-		return func.rShrinkc(a3);
+	public static <T1, T2, R> LBiFunction<T1, T2, R> rShrunken_(short a3, @Nonnull LBiObjSrtFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T1, T2, R> LBiObjSrtFunction<T1, T2, R> uncurry(LFunction<T1, LFunction<T2, LSrtFunction<R>>> func) {
+	public static <T1, T2, R> LBiObjSrtFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, LSrtFunction<R>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2, short a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
@@ -323,6 +332,25 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	/** Change function to consumer that ignores output. */
 	public default LBiObjSrtConsumer<T1, T2> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiObjSrtFunction<T1, T2, R> before(@Nonnull LBiObjSrtConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2, short a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiObjSrtFunction<T1, T2, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, T2 a2, short a3) -> {
+			final R retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -362,7 +390,7 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2, R> LBiObjSrtFunction<T1, T2, R> biObjSrtFunc(Class<T1> c1, Class<T2> c2, Class<R> c3, final @Nonnull LBiObjSrtFunction<T1, T2, R> lambda) {
+	static <T1, T2, R> LBiObjSrtFunction<T1, T2, R> biObjSrtFunc(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<R> c3, final @Nonnull LBiObjSrtFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -535,25 +563,6 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	default LBiObjSrtConsumer<T1, T2> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.accept(this.apply(a1, a2, a3));
-	}
-
-	@Nonnull
-	default LBiObjSrtFunction<T1, T2, R> before(@Nonnull LBiObjSrtConsumer<? super T1, ? super T2> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2, a3) -> {
-			before.accept(a1, a2, a3);
-			return this.apply(a1, a2, a3);
-		};
-	}
-
-	@Nonnull
-	default LBiObjSrtFunction<T1, T2, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> {
-			R result = this.apply(a1, a2, a3);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

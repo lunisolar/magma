@@ -221,7 +221,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, double a, LDblFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, double a, @Nonnull LDblFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, double a, LDblFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, double a, @Nonnull LDblFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,7 +249,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, double a, LDblFunction<R> func) {
+	public static <R> void times(int max_i, double a, @Nonnull LDblFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -275,6 +275,25 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LDblFunction<R> before(@Nonnull LDblConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (double a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LDblFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (double a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(double a) {
 		return () -> this.apply(a);
@@ -294,7 +313,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LDblFunction<R> dblFunc(Class<R> c1, final @Nonnull LDblFunction<R> lambda) {
+	static <R> LDblFunction<R> dblFunc(@Nullable Class<R> c1, final @Nonnull LDblFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -427,25 +446,6 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	default LDblConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LDblFunction<R> before(@Nonnull LDblConsumer before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LDblFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

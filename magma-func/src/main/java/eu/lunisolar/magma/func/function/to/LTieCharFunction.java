@@ -219,7 +219,7 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, char a3, LTieCharFunction<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, char a3, @Nonnull LTieCharFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -233,7 +233,7 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, char a3, LTieCharFunction<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, char a3, @Nonnull LTieCharFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -247,14 +247,14 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, char a3, LTieCharFunction<T> func) {
+	public static <T> void times(int max_a2, T a1, char a3, @Nonnull LTieCharFunction<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> int from(M container, LBiFunction<M, K, V> extractor, K key, int a2, char a3, LTieCharFunction<V> function, int orElse) {
+	public static <M, K, V> int from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, char a3, @Nonnull LTieCharFunction<V> function, int orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -267,7 +267,8 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/**  */
-	public static <T> LTieCharFunction<T> uncurry(LFunction<T, LIntFunction<LCharToIntFunction>> func) {
+	public static <T> LTieCharFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LCharToIntFunction>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, char a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
@@ -289,6 +290,25 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** Change function to consumer that ignores output. */
 	public default LTieCharConsumer<T> toConsumer() {
 		return this::applyAsInt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTieCharFunction<T> before(@Nonnull LTieCharConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, char a3) -> {
+			before.accept(a1, a2, a3);
+			return applyAsInt(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LTieCharFunction<T> after(@Nonnull LIntConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, char a3) -> {
+			final int retval = applyAsInt(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -328,7 +348,7 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LTieCharFunction<T> tieCharFunc(Class<T> c1, final @Nonnull LTieCharFunction<T> lambda) {
+	static <T> LTieCharFunction<T> tieCharFunc(@Nullable Class<T> c1, final @Nonnull LTieCharFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

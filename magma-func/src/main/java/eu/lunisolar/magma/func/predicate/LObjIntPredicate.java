@@ -266,7 +266,8 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return LObjIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T a2, int a3, LBiObjIntConsumer<V, ? super T> consumer) {
+	public default <V> boolean doIf(V a1, T a2, int a3, @Nonnull LBiObjIntConsumer<V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -275,7 +276,8 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, T a3, LTieConsumer<? super V, ? super T> consumer) {
+	public default <V> boolean doIf(V a1, int a2, T a3, @Nonnull LTieConsumer<? super V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -284,7 +286,8 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, T a3, LTieFunction<? super V, ? super T> consumer) {
+	public default <V> int doIf(V a1, int a2, T a3, @Nonnull LTieFunction<? super V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -293,7 +296,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, LObjIntPredicate<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, @Nonnull LObjIntPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -307,7 +310,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, LObjIntPredicate<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, @Nonnull LObjIntPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -321,14 +324,14 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, LObjIntPredicate<T> func) {
+	public static <T> void times(int max_a2, T a1, @Nonnull LObjIntPredicate<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LObjIntPredicate<V> function) {
+	public static <M, K, V> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, @Nonnull LObjIntPredicate<V> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -340,40 +343,49 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return false;
 	}
 
-	public default LIntPredicate lShrink(LIntFunction<T> left) {
+	public default LIntPredicate lShrink(@Nonnull LIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.apply(a2), a2);
 	}
 
-	public default LIntPredicate lShrinkc(T a1) {
+	public default LIntPredicate lShrink_(T a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static <T> LIntPredicate lShrinked(LIntFunction<T> left, LObjIntPredicate<T> func) {
+	public static <T> LIntPredicate lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LObjIntPredicate<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LIntPredicate lShrinkedc(T a1, LObjIntPredicate<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LIntPredicate lShrunken_(T a1, @Nonnull LObjIntPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LPredicate<T> rShrink(LToIntFunction<T> right) {
+	public default LPredicate<T> rShrink(@Nonnull LToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LPredicate<T> rShrinkc(int a2) {
+	public default LPredicate<T> rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static <T> LPredicate<T> rShrinked(LToIntFunction<T> right, LObjIntPredicate<T> func) {
+	public static <T> LPredicate<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LObjIntPredicate<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LPredicate<T> rShrinkedc(int a2, LObjIntPredicate<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LPredicate<T> rShrunken_(int a2, @Nonnull LObjIntPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LObjIntPredicate<T> uncurry(LFunction<T, LIntPredicate> func) {
+	public static <T> LObjIntPredicate<T> uncurry(@Nonnull LFunction<T, LIntPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2) -> func.apply(a1).test(a2);
 	}
 
@@ -395,6 +407,25 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	/** Change function to consumer that ignores output. */
 	public default LObjIntConsumer<T> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjIntPredicate<T> before(@Nonnull LObjIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjIntPredicate<T> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -428,7 +459,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjIntPredicate<T> objIntPred(Class<T> c1, final @Nonnull LObjIntPredicate<T> lambda) {
+	static <T> LObjIntPredicate<T> objIntPred(@Nullable Class<T> c1, final @Nonnull LObjIntPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

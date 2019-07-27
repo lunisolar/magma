@@ -219,7 +219,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LToFltFunction<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LToFltFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -233,7 +233,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LToFltFunction<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LToFltFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -247,14 +247,14 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LToFltFunction<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LToFltFunction<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> float from(M container, LBiFunction<M, K, V> extractor, K key, LToFltFunction<V> function, float orElse) {
+	public static <M, K, V> float from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LToFltFunction<V> function, float orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -286,6 +286,25 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return this::applyAsFlt;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LToFltFunction<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return applyAsFlt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LToFltFunction<T> after(@Nonnull LFltConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final float retval = applyAsFlt(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(T a) {
 		return () -> this.applyAsFlt(a);
@@ -305,7 +324,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LToFltFunction<T> toFltFunc(Class<T> c1, final @Nonnull LToFltFunction<T> lambda) {
+	static <T> LToFltFunction<T> toFltFunc(@Nullable Class<T> c1, final @Nonnull LToFltFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

@@ -217,7 +217,7 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(long min_a, long max_a, LLongToFltFunction func) {
+	public static void fromTo(long min_a, long max_a, @Nonnull LLongToFltFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a <= max_a; a++) {
@@ -231,7 +231,7 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(long min_a, long max_a, LLongToFltFunction func) {
+	public static void fromTill(long min_a, long max_a, @Nonnull LLongToFltFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a < max_a; a++) {
@@ -245,7 +245,7 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(long max_a, LLongToFltFunction func) {
+	public static void times(long max_a, @Nonnull LLongToFltFunction func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -254,6 +254,25 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	/** Change function to consumer that ignores output. */
 	public default LLongConsumer toConsumer() {
 		return this::applyAsFlt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLongToFltFunction before(@Nonnull LLongConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (long a) -> {
+			before.accept(a);
+			return applyAsFlt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLongToFltFunction after(@Nonnull LFltConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (long a) -> {
+			final float retval = applyAsFlt(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

@@ -265,7 +265,7 @@ public interface LBiObjSrtPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, short a3, LBiObjSrtPredicate<T1, T2> func) {
+	public static <T1, T2> void fromTo(int min_i, int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtPredicate<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -279,7 +279,7 @@ public interface LBiObjSrtPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, short a3, LBiObjSrtPredicate<T1, T2> func) {
+	public static <T1, T2> void fromTill(int min_i, int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtPredicate<T1, T2> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -293,14 +293,14 @@ public interface LBiObjSrtPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, short a3, LBiObjSrtPredicate<T1, T2> func) {
+	public static <T1, T2> void times(int max_i, T1 a1, T2 a2, short a3, @Nonnull LBiObjSrtPredicate<T1, T2> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V, T2> boolean from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, short a3, LBiObjSrtPredicate<V, T2> function) {
+	public static <M, K, V, T2> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, short a3, @Nonnull LBiObjSrtPredicate<V, T2> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -312,40 +312,49 @@ public interface LBiObjSrtPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return false;
 	}
 
-	public default LObjSrtPredicate<T2> lShrink(LObjSrtFunction<T2, T1> left) {
+	public default LObjSrtPredicate<T2> lShrink(@Nonnull LObjSrtFunction<T2, T1> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LObjSrtPredicate<T2> lShrinkc(T1 a1) {
+	public default LObjSrtPredicate<T2> lShrink_(T1 a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
-	public static <T2, T1> LObjSrtPredicate<T2> lShrinked(LObjSrtFunction<T2, T1> left, LBiObjSrtPredicate<T1, T2> func) {
+	public static <T2, T1> LObjSrtPredicate<T2> lShrunken(@Nonnull LObjSrtFunction<T2, T1> left, @Nonnull LBiObjSrtPredicate<T1, T2> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, T1> LObjSrtPredicate<T2> lShrinkedc(T1 a1, LBiObjSrtPredicate<T1, T2> func) {
-		return func.lShrinkc(a1);
+	public static <T2, T1> LObjSrtPredicate<T2> lShrunken_(T1 a1, @Nonnull LBiObjSrtPredicate<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBiPredicate<T1, T2> rShrink(LToSrtBiFunction<T1, T2> right) {
+	public default LBiPredicate<T1, T2> rShrink(@Nonnull LToSrtBiFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsSrt(a1, a2));
 	}
 
-	public default LBiPredicate<T1, T2> rShrinkc(short a3) {
+	public default LBiPredicate<T1, T2> rShrink_(short a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
-	public static <T1, T2> LBiPredicate<T1, T2> rShrinked(LToSrtBiFunction<T1, T2> right, LBiObjSrtPredicate<T1, T2> func) {
+	public static <T1, T2> LBiPredicate<T1, T2> rShrunken(@Nonnull LToSrtBiFunction<T1, T2> right, @Nonnull LBiObjSrtPredicate<T1, T2> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, T2> LBiPredicate<T1, T2> rShrinkedc(short a3, LBiObjSrtPredicate<T1, T2> func) {
-		return func.rShrinkc(a3);
+	public static <T1, T2> LBiPredicate<T1, T2> rShrunken_(short a3, @Nonnull LBiObjSrtPredicate<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T1, T2> LBiObjSrtPredicate<T1, T2> uncurry(LFunction<T1, LFunction<T2, LSrtPredicate>> func) {
+	public static <T1, T2> LBiObjSrtPredicate<T1, T2> uncurry(@Nonnull LFunction<T1, LFunction<T2, LSrtPredicate>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2, short a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
@@ -367,6 +376,25 @@ public interface LBiObjSrtPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	/** Change function to consumer that ignores output. */
 	public default LBiObjSrtConsumer<T1, T2> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiObjSrtPredicate<T1, T2> before(@Nonnull LBiObjSrtConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2, short a3) -> {
+			before.accept(a1, a2, a3);
+			return test(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiObjSrtPredicate<T1, T2> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, T2 a2, short a3) -> {
+			final boolean retval = test(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -406,7 +434,7 @@ public interface LBiObjSrtPredicate<T1, T2> extends MetaPredicate, MetaInterface
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2> LBiObjSrtPredicate<T1, T2> biObjSrtPred(Class<T1> c1, Class<T2> c2, final @Nonnull LBiObjSrtPredicate<T1, T2> lambda) {
+	static <T1, T2> LBiObjSrtPredicate<T1, T2> biObjSrtPred(@Nullable Class<T1> c1, @Nullable Class<T2> c2, final @Nonnull LBiObjSrtPredicate<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

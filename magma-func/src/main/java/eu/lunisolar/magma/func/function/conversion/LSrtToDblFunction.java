@@ -217,7 +217,7 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, short a, LSrtToDblFunction func) {
+	public static void fromTo(int min_i, int max_i, short a, @Nonnull LSrtToDblFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, short a, LSrtToDblFunction func) {
+	public static void fromTill(int min_i, int max_i, short a, @Nonnull LSrtToDblFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,7 +245,7 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, short a, LSrtToDblFunction func) {
+	public static void times(int max_i, short a, @Nonnull LSrtToDblFunction func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -254,6 +254,25 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** Change function to consumer that ignores output. */
 	public default LSrtConsumer toConsumer() {
 		return this::applyAsDbl;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LSrtToDblFunction before(@Nonnull LSrtConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (short a) -> {
+			before.accept(a);
+			return applyAsDbl(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LSrtToDblFunction after(@Nonnull LDblConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (short a) -> {
+			final double retval = applyAsDbl(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

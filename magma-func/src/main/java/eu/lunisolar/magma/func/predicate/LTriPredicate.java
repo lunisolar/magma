@@ -265,7 +265,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, T3> void fromTo(int min_i, int max_i, T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> func) {
+	public static <T1, T2, T3> void fromTo(int min_i, int max_i, T1 a1, T2 a2, T3 a3, @Nonnull LTriPredicate<T1, T2, T3> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -279,7 +279,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, T3> void fromTill(int min_i, int max_i, T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> func) {
+	public static <T1, T2, T3> void fromTill(int min_i, int max_i, T1 a1, T2 a2, T3 a3, @Nonnull LTriPredicate<T1, T2, T3> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -293,14 +293,14 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, T3> void times(int max_i, T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> func) {
+	public static <T1, T2, T3> void times(int max_i, T1 a1, T2 a2, T3 a3, @Nonnull LTriPredicate<T1, T2, T3> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V, T2, T3> boolean from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, LTriPredicate<V, T2, T3> function) {
+	public static <M, K, V, T2, T3> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, @Nonnull LTriPredicate<V, T2, T3> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -312,40 +312,49 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return false;
 	}
 
-	public default LBiPredicate<T2, T3> lShrink(LBiFunction<T2, T3, T1> left) {
+	public default LBiPredicate<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiPredicate<T2, T3> lShrinkc(T1 a1) {
+	public default LBiPredicate<T2, T3> lShrink_(T1 a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
-	public static <T2, T3, T1> LBiPredicate<T2, T3> lShrinked(LBiFunction<T2, T3, T1> left, LTriPredicate<T1, T2, T3> func) {
+	public static <T2, T3, T1> LBiPredicate<T2, T3> lShrunken(@Nonnull LBiFunction<T2, T3, T1> left, @Nonnull LTriPredicate<T1, T2, T3> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, T3, T1> LBiPredicate<T2, T3> lShrinkedc(T1 a1, LTriPredicate<T1, T2, T3> func) {
-		return func.lShrinkc(a1);
+	public static <T2, T3, T1> LBiPredicate<T2, T3> lShrunken_(T1 a1, @Nonnull LTriPredicate<T1, T2, T3> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBiPredicate<T1, T2> rShrink(LBiFunction<T1, T2, T3> right) {
+	public default LBiPredicate<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBiPredicate<T1, T2> rShrinkc(T3 a3) {
+	public default LBiPredicate<T1, T2> rShrink_(T3 a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
-	public static <T1, T2, T3> LBiPredicate<T1, T2> rShrinked(LBiFunction<T1, T2, T3> right, LTriPredicate<T1, T2, T3> func) {
+	public static <T1, T2, T3> LBiPredicate<T1, T2> rShrunken(@Nonnull LBiFunction<T1, T2, T3> right, @Nonnull LTriPredicate<T1, T2, T3> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, T2, T3> LBiPredicate<T1, T2> rShrinkedc(T3 a3, LTriPredicate<T1, T2, T3> func) {
-		return func.rShrinkc(a3);
+	public static <T1, T2, T3> LBiPredicate<T1, T2> rShrunken_(T3 a3, @Nonnull LTriPredicate<T1, T2, T3> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> uncurry(LFunction<T1, LFunction<T2, LPredicate<T3>>> func) {
+	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> uncurry(@Nonnull LFunction<T1, LFunction<T2, LPredicate<T3>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2, T3 a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
@@ -367,6 +376,25 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	/** Change function to consumer that ignores output. */
 	public default LTriConsumer<T1, T2, T3> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTriPredicate<T1, T2, T3> before(@Nonnull LTriConsumer<T1, T2, T3> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2, T3 a3) -> {
+			before.accept(a1, a2, a3);
+			return test(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LTriPredicate<T1, T2, T3> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, T2 a2, T3 a3) -> {
+			final boolean retval = test(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -406,7 +434,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPred(Class<T1> c1, Class<T2> c2, Class<T3> c3, final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPred(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<T3> c3, final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

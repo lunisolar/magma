@@ -215,7 +215,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, double a2, LObjDblConsumer<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, double a2, @Nonnull LObjDblConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -229,7 +229,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, double a2, LObjDblConsumer<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, double a2, @Nonnull LObjDblConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -243,46 +243,55 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, double a2, LObjDblConsumer<T> func) {
+	public static <T> void times(int max_i, T a1, double a2, @Nonnull LObjDblConsumer<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LDblConsumer lShrink(LDblFunction<T> left) {
+	public default LDblConsumer lShrink(@Nonnull LDblFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LDblConsumer lShrinkc(T a1) {
+	public default LDblConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static <T> LDblConsumer lShrinked(LDblFunction<T> left, LObjDblConsumer<T> func) {
+	public static <T> LDblConsumer lShrunken(@Nonnull LDblFunction<T> left, @Nonnull LObjDblConsumer<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LDblConsumer lShrinkedc(T a1, LObjDblConsumer<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LDblConsumer lShrunken_(T a1, @Nonnull LObjDblConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(LToDblFunction<T> right) {
+	public default LConsumer<T> rShrink(@Nonnull LToDblFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsDbl(a1));
 	}
 
-	public default LConsumer<T> rShrinkc(double a2) {
+	public default LConsumer<T> rShrink_(double a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static <T> LConsumer<T> rShrinked(LToDblFunction<T> right, LObjDblConsumer<T> func) {
+	public static <T> LConsumer<T> rShrunken(@Nonnull LToDblFunction<T> right, @Nonnull LObjDblConsumer<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LConsumer<T> rShrinkedc(double a2, LObjDblConsumer<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LConsumer<T> rShrunken_(double a2, @Nonnull LObjDblConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LObjDblConsumer<T> uncurry(LFunction<T, LDblConsumer> func) {
+	public static <T> LObjDblConsumer<T> uncurry(@Nonnull LFunction<T, LDblConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, double a2) -> func.apply(a1).accept(a2);
 	}
 
@@ -299,6 +308,15 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	/** Cast that replace generics. */
 	public static <V2, T> LObjDblConsumer<V2> cast(LObjDblConsumer<T> function) {
 		return (LObjDblConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjDblConsumer<T> before(@Nonnull LObjDblConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, double a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -327,7 +345,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjDblConsumer<T> objDblCons(Class<T> c1, final @Nonnull LObjDblConsumer<T> lambda) {
+	static <T> LObjDblConsumer<T> objDblCons(@Nullable Class<T> c1, final @Nonnull LObjDblConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

@@ -263,7 +263,8 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return LLogicalOperator.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, boolean a2, LObjBoolConsumer<V> consumer) {
+	public default <V> boolean doIf(V a1, boolean a2, @Nonnull LObjBoolConsumer<V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (apply(a2)) {
 			consumer.accept(a1, a2);
 			return true;
@@ -272,7 +273,8 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, boolean a3, LTieBoolConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, boolean a3, @Nonnull LTieBoolConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (apply(a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -281,7 +283,8 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, boolean a3, LTieBoolFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, boolean a3, @Nonnull LTieBoolFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (apply(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -290,7 +293,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, boolean a, LLogicalOperator func) {
+	public static void fromTo(int min_i, int max_i, boolean a, @Nonnull LLogicalOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -304,7 +307,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, boolean a, LLogicalOperator func) {
+	public static void fromTill(int min_i, int max_i, boolean a, @Nonnull LLogicalOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -318,7 +321,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, boolean a, LLogicalOperator func) {
+	public static void times(int max_i, boolean a, @Nonnull LLogicalOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -327,6 +330,25 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	/** Change function to consumer that ignores output. */
 	public default LBoolConsumer toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLogicalOperator before(@Nonnull LBoolConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (boolean a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLogicalOperator after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (boolean a) -> {
+			final boolean retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

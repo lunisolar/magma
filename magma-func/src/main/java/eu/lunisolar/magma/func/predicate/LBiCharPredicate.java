@@ -265,7 +265,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, char a1, char a2, LBiCharPredicate func) {
+	public static void fromTo(int min_i, int max_i, char a1, char a2, @Nonnull LBiCharPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -279,7 +279,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, char a1, char a2, LBiCharPredicate func) {
+	public static void fromTill(int min_i, int max_i, char a1, char a2, @Nonnull LBiCharPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -293,52 +293,80 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, char a1, char a2, LBiCharPredicate func) {
+	public static void times(int max_i, char a1, char a2, @Nonnull LBiCharPredicate func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LCharPredicate lShrink(LCharUnaryOperator left) {
+	public default LCharPredicate lShrink(@Nonnull LCharUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsChar(a2), a2);
 	}
 
-	public default LCharPredicate lShrinkc(char a1) {
+	public default LCharPredicate lShrink_(char a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LCharPredicate lShrinked(LCharUnaryOperator left, LBiCharPredicate func) {
+	public static LCharPredicate lShrunken(@Nonnull LCharUnaryOperator left, @Nonnull LBiCharPredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LCharPredicate lShrinkedc(char a1, LBiCharPredicate func) {
-		return func.lShrinkc(a1);
+	public static LCharPredicate lShrunken_(char a1, @Nonnull LBiCharPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LCharPredicate rShrink(LCharUnaryOperator right) {
+	public default LCharPredicate rShrink(@Nonnull LCharUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsChar(a1));
 	}
 
-	public default LCharPredicate rShrinkc(char a2) {
+	public default LCharPredicate rShrink_(char a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LCharPredicate rShrinked(LCharUnaryOperator right, LBiCharPredicate func) {
+	public static LCharPredicate rShrunken(@Nonnull LCharUnaryOperator right, @Nonnull LBiCharPredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LCharPredicate rShrinkedc(char a2, LBiCharPredicate func) {
-		return func.rShrinkc(a2);
+	public static LCharPredicate rShrunken_(char a2, @Nonnull LBiCharPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LBiCharPredicate uncurry(LCharFunction<LCharPredicate> func) {
+	public static LBiCharPredicate uncurry(@Nonnull LCharFunction<LCharPredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (char a1, char a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiCharConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiCharPredicate before(@Nonnull LBiCharConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (char a1, char a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiCharPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (char a1, char a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

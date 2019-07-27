@@ -222,7 +222,7 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, long a3, LTieLongConsumer<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, long a3, @Nonnull LTieLongConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -236,7 +236,7 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, long a3, LTieLongConsumer<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, long a3, @Nonnull LTieLongConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -250,14 +250,15 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, int a2, long a3, LTieLongConsumer<T> func) {
+	public static <T> void times(int max_i, T a1, int a2, long a3, @Nonnull LTieLongConsumer<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/**  */
-	public static <T> LTieLongConsumer<T> uncurry(LFunction<T, LIntFunction<LLongConsumer>> func) {
+	public static <T> LTieLongConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLongConsumer>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, long a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
@@ -274,6 +275,15 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	/** Cast that replace generics. */
 	public static <V2, T> LTieLongConsumer<V2> cast(LTieLongConsumer<T> function) {
 		return (LTieLongConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTieLongConsumer<T> before(@Nonnull LTieLongConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, long a3) -> {
+			before.accept(a1, a2, a3);
+			accept(a1, a2, a3);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -308,7 +318,7 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LTieLongConsumer<T> tieLongCons(Class<T> c1, final @Nonnull LTieLongConsumer<T> lambda) {
+	static <T> LTieLongConsumer<T> tieLongCons(@Nullable Class<T> c1, final @Nonnull LTieLongConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

@@ -221,7 +221,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, byte a1, byte a2, LBiByteFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, byte a1, byte a2, @Nonnull LBiByteFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, byte a1, byte a2, LBiByteFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, byte a1, byte a2, @Nonnull LBiByteFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,46 +249,55 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, byte a1, byte a2, LBiByteFunction<R> func) {
+	public static <R> void times(int max_i, byte a1, byte a2, @Nonnull LBiByteFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LByteFunction<R> lShrink(LByteUnaryOperator left) {
+	public default LByteFunction<R> lShrink(@Nonnull LByteUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsByte(a2), a2);
 	}
 
-	public default LByteFunction<R> lShrinkc(byte a1) {
+	public default LByteFunction<R> lShrink_(byte a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R> LByteFunction<R> lShrinked(LByteUnaryOperator left, LBiByteFunction<R> func) {
+	public static <R> LByteFunction<R> lShrunken(@Nonnull LByteUnaryOperator left, @Nonnull LBiByteFunction<R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R> LByteFunction<R> lShrinkedc(byte a1, LBiByteFunction<R> func) {
-		return func.lShrinkc(a1);
+	public static <R> LByteFunction<R> lShrunken_(byte a1, @Nonnull LBiByteFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LByteFunction<R> rShrink(LByteUnaryOperator right) {
+	public default LByteFunction<R> rShrink(@Nonnull LByteUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsByte(a1));
 	}
 
-	public default LByteFunction<R> rShrinkc(byte a2) {
+	public default LByteFunction<R> rShrink_(byte a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <R> LByteFunction<R> rShrinked(LByteUnaryOperator right, LBiByteFunction<R> func) {
+	public static <R> LByteFunction<R> rShrunken(@Nonnull LByteUnaryOperator right, @Nonnull LBiByteFunction<R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <R> LByteFunction<R> rShrinkedc(byte a2, LBiByteFunction<R> func) {
-		return func.rShrinkc(a2);
+	public static <R> LByteFunction<R> rShrunken_(byte a2, @Nonnull LBiByteFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <R> LBiByteFunction<R> uncurry(LByteFunction<LByteFunction<R>> func) {
+	public static <R> LBiByteFunction<R> uncurry(@Nonnull LByteFunction<LByteFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (byte a1, byte a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -310,6 +319,25 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** Change function to consumer that ignores output. */
 	public default LBiByteConsumer toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiByteFunction<R> before(@Nonnull LBiByteConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (byte a1, byte a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiByteFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (byte a1, byte a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -343,7 +371,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LBiByteFunction<R> biByteFunc(Class<R> c1, final @Nonnull LBiByteFunction<R> lambda) {
+	static <R> LBiByteFunction<R> biByteFunc(@Nullable Class<R> c1, final @Nonnull LBiByteFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -484,25 +512,6 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default LBiByteConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LBiByteFunction<R> before(@Nonnull LBiByteConsumer before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LBiByteFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

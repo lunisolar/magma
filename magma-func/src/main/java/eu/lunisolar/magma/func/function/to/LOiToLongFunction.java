@@ -219,7 +219,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, LOiToLongFunction<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, @Nonnull LOiToLongFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -233,7 +233,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, LOiToLongFunction<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, @Nonnull LOiToLongFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -247,14 +247,14 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, LOiToLongFunction<T> func) {
+	public static <T> void times(int max_a2, T a1, @Nonnull LOiToLongFunction<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> long from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToLongFunction<V> function, long orElse) {
+	public static <M, K, V> long from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, @Nonnull LOiToLongFunction<V> function, long orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -266,40 +266,49 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
-	public default LIntToLongFunction lShrink(LIntFunction<T> left) {
+	public default LIntToLongFunction lShrink(@Nonnull LIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsLong(left.apply(a2), a2);
 	}
 
-	public default LIntToLongFunction lShrinkc(T a1) {
+	public default LIntToLongFunction lShrink_(T a1) {
 		return a2 -> applyAsLong(a1, a2);
 	}
 
-	public static <T> LIntToLongFunction lShrinked(LIntFunction<T> left, LOiToLongFunction<T> func) {
+	public static <T> LIntToLongFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToLongFunction<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LIntToLongFunction lShrinkedc(T a1, LOiToLongFunction<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LIntToLongFunction lShrunken_(T a1, @Nonnull LOiToLongFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LToLongFunction<T> rShrink(LToIntFunction<T> right) {
+	public default LToLongFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsLong(a1, right.applyAsInt(a1));
 	}
 
-	public default LToLongFunction<T> rShrinkc(int a2) {
+	public default LToLongFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsLong(a1, a2);
 	}
 
-	public static <T> LToLongFunction<T> rShrinked(LToIntFunction<T> right, LOiToLongFunction<T> func) {
+	public static <T> LToLongFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToLongFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LToLongFunction<T> rShrinkedc(int a2, LOiToLongFunction<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LToLongFunction<T> rShrunken_(int a2, @Nonnull LOiToLongFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LOiToLongFunction<T> uncurry(LFunction<T, LIntToLongFunction> func) {
+	public static <T> LOiToLongFunction<T> uncurry(@Nonnull LFunction<T, LIntToLongFunction> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2) -> func.apply(a1).applyAsLong(a2);
 	}
 
@@ -321,6 +330,25 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	/** Change function to consumer that ignores output. */
 	public default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsLong;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LOiToLongFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2) -> {
+			before.accept(a1, a2);
+			return applyAsLong(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LOiToLongFunction<T> after(@Nonnull LLongConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2) -> {
+			final long retval = applyAsLong(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -354,7 +382,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LOiToLongFunction<T> oiToLongFunc(Class<T> c1, final @Nonnull LOiToLongFunction<T> lambda) {
+	static <T> LOiToLongFunction<T> oiToLongFunc(@Nullable Class<T> c1, final @Nonnull LOiToLongFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

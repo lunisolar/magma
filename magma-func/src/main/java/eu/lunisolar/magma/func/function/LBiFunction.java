@@ -221,7 +221,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void fromTo(int min_i, int max_i, T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void fromTo(int min_i, int max_i, T1 a1, T2 a2, @Nonnull LBiFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void fromTill(int min_i, int max_i, T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void fromTill(int min_i, int max_i, T1 a1, T2 a2, @Nonnull LBiFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,14 +249,14 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void times(int max_i, T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void times(int max_i, T1 a1, T2 a2, @Nonnull LBiFunction<T1, T2, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V, T2> R from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, LBiFunction<V, T2, R> function) {
+	public static <R, M, K, V, T2> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, @Nonnull LBiFunction<V, T2, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -268,40 +268,49 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return null;
 	}
 
-	public default LFunction<T2, R> lShrink(LFunction<T2, T1> left) {
+	public default LFunction<T2, R> lShrink(@Nonnull LFunction<T2, T1> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LFunction<T2, R> lShrinkc(T1 a1) {
+	public default LFunction<T2, R> lShrink_(T1 a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <T2, R, T1> LFunction<T2, R> lShrinked(LFunction<T2, T1> left, LBiFunction<T1, T2, R> func) {
+	public static <T2, R, T1> LFunction<T2, R> lShrunken(@Nonnull LFunction<T2, T1> left, @Nonnull LBiFunction<T1, T2, R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, R, T1> LFunction<T2, R> lShrinkedc(T1 a1, LBiFunction<T1, T2, R> func) {
-		return func.lShrinkc(a1);
+	public static <T2, R, T1> LFunction<T2, R> lShrunken_(T1 a1, @Nonnull LBiFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T1, R> rShrink(LFunction<T1, T2> right) {
+	public default LFunction<T1, R> rShrink(@Nonnull LFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.apply(a1));
 	}
 
-	public default LFunction<T1, R> rShrinkc(T2 a2) {
+	public default LFunction<T1, R> rShrink_(T2 a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <T1, R, T2> LFunction<T1, R> rShrinked(LFunction<T1, T2> right, LBiFunction<T1, T2, R> func) {
+	public static <T1, R, T2> LFunction<T1, R> rShrunken(@Nonnull LFunction<T1, T2> right, @Nonnull LBiFunction<T1, T2, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, R, T2> LFunction<T1, R> rShrinkedc(T2 a2, LBiFunction<T1, T2, R> func) {
-		return func.rShrinkc(a2);
+	public static <T1, R, T2> LFunction<T1, R> rShrunken_(T2 a2, @Nonnull LBiFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T1, T2, R> LBiFunction<T1, T2, R> uncurry(LFunction<T1, LFunction<T2, R>> func) {
+	public static <T1, T2, R> LBiFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, R>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -323,6 +332,25 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	/** Change function to consumer that ignores output. */
 	public default LBiConsumer<T1, T2> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiFunction<T1, T2, R> before(@Nonnull LBiConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiFunction<T1, T2, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, T2 a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -356,7 +384,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2, R> LBiFunction<T1, T2, R> biFunc(Class<T1> c1, Class<T2> c2, Class<R> c3, final @Nonnull LBiFunction<T1, T2, R> lambda) {
+	static <T1, T2, R> LBiFunction<T1, T2, R> biFunc(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<R> c3, final @Nonnull LBiFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -490,25 +518,6 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default LBiConsumer<T1, T2> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LBiFunction<T1, T2, R> before(@Nonnull LBiConsumer<? super T1, ? super T2> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LBiFunction<T1, T2, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

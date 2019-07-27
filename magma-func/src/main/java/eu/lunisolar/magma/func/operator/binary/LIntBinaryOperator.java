@@ -217,7 +217,7 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, int a1, int a2, LIntBinaryOperator func) {
+	public static void fromTo(int min_i, int max_i, int a1, int a2, @Nonnull LIntBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, int a1, int a2, LIntBinaryOperator func) {
+	public static void fromTill(int min_i, int max_i, int a1, int a2, @Nonnull LIntBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,52 +245,80 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, int a1, int a2, LIntBinaryOperator func) {
+	public static void times(int max_i, int a1, int a2, @Nonnull LIntBinaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LIntUnaryOperator lShrink(LIntUnaryOperator left) {
+	public default LIntUnaryOperator lShrink(@Nonnull LIntUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsInt(left.applyAsInt(a2), a2);
 	}
 
-	public default LIntUnaryOperator lShrinkc(int a1) {
+	public default LIntUnaryOperator lShrink_(int a1) {
 		return a2 -> applyAsInt(a1, a2);
 	}
 
-	public static LIntUnaryOperator lShrinked(LIntUnaryOperator left, LIntBinaryOperator func) {
+	public static LIntUnaryOperator lShrunken(@Nonnull LIntUnaryOperator left, @Nonnull LIntBinaryOperator func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LIntUnaryOperator lShrinkedc(int a1, LIntBinaryOperator func) {
-		return func.lShrinkc(a1);
+	public static LIntUnaryOperator lShrunken_(int a1, @Nonnull LIntBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LIntUnaryOperator rShrink(LIntUnaryOperator right) {
+	public default LIntUnaryOperator rShrink(@Nonnull LIntUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsInt(a1, right.applyAsInt(a1));
 	}
 
-	public default LIntUnaryOperator rShrinkc(int a2) {
+	public default LIntUnaryOperator rShrink_(int a2) {
 		return a1 -> applyAsInt(a1, a2);
 	}
 
-	public static LIntUnaryOperator rShrinked(LIntUnaryOperator right, LIntBinaryOperator func) {
+	public static LIntUnaryOperator rShrunken(@Nonnull LIntUnaryOperator right, @Nonnull LIntBinaryOperator func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LIntUnaryOperator rShrinkedc(int a2, LIntBinaryOperator func) {
-		return func.rShrinkc(a2);
+	public static LIntUnaryOperator rShrunken_(int a2, @Nonnull LIntBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LIntBinaryOperator uncurry(LIntFunction<LIntUnaryOperator> func) {
+	public static LIntBinaryOperator uncurry(@Nonnull LIntFunction<LIntUnaryOperator> func) {
+		Null.nonNullArg(func, "func");
 		return (int a1, int a2) -> func.apply(a1).applyAsInt(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiIntConsumer toConsumer() {
 		return this::applyAsInt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LIntBinaryOperator before(@Nonnull LBiIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (int a1, int a2) -> {
+			before.accept(a1, a2);
+			return applyAsInt(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LIntBinaryOperator after(@Nonnull LIntConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (int a1, int a2) -> {
+			final int retval = applyAsInt(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

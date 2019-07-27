@@ -223,7 +223,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_a2, int max_a2, T a1, LOiFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_a2, int max_a2, T a1, @Nonnull LOiFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -237,7 +237,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_a2, int max_a2, T a1, LOiFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_a2, int max_a2, T a1, @Nonnull LOiFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -251,14 +251,14 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_a2, T a1, LOiFunction<T, R> func) {
+	public static <T, R> void times(int max_a2, T a1, @Nonnull LOiFunction<T, R> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, @Nonnull LOiFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -270,40 +270,49 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		return null;
 	}
 
-	public default LIntFunction<R> lShrink(LIntFunction<T> left) {
+	public default LIntFunction<R> lShrink(@Nonnull LIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LIntFunction<R> lShrinkc(T a1) {
+	public default LIntFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R, T> LIntFunction<R> lShrinked(LIntFunction<T> left, LOiFunction<T, R> func) {
+	public static <R, T> LIntFunction<R> lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiFunction<T, R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R, T> LIntFunction<R> lShrinkedc(T a1, LOiFunction<T, R> func) {
-		return func.lShrinkc(a1);
+	public static <R, T> LIntFunction<R> lShrunken_(T a1, @Nonnull LOiFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(LToIntFunction<T> right) {
+	public default LFunction<T, R> rShrink(@Nonnull LToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsInt(a1));
 	}
 
-	public default LFunction<T, R> rShrinkc(int a2) {
+	public default LFunction<T, R> rShrink_(int a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinked(LToIntFunction<T> right, LOiFunction<T, R> func) {
+	public static <T, R> LFunction<T, R> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiFunction<T, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinkedc(int a2, LOiFunction<T, R> func) {
-		return func.rShrinkc(a2);
+	public static <T, R> LFunction<T, R> rShrunken_(int a2, @Nonnull LOiFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T, R> LOiFunction<T, R> uncurry(LFunction<T, LIntFunction<R>> func) {
+	public static <T, R> LOiFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -325,6 +334,25 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Change function to consumer that ignores output. */
 	public default LObjIntConsumer<T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LOiFunction<T, R> before(@Nonnull LObjIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LOiFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -358,7 +386,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LOiFunction<T, R> oiFunc(Class<T> c1, Class<R> c2, final @Nonnull LOiFunction<T, R> lambda) {
+	static <T, R> LOiFunction<T, R> oiFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LOiFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -499,25 +527,6 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	default LObjIntConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LOiFunction<T, R> before(@Nonnull LObjIntConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LOiFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

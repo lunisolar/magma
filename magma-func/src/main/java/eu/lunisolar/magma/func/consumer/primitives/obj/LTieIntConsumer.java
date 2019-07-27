@@ -222,7 +222,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, int a3, LTieIntConsumer<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, int a2, int a3, @Nonnull LTieIntConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -236,7 +236,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, int a3, LTieIntConsumer<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, int a2, int a3, @Nonnull LTieIntConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -250,46 +250,55 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, int a2, int a3, LTieIntConsumer<T> func) {
+	public static <T> void times(int max_i, T a1, int a2, int a3, @Nonnull LTieIntConsumer<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiIntConsumer lShrink(LBiIntFunction<T> left) {
+	public default LBiIntConsumer lShrink(@Nonnull LBiIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiIntConsumer lShrinkc(T a1) {
+	public default LBiIntConsumer lShrink_(T a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
-	public static <T> LBiIntConsumer lShrinked(LBiIntFunction<T> left, LTieIntConsumer<T> func) {
+	public static <T> LBiIntConsumer lShrunken(@Nonnull LBiIntFunction<T> left, @Nonnull LTieIntConsumer<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LBiIntConsumer lShrinkedc(T a1, LTieIntConsumer<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LBiIntConsumer lShrunken_(T a1, @Nonnull LTieIntConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LObjIntConsumer<T> rShrink(LOiToIntFunction<T> right) {
+	public default LObjIntConsumer<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LObjIntConsumer<T> rShrinkc(int a3) {
+	public default LObjIntConsumer<T> rShrink_(int a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
-	public static <T> LObjIntConsumer<T> rShrinked(LOiToIntFunction<T> right, LTieIntConsumer<T> func) {
+	public static <T> LObjIntConsumer<T> rShrunken(@Nonnull LOiToIntFunction<T> right, @Nonnull LTieIntConsumer<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LObjIntConsumer<T> rShrinkedc(int a3, LTieIntConsumer<T> func) {
-		return func.rShrinkc(a3);
+	public static <T> LObjIntConsumer<T> rShrunken_(int a3, @Nonnull LTieIntConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T> LTieIntConsumer<T> uncurry(LFunction<T, LIntFunction<LIntConsumer>> func) {
+	public static <T> LTieIntConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LIntConsumer>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, int a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
@@ -306,6 +315,15 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	/** Cast that replace generics. */
 	public static <V2, T> LTieIntConsumer<V2> cast(LTieIntConsumer<T> function) {
 		return (LTieIntConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTieIntConsumer<T> before(@Nonnull LTieIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, int a3) -> {
+			before.accept(a1, a2, a3);
+			accept(a1, a2, a3);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -340,7 +358,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LTieIntConsumer<T> tieIntCons(Class<T> c1, final @Nonnull LTieIntConsumer<T> lambda) {
+	static <T> LTieIntConsumer<T> tieIntCons(@Nullable Class<T> c1, final @Nonnull LTieIntConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

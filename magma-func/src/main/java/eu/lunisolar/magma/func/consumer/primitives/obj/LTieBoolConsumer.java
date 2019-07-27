@@ -222,7 +222,7 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, boolean a3, LTieBoolConsumer<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, boolean a3, @Nonnull LTieBoolConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -236,7 +236,7 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, boolean a3, LTieBoolConsumer<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, boolean a3, @Nonnull LTieBoolConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -250,14 +250,15 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, boolean a3, LTieBoolConsumer<T> func) {
+	public static <T> void times(int max_a2, T a1, boolean a3, @Nonnull LTieBoolConsumer<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/**  */
-	public static <T> LTieBoolConsumer<T> uncurry(LFunction<T, LIntFunction<LBoolConsumer>> func) {
+	public static <T> LTieBoolConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LBoolConsumer>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, boolean a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
@@ -274,6 +275,15 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	/** Cast that replace generics. */
 	public static <V2, T> LTieBoolConsumer<V2> cast(LTieBoolConsumer<T> function) {
 		return (LTieBoolConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LTieBoolConsumer<T> before(@Nonnull LTieBoolConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, boolean a3) -> {
+			before.accept(a1, a2, a3);
+			accept(a1, a2, a3);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -308,7 +318,7 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LTieBoolConsumer<T> tieBoolCons(Class<T> c1, final @Nonnull LTieBoolConsumer<T> lambda) {
+	static <T> LTieBoolConsumer<T> tieBoolCons(@Nullable Class<T> c1, final @Nonnull LTieBoolConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

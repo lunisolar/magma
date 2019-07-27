@@ -221,7 +221,7 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_i, int max_i, T a1, double a2, LObjDblFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_i, int max_i, T a1, double a2, @Nonnull LObjDblFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_i, int max_i, T a1, double a2, LObjDblFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_i, int max_i, T a1, double a2, @Nonnull LObjDblFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,14 +249,14 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_i, T a1, double a2, LObjDblFunction<T, R> func) {
+	public static <T, R> void times(int max_i, T a1, double a2, @Nonnull LObjDblFunction<T, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, double a2, LObjDblFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, double a2, @Nonnull LObjDblFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -268,40 +268,49 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return null;
 	}
 
-	public default LDblFunction<R> lShrink(LDblFunction<T> left) {
+	public default LDblFunction<R> lShrink(@Nonnull LDblFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LDblFunction<R> lShrinkc(T a1) {
+	public default LDblFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R, T> LDblFunction<R> lShrinked(LDblFunction<T> left, LObjDblFunction<T, R> func) {
+	public static <R, T> LDblFunction<R> lShrunken(@Nonnull LDblFunction<T> left, @Nonnull LObjDblFunction<T, R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R, T> LDblFunction<R> lShrinkedc(T a1, LObjDblFunction<T, R> func) {
-		return func.lShrinkc(a1);
+	public static <R, T> LDblFunction<R> lShrunken_(T a1, @Nonnull LObjDblFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(LToDblFunction<T> right) {
+	public default LFunction<T, R> rShrink(@Nonnull LToDblFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsDbl(a1));
 	}
 
-	public default LFunction<T, R> rShrinkc(double a2) {
+	public default LFunction<T, R> rShrink_(double a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinked(LToDblFunction<T> right, LObjDblFunction<T, R> func) {
+	public static <T, R> LFunction<T, R> rShrunken(@Nonnull LToDblFunction<T> right, @Nonnull LObjDblFunction<T, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinkedc(double a2, LObjDblFunction<T, R> func) {
-		return func.rShrinkc(a2);
+	public static <T, R> LFunction<T, R> rShrunken_(double a2, @Nonnull LObjDblFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T, R> LObjDblFunction<T, R> uncurry(LFunction<T, LDblFunction<R>> func) {
+	public static <T, R> LObjDblFunction<T, R> uncurry(@Nonnull LFunction<T, LDblFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, double a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -323,6 +332,25 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	/** Change function to consumer that ignores output. */
 	public default LObjDblConsumer<T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjDblFunction<T, R> before(@Nonnull LObjDblConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, double a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjDblFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, double a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -356,7 +384,7 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LObjDblFunction<T, R> objDblFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjDblFunction<T, R> lambda) {
+	static <T, R> LObjDblFunction<T, R> objDblFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LObjDblFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -497,25 +525,6 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	default LObjDblConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LObjDblFunction<T, R> before(@Nonnull LObjDblConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LObjDblFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

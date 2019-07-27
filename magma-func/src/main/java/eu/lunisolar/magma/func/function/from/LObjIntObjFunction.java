@@ -221,7 +221,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void fromTo(int min_a2, int max_a2, T1 a1, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void fromTo(int min_a2, int max_a2, T1 a1, T2 a3, @Nonnull LObjIntObjFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -235,7 +235,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void fromTill(int min_a2, int max_a2, T1 a1, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void fromTill(int min_a2, int max_a2, T1 a1, T2 a3, @Nonnull LObjIntObjFunction<T1, T2, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -249,14 +249,14 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, R> void times(int max_a2, T1 a1, T2 a3, LObjIntObjFunction<T1, T2, R> func) {
+	public static <T1, T2, R> void times(int max_a2, T1 a1, T2 a3, @Nonnull LObjIntObjFunction<T1, T2, R> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V, T2> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, T2 a3, LObjIntObjFunction<V, T2, R> function) {
+	public static <R, M, K, V, T2> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, T2 a3, @Nonnull LObjIntObjFunction<V, T2, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -269,7 +269,8 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/**  */
-	public static <T1, T2, R> LObjIntObjFunction<T1, T2, R> uncurry(LFunction<T1, LIntFunction<LFunction<T2, R>>> func) {
+	public static <T1, T2, R> LObjIntObjFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LIntFunction<LFunction<T2, R>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
@@ -291,6 +292,25 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	/** Change function to consumer that ignores output. */
 	public default LTieConsumer<T1, T2> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjIntObjFunction<T1, T2, R> before(@Nonnull LTieConsumer<T1, T2> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, int a2, T2 a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjIntObjFunction<T1, T2, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, int a2, T2 a3) -> {
+			final R retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -330,7 +350,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> objIntObjFunc(Class<T1> c1, Class<T2> c2, Class<R> c3, final @Nonnull LObjIntObjFunction<T1, T2, R> lambda) {
+	static <T1, T2, R> LObjIntObjFunction<T1, T2, R> objIntObjFunc(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<R> c3, final @Nonnull LObjIntObjFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -503,25 +523,6 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	default LTieConsumer<T1, T2> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.accept(this.apply(a1, a2, a3));
-	}
-
-	@Nonnull
-	default LObjIntObjFunction<T1, T2, R> before(@Nonnull LTieConsumer<? super T1, ? super T2> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2, a3) -> {
-			before.accept(a1, a2, a3);
-			return this.apply(a1, a2, a3);
-		};
-	}
-
-	@Nonnull
-	default LObjIntObjFunction<T1, T2, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> {
-			R result = this.apply(a1, a2, a3);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

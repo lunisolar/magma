@@ -227,7 +227,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, double a1, double a2, LDblBinaryOperator func) {
+	public static void fromTo(int min_i, int max_i, double a1, double a2, @Nonnull LDblBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -241,7 +241,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, double a1, double a2, LDblBinaryOperator func) {
+	public static void fromTill(int min_i, int max_i, double a1, double a2, @Nonnull LDblBinaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -255,52 +255,80 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, double a1, double a2, LDblBinaryOperator func) {
+	public static void times(int max_i, double a1, double a2, @Nonnull LDblBinaryOperator func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LDblUnaryOperator lShrink(LDblUnaryOperator left) {
+	public default LDblUnaryOperator lShrink(@Nonnull LDblUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsDbl(left.applyAsDbl(a2), a2);
 	}
 
-	public default LDblUnaryOperator lShrinkc(double a1) {
+	public default LDblUnaryOperator lShrink_(double a1) {
 		return a2 -> applyAsDbl(a1, a2);
 	}
 
-	public static LDblUnaryOperator lShrinked(LDblUnaryOperator left, LDblBinaryOperator func) {
+	public static LDblUnaryOperator lShrunken(@Nonnull LDblUnaryOperator left, @Nonnull LDblBinaryOperator func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LDblUnaryOperator lShrinkedc(double a1, LDblBinaryOperator func) {
-		return func.lShrinkc(a1);
+	public static LDblUnaryOperator lShrunken_(double a1, @Nonnull LDblBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LDblUnaryOperator rShrink(LDblUnaryOperator right) {
+	public default LDblUnaryOperator rShrink(@Nonnull LDblUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsDbl(a1, right.applyAsDbl(a1));
 	}
 
-	public default LDblUnaryOperator rShrinkc(double a2) {
+	public default LDblUnaryOperator rShrink_(double a2) {
 		return a1 -> applyAsDbl(a1, a2);
 	}
 
-	public static LDblUnaryOperator rShrinked(LDblUnaryOperator right, LDblBinaryOperator func) {
+	public static LDblUnaryOperator rShrunken(@Nonnull LDblUnaryOperator right, @Nonnull LDblBinaryOperator func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LDblUnaryOperator rShrinkedc(double a2, LDblBinaryOperator func) {
-		return func.rShrinkc(a2);
+	public static LDblUnaryOperator rShrunken_(double a2, @Nonnull LDblBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LDblBinaryOperator uncurry(LDblFunction<LDblUnaryOperator> func) {
+	public static LDblBinaryOperator uncurry(@Nonnull LDblFunction<LDblUnaryOperator> func) {
+		Null.nonNullArg(func, "func");
 		return (double a1, double a2) -> func.apply(a1).applyAsDbl(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiDblConsumer toConsumer() {
 		return this::applyAsDbl;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LDblBinaryOperator before(@Nonnull LBiDblConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (double a1, double a2) -> {
+			before.accept(a1, a2);
+			return applyAsDbl(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LDblBinaryOperator after(@Nonnull LDblConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (double a1, double a2) -> {
+			final double retval = applyAsDbl(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

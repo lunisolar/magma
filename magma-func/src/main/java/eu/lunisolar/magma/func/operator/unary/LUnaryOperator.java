@@ -207,7 +207,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LUnaryOperator<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LUnaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -221,7 +221,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LUnaryOperator<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LUnaryOperator<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -235,14 +235,14 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LUnaryOperator<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LUnaryOperator<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <T, M, K, V> T from(M container, LBiFunction<M, K, V> extractor, K key, LFunction<V, T> function) {
+	public static <T, M, K, V> T from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LFunction<V, T> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -274,6 +274,25 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LUnaryOperator<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LUnaryOperator<T> after(@Nonnull LConsumer<T> after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final T retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<T> capture(T a) {
 		return () -> this.apply(a);
@@ -293,7 +312,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LUnaryOperator<T> unaryOp(Class<T> c1, final @Nonnull LUnaryOperator<T> lambda) {
+	static <T> LUnaryOperator<T> unaryOp(@Nullable Class<T> c1, final @Nonnull LUnaryOperator<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

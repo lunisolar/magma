@@ -266,7 +266,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return LPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T a2, LBiConsumer<V, ? super T> consumer) {
+	public default <V> boolean doIf(V a1, T a2, @Nonnull LBiConsumer<V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
 			return true;
@@ -276,7 +277,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** 2 */
-	public default <V> int doIf(V a1, T a2, LToIntBiFunction<V, ? super T> consumer) {
+	public default <V> int doIf(V a1, T a2, @Nonnull LToIntBiFunction<V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			return consumer.applyAsInt(a1, a2);
 		} else {
@@ -284,7 +286,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> boolean doIf(V a1, T a2, int a3, LBiObjIntConsumer<? super V, ? super T> consumer) {
+	public default <V> boolean doIf(V a1, T a2, int a3, @Nonnull LBiObjIntConsumer<? super V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -293,7 +296,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, T a3, LTieConsumer<? super V, ? super T> consumer) {
+	public default <V> boolean doIf(V a1, int a2, T a3, @Nonnull LTieConsumer<? super V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -302,7 +306,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, T a3, LTieFunction<? super V, ? super T> consumer) {
+	public default <V> int doIf(V a1, int a2, T a3, @Nonnull LTieFunction<? super V, ? super T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -311,7 +316,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LPredicate<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -325,7 +330,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LPredicate<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -339,14 +344,14 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LPredicate<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LPredicate<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, LPredicate<V> function) {
+	public static <M, K, V> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LPredicate<V> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -378,6 +383,25 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return this::test;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LPredicate<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return test(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LPredicate<T> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final boolean retval = test(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T a) {
 		return () -> this.test(a);
@@ -397,7 +421,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LPredicate<T> pred(Class<T> c1, final @Nonnull LPredicate<T> lambda) {
+	static <T> LPredicate<T> pred(@Nullable Class<T> c1, final @Nonnull LPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

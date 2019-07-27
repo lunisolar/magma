@@ -219,7 +219,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, LOiToDblFunction<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, @Nonnull LOiToDblFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -233,7 +233,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, LOiToDblFunction<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, @Nonnull LOiToDblFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -247,14 +247,14 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, LOiToDblFunction<T> func) {
+	public static <T> void times(int max_a2, T a1, @Nonnull LOiToDblFunction<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> double from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToDblFunction<V> function, double orElse) {
+	public static <M, K, V> double from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, @Nonnull LOiToDblFunction<V> function, double orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -266,40 +266,49 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LIntToDblFunction lShrink(LIntFunction<T> left) {
+	public default LIntToDblFunction lShrink(@Nonnull LIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsDbl(left.apply(a2), a2);
 	}
 
-	public default LIntToDblFunction lShrinkc(T a1) {
+	public default LIntToDblFunction lShrink_(T a1) {
 		return a2 -> applyAsDbl(a1, a2);
 	}
 
-	public static <T> LIntToDblFunction lShrinked(LIntFunction<T> left, LOiToDblFunction<T> func) {
+	public static <T> LIntToDblFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToDblFunction<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LIntToDblFunction lShrinkedc(T a1, LOiToDblFunction<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LIntToDblFunction lShrunken_(T a1, @Nonnull LOiToDblFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LToDblFunction<T> rShrink(LToIntFunction<T> right) {
+	public default LToDblFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsDbl(a1, right.applyAsInt(a1));
 	}
 
-	public default LToDblFunction<T> rShrinkc(int a2) {
+	public default LToDblFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsDbl(a1, a2);
 	}
 
-	public static <T> LToDblFunction<T> rShrinked(LToIntFunction<T> right, LOiToDblFunction<T> func) {
+	public static <T> LToDblFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToDblFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LToDblFunction<T> rShrinkedc(int a2, LOiToDblFunction<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LToDblFunction<T> rShrunken_(int a2, @Nonnull LOiToDblFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LOiToDblFunction<T> uncurry(LFunction<T, LIntToDblFunction> func) {
+	public static <T> LOiToDblFunction<T> uncurry(@Nonnull LFunction<T, LIntToDblFunction> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2) -> func.apply(a1).applyAsDbl(a2);
 	}
 
@@ -321,6 +330,25 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** Change function to consumer that ignores output. */
 	public default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsDbl;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LOiToDblFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2) -> {
+			before.accept(a1, a2);
+			return applyAsDbl(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LOiToDblFunction<T> after(@Nonnull LDblConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2) -> {
+			final double retval = applyAsDbl(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -354,7 +382,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LOiToDblFunction<T> oiToDblFunc(Class<T> c1, final @Nonnull LOiToDblFunction<T> lambda) {
+	static <T> LOiToDblFunction<T> oiToDblFunc(@Nullable Class<T> c1, final @Nonnull LOiToDblFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

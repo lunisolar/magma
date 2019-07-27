@@ -213,7 +213,7 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, char a1, char a2, LBiCharConsumer func) {
+	public static void fromTo(int min_i, int max_i, char a1, char a2, @Nonnull LBiCharConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, char a1, char a2, LBiCharConsumer func) {
+	public static void fromTill(int min_i, int max_i, char a1, char a2, @Nonnull LBiCharConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,47 +241,65 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, char a1, char a2, LBiCharConsumer func) {
+	public static void times(int max_i, char a1, char a2, @Nonnull LBiCharConsumer func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LCharConsumer lShrink(LCharUnaryOperator left) {
+	public default LCharConsumer lShrink(@Nonnull LCharUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsChar(a2), a2);
 	}
 
-	public default LCharConsumer lShrinkc(char a1) {
+	public default LCharConsumer lShrink_(char a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static LCharConsumer lShrinked(LCharUnaryOperator left, LBiCharConsumer func) {
+	public static LCharConsumer lShrunken(@Nonnull LCharUnaryOperator left, @Nonnull LBiCharConsumer func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LCharConsumer lShrinkedc(char a1, LBiCharConsumer func) {
-		return func.lShrinkc(a1);
+	public static LCharConsumer lShrunken_(char a1, @Nonnull LBiCharConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LCharConsumer rShrink(LCharUnaryOperator right) {
+	public default LCharConsumer rShrink(@Nonnull LCharUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsChar(a1));
 	}
 
-	public default LCharConsumer rShrinkc(char a2) {
+	public default LCharConsumer rShrink_(char a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static LCharConsumer rShrinked(LCharUnaryOperator right, LBiCharConsumer func) {
+	public static LCharConsumer rShrunken(@Nonnull LCharUnaryOperator right, @Nonnull LBiCharConsumer func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LCharConsumer rShrinkedc(char a2, LBiCharConsumer func) {
-		return func.rShrinkc(a2);
+	public static LCharConsumer rShrunken_(char a2, @Nonnull LBiCharConsumer func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LBiCharConsumer uncurry(LCharFunction<LCharConsumer> func) {
+	public static LBiCharConsumer uncurry(@Nonnull LCharFunction<LCharConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (char a1, char a2) -> func.apply(a1).accept(a2);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiCharConsumer before(@Nonnull LBiCharConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (char a1, char a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

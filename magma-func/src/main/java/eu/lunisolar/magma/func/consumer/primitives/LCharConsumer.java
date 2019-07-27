@@ -213,7 +213,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, char a, LCharConsumer func) {
+	public static void fromTo(int min_i, int max_i, char a, @Nonnull LCharConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, char a, LCharConsumer func) {
+	public static void fromTill(int min_i, int max_i, char a, @Nonnull LCharConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,10 +241,19 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, char a, LCharConsumer func) {
+	public static void times(int max_i, char a, @Nonnull LCharConsumer func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LCharConsumer before(@Nonnull LCharConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (char a) -> {
+			before.accept(a);
+			accept(a);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

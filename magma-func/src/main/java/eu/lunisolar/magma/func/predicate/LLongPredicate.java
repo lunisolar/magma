@@ -264,7 +264,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return LLongPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, long a2, LObjLongConsumer<V> consumer) {
+	public default <V> boolean doIf(V a1, long a2, @Nonnull LObjLongConsumer<V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
 			return true;
@@ -273,7 +274,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, long a3, LTieLongConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, long a3, @Nonnull LTieLongConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -282,7 +284,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, long a3, LTieLongFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, long a3, @Nonnull LTieLongFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -291,7 +294,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(long min_a, long max_a, LLongPredicate func) {
+	public static void fromTo(long min_a, long max_a, @Nonnull LLongPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a <= max_a; a++) {
@@ -305,7 +308,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(long min_a, long max_a, LLongPredicate func) {
+	public static void fromTill(long min_a, long max_a, @Nonnull LLongPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a < max_a; a++) {
@@ -319,7 +322,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(long max_a, LLongPredicate func) {
+	public static void times(long max_a, @Nonnull LLongPredicate func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -328,6 +331,25 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	/** Change function to consumer that ignores output. */
 	public default LLongConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLongPredicate before(@Nonnull LLongConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (long a) -> {
+			before.accept(a);
+			return test(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLongPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (long a) -> {
+			final boolean retval = test(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

@@ -217,7 +217,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a, int max_a, LIntUnaryOperator func) {
+	public static void fromTo(int min_a, int max_a, @Nonnull LIntUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
@@ -231,7 +231,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a, int max_a, LIntUnaryOperator func) {
+	public static void fromTill(int min_a, int max_a, @Nonnull LIntUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
@@ -245,7 +245,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a, LIntUnaryOperator func) {
+	public static void times(int max_a, @Nonnull LIntUnaryOperator func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -254,6 +254,25 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	/** Change function to consumer that ignores output. */
 	public default LIntConsumer toConsumer() {
 		return this::applyAsInt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LIntUnaryOperator before(@Nonnull LIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (int a) -> {
+			before.accept(a);
+			return applyAsInt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LIntUnaryOperator after(@Nonnull LIntConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (int a) -> {
+			final int retval = applyAsInt(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

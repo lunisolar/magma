@@ -265,7 +265,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, byte a1, byte a2, LBiBytePredicate func) {
+	public static void fromTo(int min_i, int max_i, byte a1, byte a2, @Nonnull LBiBytePredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -279,7 +279,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, byte a1, byte a2, LBiBytePredicate func) {
+	public static void fromTill(int min_i, int max_i, byte a1, byte a2, @Nonnull LBiBytePredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -293,52 +293,80 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, byte a1, byte a2, LBiBytePredicate func) {
+	public static void times(int max_i, byte a1, byte a2, @Nonnull LBiBytePredicate func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LBytePredicate lShrink(LByteUnaryOperator left) {
+	public default LBytePredicate lShrink(@Nonnull LByteUnaryOperator left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsByte(a2), a2);
 	}
 
-	public default LBytePredicate lShrinkc(byte a1) {
+	public default LBytePredicate lShrink_(byte a1) {
 		return a2 -> test(a1, a2);
 	}
 
-	public static LBytePredicate lShrinked(LByteUnaryOperator left, LBiBytePredicate func) {
+	public static LBytePredicate lShrunken(@Nonnull LByteUnaryOperator left, @Nonnull LBiBytePredicate func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static LBytePredicate lShrinkedc(byte a1, LBiBytePredicate func) {
-		return func.lShrinkc(a1);
+	public static LBytePredicate lShrunken_(byte a1, @Nonnull LBiBytePredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LBytePredicate rShrink(LByteUnaryOperator right) {
+	public default LBytePredicate rShrink(@Nonnull LByteUnaryOperator right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsByte(a1));
 	}
 
-	public default LBytePredicate rShrinkc(byte a2) {
+	public default LBytePredicate rShrink_(byte a2) {
 		return a1 -> test(a1, a2);
 	}
 
-	public static LBytePredicate rShrinked(LByteUnaryOperator right, LBiBytePredicate func) {
+	public static LBytePredicate rShrunken(@Nonnull LByteUnaryOperator right, @Nonnull LBiBytePredicate func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static LBytePredicate rShrinkedc(byte a2, LBiBytePredicate func) {
-		return func.rShrinkc(a2);
+	public static LBytePredicate rShrunken_(byte a2, @Nonnull LBiBytePredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static LBiBytePredicate uncurry(LByteFunction<LBytePredicate> func) {
+	public static LBiBytePredicate uncurry(@Nonnull LByteFunction<LBytePredicate> func) {
+		Null.nonNullArg(func, "func");
 		return (byte a1, byte a2) -> func.apply(a1).test(a2);
 	}
 
 	/** Change function to consumer that ignores output. */
 	public default LBiByteConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LBiBytePredicate before(@Nonnull LBiByteConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (byte a1, byte a2) -> {
+			before.accept(a1, a2);
+			return test(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBiBytePredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (byte a1, byte a2) -> {
+			final boolean retval = test(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

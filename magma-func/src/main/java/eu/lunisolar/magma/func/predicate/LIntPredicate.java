@@ -264,7 +264,8 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		return LIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, LObjIntConsumer<V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, @Nonnull LObjIntConsumer<V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
 			return true;
@@ -274,7 +275,8 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** 2 */
-	public default <V> int doIf(V a1, int a2, LOiToIntFunction<V> consumer) {
+	public default <V> int doIf(V a1, int a2, @Nonnull LOiToIntFunction<V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			return consumer.applyAsInt(a1, a2);
 		} else {
@@ -282,7 +284,8 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, int a3, LTieIntConsumer<? super V> consumer) {
+	public default <V> boolean doIf(V a1, int a2, int a3, @Nonnull LTieIntConsumer<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
 			return true;
@@ -291,7 +294,8 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, int a3, LTieIntFunction<? super V> consumer) {
+	public default <V> int doIf(V a1, int a2, int a3, @Nonnull LTieIntFunction<? super V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
 		} else {
@@ -300,7 +304,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a, int max_a, LIntPredicate func) {
+	public static void fromTo(int min_a, int max_a, @Nonnull LIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
@@ -314,7 +318,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a, int max_a, LIntPredicate func) {
+	public static void fromTill(int min_a, int max_a, @Nonnull LIntPredicate func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
@@ -328,7 +332,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a, LIntPredicate func) {
+	public static void times(int max_a, @Nonnull LIntPredicate func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -337,6 +341,25 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	/** Change function to consumer that ignores output. */
 	public default LIntConsumer toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LIntPredicate before(@Nonnull LIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (int a) -> {
+			before.accept(a);
+			return test(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LIntPredicate after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (int a) -> {
+			final boolean retval = test(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

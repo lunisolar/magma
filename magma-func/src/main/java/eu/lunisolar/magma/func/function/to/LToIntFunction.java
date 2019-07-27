@@ -219,7 +219,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LToIntFunction<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LToIntFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -233,7 +233,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LToIntFunction<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LToIntFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -247,14 +247,14 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LToIntFunction<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LToIntFunction<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> int from(M container, LBiFunction<M, K, V> extractor, K key, LToIntFunction<V> function, int orElse) {
+	public static <M, K, V> int from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LToIntFunction<V> function, int orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -286,6 +286,25 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return this::applyAsInt;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LToIntFunction<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return applyAsInt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LToIntFunction<T> after(@Nonnull LIntConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final int retval = applyAsInt(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T a) {
 		return () -> this.applyAsInt(a);
@@ -305,7 +324,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LToIntFunction<T> toIntFunc(Class<T> c1, final @Nonnull LToIntFunction<T> lambda) {
+	static <T> LToIntFunction<T> toIntFunc(@Nullable Class<T> c1, final @Nonnull LToIntFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

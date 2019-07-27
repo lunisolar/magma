@@ -225,7 +225,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, LBoolSupplier func) {
+	public static void fromTo(int min_i, int max_i, @Nonnull LBoolSupplier func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -239,7 +239,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, LBoolSupplier func) {
+	public static void fromTill(int min_i, int max_i, @Nonnull LBoolSupplier func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -253,7 +253,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, LBoolSupplier func) {
+	public static void times(int max_i, @Nonnull LBoolSupplier func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, func);
@@ -262,6 +262,16 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	/** Change function to consumer that ignores output. */
 	public default LAction toConsumer() {
 		return this::getAsBool;
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBoolSupplier after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return () -> {
+			final boolean retval = getAsBool();
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Creates function that always returns the same value. */

@@ -213,7 +213,7 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a, int max_a, LIntConsumer func) {
+	public static void fromTo(int min_a, int max_a, @Nonnull LIntConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
@@ -227,7 +227,7 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a, int max_a, LIntConsumer func) {
+	public static void fromTill(int min_a, int max_a, @Nonnull LIntConsumer func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
@@ -241,10 +241,19 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a, LIntConsumer func) {
+	public static void times(int max_a, @Nonnull LIntConsumer func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LIntConsumer before(@Nonnull LIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (int a) -> {
+			before.accept(a);
+			accept(a);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

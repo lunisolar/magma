@@ -219,7 +219,7 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, LOiToByteFunction<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, @Nonnull LOiToByteFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -233,7 +233,7 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, LOiToByteFunction<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, @Nonnull LOiToByteFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -247,14 +247,14 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, LOiToByteFunction<T> func) {
+	public static <T> void times(int max_a2, T a1, @Nonnull LOiToByteFunction<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> byte from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToByteFunction<V> function, byte orElse) {
+	public static <M, K, V> byte from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, @Nonnull LOiToByteFunction<V> function, byte orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -266,40 +266,49 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
-	public default LIntToByteFunction lShrink(LIntFunction<T> left) {
+	public default LIntToByteFunction lShrink(@Nonnull LIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsByte(left.apply(a2), a2);
 	}
 
-	public default LIntToByteFunction lShrinkc(T a1) {
+	public default LIntToByteFunction lShrink_(T a1) {
 		return a2 -> applyAsByte(a1, a2);
 	}
 
-	public static <T> LIntToByteFunction lShrinked(LIntFunction<T> left, LOiToByteFunction<T> func) {
+	public static <T> LIntToByteFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToByteFunction<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LIntToByteFunction lShrinkedc(T a1, LOiToByteFunction<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LIntToByteFunction lShrunken_(T a1, @Nonnull LOiToByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LToByteFunction<T> rShrink(LToIntFunction<T> right) {
+	public default LToByteFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsByte(a1, right.applyAsInt(a1));
 	}
 
-	public default LToByteFunction<T> rShrinkc(int a2) {
+	public default LToByteFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsByte(a1, a2);
 	}
 
-	public static <T> LToByteFunction<T> rShrinked(LToIntFunction<T> right, LOiToByteFunction<T> func) {
+	public static <T> LToByteFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToByteFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LToByteFunction<T> rShrinkedc(int a2, LOiToByteFunction<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LToByteFunction<T> rShrunken_(int a2, @Nonnull LOiToByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LOiToByteFunction<T> uncurry(LFunction<T, LIntToByteFunction> func) {
+	public static <T> LOiToByteFunction<T> uncurry(@Nonnull LFunction<T, LIntToByteFunction> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2) -> func.apply(a1).applyAsByte(a2);
 	}
 
@@ -321,6 +330,25 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	/** Change function to consumer that ignores output. */
 	public default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsByte;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LOiToByteFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2) -> {
+			before.accept(a1, a2);
+			return applyAsByte(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LOiToByteFunction<T> after(@Nonnull LByteConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2) -> {
+			final byte retval = applyAsByte(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -354,7 +382,7 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LOiToByteFunction<T> oiToByteFunc(Class<T> c1, final @Nonnull LOiToByteFunction<T> lambda) {
+	static <T> LOiToByteFunction<T> oiToByteFunc(@Nullable Class<T> c1, final @Nonnull LOiToByteFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

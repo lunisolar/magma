@@ -221,7 +221,7 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_i, int max_i, T a1, char a2, LObjCharFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_i, int max_i, T a1, char a2, @Nonnull LObjCharFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_i, int max_i, T a1, char a2, LObjCharFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_i, int max_i, T a1, char a2, @Nonnull LObjCharFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,14 +249,14 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_i, T a1, char a2, LObjCharFunction<T, R> func) {
+	public static <T, R> void times(int max_i, T a1, char a2, @Nonnull LObjCharFunction<T, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, char a2, LObjCharFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, char a2, @Nonnull LObjCharFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -268,40 +268,49 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
-	public default LCharFunction<R> lShrink(LCharFunction<T> left) {
+	public default LCharFunction<R> lShrink(@Nonnull LCharFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LCharFunction<R> lShrinkc(T a1) {
+	public default LCharFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
-	public static <R, T> LCharFunction<R> lShrinked(LCharFunction<T> left, LObjCharFunction<T, R> func) {
+	public static <R, T> LCharFunction<R> lShrunken(@Nonnull LCharFunction<T> left, @Nonnull LObjCharFunction<T, R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R, T> LCharFunction<R> lShrinkedc(T a1, LObjCharFunction<T, R> func) {
-		return func.lShrinkc(a1);
+	public static <R, T> LCharFunction<R> lShrunken_(T a1, @Nonnull LObjCharFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(LToCharFunction<T> right) {
+	public default LFunction<T, R> rShrink(@Nonnull LToCharFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsChar(a1));
 	}
 
-	public default LFunction<T, R> rShrinkc(char a2) {
+	public default LFunction<T, R> rShrink_(char a2) {
 		return a1 -> apply(a1, a2);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinked(LToCharFunction<T> right, LObjCharFunction<T, R> func) {
+	public static <T, R> LFunction<T, R> rShrunken(@Nonnull LToCharFunction<T> right, @Nonnull LObjCharFunction<T, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T, R> LFunction<T, R> rShrinkedc(char a2, LObjCharFunction<T, R> func) {
-		return func.rShrinkc(a2);
+	public static <T, R> LFunction<T, R> rShrunken_(char a2, @Nonnull LObjCharFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T, R> LObjCharFunction<T, R> uncurry(LFunction<T, LCharFunction<R>> func) {
+	public static <T, R> LObjCharFunction<T, R> uncurry(@Nonnull LFunction<T, LCharFunction<R>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, char a2) -> func.apply(a1).apply(a2);
 	}
 
@@ -323,6 +332,25 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	/** Change function to consumer that ignores output. */
 	public default LObjCharConsumer<T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjCharFunction<T, R> before(@Nonnull LObjCharConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, char a2) -> {
+			before.accept(a1, a2);
+			return apply(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjCharFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, char a2) -> {
+			final R retval = apply(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -356,7 +384,7 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LObjCharFunction<T, R> objCharFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjCharFunction<T, R> lambda) {
+	static <T, R> LObjCharFunction<T, R> objCharFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LObjCharFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -497,25 +525,6 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	default LObjCharConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2) -> after.accept(this.apply(a1, a2));
-	}
-
-	@Nonnull
-	default LObjCharFunction<T, R> before(@Nonnull LObjCharConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2) -> {
-			before.accept(a1, a2);
-			return this.apply(a1, a2);
-		};
-	}
-
-	@Nonnull
-	default LObjCharFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2) -> {
-			R result = this.apply(a1, a2);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

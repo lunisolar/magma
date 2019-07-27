@@ -213,7 +213,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, LAction func) {
+	public static void fromTo(int min_i, int max_i, @Nonnull LAction func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, LAction func) {
+	public static void fromTill(int min_i, int max_i, @Nonnull LAction func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,7 +241,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, LAction func) {
+	public static void times(int max_i, @Nonnull LAction func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, func);

@@ -219,7 +219,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, LSupplier<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, @Nonnull LSupplier<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -233,7 +233,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, LSupplier<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, @Nonnull LSupplier<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -247,7 +247,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, LSupplier<T> func) {
+	public static <T> void times(int max_i, @Nonnull LSupplier<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, func);
@@ -273,6 +273,16 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return this::get;
 	}
 
+	/** Calls codomain consumer after main function. */
+	public default LSupplier<T> after(@Nonnull LConsumer<T> after) {
+		Null.nonNullArg(after, "after");
+		return () -> {
+			final T retval = get();
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Creates function that always returns the same value. */
 	static <T> LSupplier<T> of(T r) {
 		return () -> r;
@@ -287,7 +297,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LSupplier<T> sup(Class<T> c1, final @Nonnull LSupplier<T> lambda) {
+	static <T> LSupplier<T> sup(@Nullable Class<T> c1, final @Nonnull LSupplier<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -394,25 +404,6 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default LAction toAct(@Nonnull LConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.accept(this.get());
-	}
-
-	@Nonnull
-	default LSupplier<T> before(@Nonnull LAction before) {
-		Null.nonNullArg(before, "before");
-		return () -> {
-			before.execute();
-			return this.get();
-		};
-	}
-
-	@Nonnull
-	default LSupplier<T> after(@Nonnull LConsumer<? super T> after) {
-		Null.nonNullArg(after, "after");
-		return () -> {
-			T result = this.get();
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

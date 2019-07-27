@@ -221,7 +221,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_i, int max_i, T a1, int a2, int a3, LObjBiIntFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_i, int max_i, T a1, int a2, int a3, @Nonnull LObjBiIntFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_i, int max_i, T a1, int a2, int a3, LObjBiIntFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_i, int max_i, T a1, int a2, int a3, @Nonnull LObjBiIntFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,14 +249,14 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_i, T a1, int a2, int a3, LObjBiIntFunction<T, R> func) {
+	public static <T, R> void times(int max_i, T a1, int a2, int a3, @Nonnull LObjBiIntFunction<T, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, int a3, LObjBiIntFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, int a3, @Nonnull LObjBiIntFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -268,40 +268,49 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return null;
 	}
 
-	public default LBiIntFunction<R> lShrink(LBiIntFunction<T> left) {
+	public default LBiIntFunction<R> lShrink(@Nonnull LBiIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiIntFunction<R> lShrinkc(T a1) {
+	public default LBiIntFunction<R> lShrink_(T a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
-	public static <R, T> LBiIntFunction<R> lShrinked(LBiIntFunction<T> left, LObjBiIntFunction<T, R> func) {
+	public static <R, T> LBiIntFunction<R> lShrunken(@Nonnull LBiIntFunction<T> left, @Nonnull LObjBiIntFunction<T, R> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <R, T> LBiIntFunction<R> lShrinkedc(T a1, LObjBiIntFunction<T, R> func) {
-		return func.lShrinkc(a1);
+	public static <R, T> LBiIntFunction<R> lShrunken_(T a1, @Nonnull LObjBiIntFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LOiFunction<T, R> rShrink(LOiToIntFunction<T> right) {
+	public default LOiFunction<T, R> rShrink(@Nonnull LOiToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LOiFunction<T, R> rShrinkc(int a3) {
+	public default LOiFunction<T, R> rShrink_(int a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
-	public static <T, R> LOiFunction<T, R> rShrinked(LOiToIntFunction<T> right, LObjBiIntFunction<T, R> func) {
+	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LOiToIntFunction<T> right, @Nonnull LObjBiIntFunction<T, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T, R> LOiFunction<T, R> rShrinkedc(int a3, LObjBiIntFunction<T, R> func) {
-		return func.rShrinkc(a3);
+	public static <T, R> LOiFunction<T, R> rShrunken_(int a3, @Nonnull LObjBiIntFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T, R> LObjBiIntFunction<T, R> uncurry(LFunction<T, LIntFunction<LIntFunction<R>>> func) {
+	public static <T, R> LObjBiIntFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LIntFunction<R>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, int a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
@@ -323,6 +332,25 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	/** Change function to consumer that ignores output. */
 	public default LTieIntConsumer<T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjBiIntFunction<T, R> before(@Nonnull LTieIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, int a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjBiIntFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, int a3) -> {
+			final R retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -362,7 +390,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LObjBiIntFunction<T, R> objBiIntFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjBiIntFunction<T, R> lambda) {
+	static <T, R> LObjBiIntFunction<T, R> objBiIntFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LObjBiIntFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -534,25 +562,6 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	default LTieIntConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.accept(this.apply(a1, a2, a3));
-	}
-
-	@Nonnull
-	default LObjBiIntFunction<T, R> before(@Nonnull LTieIntConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2, a3) -> {
-			before.accept(a1, a2, a3);
-			return this.apply(a1, a2, a3);
-		};
-	}
-
-	@Nonnull
-	default LObjBiIntFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> {
-			R result = this.apply(a1, a2, a3);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

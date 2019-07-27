@@ -265,7 +265,7 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, char a3, LObjIntCharPredicate<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, char a3, @Nonnull LObjIntCharPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -279,7 +279,7 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, char a3, LObjIntCharPredicate<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, char a3, @Nonnull LObjIntCharPredicate<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -293,14 +293,14 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, char a3, LObjIntCharPredicate<T> func) {
+	public static <T> void times(int max_a2, T a1, char a3, @Nonnull LObjIntCharPredicate<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> boolean from(M container, LBiFunction<M, K, V> extractor, K key, int a2, char a3, LObjIntCharPredicate<V> function) {
+	public static <M, K, V> boolean from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, char a3, @Nonnull LObjIntCharPredicate<V> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -313,7 +313,8 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/**  */
-	public static <T> LObjIntCharPredicate<T> uncurry(LFunction<T, LIntFunction<LCharPredicate>> func) {
+	public static <T> LObjIntCharPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LCharPredicate>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, char a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
@@ -335,6 +336,25 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	/** Change function to consumer that ignores output. */
 	public default LTieCharConsumer<T> toConsumer() {
 		return this::test;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjIntCharPredicate<T> before(@Nonnull LTieCharConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, char a3) -> {
+			before.accept(a1, a2, a3);
+			return test(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjIntCharPredicate<T> after(@Nonnull LBoolConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, char a3) -> {
+			final boolean retval = test(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -374,7 +394,7 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjIntCharPredicate<T> objIntCharPred(Class<T> c1, final @Nonnull LObjIntCharPredicate<T> lambda) {
+	static <T> LObjIntCharPredicate<T> objIntCharPred(@Nullable Class<T> c1, final @Nonnull LObjIntCharPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

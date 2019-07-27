@@ -215,7 +215,7 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a1, boolean a2, LObjBoolConsumer<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a1, boolean a2, @Nonnull LObjBoolConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -229,7 +229,7 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a1, boolean a2, LObjBoolConsumer<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a1, boolean a2, @Nonnull LObjBoolConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -243,46 +243,55 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a1, boolean a2, LObjBoolConsumer<T> func) {
+	public static <T> void times(int max_i, T a1, boolean a2, @Nonnull LObjBoolConsumer<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LBoolConsumer lShrink(LBoolFunction<T> left) {
+	public default LBoolConsumer lShrink(@Nonnull LBoolFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LBoolConsumer lShrinkc(T a1) {
+	public default LBoolConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
-	public static <T> LBoolConsumer lShrinked(LBoolFunction<T> left, LObjBoolConsumer<T> func) {
+	public static <T> LBoolConsumer lShrunken(@Nonnull LBoolFunction<T> left, @Nonnull LObjBoolConsumer<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LBoolConsumer lShrinkedc(T a1, LObjBoolConsumer<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LBoolConsumer lShrunken_(T a1, @Nonnull LObjBoolConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(LPredicate<T> right) {
+	public default LConsumer<T> rShrink(@Nonnull LPredicate<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.test(a1));
 	}
 
-	public default LConsumer<T> rShrinkc(boolean a2) {
+	public default LConsumer<T> rShrink_(boolean a2) {
 		return a1 -> accept(a1, a2);
 	}
 
-	public static <T> LConsumer<T> rShrinked(LPredicate<T> right, LObjBoolConsumer<T> func) {
+	public static <T> LConsumer<T> rShrunken(@Nonnull LPredicate<T> right, @Nonnull LObjBoolConsumer<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LConsumer<T> rShrinkedc(boolean a2, LObjBoolConsumer<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LConsumer<T> rShrunken_(boolean a2, @Nonnull LObjBoolConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LObjBoolConsumer<T> uncurry(LFunction<T, LBoolConsumer> func) {
+	public static <T> LObjBoolConsumer<T> uncurry(@Nonnull LFunction<T, LBoolConsumer> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, boolean a2) -> func.apply(a1).accept(a2);
 	}
 
@@ -299,6 +308,15 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	/** Cast that replace generics. */
 	public static <V2, T> LObjBoolConsumer<V2> cast(LObjBoolConsumer<T> function) {
 		return (LObjBoolConsumer) function;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjBoolConsumer<T> before(@Nonnull LObjBoolConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, boolean a2) -> {
+			before.accept(a1, a2);
+			accept(a1, a2);
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -327,7 +345,7 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LObjBoolConsumer<T> objBoolCons(Class<T> c1, final @Nonnull LObjBoolConsumer<T> lambda) {
+	static <T> LObjBoolConsumer<T> objBoolCons(@Nullable Class<T> c1, final @Nonnull LObjBoolConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

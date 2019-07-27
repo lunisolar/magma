@@ -217,7 +217,7 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a, int max_a, LIntToByteFunction func) {
+	public static void fromTo(int min_a, int max_a, @Nonnull LIntToByteFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
@@ -231,7 +231,7 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a, int max_a, LIntToByteFunction func) {
+	public static void fromTill(int min_a, int max_a, @Nonnull LIntToByteFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
@@ -245,7 +245,7 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a, LIntToByteFunction func) {
+	public static void times(int max_a, @Nonnull LIntToByteFunction func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -254,6 +254,25 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	/** Change function to consumer that ignores output. */
 	public default LIntConsumer toConsumer() {
 		return this::applyAsByte;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LIntToByteFunction before(@Nonnull LIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (int a) -> {
+			before.accept(a);
+			return applyAsByte(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LIntToByteFunction after(@Nonnull LByteConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (int a) -> {
+			final byte retval = applyAsByte(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

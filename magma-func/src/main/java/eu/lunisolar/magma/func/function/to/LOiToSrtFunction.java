@@ -219,7 +219,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, LOiToSrtFunction<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, @Nonnull LOiToSrtFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -233,7 +233,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, LOiToSrtFunction<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, @Nonnull LOiToSrtFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -247,14 +247,14 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, LOiToSrtFunction<T> func) {
+	public static <T> void times(int max_a2, T a1, @Nonnull LOiToSrtFunction<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> short from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToSrtFunction<V> function, short orElse) {
+	public static <M, K, V> short from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, @Nonnull LOiToSrtFunction<V> function, short orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -266,40 +266,49 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LIntToSrtFunction lShrink(LIntFunction<T> left) {
+	public default LIntToSrtFunction lShrink(@Nonnull LIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsSrt(left.apply(a2), a2);
 	}
 
-	public default LIntToSrtFunction lShrinkc(T a1) {
+	public default LIntToSrtFunction lShrink_(T a1) {
 		return a2 -> applyAsSrt(a1, a2);
 	}
 
-	public static <T> LIntToSrtFunction lShrinked(LIntFunction<T> left, LOiToSrtFunction<T> func) {
+	public static <T> LIntToSrtFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToSrtFunction<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LIntToSrtFunction lShrinkedc(T a1, LOiToSrtFunction<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LIntToSrtFunction lShrunken_(T a1, @Nonnull LOiToSrtFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LToSrtFunction<T> rShrink(LToIntFunction<T> right) {
+	public default LToSrtFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsSrt(a1, right.applyAsInt(a1));
 	}
 
-	public default LToSrtFunction<T> rShrinkc(int a2) {
+	public default LToSrtFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsSrt(a1, a2);
 	}
 
-	public static <T> LToSrtFunction<T> rShrinked(LToIntFunction<T> right, LOiToSrtFunction<T> func) {
+	public static <T> LToSrtFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToSrtFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LToSrtFunction<T> rShrinkedc(int a2, LOiToSrtFunction<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LToSrtFunction<T> rShrunken_(int a2, @Nonnull LOiToSrtFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LOiToSrtFunction<T> uncurry(LFunction<T, LIntToSrtFunction> func) {
+	public static <T> LOiToSrtFunction<T> uncurry(@Nonnull LFunction<T, LIntToSrtFunction> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2) -> func.apply(a1).applyAsSrt(a2);
 	}
 
@@ -321,6 +330,25 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** Change function to consumer that ignores output. */
 	public default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsSrt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LOiToSrtFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2) -> {
+			before.accept(a1, a2);
+			return applyAsSrt(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LOiToSrtFunction<T> after(@Nonnull LSrtConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2) -> {
+			final short retval = applyAsSrt(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -354,7 +382,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LOiToSrtFunction<T> oiToSrtFunc(Class<T> c1, final @Nonnull LOiToSrtFunction<T> lambda) {
+	static <T> LOiToSrtFunction<T> oiToSrtFunc(@Nullable Class<T> c1, final @Nonnull LOiToSrtFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

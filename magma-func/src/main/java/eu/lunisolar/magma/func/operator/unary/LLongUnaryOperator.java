@@ -217,7 +217,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(long min_a, long max_a, LLongUnaryOperator func) {
+	public static void fromTo(long min_a, long max_a, @Nonnull LLongUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a <= max_a; a++) {
@@ -231,7 +231,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(long min_a, long max_a, LLongUnaryOperator func) {
+	public static void fromTill(long min_a, long max_a, @Nonnull LLongUnaryOperator func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a < max_a; a++) {
@@ -245,7 +245,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(long max_a, LLongUnaryOperator func) {
+	public static void times(long max_a, @Nonnull LLongUnaryOperator func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -254,6 +254,25 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	/** Change function to consumer that ignores output. */
 	public default LLongConsumer toConsumer() {
 		return this::applyAsLong;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LLongUnaryOperator before(@Nonnull LLongConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (long a) -> {
+			before.accept(a);
+			return applyAsLong(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLongUnaryOperator after(@Nonnull LLongConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (long a) -> {
+			final long retval = applyAsLong(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

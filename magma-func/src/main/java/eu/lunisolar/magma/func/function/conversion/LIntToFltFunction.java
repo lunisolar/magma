@@ -217,7 +217,7 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_a, int max_a, LIntToFltFunction func) {
+	public static void fromTo(int min_a, int max_a, @Nonnull LIntToFltFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a <= max_a; a++) {
@@ -231,7 +231,7 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_a, int max_a, LIntToFltFunction func) {
+	public static void fromTill(int min_a, int max_a, @Nonnull LIntToFltFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (int a = min_a; a < max_a; a++) {
@@ -245,7 +245,7 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_a, LIntToFltFunction func) {
+	public static void times(int max_a, @Nonnull LIntToFltFunction func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -254,6 +254,25 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** Change function to consumer that ignores output. */
 	public default LIntConsumer toConsumer() {
 		return this::applyAsFlt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LIntToFltFunction before(@Nonnull LIntConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (int a) -> {
+			before.accept(a);
+			return applyAsFlt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LIntToFltFunction after(@Nonnull LFltConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (int a) -> {
+			final float retval = applyAsFlt(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

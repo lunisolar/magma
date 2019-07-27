@@ -213,7 +213,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LConsumer<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -227,7 +227,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LConsumer<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LConsumer<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -241,7 +241,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LConsumer<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LConsumer<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -262,6 +262,15 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		return (LConsumer) function;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LConsumer<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			accept(a);
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T a) {
 		return () -> this.accept(a);
@@ -276,7 +285,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LConsumer<T> cons(Class<T> c1, final @Nonnull LConsumer<T> lambda) {
+	static <T> LConsumer<T> cons(@Nullable Class<T> c1, final @Nonnull LConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

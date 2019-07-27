@@ -217,7 +217,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTo(int min_i, int max_i, double a, LDblToFltFunction func) {
+	public static void fromTo(int min_i, int max_i, double a, @Nonnull LDblToFltFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void fromTill(int min_i, int max_i, double a, LDblToFltFunction func) {
+	public static void fromTill(int min_i, int max_i, double a, @Nonnull LDblToFltFunction func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,7 +245,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static void times(int max_i, double a, LDblToFltFunction func) {
+	public static void times(int max_i, double a, @Nonnull LDblToFltFunction func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -254,6 +254,25 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	/** Change function to consumer that ignores output. */
 	public default LDblConsumer toConsumer() {
 		return this::applyAsFlt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LDblToFltFunction before(@Nonnull LDblConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (double a) -> {
+			before.accept(a);
+			return applyAsFlt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LDblToFltFunction after(@Nonnull LFltConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (double a) -> {
+			final float retval = applyAsFlt(a);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */

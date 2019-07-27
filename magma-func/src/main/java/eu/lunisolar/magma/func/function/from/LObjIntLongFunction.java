@@ -221,7 +221,7 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTo(int min_i, int max_i, T a1, int a2, long a3, LObjIntLongFunction<T, R> func) {
+	public static <T, R> void fromTo(int min_i, int max_i, T a1, int a2, long a3, @Nonnull LObjIntLongFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void fromTill(int min_i, int max_i, T a1, int a2, long a3, LObjIntLongFunction<T, R> func) {
+	public static <T, R> void fromTill(int min_i, int max_i, T a1, int a2, long a3, @Nonnull LObjIntLongFunction<T, R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,14 +249,14 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T, R> void times(int max_i, T a1, int a2, long a3, LObjIntLongFunction<T, R> func) {
+	public static <T, R> void times(int max_i, T a1, int a2, long a3, @Nonnull LObjIntLongFunction<T, R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(M container, LBiFunction<M, K, V> extractor, K key, int a2, long a3, LObjIntLongFunction<V, R> function) {
+	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, long a3, @Nonnull LObjIntLongFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -269,7 +269,8 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/**  */
-	public static <T, R> LObjIntLongFunction<T, R> uncurry(LFunction<T, LIntFunction<LLongFunction<R>>> func) {
+	public static <T, R> LObjIntLongFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LLongFunction<R>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2, long a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
@@ -291,6 +292,25 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Change function to consumer that ignores output. */
 	public default LTieLongConsumer<T> toConsumer() {
 		return this::apply;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LObjIntLongFunction<T, R> before(@Nonnull LTieLongConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2, long a3) -> {
+			before.accept(a1, a2, a3);
+			return apply(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LObjIntLongFunction<T, R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2, long a3) -> {
+			final R retval = apply(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -330,7 +350,7 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T, R> LObjIntLongFunction<T, R> objIntLongFunc(Class<T> c1, Class<R> c2, final @Nonnull LObjIntLongFunction<T, R> lambda) {
+	static <T, R> LObjIntLongFunction<T, R> objIntLongFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LObjIntLongFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -502,25 +522,6 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	default LTieLongConsumer<T> thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.accept(this.apply(a1, a2, a3));
-	}
-
-	@Nonnull
-	default LObjIntLongFunction<T, R> before(@Nonnull LTieLongConsumer<? super T> before) {
-		Null.nonNullArg(before, "before");
-		return (a1, a2, a3) -> {
-			before.accept(a1, a2, a3);
-			return this.apply(a1, a2, a3);
-		};
-	}
-
-	@Nonnull
-	default LObjIntLongFunction<T, R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return (a1, a2, a3) -> {
-			R result = this.apply(a1, a2, a3);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

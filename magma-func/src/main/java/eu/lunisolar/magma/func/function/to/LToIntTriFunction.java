@@ -217,7 +217,7 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, T3> void fromTo(int min_i, int max_i, T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> func) {
+	public static <T1, T2, T3> void fromTo(int min_i, int max_i, T1 a1, T2 a2, T3 a3, @Nonnull LToIntTriFunction<T1, T2, T3> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -231,7 +231,7 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, T3> void fromTill(int min_i, int max_i, T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> func) {
+	public static <T1, T2, T3> void fromTill(int min_i, int max_i, T1 a1, T2 a2, T3 a3, @Nonnull LToIntTriFunction<T1, T2, T3> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -245,14 +245,14 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T1, T2, T3> void times(int max_i, T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> func) {
+	public static <T1, T2, T3> void times(int max_i, T1 a1, T2 a2, T3 a3, @Nonnull LToIntTriFunction<T1, T2, T3> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V, T2, T3> int from(M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, LToIntTriFunction<V, T2, T3> function, int orElse) {
+	public static <M, K, V, T2, T3> int from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, @Nonnull LToIntTriFunction<V, T2, T3> function, int orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -264,40 +264,49 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return orElse;
 	}
 
-	public default LToIntBiFunction<T2, T3> lShrink(LBiFunction<T2, T3, T1> left) {
+	public default LToIntBiFunction<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
+		Null.nonNullArg(left, "left");
 		return (a2, a3) -> applyAsInt(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LToIntBiFunction<T2, T3> lShrinkc(T1 a1) {
+	public default LToIntBiFunction<T2, T3> lShrink_(T1 a1) {
 		return (a2, a3) -> applyAsInt(a1, a2, a3);
 	}
 
-	public static <T2, T3, T1> LToIntBiFunction<T2, T3> lShrinked(LBiFunction<T2, T3, T1> left, LToIntTriFunction<T1, T2, T3> func) {
+	public static <T2, T3, T1> LToIntBiFunction<T2, T3> lShrunken(@Nonnull LBiFunction<T2, T3, T1> left, @Nonnull LToIntTriFunction<T1, T2, T3> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T2, T3, T1> LToIntBiFunction<T2, T3> lShrinkedc(T1 a1, LToIntTriFunction<T1, T2, T3> func) {
-		return func.lShrinkc(a1);
+	public static <T2, T3, T1> LToIntBiFunction<T2, T3> lShrunken_(T1 a1, @Nonnull LToIntTriFunction<T1, T2, T3> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LToIntBiFunction<T1, T2> rShrink(LBiFunction<T1, T2, T3> right) {
+	public default LToIntBiFunction<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
+		Null.nonNullArg(right, "right");
 		return (a1, a2) -> applyAsInt(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LToIntBiFunction<T1, T2> rShrinkc(T3 a3) {
+	public default LToIntBiFunction<T1, T2> rShrink_(T3 a3) {
 		return (a1, a2) -> applyAsInt(a1, a2, a3);
 	}
 
-	public static <T1, T2, T3> LToIntBiFunction<T1, T2> rShrinked(LBiFunction<T1, T2, T3> right, LToIntTriFunction<T1, T2, T3> func) {
+	public static <T1, T2, T3> LToIntBiFunction<T1, T2> rShrunken(@Nonnull LBiFunction<T1, T2, T3> right, @Nonnull LToIntTriFunction<T1, T2, T3> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T1, T2, T3> LToIntBiFunction<T1, T2> rShrinkedc(T3 a3, LToIntTriFunction<T1, T2, T3> func) {
-		return func.rShrinkc(a3);
+	public static <T1, T2, T3> LToIntBiFunction<T1, T2> rShrunken_(T3 a3, @Nonnull LToIntTriFunction<T1, T2, T3> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
 	}
 
 	/**  */
-	public static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> uncurry(LFunction<T1, LFunction<T2, LToIntFunction<T3>>> func) {
+	public static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> uncurry(@Nonnull LFunction<T1, LFunction<T2, LToIntFunction<T3>>> func) {
+		Null.nonNullArg(func, "func");
 		return (T1 a1, T2 a2, T3 a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
@@ -319,6 +328,25 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	/** Change function to consumer that ignores output. */
 	public default LTriConsumer<T1, T2, T3> toConsumer() {
 		return this::applyAsInt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LToIntTriFunction<T1, T2, T3> before(@Nonnull LTriConsumer<T1, T2, T3> before) {
+		Null.nonNullArg(before, "before");
+		return (T1 a1, T2 a2, T3 a3) -> {
+			before.accept(a1, a2, a3);
+			return applyAsInt(a1, a2, a3);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LToIntTriFunction<T1, T2, T3> after(@Nonnull LIntConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T1 a1, T2 a2, T3 a3) -> {
+			final int retval = applyAsInt(a1, a2, a3);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -358,7 +386,7 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> toIntTriFunc(Class<T1> c1, Class<T2> c2, Class<T3> c3, final @Nonnull LToIntTriFunction<T1, T2, T3> lambda) {
+	static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> toIntTriFunc(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<T3> c3, final @Nonnull LToIntTriFunction<T1, T2, T3> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

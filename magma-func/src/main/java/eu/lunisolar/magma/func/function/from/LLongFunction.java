@@ -221,7 +221,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(long min_a, long max_a, LLongFunction<R> func) {
+	public static <R> void fromTo(long min_a, long max_a, @Nonnull LLongFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a <= max_a; a++) {
@@ -235,7 +235,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(long min_a, long max_a, LLongFunction<R> func) {
+	public static <R> void fromTill(long min_a, long max_a, @Nonnull LLongFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a <= max_a) {
 			for (long a = min_a; a < max_a; a++) {
@@ -249,7 +249,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(long max_a, LLongFunction<R> func) {
+	public static <R> void times(long max_a, @Nonnull LLongFunction<R> func) {
 		if (max_a < 0)
 			return;
 		fromTill(0, max_a, func);
@@ -275,6 +275,25 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LLongFunction<R> before(@Nonnull LLongConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (long a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LLongFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (long a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(long a) {
 		return () -> this.apply(a);
@@ -294,7 +313,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LLongFunction<R> longFunc(Class<R> c1, final @Nonnull LLongFunction<R> lambda) {
+	static <R> LLongFunction<R> longFunc(@Nullable Class<R> c1, final @Nonnull LLongFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -427,25 +446,6 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	default LLongConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LLongFunction<R> before(@Nonnull LLongConsumer before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LLongFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

@@ -221,7 +221,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTo(int min_i, int max_i, boolean a, LBoolFunction<R> func) {
+	public static <R> void fromTo(int min_i, int max_i, boolean a, @Nonnull LBoolFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -235,7 +235,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void fromTill(int min_i, int max_i, boolean a, LBoolFunction<R> func) {
+	public static <R> void fromTill(int min_i, int max_i, boolean a, @Nonnull LBoolFunction<R> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -249,7 +249,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <R> void times(int max_i, boolean a, LBoolFunction<R> func) {
+	public static <R> void times(int max_i, boolean a, @Nonnull LBoolFunction<R> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
@@ -275,6 +275,25 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return this::apply;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LBoolFunction<R> before(@Nonnull LBoolConsumer before) {
+		Null.nonNullArg(before, "before");
+		return (boolean a) -> {
+			before.accept(a);
+			return apply(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LBoolFunction<R> after(@Nonnull LConsumer<R> after) {
+		Null.nonNullArg(after, "after");
+		return (boolean a) -> {
+			final R retval = apply(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(boolean a) {
 		return () -> this.apply(a);
@@ -294,7 +313,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <R> LBoolFunction<R> boolFunc(Class<R> c1, final @Nonnull LBoolFunction<R> lambda) {
+	static <R> LBoolFunction<R> boolFunc(@Nullable Class<R> c1, final @Nonnull LBoolFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -422,25 +441,6 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default LBoolConsumer thenConsume(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return a -> after.accept(this.apply(a));
-	}
-
-	@Nonnull
-	default LBoolFunction<R> before(@Nonnull LBoolConsumer before) {
-		Null.nonNullArg(before, "before");
-		return a -> {
-			before.accept(a);
-			return this.apply(a);
-		};
-	}
-
-	@Nonnull
-	default LBoolFunction<R> after(@Nonnull LConsumer<? super R> after) {
-		Null.nonNullArg(after, "after");
-		return a -> {
-			R result = this.apply(a);
-			after.accept(result);
-			return result;
-		};
 	}
 
 	/** Combines two functions together in a order. */

@@ -219,7 +219,7 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_a2, int max_a2, T a1, LOiToFltFunction<T> func) {
+	public static <T> void fromTo(int min_a2, int max_a2, T a1, @Nonnull LOiToFltFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 <= max_a2; a2++) {
@@ -233,7 +233,7 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_a2, int max_a2, T a1, LOiToFltFunction<T> func) {
+	public static <T> void fromTill(int min_a2, int max_a2, T a1, @Nonnull LOiToFltFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_a2 <= max_a2) {
 			for (int a2 = min_a2; a2 < max_a2; a2++) {
@@ -247,14 +247,14 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_a2, T a1, LOiToFltFunction<T> func) {
+	public static <T> void times(int max_a2, T a1, @Nonnull LOiToFltFunction<T> func) {
 		if (max_a2 < 0)
 			return;
 		fromTill(0, max_a2, a1, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> float from(M container, LBiFunction<M, K, V> extractor, K key, int a2, LOiToFltFunction<V> function, float orElse) {
+	public static <M, K, V> float from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, @Nonnull LOiToFltFunction<V> function, float orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -266,40 +266,49 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LIntToFltFunction lShrink(LIntFunction<T> left) {
+	public default LIntToFltFunction lShrink(@Nonnull LIntFunction<T> left) {
+		Null.nonNullArg(left, "left");
 		return a2 -> applyAsFlt(left.apply(a2), a2);
 	}
 
-	public default LIntToFltFunction lShrinkc(T a1) {
+	public default LIntToFltFunction lShrink_(T a1) {
 		return a2 -> applyAsFlt(a1, a2);
 	}
 
-	public static <T> LIntToFltFunction lShrinked(LIntFunction<T> left, LOiToFltFunction<T> func) {
+	public static <T> LIntToFltFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToFltFunction<T> func) {
+		Null.nonNullArg(left, "left");
+		Null.nonNullArg(func, "func");
 		return func.lShrink(left);
 	}
 
-	public static <T> LIntToFltFunction lShrinkedc(T a1, LOiToFltFunction<T> func) {
-		return func.lShrinkc(a1);
+	public static <T> LIntToFltFunction lShrunken_(T a1, @Nonnull LOiToFltFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.lShrink_(a1);
 	}
 
-	public default LToFltFunction<T> rShrink(LToIntFunction<T> right) {
+	public default LToFltFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+		Null.nonNullArg(right, "right");
 		return a1 -> applyAsFlt(a1, right.applyAsInt(a1));
 	}
 
-	public default LToFltFunction<T> rShrinkc(int a2) {
+	public default LToFltFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsFlt(a1, a2);
 	}
 
-	public static <T> LToFltFunction<T> rShrinked(LToIntFunction<T> right, LOiToFltFunction<T> func) {
+	public static <T> LToFltFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToFltFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
 		return func.rShrink(right);
 	}
 
-	public static <T> LToFltFunction<T> rShrinkedc(int a2, LOiToFltFunction<T> func) {
-		return func.rShrinkc(a2);
+	public static <T> LToFltFunction<T> rShrunken_(int a2, @Nonnull LOiToFltFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a2);
 	}
 
 	/**  */
-	public static <T> LOiToFltFunction<T> uncurry(LFunction<T, LIntToFltFunction> func) {
+	public static <T> LOiToFltFunction<T> uncurry(@Nonnull LFunction<T, LIntToFltFunction> func) {
+		Null.nonNullArg(func, "func");
 		return (T a1, int a2) -> func.apply(a1).applyAsFlt(a2);
 	}
 
@@ -321,6 +330,25 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	/** Change function to consumer that ignores output. */
 	public default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsFlt;
+	}
+
+	/** Calls domain consumer before main function. */
+	public default LOiToFltFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a1, int a2) -> {
+			before.accept(a1, a2);
+			return applyAsFlt(a1, a2);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LOiToFltFunction<T> after(@Nonnull LFltConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a1, int a2) -> {
+			final float retval = applyAsFlt(a1, a2);
+			after.accept(retval);
+			return retval;
+		};
 	}
 
 	/** Captures arguments but delays the evaluation. */
@@ -354,7 +382,7 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LOiToFltFunction<T> oiToFltFunc(Class<T> c1, final @Nonnull LOiToFltFunction<T> lambda) {
+	static <T> LOiToFltFunction<T> oiToFltFunc(@Nullable Class<T> c1, final @Nonnull LOiToFltFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}

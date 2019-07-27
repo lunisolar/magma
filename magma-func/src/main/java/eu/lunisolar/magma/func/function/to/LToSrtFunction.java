@@ -219,7 +219,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTo(int min_i, int max_i, T a, LToSrtFunction<T> func) {
+	public static <T> void fromTo(int min_i, int max_i, T a, @Nonnull LToSrtFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i <= max_i; i++) {
@@ -233,7 +233,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void fromTill(int min_i, int max_i, T a, LToSrtFunction<T> func) {
+	public static <T> void fromTill(int min_i, int max_i, T a, @Nonnull LToSrtFunction<T> func) {
 		Null.nonNullArg(func, "func");
 		if (min_i <= max_i) {
 			for (int i = min_i; i < max_i; i++) {
@@ -247,14 +247,14 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** From-To. Intended to be used with non-capturing lambda. */
-	public static <T> void times(int max_i, T a, LToSrtFunction<T> func) {
+	public static <T> void times(int max_i, T a, @Nonnull LToSrtFunction<T> func) {
 		if (max_i < 0)
 			return;
 		fromTill(0, max_i, a, func);
 	}
 
 	/** Extract and apply function. */
-	public static <M, K, V> short from(M container, LBiFunction<M, K, V> extractor, K key, LToSrtFunction<V> function, short orElse) {
+	public static <M, K, V> short from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LToSrtFunction<V> function, short orElse) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
@@ -286,6 +286,25 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return this::applyAsSrt;
 	}
 
+	/** Calls domain consumer before main function. */
+	public default LToSrtFunction<T> before(@Nonnull LConsumer<T> before) {
+		Null.nonNullArg(before, "before");
+		return (T a) -> {
+			before.accept(a);
+			return applyAsSrt(a);
+		};
+	}
+
+	/** Calls codomain consumer after main function. */
+	public default LToSrtFunction<T> after(@Nonnull LSrtConsumer after) {
+		Null.nonNullArg(after, "after");
+		return (T a) -> {
+			final short retval = applyAsSrt(a);
+			after.accept(retval);
+			return retval;
+		};
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSrtSupplier capture(T a) {
 		return () -> this.applyAsSrt(a);
@@ -305,7 +324,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
 	@Nonnull
-	static <T> LToSrtFunction<T> toSrtFunc(Class<T> c1, final @Nonnull LToSrtFunction<T> lambda) {
+	static <T> LToSrtFunction<T> toSrtFunc(@Nullable Class<T> c1, final @Nonnull LToSrtFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
