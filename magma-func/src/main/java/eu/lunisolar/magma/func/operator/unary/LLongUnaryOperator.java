@@ -251,6 +251,11 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LLongConsumer toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(long a) {
 		return () -> this.applyAsLong(a);

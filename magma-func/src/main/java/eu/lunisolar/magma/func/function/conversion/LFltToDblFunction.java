@@ -251,6 +251,11 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LFltConsumer toConsumer() {
+		return this::applyAsDbl;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LDblSupplier capture(float a) {
 		return () -> this.applyAsDbl(a);

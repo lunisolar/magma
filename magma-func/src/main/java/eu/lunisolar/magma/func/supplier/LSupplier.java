@@ -268,6 +268,11 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return (LSupplier) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LAction toConsumer() {
+		return this::get;
+	}
+
 	/** Creates function that always returns the same value. */
 	static <T> LSupplier<T> of(T r) {
 		return () -> r;

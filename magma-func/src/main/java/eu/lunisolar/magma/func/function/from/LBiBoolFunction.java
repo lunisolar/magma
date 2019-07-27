@@ -307,6 +307,11 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (LBiBoolFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiBoolConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(boolean a1, boolean a2) {
 		return () -> this.apply(a1, a2);

@@ -251,6 +251,11 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LByteConsumer toConsumer() {
+		return this::applyAsDbl;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LDblSupplier capture(byte a) {
 		return () -> this.applyAsDbl(a);

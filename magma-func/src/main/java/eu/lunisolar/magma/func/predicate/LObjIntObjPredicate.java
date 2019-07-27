@@ -332,6 +332,11 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return (LObjIntObjPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieConsumer<T1, T2> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T1 a1, int a2, T2 a3) {
 		return () -> this.test(a1, a2, a3);

@@ -251,6 +251,11 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(int a) {
 		return () -> this.applyAsChar(a);

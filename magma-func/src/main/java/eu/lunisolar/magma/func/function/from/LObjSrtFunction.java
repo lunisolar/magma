@@ -320,6 +320,11 @@ public interface LObjSrtFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return (LObjSrtFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjSrtConsumer<T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T a1, short a2) {
 		return () -> this.apply(a1, a2);

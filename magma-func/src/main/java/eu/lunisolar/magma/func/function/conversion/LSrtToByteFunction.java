@@ -251,6 +251,11 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LSrtConsumer toConsumer() {
+		return this::applyAsByte;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(short a) {
 		return () -> this.applyAsByte(a);

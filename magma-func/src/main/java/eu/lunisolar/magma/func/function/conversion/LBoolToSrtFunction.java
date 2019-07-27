@@ -251,6 +251,11 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBoolConsumer toConsumer() {
+		return this::applyAsSrt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSrtSupplier capture(boolean a) {
 		return () -> this.applyAsSrt(a);

@@ -334,6 +334,11 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(int a) {
 		return () -> this.test(a);

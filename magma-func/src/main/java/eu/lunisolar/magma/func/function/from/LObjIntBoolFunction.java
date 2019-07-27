@@ -288,6 +288,11 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 		return (LObjIntBoolFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieBoolConsumer<T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T a1, int a2, boolean a3) {
 		return () -> this.apply(a1, a2, a3);

@@ -270,6 +270,11 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		return (LIntFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(int a) {
 		return () -> this.apply(a);

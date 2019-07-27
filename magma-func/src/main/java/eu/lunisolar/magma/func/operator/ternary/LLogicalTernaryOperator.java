@@ -335,6 +335,11 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return (boolean a1, boolean a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTriBoolConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(boolean a1, boolean a2, boolean a3) {
 		return () -> this.apply(a1, a2, a3);

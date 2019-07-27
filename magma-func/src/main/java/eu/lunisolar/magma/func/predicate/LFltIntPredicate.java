@@ -353,6 +353,11 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (float a1, int a2) -> func.apply(a1).test(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LFltIntConsumer toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(float a1, int a2) {
 		return () -> this.test(a1, a2);

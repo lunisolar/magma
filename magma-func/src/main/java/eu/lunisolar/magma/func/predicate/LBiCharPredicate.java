@@ -336,6 +336,11 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (char a1, char a2) -> func.apply(a1).test(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiCharConsumer toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(char a1, char a2) {
 		return () -> this.test(a1, a2);

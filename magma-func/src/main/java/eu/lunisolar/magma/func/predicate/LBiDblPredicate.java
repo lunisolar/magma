@@ -336,6 +336,11 @@ public interface LBiDblPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return (double a1, double a2) -> func.apply(a1).test(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiDblConsumer toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(double a1, double a2) {
 		return () -> this.test(a1, a2);

@@ -332,6 +332,11 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 		return (LObjIntBytePredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieByteConsumer<T> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T a1, int a2, byte a3) {
 		return () -> this.test(a1, a2, a3);

@@ -304,6 +304,11 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return (LBinaryOperator) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T, T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<T> capture(T a1, T a2) {
 		return () -> this.apply(a1, a2);

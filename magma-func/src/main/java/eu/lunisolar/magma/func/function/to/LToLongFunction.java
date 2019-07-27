@@ -281,6 +281,11 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return (LToLongFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(T a) {
 		return () -> this.applyAsLong(a);

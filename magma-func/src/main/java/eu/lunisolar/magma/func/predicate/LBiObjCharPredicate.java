@@ -364,6 +364,11 @@ public interface LBiObjCharPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return (LBiObjCharPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiObjCharConsumer<T1, T2> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T1 a1, T2 a2, char a3) {
 		return () -> this.test(a1, a2, a3);

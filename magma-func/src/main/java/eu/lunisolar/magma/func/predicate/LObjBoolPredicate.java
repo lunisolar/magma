@@ -373,6 +373,11 @@ public interface LObjBoolPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return (LObjBoolPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjBoolConsumer<T> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T a1, boolean a2) {
 		return () -> this.test(a1, a2);

@@ -307,6 +307,11 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (LBiSrtFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiSrtConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(short a1, short a2) {
 		return () -> this.apply(a1, a2);

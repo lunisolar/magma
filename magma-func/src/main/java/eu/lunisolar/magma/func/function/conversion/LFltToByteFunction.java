@@ -251,6 +251,11 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LFltConsumer toConsumer() {
+		return this::applyAsByte;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(float a) {
 		return () -> this.applyAsByte(a);

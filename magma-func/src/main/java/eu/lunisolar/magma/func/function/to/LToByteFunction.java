@@ -281,6 +281,11 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return (LToByteFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::applyAsByte;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(T a) {
 		return () -> this.applyAsByte(a);

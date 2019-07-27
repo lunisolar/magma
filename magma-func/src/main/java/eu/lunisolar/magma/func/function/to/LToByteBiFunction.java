@@ -316,6 +316,11 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return (LToByteBiFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T1, T2> toConsumer() {
+		return this::applyAsByte;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(T1 a1, T2 a2) {
 		return () -> this.applyAsByte(a1, a2);

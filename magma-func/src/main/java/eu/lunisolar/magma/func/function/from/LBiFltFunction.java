@@ -307,6 +307,11 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (LBiFltFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiFltConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(float a1, float a2) {
 		return () -> this.apply(a1, a2);

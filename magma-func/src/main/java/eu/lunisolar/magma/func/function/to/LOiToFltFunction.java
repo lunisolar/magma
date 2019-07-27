@@ -318,6 +318,11 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (LOiToFltFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjIntConsumer<T> toConsumer() {
+		return this::applyAsFlt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(T a1, int a2) {
 		return () -> this.applyAsFlt(a1, a2);

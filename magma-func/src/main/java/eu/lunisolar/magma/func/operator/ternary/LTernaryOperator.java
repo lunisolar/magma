@@ -304,6 +304,11 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return (LTernaryOperator) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTriConsumer<T, T, T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<T> capture(T a1, T a2, T a3) {
 		return () -> this.apply(a1, a2, a3);

@@ -288,6 +288,11 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (char a1, char a2) -> func.apply(a1).applyAsChar(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiCharConsumer toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(char a1, char a2) {
 		return () -> this.applyAsChar(a1, a2);

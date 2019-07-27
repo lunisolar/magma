@@ -270,6 +270,11 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		return (LDblFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LDblConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(double a) {
 		return () -> this.apply(a);

@@ -316,6 +316,11 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return (LToIntBiFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T1, T2> toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T1 a1, T2 a2) {
 		return () -> this.applyAsInt(a1, a2);

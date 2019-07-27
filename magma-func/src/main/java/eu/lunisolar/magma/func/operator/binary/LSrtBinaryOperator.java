@@ -288,6 +288,11 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return (short a1, short a2) -> func.apply(a1).applyAsSrt(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiSrtConsumer toConsumer() {
+		return this::applyAsSrt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSrtSupplier capture(short a1, short a2) {
 		return () -> this.applyAsSrt(a1, a2);

@@ -251,6 +251,11 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LDblConsumer toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(double a) {
 		return () -> this.applyAsInt(a);

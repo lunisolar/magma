@@ -316,6 +316,11 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return (LToLongBiFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T1, T2> toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(T1 a1, T2 a2) {
 		return () -> this.applyAsLong(a1, a2);

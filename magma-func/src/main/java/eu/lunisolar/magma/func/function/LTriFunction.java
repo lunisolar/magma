@@ -320,6 +320,11 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return (LTriFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTriConsumer<T1, T2, T3> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T1 a1, T2 a2, T3 a3) {
 		return () -> this.apply(a1, a2, a3);

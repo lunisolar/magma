@@ -259,6 +259,11 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		fromTill(0, max_i, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LAction toConsumer() {
+		return this::getAsDbl;
+	}
+
 	/** Creates function that always returns the same value. */
 	static LDblSupplier of(double r) {
 		return () -> r;

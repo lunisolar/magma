@@ -286,6 +286,11 @@ public interface LTieDblFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return (LTieDblFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieDblConsumer<T> toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T a1, int a2, double a3) {
 		return () -> this.applyAsInt(a1, a2, a3);

@@ -249,6 +249,11 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		fromTill(0, max_i, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LAction toConsumer() {
+		return this::getAsFlt;
+	}
+
 	/** Creates function that always returns the same value. */
 	static LFltSupplier of(float r) {
 		return () -> r;

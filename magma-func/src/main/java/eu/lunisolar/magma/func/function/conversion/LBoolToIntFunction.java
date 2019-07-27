@@ -251,6 +251,11 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBoolConsumer toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(boolean a) {
 		return () -> this.applyAsInt(a);

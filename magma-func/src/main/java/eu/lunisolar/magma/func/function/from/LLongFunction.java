@@ -270,6 +270,11 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		return (LLongFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LLongConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(long a) {
 		return () -> this.apply(a);

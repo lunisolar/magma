@@ -286,6 +286,11 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (LTieLongFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieLongConsumer<T> toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T a1, int a2, long a3) {
 		return () -> this.applyAsInt(a1, a2, a3);

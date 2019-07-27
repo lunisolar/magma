@@ -288,6 +288,11 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		return (long a1, long a2) -> func.apply(a1).applyAsLong(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiLongConsumer toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(long a1, long a2) {
 		return () -> this.applyAsLong(a1, a2);

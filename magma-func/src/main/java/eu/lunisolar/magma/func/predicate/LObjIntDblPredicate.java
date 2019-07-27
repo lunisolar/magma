@@ -332,6 +332,11 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return (LObjIntDblPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieDblConsumer<T> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T a1, int a2, double a3) {
 		return () -> this.test(a1, a2, a3);

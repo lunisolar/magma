@@ -288,6 +288,11 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 		return (LObjIntSrtFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieSrtConsumer<T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T a1, int a2, short a3) {
 		return () -> this.apply(a1, a2, a3);

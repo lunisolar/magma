@@ -249,6 +249,11 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		fromTill(0, max_i, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LAction toConsumer() {
+		return this::getAsLong;
+	}
+
 	/** Creates function that always returns the same value. */
 	static LLongSupplier of(long r) {
 		return () -> r;

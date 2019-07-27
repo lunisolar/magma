@@ -364,6 +364,11 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		return (LObjBiIntPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieIntConsumer<T> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T a1, int a2, int a3) {
 		return () -> this.test(a1, a2, a3);

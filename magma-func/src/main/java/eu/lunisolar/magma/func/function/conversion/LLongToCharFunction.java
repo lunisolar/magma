@@ -251,6 +251,11 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LLongConsumer toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(long a) {
 		return () -> this.applyAsChar(a);

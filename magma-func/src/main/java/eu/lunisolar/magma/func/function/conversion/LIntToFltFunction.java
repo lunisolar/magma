@@ -251,6 +251,11 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::applyAsFlt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(int a) {
 		return () -> this.applyAsFlt(a);

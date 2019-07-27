@@ -318,6 +318,11 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return (LOiToByteFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjIntConsumer<T> toConsumer() {
+		return this::applyAsByte;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(T a1, int a2) {
 		return () -> this.applyAsByte(a1, a2);

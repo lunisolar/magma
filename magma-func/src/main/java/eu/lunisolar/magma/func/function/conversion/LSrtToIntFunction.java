@@ -251,6 +251,11 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LSrtConsumer toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(short a) {
 		return () -> this.applyAsInt(a);

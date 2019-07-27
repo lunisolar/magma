@@ -251,6 +251,11 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(int a) {
 		return () -> this.applyAsLong(a);

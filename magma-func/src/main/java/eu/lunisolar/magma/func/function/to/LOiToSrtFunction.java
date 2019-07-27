@@ -318,6 +318,11 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (LOiToSrtFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjIntConsumer<T> toConsumer() {
+		return this::applyAsSrt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSrtSupplier capture(T a1, int a2) {
 		return () -> this.applyAsSrt(a1, a2);

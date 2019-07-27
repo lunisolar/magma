@@ -318,6 +318,11 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return (LTieIntFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieIntConsumer<T> toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T a1, int a2, int a3) {
 		return () -> this.applyAsInt(a1, a2, a3);

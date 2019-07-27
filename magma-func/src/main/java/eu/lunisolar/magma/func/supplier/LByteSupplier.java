@@ -249,6 +249,11 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		fromTill(0, max_i, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LAction toConsumer() {
+		return this::getAsByte;
+	}
+
 	/** Creates function that always returns the same value. */
 	static LByteSupplier of(byte r) {
 		return () -> r;

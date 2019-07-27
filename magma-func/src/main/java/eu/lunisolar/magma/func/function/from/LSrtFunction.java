@@ -270,6 +270,11 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return (LSrtFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LSrtConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(short a) {
 		return () -> this.apply(a);

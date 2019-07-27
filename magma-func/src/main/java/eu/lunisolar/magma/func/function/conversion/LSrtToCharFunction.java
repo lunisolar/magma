@@ -251,6 +251,11 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LSrtConsumer toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(short a) {
 		return () -> this.applyAsChar(a);

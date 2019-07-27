@@ -269,6 +269,11 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return (LUnaryOperator) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<T> capture(T a) {
 		return () -> this.apply(a);

@@ -251,6 +251,11 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LDblConsumer toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(double a) {
 		return () -> this.applyAsLong(a);

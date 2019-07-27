@@ -307,6 +307,11 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (LBiDblFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiDblConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(double a1, double a2) {
 		return () -> this.apply(a1, a2);

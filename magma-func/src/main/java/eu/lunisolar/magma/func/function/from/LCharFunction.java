@@ -270,6 +270,11 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return (LCharFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LCharConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(char a) {
 		return () -> this.apply(a);

@@ -325,6 +325,11 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LSrtConsumer toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(short a) {
 		return () -> this.test(a);

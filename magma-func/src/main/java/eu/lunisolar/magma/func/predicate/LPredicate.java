@@ -373,6 +373,11 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return (LPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T a) {
 		return () -> this.test(a);

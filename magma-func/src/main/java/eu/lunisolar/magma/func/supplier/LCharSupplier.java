@@ -249,6 +249,11 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		fromTill(0, max_i, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LAction toConsumer() {
+		return this::getAsChar;
+	}
+
 	/** Creates function that always returns the same value. */
 	static LCharSupplier of(char r) {
 		return () -> r;

@@ -326,6 +326,11 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return (LToDblBiFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T1, T2> toConsumer() {
+		return this::applyAsDbl;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LDblSupplier capture(T1 a1, T2 a2) {
 		return () -> this.applyAsDbl(a1, a2);

@@ -251,6 +251,11 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBoolConsumer toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(boolean a) {
 		return () -> this.applyAsChar(a);

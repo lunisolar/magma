@@ -320,6 +320,11 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return (LBiObjCharFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiObjCharConsumer<T1, T2> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T1 a1, T2 a2, char a3) {
 		return () -> this.apply(a1, a2, a3);

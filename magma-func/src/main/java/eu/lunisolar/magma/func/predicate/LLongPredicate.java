@@ -325,6 +325,11 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LLongConsumer toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(long a) {
 		return () -> this.test(a);

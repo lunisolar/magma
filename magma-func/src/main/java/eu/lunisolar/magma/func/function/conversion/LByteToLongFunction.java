@@ -251,6 +251,11 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LByteConsumer toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(byte a) {
 		return () -> this.applyAsLong(a);

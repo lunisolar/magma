@@ -270,6 +270,11 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return (LFltFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LFltConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(float a) {
 		return () -> this.apply(a);

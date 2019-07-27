@@ -281,6 +281,11 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return (LToIntFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T a) {
 		return () -> this.applyAsInt(a);

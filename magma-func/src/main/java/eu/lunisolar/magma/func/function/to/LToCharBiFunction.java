@@ -316,6 +316,11 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return (LToCharBiFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T1, T2> toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(T1 a1, T2 a2) {
 		return () -> this.applyAsChar(a1, a2);

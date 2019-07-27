@@ -307,6 +307,11 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (LBiByteFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiByteConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(byte a1, byte a2) {
 		return () -> this.apply(a1, a2);

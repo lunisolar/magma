@@ -318,6 +318,11 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (LOiToIntFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjIntConsumer<T> toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T a1, int a2) {
 		return () -> this.applyAsInt(a1, a2);

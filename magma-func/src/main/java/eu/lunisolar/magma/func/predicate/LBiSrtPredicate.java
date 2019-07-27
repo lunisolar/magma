@@ -336,6 +336,11 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return (short a1, short a2) -> func.apply(a1).test(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiSrtConsumer toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(short a1, short a2) {
 		return () -> this.test(a1, a2);

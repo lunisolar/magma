@@ -259,6 +259,11 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		fromTill(0, max_i, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LAction toConsumer() {
+		return this::getAsBool;
+	}
+
 	/** Creates function that always returns the same value. */
 	static LBoolSupplier of(boolean r) {
 		return () -> r;

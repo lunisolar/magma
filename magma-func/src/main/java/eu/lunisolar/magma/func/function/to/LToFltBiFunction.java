@@ -316,6 +316,11 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return (LToFltBiFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T1, T2> toConsumer() {
+		return this::applyAsFlt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(T1 a1, T2 a2) {
 		return () -> this.applyAsFlt(a1, a2);

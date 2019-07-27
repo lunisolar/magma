@@ -251,6 +251,11 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LByteConsumer toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(byte a) {
 		return () -> this.applyAsChar(a);

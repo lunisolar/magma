@@ -281,6 +281,11 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return (LToSrtFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::applyAsSrt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSrtSupplier capture(T a) {
 		return () -> this.applyAsSrt(a);

@@ -373,6 +373,11 @@ public interface LObjCharPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return (LObjCharPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjCharConsumer<T> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T a1, char a2) {
 		return () -> this.test(a1, a2);

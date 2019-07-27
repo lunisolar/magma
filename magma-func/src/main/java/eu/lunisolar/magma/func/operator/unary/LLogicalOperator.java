@@ -324,6 +324,11 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBoolConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(boolean a) {
 		return () -> this.apply(a);

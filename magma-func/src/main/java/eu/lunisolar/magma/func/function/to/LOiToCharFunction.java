@@ -318,6 +318,11 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return (LOiToCharFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjIntConsumer<T> toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(T a1, int a2) {
 		return () -> this.applyAsChar(a1, a2);

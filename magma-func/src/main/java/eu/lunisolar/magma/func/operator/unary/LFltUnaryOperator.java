@@ -251,6 +251,11 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LFltConsumer toConsumer() {
+		return this::applyAsFlt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(float a) {
 		return () -> this.applyAsFlt(a);

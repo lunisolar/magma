@@ -251,6 +251,11 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LLongConsumer toConsumer() {
+		return this::applyAsFlt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(long a) {
 		return () -> this.applyAsFlt(a);

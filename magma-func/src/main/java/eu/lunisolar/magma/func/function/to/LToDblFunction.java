@@ -291,6 +291,11 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return (LToDblFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::applyAsDbl;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LDblSupplier capture(T a) {
 		return () -> this.applyAsDbl(a);

@@ -364,6 +364,11 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return (LTriPredicate) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTriConsumer<T1, T2, T3> toConsumer() {
+		return this::test;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T1 a1, T2 a2, T3 a3) {
 		return () -> this.test(a1, a2, a3);

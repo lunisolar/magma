@@ -320,6 +320,11 @@ public interface LBiObjByteFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return (LBiObjByteFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiObjByteConsumer<T1, T2> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T1 a1, T2 a2, byte a3) {
 		return () -> this.apply(a1, a2, a3);

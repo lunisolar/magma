@@ -270,6 +270,11 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return (LBoolFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBoolConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(boolean a) {
 		return () -> this.apply(a);

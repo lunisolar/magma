@@ -288,6 +288,11 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return (float a1, float a2) -> func.apply(a1).applyAsFlt(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiFltConsumer toConsumer() {
+		return this::applyAsFlt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(float a1, float a2) {
 		return () -> this.applyAsFlt(a1, a2);

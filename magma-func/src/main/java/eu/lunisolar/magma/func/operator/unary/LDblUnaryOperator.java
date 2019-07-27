@@ -261,6 +261,11 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LDblConsumer toConsumer() {
+		return this::applyAsDbl;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LDblSupplier capture(double a) {
 		return () -> this.applyAsDbl(a);

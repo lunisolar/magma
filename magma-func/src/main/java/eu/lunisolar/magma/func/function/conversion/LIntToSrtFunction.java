@@ -251,6 +251,11 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::applyAsSrt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSrtSupplier capture(int a) {
 		return () -> this.applyAsSrt(a);

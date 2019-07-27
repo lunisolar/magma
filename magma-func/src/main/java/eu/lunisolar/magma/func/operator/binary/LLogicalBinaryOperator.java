@@ -335,6 +335,11 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return (boolean a1, boolean a2) -> func.apply(a1).apply(a2);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiBoolConsumer toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(boolean a1, boolean a2) {
 		return () -> this.apply(a1, a2);

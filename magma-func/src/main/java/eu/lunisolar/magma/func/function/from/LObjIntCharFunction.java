@@ -288,6 +288,11 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 		return (LObjIntCharFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieCharConsumer<T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T a1, int a2, char a3) {
 		return () -> this.apply(a1, a2, a3);

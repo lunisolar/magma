@@ -316,6 +316,11 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return (LToSrtBiFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LBiConsumer<T1, T2> toConsumer() {
+		return this::applyAsSrt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSrtSupplier capture(T1 a1, T2 a2) {
 		return () -> this.applyAsSrt(a1, a2);

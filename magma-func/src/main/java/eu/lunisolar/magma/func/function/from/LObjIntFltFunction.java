@@ -288,6 +288,11 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		return (LObjIntFltFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieFltConsumer<T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T a1, int a2, float a3) {
 		return () -> this.apply(a1, a2, a3);

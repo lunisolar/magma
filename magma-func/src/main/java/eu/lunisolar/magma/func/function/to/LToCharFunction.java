@@ -281,6 +281,11 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return (LToCharFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(T a) {
 		return () -> this.applyAsChar(a);

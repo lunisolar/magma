@@ -316,6 +316,11 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return (LToIntTriFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTriConsumer<T1, T2, T3> toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T1 a1, T2 a2, T3 a3) {
 		return () -> this.applyAsInt(a1, a2, a3);

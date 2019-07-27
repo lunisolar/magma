@@ -281,6 +281,11 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return (LToFltFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LConsumer<T> toConsumer() {
+		return this::applyAsFlt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LFltSupplier capture(T a) {
 		return () -> this.applyAsFlt(a);

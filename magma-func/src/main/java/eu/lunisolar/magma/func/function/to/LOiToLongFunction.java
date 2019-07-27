@@ -318,6 +318,11 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return (LOiToLongFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjIntConsumer<T> toConsumer() {
+		return this::applyAsLong;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(T a1, int a2) {
 		return () -> this.applyAsLong(a1, a2);

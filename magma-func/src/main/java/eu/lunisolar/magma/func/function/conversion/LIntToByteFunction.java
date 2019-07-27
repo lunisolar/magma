@@ -251,6 +251,11 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::applyAsByte;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(int a) {
 		return () -> this.applyAsByte(a);

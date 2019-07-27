@@ -318,6 +318,11 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (LOiToDblFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LObjIntConsumer<T> toConsumer() {
+		return this::applyAsDbl;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LDblSupplier capture(T a1, int a2) {
 		return () -> this.applyAsDbl(a1, a2);

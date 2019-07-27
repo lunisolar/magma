@@ -251,6 +251,11 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LIntConsumer toConsumer() {
+		return this::applyAsInt;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(int a) {
 		return () -> this.applyAsInt(a);

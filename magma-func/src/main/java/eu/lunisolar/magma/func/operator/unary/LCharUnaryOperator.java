@@ -251,6 +251,11 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LCharConsumer toConsumer() {
+		return this::applyAsChar;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(char a) {
 		return () -> this.applyAsChar(a);

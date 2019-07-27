@@ -288,6 +288,11 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 		return (LObjIntLongFunction) function;
 	}
 
+	/** Change function to consumer that ignores output. */
+	public default LTieLongConsumer<T> toConsumer() {
+		return this::apply;
+	}
+
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T a1, int a2, long a3) {
 		return () -> this.apply(a1, a2, a3);
