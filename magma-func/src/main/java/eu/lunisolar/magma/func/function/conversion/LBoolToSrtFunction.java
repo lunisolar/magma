@@ -257,7 +257,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToSrtFunction before(@Nonnull LBoolConsumer before) {
+	public default LBoolToSrtFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToSrtFunction after(@Nonnull LSrtConsumer after) {
+	public default LBoolToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final short retval = applyAsSrt(a);

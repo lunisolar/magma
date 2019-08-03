@@ -333,7 +333,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToSrtFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+	public default LOiToSrtFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToSrtFunction<T> after(@Nonnull LSrtConsumer after) {
+	public default LOiToSrtFunction<T> afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final short retval = applyAsSrt(a1, a2);

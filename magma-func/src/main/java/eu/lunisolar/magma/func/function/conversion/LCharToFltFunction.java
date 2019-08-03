@@ -257,7 +257,7 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharToFltFunction before(@Nonnull LCharConsumer before) {
+	public default LCharToFltFunction beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharToFltFunction after(@Nonnull LFltConsumer after) {
+	public default LCharToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final float retval = applyAsFlt(a);

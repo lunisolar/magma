@@ -339,7 +339,7 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntCharPredicate<T> before(@Nonnull LTieCharConsumer<T> before) {
+	public default LObjIntCharPredicate<T> beforeDo(@Nonnull LTieCharConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, char a3) -> {
 			before.accept(a1, a2, a3);
@@ -348,7 +348,7 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntCharPredicate<T> after(@Nonnull LBoolConsumer after) {
+	public default LObjIntCharPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, char a3) -> {
 			final boolean retval = test(a1, a2, a3);

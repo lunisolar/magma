@@ -331,7 +331,7 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToCharBiFunction<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LToCharBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToCharBiFunction<T1, T2> after(@Nonnull LCharConsumer after) {
+	public default LToCharBiFunction<T1, T2> afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final char retval = applyAsChar(a1, a2);

@@ -287,7 +287,7 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToByteFunction<T> before(@Nonnull LConsumer<T> before) {
+	public default LToByteFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToByteFunction<T> after(@Nonnull LByteConsumer after) {
+	public default LToByteFunction<T> afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final byte retval = applyAsByte(a);

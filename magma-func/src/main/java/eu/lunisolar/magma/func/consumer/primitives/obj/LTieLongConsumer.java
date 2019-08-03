@@ -278,7 +278,7 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieLongConsumer<T> before(@Nonnull LTieLongConsumer<T> before) {
+	public default LTieLongConsumer<T> beforeDo(@Nonnull LTieLongConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, long a3) -> {
 			before.accept(a1, a2, a3);

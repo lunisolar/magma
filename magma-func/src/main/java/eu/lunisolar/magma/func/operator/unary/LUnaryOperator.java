@@ -275,7 +275,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LUnaryOperator<T> before(@Nonnull LConsumer<T> before) {
+	public default LUnaryOperator<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -284,7 +284,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LUnaryOperator<T> after(@Nonnull LConsumer<T> after) {
+	public default LUnaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final T retval = apply(a);

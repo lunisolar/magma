@@ -334,7 +334,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtPredicate before(@Nonnull LSrtConsumer before) {
+	public default LSrtPredicate beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -343,7 +343,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtPredicate after(@Nonnull LBoolConsumer after) {
+	public default LSrtPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final boolean retval = test(a);

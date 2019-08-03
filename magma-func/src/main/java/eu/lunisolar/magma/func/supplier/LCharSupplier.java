@@ -255,7 +255,7 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharSupplier after(@Nonnull LCharConsumer after) {
+	public default LCharSupplier afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final char retval = getAsChar();

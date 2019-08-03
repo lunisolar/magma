@@ -278,7 +278,7 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieByteConsumer<T> before(@Nonnull LTieByteConsumer<T> before) {
+	public default LTieByteConsumer<T> beforeDo(@Nonnull LTieByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, byte a3) -> {
 			before.accept(a1, a2, a3);

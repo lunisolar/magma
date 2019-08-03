@@ -276,7 +276,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntFunction<R> before(@Nonnull LIntConsumer before) {
+	public default LIntFunction<R> beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LIntFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final R retval = apply(a);

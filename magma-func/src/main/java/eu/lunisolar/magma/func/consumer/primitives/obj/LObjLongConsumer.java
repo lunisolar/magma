@@ -311,7 +311,7 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjLongConsumer<T> before(@Nonnull LObjLongConsumer<T> before) {
+	public default LObjLongConsumer<T> beforeDo(@Nonnull LObjLongConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, long a2) -> {
 			before.accept(a1, a2);

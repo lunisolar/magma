@@ -311,7 +311,7 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjFltConsumer<T> before(@Nonnull LObjFltConsumer<T> before) {
+	public default LObjFltConsumer<T> beforeDo(@Nonnull LObjFltConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, float a2) -> {
 			before.accept(a1, a2);

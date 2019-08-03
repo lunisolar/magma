@@ -294,7 +294,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolIntConsumer before(@Nonnull LBoolIntConsumer before) {
+	public default LBoolIntConsumer beforeDo(@Nonnull LBoolIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, int a2) -> {
 			before.accept(a1, a2);

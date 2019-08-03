@@ -257,7 +257,7 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToDblFunction before(@Nonnull LBoolConsumer before) {
+	public default LBoolToDblFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToDblFunction after(@Nonnull LDblConsumer after) {
+	public default LBoolToDblFunction afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final double retval = applyAsDbl(a);

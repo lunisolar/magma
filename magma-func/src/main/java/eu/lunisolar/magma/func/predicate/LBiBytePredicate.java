@@ -351,7 +351,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiBytePredicate before(@Nonnull LBiByteConsumer before) {
+	public default LBiBytePredicate beforeDo(@Nonnull LBiByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, byte a2) -> {
 			before.accept(a1, a2);
@@ -360,7 +360,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiBytePredicate after(@Nonnull LBoolConsumer after) {
+	public default LBiBytePredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a1, byte a2) -> {
 			final boolean retval = test(a1, a2);

@@ -294,7 +294,7 @@ public interface LFltIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltIntConsumer before(@Nonnull LFltIntConsumer before) {
+	public default LFltIntConsumer beforeDo(@Nonnull LFltIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, int a2) -> {
 			before.accept(a1, a2);

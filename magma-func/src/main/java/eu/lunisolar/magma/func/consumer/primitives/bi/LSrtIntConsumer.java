@@ -294,7 +294,7 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtIntConsumer before(@Nonnull LSrtIntConsumer before) {
+	public default LSrtIntConsumer beforeDo(@Nonnull LSrtIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a1, int a2) -> {
 			before.accept(a1, a2);

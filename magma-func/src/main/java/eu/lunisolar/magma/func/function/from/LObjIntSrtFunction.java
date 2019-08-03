@@ -295,7 +295,7 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntSrtFunction<T, R> before(@Nonnull LTieSrtConsumer<T> before) {
+	public default LObjIntSrtFunction<T, R> beforeDo(@Nonnull LTieSrtConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, short a3) -> {
 			before.accept(a1, a2, a3);
@@ -304,7 +304,7 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntSrtFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LObjIntSrtFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, short a3) -> {
 			final R retval = apply(a1, a2, a3);

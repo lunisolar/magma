@@ -322,7 +322,7 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiDblFunction<R> before(@Nonnull LBiDblConsumer before) {
+	public default LBiDblFunction<R> beforeDo(@Nonnull LBiDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, double a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiDblFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LBiDblFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (double a1, double a2) -> {
 			final R retval = apply(a1, a2);

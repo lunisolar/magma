@@ -265,7 +265,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolSupplier after(@Nonnull LBoolConsumer after) {
+	public default LBoolSupplier afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final boolean retval = getAsBool();

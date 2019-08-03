@@ -257,7 +257,7 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntToFltFunction before(@Nonnull LIntConsumer before) {
+	public default LIntToFltFunction beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntToFltFunction after(@Nonnull LFltConsumer after) {
+	public default LIntToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final float retval = applyAsFlt(a);

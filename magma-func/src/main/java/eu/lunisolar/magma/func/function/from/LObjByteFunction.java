@@ -335,7 +335,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjByteFunction<T, R> before(@Nonnull LObjByteConsumer<T> before) {
+	public default LObjByteFunction<T, R> beforeDo(@Nonnull LObjByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, byte a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjByteFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LObjByteFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, byte a2) -> {
 			final R retval = apply(a1, a2);

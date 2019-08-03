@@ -257,7 +257,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltUnaryOperator before(@Nonnull LFltConsumer before) {
+	public default LFltUnaryOperator beforeDo(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltUnaryOperator after(@Nonnull LFltConsumer after) {
+	public default LFltUnaryOperator afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a) -> {
 			final float retval = applyAsFlt(a);

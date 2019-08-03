@@ -335,7 +335,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiFunction<T1, T2, R> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LBiFunction<T1, T2, R> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiFunction<T1, T2, R> after(@Nonnull LConsumer<R> after) {
+	public default LBiFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final R retval = apply(a1, a2);

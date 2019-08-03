@@ -322,7 +322,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriBoolFunction<R> before(@Nonnull LTriBoolConsumer before) {
+	public default LTriBoolFunction<R> beforeDo(@Nonnull LTriBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2, boolean a3) -> {
 			before.accept(a1, a2, a3);
@@ -331,7 +331,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriBoolFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LTriBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a1, boolean a2, boolean a3) -> {
 			final R retval = apply(a1, a2, a3);

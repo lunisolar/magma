@@ -276,7 +276,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteFunction<R> before(@Nonnull LByteConsumer before) {
+	public default LByteFunction<R> beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LByteFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final R retval = apply(a);

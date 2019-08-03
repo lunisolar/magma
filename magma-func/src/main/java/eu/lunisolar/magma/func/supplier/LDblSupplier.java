@@ -265,7 +265,7 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblSupplier after(@Nonnull LDblConsumer after) {
+	public default LDblSupplier afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final double retval = getAsDbl();

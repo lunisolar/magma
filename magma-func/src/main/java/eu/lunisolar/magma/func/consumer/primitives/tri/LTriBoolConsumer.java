@@ -294,7 +294,7 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriBoolConsumer before(@Nonnull LTriBoolConsumer before) {
+	public default LTriBoolConsumer beforeDo(@Nonnull LTriBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2, boolean a3) -> {
 			before.accept(a1, a2, a3);

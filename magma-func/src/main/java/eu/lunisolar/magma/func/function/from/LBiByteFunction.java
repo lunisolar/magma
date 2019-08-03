@@ -322,7 +322,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiByteFunction<R> before(@Nonnull LBiByteConsumer before) {
+	public default LBiByteFunction<R> beforeDo(@Nonnull LBiByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, byte a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiByteFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LBiByteFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (byte a1, byte a2) -> {
 			final R retval = apply(a1, a2);

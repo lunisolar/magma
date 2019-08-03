@@ -276,7 +276,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtFunction<R> before(@Nonnull LSrtConsumer before) {
+	public default LSrtFunction<R> beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LSrtFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final R retval = apply(a);

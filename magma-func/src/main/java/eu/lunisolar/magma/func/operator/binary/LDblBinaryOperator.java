@@ -313,7 +313,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblBinaryOperator before(@Nonnull LBiDblConsumer before) {
+	public default LDblBinaryOperator beforeDo(@Nonnull LBiDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, double a2) -> {
 			before.accept(a1, a2);
@@ -322,7 +322,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblBinaryOperator after(@Nonnull LDblConsumer after) {
+	public default LDblBinaryOperator afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a1, double a2) -> {
 			final double retval = applyAsDbl(a1, a2);

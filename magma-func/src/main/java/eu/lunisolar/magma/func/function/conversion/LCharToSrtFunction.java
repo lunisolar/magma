@@ -257,7 +257,7 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharToSrtFunction before(@Nonnull LCharConsumer before) {
+	public default LCharToSrtFunction beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharToSrtFunction after(@Nonnull LSrtConsumer after) {
+	public default LCharToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final short retval = applyAsSrt(a);

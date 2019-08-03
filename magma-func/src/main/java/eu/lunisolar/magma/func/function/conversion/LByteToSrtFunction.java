@@ -257,7 +257,7 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteToSrtFunction before(@Nonnull LByteConsumer before) {
+	public default LByteToSrtFunction beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteToSrtFunction after(@Nonnull LSrtConsumer after) {
+	public default LByteToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final short retval = applyAsSrt(a);

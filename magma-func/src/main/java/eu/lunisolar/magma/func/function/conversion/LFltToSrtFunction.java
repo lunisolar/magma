@@ -257,7 +257,7 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltToSrtFunction before(@Nonnull LFltConsumer before) {
+	public default LFltToSrtFunction beforeDo(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltToSrtFunction after(@Nonnull LSrtConsumer after) {
+	public default LFltToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a) -> {
 			final short retval = applyAsSrt(a);

@@ -322,7 +322,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiFltFunction<R> before(@Nonnull LBiFltConsumer before) {
+	public default LBiFltFunction<R> beforeDo(@Nonnull LBiFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiFltFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LBiFltFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (float a1, float a2) -> {
 			final R retval = apply(a1, a2);

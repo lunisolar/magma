@@ -333,7 +333,7 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToFltFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+	public default LOiToFltFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToFltFunction<T> after(@Nonnull LFltConsumer after) {
+	public default LOiToFltFunction<T> afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final float retval = applyAsFlt(a1, a2);

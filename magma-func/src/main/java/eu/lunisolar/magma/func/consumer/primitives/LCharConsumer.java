@@ -248,7 +248,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharConsumer before(@Nonnull LCharConsumer before) {
+	public default LCharConsumer beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);

@@ -335,7 +335,7 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjBoolFunction<T, R> before(@Nonnull LObjBoolConsumer<T> before) {
+	public default LObjBoolFunction<T, R> beforeDo(@Nonnull LObjBoolConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, boolean a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjBoolFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LObjBoolFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, boolean a2) -> {
 			final R retval = apply(a1, a2);

@@ -322,7 +322,7 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiLongFunction<R> before(@Nonnull LBiLongConsumer before) {
+	public default LBiLongFunction<R> beforeDo(@Nonnull LBiLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiLongFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LBiLongFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (long a1, long a2) -> {
 			final R retval = apply(a1, a2);

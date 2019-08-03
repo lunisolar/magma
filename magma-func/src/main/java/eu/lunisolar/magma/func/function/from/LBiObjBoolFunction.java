@@ -335,7 +335,7 @@ public interface LBiObjBoolFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiObjBoolFunction<T1, T2, R> before(@Nonnull LBiObjBoolConsumer<T1, T2> before) {
+	public default LBiObjBoolFunction<T1, T2, R> beforeDo(@Nonnull LBiObjBoolConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, boolean a3) -> {
 			before.accept(a1, a2, a3);
@@ -344,7 +344,7 @@ public interface LBiObjBoolFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiObjBoolFunction<T1, T2, R> after(@Nonnull LConsumer<R> after) {
+	public default LBiObjBoolFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, boolean a3) -> {
 			final R retval = apply(a1, a2, a3);

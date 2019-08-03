@@ -303,7 +303,7 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntBinaryOperator before(@Nonnull LBiIntConsumer before) {
+	public default LIntBinaryOperator beforeDo(@Nonnull LBiIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a1, int a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntBinaryOperator after(@Nonnull LIntConsumer after) {
+	public default LIntBinaryOperator afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a1, int a2) -> {
 			final int retval = applyAsInt(a1, a2);

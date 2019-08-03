@@ -287,7 +287,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToSrtFunction<T> before(@Nonnull LConsumer<T> before) {
+	public default LToSrtFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToSrtFunction<T> after(@Nonnull LSrtConsumer after) {
+	public default LToSrtFunction<T> afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final short retval = applyAsSrt(a);

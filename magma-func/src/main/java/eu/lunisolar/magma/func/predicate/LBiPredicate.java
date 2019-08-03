@@ -399,7 +399,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiPredicate<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LBiPredicate<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -408,7 +408,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiPredicate<T1, T2> after(@Nonnull LBoolConsumer after) {
+	public default LBiPredicate<T1, T2> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final boolean retval = test(a1, a2);

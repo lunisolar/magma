@@ -257,7 +257,7 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToFltFunction before(@Nonnull LBoolConsumer before) {
+	public default LBoolToFltFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToFltFunction after(@Nonnull LFltConsumer after) {
+	public default LBoolToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final float retval = applyAsFlt(a);

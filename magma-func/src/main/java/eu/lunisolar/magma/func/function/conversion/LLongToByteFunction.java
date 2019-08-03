@@ -257,7 +257,7 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongToByteFunction before(@Nonnull LLongConsumer before) {
+	public default LLongToByteFunction beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongToByteFunction after(@Nonnull LByteConsumer after) {
+	public default LLongToByteFunction afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final byte retval = applyAsByte(a);

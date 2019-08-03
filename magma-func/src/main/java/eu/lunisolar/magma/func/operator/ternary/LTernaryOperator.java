@@ -319,7 +319,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTernaryOperator<T> before(@Nonnull LTriConsumer<T, T, T> before) {
+	public default LTernaryOperator<T> beforeDo(@Nonnull LTriConsumer<T, T, T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, T a2, T a3) -> {
 			before.accept(a1, a2, a3);
@@ -328,7 +328,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTernaryOperator<T> after(@Nonnull LConsumer<T> after) {
+	public default LTernaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, T a2, T a3) -> {
 			final T retval = apply(a1, a2, a3);

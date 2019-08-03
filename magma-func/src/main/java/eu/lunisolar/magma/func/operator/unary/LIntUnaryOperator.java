@@ -257,7 +257,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntUnaryOperator before(@Nonnull LIntConsumer before) {
+	public default LIntUnaryOperator beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntUnaryOperator after(@Nonnull LIntConsumer after) {
+	public default LIntUnaryOperator afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final int retval = applyAsInt(a);

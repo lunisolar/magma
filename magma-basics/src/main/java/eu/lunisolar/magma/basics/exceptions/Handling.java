@@ -186,7 +186,7 @@ public class Handling implements Serializable {
     // <editor-fold desc="create or propagate">
 
     public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExWF<X> exceptionFactory) {
-        handleErrors(e); 
+        handleErrors(e);
         return exceptionFactory.produce(e); //NOSONAR
     }
 
@@ -196,6 +196,20 @@ public class Handling implements Serializable {
         handleErrors(e);
         String message = constructMessage(null, newMessage, messageParams);
         return exceptionFactory.produce(message, e);
+    }
+
+    public static <X extends Throwable> X wrapCombineMessage(
+            @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) {
+        handleErrors(e);
+        String message = constructMessage(null, newMessage, messageParams);
+        String causeMessage = e.getMessage();
+        String finalMessage = causeMessage == null || causeMessage.isBlank() ?
+                message
+                :
+                constructMessage(null, "%s %s", message, causeMessage);
+        
+        return exceptionFactory.produce(finalMessage, e);
     }
 
     // </editor-fold>

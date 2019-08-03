@@ -257,7 +257,7 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntToSrtFunction before(@Nonnull LIntConsumer before) {
+	public default LIntToSrtFunction beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntToSrtFunction after(@Nonnull LSrtConsumer after) {
+	public default LIntToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final short retval = applyAsSrt(a);

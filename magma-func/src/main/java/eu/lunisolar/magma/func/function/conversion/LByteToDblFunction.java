@@ -257,7 +257,7 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteToDblFunction before(@Nonnull LByteConsumer before) {
+	public default LByteToDblFunction beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteToDblFunction after(@Nonnull LDblConsumer after) {
+	public default LByteToDblFunction afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final double retval = applyAsDbl(a);

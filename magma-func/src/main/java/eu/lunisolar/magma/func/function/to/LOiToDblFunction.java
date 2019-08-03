@@ -333,7 +333,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToDblFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+	public default LOiToDblFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToDblFunction<T> after(@Nonnull LDblConsumer after) {
+	public default LOiToDblFunction<T> afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final double retval = applyAsDbl(a1, a2);

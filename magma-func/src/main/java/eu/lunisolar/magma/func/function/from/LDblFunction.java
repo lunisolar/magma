@@ -276,7 +276,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblFunction<R> before(@Nonnull LDblConsumer before) {
+	public default LDblFunction<R> beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LDblFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final R retval = apply(a);

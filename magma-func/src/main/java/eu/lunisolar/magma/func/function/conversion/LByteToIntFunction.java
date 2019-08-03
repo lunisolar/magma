@@ -257,7 +257,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteToIntFunction before(@Nonnull LByteConsumer before) {
+	public default LByteToIntFunction beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteToIntFunction after(@Nonnull LIntConsumer after) {
+	public default LByteToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final int retval = applyAsInt(a);

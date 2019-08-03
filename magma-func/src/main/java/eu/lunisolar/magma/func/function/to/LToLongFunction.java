@@ -287,7 +287,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToLongFunction<T> before(@Nonnull LConsumer<T> before) {
+	public default LToLongFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToLongFunction<T> after(@Nonnull LLongConsumer after) {
+	public default LToLongFunction<T> afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final long retval = applyAsLong(a);

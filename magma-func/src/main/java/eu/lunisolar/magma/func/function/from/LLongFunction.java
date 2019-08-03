@@ -276,7 +276,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongFunction<R> before(@Nonnull LLongConsumer before) {
+	public default LLongFunction<R> beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LLongFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final R retval = apply(a);

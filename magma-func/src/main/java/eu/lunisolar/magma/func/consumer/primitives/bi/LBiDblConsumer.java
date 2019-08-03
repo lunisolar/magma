@@ -294,7 +294,7 @@ public interface LBiDblConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiDblConsumer before(@Nonnull LBiDblConsumer before) {
+	public default LBiDblConsumer beforeDo(@Nonnull LBiDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, double a2) -> {
 			before.accept(a1, a2);

@@ -303,7 +303,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongBinaryOperator before(@Nonnull LBiLongConsumer before) {
+	public default LLongBinaryOperator beforeDo(@Nonnull LBiLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongBinaryOperator after(@Nonnull LLongConsumer after) {
+	public default LLongBinaryOperator afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a1, long a2) -> {
 			final long retval = applyAsLong(a1, a2);

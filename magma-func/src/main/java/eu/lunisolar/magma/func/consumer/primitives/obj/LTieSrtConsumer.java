@@ -278,7 +278,7 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieSrtConsumer<T> before(@Nonnull LTieSrtConsumer<T> before) {
+	public default LTieSrtConsumer<T> beforeDo(@Nonnull LTieSrtConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, short a3) -> {
 			before.accept(a1, a2, a3);

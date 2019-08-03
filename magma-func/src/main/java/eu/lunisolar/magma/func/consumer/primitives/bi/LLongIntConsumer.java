@@ -294,7 +294,7 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongIntConsumer before(@Nonnull LLongIntConsumer before) {
+	public default LLongIntConsumer beforeDo(@Nonnull LLongIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, int a2) -> {
 			before.accept(a1, a2);

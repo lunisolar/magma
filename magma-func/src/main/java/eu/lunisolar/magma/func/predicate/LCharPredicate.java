@@ -334,7 +334,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharPredicate before(@Nonnull LCharConsumer before) {
+	public default LCharPredicate beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -343,7 +343,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharPredicate after(@Nonnull LBoolConsumer after) {
+	public default LCharPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final boolean retval = test(a);

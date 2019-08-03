@@ -331,7 +331,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToIntBiFunction<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LToIntBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToIntBiFunction<T1, T2> after(@Nonnull LIntConsumer after) {
+	public default LToIntBiFunction<T1, T2> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final int retval = applyAsInt(a1, a2);

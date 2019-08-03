@@ -257,7 +257,7 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongToIntFunction before(@Nonnull LLongConsumer before) {
+	public default LLongToIntFunction beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongToIntFunction after(@Nonnull LIntConsumer after) {
+	public default LLongToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final int retval = applyAsInt(a);

@@ -334,7 +334,7 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblPredicate before(@Nonnull LDblConsumer before) {
+	public default LDblPredicate beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -343,7 +343,7 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblPredicate after(@Nonnull LBoolConsumer after) {
+	public default LDblPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final boolean retval = test(a);

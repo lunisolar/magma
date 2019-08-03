@@ -257,7 +257,7 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtToIntFunction before(@Nonnull LSrtConsumer before) {
+	public default LSrtToIntFunction beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtToIntFunction after(@Nonnull LIntConsumer after) {
+	public default LSrtToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final int retval = applyAsInt(a);

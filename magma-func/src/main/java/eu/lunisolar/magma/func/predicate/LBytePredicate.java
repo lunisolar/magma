@@ -334,7 +334,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBytePredicate before(@Nonnull LByteConsumer before) {
+	public default LBytePredicate beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -343,7 +343,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBytePredicate after(@Nonnull LBoolConsumer after) {
+	public default LBytePredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final boolean retval = test(a);

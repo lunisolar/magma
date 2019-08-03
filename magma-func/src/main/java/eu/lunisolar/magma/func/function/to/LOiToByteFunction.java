@@ -333,7 +333,7 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToByteFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+	public default LOiToByteFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToByteFunction<T> after(@Nonnull LByteConsumer after) {
+	public default LOiToByteFunction<T> afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final byte retval = applyAsByte(a1, a2);

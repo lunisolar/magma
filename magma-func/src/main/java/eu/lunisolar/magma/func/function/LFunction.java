@@ -291,7 +291,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFunction<T, R> before(@Nonnull LConsumer<T> before) {
+	public default LFunction<T, R> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -300,7 +300,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final R retval = apply(a);

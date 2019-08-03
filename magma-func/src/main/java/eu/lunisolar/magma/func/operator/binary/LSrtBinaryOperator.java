@@ -303,7 +303,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtBinaryOperator before(@Nonnull LBiSrtConsumer before) {
+	public default LSrtBinaryOperator beforeDo(@Nonnull LBiSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a1, short a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtBinaryOperator after(@Nonnull LSrtConsumer after) {
+	public default LSrtBinaryOperator afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a1, short a2) -> {
 			final short retval = applyAsSrt(a1, a2);

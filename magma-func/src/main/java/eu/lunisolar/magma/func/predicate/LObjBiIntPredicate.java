@@ -379,7 +379,7 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjBiIntPredicate<T> before(@Nonnull LTieIntConsumer<T> before) {
+	public default LObjBiIntPredicate<T> beforeDo(@Nonnull LTieIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, int a3) -> {
 			before.accept(a1, a2, a3);
@@ -388,7 +388,7 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjBiIntPredicate<T> after(@Nonnull LBoolConsumer after) {
+	public default LObjBiIntPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, int a3) -> {
 			final boolean retval = test(a1, a2, a3);

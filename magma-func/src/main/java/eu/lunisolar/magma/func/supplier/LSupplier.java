@@ -274,7 +274,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSupplier<T> after(@Nonnull LConsumer<T> after) {
+	public default LSupplier<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final T retval = get();

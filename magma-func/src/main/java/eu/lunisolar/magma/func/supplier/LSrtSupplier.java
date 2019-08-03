@@ -255,7 +255,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtSupplier after(@Nonnull LSrtConsumer after) {
+	public default LSrtSupplier afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final short retval = getAsSrt();

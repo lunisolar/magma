@@ -255,7 +255,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltSupplier after(@Nonnull LFltConsumer after) {
+	public default LFltSupplier afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final float retval = getAsFlt();

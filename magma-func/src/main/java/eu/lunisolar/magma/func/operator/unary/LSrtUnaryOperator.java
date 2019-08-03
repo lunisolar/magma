@@ -257,7 +257,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtUnaryOperator before(@Nonnull LSrtConsumer before) {
+	public default LSrtUnaryOperator beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtUnaryOperator after(@Nonnull LSrtConsumer after) {
+	public default LSrtUnaryOperator afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final short retval = applyAsSrt(a);

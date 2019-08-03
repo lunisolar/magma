@@ -287,7 +287,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToIntFunction<T> before(@Nonnull LConsumer<T> before) {
+	public default LToIntFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToIntFunction<T> after(@Nonnull LIntConsumer after) {
+	public default LToIntFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final int retval = applyAsInt(a);

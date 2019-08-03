@@ -294,7 +294,7 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiBoolConsumer before(@Nonnull LBiBoolConsumer before) {
+	public default LBiBoolConsumer beforeDo(@Nonnull LBiBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2) -> {
 			before.accept(a1, a2);

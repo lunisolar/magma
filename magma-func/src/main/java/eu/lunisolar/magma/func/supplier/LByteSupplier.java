@@ -255,7 +255,7 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteSupplier after(@Nonnull LByteConsumer after) {
+	public default LByteSupplier afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final byte retval = getAsByte();

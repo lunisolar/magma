@@ -303,7 +303,7 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltBinaryOperator before(@Nonnull LBiFltConsumer before) {
+	public default LFltBinaryOperator beforeDo(@Nonnull LBiFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltBinaryOperator after(@Nonnull LFltConsumer after) {
+	public default LFltBinaryOperator afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a1, float a2) -> {
 			final float retval = applyAsFlt(a1, a2);

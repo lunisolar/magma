@@ -295,7 +295,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntBoolFunction<T, R> before(@Nonnull LTieBoolConsumer<T> before) {
+	public default LObjIntBoolFunction<T, R> beforeDo(@Nonnull LTieBoolConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, boolean a3) -> {
 			before.accept(a1, a2, a3);
@@ -304,7 +304,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntBoolFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LObjIntBoolFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, boolean a3) -> {
 			final R retval = apply(a1, a2, a3);

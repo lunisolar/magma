@@ -257,7 +257,7 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltToCharFunction before(@Nonnull LFltConsumer before) {
+	public default LFltToCharFunction beforeDo(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltToCharFunction after(@Nonnull LCharConsumer after) {
+	public default LFltToCharFunction afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a) -> {
 			final char retval = applyAsChar(a);

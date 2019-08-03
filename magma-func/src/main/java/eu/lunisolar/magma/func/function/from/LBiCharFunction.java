@@ -322,7 +322,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiCharFunction<R> before(@Nonnull LBiCharConsumer before) {
+	public default LBiCharFunction<R> beforeDo(@Nonnull LBiCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a1, char a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiCharFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LBiCharFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (char a1, char a2) -> {
 			final R retval = apply(a1, a2);

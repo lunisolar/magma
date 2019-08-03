@@ -379,7 +379,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriPredicate<T1, T2, T3> before(@Nonnull LTriConsumer<T1, T2, T3> before) {
+	public default LTriPredicate<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			before.accept(a1, a2, a3);
@@ -388,7 +388,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriPredicate<T1, T2, T3> after(@Nonnull LBoolConsumer after) {
+	public default LTriPredicate<T1, T2, T3> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			final boolean retval = test(a1, a2, a3);

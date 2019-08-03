@@ -257,7 +257,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongUnaryOperator before(@Nonnull LLongConsumer before) {
+	public default LLongUnaryOperator beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongUnaryOperator after(@Nonnull LLongConsumer after) {
+	public default LLongUnaryOperator afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final long retval = applyAsLong(a);

@@ -293,7 +293,7 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieBoolFunction<T> before(@Nonnull LTieBoolConsumer<T> before) {
+	public default LTieBoolFunction<T> beforeDo(@Nonnull LTieBoolConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, boolean a3) -> {
 			before.accept(a1, a2, a3);
@@ -302,7 +302,7 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTieBoolFunction<T> after(@Nonnull LIntConsumer after) {
+	public default LTieBoolFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, boolean a3) -> {
 			final int retval = applyAsInt(a1, a2, a3);

@@ -337,7 +337,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiFunction<T, R> before(@Nonnull LObjIntConsumer<T> before) {
+	public default LOiFunction<T, R> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -346,7 +346,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LOiFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final R retval = apply(a1, a2);

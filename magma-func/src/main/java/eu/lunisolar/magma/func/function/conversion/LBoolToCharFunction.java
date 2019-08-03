@@ -257,7 +257,7 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToCharFunction before(@Nonnull LBoolConsumer before) {
+	public default LBoolToCharFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToCharFunction after(@Nonnull LCharConsumer after) {
+	public default LBoolToCharFunction afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final char retval = applyAsChar(a);

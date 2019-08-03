@@ -276,7 +276,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltFunction<R> before(@Nonnull LFltConsumer before) {
+	public default LFltFunction<R> beforeDo(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LFltFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (float a) -> {
 			final R retval = apply(a);

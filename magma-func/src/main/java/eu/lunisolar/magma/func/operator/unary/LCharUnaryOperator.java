@@ -257,7 +257,7 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharUnaryOperator before(@Nonnull LCharConsumer before) {
+	public default LCharUnaryOperator beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharUnaryOperator after(@Nonnull LCharConsumer after) {
+	public default LCharUnaryOperator afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final char retval = applyAsChar(a);

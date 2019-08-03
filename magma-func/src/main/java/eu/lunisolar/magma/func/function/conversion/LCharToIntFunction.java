@@ -257,7 +257,7 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharToIntFunction before(@Nonnull LCharConsumer before) {
+	public default LCharToIntFunction beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharToIntFunction after(@Nonnull LIntConsumer after) {
+	public default LCharToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final int retval = applyAsInt(a);

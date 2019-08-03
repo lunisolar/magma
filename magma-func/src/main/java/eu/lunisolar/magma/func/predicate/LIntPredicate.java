@@ -344,7 +344,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntPredicate before(@Nonnull LIntConsumer before) {
+	public default LIntPredicate beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -353,7 +353,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntPredicate after(@Nonnull LBoolConsumer after) {
+	public default LIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final boolean retval = test(a);

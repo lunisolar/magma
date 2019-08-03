@@ -263,7 +263,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LConsumer<T> before(@Nonnull LConsumer<T> before) {
+	public default LConsumer<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);

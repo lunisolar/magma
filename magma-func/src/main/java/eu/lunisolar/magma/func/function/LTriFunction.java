@@ -335,7 +335,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriFunction<T1, T2, T3, R> before(@Nonnull LTriConsumer<T1, T2, T3> before) {
+	public default LTriFunction<T1, T2, T3, R> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			before.accept(a1, a2, a3);
@@ -344,7 +344,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriFunction<T1, T2, T3, R> after(@Nonnull LConsumer<R> after) {
+	public default LTriFunction<T1, T2, T3, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			final R retval = apply(a1, a2, a3);

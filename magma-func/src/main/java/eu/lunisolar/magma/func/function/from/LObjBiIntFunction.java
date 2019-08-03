@@ -335,7 +335,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjBiIntFunction<T, R> before(@Nonnull LTieIntConsumer<T> before) {
+	public default LObjBiIntFunction<T, R> beforeDo(@Nonnull LTieIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, int a3) -> {
 			before.accept(a1, a2, a3);
@@ -344,7 +344,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjBiIntFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LObjBiIntFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, int a3) -> {
 			final R retval = apply(a1, a2, a3);

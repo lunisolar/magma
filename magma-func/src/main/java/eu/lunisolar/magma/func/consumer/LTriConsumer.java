@@ -309,7 +309,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriConsumer<T1, T2, T3> before(@Nonnull LTriConsumer<T1, T2, T3> before) {
+	public default LTriConsumer<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			before.accept(a1, a2, a3);

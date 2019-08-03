@@ -174,6 +174,24 @@ public class HandlingTest {
                 .hasCauseExactlyInstanceOf(OriginalRuntimeException.class);
     }
 
+    @Test
+    public void testWrap3_messageToPropagate() throws Exception {
+        assertThat((Throwable) Handling.wrapCombineMessage(RUNTIME, Exception1::new, "New message %s", "with param"))
+                .isInstanceOf(Exception1.class)
+                .hasMessageContaining("New message with param")
+                .hasMessageContaining(" " + ORIGINAL_MESSAGE)
+                .hasCauseExactlyInstanceOf(OriginalRuntimeException.class);
+    }
+
+    @Test
+    public void testWrap3_noMessageToPropagate() throws Exception {
+        assertThat((Throwable) Handling.wrapCombineMessage(new RuntimeException(), Exception1::new, "New message %s", "with param"))
+                .isInstanceOf(Exception1.class)
+                .hasMessageContaining("New message with param")
+                .hasMessageNotContaining(ORIGINAL_MESSAGE)
+                .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
     @Test(expectedExceptions = OriginalException.class)
     public void testShoveIt() {
         Handling.shoveIt(CHECKED);

@@ -384,7 +384,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LPredicate<T> before(@Nonnull LConsumer<T> before) {
+	public default LPredicate<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -393,7 +393,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LPredicate<T> after(@Nonnull LBoolConsumer after) {
+	public default LPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final boolean retval = test(a);

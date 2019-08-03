@@ -311,7 +311,7 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjByteConsumer<T> before(@Nonnull LObjByteConsumer<T> before) {
+	public default LObjByteConsumer<T> beforeDo(@Nonnull LObjByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, byte a2) -> {
 			before.accept(a1, a2);

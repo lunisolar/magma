@@ -319,7 +319,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBinaryOperator<T> before(@Nonnull LBiConsumer<T, T> before) {
+	public default LBinaryOperator<T> beforeDo(@Nonnull LBiConsumer<T, T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, T a2) -> {
 			before.accept(a1, a2);
@@ -328,7 +328,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBinaryOperator<T> after(@Nonnull LConsumer<T> after) {
+	public default LBinaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, T a2) -> {
 			final T retval = apply(a1, a2);

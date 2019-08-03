@@ -257,7 +257,7 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToIntFunction before(@Nonnull LBoolConsumer before) {
+	public default LBoolToIntFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToIntFunction after(@Nonnull LIntConsumer after) {
+	public default LBoolToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final int retval = applyAsInt(a);

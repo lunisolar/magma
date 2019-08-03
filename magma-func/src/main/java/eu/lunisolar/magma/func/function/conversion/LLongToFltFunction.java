@@ -257,7 +257,7 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongToFltFunction before(@Nonnull LLongConsumer before) {
+	public default LLongToFltFunction beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongToFltFunction after(@Nonnull LFltConsumer after) {
+	public default LLongToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final float retval = applyAsFlt(a);

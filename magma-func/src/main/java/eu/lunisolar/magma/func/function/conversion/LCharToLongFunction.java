@@ -257,7 +257,7 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharToLongFunction before(@Nonnull LCharConsumer before) {
+	public default LCharToLongFunction beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharToLongFunction after(@Nonnull LLongConsumer after) {
+	public default LCharToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final long retval = applyAsLong(a);

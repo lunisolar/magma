@@ -311,7 +311,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiConsumer<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LBiConsumer<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);

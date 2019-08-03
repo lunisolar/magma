@@ -276,7 +276,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharFunction<R> before(@Nonnull LCharConsumer before) {
+	public default LCharFunction<R> beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LCharFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final R retval = apply(a);

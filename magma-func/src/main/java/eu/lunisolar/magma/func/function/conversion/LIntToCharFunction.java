@@ -257,7 +257,7 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntToCharFunction before(@Nonnull LIntConsumer before) {
+	public default LIntToCharFunction beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntToCharFunction after(@Nonnull LCharConsumer after) {
+	public default LIntToCharFunction afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final char retval = applyAsChar(a);

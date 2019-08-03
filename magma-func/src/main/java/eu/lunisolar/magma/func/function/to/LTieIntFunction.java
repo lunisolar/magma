@@ -333,7 +333,7 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieIntFunction<T> before(@Nonnull LTieIntConsumer<T> before) {
+	public default LTieIntFunction<T> beforeDo(@Nonnull LTieIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, int a3) -> {
 			before.accept(a1, a2, a3);
@@ -342,7 +342,7 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTieIntFunction<T> after(@Nonnull LIntConsumer after) {
+	public default LTieIntFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, int a3) -> {
 			final int retval = applyAsInt(a1, a2, a3);

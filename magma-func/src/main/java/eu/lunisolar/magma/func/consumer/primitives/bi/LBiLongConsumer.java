@@ -294,7 +294,7 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiLongConsumer before(@Nonnull LBiLongConsumer before) {
+	public default LBiLongConsumer beforeDo(@Nonnull LBiLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2) -> {
 			before.accept(a1, a2);

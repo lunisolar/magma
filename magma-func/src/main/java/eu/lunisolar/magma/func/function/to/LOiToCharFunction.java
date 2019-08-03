@@ -333,7 +333,7 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToCharFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+	public default LOiToCharFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToCharFunction<T> after(@Nonnull LCharConsumer after) {
+	public default LOiToCharFunction<T> afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final char retval = applyAsChar(a1, a2);

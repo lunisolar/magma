@@ -351,7 +351,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiSrtPredicate before(@Nonnull LBiSrtConsumer before) {
+	public default LBiSrtPredicate beforeDo(@Nonnull LBiSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a1, short a2) -> {
 			before.accept(a1, a2);
@@ -360,7 +360,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiSrtPredicate after(@Nonnull LBoolConsumer after) {
+	public default LBiSrtPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a1, short a2) -> {
 			final boolean retval = test(a1, a2);

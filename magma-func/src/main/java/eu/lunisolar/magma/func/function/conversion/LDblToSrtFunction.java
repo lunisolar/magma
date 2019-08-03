@@ -257,7 +257,7 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblToSrtFunction before(@Nonnull LDblConsumer before) {
+	public default LDblToSrtFunction beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblToSrtFunction after(@Nonnull LSrtConsumer after) {
+	public default LDblToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final short retval = applyAsSrt(a);

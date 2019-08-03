@@ -334,7 +334,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongPredicate before(@Nonnull LLongConsumer before) {
+	public default LLongPredicate beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -343,7 +343,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongPredicate after(@Nonnull LBoolConsumer after) {
+	public default LLongPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final boolean retval = test(a);

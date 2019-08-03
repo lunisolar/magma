@@ -303,7 +303,7 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharBinaryOperator before(@Nonnull LBiCharConsumer before) {
+	public default LCharBinaryOperator beforeDo(@Nonnull LBiCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a1, char a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharBinaryOperator after(@Nonnull LCharConsumer after) {
+	public default LCharBinaryOperator afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a1, char a2) -> {
 			final char retval = applyAsChar(a1, a2);

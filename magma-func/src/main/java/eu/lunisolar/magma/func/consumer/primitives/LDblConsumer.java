@@ -248,7 +248,7 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblConsumer before(@Nonnull LDblConsumer before) {
+	public default LDblConsumer beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);

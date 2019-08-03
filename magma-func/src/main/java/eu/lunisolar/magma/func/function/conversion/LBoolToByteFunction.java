@@ -257,7 +257,7 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToByteFunction before(@Nonnull LBoolConsumer before) {
+	public default LBoolToByteFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToByteFunction after(@Nonnull LByteConsumer after) {
+	public default LBoolToByteFunction afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final byte retval = applyAsByte(a);

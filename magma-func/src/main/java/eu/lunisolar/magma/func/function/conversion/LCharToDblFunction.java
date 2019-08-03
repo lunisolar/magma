@@ -257,7 +257,7 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharToDblFunction before(@Nonnull LCharConsumer before) {
+	public default LCharToDblFunction beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharToDblFunction after(@Nonnull LDblConsumer after) {
+	public default LCharToDblFunction afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final double retval = applyAsDbl(a);

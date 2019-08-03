@@ -331,7 +331,7 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToSrtBiFunction<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LToSrtBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToSrtBiFunction<T1, T2> after(@Nonnull LSrtConsumer after) {
+	public default LToSrtBiFunction<T1, T2> afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final short retval = applyAsSrt(a1, a2);

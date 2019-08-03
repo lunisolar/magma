@@ -255,7 +255,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntSupplier after(@Nonnull LIntConsumer after) {
+	public default LIntSupplier afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final int retval = getAsInt();

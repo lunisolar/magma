@@ -333,7 +333,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLogicalOperator before(@Nonnull LBoolConsumer before) {
+	public default LLogicalOperator beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -342,7 +342,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLogicalOperator after(@Nonnull LBoolConsumer after) {
+	public default LLogicalOperator afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final boolean retval = apply(a);

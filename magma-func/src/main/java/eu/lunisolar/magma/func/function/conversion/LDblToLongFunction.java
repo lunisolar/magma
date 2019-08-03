@@ -257,7 +257,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblToLongFunction before(@Nonnull LDblConsumer before) {
+	public default LDblToLongFunction beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblToLongFunction after(@Nonnull LLongConsumer after) {
+	public default LDblToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final long retval = applyAsLong(a);

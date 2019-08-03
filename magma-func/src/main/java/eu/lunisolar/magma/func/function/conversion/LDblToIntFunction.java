@@ -257,7 +257,7 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblToIntFunction before(@Nonnull LDblConsumer before) {
+	public default LDblToIntFunction beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblToIntFunction after(@Nonnull LIntConsumer after) {
+	public default LDblToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final int retval = applyAsInt(a);

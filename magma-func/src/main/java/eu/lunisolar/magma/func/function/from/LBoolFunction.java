@@ -276,7 +276,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolFunction<R> before(@Nonnull LBoolConsumer before) {
+	public default LBoolFunction<R> beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final R retval = apply(a);

@@ -293,7 +293,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieLongFunction<T> before(@Nonnull LTieLongConsumer<T> before) {
+	public default LTieLongFunction<T> beforeDo(@Nonnull LTieLongConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, long a3) -> {
 			before.accept(a1, a2, a3);
@@ -302,7 +302,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTieLongFunction<T> after(@Nonnull LIntConsumer after) {
+	public default LTieLongFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, long a3) -> {
 			final int retval = applyAsInt(a1, a2, a3);

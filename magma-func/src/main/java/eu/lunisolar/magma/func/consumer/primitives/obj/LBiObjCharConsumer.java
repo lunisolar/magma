@@ -309,7 +309,7 @@ public interface LBiObjCharConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiObjCharConsumer<T1, T2> before(@Nonnull LBiObjCharConsumer<T1, T2> before) {
+	public default LBiObjCharConsumer<T1, T2> beforeDo(@Nonnull LBiObjCharConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, char a3) -> {
 			before.accept(a1, a2, a3);

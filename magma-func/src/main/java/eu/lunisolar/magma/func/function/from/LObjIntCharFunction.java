@@ -295,7 +295,7 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntCharFunction<T, R> before(@Nonnull LTieCharConsumer<T> before) {
+	public default LObjIntCharFunction<T, R> beforeDo(@Nonnull LTieCharConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, char a3) -> {
 			before.accept(a1, a2, a3);
@@ -304,7 +304,7 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntCharFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LObjIntCharFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, char a3) -> {
 			final R retval = apply(a1, a2, a3);

@@ -257,7 +257,7 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntToByteFunction before(@Nonnull LIntConsumer before) {
+	public default LIntToByteFunction beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntToByteFunction after(@Nonnull LByteConsumer after) {
+	public default LIntToByteFunction afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final byte retval = applyAsByte(a);

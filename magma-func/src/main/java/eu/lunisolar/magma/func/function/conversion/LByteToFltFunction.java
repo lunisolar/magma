@@ -257,7 +257,7 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteToFltFunction before(@Nonnull LByteConsumer before) {
+	public default LByteToFltFunction beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteToFltFunction after(@Nonnull LFltConsumer after) {
+	public default LByteToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final float retval = applyAsFlt(a);

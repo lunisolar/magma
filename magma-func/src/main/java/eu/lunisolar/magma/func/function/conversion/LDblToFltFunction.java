@@ -257,7 +257,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblToFltFunction before(@Nonnull LDblConsumer before) {
+	public default LDblToFltFunction beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblToFltFunction after(@Nonnull LFltConsumer after) {
+	public default LDblToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final float retval = applyAsFlt(a);

@@ -335,7 +335,7 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjFltFunction<T, R> before(@Nonnull LObjFltConsumer<T> before) {
+	public default LObjFltFunction<T, R> beforeDo(@Nonnull LObjFltConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, float a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjFltFunction<T, R> after(@Nonnull LConsumer<R> after) {
+	public default LObjFltFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, float a2) -> {
 			final R retval = apply(a1, a2);

@@ -294,7 +294,7 @@ public interface LByteIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteIntConsumer before(@Nonnull LByteIntConsumer before) {
+	public default LByteIntConsumer beforeDo(@Nonnull LByteIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, int a2) -> {
 			before.accept(a1, a2);

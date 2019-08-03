@@ -370,7 +370,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblIntPredicate before(@Nonnull LDblIntConsumer before) {
+	public default LDblIntPredicate beforeDo(@Nonnull LDblIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, int a2) -> {
 			before.accept(a1, a2);
@@ -379,7 +379,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblIntPredicate after(@Nonnull LBoolConsumer after) {
+	public default LDblIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a1, int a2) -> {
 			final boolean retval = test(a1, a2);

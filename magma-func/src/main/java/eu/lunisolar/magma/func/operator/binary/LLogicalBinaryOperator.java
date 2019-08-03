@@ -350,7 +350,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLogicalBinaryOperator before(@Nonnull LBiBoolConsumer before) {
+	public default LLogicalBinaryOperator beforeDo(@Nonnull LBiBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2) -> {
 			before.accept(a1, a2);
@@ -359,7 +359,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLogicalBinaryOperator after(@Nonnull LBoolConsumer after) {
+	public default LLogicalBinaryOperator afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a1, boolean a2) -> {
 			final boolean retval = apply(a1, a2);

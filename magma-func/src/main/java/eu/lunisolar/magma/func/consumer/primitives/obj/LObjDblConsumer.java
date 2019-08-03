@@ -311,7 +311,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjDblConsumer<T> before(@Nonnull LObjDblConsumer<T> before) {
+	public default LObjDblConsumer<T> beforeDo(@Nonnull LObjDblConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, double a2) -> {
 			before.accept(a1, a2);

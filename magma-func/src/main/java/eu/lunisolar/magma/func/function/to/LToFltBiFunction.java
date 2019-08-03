@@ -331,7 +331,7 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToFltBiFunction<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LToFltBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToFltBiFunction<T1, T2> after(@Nonnull LFltConsumer after) {
+	public default LToFltBiFunction<T1, T2> afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final float retval = applyAsFlt(a1, a2);

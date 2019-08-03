@@ -257,7 +257,7 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteToCharFunction before(@Nonnull LByteConsumer before) {
+	public default LByteToCharFunction beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteToCharFunction after(@Nonnull LCharConsumer after) {
+	public default LByteToCharFunction afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final char retval = applyAsChar(a);

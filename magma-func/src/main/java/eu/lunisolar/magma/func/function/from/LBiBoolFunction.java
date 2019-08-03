@@ -322,7 +322,7 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiBoolFunction<R> before(@Nonnull LBiBoolConsumer before) {
+	public default LBiBoolFunction<R> beforeDo(@Nonnull LBiBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiBoolFunction<R> after(@Nonnull LConsumer<R> after) {
+	public default LBiBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a1, boolean a2) -> {
 			final R retval = apply(a1, a2);

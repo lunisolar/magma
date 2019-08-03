@@ -331,7 +331,7 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToByteBiFunction<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LToByteBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToByteBiFunction<T1, T2> after(@Nonnull LByteConsumer after) {
+	public default LToByteBiFunction<T1, T2> afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final byte retval = applyAsByte(a1, a2);

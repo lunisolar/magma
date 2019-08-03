@@ -287,7 +287,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToCharFunction<T> before(@Nonnull LConsumer<T> before) {
+	public default LToCharFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToCharFunction<T> after(@Nonnull LCharConsumer after) {
+	public default LToCharFunction<T> afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final char retval = applyAsChar(a);

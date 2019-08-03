@@ -248,7 +248,7 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongConsumer before(@Nonnull LLongConsumer before) {
+	public default LLongConsumer beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);

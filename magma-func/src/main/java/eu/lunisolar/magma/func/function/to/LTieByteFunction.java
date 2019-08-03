@@ -293,7 +293,7 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieByteFunction<T> before(@Nonnull LTieByteConsumer<T> before) {
+	public default LTieByteFunction<T> beforeDo(@Nonnull LTieByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, byte a3) -> {
 			before.accept(a1, a2, a3);
@@ -302,7 +302,7 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTieByteFunction<T> after(@Nonnull LIntConsumer after) {
+	public default LTieByteFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, byte a3) -> {
 			final int retval = applyAsInt(a1, a2, a3);

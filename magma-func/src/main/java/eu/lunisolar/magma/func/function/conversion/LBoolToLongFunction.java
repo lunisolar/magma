@@ -257,7 +257,7 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToLongFunction before(@Nonnull LBoolConsumer before) {
+	public default LBoolToLongFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToLongFunction after(@Nonnull LLongConsumer after) {
+	public default LBoolToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final long retval = applyAsLong(a);

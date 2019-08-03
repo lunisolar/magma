@@ -341,7 +341,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToDblBiFunction<T1, T2> before(@Nonnull LBiConsumer<T1, T2> before) {
+	public default LToDblBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -350,7 +350,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToDblBiFunction<T1, T2> after(@Nonnull LDblConsumer after) {
+	public default LToDblBiFunction<T1, T2> afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final double retval = applyAsDbl(a1, a2);

@@ -255,7 +255,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongSupplier after(@Nonnull LLongConsumer after) {
+	public default LLongSupplier afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final long retval = getAsLong();

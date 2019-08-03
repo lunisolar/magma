@@ -333,7 +333,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToLongFunction<T> before(@Nonnull LObjIntConsumer<T> before) {
+	public default LOiToLongFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToLongFunction<T> after(@Nonnull LLongConsumer after) {
+	public default LOiToLongFunction<T> afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final long retval = applyAsLong(a1, a2);
