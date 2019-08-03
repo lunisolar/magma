@@ -264,6 +264,16 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return LTriPredicate.DESCRIPTION;
 	}
 
+	public default <V> boolean doIf(V a1, T1 a2, T2 a3, T3 a4, @Nonnull LQuadConsumer<V, ? super T1, ? super T2, ? super T3> consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a2, a3, a4)) {
+			consumer.accept(a1, a2, a3, a4);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static <T1, T2, T3> void fromTo(int min_i, int max_i, T1 a1, T2 a2, T3 a3, @Nonnull LTriPredicate<T1, T2, T3> func) {
 		Null.nonNullArg(func, "func");

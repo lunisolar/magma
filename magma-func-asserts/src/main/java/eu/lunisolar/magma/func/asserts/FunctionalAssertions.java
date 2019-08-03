@@ -85,6 +85,11 @@ public interface FunctionalAssertions {
 	}
 
 	@Nonnull
+	public static <A extends LQuadConsumer<T1, T2, T3, T4>, T1, T2, T3, T4> LQuadConsumerAssert.The<A, T1, T2, T3, T4> assertQuadCons(LQuadConsumer<T1, T2, T3, T4> func) {
+		return new LQuadConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	public static <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.The<A, T1, T2, T3> assertTriCons(LTriConsumer<T1, T2, T3> func) {
 		return new LTriConsumerAssert.The(func);
 	}
@@ -442,6 +447,11 @@ public interface FunctionalAssertions {
 	@Nonnull
 	public static <A extends LFunction<T, R>, RS extends Assert<RS, R>, T, R> LFunctionAssert.The<A, RS, T, R> assertFunc(LFunction<T, R> func) {
 		return new LFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LQuadFunction<T1, T2, T3, T4, R>, RS extends Assert<RS, R>, T1, T2, T3, T4, R> LQuadFunctionAssert.The<A, RS, T1, T2, T3, T4, R> assertQuadFunc(LQuadFunction<T1, T2, T3, T4, R> func) {
+		return new LQuadFunctionAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull
@@ -1287,6 +1297,11 @@ public interface FunctionalAssertions {
 	@Nonnull
 	public static <A extends LPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LPredicateAssert.The<A, RS, T> assertPred(LPredicate<T> func) {
 		return new LPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LQuadPredicate<T1, T2, T3, T4>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, T4> LQuadPredicateAssert.The<A, RS, T1, T2, T3, T4> assertQuadPred(LQuadPredicate<T1, T2, T3, T4> func) {
+		return new LQuadPredicateAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull

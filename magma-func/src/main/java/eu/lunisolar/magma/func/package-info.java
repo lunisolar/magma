@@ -25,6 +25,7 @@
  * | {@link eu.lunisolar.magma.func.action.LAction}                                   |                                          | void       |
  * | {@link eu.lunisolar.magma.func.consumer.LBiConsumer}                             | T1 a1,T2 a2                              | void       |
  * | {@link eu.lunisolar.magma.func.consumer.LConsumer}                               | T a                                      | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.LQuadConsumer}                           | T1 a1,T2 a2,T3 a3,T4 a4                  | void       |
  * | {@link eu.lunisolar.magma.func.consumer.LTriConsumer}                            | T1 a1,T2 a2,T3 a3                        | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LBoolConsumer}                | boolean a                                | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LByteConsumer}                | byte a                                   | void       |
@@ -97,6 +98,7 @@
  * | {@link eu.lunisolar.magma.func.operator.unary.LUnaryOperator}                    | T a                                      | T          |
  * | {@link eu.lunisolar.magma.func.function.LBiFunction}                             | T1 a1,T2 a2                              | R          |
  * | {@link eu.lunisolar.magma.func.function.LFunction}                               | T a                                      | R          |
+ * | {@link eu.lunisolar.magma.func.function.LQuadFunction}                           | T1 a1,T2 a2,T3 a3,T4 a4                  | R          |
  * | {@link eu.lunisolar.magma.func.function.LTriFunction}                            | T1 a1,T2 a2,T3 a3                        | R          |
  * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToByteFunction}          | boolean a                                | byte       |
  * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToCharFunction}          | boolean a                                | char       |
@@ -266,6 +268,7 @@
  * | {@link eu.lunisolar.magma.func.predicate.LObjLongPredicate}                      | T a1,long a2                             | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjSrtPredicate}                       | T a1,short a2                            | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LPredicate}                             | T a                                      | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LQuadPredicate}                         | T1 a1,T2 a2,T3 a3,T4 a4                  | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LSrtIntPredicate}                       | short a1,int a2                          | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LSrtPredicate}                          | short a                                  | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LTriPredicate}                          | T1 a1,T2 a2,T3 a3                        | boolean    |

@@ -63,6 +63,26 @@ public final class Tuple4U {
 		return LSingle.ImmCompSingle.of(a);
 	}
 
+	public static <T1, T2, T3, T4> LQuad.MutQuad<T1, T2, T3, T4> tuple(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return LQuad.MutQuad.of(a1, a2, a3, a4);
+	}
+
+	public static <T1, T2, T3, T4> LQuad.MutQuad<T1, T2, T3, T4> quad(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return LQuad.MutQuad.of(a1, a2, a3, a4);
+	}
+
+	public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> LQuad.MutCompQuad<T1, T2, T3, T4> comparable(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return LQuad.MutCompQuad.of(a1, a2, a3, a4);
+	}
+
+	public static <T1, T2, T3, T4> LQuad<T1, T2, T3, T4> immutable(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return LQuad.ImmQuad.of(a1, a2, a3, a4);
+	}
+
+	public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> LQuad.ComparableQuad immComp(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return LQuad.ImmCompQuad.of(a1, a2, a3, a4);
+	}
+
 	public static <T1, T2, T3> LTriple.MutTriple<T1, T2, T3> tuple(T1 a1, T2 a2, T3 a3) {
 		return LTriple.MutTriple.of(a1, a2, a3);
 	}
