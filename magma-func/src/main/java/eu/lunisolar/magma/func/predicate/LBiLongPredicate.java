@@ -235,18 +235,6 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		}
 	}
 
-	static void throwIf(long a1, long a2, LBiLongPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	static void throwIfNot(long a1, long a2, LBiLongPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullTest(long a1, long a2) {
 		return test(a1, a2);
@@ -367,6 +355,36 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 			after.accept(retval);
 			return retval;
 		};
+	}
+
+	/** Throws new exception if condition is met. */
+	public static void throwIf(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Check argument if condition is met. */
+	public static long complying(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Check argument if condition is not met. */
+	public static long notComplying(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
 	}
 
 	/** Captures arguments but delays the evaluation. */

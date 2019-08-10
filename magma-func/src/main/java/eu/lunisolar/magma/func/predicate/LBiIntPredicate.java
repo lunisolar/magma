@@ -235,18 +235,6 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		}
 	}
 
-	static void throwIf(int a1, int a2, LBiIntPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	static void throwIfNot(int a1, int a2, LBiIntPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullTest(int a1, int a2) {
 		return test(a1, a2);
@@ -406,6 +394,36 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 			after.accept(retval);
 			return retval;
 		};
+	}
+
+	/** Throws new exception if condition is met. */
+	public static void throwIf(int a1, int a2, @Nonnull LBiIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(int a1, int a2, @Nonnull LBiIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Check argument if condition is met. */
+	public static int complying(int a1, int a2, @Nonnull LBiIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Check argument if condition is not met. */
+	public static int notComplying(int a1, int a2, @Nonnull LBiIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
 	}
 
 	/** Captures arguments but delays the evaluation. */

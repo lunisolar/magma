@@ -235,18 +235,6 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		}
 	}
 
-	static void throwIf(long a, LLongPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	static void throwIfNot(long a, LLongPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullTest(long a) {
 		return test(a);
@@ -350,6 +338,36 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 			after.accept(retval);
 			return retval;
 		};
+	}
+
+	/** Throws new exception if condition is met. */
+	public static void throwIf(long a, @Nonnull LLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(long a, @Nonnull LLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Check argument if condition is met. */
+	public static long complying(long a, @Nonnull LLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a;
+	}
+
+	/** Check argument if condition is not met. */
+	public static long notComplying(long a, @Nonnull LLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a;
 	}
 
 	/** Captures arguments but delays the evaluation. */

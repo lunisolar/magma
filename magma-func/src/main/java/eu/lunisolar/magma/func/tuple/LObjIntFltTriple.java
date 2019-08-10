@@ -62,7 +62,7 @@ public interface LObjIntFltTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

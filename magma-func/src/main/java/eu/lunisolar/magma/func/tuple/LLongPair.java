@@ -58,7 +58,7 @@ public interface LLongPair extends LTuple<Object>, LLongSingle {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

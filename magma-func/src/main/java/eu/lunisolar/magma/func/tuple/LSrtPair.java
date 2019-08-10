@@ -58,7 +58,7 @@ public interface LSrtPair extends LTuple<Object>, LSrtSingle {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

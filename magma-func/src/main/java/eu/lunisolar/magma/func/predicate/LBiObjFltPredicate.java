@@ -235,18 +235,6 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		}
 	}
 
-	static <T1, T2> void throwIf(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	static <T1, T2> void throwIfNot(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullTest(T1 a1, T2 a2, float a3) {
 		return test(a1, a2, a3);
@@ -395,6 +383,36 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 			after.accept(retval);
 			return retval;
 		};
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2> void throwIf(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2> void throwIfNot(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Check argument if condition is met. */
+	public static <T1, T2> T1 complying(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Check argument if condition is not met. */
+	public static <T1, T2> T1 notComplying(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
 	}
 
 	/** Captures arguments but delays the evaluation. */

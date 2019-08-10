@@ -62,7 +62,7 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

@@ -62,7 +62,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

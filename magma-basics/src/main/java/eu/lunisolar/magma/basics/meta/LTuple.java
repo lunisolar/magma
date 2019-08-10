@@ -22,7 +22,7 @@ import java.util.*;
 
 public interface LTuple<T> extends Cloneable {
 
-    int size();
+    int tupleSize();
 
     final class Void implements LTuple<java.lang.Void> {
 
@@ -42,7 +42,7 @@ public interface LTuple<T> extends Cloneable {
             return VOID_ITERATOR;
         }
 
-        @Override public int size() {
+        @Override public int tupleSize() {
             return 0;
         }
 

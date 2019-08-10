@@ -58,7 +58,7 @@ public interface LFltPair extends LTuple<Object>, LFltSingle {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

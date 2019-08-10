@@ -235,18 +235,6 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static void throwIf(int a, LIntPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	static void throwIfNot(int a, LIntPredicate pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullTest(int a) {
 		return test(a);
@@ -360,6 +348,36 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 			after.accept(retval);
 			return retval;
 		};
+	}
+
+	/** Throws new exception if condition is met. */
+	public static void throwIf(int a, @Nonnull LIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(int a, @Nonnull LIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Check argument if condition is met. */
+	public static int complying(int a, @Nonnull LIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a;
+	}
+
+	/** Check argument if condition is not met. */
+	public static int notComplying(int a, @Nonnull LIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a;
 	}
 
 	/** Captures arguments but delays the evaluation. */

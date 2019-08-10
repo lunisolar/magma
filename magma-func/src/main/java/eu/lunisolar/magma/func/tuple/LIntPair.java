@@ -58,7 +58,7 @@ public interface LIntPair extends LTuple<Object>, LIntSingle {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

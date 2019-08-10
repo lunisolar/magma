@@ -58,7 +58,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

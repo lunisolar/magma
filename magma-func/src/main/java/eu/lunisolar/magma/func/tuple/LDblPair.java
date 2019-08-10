@@ -58,7 +58,7 @@ public interface LDblPair extends LTuple<Object>, LDblSingle {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

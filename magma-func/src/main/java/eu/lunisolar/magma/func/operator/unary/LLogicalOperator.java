@@ -235,18 +235,6 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		}
 	}
 
-	static void throwIf(boolean a, LLogicalOperator pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.apply(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	static void throwIfNot(boolean a, LLogicalOperator pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.apply(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullApply(boolean a) {
 		return apply(a);
@@ -349,6 +337,36 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 			after.accept(retval);
 			return retval;
 		};
+	}
+
+	/** Throws new exception if condition is met. */
+	public static void throwIf(boolean a, @Nonnull LLogicalOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.apply(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(boolean a, @Nonnull LLogicalOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.apply(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Check argument if condition is met. */
+	public static boolean complying(boolean a, @Nonnull LLogicalOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.apply(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a;
+	}
+
+	/** Check argument if condition is not met. */
+	public static boolean notComplying(boolean a, @Nonnull LLogicalOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.apply(a)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a;
 	}
 
 	/** Captures arguments but delays the evaluation. */

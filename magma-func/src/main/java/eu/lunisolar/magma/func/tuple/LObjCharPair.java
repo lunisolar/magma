@@ -58,7 +58,7 @@ public interface LObjCharPair<T> extends LTuple<Object>, LSingle<T> {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

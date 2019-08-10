@@ -66,7 +66,7 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

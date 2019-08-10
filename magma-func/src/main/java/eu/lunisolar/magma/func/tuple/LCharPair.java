@@ -58,7 +58,7 @@ public interface LCharPair extends LTuple<Object>, LCharSingle {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

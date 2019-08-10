@@ -58,7 +58,7 @@ public interface LByteIntPair extends LTuple<Object>, LByteSingle {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

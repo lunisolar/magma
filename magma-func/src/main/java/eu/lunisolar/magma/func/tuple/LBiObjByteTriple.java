@@ -62,7 +62,7 @@ public interface LBiObjByteTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> 
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 

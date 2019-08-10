@@ -235,18 +235,6 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		}
 	}
 
-	static void throwIf(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (pred.apply(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	static void throwIfNot(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator pred, ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		if (!pred.apply(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullApply(boolean a1, boolean a2, boolean a3) {
 		return apply(a1, a2, a3);
@@ -366,6 +354,36 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 			after.accept(retval);
 			return retval;
 		};
+	}
+
+	/** Throws new exception if condition is met. */
+	public static void throwIf(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.apply(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.apply(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Check argument if condition is met. */
+	public static boolean complying(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.apply(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Check argument if condition is not met. */
+	public static boolean notComplying(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.apply(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
 	}
 
 	/** Captures arguments but delays the evaluation. */

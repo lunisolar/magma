@@ -54,7 +54,7 @@ public interface LBoolSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
-	default int size() {
+	default int tupleSize() {
 		return SIZE;
 	}
 
