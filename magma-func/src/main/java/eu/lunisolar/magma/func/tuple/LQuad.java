@@ -111,9 +111,9 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LQuad interface (among others) and their LQuad values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LQuad the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -125,6 +125,22 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 				LQuad other = (LQuad) two;
 
 				return argEquals(one.first(), one.second(), one.third(), one.fourth(), other.first(), other.second(), other.third(), other.fourth());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LQuad the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LQuad are allowed.
+				if (!(two instanceof LQuad)) {
+					return false;
+				}
+
+				LQuad other = (LQuad) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), one.fourth(), other.first(), other.second(), other.third(), other.fourth());
 			});
 	}
 
@@ -146,7 +162,7 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 		};
 	}
 
-	interface ComparableQuad<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> extends LQuad<T1, T2, T3, T4>, Comparable<LQuad<T1, T2, T3, T4>> {
+	interface ComparableQuad<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>> extends LQuad<T1, T2, T3, T4>, Comparable<LQuad<T1, T2, T3, T4>> {
 
 		@Override
 		default int compareTo(LQuad<T1, T2, T3, T4> that) {
@@ -166,7 +182,7 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 
 		@Override
 		public boolean equals(Object that) {
-			return LQuad.argEquals(this, that);
+			return LQuad.tupleEquals(this, that);
 		}
 
 		@Override
@@ -451,7 +467,7 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompQuad<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> extends AbstractQuad<T1, T2, T3, T4> implements ComparableQuad<T1, T2, T3, T4> {
+	final class MutCompQuad<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>> extends AbstractQuad<T1, T2, T3, T4> implements ComparableQuad<T1, T2, T3, T4> {
 
 		private T1 first;
 		private T2 second;
@@ -465,11 +481,11 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 			this.fourth = a4;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> MutCompQuad<T1, T2, T3, T4> of(T1 a1, T2 a2, T3 a3, T4 a4) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>> MutCompQuad<T1, T2, T3, T4> of(T1 a1, T2 a2, T3 a3, T4 a4) {
 			return new MutCompQuad(a1, a2, a3, a4);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> MutCompQuad<T1, T2, T3, T4> copyOf(LQuad<T1, T2, T3, T4> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>> MutCompQuad<T1, T2, T3, T4> copyOf(LQuad<T1, T2, T3, T4> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
 		}
 
@@ -753,7 +769,7 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompQuad<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> extends AbstractQuad<T1, T2, T3, T4> implements ComparableQuad<T1, T2, T3, T4> {
+	final class ImmCompQuad<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>> extends AbstractQuad<T1, T2, T3, T4> implements ComparableQuad<T1, T2, T3, T4> {
 
 		private final T1 first;
 		private final T2 second;
@@ -767,11 +783,11 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 			this.fourth = a4;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> ImmCompQuad<T1, T2, T3, T4> of(T1 a1, T2 a2, T3 a3, T4 a4) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>> ImmCompQuad<T1, T2, T3, T4> of(T1 a1, T2 a2, T3 a3, T4 a4) {
 			return new ImmCompQuad(a1, a2, a3, a4);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>> ImmCompQuad<T1, T2, T3, T4> copyOf(LQuad<T1, T2, T3, T4> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>> ImmCompQuad<T1, T2, T3, T4> copyOf(LQuad<T1, T2, T3, T4> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
 		}
 

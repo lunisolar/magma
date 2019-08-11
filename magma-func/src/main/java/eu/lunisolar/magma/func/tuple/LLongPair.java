@@ -78,9 +78,9 @@ public interface LLongPair extends LTuple<Object>, LLongSingle {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LLongPair interface (among others) and their LLongPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LLongPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -92,6 +92,22 @@ public interface LLongPair extends LTuple<Object>, LLongSingle {
 				LLongPair other = (LLongPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LLongPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LLongPair are allowed.
+				if (!(two instanceof LLongPair)) {
+					return false;
+				}
+
+				LLongPair other = (LLongPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -131,7 +147,7 @@ public interface LLongPair extends LTuple<Object>, LLongSingle {
 
 		@Override
 		public boolean equals(Object that) {
-			return LLongPair.argEquals(this, that);
+			return LLongPair.tupleEquals(this, that);
 		}
 
 		@Override

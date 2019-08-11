@@ -105,9 +105,9 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LTriple interface (among others) and their LTriple values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LTriple the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -119,6 +119,22 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 				LTriple other = (LTriple) two;
 
 				return argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LTriple the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LTriple are allowed.
+				if (!(two instanceof LTriple)) {
+					return false;
+				}
+
+				LTriple other = (LTriple) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 
@@ -140,7 +156,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 		};
 	}
 
-	interface ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>> extends LTriple<T1, T2, T3>, Comparable<LTriple<T1, T2, T3>> {
+	interface ComparableTriple<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>> extends LTriple<T1, T2, T3>, Comparable<LTriple<T1, T2, T3>> {
 
 		@Override
 		default int compareTo(LTriple<T1, T2, T3> that) {
@@ -159,7 +175,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 
 		@Override
 		public boolean equals(Object that) {
-			return LTriple.argEquals(this, that);
+			return LTriple.tupleEquals(this, that);
 		}
 
 		@Override
@@ -383,7 +399,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>> extends AbstractTriple<T1, T2, T3> implements ComparableTriple<T1, T2, T3> {
+	final class MutCompTriple<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>> extends AbstractTriple<T1, T2, T3> implements ComparableTriple<T1, T2, T3> {
 
 		private T1 first;
 		private T2 second;
@@ -395,11 +411,11 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 			this.third = a3;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>> MutCompTriple<T1, T2, T3> of(T1 a1, T2 a2, T3 a3) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>> MutCompTriple<T1, T2, T3> of(T1 a1, T2 a2, T3 a3) {
 			return new MutCompTriple(a1, a2, a3);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>> MutCompTriple<T1, T2, T3> copyOf(LTriple<T1, T2, T3> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>> MutCompTriple<T1, T2, T3> copyOf(LTriple<T1, T2, T3> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third());
 		}
 
@@ -620,7 +636,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>> extends AbstractTriple<T1, T2, T3> implements ComparableTriple<T1, T2, T3> {
+	final class ImmCompTriple<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>> extends AbstractTriple<T1, T2, T3> implements ComparableTriple<T1, T2, T3> {
 
 		private final T1 first;
 		private final T2 second;
@@ -632,11 +648,11 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 			this.third = a3;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>> ImmCompTriple<T1, T2, T3> of(T1 a1, T2 a2, T3 a3) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>> ImmCompTriple<T1, T2, T3> of(T1 a1, T2 a2, T3 a3) {
 			return new ImmCompTriple(a1, a2, a3);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>> ImmCompTriple<T1, T2, T3> copyOf(LTriple<T1, T2, T3> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>> ImmCompTriple<T1, T2, T3> copyOf(LTriple<T1, T2, T3> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third());
 		}
 

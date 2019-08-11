@@ -84,9 +84,9 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LObjIntCharTriple interface (among others) and their LObjIntCharTriple values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LObjIntCharTriple the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -98,6 +98,22 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 				LObjIntCharTriple other = (LObjIntCharTriple) two;
 
 				return argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LObjIntCharTriple the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LObjIntCharTriple are allowed.
+				if (!(two instanceof LObjIntCharTriple)) {
+					return false;
+				}
+
+				LObjIntCharTriple other = (LObjIntCharTriple) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 
@@ -119,7 +135,7 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 		};
 	}
 
-	interface ComparableObjIntCharTriple<T extends Comparable<T>> extends LObjIntCharTriple<T>, Comparable<LObjIntCharTriple<T>> {
+	interface ComparableObjIntCharTriple<T extends Comparable<? super T>> extends LObjIntCharTriple<T>, Comparable<LObjIntCharTriple<T>> {
 
 		@Override
 		default int compareTo(LObjIntCharTriple<T> that) {
@@ -138,7 +154,7 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 
 		@Override
 		public boolean equals(Object that) {
-			return LObjIntCharTriple.argEquals(this, that);
+			return LObjIntCharTriple.tupleEquals(this, that);
 		}
 
 		@Override
@@ -362,7 +378,7 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompObjIntCharTriple<T extends Comparable<T>> extends AbstractObjIntCharTriple<T> implements ComparableObjIntCharTriple<T> {
+	final class MutCompObjIntCharTriple<T extends Comparable<? super T>> extends AbstractObjIntCharTriple<T> implements ComparableObjIntCharTriple<T> {
 
 		private T first;
 		private int second;
@@ -374,11 +390,11 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 			this.third = a3;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjIntCharTriple<T> of(T a1, int a2, char a3) {
+		public static <T extends Comparable<? super T>> MutCompObjIntCharTriple<T> of(T a1, int a2, char a3) {
 			return new MutCompObjIntCharTriple(a1, a2, a3);
 		}
 
-		public static <T extends Comparable<T>> MutCompObjIntCharTriple<T> copyOf(LObjIntCharTriple<T> tuple) {
+		public static <T extends Comparable<? super T>> MutCompObjIntCharTriple<T> copyOf(LObjIntCharTriple<T> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third());
 		}
 
@@ -599,7 +615,7 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompObjIntCharTriple<T extends Comparable<T>> extends AbstractObjIntCharTriple<T> implements ComparableObjIntCharTriple<T> {
+	final class ImmCompObjIntCharTriple<T extends Comparable<? super T>> extends AbstractObjIntCharTriple<T> implements ComparableObjIntCharTriple<T> {
 
 		private final T first;
 		private final int second;
@@ -611,11 +627,11 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 			this.third = a3;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjIntCharTriple<T> of(T a1, int a2, char a3) {
+		public static <T extends Comparable<? super T>> ImmCompObjIntCharTriple<T> of(T a1, int a2, char a3) {
 			return new ImmCompObjIntCharTriple(a1, a2, a3);
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjIntCharTriple<T> copyOf(LObjIntCharTriple<T> tuple) {
+		public static <T extends Comparable<? super T>> ImmCompObjIntCharTriple<T> copyOf(LObjIntCharTriple<T> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third());
 		}
 

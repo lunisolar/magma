@@ -99,9 +99,9 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LPair interface (among others) and their LPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -113,6 +113,22 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 				LPair other = (LPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LPair are allowed.
+				if (!(two instanceof LPair)) {
+					return false;
+				}
+
+				LPair other = (LPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -134,7 +150,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 		};
 	}
 
-	interface ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>> extends LPair<T1, T2>, Comparable<LPair<T1, T2>> {
+	interface ComparablePair<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> extends LPair<T1, T2>, Comparable<LPair<T1, T2>> {
 
 		@Override
 		default int compareTo(LPair<T1, T2> that) {
@@ -152,7 +168,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 
 		@Override
 		public boolean equals(Object that) {
-			return LPair.argEquals(this, that);
+			return LPair.tupleEquals(this, that);
 		}
 
 		@Override
@@ -315,7 +331,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompPair<T1 extends Comparable<T1>, T2 extends Comparable<T2>> extends AbstractPair<T1, T2> implements ComparablePair<T1, T2> {
+	final class MutCompPair<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> extends AbstractPair<T1, T2> implements ComparablePair<T1, T2> {
 
 		private T1 first;
 		private T2 second;
@@ -325,11 +341,11 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 			this.second = a2;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> MutCompPair<T1, T2> of(T1 a1, T2 a2) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> MutCompPair<T1, T2> of(T1 a1, T2 a2) {
 			return new MutCompPair(a1, a2);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> MutCompPair<T1, T2> copyOf(LPair<T1, T2> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> MutCompPair<T1, T2> copyOf(LPair<T1, T2> tuple) {
 			return of(tuple.first(), tuple.second());
 		}
 
@@ -487,7 +503,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompPair<T1 extends Comparable<T1>, T2 extends Comparable<T2>> extends AbstractPair<T1, T2> implements ComparablePair<T1, T2> {
+	final class ImmCompPair<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> extends AbstractPair<T1, T2> implements ComparablePair<T1, T2> {
 
 		private final T1 first;
 		private final T2 second;
@@ -497,11 +513,11 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 			this.second = a2;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> ImmCompPair<T1, T2> of(T1 a1, T2 a2) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> ImmCompPair<T1, T2> of(T1 a1, T2 a2) {
 			return new ImmCompPair(a1, a2);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> ImmCompPair<T1, T2> copyOf(LPair<T1, T2> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> ImmCompPair<T1, T2> copyOf(LPair<T1, T2> tuple) {
 			return of(tuple.first(), tuple.second());
 		}
 

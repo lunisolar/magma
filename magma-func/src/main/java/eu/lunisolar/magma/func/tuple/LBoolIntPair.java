@@ -78,9 +78,9 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LBoolIntPair interface (among others) and their LBoolIntPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LBoolIntPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -92,6 +92,22 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 				LBoolIntPair other = (LBoolIntPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LBoolIntPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LBoolIntPair are allowed.
+				if (!(two instanceof LBoolIntPair)) {
+					return false;
+				}
+
+				LBoolIntPair other = (LBoolIntPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -131,7 +147,7 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 
 		@Override
 		public boolean equals(Object that) {
-			return LBoolIntPair.argEquals(this, that);
+			return LBoolIntPair.tupleEquals(this, that);
 		}
 
 		@Override

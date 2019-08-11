@@ -78,9 +78,9 @@ public interface LSrtPair extends LTuple<Object>, LSrtSingle {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LSrtPair interface (among others) and their LSrtPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LSrtPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -92,6 +92,22 @@ public interface LSrtPair extends LTuple<Object>, LSrtSingle {
 				LSrtPair other = (LSrtPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LSrtPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LSrtPair are allowed.
+				if (!(two instanceof LSrtPair)) {
+					return false;
+				}
+
+				LSrtPair other = (LSrtPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -131,7 +147,7 @@ public interface LSrtPair extends LTuple<Object>, LSrtSingle {
 
 		@Override
 		public boolean equals(Object that) {
-			return LSrtPair.argEquals(this, that);
+			return LSrtPair.tupleEquals(this, that);
 		}
 
 		@Override

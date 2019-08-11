@@ -78,9 +78,9 @@ public interface LIntPair extends LTuple<Object>, LIntSingle {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LIntPair interface (among others) and their LIntPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LIntPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -92,6 +92,22 @@ public interface LIntPair extends LTuple<Object>, LIntSingle {
 				LIntPair other = (LIntPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LIntPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LIntPair are allowed.
+				if (!(two instanceof LIntPair)) {
+					return false;
+				}
+
+				LIntPair other = (LIntPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -131,7 +147,7 @@ public interface LIntPair extends LTuple<Object>, LIntSingle {
 
 		@Override
 		public boolean equals(Object that) {
-			return LIntPair.argEquals(this, that);
+			return LIntPair.tupleEquals(this, that);
 		}
 
 		@Override

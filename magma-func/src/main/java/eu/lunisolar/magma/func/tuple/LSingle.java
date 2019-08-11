@@ -72,9 +72,9 @@ public interface LSingle<T> extends LTuple<Object> {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LSingle interface (among others) and their LSingle values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LSingle the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -86,6 +86,22 @@ public interface LSingle<T> extends LTuple<Object> {
 				LSingle other = (LSingle) two;
 
 				return argEquals(one.value(), other.value());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LSingle the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LSingle are allowed.
+				if (!(two instanceof LSingle)) {
+					return false;
+				}
+
+				LSingle other = (LSingle) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
 			});
 	}
 
@@ -107,7 +123,7 @@ public interface LSingle<T> extends LTuple<Object> {
 		};
 	}
 
-	interface ComparableSingle<T extends Comparable<T>> extends LSingle<T>, Comparable<LSingle<T>> {
+	interface ComparableSingle<T extends Comparable<? super T>> extends LSingle<T>, Comparable<LSingle<T>> {
 
 		@Override
 		default int compareTo(LSingle<T> that) {
@@ -124,7 +140,7 @@ public interface LSingle<T> extends LTuple<Object> {
 
 		@Override
 		public boolean equals(Object that) {
-			return LSingle.argEquals(this, that);
+			return LSingle.tupleEquals(this, that);
 		}
 
 		@Override
@@ -226,7 +242,7 @@ public interface LSingle<T> extends LTuple<Object> {
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompSingle<T extends Comparable<T>> extends AbstractSingle<T> implements ComparableSingle<T> {
+	final class MutCompSingle<T extends Comparable<? super T>> extends AbstractSingle<T> implements ComparableSingle<T> {
 
 		private T value;
 
@@ -234,11 +250,11 @@ public interface LSingle<T> extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static <T extends Comparable<T>> MutCompSingle<T> of(T a) {
+		public static <T extends Comparable<? super T>> MutCompSingle<T> of(T a) {
 			return new MutCompSingle(a);
 		}
 
-		public static <T extends Comparable<T>> MutCompSingle<T> copyOf(LSingle<T> tuple) {
+		public static <T extends Comparable<? super T>> MutCompSingle<T> copyOf(LSingle<T> tuple) {
 			return of(tuple.value());
 		}
 
@@ -333,7 +349,7 @@ public interface LSingle<T> extends LTuple<Object> {
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompSingle<T extends Comparable<T>> extends AbstractSingle<T> implements ComparableSingle<T> {
+	final class ImmCompSingle<T extends Comparable<? super T>> extends AbstractSingle<T> implements ComparableSingle<T> {
 
 		private final T value;
 
@@ -341,11 +357,11 @@ public interface LSingle<T> extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static <T extends Comparable<T>> ImmCompSingle<T> of(T a) {
+		public static <T extends Comparable<? super T>> ImmCompSingle<T> of(T a) {
 			return new ImmCompSingle(a);
 		}
 
-		public static <T extends Comparable<T>> ImmCompSingle<T> copyOf(LSingle<T> tuple) {
+		public static <T extends Comparable<? super T>> ImmCompSingle<T> copyOf(LSingle<T> tuple) {
 			return of(tuple.value());
 		}
 

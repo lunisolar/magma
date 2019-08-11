@@ -72,9 +72,9 @@ public interface LFltSingle extends LTuple<Object> {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LFltSingle interface (among others) and their LFltSingle values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LFltSingle the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -86,6 +86,22 @@ public interface LFltSingle extends LTuple<Object> {
 				LFltSingle other = (LFltSingle) two;
 
 				return argEquals(one.value(), other.value());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LFltSingle the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LFltSingle are allowed.
+				if (!(two instanceof LFltSingle)) {
+					return false;
+				}
+
+				LFltSingle other = (LFltSingle) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
 			});
 	}
 
@@ -124,7 +140,7 @@ public interface LFltSingle extends LTuple<Object> {
 
 		@Override
 		public boolean equals(Object that) {
-			return LFltSingle.argEquals(this, that);
+			return LFltSingle.tupleEquals(this, that);
 		}
 
 		@Override

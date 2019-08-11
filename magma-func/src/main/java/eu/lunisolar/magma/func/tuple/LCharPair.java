@@ -78,9 +78,9 @@ public interface LCharPair extends LTuple<Object>, LCharSingle {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LCharPair interface (among others) and their LCharPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LCharPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -92,6 +92,22 @@ public interface LCharPair extends LTuple<Object>, LCharSingle {
 				LCharPair other = (LCharPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LCharPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LCharPair are allowed.
+				if (!(two instanceof LCharPair)) {
+					return false;
+				}
+
+				LCharPair other = (LCharPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -131,7 +147,7 @@ public interface LCharPair extends LTuple<Object>, LCharSingle {
 
 		@Override
 		public boolean equals(Object that) {
-			return LCharPair.argEquals(this, that);
+			return LCharPair.tupleEquals(this, that);
 		}
 
 		@Override

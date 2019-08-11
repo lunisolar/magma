@@ -78,9 +78,9 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LObjSrtPair interface (among others) and their LObjSrtPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LObjSrtPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -92,6 +92,22 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 				LObjSrtPair other = (LObjSrtPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LObjSrtPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LObjSrtPair are allowed.
+				if (!(two instanceof LObjSrtPair)) {
+					return false;
+				}
+
+				LObjSrtPair other = (LObjSrtPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -113,7 +129,7 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 		};
 	}
 
-	interface ComparableObjSrtPair<T extends Comparable<T>> extends LObjSrtPair<T>, Comparable<LObjSrtPair<T>> {
+	interface ComparableObjSrtPair<T extends Comparable<? super T>> extends LObjSrtPair<T>, Comparable<LObjSrtPair<T>> {
 
 		@Override
 		default int compareTo(LObjSrtPair<T> that) {
@@ -131,7 +147,7 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 
 		@Override
 		public boolean equals(Object that) {
-			return LObjSrtPair.argEquals(this, that);
+			return LObjSrtPair.tupleEquals(this, that);
 		}
 
 		@Override
@@ -294,7 +310,7 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompObjSrtPair<T extends Comparable<T>> extends AbstractObjSrtPair<T> implements ComparableObjSrtPair<T> {
+	final class MutCompObjSrtPair<T extends Comparable<? super T>> extends AbstractObjSrtPair<T> implements ComparableObjSrtPair<T> {
 
 		private T first;
 		private short second;
@@ -304,11 +320,11 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjSrtPair<T> of(T a1, short a2) {
+		public static <T extends Comparable<? super T>> MutCompObjSrtPair<T> of(T a1, short a2) {
 			return new MutCompObjSrtPair(a1, a2);
 		}
 
-		public static <T extends Comparable<T>> MutCompObjSrtPair<T> copyOf(LObjSrtPair<T> tuple) {
+		public static <T extends Comparable<? super T>> MutCompObjSrtPair<T> copyOf(LObjSrtPair<T> tuple) {
 			return of(tuple.first(), tuple.second());
 		}
 
@@ -466,7 +482,7 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompObjSrtPair<T extends Comparable<T>> extends AbstractObjSrtPair<T> implements ComparableObjSrtPair<T> {
+	final class ImmCompObjSrtPair<T extends Comparable<? super T>> extends AbstractObjSrtPair<T> implements ComparableObjSrtPair<T> {
 
 		private final T first;
 		private final short second;
@@ -476,11 +492,11 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjSrtPair<T> of(T a1, short a2) {
+		public static <T extends Comparable<? super T>> ImmCompObjSrtPair<T> of(T a1, short a2) {
 			return new ImmCompObjSrtPair(a1, a2);
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjSrtPair<T> copyOf(LObjSrtPair<T> tuple) {
+		public static <T extends Comparable<? super T>> ImmCompObjSrtPair<T> copyOf(LObjSrtPair<T> tuple) {
 			return of(tuple.first(), tuple.second());
 		}
 

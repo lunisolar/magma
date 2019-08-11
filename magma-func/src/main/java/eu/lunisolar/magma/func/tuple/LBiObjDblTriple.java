@@ -84,9 +84,9 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LBiObjDblTriple interface (among others) and their LBiObjDblTriple values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LBiObjDblTriple the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -98,6 +98,22 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 				LBiObjDblTriple other = (LBiObjDblTriple) two;
 
 				return argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LBiObjDblTriple the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LBiObjDblTriple are allowed.
+				if (!(two instanceof LBiObjDblTriple)) {
+					return false;
+				}
+
+				LBiObjDblTriple other = (LBiObjDblTriple) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 
@@ -119,7 +135,7 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 		};
 	}
 
-	interface ComparableBiObjDblTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>> extends LBiObjDblTriple<T1, T2>, Comparable<LBiObjDblTriple<T1, T2>> {
+	interface ComparableBiObjDblTriple<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> extends LBiObjDblTriple<T1, T2>, Comparable<LBiObjDblTriple<T1, T2>> {
 
 		@Override
 		default int compareTo(LBiObjDblTriple<T1, T2> that) {
@@ -138,7 +154,7 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 
 		@Override
 		public boolean equals(Object that) {
-			return LBiObjDblTriple.argEquals(this, that);
+			return LBiObjDblTriple.tupleEquals(this, that);
 		}
 
 		@Override
@@ -362,7 +378,7 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompBiObjDblTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>> extends AbstractBiObjDblTriple<T1, T2> implements ComparableBiObjDblTriple<T1, T2> {
+	final class MutCompBiObjDblTriple<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> extends AbstractBiObjDblTriple<T1, T2> implements ComparableBiObjDblTriple<T1, T2> {
 
 		private T1 first;
 		private T2 second;
@@ -374,11 +390,11 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 			this.third = a3;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> MutCompBiObjDblTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> MutCompBiObjDblTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
 			return new MutCompBiObjDblTriple(a1, a2, a3);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> MutCompBiObjDblTriple<T1, T2> copyOf(LBiObjDblTriple<T1, T2> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> MutCompBiObjDblTriple<T1, T2> copyOf(LBiObjDblTriple<T1, T2> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third());
 		}
 
@@ -599,7 +615,7 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompBiObjDblTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>> extends AbstractBiObjDblTriple<T1, T2> implements ComparableBiObjDblTriple<T1, T2> {
+	final class ImmCompBiObjDblTriple<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> extends AbstractBiObjDblTriple<T1, T2> implements ComparableBiObjDblTriple<T1, T2> {
 
 		private final T1 first;
 		private final T2 second;
@@ -611,11 +627,11 @@ public interface LBiObjDblTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 			this.third = a3;
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> ImmCompBiObjDblTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> ImmCompBiObjDblTriple<T1, T2> of(T1 a1, T2 a2, double a3) {
 			return new ImmCompBiObjDblTriple(a1, a2, a3);
 		}
 
-		public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> ImmCompBiObjDblTriple<T1, T2> copyOf(LBiObjDblTriple<T1, T2> tuple) {
+		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> ImmCompBiObjDblTriple<T1, T2> copyOf(LBiObjDblTriple<T1, T2> tuple) {
 			return of(tuple.first(), tuple.second(), tuple.third());
 		}
 

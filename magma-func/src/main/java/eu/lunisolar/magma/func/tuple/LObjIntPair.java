@@ -78,9 +78,9 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 	}
 
 	/**
-	 * Static equals() implementation that takes two tuples asnd checks if they are equal.
-	 *
-	 * Tuples are considered equal if are implementing same interface and their tuple values are equal regardless of the implementing class.
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 * Tuples are considered equal if are implementing LObjIntPair interface (among others) and their LObjIntPair values are equal regardless of the implementing class
+	 * and how many more values there are.
 	 */
 	static boolean argEquals(LObjIntPair the, Object that) {
 		return Null.equals(the, that, (one, two) -> {
@@ -92,6 +92,22 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 				LObjIntPair other = (LObjIntPair) two;
 
 				return argEquals(one.first(), one.second(), other.first(), other.second());
+			});
+	}
+
+	/**
+	 * Static equals() implementation that takes two tuples and checks if they are equal.
+	 */
+	public static boolean tupleEquals(LObjIntPair the, Object that) {
+		return Null.equals(the, that, (one, two) -> {
+			// Intentionally all implementations of LObjIntPair are allowed.
+				if (!(two instanceof LObjIntPair)) {
+					return false;
+				}
+
+				LObjIntPair other = (LObjIntPair) two;
+
+				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 
@@ -113,7 +129,7 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 		};
 	}
 
-	interface ComparableObjIntPair<T extends Comparable<T>> extends LObjIntPair<T>, Comparable<LObjIntPair<T>> {
+	interface ComparableObjIntPair<T extends Comparable<? super T>> extends LObjIntPair<T>, Comparable<LObjIntPair<T>> {
 
 		@Override
 		default int compareTo(LObjIntPair<T> that) {
@@ -131,7 +147,7 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 
 		@Override
 		public boolean equals(Object that) {
-			return LObjIntPair.argEquals(this, that);
+			return LObjIntPair.tupleEquals(this, that);
 		}
 
 		@Override
@@ -294,7 +310,7 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompObjIntPair<T extends Comparable<T>> extends AbstractObjIntPair<T> implements ComparableObjIntPair<T> {
+	final class MutCompObjIntPair<T extends Comparable<? super T>> extends AbstractObjIntPair<T> implements ComparableObjIntPair<T> {
 
 		private T first;
 		private int second;
@@ -304,11 +320,11 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> MutCompObjIntPair<T> of(T a1, int a2) {
+		public static <T extends Comparable<? super T>> MutCompObjIntPair<T> of(T a1, int a2) {
 			return new MutCompObjIntPair(a1, a2);
 		}
 
-		public static <T extends Comparable<T>> MutCompObjIntPair<T> copyOf(LObjIntPair<T> tuple) {
+		public static <T extends Comparable<? super T>> MutCompObjIntPair<T> copyOf(LObjIntPair<T> tuple) {
 			return of(tuple.first(), tuple.second());
 		}
 
@@ -466,7 +482,7 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 	 * Immutable, comparable tuple.
 	 */
 	@Immutable
-	final class ImmCompObjIntPair<T extends Comparable<T>> extends AbstractObjIntPair<T> implements ComparableObjIntPair<T> {
+	final class ImmCompObjIntPair<T extends Comparable<? super T>> extends AbstractObjIntPair<T> implements ComparableObjIntPair<T> {
 
 		private final T first;
 		private final int second;
@@ -476,11 +492,11 @@ public interface LObjIntPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjIntPair<T> of(T a1, int a2) {
+		public static <T extends Comparable<? super T>> ImmCompObjIntPair<T> of(T a1, int a2) {
 			return new ImmCompObjIntPair(a1, a2);
 		}
 
-		public static <T extends Comparable<T>> ImmCompObjIntPair<T> copyOf(LObjIntPair<T> tuple) {
+		public static <T extends Comparable<? super T>> ImmCompObjIntPair<T> copyOf(LObjIntPair<T> tuple) {
 			return of(tuple.first(), tuple.second());
 		}
 
