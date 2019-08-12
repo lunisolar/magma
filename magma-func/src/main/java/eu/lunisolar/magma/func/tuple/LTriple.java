@@ -134,7 +134,7 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, LPair<T1, T2>, Map.
 
 				LTriple other = (LTriple) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 

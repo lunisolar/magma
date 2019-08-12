@@ -107,7 +107,7 @@ public interface LLongIntPair extends LTuple<Object>, LLongSingle {
 
 				LLongIntPair other = (LLongIntPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

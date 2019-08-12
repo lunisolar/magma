@@ -107,7 +107,7 @@ public interface LObjFltPair<T> extends LTuple<Object>, LSingle<T> {
 
 				LObjFltPair other = (LObjFltPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

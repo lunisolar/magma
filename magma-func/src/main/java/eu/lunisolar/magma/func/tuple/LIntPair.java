@@ -107,7 +107,7 @@ public interface LIntPair extends LTuple<Object>, LIntSingle {
 
 				LIntPair other = (LIntPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

@@ -107,7 +107,7 @@ public interface LObjBytePair<T> extends LTuple<Object>, LSingle<T> {
 
 				LObjBytePair other = (LObjBytePair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

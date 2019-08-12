@@ -101,7 +101,7 @@ public interface LSrtSingle extends LTuple<Object> {
 
 				LSrtSingle other = (LSrtSingle) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
 			});
 	}
 

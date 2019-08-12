@@ -107,7 +107,7 @@ public interface LObjSrtPair<T> extends LTuple<Object>, LSingle<T> {
 
 				LObjSrtPair other = (LObjSrtPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

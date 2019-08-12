@@ -101,7 +101,7 @@ public interface LByteSingle extends LTuple<Object> {
 
 				LByteSingle other = (LByteSingle) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
 			});
 	}
 

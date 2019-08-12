@@ -113,7 +113,7 @@ public interface LBiObjSrtTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> {
 
 				LBiObjSrtTriple other = (LBiObjSrtTriple) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 

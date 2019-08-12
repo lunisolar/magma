@@ -107,7 +107,7 @@ public interface LByteIntPair extends LTuple<Object>, LByteSingle {
 
 				LByteIntPair other = (LByteIntPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

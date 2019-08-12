@@ -101,7 +101,7 @@ public interface LCharSingle extends LTuple<Object> {
 
 				LCharSingle other = (LCharSingle) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
 			});
 	}
 

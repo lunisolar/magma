@@ -113,7 +113,7 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 
 				LBoolTriple other = (LBoolTriple) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 

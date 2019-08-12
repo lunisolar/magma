@@ -101,7 +101,7 @@ public interface LBoolSingle extends LTuple<Object> {
 
 				LBoolSingle other = (LBoolSingle) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
 			});
 	}
 

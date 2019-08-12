@@ -113,7 +113,7 @@ public interface LBiObjLongTriple<T1, T2> extends LTuple<Object>, LPair<T1, T2> 
 
 				LBiObjLongTriple other = (LBiObjLongTriple) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 

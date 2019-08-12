@@ -113,7 +113,7 @@ public interface LObjIntSrtTriple<T> extends LTuple<Object>, LObjIntPair<T> {
 
 				LObjIntSrtTriple other = (LObjIntSrtTriple) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), other.first(), other.second(), other.third());
 			});
 	}
 

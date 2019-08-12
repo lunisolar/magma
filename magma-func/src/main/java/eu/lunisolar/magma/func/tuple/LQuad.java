@@ -140,7 +140,7 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, LTriple<T1, T2, T
 
 				LQuad other = (LQuad) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), one.fourth(), other.first(), other.second(), other.third(), other.fourth());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), one.third(), one.fourth(), other.first(), other.second(), other.third(), other.fourth());
 			});
 	}
 

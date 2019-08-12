@@ -107,7 +107,7 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 
 				LBoolIntPair other = (LBoolIntPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

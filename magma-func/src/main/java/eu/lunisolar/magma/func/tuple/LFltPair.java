@@ -107,7 +107,7 @@ public interface LFltPair extends LTuple<Object>, LFltSingle {
 
 				LFltPair other = (LFltPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

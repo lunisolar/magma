@@ -128,7 +128,7 @@ public interface LPair<T1, T2> extends LTuple<Object>, LSingle<T1>, Map.Entry<T2
 
 				LPair other = (LPair) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
 			});
 	}
 

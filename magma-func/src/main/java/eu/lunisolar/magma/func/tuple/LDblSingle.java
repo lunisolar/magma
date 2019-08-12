@@ -101,7 +101,7 @@ public interface LDblSingle extends LTuple<Object> {
 
 				LDblSingle other = (LDblSingle) two;
 
-				return the.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
+				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
 			});
 	}
 
