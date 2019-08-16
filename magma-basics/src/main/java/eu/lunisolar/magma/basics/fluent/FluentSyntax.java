@@ -19,7 +19,7 @@
 package eu.lunisolar.magma.basics.fluent;
 
 /**
- * Marker interface for interface defining words to be used in fluent sentences.
+ * Marker interface for interface defining words to be used in 'fluent sentences' or otherwise (in one way or another).
  */
 public interface FluentSyntax {
 }

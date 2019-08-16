@@ -24,4 +24,7 @@ public class NestedException extends RuntimeException {
         super(cause.getMessage(), cause);
     }
 
+    public NestedException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
