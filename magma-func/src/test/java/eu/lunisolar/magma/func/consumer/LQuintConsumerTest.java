@@ -55,27 +55,27 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LQuadConsumerTest<T1,T2,T3,T4> {
+public class LQuintConsumerTest<T1,T2,T3,T4,T5> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
 
 
-    private LQuadConsumer<Integer,Integer,Integer,Integer> sut = new LQuadConsumer<Integer,Integer,Integer,Integer>(){
-        public  void acceptX(Integer a1,Integer a2,Integer a3,Integer a4)  {
-            LQuadConsumer.doNothing(a1,a2,a3,a4);
+    private LQuintConsumer<Integer,Integer,Integer,Integer,Integer> sut = new LQuintConsumer<Integer,Integer,Integer,Integer,Integer>(){
+        public  void acceptX(Integer a1,Integer a2,Integer a3,Integer a4,Integer a5)  {
+            LQuintConsumer.doNothing(a1,a2,a3,a4,a5);
         }
     };
 
 
 
 
-    private LQuadConsumer<Integer,Integer,Integer,Integer> sutAlwaysThrowing = LQuadConsumer.quadCons((a1,a2,a3,a4) -> {
+    private LQuintConsumer<Integer,Integer,Integer,Integer,Integer> sutAlwaysThrowing = LQuintConsumer.quintCons((a1,a2,a3,a4,a5) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LQuadConsumer<Integer,Integer,Integer,Integer> sutAlwaysThrowingUnchecked = LQuadConsumer.quadCons((a1,a2,a3,a4) -> {
+    private LQuintConsumer<Integer,Integer,Integer,Integer,Integer> sutAlwaysThrowingUnchecked = LQuintConsumer.quintCons((a1,a2,a3,a4,a5) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -84,7 +84,7 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
     @Test
     public void testTupleCall() throws Throwable {
 
-        LQuad<Integer,Integer,Integer,Integer> domainObject = Tuple4U.quad(100,100,100,100);
+        LQuint<Integer,Integer,Integer,Integer,Integer> domainObject = Tuple4U.quint(100,100,100,100,100);
 
         Object result = sut.tupleAccept(domainObject);
 
@@ -97,7 +97,7 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100,100);
+            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -112,7 +112,7 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100,100);
+            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,13 +126,13 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)");
+            .isEqualTo("LQuintConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)");
     }
 
     @Test
-    public void testQuadConsMethod() throws Throwable {
-        assertThat(LQuadConsumer.quadCons(LQuadConsumer::doNothing))
-            .isInstanceOf(LQuadConsumer.class);
+    public void testQuintConsMethod() throws Throwable {
+        assertThat(LQuintConsumer.quintCons(LQuintConsumer::doNothing))
+            .isInstanceOf(LQuintConsumer.class);
     }
 
 
@@ -149,12 +149,13 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LQuadConsumer<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
+        LQuintConsumer<Integer,Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4,a5) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
                 assertThat(a3).isEqualTo(92);
                 assertThat(a4).isEqualTo(93);
+                assertThat(a5).isEqualTo(94);
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
@@ -177,14 +178,19 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
             beforeCalls.incrementAndGet();
             return 93;
         };
+        LFunction<Integer,Integer> before5 = p4 -> {
+            assertThat(p4).isEqualTo(84);
+            beforeCalls.incrementAndGet();
+            return 94;
+        };
 
         //when
-        LQuadConsumer<Integer,Integer,Integer,Integer> function = sutO.compose(before1,before2,before3,before4);
-        function.accept(80,81,82,83);
+        LQuintConsumer<Integer,Integer,Integer,Integer,Integer> function = sutO.compose(before1,before2,before3,before4,before5);
+        function.accept(80,81,82,83,84);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(4);
+        assertThat(beforeCalls.get()).isEqualTo(5);
     }
 
     // </editor-fold>
@@ -196,25 +202,27 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LQuadConsumer<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
+        LQuintConsumer<Integer,Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4,a5) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(80);
                 assertThat(a2).isEqualTo(81);
                 assertThat(a3).isEqualTo(82);
                 assertThat(a4).isEqualTo(83);
+                assertThat(a5).isEqualTo(84);
         };
 
-        LQuadConsumer<Integer,Integer,Integer,Integer> thenFunction = (a1,a2,a3,a4) -> {
+        LQuintConsumer<Integer,Integer,Integer,Integer,Integer> thenFunction = (a1,a2,a3,a4,a5) -> {
                 thenFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(80);
                 assertThat(a2).isEqualTo(81);
                 assertThat(a3).isEqualTo(82);
                 assertThat(a4).isEqualTo(83);
+                assertThat(a5).isEqualTo(84);
         };
 
         //when
-        LQuadConsumer<Integer,Integer,Integer,Integer> function = sutO.andThen(thenFunction);
-        function.accept(80,81,82,83);
+        LQuintConsumer<Integer,Integer,Integer,Integer,Integer> function = sutO.andThen(thenFunction);
+        function.accept(80,81,82,83,84);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -227,12 +235,12 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
     public void testShove() {
 
         // given
-        LQuadConsumer<Integer,Integer,Integer,Integer> sutThrowing = LQuadConsumer.quadCons((a1,a2,a3,a4) -> {
+        LQuintConsumer<Integer,Integer,Integer,Integer,Integer> sutThrowing = LQuintConsumer.quintCons((a1,a2,a3,a4,a5) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingAccept(100,100,100,100);
+        sutThrowing.shovingAccept(100,100,100,100,100);
     }
 
 
@@ -245,7 +253,7 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)");
+                .contains("LQuintConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)");
     }
 
 
@@ -256,32 +264,32 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
     }
 
     @Test void safeCompiles() {
-        LQuadConsumer r1 = LQuadConsumer.safe(sut); //NOSONAR
+        LQuintConsumer r1 = LQuintConsumer.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
-        Object result = LQuadConsumer.safe(sut);
+        Object result = LQuintConsumer.safe(sut);
         assertThat(result).isSameAs(sut);
     }
 
     @Test void safeProtectsAgainstNpe() {
-        Object result = LQuadConsumer.safe(null);
-        assertThat(result).isSameAs(LQuadConsumer.quadCons(LQuadConsumer.safe()));
+        Object result = LQuintConsumer.safe(null);
+        assertThat(result).isSameAs(LQuintConsumer.quintCons(LQuintConsumer.safe()));
     }
 
     @Test  void safeSupplierPropagates() {
-        LSupplier<LQuadConsumer<Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LQuadConsumer.safeSupplier(supplier);
+        LSupplier<LQuintConsumer<Integer,Integer,Integer,Integer,Integer>> supplier = ()->sut;
+        Object result = LQuintConsumer.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
 
     @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LQuadConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LQuadConsumer.safeSupplier());
+        Object result = LQuintConsumer.safeSupplier(null);
+        assertThat(result).isSameAs(LQuintConsumer.safeSupplier());
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LQuadConsumer<Integer,Integer,Integer,Integer>> r1 = LQuadConsumer.safeSupplier(()->sut);  //NOSONAR
+        LSupplier<LQuintConsumer<Integer,Integer,Integer,Integer,Integer>> r1 = LQuintConsumer.safeSupplier(()->sut);  //NOSONAR
     }
 
 }

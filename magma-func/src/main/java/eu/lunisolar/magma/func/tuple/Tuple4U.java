@@ -83,6 +83,26 @@ public final class Tuple4U {
 		return LQuad.ImmCompQuad.of(a1, a2, a3, a4);
 	}
 
+	public static <T1, T2, T3, T4, T5> LQuint.MutQuint<T1, T2, T3, T4, T5> tuple(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return LQuint.MutQuint.of(a1, a2, a3, a4, a5);
+	}
+
+	public static <T1, T2, T3, T4, T5> LQuint.MutQuint<T1, T2, T3, T4, T5> quint(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return LQuint.MutQuint.of(a1, a2, a3, a4, a5);
+	}
+
+	public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>, T5 extends Comparable<T5>> LQuint.MutCompQuint<T1, T2, T3, T4, T5> comparable(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return LQuint.MutCompQuint.of(a1, a2, a3, a4, a5);
+	}
+
+	public static <T1, T2, T3, T4, T5> LQuint<T1, T2, T3, T4, T5> immutable(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return LQuint.ImmQuint.of(a1, a2, a3, a4, a5);
+	}
+
+	public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>, T5 extends Comparable<T5>> LQuint.ComparableQuint immComp(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return LQuint.ImmCompQuint.of(a1, a2, a3, a4, a5);
+	}
+
 	public static <T1, T2, T3> LTriple.MutTriple<T1, T2, T3> tuple(T1 a1, T2 a2, T3 a3) {
 		return LTriple.MutTriple.of(a1, a2, a3);
 	}

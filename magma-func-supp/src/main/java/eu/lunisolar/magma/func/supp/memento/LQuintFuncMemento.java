@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.access;
+package eu.lunisolar.magma.func.supp.memento;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -48,64 +48,76 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Interface representing a value(s) that can be optionally combined with additional arguments and function call that might produce some other value.
- * Interface implementation is not necessarily holding nor owning the value(s).
+ * Remembers the last function result.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface AccessQuad<T1, T2, T3, T4> {
+public class LQuintFuncMemento<T1, T2, T3, T4, T5, R> implements LQuintFunction<T1, T2, T3, T4, T5, R> {
 
-	static <T1, T2, T3, T4> AccessQuad<T1, T2, T3, T4> wrap(AccessQuad<T1, T2, T3, T4> lambda) {
-		return lambda;
+	protected R lastValue;
+
+	protected LQuintFunction<T1, T2, T3, T4, T5, R> function;
+
+	protected LQuintFuncMemento(LQuintFunction<T1, T2, T3, T4, T5, R> function) {
+		Null.nonNullArg(function, "function");
+		this.function = function;
+	}
+
+	protected LQuintFuncMemento(R initialValue, LQuintFunction<T1, T2, T3, T4, T5, R> function) {
+		this(function);
+		this.lastValue = initialValue;
 	}
 
 	/**
-	 * Before each access this method is called in order to potentially prepare the resources behind value (void)
+	 * Memento of a function, without taking the initial value from it.  
 	 */
-	LQuad<T1, T2, T3, T4> accessQuad();
+	public static <T1, T2, T3, T4, T5, R> LQuintFuncMemento<T1, T2, T3, T4, T5, R> hollowMementoOf(LQuintFunction<T1, T2, T3, T4, T5, R> supplier) {
+		return new LQuintFuncMemento<T1, T2, T3, T4, T5, R>(supplier);
+	}
 
 	/**
-	 * After each access this method is called in order to potentially release the resources behind value (void).
+	 * Memento of a function, initialized with value from it.   
 	 */
-	default void releaseQuad(LQuad<T1, T2, T3, T4> a) {
-		// NOOP
+	public static <T1, T2, T3, T4, T5, R> LQuintFuncMemento<T1, T2, T3, T4, T5, R> mementoOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> supplier) {
+		return new LQuintFuncMemento<T1, T2, T3, T4, T5, R>(supplier.apply(a1, a2, a3, a4, a5), supplier);
 	}
 
-	default void useWith(LQuadConsumer<T1, T2, T3, T4> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		accessFunction.accept(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
+	@Override
+	public R applyX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return lastValue = function.apply(a1, a2, a3, a4, a5);
 	}
 
-	default <T5> void useWith(T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		accessFunction.accept(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
+	public R lastValue() {
+		return lastValue;
 	}
 
-	default <R> R useWith(LQuadFunction<T1, T2, T3, T4, R> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-		releaseQuad(tuple);
-		return retval;
+	public R delta(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LBinaryOperator<R> deltaFunction) {
+		R last = lastValue;
+		return deltaFunction.apply(apply(a1, a2, a3, a4, a5), last);
 	}
 
-	default <R, T5> R useWith(T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
-		releaseQuad(tuple);
-		return retval;
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LQuintFuncMemento the, Object that) {
+		return Null.<LQuintFuncMemento> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LQuintFuncMemento other = (LQuintFuncMemento) two;
+
+			return LPair.argEquals(one.function, one.lastValue(), other.function, other.lastValue());
+		});
 	}
 
-	default boolean useWith(LQuadPredicate<T1, T2, T3, T4> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-		releaseQuad(tuple);
-		return retval;
+	public boolean equals(Object that) {
+		return argEquals(this, that);
 	}
 
-	default <T5> boolean useWith(T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
-		releaseQuad(tuple);
-		return retval;
+	@Override
+	public int hashCode() {
+		return LPair.argHashCode(function, lastValue);
 	}
+
+	// </editor-fold>
 
 }

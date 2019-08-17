@@ -424,6 +424,11 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
+	default <A extends LQuintConsumer<T1, T2, T3, T4, T5>, T1, T2, T3, T4, T5> LQuintConsumerAssert.The<A, T1, T2, T3, T4, T5> assertQuintCons(LQuintConsumer<T1, T2, T3, T4, T5> func) {
+		return new LQuintConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	default <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.The<A, T1, T2, T3> assertTriCons(LTriConsumer<T1, T2, T3> func) {
 		return new LTriConsumerAssert.The(func);
 	}
@@ -815,6 +820,13 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
 		return new LQuadFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LQuintFunction<T1, T2, T3, T4, T5, R>, T1, T2, T3, T4, T5, R> LQuintFunctionAssert.The<A, ? extends OS, T1, T2, T3, T4, T5, R> assertQuintFunc(LQuintFunction<T1, T2, T3, T4, T5, R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::assertThatObj;
+		return new LQuintFunctionAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
@@ -1878,6 +1890,12 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	default <A extends LQuadPredicate<T1, T2, T3, T4>, T1, T2, T3, T4> LQuadPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, T3, T4> assertQuadPred(LQuadPredicate<T1, T2, T3, T4> func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
 		return new LQuadPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LQuintPredicate<T1, T2, T3, T4, T5>, T1, T2, T3, T4, T5> LQuintPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, T3, T4, T5> assertQuintPred(LQuintPredicate<T1, T2, T3, T4, T5> func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LQuintPredicateAssert.The(func, assertFunc);
 	}
 
 	@Nonnull

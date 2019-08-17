@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.access;
+package eu.lunisolar.magma.func.supp.delta;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -29,6 +29,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -48,64 +49,61 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Interface representing a value(s) that can be optionally combined with additional arguments and function call that might produce some other value.
- * Interface implementation is not necessarily holding nor owning the value(s).
+ * Counts function result delta between sequential calls of the function.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface AccessQuad<T1, T2, T3, T4> {
+public class LQuintFuncDelta<T1, T2, T3, T4, T5, R> extends LQuintFuncMemento<T1, T2, T3, T4, T5, R> {
 
-	static <T1, T2, T3, T4> AccessQuad<T1, T2, T3, T4> wrap(AccessQuad<T1, T2, T3, T4> lambda) {
-		return lambda;
+	protected final LBinaryOperator<R> deltaFunction;
+
+	protected LQuintFuncDelta(LQuintFunction<T1, T2, T3, T4, T5, R> function, LBinaryOperator<R> deltaFunction) {
+		super(function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
+		this.deltaFunction = deltaFunction;
 	}
 
-	/**
-	 * Before each access this method is called in order to potentially prepare the resources behind value (void)
-	 */
-	LQuad<T1, T2, T3, T4> accessQuad();
-
-	/**
-	 * After each access this method is called in order to potentially release the resources behind value (void).
-	 */
-	default void releaseQuad(LQuad<T1, T2, T3, T4> a) {
-		// NOOP
+	protected LQuintFuncDelta(R initialValue, LQuintFunction<T1, T2, T3, T4, T5, R> function, LBinaryOperator<R> deltaFunction) {
+		super(initialValue, function);
+		Null.nonNullArg(deltaFunction, "deltaFunction");
+		this.deltaFunction = deltaFunction;
 	}
 
-	default void useWith(LQuadConsumer<T1, T2, T3, T4> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		accessFunction.accept(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
+	public static <T1, T2, T3, T4, T5, R> LQuintFuncDelta<T1, T2, T3, T4, T5, R> deltaOf(LQuintFunction<T1, T2, T3, T4, T5, R> function, LBinaryOperator<R> deltaFunction) {
+		return new LQuintFuncDelta<T1, T2, T3, T4, T5, R>(function, deltaFunction);
 	}
 
-	default <T5> void useWith(T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		accessFunction.accept(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
+	public static <T1, T2, T3, T4, T5, R> LQuintFuncDelta<T1, T2, T3, T4, T5, R> deltaOf(R initialValue, LQuintFunction<T1, T2, T3, T4, T5, R> function, LBinaryOperator<R> deltaFunction) {
+		return new LQuintFuncDelta<T1, T2, T3, T4, T5, R>(initialValue, function, deltaFunction);
 	}
 
-	default <R> R useWith(LQuadFunction<T1, T2, T3, T4, R> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-		releaseQuad(tuple);
-		return retval;
+	@Override
+	public R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3, a4, a5));
 	}
 
-	default <R, T5> R useWith(T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
-		releaseQuad(tuple);
-		return retval;
+	// <editor-fold desc="object">
+
+	public static boolean argEquals(LQuintFuncDelta the, Object that) {
+		return Null.<LQuintFuncDelta> equals(the, that, (one, two) -> {
+			if (one.getClass() != two.getClass()) {
+				return false;
+			}
+
+			LQuintFuncDelta other = (LQuintFuncDelta) two;
+
+			return LTriple.argEquals(one.function, one.deltaFunction, one.lastValue(), other.function, other.deltaFunction, other.lastValue());
+		});
 	}
 
-	default boolean useWith(LQuadPredicate<T1, T2, T3, T4> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-		releaseQuad(tuple);
-		return retval;
+	public boolean equals(Object that) {
+		return argEquals(this, that);
 	}
 
-	default <T5> boolean useWith(T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
-		releaseQuad(tuple);
-		return retval;
+	@Override
+	public int hashCode() {
+		return LTriple.argHashCode(function, deltaFunction, lastValue);
 	}
+
+	// </editor-fold>
 
 }

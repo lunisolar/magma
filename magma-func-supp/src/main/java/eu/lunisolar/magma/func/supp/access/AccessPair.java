@@ -85,9 +85,9 @@ public interface AccessPair<T1, T2> {
 		accessFunction.accept(tuple.first(), tuple.second(), a3, a4);
 	}
 
-	default <T3, T4> void useWith(T3 a3, T4 a4, LQuadConsumer.LObj1TriObj3Cons<T2, T1, T3, T4> accessFunction) {
+	default <T3, T4, T5> void useWith(T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
-		accessFunction.acceptObj1TriObj3(tuple.second(), tuple.first(), a3, a4);
+		accessFunction.accept(tuple.first(), tuple.second(), a3, a4, a5);
 	}
 
 	default <T3> void useWith(T3 a3, LTriConsumer<T1, T2, T3> accessFunction) {
@@ -391,9 +391,9 @@ public interface AccessPair<T1, T2> {
 		return retval;
 	}
 
-	default <R, T3, T4> R useWith(T3 a3, T4 a4, LQuadFunction.LObj1TriObj3Func<T2, T1, T3, T4, R> accessFunction) {
+	default <R, T3, T4, T5> R useWith(T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
-		R retval = accessFunction.applyObj1TriObj3(tuple.second(), tuple.first(), a3, a4);
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), a3, a4, a5);
 		releasePair(tuple);
 		return retval;
 	}
@@ -1343,9 +1343,9 @@ public interface AccessPair<T1, T2> {
 		return retval;
 	}
 
-	default <T3, T4> boolean useWith(T3 a3, T4 a4, LQuadPredicate.LObj1TriObj3Pred<T2, T1, T3, T4> accessFunction) {
+	default <T3, T4, T5> boolean useWith(T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
-		boolean retval = accessFunction.testObj1TriObj3(tuple.second(), tuple.first(), a3, a4);
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3, a4, a5);
 		releasePair(tuple);
 		return retval;
 	}

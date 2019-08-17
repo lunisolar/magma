@@ -52,59 +52,40 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Interface implementation is not necessarily holding nor owning the value(s).
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface AccessQuad<T1, T2, T3, T4> {
+public interface AccessQuint<T1, T2, T3, T4, T5> {
 
-	static <T1, T2, T3, T4> AccessQuad<T1, T2, T3, T4> wrap(AccessQuad<T1, T2, T3, T4> lambda) {
+	static <T1, T2, T3, T4, T5> AccessQuint<T1, T2, T3, T4, T5> wrap(AccessQuint<T1, T2, T3, T4, T5> lambda) {
 		return lambda;
 	}
 
 	/**
 	 * Before each access this method is called in order to potentially prepare the resources behind value (void)
 	 */
-	LQuad<T1, T2, T3, T4> accessQuad();
+	LQuint<T1, T2, T3, T4, T5> accessQuint();
 
 	/**
 	 * After each access this method is called in order to potentially release the resources behind value (void).
 	 */
-	default void releaseQuad(LQuad<T1, T2, T3, T4> a) {
+	default void releaseQuint(LQuint<T1, T2, T3, T4, T5> a) {
 		// NOOP
 	}
 
-	default void useWith(LQuadConsumer<T1, T2, T3, T4> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		accessFunction.accept(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
+	default void useWith(LQuintConsumer<T1, T2, T3, T4, T5> accessFunction) {
+		LQuint<T1, T2, T3, T4, T5> tuple = accessQuint();
+		accessFunction.accept(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
 	}
 
-	default <T5> void useWith(T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		accessFunction.accept(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
-	}
-
-	default <R> R useWith(LQuadFunction<T1, T2, T3, T4, R> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-		releaseQuad(tuple);
+	default <R> R useWith(LQuintFunction<T1, T2, T3, T4, T5, R> accessFunction) {
+		LQuint<T1, T2, T3, T4, T5> tuple = accessQuint();
+		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
+		releaseQuint(tuple);
 		return retval;
 	}
 
-	default <R, T5> R useWith(T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		R retval = accessFunction.apply(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
-		releaseQuad(tuple);
-		return retval;
-	}
-
-	default boolean useWith(LQuadPredicate<T1, T2, T3, T4> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-		releaseQuad(tuple);
-		return retval;
-	}
-
-	default <T5> boolean useWith(T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> accessFunction) {
-		LQuad<T1, T2, T3, T4> tuple = accessQuad();
-		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), a5);
-		releaseQuad(tuple);
+	default boolean useWith(LQuintPredicate<T1, T2, T3, T4, T5> accessFunction) {
+		LQuint<T1, T2, T3, T4, T5> tuple = accessQuint();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
+		releaseQuint(tuple);
 		return retval;
 	}
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.consumer;
+package eu.lunisolar.magma.func.function;
 
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -55,49 +55,68 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
-public class LQuadConsumerTest<T1,T2,T3,T4> {
+public class LQuintFunctionTest<T1,T2,T3,T4,T5,R> {
     private static final String ORIGINAL_MESSAGE = "Original message";
     private static final String EXCEPTION_WAS_WRAPPED = "Exception was wrapped.";
     private static final String NO_EXCEPTION_WERE_THROWN = "No exception were thrown.";
 
+    private Integer testValue = 100;
 
 
-    private LQuadConsumer<Integer,Integer,Integer,Integer> sut = new LQuadConsumer<Integer,Integer,Integer,Integer>(){
-        public  void acceptX(Integer a1,Integer a2,Integer a3,Integer a4)  {
-            LQuadConsumer.doNothing(a1,a2,a3,a4);
+
+    private LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sut = new LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer>(){
+        public @Nullable Integer applyX(Integer a1,Integer a2,Integer a3,Integer a4,Integer a5)  {
+            return testValue;
+        }
+    };
+
+
+    private LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sutNull = new LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer>(){
+        public @Nullable Integer applyX(Integer a1,Integer a2,Integer a3,Integer a4,Integer a5)  {
+            return null;
         }
     };
 
 
 
-
-    private LQuadConsumer<Integer,Integer,Integer,Integer> sutAlwaysThrowing = LQuadConsumer.quadCons((a1,a2,a3,a4) -> {
+    private LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sutAlwaysThrowing = LQuintFunction.quintFunc((a1,a2,a3,a4,a5) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LQuadConsumer<Integer,Integer,Integer,Integer> sutAlwaysThrowingUnchecked = LQuadConsumer.quadCons((a1,a2,a3,a4) -> {
+    private LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sutAlwaysThrowingUnchecked = LQuintFunction.quintFunc((a1,a2,a3,a4,a5) -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+    @Test
+    public void testTheResult() throws Throwable {
+        assertThat(sut.apply(100,100,100,100,100))
+            .isEqualTo(testValue);
+    }
 
     @Test
     public void testTupleCall() throws Throwable {
 
-        LQuad<Integer,Integer,Integer,Integer> domainObject = Tuple4U.quad(100,100,100,100);
+        LQuint<Integer,Integer,Integer,Integer,Integer> domainObject = Tuple4U.quint(100,100,100,100,100);
 
-        Object result = sut.tupleAccept(domainObject);
+        Object result = sut.tupleApply(domainObject);
 
         assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingAcceptUnchecked() throws Throwable {
+    public void testNonNullApply() throws Throwable {
+        assertThat(sut.nonNullApply(100,100,100,100,100))
+            .isSameAs(testValue);
+    }
+
+    @Test
+    public void testNestingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.nestingAccept(100,100,100,100);
+            sutAlwaysThrowingUnchecked.nestingApply(100,100,100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -108,11 +127,11 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
     }
 
     @Test
-    public void testShovingAcceptUnchecked() throws Throwable {
+    public void testShovingApplyUnchecked() throws Throwable {
 
         // then
         try {
-            sutAlwaysThrowingUnchecked.shovingAccept(100,100,100,100);
+            sutAlwaysThrowingUnchecked.shovingApply(100,100,100,100,100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -120,19 +139,24 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
                     .hasNoCause()
                     .hasMessage(ORIGINAL_MESSAGE);
         }
+    }
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullApply() method cannot be null (LQuintFunction: R apply(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)).\\E")
+    public void testNonNullCapturesNull() throws Throwable {
+        sutNull.nonNullApply(100,100,100,100,100);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)");
+            .isEqualTo("LQuintFunction: R apply(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)");
     }
 
     @Test
-    public void testQuadConsMethod() throws Throwable {
-        assertThat(LQuadConsumer.quadCons(LQuadConsumer::doNothing))
-            .isInstanceOf(LQuadConsumer.class);
+    public void testQuintFuncMethod() throws Throwable {
+        assertThat(LQuintFunction.quintFunc((a1,a2,a3,a4,a5) -> testValue ))
+            .isInstanceOf(LQuintFunction.class);
     }
 
 
@@ -149,12 +173,14 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LQuadConsumer<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
+        LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4,a5) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(90);
                 assertThat(a2).isEqualTo(91);
                 assertThat(a3).isEqualTo(92);
                 assertThat(a4).isEqualTo(93);
+                assertThat(a5).isEqualTo(94);
+                return 100;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
@@ -177,62 +203,113 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
             beforeCalls.incrementAndGet();
             return 93;
         };
+        LFunction<Integer,Integer> before5 = p4 -> {
+            assertThat(p4).isEqualTo(84);
+            beforeCalls.incrementAndGet();
+            return 94;
+        };
 
         //when
-        LQuadConsumer<Integer,Integer,Integer,Integer> function = sutO.compose(before1,before2,before3,before4);
-        function.accept(80,81,82,83);
+        LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> function = sutO.compose(before1,before2,before3,before4,before5);
+        function.apply(80,81,82,83,84);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(4);
+        assertThat(beforeCalls.get()).isEqualTo(5);
     }
 
     // </editor-fold>
 
+
+
+    // <editor-fold desc="then (functional)">
+
     @Test
-    public void testAndThen() throws Throwable {
+    public void testThen0() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
-         //given (+ some assertions)
-        LQuadConsumer<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
+        //given (+ some assertions)
+        LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4,a5) -> {
                 mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(80);
                 assertThat(a2).isEqualTo(81);
                 assertThat(a3).isEqualTo(82);
                 assertThat(a4).isEqualTo(83);
+                assertThat(a5).isEqualTo(84);
+                return 90;
         };
 
-        LQuadConsumer<Integer,Integer,Integer,Integer> thenFunction = (a1,a2,a3,a4) -> {
+        LFunction<Integer,Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.apply(80,81,82,83,84);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenConsume1() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4,a5) -> {
+                mainFunctionCalled.set(true);
                 assertThat(a1).isEqualTo(80);
                 assertThat(a2).isEqualTo(81);
                 assertThat(a3).isEqualTo(82);
                 assertThat(a4).isEqualTo(83);
+                assertThat(a5).isEqualTo(84);
+                return 90;
+        };
+
+        LConsumer<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // Integer
+                assertThat(p).isEqualTo(90);
         };
 
         //when
-        LQuadConsumer<Integer,Integer,Integer,Integer> function = sutO.andThen(thenFunction);
-        function.accept(80,81,82,83);
+        LQuintConsumer<Integer,Integer,Integer,Integer,Integer> function = sutO.thenConsume(thenFunction);
+        function.accept(80,81,82,83,84);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
     }
 
+
+
+    // </editor-fold>
 
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testShove() {
 
         // given
-        LQuadConsumer<Integer,Integer,Integer,Integer> sutThrowing = LQuadConsumer.quadCons((a1,a2,a3,a4) -> {
+        LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> sutThrowing = LQuintFunction.quintFunc((a1,a2,a3,a4,a5) -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        sutThrowing.shovingAccept(100,100,100,100);
+        sutThrowing.shovingApply(100,100,100,100,100);
     }
 
 
@@ -245,7 +322,7 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)");
+                .contains("LQuintFunction: R apply(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)");
     }
 
 
@@ -256,32 +333,32 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
     }
 
     @Test void safeCompiles() {
-        LQuadConsumer r1 = LQuadConsumer.safe(sut); //NOSONAR
+        LQuintFunction r1 = LQuintFunction.safe(sut); //NOSONAR
     }
 
     @Test void safePropagates() {
-        Object result = LQuadConsumer.safe(sut);
+        Object result = LQuintFunction.safe(sut);
         assertThat(result).isSameAs(sut);
     }
 
     @Test void safeProtectsAgainstNpe() {
-        Object result = LQuadConsumer.safe(null);
-        assertThat(result).isSameAs(LQuadConsumer.quadCons(LQuadConsumer.safe()));
+        Object result = LQuintFunction.safe(null);
+        assertThat(result).isSameAs(LQuintFunction.quintFunc(LQuintFunction.safe()));
     }
 
     @Test  void safeSupplierPropagates() {
-        LSupplier<LQuadConsumer<Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LQuadConsumer.safeSupplier(supplier);
+        LSupplier<LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer>> supplier = ()->sut;
+        Object result = LQuintFunction.safeSupplier(supplier);
         assertThat(result).isSameAs(supplier);
     }
 
     @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LQuadConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LQuadConsumer.safeSupplier());
+        Object result = LQuintFunction.safeSupplier(null);
+        assertThat(result).isSameAs(LQuintFunction.safeSupplier());
     }
 
     @Test  void safeSupplierCompiles() {
-        LSupplier<LQuadConsumer<Integer,Integer,Integer,Integer>> r1 = LQuadConsumer.safeSupplier(()->sut);  //NOSONAR
+        LSupplier<LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer>> r1 = LQuintFunction.safeSupplier(()->sut);  //NOSONAR
     }
 
 }
