@@ -402,8 +402,22 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3> void throwIf(T1 a1, @Nonnull LTriPredicate<T1, T2, T3> pred, T2 a2, T3 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static <T1, T2, T3> void throwIfNot(T1 a1, T2 a2, T3 a3, @Nonnull LTriPredicate<T1, T2, T3> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2, T3> void throwIfNot(T1 a1, @Nonnull LTriPredicate<T1, T2, T3> pred, T2 a2, T3 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

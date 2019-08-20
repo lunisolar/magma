@@ -90,6 +90,16 @@ public interface AccessLongPair {
 		accessFunction.acceptLong1Long0(tuple.second(), tuple.first());
 	}
 
+	default void useWith(long a3, LTriLongConsumer accessFunction) {
+		LLongPair tuple = accessLongPair();
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
+	}
+
+	default void useWithO1(long a3, LTriLongConsumer accessFunction) {
+		LLongPair tuple = accessLongPair();
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
+	}
+
 	default long useWith(LLongBinaryOperator accessFunction) {
 		LLongPair tuple = accessLongPair();
 		long retval = accessFunction.applyAsLong(tuple.first(), tuple.second());
@@ -156,6 +166,20 @@ public interface AccessLongPair {
 	default boolean useWithO1(LBiLongPredicate.LLong1Long0Pred accessFunction) {
 		LLongPair tuple = accessLongPair();
 		boolean retval = accessFunction.testLong1Long0(tuple.second(), tuple.first());
+		releaseLongPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(long a3, LTriLongPredicate accessFunction) {
+		LLongPair tuple = accessLongPair();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3);
+		releaseLongPair(tuple);
+		return retval;
+	}
+
+	default boolean useWithO1(long a3, LTriLongPredicate accessFunction) {
+		LLongPair tuple = accessLongPair();
+		boolean retval = accessFunction.test(tuple.second(), tuple.first(), a3);
 		releaseLongPair(tuple);
 		return retval;
 	}

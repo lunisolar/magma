@@ -90,6 +90,16 @@ public interface AccessSrtPair {
 		accessFunction.acceptSrt1Srt0(tuple.second(), tuple.first());
 	}
 
+	default void useWith(short a3, LTriSrtConsumer accessFunction) {
+		LSrtPair tuple = accessSrtPair();
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
+	}
+
+	default void useWithO1(short a3, LTriSrtConsumer accessFunction) {
+		LSrtPair tuple = accessSrtPair();
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
+	}
+
 	default short useWith(LSrtBinaryOperator accessFunction) {
 		LSrtPair tuple = accessSrtPair();
 		short retval = accessFunction.applyAsSrt(tuple.first(), tuple.second());
@@ -156,6 +166,20 @@ public interface AccessSrtPair {
 	default boolean useWithO1(LBiSrtPredicate.LSrt1Srt0Pred accessFunction) {
 		LSrtPair tuple = accessSrtPair();
 		boolean retval = accessFunction.testSrt1Srt0(tuple.second(), tuple.first());
+		releaseSrtPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(short a3, LTriSrtPredicate accessFunction) {
+		LSrtPair tuple = accessSrtPair();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3);
+		releaseSrtPair(tuple);
+		return retval;
+	}
+
+	default boolean useWithO1(short a3, LTriSrtPredicate accessFunction) {
+		LSrtPair tuple = accessSrtPair();
+		boolean retval = accessFunction.test(tuple.second(), tuple.first(), a3);
 		releaseSrtPair(tuple);
 		return retval;
 	}

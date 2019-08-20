@@ -150,6 +150,11 @@ public interface AccessLong {
 		accessFunction.acceptLongIntObj(tuple, a2, a1);
 	}
 
+	default void useWith(long a2, long a3, LTriLongConsumer accessFunction) {
+		long tuple = accessLong();
+		accessFunction.accept(tuple, a2, a3);
+	}
+
 	default long useWith(long a2, LLongBinaryOperator accessFunction) {
 		long tuple = accessLong();
 		long retval = accessFunction.applyAsLong(tuple, a2);
@@ -454,6 +459,13 @@ public interface AccessLong {
 	default <T> boolean useWith(T a1, LObjLongPredicate.LLongObjPred<T> accessFunction) {
 		long tuple = accessLong();
 		boolean retval = accessFunction.testLongObj(tuple, a1);
+		releaseLong(tuple);
+		return retval;
+	}
+
+	default boolean useWith(long a2, long a3, LTriLongPredicate accessFunction) {
+		long tuple = accessLong();
+		boolean retval = accessFunction.test(tuple, a2, a3);
 		releaseLong(tuple);
 		return retval;
 	}

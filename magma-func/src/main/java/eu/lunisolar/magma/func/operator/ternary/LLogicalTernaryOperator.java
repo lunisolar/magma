@@ -363,8 +363,22 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static void throwIf(boolean a1, @Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.apply(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static void throwIfNot(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.apply(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(boolean a1, @Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.apply(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

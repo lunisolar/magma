@@ -383,8 +383,22 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static void throwIf(long a1, @Nonnull LLongIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static void throwIfNot(long a1, int a2, @Nonnull LLongIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(long a1, @Nonnull LLongIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

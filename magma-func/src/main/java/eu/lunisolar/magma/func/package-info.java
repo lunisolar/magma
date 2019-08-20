@@ -77,6 +77,13 @@
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieLongConsumer}         | T a1,int a2,long a3                      | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LTieSrtConsumer}          | T a1,int a2,short a3                     | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBoolConsumer}         | boolean a1,boolean a2,boolean a3         | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriByteConsumer}         | byte a1,byte a2,byte a3                  | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriCharConsumer}         | char a1,char a2,char a3                  | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriDblConsumer}          | double a1,double a2,double a3            | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriFltConsumer}          | float a1,float a2,float a3               | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriIntConsumer}          | int a1,int a2,int a3                     | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriLongConsumer}         | long a1,long a2,long a3                  | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriSrtConsumer}          | short a1,short a2,short a3               | void       |
  * | {@link eu.lunisolar.magma.func.operator.binary.LBinaryOperator}                  | T a1,T a2                                | T          |
  * | {@link eu.lunisolar.magma.func.operator.binary.LByteBinaryOperator}              | byte a1,byte a2                          | byte       |
  * | {@link eu.lunisolar.magma.func.operator.binary.LCharBinaryOperator}              | char a1,char a2                          | char       |
@@ -274,7 +281,14 @@
  * | {@link eu.lunisolar.magma.func.predicate.LQuintPredicate}                        | T1 a1,T2 a2,T3 a3,T4 a4,T5 a5            | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LSrtIntPredicate}                       | short a1,int a2                          | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LSrtPredicate}                          | short a                                  | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LTriBytePredicate}                      | byte a1,byte a2,byte a3                  | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LTriCharPredicate}                      | char a1,char a2,char a3                  | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LTriDblPredicate}                       | double a1,double a2,double a3            | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LTriFltPredicate}                       | float a1,float a2,float a3               | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LTriIntPredicate}                       | int a1,int a2,int a3                     | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LTriLongPredicate}                      | long a1,long a2,long a3                  | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LTriPredicate}                          | T1 a1,T2 a2,T3 a3                        | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LTriSrtPredicate}                       | short a1,short a2,short a3               | boolean    |
  * | {@link eu.lunisolar.magma.func.supplier.LBoolSupplier}                           |                                          | boolean    |
  * | {@link eu.lunisolar.magma.func.supplier.LByteSupplier}                           |                                          | byte       |
  * | {@link eu.lunisolar.magma.func.supplier.LCharSupplier}                           |                                          | char       |

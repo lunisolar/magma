@@ -1103,6 +1103,146 @@ public final class Tuple4U {
 		return LBoolTriple.ImmCompBoolTriple.of(a1, a2, a3);
 	}
 
+	public static LByteTriple.MutByteTriple tuple(byte a1, byte a2, byte a3) {
+		return LByteTriple.MutByteTriple.of(a1, a2, a3);
+	}
+
+	public static LByteTriple.MutByteTriple byteTriple(byte a1, byte a2, byte a3) {
+		return LByteTriple.MutByteTriple.of(a1, a2, a3);
+	}
+
+	public static LByteTriple.MutCompByteTriple comparable(byte a1, byte a2, byte a3) {
+		return LByteTriple.MutCompByteTriple.of(a1, a2, a3);
+	}
+
+	public static LByteTriple immutable(byte a1, byte a2, byte a3) {
+		return LByteTriple.ImmByteTriple.of(a1, a2, a3);
+	}
+
+	public static LByteTriple.ComparableByteTriple immComp(byte a1, byte a2, byte a3) {
+		return LByteTriple.ImmCompByteTriple.of(a1, a2, a3);
+	}
+
+	public static LCharTriple.MutCharTriple tuple(char a1, char a2, char a3) {
+		return LCharTriple.MutCharTriple.of(a1, a2, a3);
+	}
+
+	public static LCharTriple.MutCharTriple charTriple(char a1, char a2, char a3) {
+		return LCharTriple.MutCharTriple.of(a1, a2, a3);
+	}
+
+	public static LCharTriple.MutCompCharTriple comparable(char a1, char a2, char a3) {
+		return LCharTriple.MutCompCharTriple.of(a1, a2, a3);
+	}
+
+	public static LCharTriple immutable(char a1, char a2, char a3) {
+		return LCharTriple.ImmCharTriple.of(a1, a2, a3);
+	}
+
+	public static LCharTriple.ComparableCharTriple immComp(char a1, char a2, char a3) {
+		return LCharTriple.ImmCompCharTriple.of(a1, a2, a3);
+	}
+
+	public static LDblTriple.MutDblTriple tuple(double a1, double a2, double a3) {
+		return LDblTriple.MutDblTriple.of(a1, a2, a3);
+	}
+
+	public static LDblTriple.MutDblTriple dblTriple(double a1, double a2, double a3) {
+		return LDblTriple.MutDblTriple.of(a1, a2, a3);
+	}
+
+	public static LDblTriple.MutCompDblTriple comparable(double a1, double a2, double a3) {
+		return LDblTriple.MutCompDblTriple.of(a1, a2, a3);
+	}
+
+	public static LDblTriple immutable(double a1, double a2, double a3) {
+		return LDblTriple.ImmDblTriple.of(a1, a2, a3);
+	}
+
+	public static LDblTriple.ComparableDblTriple immComp(double a1, double a2, double a3) {
+		return LDblTriple.ImmCompDblTriple.of(a1, a2, a3);
+	}
+
+	public static LFltTriple.MutFltTriple tuple(float a1, float a2, float a3) {
+		return LFltTriple.MutFltTriple.of(a1, a2, a3);
+	}
+
+	public static LFltTriple.MutFltTriple fltTriple(float a1, float a2, float a3) {
+		return LFltTriple.MutFltTriple.of(a1, a2, a3);
+	}
+
+	public static LFltTriple.MutCompFltTriple comparable(float a1, float a2, float a3) {
+		return LFltTriple.MutCompFltTriple.of(a1, a2, a3);
+	}
+
+	public static LFltTriple immutable(float a1, float a2, float a3) {
+		return LFltTriple.ImmFltTriple.of(a1, a2, a3);
+	}
+
+	public static LFltTriple.ComparableFltTriple immComp(float a1, float a2, float a3) {
+		return LFltTriple.ImmCompFltTriple.of(a1, a2, a3);
+	}
+
+	public static LIntTriple.MutIntTriple tuple(int a1, int a2, int a3) {
+		return LIntTriple.MutIntTriple.of(a1, a2, a3);
+	}
+
+	public static LIntTriple.MutIntTriple intTriple(int a1, int a2, int a3) {
+		return LIntTriple.MutIntTriple.of(a1, a2, a3);
+	}
+
+	public static LIntTriple.MutCompIntTriple comparable(int a1, int a2, int a3) {
+		return LIntTriple.MutCompIntTriple.of(a1, a2, a3);
+	}
+
+	public static LIntTriple immutable(int a1, int a2, int a3) {
+		return LIntTriple.ImmIntTriple.of(a1, a2, a3);
+	}
+
+	public static LIntTriple.ComparableIntTriple immComp(int a1, int a2, int a3) {
+		return LIntTriple.ImmCompIntTriple.of(a1, a2, a3);
+	}
+
+	public static LLongTriple.MutLongTriple tuple(long a1, long a2, long a3) {
+		return LLongTriple.MutLongTriple.of(a1, a2, a3);
+	}
+
+	public static LLongTriple.MutLongTriple longTriple(long a1, long a2, long a3) {
+		return LLongTriple.MutLongTriple.of(a1, a2, a3);
+	}
+
+	public static LLongTriple.MutCompLongTriple comparable(long a1, long a2, long a3) {
+		return LLongTriple.MutCompLongTriple.of(a1, a2, a3);
+	}
+
+	public static LLongTriple immutable(long a1, long a2, long a3) {
+		return LLongTriple.ImmLongTriple.of(a1, a2, a3);
+	}
+
+	public static LLongTriple.ComparableLongTriple immComp(long a1, long a2, long a3) {
+		return LLongTriple.ImmCompLongTriple.of(a1, a2, a3);
+	}
+
+	public static LSrtTriple.MutSrtTriple tuple(short a1, short a2, short a3) {
+		return LSrtTriple.MutSrtTriple.of(a1, a2, a3);
+	}
+
+	public static LSrtTriple.MutSrtTriple srtTriple(short a1, short a2, short a3) {
+		return LSrtTriple.MutSrtTriple.of(a1, a2, a3);
+	}
+
+	public static LSrtTriple.MutCompSrtTriple comparable(short a1, short a2, short a3) {
+		return LSrtTriple.MutCompSrtTriple.of(a1, a2, a3);
+	}
+
+	public static LSrtTriple immutable(short a1, short a2, short a3) {
+		return LSrtTriple.ImmSrtTriple.of(a1, a2, a3);
+	}
+
+	public static LSrtTriple.ComparableSrtTriple immComp(short a1, short a2, short a3) {
+		return LSrtTriple.ImmCompSrtTriple.of(a1, a2, a3);
+	}
+
 	public static LTuple.Void tuple() {
 		return LTuple.Void.INSTANCE;
 	}

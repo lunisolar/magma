@@ -392,8 +392,22 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5> void throwIf(T1 a1, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static <T1, T2, T3, T4, T5> void throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2, T3, T4, T5> void throwIfNot(T1 a1, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2, a3, a4, a5)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

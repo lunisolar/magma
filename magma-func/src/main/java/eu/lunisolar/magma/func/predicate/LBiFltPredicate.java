@@ -364,8 +364,22 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static void throwIf(float a1, @Nonnull LBiFltPredicate pred, float a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static void throwIfNot(float a1, float a2, @Nonnull LBiFltPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(float a1, @Nonnull LBiFltPredicate pred, float a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

@@ -402,8 +402,22 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static <T> void throwIf(T a1, @Nonnull LObjFltPredicate<T> pred, float a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static <T> void throwIfNot(T a1, float a2, @Nonnull LObjFltPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T> void throwIfNot(T a1, @Nonnull LObjFltPredicate<T> pred, float a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

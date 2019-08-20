@@ -383,8 +383,22 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static void throwIf(byte a1, @Nonnull LByteIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static void throwIfNot(byte a1, int a2, @Nonnull LByteIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static void throwIfNot(byte a1, @Nonnull LByteIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

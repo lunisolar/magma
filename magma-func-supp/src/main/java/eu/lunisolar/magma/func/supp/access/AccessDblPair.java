@@ -90,6 +90,16 @@ public interface AccessDblPair {
 		accessFunction.acceptDbl1Dbl0(tuple.second(), tuple.first());
 	}
 
+	default void useWith(double a3, LTriDblConsumer accessFunction) {
+		LDblPair tuple = accessDblPair();
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
+	}
+
+	default void useWithO1(double a3, LTriDblConsumer accessFunction) {
+		LDblPair tuple = accessDblPair();
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
+	}
+
 	default double useWith(LDblBinaryOperator accessFunction) {
 		LDblPair tuple = accessDblPair();
 		double retval = accessFunction.applyAsDbl(tuple.first(), tuple.second());
@@ -156,6 +166,20 @@ public interface AccessDblPair {
 	default boolean useWithO1(LBiDblPredicate.LDbl1Dbl0Pred accessFunction) {
 		LDblPair tuple = accessDblPair();
 		boolean retval = accessFunction.testDbl1Dbl0(tuple.second(), tuple.first());
+		releaseDblPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(double a3, LTriDblPredicate accessFunction) {
+		LDblPair tuple = accessDblPair();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3);
+		releaseDblPair(tuple);
+		return retval;
+	}
+
+	default boolean useWithO1(double a3, LTriDblPredicate accessFunction) {
+		LDblPair tuple = accessDblPair();
+		boolean retval = accessFunction.test(tuple.second(), tuple.first(), a3);
 		releaseDblPair(tuple);
 		return retval;
 	}

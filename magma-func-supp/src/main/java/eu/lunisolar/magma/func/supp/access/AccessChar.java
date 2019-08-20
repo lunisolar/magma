@@ -150,6 +150,11 @@ public interface AccessChar {
 		accessFunction.acceptCharIntObj(tuple, a2, a1);
 	}
 
+	default void useWith(char a2, char a3, LTriCharConsumer accessFunction) {
+		char tuple = accessChar();
+		accessFunction.accept(tuple, a2, a3);
+	}
+
 	default char useWith(char a2, LCharBinaryOperator accessFunction) {
 		char tuple = accessChar();
 		char retval = accessFunction.applyAsChar(tuple, a2);
@@ -454,6 +459,13 @@ public interface AccessChar {
 	default <T> boolean useWith(int a2, T a1, LObjIntCharPredicate.LCharIntObjPred<T> accessFunction) {
 		char tuple = accessChar();
 		boolean retval = accessFunction.testCharIntObj(tuple, a2, a1);
+		releaseChar(tuple);
+		return retval;
+	}
+
+	default boolean useWith(char a2, char a3, LTriCharPredicate accessFunction) {
+		char tuple = accessChar();
+		boolean retval = accessFunction.test(tuple, a2, a3);
 		releaseChar(tuple);
 		return retval;
 	}

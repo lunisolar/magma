@@ -412,8 +412,22 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static <T1, T2> void throwIf(T1 a1, @Nonnull LBiPredicate<T1, T2> pred, T2 a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static <T1, T2> void throwIfNot(T1 a1, T2 a2, @Nonnull LBiPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2> void throwIfNot(T1 a1, @Nonnull LBiPredicate<T1, T2> pred, T2 a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

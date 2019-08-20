@@ -150,6 +150,11 @@ public interface AccessByte {
 		accessFunction.acceptByteIntObj(tuple, a2, a1);
 	}
 
+	default void useWith(byte a2, byte a3, LTriByteConsumer accessFunction) {
+		byte tuple = accessByte();
+		accessFunction.accept(tuple, a2, a3);
+	}
+
 	default byte useWith(byte a2, LByteBinaryOperator accessFunction) {
 		byte tuple = accessByte();
 		byte retval = accessFunction.applyAsByte(tuple, a2);
@@ -454,6 +459,13 @@ public interface AccessByte {
 	default <T> boolean useWith(int a2, T a1, LObjIntBytePredicate.LByteIntObjPred<T> accessFunction) {
 		byte tuple = accessByte();
 		boolean retval = accessFunction.testByteIntObj(tuple, a2, a1);
+		releaseByte(tuple);
+		return retval;
+	}
+
+	default boolean useWith(byte a2, byte a3, LTriBytePredicate accessFunction) {
+		byte tuple = accessByte();
+		boolean retval = accessFunction.test(tuple, a2, a3);
 		releaseByte(tuple);
 		return retval;
 	}

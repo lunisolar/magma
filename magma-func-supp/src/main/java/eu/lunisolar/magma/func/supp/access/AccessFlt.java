@@ -150,6 +150,11 @@ public interface AccessFlt {
 		accessFunction.acceptFltIntObj(tuple, a2, a1);
 	}
 
+	default void useWith(float a2, float a3, LTriFltConsumer accessFunction) {
+		float tuple = accessFlt();
+		accessFunction.accept(tuple, a2, a3);
+	}
+
 	default float useWith(float a2, LFltBinaryOperator accessFunction) {
 		float tuple = accessFlt();
 		float retval = accessFunction.applyAsFlt(tuple, a2);
@@ -454,6 +459,13 @@ public interface AccessFlt {
 	default <T> boolean useWith(int a2, T a1, LObjIntFltPredicate.LFltIntObjPred<T> accessFunction) {
 		float tuple = accessFlt();
 		boolean retval = accessFunction.testFltIntObj(tuple, a2, a1);
+		releaseFlt(tuple);
+		return retval;
+	}
+
+	default boolean useWith(float a2, float a3, LTriFltPredicate accessFunction) {
+		float tuple = accessFlt();
+		boolean retval = accessFunction.test(tuple, a2, a3);
 		releaseFlt(tuple);
 		return retval;
 	}

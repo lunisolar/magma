@@ -345,6 +345,41 @@ public interface FunctionalAssertions {
 	}
 
 	@Nonnull
+	public static <A extends LTriByteConsumer> LTriByteConsumerAssert.The<A> assertTriByteCons(LTriByteConsumer func) {
+		return new LTriByteConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	public static <A extends LTriCharConsumer> LTriCharConsumerAssert.The<A> assertTriCharCons(LTriCharConsumer func) {
+		return new LTriCharConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	public static <A extends LTriDblConsumer> LTriDblConsumerAssert.The<A> assertTriDblCons(LTriDblConsumer func) {
+		return new LTriDblConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	public static <A extends LTriFltConsumer> LTriFltConsumerAssert.The<A> assertTriFltCons(LTriFltConsumer func) {
+		return new LTriFltConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	public static <A extends LTriIntConsumer> LTriIntConsumerAssert.The<A> assertTriIntCons(LTriIntConsumer func) {
+		return new LTriIntConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	public static <A extends LTriLongConsumer> LTriLongConsumerAssert.The<A> assertTriLongCons(LTriLongConsumer func) {
+		return new LTriLongConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	public static <A extends LTriSrtConsumer> LTriSrtConsumerAssert.The<A> assertTriSrtCons(LTriSrtConsumer func) {
+		return new LTriSrtConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	public static <A extends LBinaryOperator<T>, RS extends Assert<RS, T>, T> LBinaryOperatorAssert.The<A, RS, T> assertBinaryOp(LBinaryOperator<T> func) {
 		return new LBinaryOperatorAssert.The(func, Assertions::assertThat);
 	}
@@ -1330,8 +1365,43 @@ public interface FunctionalAssertions {
 	}
 
 	@Nonnull
+	public static <A extends LTriBytePredicate, RS extends AbstractBooleanAssert<RS>> LTriBytePredicateAssert.The<A, RS> assertTriBytePred(LTriBytePredicate func) {
+		return new LTriBytePredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriCharPredicate, RS extends AbstractBooleanAssert<RS>> LTriCharPredicateAssert.The<A, RS> assertTriCharPred(LTriCharPredicate func) {
+		return new LTriCharPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriDblPredicate, RS extends AbstractBooleanAssert<RS>> LTriDblPredicateAssert.The<A, RS> assertTriDblPred(LTriDblPredicate func) {
+		return new LTriDblPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriFltPredicate, RS extends AbstractBooleanAssert<RS>> LTriFltPredicateAssert.The<A, RS> assertTriFltPred(LTriFltPredicate func) {
+		return new LTriFltPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriIntPredicate, RS extends AbstractBooleanAssert<RS>> LTriIntPredicateAssert.The<A, RS> assertTriIntPred(LTriIntPredicate func) {
+		return new LTriIntPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriLongPredicate, RS extends AbstractBooleanAssert<RS>> LTriLongPredicateAssert.The<A, RS> assertTriLongPred(LTriLongPredicate func) {
+		return new LTriLongPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	public static <A extends LTriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3> LTriPredicateAssert.The<A, RS, T1, T2, T3> assertTriPred(LTriPredicate<T1, T2, T3> func) {
 		return new LTriPredicateAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriSrtPredicate, RS extends AbstractBooleanAssert<RS>> LTriSrtPredicateAssert.The<A, RS> assertTriSrtPred(LTriSrtPredicate func) {
+		return new LTriSrtPredicateAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull

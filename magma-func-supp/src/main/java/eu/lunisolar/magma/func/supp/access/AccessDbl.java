@@ -150,6 +150,11 @@ public interface AccessDbl {
 		accessFunction.acceptDblIntObj(tuple, a2, a1);
 	}
 
+	default void useWith(double a2, double a3, LTriDblConsumer accessFunction) {
+		double tuple = accessDbl();
+		accessFunction.accept(tuple, a2, a3);
+	}
+
 	default double useWith(double a2, LDblBinaryOperator accessFunction) {
 		double tuple = accessDbl();
 		double retval = accessFunction.applyAsDbl(tuple, a2);
@@ -454,6 +459,13 @@ public interface AccessDbl {
 	default <T> boolean useWith(int a2, T a1, LObjIntDblPredicate.LDblIntObjPred<T> accessFunction) {
 		double tuple = accessDbl();
 		boolean retval = accessFunction.testDblIntObj(tuple, a2, a1);
+		releaseDbl(tuple);
+		return retval;
+	}
+
+	default boolean useWith(double a2, double a3, LTriDblPredicate accessFunction) {
+		double tuple = accessDbl();
+		boolean retval = accessFunction.test(tuple, a2, a3);
 		releaseDbl(tuple);
 		return retval;
 	}

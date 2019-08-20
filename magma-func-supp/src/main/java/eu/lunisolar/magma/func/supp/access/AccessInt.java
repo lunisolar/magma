@@ -435,6 +435,11 @@ public interface AccessInt {
 		accessFunction.acceptSrtIntObj(a3, tuple, a1);
 	}
 
+	default void useWith(int a2, int a3, LTriIntConsumer accessFunction) {
+		int tuple = accessInt();
+		accessFunction.accept(tuple, a2, a3);
+	}
+
 	default int useWith(int a2, LIntBinaryOperator accessFunction) {
 		int tuple = accessInt();
 		int retval = accessFunction.applyAsInt(tuple, a2);
@@ -1866,6 +1871,13 @@ public interface AccessInt {
 	default boolean useWith(short a1, LSrtIntPredicate.LIntSrtPred accessFunction) {
 		int tuple = accessInt();
 		boolean retval = accessFunction.testIntSrt(tuple, a1);
+		releaseInt(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a2, int a3, LTriIntPredicate accessFunction) {
+		int tuple = accessInt();
+		boolean retval = accessFunction.test(tuple, a2, a3);
 		releaseInt(tuple);
 		return retval;
 	}

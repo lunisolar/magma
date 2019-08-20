@@ -90,6 +90,16 @@ public interface AccessFltPair {
 		accessFunction.acceptFlt1Flt0(tuple.second(), tuple.first());
 	}
 
+	default void useWith(float a3, LTriFltConsumer accessFunction) {
+		LFltPair tuple = accessFltPair();
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
+	}
+
+	default void useWithO1(float a3, LTriFltConsumer accessFunction) {
+		LFltPair tuple = accessFltPair();
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
+	}
+
 	default float useWith(LFltBinaryOperator accessFunction) {
 		LFltPair tuple = accessFltPair();
 		float retval = accessFunction.applyAsFlt(tuple.first(), tuple.second());
@@ -156,6 +166,20 @@ public interface AccessFltPair {
 	default boolean useWithO1(LBiFltPredicate.LFlt1Flt0Pred accessFunction) {
 		LFltPair tuple = accessFltPair();
 		boolean retval = accessFunction.testFlt1Flt0(tuple.second(), tuple.first());
+		releaseFltPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(float a3, LTriFltPredicate accessFunction) {
+		LFltPair tuple = accessFltPair();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3);
+		releaseFltPair(tuple);
+		return retval;
+	}
+
+	default boolean useWithO1(float a3, LTriFltPredicate accessFunction) {
+		LFltPair tuple = accessFltPair();
+		boolean retval = accessFunction.test(tuple.second(), tuple.first(), a3);
 		releaseFltPair(tuple);
 		return retval;
 	}

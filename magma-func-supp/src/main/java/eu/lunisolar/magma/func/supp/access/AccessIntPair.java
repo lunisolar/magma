@@ -150,6 +150,16 @@ public interface AccessIntPair {
 		accessFunction.acceptBiInt1Obj0(tuple.second(), tuple.first(), a1);
 	}
 
+	default void useWith(int a3, LTriIntConsumer accessFunction) {
+		LIntPair tuple = accessIntPair();
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
+	}
+
+	default void useWithO1(int a3, LTriIntConsumer accessFunction) {
+		LIntPair tuple = accessIntPair();
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
+	}
+
 	default int useWith(LIntBinaryOperator accessFunction) {
 		LIntPair tuple = accessIntPair();
 		int retval = accessFunction.applyAsInt(tuple.first(), tuple.second());
@@ -468,6 +478,20 @@ public interface AccessIntPair {
 	default <T> boolean useWithO1(T a1, LObjBiIntPredicate.LBiInt1Obj0Pred<T> accessFunction) {
 		LIntPair tuple = accessIntPair();
 		boolean retval = accessFunction.testBiInt1Obj0(tuple.second(), tuple.first(), a1);
+		releaseIntPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(int a3, LTriIntPredicate accessFunction) {
+		LIntPair tuple = accessIntPair();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3);
+		releaseIntPair(tuple);
+		return retval;
+	}
+
+	default boolean useWithO1(int a3, LTriIntPredicate accessFunction) {
+		LIntPair tuple = accessIntPair();
+		boolean retval = accessFunction.test(tuple.second(), tuple.first(), a3);
 		releaseIntPair(tuple);
 		return retval;
 	}

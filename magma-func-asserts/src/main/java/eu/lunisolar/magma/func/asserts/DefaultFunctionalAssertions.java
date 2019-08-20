@@ -679,6 +679,41 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
+	default <A extends LTriByteConsumer> LTriByteConsumerAssert.The<A> assertTriByteCons(LTriByteConsumer func) {
+		return new LTriByteConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LTriCharConsumer> LTriCharConsumerAssert.The<A> assertTriCharCons(LTriCharConsumer func) {
+		return new LTriCharConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LTriDblConsumer> LTriDblConsumerAssert.The<A> assertTriDblCons(LTriDblConsumer func) {
+		return new LTriDblConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LTriFltConsumer> LTriFltConsumerAssert.The<A> assertTriFltCons(LTriFltConsumer func) {
+		return new LTriFltConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LTriIntConsumer> LTriIntConsumerAssert.The<A> assertTriIntCons(LTriIntConsumer func) {
+		return new LTriIntConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LTriLongConsumer> LTriLongConsumerAssert.The<A> assertTriLongCons(LTriLongConsumer func) {
+		return new LTriLongConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LTriSrtConsumer> LTriSrtConsumerAssert.The<A> assertTriSrtCons(LTriSrtConsumer func) {
+		return new LTriSrtConsumerAssert.The(func);
+	}
+
+	@Nonnull
 	default <A extends LBinaryOperator<T>, T> LBinaryOperatorAssert.The<A, ? extends OS, T> assertBinaryOp(LBinaryOperator<T> func) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::assertThatObj;
@@ -1911,9 +1946,51 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
+	default <A extends LTriBytePredicate> LTriBytePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertTriBytePred(LTriBytePredicate func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LTriBytePredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriCharPredicate> LTriCharPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertTriCharPred(LTriCharPredicate func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LTriCharPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriDblPredicate> LTriDblPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertTriDblPred(LTriDblPredicate func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LTriDblPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriFltPredicate> LTriFltPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertTriFltPred(LTriFltPredicate func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LTriFltPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriIntPredicate> LTriIntPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertTriIntPred(LTriIntPredicate func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LTriIntPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriLongPredicate> LTriLongPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertTriLongPred(LTriLongPredicate func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LTriLongPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
 	default <A extends LTriPredicate<T1, T2, T3>, T1, T2, T3> LTriPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, T3> assertTriPred(LTriPredicate<T1, T2, T3> func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
 		return new LTriPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriSrtPredicate> LTriSrtPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertTriSrtPred(LTriSrtPredicate func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::assertThatBool;
+		return new LTriSrtPredicateAssert.The(func, assertFunc);
 	}
 
 	@Nonnull

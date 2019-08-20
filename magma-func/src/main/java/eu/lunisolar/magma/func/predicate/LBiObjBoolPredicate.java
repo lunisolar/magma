@@ -392,8 +392,22 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static <T1, T2> void throwIf(T1 a1, @Nonnull LBiObjBoolPredicate<T1, T2> pred, T2 a2, boolean a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static <T1, T2> void throwIfNot(T1 a1, T2 a2, boolean a3, @Nonnull LBiObjBoolPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2> void throwIfNot(T1 a1, @Nonnull LBiObjBoolPredicate<T1, T2> pred, T2 a2, boolean a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

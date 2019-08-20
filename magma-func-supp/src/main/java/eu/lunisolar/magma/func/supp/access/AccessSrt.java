@@ -150,6 +150,11 @@ public interface AccessSrt {
 		accessFunction.acceptSrtIntObj(tuple, a2, a1);
 	}
 
+	default void useWith(short a2, short a3, LTriSrtConsumer accessFunction) {
+		short tuple = accessSrt();
+		accessFunction.accept(tuple, a2, a3);
+	}
+
 	default short useWith(short a2, LSrtBinaryOperator accessFunction) {
 		short tuple = accessSrt();
 		short retval = accessFunction.applyAsSrt(tuple, a2);
@@ -454,6 +459,13 @@ public interface AccessSrt {
 	default boolean useWith(LSrtPredicate accessFunction) {
 		short tuple = accessSrt();
 		boolean retval = accessFunction.test(tuple);
+		releaseSrt(tuple);
+		return retval;
+	}
+
+	default boolean useWith(short a2, short a3, LTriSrtPredicate accessFunction) {
+		short tuple = accessSrt();
+		boolean retval = accessFunction.test(tuple, a2, a3);
 		releaseSrt(tuple);
 		return retval;
 	}

@@ -90,6 +90,16 @@ public interface AccessCharPair {
 		accessFunction.acceptChar1Char0(tuple.second(), tuple.first());
 	}
 
+	default void useWith(char a3, LTriCharConsumer accessFunction) {
+		LCharPair tuple = accessCharPair();
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
+	}
+
+	default void useWithO1(char a3, LTriCharConsumer accessFunction) {
+		LCharPair tuple = accessCharPair();
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
+	}
+
 	default char useWith(LCharBinaryOperator accessFunction) {
 		LCharPair tuple = accessCharPair();
 		char retval = accessFunction.applyAsChar(tuple.first(), tuple.second());
@@ -156,6 +166,20 @@ public interface AccessCharPair {
 	default boolean useWithO1(LBiCharPredicate.LChar1Char0Pred accessFunction) {
 		LCharPair tuple = accessCharPair();
 		boolean retval = accessFunction.testChar1Char0(tuple.second(), tuple.first());
+		releaseCharPair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(char a3, LTriCharPredicate accessFunction) {
+		LCharPair tuple = accessCharPair();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3);
+		releaseCharPair(tuple);
+		return retval;
+	}
+
+	default boolean useWithO1(char a3, LTriCharPredicate accessFunction) {
+		LCharPair tuple = accessCharPair();
+		boolean retval = accessFunction.test(tuple.second(), tuple.first(), a3);
 		releaseCharPair(tuple);
 		return retval;
 	}

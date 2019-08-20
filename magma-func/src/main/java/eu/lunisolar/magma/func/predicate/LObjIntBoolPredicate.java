@@ -352,8 +352,22 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 		}
 	}
 
+	/** Throws new exception if condition is met. */
+	public static <T> void throwIf(T a1, @Nonnull LObjIntBoolPredicate<T> pred, int a2, boolean a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
 	/** Throws new exception if condition is not met. */
 	public static <T> void throwIfNot(T a1, int a2, boolean a3, @Nonnull LObjIntBoolPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T> void throwIfNot(T a1, @Nonnull LObjIntBoolPredicate<T> pred, int a2, boolean a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}

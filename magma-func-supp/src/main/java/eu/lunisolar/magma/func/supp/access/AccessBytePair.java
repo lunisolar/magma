@@ -90,6 +90,16 @@ public interface AccessBytePair {
 		accessFunction.acceptByte1Byte0(tuple.second(), tuple.first());
 	}
 
+	default void useWith(byte a3, LTriByteConsumer accessFunction) {
+		LBytePair tuple = accessBytePair();
+		accessFunction.accept(tuple.first(), tuple.second(), a3);
+	}
+
+	default void useWithO1(byte a3, LTriByteConsumer accessFunction) {
+		LBytePair tuple = accessBytePair();
+		accessFunction.accept(tuple.second(), tuple.first(), a3);
+	}
+
 	default byte useWith(LByteBinaryOperator accessFunction) {
 		LBytePair tuple = accessBytePair();
 		byte retval = accessFunction.applyAsByte(tuple.first(), tuple.second());
@@ -156,6 +166,20 @@ public interface AccessBytePair {
 	default boolean useWithO1(LBiBytePredicate.LByte1Byte0Pred accessFunction) {
 		LBytePair tuple = accessBytePair();
 		boolean retval = accessFunction.testByte1Byte0(tuple.second(), tuple.first());
+		releaseBytePair(tuple);
+		return retval;
+	}
+
+	default boolean useWith(byte a3, LTriBytePredicate accessFunction) {
+		LBytePair tuple = accessBytePair();
+		boolean retval = accessFunction.test(tuple.first(), tuple.second(), a3);
+		releaseBytePair(tuple);
+		return retval;
+	}
+
+	default boolean useWithO1(byte a3, LTriBytePredicate accessFunction) {
+		LBytePair tuple = accessBytePair();
+		boolean retval = accessFunction.test(tuple.second(), tuple.first(), a3);
 		releaseBytePair(tuple);
 		return retval;
 	}
