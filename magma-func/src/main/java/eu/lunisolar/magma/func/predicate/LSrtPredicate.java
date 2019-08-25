@@ -341,31 +341,55 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	}
 
 	/** Throws new exception if condition is met. */
-	public static void throwIf(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static void throwIfNot(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Check argument if condition is met. */
-	public static short complying(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static short throwIf(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (pred.test(a)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 		return a;
 	}
 
-	/** Check argument if condition is not met. */
-	public static short notComplying(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	/** Throws new exception if condition is not met. */
+	public static short throwIfNot(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a)) {
 			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static short throwIf(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static short throwIfNot(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static short throwIf$(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a)) {
+			throw Handling.create(factory, newMessage, a);
+		}
+		return a;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static short throwIfNot$(short a, @Nonnull LSrtPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a)) {
+			throw Handling.create(factory, newMessage, a);
 		}
 		return a;
 	}

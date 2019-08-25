@@ -377,45 +377,109 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Throws new exception if condition is met. */
-	public static void throwIf(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is met. */
-	public static void throwIf(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static void throwIfNot(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static void throwIfNot(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Check argument if condition is met. */
-	public static boolean complying(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static boolean throwIf(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 		return a1;
 	}
 
-	/** Check argument if condition is not met. */
-	public static boolean notComplying(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	/** Throws new exception if condition is met. */
+	public static boolean throwIf(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static boolean throwIfNot(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static boolean throwIfNot(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static boolean throwIf(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static boolean throwIf(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static boolean throwIfNot(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static boolean throwIfNot(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static boolean throwIf$(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static boolean throwIf$(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static boolean throwIfNot$(boolean a1, int a2, @Nonnull LBoolIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static boolean throwIfNot$(boolean a1, @Nonnull LBoolIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
 		}
 		return a1;
 	}

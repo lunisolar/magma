@@ -346,45 +346,109 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <T> void throwIf(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <T> void throwIf(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <T> void throwIfNot(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <T> void throwIfNot(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Check argument if condition is met. */
-	public static <T> T complying(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <T> T throwIf(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 		return a1;
 	}
 
-	/** Check argument if condition is not met. */
-	public static <T> T notComplying(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	/** Throws new exception if condition is met. */
+	public static <T> T throwIf(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T> T throwIfNot(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T> T throwIfNot(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T> T throwIf(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T> T throwIf(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T> T throwIfNot(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T> T throwIfNot(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T> T throwIf$(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T> T throwIf$(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T> T throwIfNot$(T a1, int a2, long a3, @Nonnull LObjIntLongPredicate<T> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T> T throwIfNot$(T a1, @Nonnull LObjIntLongPredicate<T> pred, int a2, long a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
 		}
 		return a1;
 	}

@@ -377,45 +377,109 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Throws new exception if condition is met. */
-	public static void throwIf(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is met. */
-	public static void throwIf(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static void throwIfNot(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static void throwIfNot(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Check argument if condition is met. */
-	public static char complying(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static char throwIf(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 		return a1;
 	}
 
-	/** Check argument if condition is not met. */
-	public static char notComplying(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	/** Throws new exception if condition is met. */
+	public static char throwIf(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static char throwIfNot(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static char throwIfNot(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static char throwIf(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static char throwIf(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static char throwIfNot(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static char throwIfNot(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static char throwIf$(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static char throwIf$(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static char throwIfNot$(char a1, int a2, @Nonnull LCharIntPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static char throwIfNot$(char a1, @Nonnull LCharIntPredicate pred, int a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, newMessage, a1, a2);
 		}
 		return a1;
 	}

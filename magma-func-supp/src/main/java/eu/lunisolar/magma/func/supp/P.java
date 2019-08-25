@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * @author Jakub Wach
  */
-public class P implements FluentSyntax {
+public final class P implements FluentSyntax {
 	// <editor-fold desc="no instance">
 	private P() {
 	}

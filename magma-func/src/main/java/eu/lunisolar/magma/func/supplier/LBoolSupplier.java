@@ -275,31 +275,33 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Throws new exception if condition is met. */
-	public static void throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.getAsBool()) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static void throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.getAsBool()) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Check argument if condition is met. */
-	public static LBoolSupplier complying(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (pred.getAsBool()) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 		return pred;
 	}
 
-	/** Check argument if condition is not met. */
-	public static LBoolSupplier notComplying(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	/** Throws new exception if condition is not met. */
+	public static LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.getAsBool()) {
 			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return pred;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.getAsBool()) {
+			throw Handling.create(factory, newMessage);
+		}
+		return pred;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.getAsBool()) {
+			throw Handling.create(factory, newMessage);
 		}
 		return pred;
 	}

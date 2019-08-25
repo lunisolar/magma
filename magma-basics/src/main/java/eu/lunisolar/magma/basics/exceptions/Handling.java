@@ -63,17 +63,21 @@ public class Handling implements Serializable {
     // <editor-fold desc="General">
 
     @Nonnull
-    public static String constructMessage(
-            @Nullable Throwable e, @Nullable String newMessage, @Nullable Object... messageParams) {
+    public static String constructMessage(@Nullable Throwable e, @Nullable String newMessage, @Nullable Object... messageParams) {
+        return (newMessage == null) ? private_message(e) : String.format(newMessage, messageParams);
+    }
+
+    @Nonnull
+    public static String constructMessage(@Nullable Throwable e, @Nullable String newMessage) {
+        return (newMessage == null) ? private_message(e) : newMessage;
+    }
+
+    private static String private_message(@Nullable Throwable e) {
         String message;
-        if (newMessage == null) {
-            if (e == null) {
-                message = UNKNOWN_PROBLEM;
-            } else {
-                message = e.getMessage();
-            }
+        if (e == null) {
+            message = UNKNOWN_PROBLEM;
         } else {
-            message = String.format(newMessage, messageParams);
+            message = e.getMessage();
         }
         return message;
     }
@@ -172,12 +176,21 @@ public class Handling implements Serializable {
 
     // <editor-fold desc="create">
 
-    @SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "unchecked"})
+    @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
     public static <X extends Throwable> X create(
             @Nonnull ExMF<X> exceptionFactory,
             @Nonnull String newMessage, @Nullable Object... messageParams) {
 
         String message = constructMessage(null, newMessage, messageParams);
+        return exceptionFactory.produce(message);
+    }
+
+    @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
+    public static <X extends Throwable> X create(
+            @Nonnull ExMF<X> exceptionFactory,
+            @Nonnull String newMessage) {
+
+        String message = constructMessage(null, newMessage);
         return exceptionFactory.produce(message);
     }
 
@@ -198,6 +211,14 @@ public class Handling implements Serializable {
         return exceptionFactory.produce(message, e);
     }
 
+    public static <X extends Throwable> X wrap(
+            @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
+            @Nonnull String newMessage) {
+        handleErrors(e);
+        String message = constructMessage(null, newMessage);
+        return exceptionFactory.produce(message, e);
+    }
+
     public static <X extends Throwable> X wrapCombineMessage(
             @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
             @Nonnull String newMessage, @Nullable Object... messageParams) {
@@ -208,7 +229,21 @@ public class Handling implements Serializable {
                 message
                 :
                 constructMessage(null, "%s %s", message, causeMessage);
-        
+
+        return exceptionFactory.produce(finalMessage, e);
+    }
+
+    public static <X extends Throwable> X wrapCombineMessage(
+            @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
+            @Nonnull String newMessage) {
+        handleErrors(e);
+        String message = constructMessage(null, newMessage);
+        String causeMessage = e.getMessage();
+        String finalMessage = causeMessage == null || causeMessage.isBlank() ?
+                message
+                :
+                constructMessage(null, "%s %s", message, causeMessage);
+
         return exceptionFactory.produce(finalMessage, e);
     }
 

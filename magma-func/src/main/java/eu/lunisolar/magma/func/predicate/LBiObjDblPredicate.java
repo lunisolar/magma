@@ -386,45 +386,109 @@ public interface LBiObjDblPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <T1, T2> void throwIf(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <T1, T2> void throwIf(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <T1, T2> void throwIfNot(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <T1, T2> void throwIfNot(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
-		if (!pred.test(a1, a2, a3)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-	}
-
-	/** Check argument if condition is met. */
-	public static <T1, T2> T1 complying(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <T1, T2> T1 throwIf(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
 		return a1;
 	}
 
-	/** Check argument if condition is not met. */
-	public static <T1, T2> T1 notComplying(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	/** Throws new exception if condition is met. */
+	public static <T1, T2> T1 throwIf(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2> T1 throwIfNot(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2> T1 throwIfNot(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, messageParams);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2> T1 throwIf(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2> T1 throwIf(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2> T1 throwIfNot(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met. */
+	public static <T1, T2> T1 throwIfNot(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T1, T2> T1 throwIf$(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T1, T2> T1 throwIf$(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T1, T2> T1 throwIfNot$(T1 a1, T2 a2, double a3, @Nonnull LBiObjDblPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
+		}
+		return a1;
+	}
+
+	/**
+	* Throws new exception if condition is not met.
+	* Message will be formatted with predicate arguments.
+	*/
+	public static <T1, T2> T1 throwIfNot$(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> pred, T2 a2, double a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, newMessage, a1, a2, a3);
 		}
 		return a1;
 	}
