@@ -46,7 +46,30 @@ public class HandlingTest {
         assertThat(Handling.constructMessage(null, "Message with")).isEqualTo("Message with");
 
         assertThat(Handling.constructMessage(RUNTIME, null)).isEqualTo(ORIGINAL_MESSAGE);
-        assertThat(Handling.constructMessage(null, null)).isEqualTo(Handling.UNKNOWN_PROBLEM);
+        assertThat(Handling.constructMessage(null, null)).isEqualTo(Handling.UNKNOWN_ISSUE);
+    }
+
+    @Test
+    public void testConstructMessageCombine() throws Exception {
+        assertThat(Handling.constructMessage(true, RUNTIME, "Message with %s + %d")).isEqualTo("Message with %s + %d OriginalMessage");
+        assertThat(Handling.constructMessage(true, RUNTIME, "Message with %s + %d", 1, 2)).isEqualTo("Message with 1 + 2 OriginalMessage");
+        assertThat(Handling.constructMessage(false, RUNTIME, "Message with %s + %d")).isEqualTo("Message with %s + %d");
+        assertThat(Handling.constructMessage(false, RUNTIME, "Message with %s + %d", 1, 2)).isEqualTo("Message with 1 + 2");
+
+        assertThat(Handling.constructMessage(true, null, "Message with %s + %d")).isEqualTo("Message with %s + %d");
+        assertThat(Handling.constructMessage(true, null, "Message with %s + %d", 1, 2)).isEqualTo("Message with 1 + 2");
+        assertThat(Handling.constructMessage(false, null, "Message with %s + %d")).isEqualTo("Message with %s + %d");
+        assertThat(Handling.constructMessage(false, null, "Message with %s + %d", 1, 2)).isEqualTo("Message with 1 + 2");
+
+        assertThat(Handling.constructMessage(true, RUNTIME, null)).isEqualTo("OriginalMessage");
+        assertThat(Handling.constructMessage(true, RUNTIME, null, 1, 2)).isEqualTo("OriginalMessage");
+        assertThat(Handling.constructMessage(false, RUNTIME, null)).isEqualTo("OriginalMessage");
+        assertThat(Handling.constructMessage(false, RUNTIME, null, 1, 2)).isEqualTo("OriginalMessage");
+
+        assertThat(Handling.constructMessage(true, null, null)).isEqualTo(Handling.UNKNOWN_ISSUE);
+        assertThat(Handling.constructMessage(true, null, null, null, null)).isEqualTo(Handling.UNKNOWN_ISSUE);
+        assertThat(Handling.constructMessage(false, null, null)).isEqualTo(Handling.UNKNOWN_ISSUE);
+        assertThat(Handling.constructMessage(false, null, null, null, null)).isEqualTo(Handling.UNKNOWN_ISSUE);
     }
 
     @Test

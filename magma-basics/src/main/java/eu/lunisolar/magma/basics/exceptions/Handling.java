@@ -18,20 +18,20 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
-import eu.lunisolar.magma.basics.Null;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
 import java.util.function.*;
 
+import static eu.lunisolar.magma.basics.Null.nonNullArg;
+
 /**
  * Obfuscated version eu.lunisolar.lava.core.exceptions.Routine.
  */
 @SuppressWarnings({"unchecked", "unused"})
-public class Handling implements Serializable {
+public final class Handling implements Serializable {
 
-    public static final String UNKNOWN_PROBLEM = "UNKNOWN PROBLEM!";
+    public static final String UNKNOWN_ISSUE = "Unknown issue!";
 
     private static final Thrower<Throwable> THROWER = Handling::throwThe;
 
@@ -53,8 +53,8 @@ public class Handling implements Serializable {
 
     static <X extends Throwable, Y extends Throwable> Handler.The<X, Y> handleInstructions(
             @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
-        Null.nonNullArg(throwable, "throwable");
-        Null.nonNullArg(instructions, "instructions");
+        nonNullArg(throwable, "throwable");
+        nonNullArg(instructions, "instructions");
         Handler.The<X, Y> handler = Handler.handler(throwable);
         instructions.processWith(handler);
         return handler;
@@ -72,10 +72,41 @@ public class Handling implements Serializable {
         return (newMessage == null) ? private_message(e) : newMessage;
     }
 
+    public static String constructMessage(boolean combine, @Nullable Throwable e, @Nullable String newMessage, @Nullable Object... messageParams) {
+        if (combine && newMessage != null) {
+            String message = constructMessage(e, newMessage, messageParams);
+            String causeMessage = e != null ? e.getMessage() : null;
+            String finalMessage = causeMessage == null || causeMessage.isBlank() ?
+                    message
+                    :
+                    constructMessage(null, "%s %s", message, causeMessage);
+
+            return finalMessage;
+        } else {
+            return constructMessage(e, newMessage, messageParams);
+        }
+    }
+
+    @Nonnull
+    public static String constructMessage(boolean combine, @Nullable Throwable e, @Nullable String newMessage) {
+        if (combine && newMessage != null) {
+            String message = constructMessage(e, newMessage);
+            String causeMessage = e != null ? e.getMessage() : null;
+            String finalMessage = causeMessage == null || causeMessage.isBlank() ?
+                    message
+                    :
+                    constructMessage(null, "%s %s", message, causeMessage);
+
+            return finalMessage;
+        } else {
+            return constructMessage(e, newMessage);
+        }
+    }
+
     private static String private_message(@Nullable Throwable e) {
         String message;
         if (e == null) {
-            message = UNKNOWN_PROBLEM;
+            message = UNKNOWN_ISSUE;
         } else {
             message = e.getMessage();
         }
@@ -84,140 +115,154 @@ public class Handling implements Serializable {
 
     // </editor-fold>
 
-    // <editor-fold desc="createAndThrow">
+    // <editor-fold desc="create-ExF">
 
-    public static <Y extends Throwable, X extends Throwable> Y throwReplacement(
-            @Nonnull ExMF<Y> factory,
-            @Nonnull String newMessage,
-            @Nullable Object... messageParams) throws Y {
-
-        throw Handling.create(factory, newMessage, messageParams);
+    public static <X extends Throwable> X create(@Nonnull ExF<X> fx) {
+        return nonNullArg(fx, "Exception factory cannot be null.").produce();
     }
 
-    public static <Y extends Throwable, X extends Throwable> Y throwWrapper(
-            @Nonnull X throwable,
-            @Nonnull ExWF<Y> factory) throws Y {
+    //</editor-fold>
 
-        throw Handling.wrap(throwable, factory);
+    // <editor-fold desc="create-ExMF">
+
+    public static <X extends Throwable> X create(@Nonnull ExMF<X> fx, @Nullable String msg) {
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg));
     }
 
-    public static <Y extends Throwable, X extends Throwable> Y throwWrapper(
-            @Nonnull X throwable,
-            @Nonnull ExWMF<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
-
-        throw Handling.wrap(throwable, factory, newMessage, messageParams);
+    public static <X extends Throwable> X create(@Nonnull ExMF<X> fx, @Nullable String msg, @Nullable Object... args) {
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg, args));
     }
 
-    // </editor-fold>
+    //</editor-fold>
 
-    // <editor-fold desc="conditional create-and-throw">
+    //<editor-fold desc="create-ExWF">
 
-    public static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
-            boolean conditionMeet,
-            @Nonnull ExMF<Y> factory,
-            @Nonnull String newMessage,
-            @Nullable Object... messageParams) throws Y {
-
-        if (conditionMeet) {
-            throw Handling.create(factory, newMessage, messageParams);
+    public static <X extends Throwable> X wrapIfNot(@Nullable Class<X> c, @Nullable Throwable e, @Nonnull ExWF<X> fx) {
+        handleErrors(e);
+        if (c != null && c.isInstance(e)) {
+            return (X) e;
         }
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(e);
     }
 
-    public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
-            boolean conditionMeet,
-            @Nonnull X throwable,
-            @Nonnull ExWF<Y> factory) throws Y {
+    public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExWF<X> fx) {
+        return wrapIfNot(null, e, fx);
+    }
 
-        if (conditionMeet) {
-            throw Handling.wrap(throwable, factory);
+    //</editor-fold>
+
+    // <editor-fold desc="create-ExMF">
+
+    public static <X extends Throwable> X wrapIfNot(
+            @Nullable Class<X> c, @Nullable Throwable e, @Nonnull ExWMF<X> fx, boolean combine, @Nullable String msg
+    ) {
+        handleErrors(e);
+        if (c != null && c.isInstance(e)) {
+            return (X) e;
         }
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(combine, e, msg), e);
     }
 
-    public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
-            boolean conditionMeet,
-            @Nonnull X throwable,
-            @Nonnull ExWMF<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
-
-        if (conditionMeet) {
-            throw Handling.wrap(throwable, factory, newMessage, messageParams);
+    public static <X extends Throwable> X wrapIfNot(
+            @Nullable Class<X> c, @Nullable Throwable e, @Nonnull ExWMF<X> fx, boolean combine, @Nullable String msg, @Nullable Object... args
+    ) {
+        handleErrors(e);
+        if (c != null && c.isInstance(e)) {
+            return (X) e;
         }
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(combine, e, msg, args), e);
     }
 
-    public static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
-            @Nonnull Predicate<X> condition,
-            @Nonnull X throwable,
-            @Nonnull ExMF<Y> factory,
-            @Nonnull String newMessage,
-            @Nullable Object... messageParams) throws Y {
-
-        throwReplacementIf(condition.test(throwable), factory, newMessage, messageParams);
+    public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg) {
+        return wrapIfNot(null, e, fx, false, msg);
     }
 
-    public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
-            @Nonnull Predicate<X> condition,
-            @Nonnull X throwable,
-            @Nonnull ExWF<Y> factory) throws Y {
-
-        throwWrapperIf(condition.test(throwable), throwable, factory);
+    public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
+        return wrapIfNot(null, e, fx, false, msg, args);
     }
 
-    public static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
-            @Nonnull Predicate<X> condition,
-            @Nonnull X throwable,
-            @Nonnull ExWMF<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
-
-        throwWrapperIf(condition.test(throwable), throwable, factory, newMessage, messageParams);
+    public static <X extends Throwable> X combine(@Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg) {
+        return wrapIfNot(null, e, fx, true, msg);
     }
 
-    // </editor-fold>
-
-    // <editor-fold desc="create">
-
-    @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
-    public static <X extends Throwable> X create(
-            @Nonnull ExMF<X> exceptionFactory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) {
-
-        String message = constructMessage(null, newMessage, messageParams);
-        return exceptionFactory.produce(message);
+    public static <X extends Throwable> X combine(@Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
+        return wrapIfNot(null, e, fx, true, msg, args);
     }
 
-    @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
-    public static <X extends Throwable> X create(
-            @Nonnull ExMF<X> exceptionFactory,
-            @Nonnull String newMessage) {
-
-        String message = constructMessage(null, newMessage);
-        return exceptionFactory.produce(message);
+    public static <X extends Throwable> X wrapIfNot(@Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg) {
+        return wrapIfNot(clazz, e, fx, false, msg);
     }
 
-    // </editor-fold>
+    public static <X extends Throwable> X wrapIfNot(
+            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
+        return wrapIfNot(clazz, e, fx, false, msg, args);
+    }
+
+    public static <X extends Throwable> X combineIfNot(@Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg) {
+        return wrapIfNot(clazz, e, fx, true, msg);
+    }
+
+    public static <X extends Throwable> X combineIfNot(
+            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
+        return wrapIfNot(clazz, e, fx, false, msg, args);
+    }
+
+    //</editor-fold>
+
+    // <editor-fold desc="create-ExF4">
+
+    public static <X extends Throwable> X wrapIfNot(
+            boolean enableSuppression, boolean writableStackTrace,
+            @Nullable Class<X> c, @Nullable Throwable e, @Nonnull ExF4<X> fx, boolean combine, @Nullable String msg
+    ) {
+        handleErrors(e);
+        if (c != null && c.isInstance(e)) {
+            return (X) e;
+        }
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(true, e, msg), e, enableSuppression, writableStackTrace);
+    }
+
+    public static <X extends Throwable> X wrapIfNot(
+            boolean enableSuppression, boolean writableStackTrace,
+            @Nullable Class<X> c, @Nullable Throwable e, @Nonnull ExF4<X> fx, boolean combine, @Nullable String msg, @Nullable Object... args
+    ) {
+        handleErrors(e);
+        if (c != null && c.isInstance(e)) {
+            return (X) e;
+        }
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(true, e, msg, args), e, enableSuppression, writableStackTrace);
+    }
+
+    public static <X extends Throwable> X wrap(
+            boolean enableSuppression, boolean writableStackTrace, @Nullable Throwable e, @Nonnull ExF4<X> fx, @Nullable String msg
+    ) {
+        return wrapIfNot(enableSuppression, writableStackTrace, null, e, fx, false, msg);
+    }
+
+    public static <X extends Throwable> X wrap(
+            boolean enableSuppression, boolean writableStackTrace,
+            @Nullable Throwable e, @Nonnull ExF4<X> fx, @Nullable String msg, @Nullable Object... args
+    ) {
+        return wrapIfNot(enableSuppression, writableStackTrace, null, e, fx, false, msg, args);
+    }
+
+    public static <X extends Throwable> X wrapIfNot(
+            boolean enableSuppression, boolean writableStackTrace,
+            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExF4<X> fx, @Nullable String msg
+    ) {
+        return wrapIfNot(enableSuppression, writableStackTrace, clazz, e, fx, false, msg);
+    }
+
+    public static <X extends Throwable> X wrapIfNot(
+            boolean enableSuppression, boolean writableStackTrace,
+            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExF4<X> fx, @Nullable String msg, @Nullable Object... args
+    ) {
+        return wrapIfNot(enableSuppression, writableStackTrace, clazz, e, fx, false, msg, args);
+    }
+
+    //</editor-fold>
 
     // <editor-fold desc="create or propagate">
-
-    public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExWF<X> exceptionFactory) {
-        handleErrors(e);
-        return exceptionFactory.produce(e); //NOSONAR
-    }
-
-    public static <X extends Throwable> X wrap(
-            @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) {
-        handleErrors(e);
-        String message = constructMessage(null, newMessage, messageParams);
-        return exceptionFactory.produce(message, e);
-    }
-
-    public static <X extends Throwable> X wrap(
-            @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
-            @Nonnull String newMessage) {
-        handleErrors(e);
-        String message = constructMessage(null, newMessage);
-        return exceptionFactory.produce(message, e);
-    }
 
     public static <X extends Throwable> X wrapCombineMessage(
             @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
@@ -286,4 +331,71 @@ public class Handling implements Serializable {
 
     // </editor-fold>
 
+    // <editor-fold desc="deprecated?">
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
+            boolean conditionMeet, @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... messageParams
+    ) throws Y {
+        if (conditionMeet) {
+            throw Handling.create(fx, format, messageParams);
+        }
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(boolean conditionMeet, @Nonnull X e, @Nonnull ExWF<Y> fx) throws Y {
+        if (conditionMeet) {
+            throw Handling.wrap(e, fx);
+        }
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
+            boolean conditionMeet, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
+        if (conditionMeet) {
+            throw Handling.wrap(e, fx, format, args);
+        }
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
+            @Nonnull Predicate<X> condition, @Nonnull X e, @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
+        throwReplacementIf(condition.test(e), fx, format, args);
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
+            @Nonnull Predicate<X> condition, @Nonnull X e, @Nonnull ExWF<Y> fx
+    ) throws Y {
+        throwWrapperIf(condition.test(e), e, fx);
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
+            @Nonnull Predicate<X> condition, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
+        throwWrapperIf(condition.test(e), e, fx, format, args);
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> Y throwReplacement(
+            @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... args) throws Y {
+        throw Handling.create(fx, format, args);
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> Y throwWrapper(@Nonnull X throwable, @Nonnull ExWF<Y> fx) throws Y {
+        throw Handling.wrap(throwable, fx);
+    }
+
+    @Deprecated
+    protected static <Y extends Throwable, X extends Throwable> Y throwWrapper(
+            @Nonnull X throwable, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
+        throw Handling.wrap(throwable, fx, format, args);
+    }
+
+    // </editor-fold>
 }

@@ -109,6 +109,7 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
     default <Z extends Throwable> SELF replaceIf(
             @Nonnull Predicate<X> condition, @Nonnull ExMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
+
         Handling.throwReplacementIf(condition, target(), factory, newMessage, messageParams);
         return self();
     }

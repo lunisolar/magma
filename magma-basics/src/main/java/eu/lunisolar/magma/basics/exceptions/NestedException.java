@@ -20,11 +20,10 @@ package eu.lunisolar.magma.basics.exceptions;
 
 public class NestedException extends RuntimeException {
 
-    public NestedException(Throwable cause) {
-        super(cause.getMessage(), cause);
-    }
-
-    public NestedException(String message, Throwable cause) {
-        super(message, cause);
-    }
+    public NestedException() {}
+    public NestedException(String message) { super(message);}
+    public NestedException(String message, Throwable cause) { super(message, cause);}
+    public NestedException(Throwable cause) { super(cause.getMessage(), cause);}
+    public NestedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) { super(message, cause, enableSuppression, writableStackTrace);}
+    
 }

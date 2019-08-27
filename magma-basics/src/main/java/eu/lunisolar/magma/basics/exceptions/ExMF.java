@@ -21,6 +21,7 @@ package eu.lunisolar.magma.basics.exceptions;
 import javax.annotation.Nonnull;
 
 /**
+ *
  */
 @FunctionalInterface
 public interface ExMF<X extends Throwable> {
