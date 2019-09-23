@@ -537,35 +537,35 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjLongIntPred<T> objLongIntPred(final @Nonnull LObjLongIntPred<T> lambda) {
+	static <T> LObjIntLongPredicate.LObjLongIntPred<T> objLongIntPred(final @Nonnull LObjIntLongPredicate.LObjLongIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjLongPred<T> intObjLongPred(final @Nonnull LIntObjLongPred<T> lambda) {
+	static <T> LObjIntLongPredicate.LIntObjLongPred<T> intObjLongPred(final @Nonnull LObjIntLongPredicate.LIntObjLongPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntLongObjPred<T> intLongObjPred(final @Nonnull LIntLongObjPred<T> lambda) {
+	static <T> LObjIntLongPredicate.LIntLongObjPred<T> intLongObjPred(final @Nonnull LObjIntLongPredicate.LIntLongObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LLongObjIntPred<T> longObjIntPred(final @Nonnull LLongObjIntPred<T> lambda) {
+	static <T> LObjIntLongPredicate.LLongObjIntPred<T> longObjIntPred(final @Nonnull LObjIntLongPredicate.LLongObjIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LLongIntObjPred<T> longIntObjPred(final @Nonnull LLongIntObjPred<T> lambda) {
+	static <T> LObjIntLongPredicate.LLongIntObjPred<T> longIntObjPred(final @Nonnull LObjIntLongPredicate.LLongIntObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -735,60 +735,135 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	@FunctionalInterface
 	interface LObjLongIntPred<T> extends LObjIntLongPredicate<T> {
 
-		boolean testObjLongInt(T a1, long a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,int a2,long a3)
+		 */
 		default boolean testX(T a1, int a2, long a3) {
 			return this.testObjLongInt(a1, a3, a2);
 		}
+
+		// boolean testObjLongInt(T a1,long a3,int a2) ;
+		default boolean testObjLongInt(T a1, long a3, int a2) {
+			// return nestingTestObjLongInt(a1,a3,a2);
+			try {
+				return this.testObjLongIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObjLongInt(T a1,long a3,int a2)
+		 */
+		boolean testObjLongIntX(T a1, long a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongPredicate for method references. */
 	@FunctionalInterface
 	interface LIntObjLongPred<T> extends LObjIntLongPredicate<T> {
 
-		boolean testIntObjLong(int a2, T a1, long a3);
-
-		@Override
+		/**
+		 * Implement this, but call testObjLongInt(T a1,long a3,int a2)
+		 */
 		default boolean testX(T a1, int a2, long a3) {
 			return this.testIntObjLong(a2, a1, a3);
 		}
+
+		// boolean testIntObjLong(int a2,T a1,long a3) ;
+		default boolean testIntObjLong(int a2, T a1, long a3) {
+			// return nestingTestIntObjLong(a2,a1,a3);
+			try {
+				return this.testIntObjLongX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntObjLong(int a2,T a1,long a3)
+		 */
+		boolean testIntObjLongX(int a2, T a1, long a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongPredicate for method references. */
 	@FunctionalInterface
 	interface LIntLongObjPred<T> extends LObjIntLongPredicate<T> {
 
-		boolean testIntLongObj(int a2, long a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testIntObjLong(int a2,T a1,long a3)
+		 */
 		default boolean testX(T a1, int a2, long a3) {
 			return this.testIntLongObj(a2, a3, a1);
 		}
+
+		// boolean testIntLongObj(int a2,long a3,T a1) ;
+		default boolean testIntLongObj(int a2, long a3, T a1) {
+			// return nestingTestIntLongObj(a2,a3,a1);
+			try {
+				return this.testIntLongObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntLongObj(int a2,long a3,T a1)
+		 */
+		boolean testIntLongObjX(int a2, long a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongPredicate for method references. */
 	@FunctionalInterface
 	interface LLongObjIntPred<T> extends LObjIntLongPredicate<T> {
 
-		boolean testLongObjInt(long a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call testIntLongObj(int a2,long a3,T a1)
+		 */
 		default boolean testX(T a1, int a2, long a3) {
 			return this.testLongObjInt(a3, a1, a2);
 		}
+
+		// boolean testLongObjInt(long a3,T a1,int a2) ;
+		default boolean testLongObjInt(long a3, T a1, int a2) {
+			// return nestingTestLongObjInt(a3,a1,a2);
+			try {
+				return this.testLongObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testLongObjInt(long a3,T a1,int a2)
+		 */
+		boolean testLongObjIntX(long a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongPredicate for method references. */
 	@FunctionalInterface
 	interface LLongIntObjPred<T> extends LObjIntLongPredicate<T> {
 
-		boolean testLongIntObj(long a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testLongObjInt(long a3,T a1,int a2)
+		 */
 		default boolean testX(T a1, int a2, long a3) {
 			return this.testLongIntObj(a3, a2, a1);
 		}
+
+		// boolean testLongIntObj(long a3,int a2,T a1) ;
+		default boolean testLongIntObj(long a3, int a2, T a1) {
+			// return nestingTestLongIntObj(a3,a2,a1);
+			try {
+				return this.testLongIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testLongIntObj(long a3,int a2,T a1)
+		 */
+		boolean testLongIntObjX(long a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

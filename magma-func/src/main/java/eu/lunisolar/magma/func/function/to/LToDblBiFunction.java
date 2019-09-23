@@ -437,7 +437,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LToDblObj1Obj0Func<T2, T1> toDblObj1Obj0Func(final @Nonnull LToDblObj1Obj0Func<T2, T1> lambda) {
+	static <T2, T1> LToDblBiFunction.LToDblObj1Obj0Func<T2, T1> toDblObj1Obj0Func(final @Nonnull LToDblBiFunction.LToDblObj1Obj0Func<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -587,12 +587,27 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	@FunctionalInterface
 	interface LToDblObj1Obj0Func<T2, T1> extends LToDblBiFunction<T1, T2> {
 
-		double applyAsDblObj1Obj0(T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsDbl(T1 a1,T2 a2)
+		 */
 		default double applyAsDblX(T1 a1, T2 a2) {
 			return this.applyAsDblObj1Obj0(a2, a1);
 		}
+
+		// double applyAsDblObj1Obj0(T2 a2,T1 a1) ;
+		default double applyAsDblObj1Obj0(T2 a2, T1 a1) {
+			// return nestingApplyAsDblObj1Obj0(a2,a1);
+			try {
+				return this.applyAsDblObj1Obj0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsDblObj1Obj0(T2 a2,T1 a1)
+		 */
+		double applyAsDblObj1Obj0X(T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

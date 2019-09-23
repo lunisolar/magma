@@ -365,35 +365,35 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjByteIntCons<T> objByteIntCons(final @Nonnull LObjByteIntCons<T> lambda) {
+	static <T> LTieByteConsumer.LObjByteIntCons<T> objByteIntCons(final @Nonnull LTieByteConsumer.LObjByteIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjByteCons<T> intObjByteCons(final @Nonnull LIntObjByteCons<T> lambda) {
+	static <T> LTieByteConsumer.LIntObjByteCons<T> intObjByteCons(final @Nonnull LTieByteConsumer.LIntObjByteCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntByteObjCons<T> intByteObjCons(final @Nonnull LIntByteObjCons<T> lambda) {
+	static <T> LTieByteConsumer.LIntByteObjCons<T> intByteObjCons(final @Nonnull LTieByteConsumer.LIntByteObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteObjIntCons<T> byteObjIntCons(final @Nonnull LByteObjIntCons<T> lambda) {
+	static <T> LTieByteConsumer.LByteObjIntCons<T> byteObjIntCons(final @Nonnull LTieByteConsumer.LByteObjIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteIntObjCons<T> byteIntObjCons(final @Nonnull LByteIntObjCons<T> lambda) {
+	static <T> LTieByteConsumer.LByteIntObjCons<T> byteIntObjCons(final @Nonnull LTieByteConsumer.LByteIntObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -499,60 +499,135 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjByteIntCons<T> extends LTieByteConsumer<T> {
 
-		void acceptObjByteInt(T a1, byte a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,int a2,byte a3)
+		 */
 		default void acceptX(T a1, int a2, byte a3) {
 			this.acceptObjByteInt(a1, a3, a2);
 		}
+
+		// void acceptObjByteInt(T a1,byte a3,int a2) ;
+		default void acceptObjByteInt(T a1, byte a3, int a2) {
+			// nestingAcceptObjByteInt(a1,a3,a2);
+			try {
+				this.acceptObjByteIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObjByteInt(T a1,byte a3,int a2)
+		 */
+		void acceptObjByteIntX(T a1, byte a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieByteConsumer for method references. */
 	@FunctionalInterface
 	interface LIntObjByteCons<T> extends LTieByteConsumer<T> {
 
-		void acceptIntObjByte(int a2, T a1, byte a3);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObjByteInt(T a1,byte a3,int a2)
+		 */
 		default void acceptX(T a1, int a2, byte a3) {
 			this.acceptIntObjByte(a2, a1, a3);
 		}
+
+		// void acceptIntObjByte(int a2,T a1,byte a3) ;
+		default void acceptIntObjByte(int a2, T a1, byte a3) {
+			// nestingAcceptIntObjByte(a2,a1,a3);
+			try {
+				this.acceptIntObjByteX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntObjByte(int a2,T a1,byte a3)
+		 */
+		void acceptIntObjByteX(int a2, T a1, byte a3) throws Throwable;
 	}
 
 	/** Permutation of LTieByteConsumer for method references. */
 	@FunctionalInterface
 	interface LIntByteObjCons<T> extends LTieByteConsumer<T> {
 
-		void acceptIntByteObj(int a2, byte a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntObjByte(int a2,T a1,byte a3)
+		 */
 		default void acceptX(T a1, int a2, byte a3) {
 			this.acceptIntByteObj(a2, a3, a1);
 		}
+
+		// void acceptIntByteObj(int a2,byte a3,T a1) ;
+		default void acceptIntByteObj(int a2, byte a3, T a1) {
+			// nestingAcceptIntByteObj(a2,a3,a1);
+			try {
+				this.acceptIntByteObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntByteObj(int a2,byte a3,T a1)
+		 */
+		void acceptIntByteObjX(int a2, byte a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieByteConsumer for method references. */
 	@FunctionalInterface
 	interface LByteObjIntCons<T> extends LTieByteConsumer<T> {
 
-		void acceptByteObjInt(byte a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntByteObj(int a2,byte a3,T a1)
+		 */
 		default void acceptX(T a1, int a2, byte a3) {
 			this.acceptByteObjInt(a3, a1, a2);
 		}
+
+		// void acceptByteObjInt(byte a3,T a1,int a2) ;
+		default void acceptByteObjInt(byte a3, T a1, int a2) {
+			// nestingAcceptByteObjInt(a3,a1,a2);
+			try {
+				this.acceptByteObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptByteObjInt(byte a3,T a1,int a2)
+		 */
+		void acceptByteObjIntX(byte a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieByteConsumer for method references. */
 	@FunctionalInterface
 	interface LByteIntObjCons<T> extends LTieByteConsumer<T> {
 
-		void acceptByteIntObj(byte a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptByteObjInt(byte a3,T a1,int a2)
+		 */
 		default void acceptX(T a1, int a2, byte a3) {
 			this.acceptByteIntObj(a3, a2, a1);
 		}
+
+		// void acceptByteIntObj(byte a3,int a2,T a1) ;
+		default void acceptByteIntObj(byte a3, int a2, T a1) {
+			// nestingAcceptByteIntObj(a3,a2,a1);
+			try {
+				this.acceptByteIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptByteIntObj(byte a3,int a2,T a1)
+		 */
+		void acceptByteIntObjX(byte a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

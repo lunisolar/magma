@@ -427,7 +427,7 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LToByteObj1Obj0Func<T2, T1> toByteObj1Obj0Func(final @Nonnull LToByteObj1Obj0Func<T2, T1> lambda) {
+	static <T2, T1> LToByteBiFunction.LToByteObj1Obj0Func<T2, T1> toByteObj1Obj0Func(final @Nonnull LToByteBiFunction.LToByteObj1Obj0Func<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -572,12 +572,27 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	@FunctionalInterface
 	interface LToByteObj1Obj0Func<T2, T1> extends LToByteBiFunction<T1, T2> {
 
-		byte applyAsByteObj1Obj0(T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsByte(T1 a1,T2 a2)
+		 */
 		default byte applyAsByteX(T1 a1, T2 a2) {
 			return this.applyAsByteObj1Obj0(a2, a1);
 		}
+
+		// byte applyAsByteObj1Obj0(T2 a2,T1 a1) ;
+		default byte applyAsByteObj1Obj0(T2 a2, T1 a1) {
+			// return nestingApplyAsByteObj1Obj0(a2,a1);
+			try {
+				return this.applyAsByteObj1Obj0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsByteObj1Obj0(T2 a2,T1 a1)
+		 */
+		byte applyAsByteObj1Obj0X(T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

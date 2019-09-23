@@ -537,35 +537,35 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjFltIntPred<T> objFltIntPred(final @Nonnull LObjFltIntPred<T> lambda) {
+	static <T> LObjIntFltPredicate.LObjFltIntPred<T> objFltIntPred(final @Nonnull LObjIntFltPredicate.LObjFltIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjFltPred<T> intObjFltPred(final @Nonnull LIntObjFltPred<T> lambda) {
+	static <T> LObjIntFltPredicate.LIntObjFltPred<T> intObjFltPred(final @Nonnull LObjIntFltPredicate.LIntObjFltPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntFltObjPred<T> intFltObjPred(final @Nonnull LIntFltObjPred<T> lambda) {
+	static <T> LObjIntFltPredicate.LIntFltObjPred<T> intFltObjPred(final @Nonnull LObjIntFltPredicate.LIntFltObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LFltObjIntPred<T> fltObjIntPred(final @Nonnull LFltObjIntPred<T> lambda) {
+	static <T> LObjIntFltPredicate.LFltObjIntPred<T> fltObjIntPred(final @Nonnull LObjIntFltPredicate.LFltObjIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LFltIntObjPred<T> fltIntObjPred(final @Nonnull LFltIntObjPred<T> lambda) {
+	static <T> LObjIntFltPredicate.LFltIntObjPred<T> fltIntObjPred(final @Nonnull LObjIntFltPredicate.LFltIntObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -735,60 +735,135 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	@FunctionalInterface
 	interface LObjFltIntPred<T> extends LObjIntFltPredicate<T> {
 
-		boolean testObjFltInt(T a1, float a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,int a2,float a3)
+		 */
 		default boolean testX(T a1, int a2, float a3) {
 			return this.testObjFltInt(a1, a3, a2);
 		}
+
+		// boolean testObjFltInt(T a1,float a3,int a2) ;
+		default boolean testObjFltInt(T a1, float a3, int a2) {
+			// return nestingTestObjFltInt(a1,a3,a2);
+			try {
+				return this.testObjFltIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObjFltInt(T a1,float a3,int a2)
+		 */
+		boolean testObjFltIntX(T a1, float a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltPredicate for method references. */
 	@FunctionalInterface
 	interface LIntObjFltPred<T> extends LObjIntFltPredicate<T> {
 
-		boolean testIntObjFlt(int a2, T a1, float a3);
-
-		@Override
+		/**
+		 * Implement this, but call testObjFltInt(T a1,float a3,int a2)
+		 */
 		default boolean testX(T a1, int a2, float a3) {
 			return this.testIntObjFlt(a2, a1, a3);
 		}
+
+		// boolean testIntObjFlt(int a2,T a1,float a3) ;
+		default boolean testIntObjFlt(int a2, T a1, float a3) {
+			// return nestingTestIntObjFlt(a2,a1,a3);
+			try {
+				return this.testIntObjFltX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntObjFlt(int a2,T a1,float a3)
+		 */
+		boolean testIntObjFltX(int a2, T a1, float a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltPredicate for method references. */
 	@FunctionalInterface
 	interface LIntFltObjPred<T> extends LObjIntFltPredicate<T> {
 
-		boolean testIntFltObj(int a2, float a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testIntObjFlt(int a2,T a1,float a3)
+		 */
 		default boolean testX(T a1, int a2, float a3) {
 			return this.testIntFltObj(a2, a3, a1);
 		}
+
+		// boolean testIntFltObj(int a2,float a3,T a1) ;
+		default boolean testIntFltObj(int a2, float a3, T a1) {
+			// return nestingTestIntFltObj(a2,a3,a1);
+			try {
+				return this.testIntFltObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntFltObj(int a2,float a3,T a1)
+		 */
+		boolean testIntFltObjX(int a2, float a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltPredicate for method references. */
 	@FunctionalInterface
 	interface LFltObjIntPred<T> extends LObjIntFltPredicate<T> {
 
-		boolean testFltObjInt(float a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call testIntFltObj(int a2,float a3,T a1)
+		 */
 		default boolean testX(T a1, int a2, float a3) {
 			return this.testFltObjInt(a3, a1, a2);
 		}
+
+		// boolean testFltObjInt(float a3,T a1,int a2) ;
+		default boolean testFltObjInt(float a3, T a1, int a2) {
+			// return nestingTestFltObjInt(a3,a1,a2);
+			try {
+				return this.testFltObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testFltObjInt(float a3,T a1,int a2)
+		 */
+		boolean testFltObjIntX(float a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltPredicate for method references. */
 	@FunctionalInterface
 	interface LFltIntObjPred<T> extends LObjIntFltPredicate<T> {
 
-		boolean testFltIntObj(float a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testFltObjInt(float a3,T a1,int a2)
+		 */
 		default boolean testX(T a1, int a2, float a3) {
 			return this.testFltIntObj(a3, a2, a1);
 		}
+
+		// boolean testFltIntObj(float a3,int a2,T a1) ;
+		default boolean testFltIntObj(float a3, int a2, T a1) {
+			// return nestingTestFltIntObj(a3,a2,a1);
+			try {
+				return this.testFltIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testFltIntObj(float a3,int a2,T a1)
+		 */
+		boolean testFltIntObjX(float a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

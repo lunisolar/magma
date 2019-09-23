@@ -211,7 +211,7 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(int a1, int a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -418,7 +418,7 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <R> LInt1Int0Func<R> int1Int0Func(final @Nonnull LInt1Int0Func<R> lambda) {
+	static <R> LBiIntFunction.LInt1Int0Func<R> int1Int0Func(final @Nonnull LBiIntFunction.LInt1Int0Func<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -545,13 +545,29 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Permutation of LBiIntFunction for method references. */
 	@FunctionalInterface
 	interface LInt1Int0Func<R> extends LBiIntFunction<R> {
-		@Nullable
-		R applyInt1Int0(int a2, int a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(int a1,int a2)
+		 */
 		default R applyX(int a1, int a2) {
 			return this.applyInt1Int0(a2, a1);
 		}
+
+		@Nullable
+		// R applyInt1Int0(int a2,int a1) ;
+		default R applyInt1Int0(int a2, int a1) {
+			// return nestingApplyInt1Int0(a2,a1);
+			try {
+				return this.applyInt1Int0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyInt1Int0(int a2,int a1)
+		 */
+		R applyInt1Int0X(int a2, int a1) throws Throwable;
 	}
 
 	// </editor-fold>

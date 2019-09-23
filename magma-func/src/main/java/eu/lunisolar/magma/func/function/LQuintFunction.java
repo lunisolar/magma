@@ -211,7 +211,7 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-		return Null.requireNonNull(apply(a1, a2, a3, a4, a5), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3, a4, a5), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */

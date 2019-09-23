@@ -209,7 +209,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default T nonNullGet() {
-		return Null.requireNonNull(get(), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(get(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */

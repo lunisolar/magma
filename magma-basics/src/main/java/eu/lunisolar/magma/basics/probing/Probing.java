@@ -148,14 +148,14 @@ public final class Probing {
         protected final Predicate<P> probeTest;
 
         public The(@Nonnull Function<T, P> probeFactory, @Nullable Predicate<P> probeTest) {
-            Null.requireNonNull(probeFactory, () -> "probeFactory argument cannot be null.");
+            Null.nonNull(probeFactory, () -> "probeFactory argument cannot be null.");
 
             this.probeFactory = probeFactory;
             this.probeTest = probeTest;
         }
 
         @Nonnull @Override public Probing.OrAnd<P, T> that(@Nonnull Predicate<P> test) {
-            Null.requireNonNull(test, () -> "[test] argument cannot be null.");
+            Null.nonNull(test, () -> "[test] argument cannot be null.");
             if (probeTest != null) {
                 throw new IllegalStateException("First condition is already set.");
             }
@@ -164,17 +164,17 @@ public final class Probing {
         }
 
         @Nonnull @Override public Probing.And<P, T> and(@Nonnull Predicate<P> test) {
-            Null.requireNonNull(test, () -> "[test] argument cannot be null.");
+            Null.nonNull(test, () -> "[test] argument cannot be null.");
             return probe(probeFactory, p -> probeTest.test(p) && test.test(p));
         }
 
         @Nonnull @Override public Probing.Or<P, T> or(@Nonnull Predicate<P> test) {
-            Null.requireNonNull(test, () -> "[test] argument cannot be null.");
+            Null.nonNull(test, () -> "[test] argument cannot be null.");
             return probe(probeFactory, p -> probeTest.test(p) || test.test(p));
         }
 
         @Override public Predicate<T> toPredicate() {
-            Null.requireNonNull(probeTest, () -> "[test] argument cannot be null.");
+            Null.nonNull(probeTest, () -> "[test] argument cannot be null.");
             return t -> {
                 P probe = probeFactory.apply(t);
                 if (probe == null) {

@@ -211,7 +211,7 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, double a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -431,7 +431,7 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LDblObjFunc<T, R> dblObjFunc(final @Nonnull LDblObjFunc<T, R> lambda) {
+	static <T, R> LObjDblFunction.LDblObjFunc<T, R> dblObjFunc(final @Nonnull LObjDblFunction.LDblObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -551,13 +551,29 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	/** Permutation of LObjDblFunction for method references. */
 	@FunctionalInterface
 	interface LDblObjFunc<T, R> extends LObjDblFunction<T, R> {
-		@Nullable
-		R applyDblObj(double a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,double a2)
+		 */
 		default R applyX(T a1, double a2) {
 			return this.applyDblObj(a2, a1);
 		}
+
+		@Nullable
+		// R applyDblObj(double a2,T a1) ;
+		default R applyDblObj(double a2, T a1) {
+			// return nestingApplyDblObj(a2,a1);
+			try {
+				return this.applyDblObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyDblObj(double a2,T a1)
+		 */
+		R applyDblObjX(double a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

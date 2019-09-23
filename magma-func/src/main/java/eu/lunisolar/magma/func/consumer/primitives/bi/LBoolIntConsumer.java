@@ -368,7 +368,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntBoolCons intBoolCons(final @Nonnull LIntBoolCons lambda) {
+	static LBoolIntConsumer.LIntBoolCons intBoolCons(final @Nonnull LBoolIntConsumer.LIntBoolCons lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -472,12 +472,27 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	@FunctionalInterface
 	interface LIntBoolCons extends LBoolIntConsumer {
 
-		void acceptIntBool(int a2, boolean a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(boolean a1,int a2)
+		 */
 		default void acceptX(boolean a1, int a2) {
 			this.acceptIntBool(a2, a1);
 		}
+
+		// void acceptIntBool(int a2,boolean a1) ;
+		default void acceptIntBool(int a2, boolean a1) {
+			// nestingAcceptIntBool(a2,a1);
+			try {
+				this.acceptIntBoolX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntBool(int a2,boolean a1)
+		 */
+		void acceptIntBoolX(int a2, boolean a1) throws Throwable;
 	}
 
 	// </editor-fold>

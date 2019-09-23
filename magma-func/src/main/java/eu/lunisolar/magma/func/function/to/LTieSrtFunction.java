@@ -395,35 +395,35 @@ public interface LTieSrtFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjSrtIntToIntFunc<T> objSrtIntToIntFunc(final @Nonnull LObjSrtIntToIntFunc<T> lambda) {
+	static <T> LTieSrtFunction.LObjSrtIntToIntFunc<T> objSrtIntToIntFunc(final @Nonnull LTieSrtFunction.LObjSrtIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjSrtToIntFunc<T> intObjSrtToIntFunc(final @Nonnull LIntObjSrtToIntFunc<T> lambda) {
+	static <T> LTieSrtFunction.LIntObjSrtToIntFunc<T> intObjSrtToIntFunc(final @Nonnull LTieSrtFunction.LIntObjSrtToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntSrtObjToIntFunc<T> intSrtObjToIntFunc(final @Nonnull LIntSrtObjToIntFunc<T> lambda) {
+	static <T> LTieSrtFunction.LIntSrtObjToIntFunc<T> intSrtObjToIntFunc(final @Nonnull LTieSrtFunction.LIntSrtObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtObjIntToIntFunc<T> srtObjIntToIntFunc(final @Nonnull LSrtObjIntToIntFunc<T> lambda) {
+	static <T> LTieSrtFunction.LSrtObjIntToIntFunc<T> srtObjIntToIntFunc(final @Nonnull LTieSrtFunction.LSrtObjIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtIntObjToIntFunc<T> srtIntObjToIntFunc(final @Nonnull LSrtIntObjToIntFunc<T> lambda) {
+	static <T> LTieSrtFunction.LSrtIntObjToIntFunc<T> srtIntObjToIntFunc(final @Nonnull LTieSrtFunction.LSrtIntObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -541,60 +541,135 @@ public interface LTieSrtFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LObjSrtIntToIntFunc<T> extends LTieSrtFunction<T> {
 
-		int applyAsIntObjSrtInt(T a1, short a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2,short a3)
+		 */
 		default int applyAsIntX(T a1, int a2, short a3) {
 			return this.applyAsIntObjSrtInt(a1, a3, a2);
 		}
+
+		// int applyAsIntObjSrtInt(T a1,short a3,int a2) ;
+		default int applyAsIntObjSrtInt(T a1, short a3, int a2) {
+			// return nestingApplyAsIntObjSrtInt(a1,a3,a2);
+			try {
+				return this.applyAsIntObjSrtIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntObjSrtInt(T a1,short a3,int a2)
+		 */
+		int applyAsIntObjSrtIntX(T a1, short a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjSrtToIntFunc<T> extends LTieSrtFunction<T> {
 
-		int applyAsIntIntObjSrt(int a2, T a1, short a3);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntObjSrtInt(T a1,short a3,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, short a3) {
 			return this.applyAsIntIntObjSrt(a2, a1, a3);
 		}
+
+		// int applyAsIntIntObjSrt(int a2,T a1,short a3) ;
+		default int applyAsIntIntObjSrt(int a2, T a1, short a3) {
+			// return nestingApplyAsIntIntObjSrt(a2,a1,a3);
+			try {
+				return this.applyAsIntIntObjSrtX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntObjSrt(int a2,T a1,short a3)
+		 */
+		int applyAsIntIntObjSrtX(int a2, T a1, short a3) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtFunction for method references. */
 	@FunctionalInterface
 	interface LIntSrtObjToIntFunc<T> extends LTieSrtFunction<T> {
 
-		int applyAsIntIntSrtObj(int a2, short a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntObjSrt(int a2,T a1,short a3)
+		 */
 		default int applyAsIntX(T a1, int a2, short a3) {
 			return this.applyAsIntIntSrtObj(a2, a3, a1);
 		}
+
+		// int applyAsIntIntSrtObj(int a2,short a3,T a1) ;
+		default int applyAsIntIntSrtObj(int a2, short a3, T a1) {
+			// return nestingApplyAsIntIntSrtObj(a2,a3,a1);
+			try {
+				return this.applyAsIntIntSrtObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntSrtObj(int a2,short a3,T a1)
+		 */
+		int applyAsIntIntSrtObjX(int a2, short a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtFunction for method references. */
 	@FunctionalInterface
 	interface LSrtObjIntToIntFunc<T> extends LTieSrtFunction<T> {
 
-		int applyAsIntSrtObjInt(short a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntSrtObj(int a2,short a3,T a1)
+		 */
 		default int applyAsIntX(T a1, int a2, short a3) {
 			return this.applyAsIntSrtObjInt(a3, a1, a2);
 		}
+
+		// int applyAsIntSrtObjInt(short a3,T a1,int a2) ;
+		default int applyAsIntSrtObjInt(short a3, T a1, int a2) {
+			// return nestingApplyAsIntSrtObjInt(a3,a1,a2);
+			try {
+				return this.applyAsIntSrtObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntSrtObjInt(short a3,T a1,int a2)
+		 */
+		int applyAsIntSrtObjIntX(short a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtFunction for method references. */
 	@FunctionalInterface
 	interface LSrtIntObjToIntFunc<T> extends LTieSrtFunction<T> {
 
-		int applyAsIntSrtIntObj(short a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntSrtObjInt(short a3,T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, short a3) {
 			return this.applyAsIntSrtIntObj(a3, a2, a1);
 		}
+
+		// int applyAsIntSrtIntObj(short a3,int a2,T a1) ;
+		default int applyAsIntSrtIntObj(short a3, int a2, T a1) {
+			// return nestingApplyAsIntSrtIntObj(a3,a2,a1);
+			try {
+				return this.applyAsIntSrtIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntSrtIntObj(short a3,int a2,T a1)
+		 */
+		int applyAsIntSrtIntObjX(short a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -392,7 +392,7 @@ public interface LObjCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LCharObjCons<T> charObjCons(final @Nonnull LCharObjCons<T> lambda) {
+	static <T> LObjCharConsumer.LCharObjCons<T> charObjCons(final @Nonnull LObjCharConsumer.LCharObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -496,12 +496,27 @@ public interface LObjCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LCharObjCons<T> extends LObjCharConsumer<T> {
 
-		void acceptCharObj(char a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,char a2)
+		 */
 		default void acceptX(T a1, char a2) {
 			this.acceptCharObj(a2, a1);
 		}
+
+		// void acceptCharObj(char a2,T a1) ;
+		default void acceptCharObj(char a2, T a1) {
+			// nestingAcceptCharObj(a2,a1);
+			try {
+				this.acceptCharObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptCharObj(char a2,T a1)
+		 */
+		void acceptCharObjX(char a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -395,35 +395,35 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjBoolIntToIntFunc<T> objBoolIntToIntFunc(final @Nonnull LObjBoolIntToIntFunc<T> lambda) {
+	static <T> LTieBoolFunction.LObjBoolIntToIntFunc<T> objBoolIntToIntFunc(final @Nonnull LTieBoolFunction.LObjBoolIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjBoolToIntFunc<T> intObjBoolToIntFunc(final @Nonnull LIntObjBoolToIntFunc<T> lambda) {
+	static <T> LTieBoolFunction.LIntObjBoolToIntFunc<T> intObjBoolToIntFunc(final @Nonnull LTieBoolFunction.LIntObjBoolToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntBoolObjToIntFunc<T> intBoolObjToIntFunc(final @Nonnull LIntBoolObjToIntFunc<T> lambda) {
+	static <T> LTieBoolFunction.LIntBoolObjToIntFunc<T> intBoolObjToIntFunc(final @Nonnull LTieBoolFunction.LIntBoolObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LBoolObjIntToIntFunc<T> boolObjIntToIntFunc(final @Nonnull LBoolObjIntToIntFunc<T> lambda) {
+	static <T> LTieBoolFunction.LBoolObjIntToIntFunc<T> boolObjIntToIntFunc(final @Nonnull LTieBoolFunction.LBoolObjIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LBoolIntObjToIntFunc<T> boolIntObjToIntFunc(final @Nonnull LBoolIntObjToIntFunc<T> lambda) {
+	static <T> LTieBoolFunction.LBoolIntObjToIntFunc<T> boolIntObjToIntFunc(final @Nonnull LTieBoolFunction.LBoolIntObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -540,60 +540,135 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjBoolIntToIntFunc<T> extends LTieBoolFunction<T> {
 
-		int applyAsIntObjBoolInt(T a1, boolean a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2,boolean a3)
+		 */
 		default int applyAsIntX(T a1, int a2, boolean a3) {
 			return this.applyAsIntObjBoolInt(a1, a3, a2);
 		}
+
+		// int applyAsIntObjBoolInt(T a1,boolean a3,int a2) ;
+		default int applyAsIntObjBoolInt(T a1, boolean a3, int a2) {
+			// return nestingApplyAsIntObjBoolInt(a1,a3,a2);
+			try {
+				return this.applyAsIntObjBoolIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntObjBoolInt(T a1,boolean a3,int a2)
+		 */
+		int applyAsIntObjBoolIntX(T a1, boolean a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieBoolFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjBoolToIntFunc<T> extends LTieBoolFunction<T> {
 
-		int applyAsIntIntObjBool(int a2, T a1, boolean a3);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntObjBoolInt(T a1,boolean a3,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, boolean a3) {
 			return this.applyAsIntIntObjBool(a2, a1, a3);
 		}
+
+		// int applyAsIntIntObjBool(int a2,T a1,boolean a3) ;
+		default int applyAsIntIntObjBool(int a2, T a1, boolean a3) {
+			// return nestingApplyAsIntIntObjBool(a2,a1,a3);
+			try {
+				return this.applyAsIntIntObjBoolX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntObjBool(int a2,T a1,boolean a3)
+		 */
+		int applyAsIntIntObjBoolX(int a2, T a1, boolean a3) throws Throwable;
 	}
 
 	/** Permutation of LTieBoolFunction for method references. */
 	@FunctionalInterface
 	interface LIntBoolObjToIntFunc<T> extends LTieBoolFunction<T> {
 
-		int applyAsIntIntBoolObj(int a2, boolean a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntObjBool(int a2,T a1,boolean a3)
+		 */
 		default int applyAsIntX(T a1, int a2, boolean a3) {
 			return this.applyAsIntIntBoolObj(a2, a3, a1);
 		}
+
+		// int applyAsIntIntBoolObj(int a2,boolean a3,T a1) ;
+		default int applyAsIntIntBoolObj(int a2, boolean a3, T a1) {
+			// return nestingApplyAsIntIntBoolObj(a2,a3,a1);
+			try {
+				return this.applyAsIntIntBoolObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntBoolObj(int a2,boolean a3,T a1)
+		 */
+		int applyAsIntIntBoolObjX(int a2, boolean a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieBoolFunction for method references. */
 	@FunctionalInterface
 	interface LBoolObjIntToIntFunc<T> extends LTieBoolFunction<T> {
 
-		int applyAsIntBoolObjInt(boolean a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntBoolObj(int a2,boolean a3,T a1)
+		 */
 		default int applyAsIntX(T a1, int a2, boolean a3) {
 			return this.applyAsIntBoolObjInt(a3, a1, a2);
 		}
+
+		// int applyAsIntBoolObjInt(boolean a3,T a1,int a2) ;
+		default int applyAsIntBoolObjInt(boolean a3, T a1, int a2) {
+			// return nestingApplyAsIntBoolObjInt(a3,a1,a2);
+			try {
+				return this.applyAsIntBoolObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntBoolObjInt(boolean a3,T a1,int a2)
+		 */
+		int applyAsIntBoolObjIntX(boolean a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieBoolFunction for method references. */
 	@FunctionalInterface
 	interface LBoolIntObjToIntFunc<T> extends LTieBoolFunction<T> {
 
-		int applyAsIntBoolIntObj(boolean a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntBoolObjInt(boolean a3,T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, boolean a3) {
 			return this.applyAsIntBoolIntObj(a3, a2, a1);
 		}
+
+		// int applyAsIntBoolIntObj(boolean a3,int a2,T a1) ;
+		default int applyAsIntBoolIntObj(boolean a3, int a2, T a1) {
+			// return nestingApplyAsIntBoolIntObj(a3,a2,a1);
+			try {
+				return this.applyAsIntBoolIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntBoolIntObj(boolean a3,int a2,T a1)
+		 */
+		int applyAsIntBoolIntObjX(boolean a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

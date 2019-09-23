@@ -581,7 +581,7 @@ public interface LObjBytePredicate<T> extends MetaPredicate, MetaInterface.NonTh
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteObjPred<T> byteObjPred(final @Nonnull LByteObjPred<T> lambda) {
+	static <T> LObjBytePredicate.LByteObjPred<T> byteObjPred(final @Nonnull LObjBytePredicate.LByteObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -741,12 +741,27 @@ public interface LObjBytePredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	@FunctionalInterface
 	interface LByteObjPred<T> extends LObjBytePredicate<T> {
 
-		boolean testByteObj(byte a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,byte a2)
+		 */
 		default boolean testX(T a1, byte a2) {
 			return this.testByteObj(a2, a1);
 		}
+
+		// boolean testByteObj(byte a2,T a1) ;
+		default boolean testByteObj(byte a2, T a1) {
+			// return nestingTestByteObj(a2,a1);
+			try {
+				return this.testByteObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testByteObj(byte a2,T a1)
+		 */
+		boolean testByteObjX(byte a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -392,7 +392,7 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LBoolObjCons<T> boolObjCons(final @Nonnull LBoolObjCons<T> lambda) {
+	static <T> LObjBoolConsumer.LBoolObjCons<T> boolObjCons(final @Nonnull LObjBoolConsumer.LBoolObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -496,12 +496,27 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LBoolObjCons<T> extends LObjBoolConsumer<T> {
 
-		void acceptBoolObj(boolean a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,boolean a2)
+		 */
 		default void acceptX(T a1, boolean a2) {
 			this.acceptBoolObj(a2, a1);
 		}
+
+		// void acceptBoolObj(boolean a2,T a1) ;
+		default void acceptBoolObj(boolean a2, T a1) {
+			// nestingAcceptBoolObj(a2,a1);
+			try {
+				this.acceptBoolObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptBoolObj(boolean a2,T a1)
+		 */
+		void acceptBoolObjX(boolean a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

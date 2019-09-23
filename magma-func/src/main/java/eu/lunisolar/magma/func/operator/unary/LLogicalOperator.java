@@ -657,6 +657,26 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return Function4U.defaultBoolean;
 	}
 
+	// >>> LLogicalOperator
+
+	/** Returns TRUE. */
+	public static boolean alwaysTrue(boolean a) {
+		return true;
+	}
+
+	/** Returns FALSE. */
+	public static boolean alwaysFalse(boolean a) {
+		return false;
+	}
+
+	public static boolean isTrue(boolean a) {
+		return a;
+	}
+
+	public static boolean isFalse(boolean a) {
+		return !isTrue(a);
+	}
+
 	/**
 	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
 	* Thread safety, fail-fast, fail-safety of this method is not expected.

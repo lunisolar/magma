@@ -368,7 +368,7 @@ public interface LDblIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntDblCons intDblCons(final @Nonnull LIntDblCons lambda) {
+	static LDblIntConsumer.LIntDblCons intDblCons(final @Nonnull LDblIntConsumer.LIntDblCons lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -472,12 +472,27 @@ public interface LDblIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@FunctionalInterface
 	interface LIntDblCons extends LDblIntConsumer {
 
-		void acceptIntDbl(int a2, double a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(double a1,int a2)
+		 */
 		default void acceptX(double a1, int a2) {
 			this.acceptIntDbl(a2, a1);
 		}
+
+		// void acceptIntDbl(int a2,double a1) ;
+		default void acceptIntDbl(int a2, double a1) {
+			// nestingAcceptIntDbl(a2,a1);
+			try {
+				this.acceptIntDblX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntDbl(int a2,double a1)
+		 */
+		void acceptIntDblX(int a2, double a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -395,35 +395,35 @@ public interface LTieDblFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjDblIntToIntFunc<T> objDblIntToIntFunc(final @Nonnull LObjDblIntToIntFunc<T> lambda) {
+	static <T> LTieDblFunction.LObjDblIntToIntFunc<T> objDblIntToIntFunc(final @Nonnull LTieDblFunction.LObjDblIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjDblToIntFunc<T> intObjDblToIntFunc(final @Nonnull LIntObjDblToIntFunc<T> lambda) {
+	static <T> LTieDblFunction.LIntObjDblToIntFunc<T> intObjDblToIntFunc(final @Nonnull LTieDblFunction.LIntObjDblToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntDblObjToIntFunc<T> intDblObjToIntFunc(final @Nonnull LIntDblObjToIntFunc<T> lambda) {
+	static <T> LTieDblFunction.LIntDblObjToIntFunc<T> intDblObjToIntFunc(final @Nonnull LTieDblFunction.LIntDblObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LDblObjIntToIntFunc<T> dblObjIntToIntFunc(final @Nonnull LDblObjIntToIntFunc<T> lambda) {
+	static <T> LTieDblFunction.LDblObjIntToIntFunc<T> dblObjIntToIntFunc(final @Nonnull LTieDblFunction.LDblObjIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LDblIntObjToIntFunc<T> dblIntObjToIntFunc(final @Nonnull LDblIntObjToIntFunc<T> lambda) {
+	static <T> LTieDblFunction.LDblIntObjToIntFunc<T> dblIntObjToIntFunc(final @Nonnull LTieDblFunction.LDblIntObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -541,60 +541,135 @@ public interface LTieDblFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LObjDblIntToIntFunc<T> extends LTieDblFunction<T> {
 
-		int applyAsIntObjDblInt(T a1, double a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2,double a3)
+		 */
 		default int applyAsIntX(T a1, int a2, double a3) {
 			return this.applyAsIntObjDblInt(a1, a3, a2);
 		}
+
+		// int applyAsIntObjDblInt(T a1,double a3,int a2) ;
+		default int applyAsIntObjDblInt(T a1, double a3, int a2) {
+			// return nestingApplyAsIntObjDblInt(a1,a3,a2);
+			try {
+				return this.applyAsIntObjDblIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntObjDblInt(T a1,double a3,int a2)
+		 */
+		int applyAsIntObjDblIntX(T a1, double a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieDblFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjDblToIntFunc<T> extends LTieDblFunction<T> {
 
-		int applyAsIntIntObjDbl(int a2, T a1, double a3);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntObjDblInt(T a1,double a3,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, double a3) {
 			return this.applyAsIntIntObjDbl(a2, a1, a3);
 		}
+
+		// int applyAsIntIntObjDbl(int a2,T a1,double a3) ;
+		default int applyAsIntIntObjDbl(int a2, T a1, double a3) {
+			// return nestingApplyAsIntIntObjDbl(a2,a1,a3);
+			try {
+				return this.applyAsIntIntObjDblX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntObjDbl(int a2,T a1,double a3)
+		 */
+		int applyAsIntIntObjDblX(int a2, T a1, double a3) throws Throwable;
 	}
 
 	/** Permutation of LTieDblFunction for method references. */
 	@FunctionalInterface
 	interface LIntDblObjToIntFunc<T> extends LTieDblFunction<T> {
 
-		int applyAsIntIntDblObj(int a2, double a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntObjDbl(int a2,T a1,double a3)
+		 */
 		default int applyAsIntX(T a1, int a2, double a3) {
 			return this.applyAsIntIntDblObj(a2, a3, a1);
 		}
+
+		// int applyAsIntIntDblObj(int a2,double a3,T a1) ;
+		default int applyAsIntIntDblObj(int a2, double a3, T a1) {
+			// return nestingApplyAsIntIntDblObj(a2,a3,a1);
+			try {
+				return this.applyAsIntIntDblObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntDblObj(int a2,double a3,T a1)
+		 */
+		int applyAsIntIntDblObjX(int a2, double a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieDblFunction for method references. */
 	@FunctionalInterface
 	interface LDblObjIntToIntFunc<T> extends LTieDblFunction<T> {
 
-		int applyAsIntDblObjInt(double a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntDblObj(int a2,double a3,T a1)
+		 */
 		default int applyAsIntX(T a1, int a2, double a3) {
 			return this.applyAsIntDblObjInt(a3, a1, a2);
 		}
+
+		// int applyAsIntDblObjInt(double a3,T a1,int a2) ;
+		default int applyAsIntDblObjInt(double a3, T a1, int a2) {
+			// return nestingApplyAsIntDblObjInt(a3,a1,a2);
+			try {
+				return this.applyAsIntDblObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntDblObjInt(double a3,T a1,int a2)
+		 */
+		int applyAsIntDblObjIntX(double a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieDblFunction for method references. */
 	@FunctionalInterface
 	interface LDblIntObjToIntFunc<T> extends LTieDblFunction<T> {
 
-		int applyAsIntDblIntObj(double a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntDblObjInt(double a3,T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, double a3) {
 			return this.applyAsIntDblIntObj(a3, a2, a1);
 		}
+
+		// int applyAsIntDblIntObj(double a3,int a2,T a1) ;
+		default int applyAsIntDblIntObj(double a3, int a2, T a1) {
+			// return nestingApplyAsIntDblIntObj(a3,a2,a1);
+			try {
+				return this.applyAsIntDblIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntDblIntObj(double a3,int a2,T a1)
+		 */
+		int applyAsIntDblIntObjX(double a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

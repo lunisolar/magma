@@ -211,7 +211,7 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, float a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -431,7 +431,7 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LFltObjFunc<T, R> fltObjFunc(final @Nonnull LFltObjFunc<T, R> lambda) {
+	static <T, R> LObjFltFunction.LFltObjFunc<T, R> fltObjFunc(final @Nonnull LObjFltFunction.LFltObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -551,13 +551,29 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	/** Permutation of LObjFltFunction for method references. */
 	@FunctionalInterface
 	interface LFltObjFunc<T, R> extends LObjFltFunction<T, R> {
-		@Nullable
-		R applyFltObj(float a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,float a2)
+		 */
 		default R applyX(T a1, float a2) {
 			return this.applyFltObj(a2, a1);
 		}
+
+		@Nullable
+		// R applyFltObj(float a2,T a1) ;
+		default R applyFltObj(float a2, T a1) {
+			// return nestingApplyFltObj(a2,a1);
+			try {
+				return this.applyFltObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyFltObj(float a2,T a1)
+		 */
+		R applyFltObjX(float a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

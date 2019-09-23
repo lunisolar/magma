@@ -211,7 +211,7 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2, short a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -397,35 +397,35 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjSrtIntFunc<T, R> objSrtIntFunc(final @Nonnull LObjSrtIntFunc<T, R> lambda) {
+	static <T, R> LObjIntSrtFunction.LObjSrtIntFunc<T, R> objSrtIntFunc(final @Nonnull LObjIntSrtFunction.LObjSrtIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjSrtFunc<T, R> intObjSrtFunc(final @Nonnull LIntObjSrtFunc<T, R> lambda) {
+	static <T, R> LObjIntSrtFunction.LIntObjSrtFunc<T, R> intObjSrtFunc(final @Nonnull LObjIntSrtFunction.LIntObjSrtFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntSrtObjFunc<T, R> intSrtObjFunc(final @Nonnull LIntSrtObjFunc<T, R> lambda) {
+	static <T, R> LObjIntSrtFunction.LIntSrtObjFunc<T, R> intSrtObjFunc(final @Nonnull LObjIntSrtFunction.LIntSrtObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LSrtObjIntFunc<T, R> srtObjIntFunc(final @Nonnull LSrtObjIntFunc<T, R> lambda) {
+	static <T, R> LObjIntSrtFunction.LSrtObjIntFunc<T, R> srtObjIntFunc(final @Nonnull LObjIntSrtFunction.LSrtObjIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LSrtIntObjFunc<T, R> srtIntObjFunc(final @Nonnull LSrtIntObjFunc<T, R> lambda) {
+	static <T, R> LObjIntSrtFunction.LSrtIntObjFunc<T, R> srtIntObjFunc(final @Nonnull LObjIntSrtFunction.LSrtIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -555,61 +555,141 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 	/** Permutation of LObjIntSrtFunction for method references. */
 	@FunctionalInterface
 	interface LObjSrtIntFunc<T, R> extends LObjIntSrtFunction<T, R> {
-		@Nullable
-		R applyObjSrtInt(T a1, short a3, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2,short a3)
+		 */
 		default R applyX(T a1, int a2, short a3) {
 			return this.applyObjSrtInt(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObjSrtInt(T a1,short a3,int a2) ;
+		default R applyObjSrtInt(T a1, short a3, int a2) {
+			// return nestingApplyObjSrtInt(a1,a3,a2);
+			try {
+				return this.applyObjSrtIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObjSrtInt(T a1,short a3,int a2)
+		 */
+		R applyObjSrtIntX(T a1, short a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjSrtFunc<T, R> extends LObjIntSrtFunction<T, R> {
-		@Nullable
-		R applyIntObjSrt(int a2, T a1, short a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObjSrtInt(T a1,short a3,int a2)
+		 */
 		default R applyX(T a1, int a2, short a3) {
 			return this.applyIntObjSrt(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyIntObjSrt(int a2,T a1,short a3) ;
+		default R applyIntObjSrt(int a2, T a1, short a3) {
+			// return nestingApplyIntObjSrt(a2,a1,a3);
+			try {
+				return this.applyIntObjSrtX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObjSrt(int a2,T a1,short a3)
+		 */
+		R applyIntObjSrtX(int a2, T a1, short a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtFunction for method references. */
 	@FunctionalInterface
 	interface LIntSrtObjFunc<T, R> extends LObjIntSrtFunction<T, R> {
-		@Nullable
-		R applyIntSrtObj(int a2, short a3, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntObjSrt(int a2,T a1,short a3)
+		 */
 		default R applyX(T a1, int a2, short a3) {
 			return this.applyIntSrtObj(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyIntSrtObj(int a2,short a3,T a1) ;
+		default R applyIntSrtObj(int a2, short a3, T a1) {
+			// return nestingApplyIntSrtObj(a2,a3,a1);
+			try {
+				return this.applyIntSrtObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntSrtObj(int a2,short a3,T a1)
+		 */
+		R applyIntSrtObjX(int a2, short a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtFunction for method references. */
 	@FunctionalInterface
 	interface LSrtObjIntFunc<T, R> extends LObjIntSrtFunction<T, R> {
-		@Nullable
-		R applySrtObjInt(short a3, T a1, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntSrtObj(int a2,short a3,T a1)
+		 */
 		default R applyX(T a1, int a2, short a3) {
 			return this.applySrtObjInt(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applySrtObjInt(short a3,T a1,int a2) ;
+		default R applySrtObjInt(short a3, T a1, int a2) {
+			// return nestingApplySrtObjInt(a3,a1,a2);
+			try {
+				return this.applySrtObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applySrtObjInt(short a3,T a1,int a2)
+		 */
+		R applySrtObjIntX(short a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtFunction for method references. */
 	@FunctionalInterface
 	interface LSrtIntObjFunc<T, R> extends LObjIntSrtFunction<T, R> {
-		@Nullable
-		R applySrtIntObj(short a3, int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applySrtObjInt(short a3,T a1,int a2)
+		 */
 		default R applyX(T a1, int a2, short a3) {
 			return this.applySrtIntObj(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applySrtIntObj(short a3,int a2,T a1) ;
+		default R applySrtIntObj(short a3, int a2, T a1) {
+			// return nestingApplySrtIntObj(a3,a2,a1);
+			try {
+				return this.applySrtIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applySrtIntObj(short a3,int a2,T a1)
+		 */
+		R applySrtIntObjX(short a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

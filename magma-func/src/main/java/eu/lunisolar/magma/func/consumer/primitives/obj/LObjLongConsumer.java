@@ -392,7 +392,7 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LLongObjCons<T> longObjCons(final @Nonnull LLongObjCons<T> lambda) {
+	static <T> LObjLongConsumer.LLongObjCons<T> longObjCons(final @Nonnull LObjLongConsumer.LLongObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -501,12 +501,27 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 	@FunctionalInterface
 	interface LLongObjCons<T> extends LObjLongConsumer<T> {
 
-		void acceptLongObj(long a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,long a2)
+		 */
 		default void acceptX(T a1, long a2) {
 			this.acceptLongObj(a2, a1);
 		}
+
+		// void acceptLongObj(long a2,T a1) ;
+		default void acceptLongObj(long a2, T a1) {
+			// nestingAcceptLongObj(a2,a1);
+			try {
+				this.acceptLongObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptLongObj(long a2,T a1)
+		 */
+		void acceptLongObjX(long a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

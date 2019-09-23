@@ -537,35 +537,35 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjByteIntPred<T> objByteIntPred(final @Nonnull LObjByteIntPred<T> lambda) {
+	static <T> LObjIntBytePredicate.LObjByteIntPred<T> objByteIntPred(final @Nonnull LObjIntBytePredicate.LObjByteIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjBytePred<T> intObjBytePred(final @Nonnull LIntObjBytePred<T> lambda) {
+	static <T> LObjIntBytePredicate.LIntObjBytePred<T> intObjBytePred(final @Nonnull LObjIntBytePredicate.LIntObjBytePred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntByteObjPred<T> intByteObjPred(final @Nonnull LIntByteObjPred<T> lambda) {
+	static <T> LObjIntBytePredicate.LIntByteObjPred<T> intByteObjPred(final @Nonnull LObjIntBytePredicate.LIntByteObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteObjIntPred<T> byteObjIntPred(final @Nonnull LByteObjIntPred<T> lambda) {
+	static <T> LObjIntBytePredicate.LByteObjIntPred<T> byteObjIntPred(final @Nonnull LObjIntBytePredicate.LByteObjIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteIntObjPred<T> byteIntObjPred(final @Nonnull LByteIntObjPred<T> lambda) {
+	static <T> LObjIntBytePredicate.LByteIntObjPred<T> byteIntObjPred(final @Nonnull LObjIntBytePredicate.LByteIntObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -735,60 +735,135 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	@FunctionalInterface
 	interface LObjByteIntPred<T> extends LObjIntBytePredicate<T> {
 
-		boolean testObjByteInt(T a1, byte a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,int a2,byte a3)
+		 */
 		default boolean testX(T a1, int a2, byte a3) {
 			return this.testObjByteInt(a1, a3, a2);
 		}
+
+		// boolean testObjByteInt(T a1,byte a3,int a2) ;
+		default boolean testObjByteInt(T a1, byte a3, int a2) {
+			// return nestingTestObjByteInt(a1,a3,a2);
+			try {
+				return this.testObjByteIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObjByteInt(T a1,byte a3,int a2)
+		 */
+		boolean testObjByteIntX(T a1, byte a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBytePredicate for method references. */
 	@FunctionalInterface
 	interface LIntObjBytePred<T> extends LObjIntBytePredicate<T> {
 
-		boolean testIntObjByte(int a2, T a1, byte a3);
-
-		@Override
+		/**
+		 * Implement this, but call testObjByteInt(T a1,byte a3,int a2)
+		 */
 		default boolean testX(T a1, int a2, byte a3) {
 			return this.testIntObjByte(a2, a1, a3);
 		}
+
+		// boolean testIntObjByte(int a2,T a1,byte a3) ;
+		default boolean testIntObjByte(int a2, T a1, byte a3) {
+			// return nestingTestIntObjByte(a2,a1,a3);
+			try {
+				return this.testIntObjByteX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntObjByte(int a2,T a1,byte a3)
+		 */
+		boolean testIntObjByteX(int a2, T a1, byte a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBytePredicate for method references. */
 	@FunctionalInterface
 	interface LIntByteObjPred<T> extends LObjIntBytePredicate<T> {
 
-		boolean testIntByteObj(int a2, byte a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testIntObjByte(int a2,T a1,byte a3)
+		 */
 		default boolean testX(T a1, int a2, byte a3) {
 			return this.testIntByteObj(a2, a3, a1);
 		}
+
+		// boolean testIntByteObj(int a2,byte a3,T a1) ;
+		default boolean testIntByteObj(int a2, byte a3, T a1) {
+			// return nestingTestIntByteObj(a2,a3,a1);
+			try {
+				return this.testIntByteObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntByteObj(int a2,byte a3,T a1)
+		 */
+		boolean testIntByteObjX(int a2, byte a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBytePredicate for method references. */
 	@FunctionalInterface
 	interface LByteObjIntPred<T> extends LObjIntBytePredicate<T> {
 
-		boolean testByteObjInt(byte a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call testIntByteObj(int a2,byte a3,T a1)
+		 */
 		default boolean testX(T a1, int a2, byte a3) {
 			return this.testByteObjInt(a3, a1, a2);
 		}
+
+		// boolean testByteObjInt(byte a3,T a1,int a2) ;
+		default boolean testByteObjInt(byte a3, T a1, int a2) {
+			// return nestingTestByteObjInt(a3,a1,a2);
+			try {
+				return this.testByteObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testByteObjInt(byte a3,T a1,int a2)
+		 */
+		boolean testByteObjIntX(byte a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBytePredicate for method references. */
 	@FunctionalInterface
 	interface LByteIntObjPred<T> extends LObjIntBytePredicate<T> {
 
-		boolean testByteIntObj(byte a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testByteObjInt(byte a3,T a1,int a2)
+		 */
 		default boolean testX(T a1, int a2, byte a3) {
 			return this.testByteIntObj(a3, a2, a1);
 		}
+
+		// boolean testByteIntObj(byte a3,int a2,T a1) ;
+		default boolean testByteIntObj(byte a3, int a2, T a1) {
+			// return nestingTestByteIntObj(a3,a2,a1);
+			try {
+				return this.testByteIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testByteIntObj(byte a3,int a2,T a1)
+		 */
+		boolean testByteIntObjX(byte a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

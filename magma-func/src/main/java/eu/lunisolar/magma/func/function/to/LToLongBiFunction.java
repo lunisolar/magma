@@ -427,7 +427,7 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LToLongObj1Obj0Func<T2, T1> toLongObj1Obj0Func(final @Nonnull LToLongObj1Obj0Func<T2, T1> lambda) {
+	static <T2, T1> LToLongBiFunction.LToLongObj1Obj0Func<T2, T1> toLongObj1Obj0Func(final @Nonnull LToLongBiFunction.LToLongObj1Obj0Func<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -577,12 +577,27 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 	@FunctionalInterface
 	interface LToLongObj1Obj0Func<T2, T1> extends LToLongBiFunction<T1, T2> {
 
-		long applyAsLongObj1Obj0(T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsLong(T1 a1,T2 a2)
+		 */
 		default long applyAsLongX(T1 a1, T2 a2) {
 			return this.applyAsLongObj1Obj0(a2, a1);
 		}
+
+		// long applyAsLongObj1Obj0(T2 a2,T1 a1) ;
+		default long applyAsLongObj1Obj0(T2 a2, T1 a1) {
+			// return nestingApplyAsLongObj1Obj0(a2,a1);
+			try {
+				return this.applyAsLongObj1Obj0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsLongObj1Obj0(T2 a2,T1 a1)
+		 */
+		long applyAsLongObj1Obj0X(T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -429,7 +429,7 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjToIntFunc<T> intObjToIntFunc(final @Nonnull LIntObjToIntFunc<T> lambda) {
+	static <T> LOiToIntFunction.LIntObjToIntFunc<T> intObjToIntFunc(final @Nonnull LOiToIntFunction.LIntObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -586,12 +586,27 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LIntObjToIntFunc<T> extends LOiToIntFunction<T> {
 
-		int applyAsIntIntObj(int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2) {
 			return this.applyAsIntIntObj(a2, a1);
 		}
+
+		// int applyAsIntIntObj(int a2,T a1) ;
+		default int applyAsIntIntObj(int a2, T a1) {
+			// return nestingApplyAsIntIntObj(a2,a1);
+			try {
+				return this.applyAsIntIntObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntObj(int a2,T a1)
+		 */
+		int applyAsIntIntObjX(int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

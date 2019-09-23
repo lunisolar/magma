@@ -555,7 +555,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntBoolPred intBoolPred(final @Nonnull LIntBoolPred lambda) {
+	static LBoolIntPredicate.LIntBoolPred intBoolPred(final @Nonnull LBoolIntPredicate.LIntBoolPred lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -708,12 +708,27 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LIntBoolPred extends LBoolIntPredicate {
 
-		boolean testIntBool(int a2, boolean a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(boolean a1,int a2)
+		 */
 		default boolean testX(boolean a1, int a2) {
 			return this.testIntBool(a2, a1);
 		}
+
+		// boolean testIntBool(int a2,boolean a1) ;
+		default boolean testIntBool(int a2, boolean a1) {
+			// return nestingTestIntBool(a2,a1);
+			try {
+				return this.testIntBoolX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntBool(int a2,boolean a1)
+		 */
+		boolean testIntBoolX(int a2, boolean a1) throws Throwable;
 	}
 
 	// </editor-fold>

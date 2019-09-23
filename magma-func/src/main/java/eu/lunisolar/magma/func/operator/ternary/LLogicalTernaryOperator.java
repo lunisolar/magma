@@ -715,6 +715,38 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return Function4U.defaultBoolean;
 	}
 
+	// >>> LLogicalTernaryOperator
+
+	/** Returns TRUE. */
+	public static boolean alwaysTrue(boolean a1, boolean a2, boolean a3) {
+		return true;
+	}
+
+	/** Returns FALSE. */
+	public static boolean alwaysFalse(boolean a1, boolean a2, boolean a3) {
+		return false;
+	}
+
+	public static boolean and(boolean a1, boolean a2, boolean a3) {
+		return a1 && a2 && a3;
+	}
+
+	public static boolean nand(boolean a1, boolean a2, boolean a3) {
+		return !and(a1, a2, a3);
+	}
+
+	public static boolean or(boolean a1, boolean a2, boolean a3) {
+		return a1 || a2 || a3;
+	}
+
+	public static boolean nor(boolean a1, boolean a2, boolean a3) {
+		return !or(a1, a2, a3);
+	}
+
+	public static boolean xor(boolean a1, boolean a2, boolean a3) {
+		return a1 ^ a2 ^ a3;
+	}
+
 	/**
 	* For each element (or tuple) from arguments, calls the function and passes the result to consumer.
 	* Thread safety, fail-fast, fail-safety of this method is not expected.

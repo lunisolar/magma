@@ -211,7 +211,7 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, char a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -431,7 +431,7 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LCharObjFunc<T, R> charObjFunc(final @Nonnull LCharObjFunc<T, R> lambda) {
+	static <T, R> LObjCharFunction.LCharObjFunc<T, R> charObjFunc(final @Nonnull LObjCharFunction.LCharObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -551,13 +551,29 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	/** Permutation of LObjCharFunction for method references. */
 	@FunctionalInterface
 	interface LCharObjFunc<T, R> extends LObjCharFunction<T, R> {
-		@Nullable
-		R applyCharObj(char a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,char a2)
+		 */
 		default R applyX(T a1, char a2) {
 			return this.applyCharObj(a2, a1);
 		}
+
+		@Nullable
+		// R applyCharObj(char a2,T a1) ;
+		default R applyCharObj(char a2, T a1) {
+			// return nestingApplyCharObj(a2,a1);
+			try {
+				return this.applyCharObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyCharObj(char a2,T a1)
+		 */
+		R applyCharObjX(char a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

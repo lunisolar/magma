@@ -392,7 +392,7 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtObjCons<T> srtObjCons(final @Nonnull LSrtObjCons<T> lambda) {
+	static <T> LObjSrtConsumer.LSrtObjCons<T> srtObjCons(final @Nonnull LObjSrtConsumer.LSrtObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -496,12 +496,27 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LSrtObjCons<T> extends LObjSrtConsumer<T> {
 
-		void acceptSrtObj(short a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,short a2)
+		 */
 		default void acceptX(T a1, short a2) {
 			this.acceptSrtObj(a2, a1);
 		}
+
+		// void acceptSrtObj(short a2,T a1) ;
+		default void acceptSrtObj(short a2, T a1) {
+			// nestingAcceptSrtObj(a2,a1);
+			try {
+				this.acceptSrtObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptSrtObj(short a2,T a1)
+		 */
+		void acceptSrtObjX(short a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

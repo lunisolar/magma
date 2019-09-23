@@ -555,7 +555,7 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntFltPred intFltPred(final @Nonnull LIntFltPred lambda) {
+	static LFltIntPredicate.LIntFltPred intFltPred(final @Nonnull LFltIntPredicate.LIntFltPred lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -708,12 +708,27 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@FunctionalInterface
 	interface LIntFltPred extends LFltIntPredicate {
 
-		boolean testIntFlt(int a2, float a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(float a1,int a2)
+		 */
 		default boolean testX(float a1, int a2) {
 			return this.testIntFlt(a2, a1);
 		}
+
+		// boolean testIntFlt(int a2,float a1) ;
+		default boolean testIntFlt(int a2, float a1) {
+			// return nestingTestIntFlt(a2,a1);
+			try {
+				return this.testIntFltX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntFlt(int a2,float a1)
+		 */
+		boolean testIntFltX(int a2, float a1) throws Throwable;
 	}
 
 	// </editor-fold>

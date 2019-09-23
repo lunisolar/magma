@@ -211,7 +211,7 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2, byte a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -397,35 +397,35 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjByteIntFunc<T, R> objByteIntFunc(final @Nonnull LObjByteIntFunc<T, R> lambda) {
+	static <T, R> LObjIntByteFunction.LObjByteIntFunc<T, R> objByteIntFunc(final @Nonnull LObjIntByteFunction.LObjByteIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjByteFunc<T, R> intObjByteFunc(final @Nonnull LIntObjByteFunc<T, R> lambda) {
+	static <T, R> LObjIntByteFunction.LIntObjByteFunc<T, R> intObjByteFunc(final @Nonnull LObjIntByteFunction.LIntObjByteFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntByteObjFunc<T, R> intByteObjFunc(final @Nonnull LIntByteObjFunc<T, R> lambda) {
+	static <T, R> LObjIntByteFunction.LIntByteObjFunc<T, R> intByteObjFunc(final @Nonnull LObjIntByteFunction.LIntByteObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LByteObjIntFunc<T, R> byteObjIntFunc(final @Nonnull LByteObjIntFunc<T, R> lambda) {
+	static <T, R> LObjIntByteFunction.LByteObjIntFunc<T, R> byteObjIntFunc(final @Nonnull LObjIntByteFunction.LByteObjIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LByteIntObjFunc<T, R> byteIntObjFunc(final @Nonnull LByteIntObjFunc<T, R> lambda) {
+	static <T, R> LObjIntByteFunction.LByteIntObjFunc<T, R> byteIntObjFunc(final @Nonnull LObjIntByteFunction.LByteIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -555,61 +555,141 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Permutation of LObjIntByteFunction for method references. */
 	@FunctionalInterface
 	interface LObjByteIntFunc<T, R> extends LObjIntByteFunction<T, R> {
-		@Nullable
-		R applyObjByteInt(T a1, byte a3, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2,byte a3)
+		 */
 		default R applyX(T a1, int a2, byte a3) {
 			return this.applyObjByteInt(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObjByteInt(T a1,byte a3,int a2) ;
+		default R applyObjByteInt(T a1, byte a3, int a2) {
+			// return nestingApplyObjByteInt(a1,a3,a2);
+			try {
+				return this.applyObjByteIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObjByteInt(T a1,byte a3,int a2)
+		 */
+		R applyObjByteIntX(T a1, byte a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntByteFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjByteFunc<T, R> extends LObjIntByteFunction<T, R> {
-		@Nullable
-		R applyIntObjByte(int a2, T a1, byte a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObjByteInt(T a1,byte a3,int a2)
+		 */
 		default R applyX(T a1, int a2, byte a3) {
 			return this.applyIntObjByte(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyIntObjByte(int a2,T a1,byte a3) ;
+		default R applyIntObjByte(int a2, T a1, byte a3) {
+			// return nestingApplyIntObjByte(a2,a1,a3);
+			try {
+				return this.applyIntObjByteX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObjByte(int a2,T a1,byte a3)
+		 */
+		R applyIntObjByteX(int a2, T a1, byte a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntByteFunction for method references. */
 	@FunctionalInterface
 	interface LIntByteObjFunc<T, R> extends LObjIntByteFunction<T, R> {
-		@Nullable
-		R applyIntByteObj(int a2, byte a3, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntObjByte(int a2,T a1,byte a3)
+		 */
 		default R applyX(T a1, int a2, byte a3) {
 			return this.applyIntByteObj(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyIntByteObj(int a2,byte a3,T a1) ;
+		default R applyIntByteObj(int a2, byte a3, T a1) {
+			// return nestingApplyIntByteObj(a2,a3,a1);
+			try {
+				return this.applyIntByteObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntByteObj(int a2,byte a3,T a1)
+		 */
+		R applyIntByteObjX(int a2, byte a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntByteFunction for method references. */
 	@FunctionalInterface
 	interface LByteObjIntFunc<T, R> extends LObjIntByteFunction<T, R> {
-		@Nullable
-		R applyByteObjInt(byte a3, T a1, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntByteObj(int a2,byte a3,T a1)
+		 */
 		default R applyX(T a1, int a2, byte a3) {
 			return this.applyByteObjInt(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applyByteObjInt(byte a3,T a1,int a2) ;
+		default R applyByteObjInt(byte a3, T a1, int a2) {
+			// return nestingApplyByteObjInt(a3,a1,a2);
+			try {
+				return this.applyByteObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyByteObjInt(byte a3,T a1,int a2)
+		 */
+		R applyByteObjIntX(byte a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntByteFunction for method references. */
 	@FunctionalInterface
 	interface LByteIntObjFunc<T, R> extends LObjIntByteFunction<T, R> {
-		@Nullable
-		R applyByteIntObj(byte a3, int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyByteObjInt(byte a3,T a1,int a2)
+		 */
 		default R applyX(T a1, int a2, byte a3) {
 			return this.applyByteIntObj(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applyByteIntObj(byte a3,int a2,T a1) ;
+		default R applyByteIntObj(byte a3, int a2, T a1) {
+			// return nestingApplyByteIntObj(a3,a2,a1);
+			try {
+				return this.applyByteIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyByteIntObj(byte a3,int a2,T a1)
+		 */
+		R applyByteIntObjX(byte a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

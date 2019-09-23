@@ -395,35 +395,35 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjByteIntToIntFunc<T> objByteIntToIntFunc(final @Nonnull LObjByteIntToIntFunc<T> lambda) {
+	static <T> LTieByteFunction.LObjByteIntToIntFunc<T> objByteIntToIntFunc(final @Nonnull LTieByteFunction.LObjByteIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjByteToIntFunc<T> intObjByteToIntFunc(final @Nonnull LIntObjByteToIntFunc<T> lambda) {
+	static <T> LTieByteFunction.LIntObjByteToIntFunc<T> intObjByteToIntFunc(final @Nonnull LTieByteFunction.LIntObjByteToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntByteObjToIntFunc<T> intByteObjToIntFunc(final @Nonnull LIntByteObjToIntFunc<T> lambda) {
+	static <T> LTieByteFunction.LIntByteObjToIntFunc<T> intByteObjToIntFunc(final @Nonnull LTieByteFunction.LIntByteObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteObjIntToIntFunc<T> byteObjIntToIntFunc(final @Nonnull LByteObjIntToIntFunc<T> lambda) {
+	static <T> LTieByteFunction.LByteObjIntToIntFunc<T> byteObjIntToIntFunc(final @Nonnull LTieByteFunction.LByteObjIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteIntObjToIntFunc<T> byteIntObjToIntFunc(final @Nonnull LByteIntObjToIntFunc<T> lambda) {
+	static <T> LTieByteFunction.LByteIntObjToIntFunc<T> byteIntObjToIntFunc(final @Nonnull LTieByteFunction.LByteIntObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -541,60 +541,135 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjByteIntToIntFunc<T> extends LTieByteFunction<T> {
 
-		int applyAsIntObjByteInt(T a1, byte a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2,byte a3)
+		 */
 		default int applyAsIntX(T a1, int a2, byte a3) {
 			return this.applyAsIntObjByteInt(a1, a3, a2);
 		}
+
+		// int applyAsIntObjByteInt(T a1,byte a3,int a2) ;
+		default int applyAsIntObjByteInt(T a1, byte a3, int a2) {
+			// return nestingApplyAsIntObjByteInt(a1,a3,a2);
+			try {
+				return this.applyAsIntObjByteIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntObjByteInt(T a1,byte a3,int a2)
+		 */
+		int applyAsIntObjByteIntX(T a1, byte a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieByteFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjByteToIntFunc<T> extends LTieByteFunction<T> {
 
-		int applyAsIntIntObjByte(int a2, T a1, byte a3);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntObjByteInt(T a1,byte a3,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, byte a3) {
 			return this.applyAsIntIntObjByte(a2, a1, a3);
 		}
+
+		// int applyAsIntIntObjByte(int a2,T a1,byte a3) ;
+		default int applyAsIntIntObjByte(int a2, T a1, byte a3) {
+			// return nestingApplyAsIntIntObjByte(a2,a1,a3);
+			try {
+				return this.applyAsIntIntObjByteX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntObjByte(int a2,T a1,byte a3)
+		 */
+		int applyAsIntIntObjByteX(int a2, T a1, byte a3) throws Throwable;
 	}
 
 	/** Permutation of LTieByteFunction for method references. */
 	@FunctionalInterface
 	interface LIntByteObjToIntFunc<T> extends LTieByteFunction<T> {
 
-		int applyAsIntIntByteObj(int a2, byte a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntObjByte(int a2,T a1,byte a3)
+		 */
 		default int applyAsIntX(T a1, int a2, byte a3) {
 			return this.applyAsIntIntByteObj(a2, a3, a1);
 		}
+
+		// int applyAsIntIntByteObj(int a2,byte a3,T a1) ;
+		default int applyAsIntIntByteObj(int a2, byte a3, T a1) {
+			// return nestingApplyAsIntIntByteObj(a2,a3,a1);
+			try {
+				return this.applyAsIntIntByteObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntByteObj(int a2,byte a3,T a1)
+		 */
+		int applyAsIntIntByteObjX(int a2, byte a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieByteFunction for method references. */
 	@FunctionalInterface
 	interface LByteObjIntToIntFunc<T> extends LTieByteFunction<T> {
 
-		int applyAsIntByteObjInt(byte a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntByteObj(int a2,byte a3,T a1)
+		 */
 		default int applyAsIntX(T a1, int a2, byte a3) {
 			return this.applyAsIntByteObjInt(a3, a1, a2);
 		}
+
+		// int applyAsIntByteObjInt(byte a3,T a1,int a2) ;
+		default int applyAsIntByteObjInt(byte a3, T a1, int a2) {
+			// return nestingApplyAsIntByteObjInt(a3,a1,a2);
+			try {
+				return this.applyAsIntByteObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntByteObjInt(byte a3,T a1,int a2)
+		 */
+		int applyAsIntByteObjIntX(byte a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieByteFunction for method references. */
 	@FunctionalInterface
 	interface LByteIntObjToIntFunc<T> extends LTieByteFunction<T> {
 
-		int applyAsIntByteIntObj(byte a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntByteObjInt(byte a3,T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, byte a3) {
 			return this.applyAsIntByteIntObj(a3, a2, a1);
 		}
+
+		// int applyAsIntByteIntObj(byte a3,int a2,T a1) ;
+		default int applyAsIntByteIntObj(byte a3, int a2, T a1) {
+			// return nestingApplyAsIntByteIntObj(a3,a2,a1);
+			try {
+				return this.applyAsIntByteIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntByteIntObj(byte a3,int a2,T a1)
+		 */
+		int applyAsIntByteIntObjX(byte a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

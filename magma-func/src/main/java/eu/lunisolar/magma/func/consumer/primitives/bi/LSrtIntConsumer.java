@@ -368,7 +368,7 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntSrtCons intSrtCons(final @Nonnull LIntSrtCons lambda) {
+	static LSrtIntConsumer.LIntSrtCons intSrtCons(final @Nonnull LSrtIntConsumer.LIntSrtCons lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -472,12 +472,27 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@FunctionalInterface
 	interface LIntSrtCons extends LSrtIntConsumer {
 
-		void acceptIntSrt(int a2, short a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(short a1,int a2)
+		 */
 		default void acceptX(short a1, int a2) {
 			this.acceptIntSrt(a2, a1);
 		}
+
+		// void acceptIntSrt(int a2,short a1) ;
+		default void acceptIntSrt(int a2, short a1) {
+			// nestingAcceptIntSrt(a2,a1);
+			try {
+				this.acceptIntSrtX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntSrt(int a2,short a1)
+		 */
+		void acceptIntSrtX(int a2, short a1) throws Throwable;
 	}
 
 	// </editor-fold>

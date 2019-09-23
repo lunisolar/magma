@@ -396,35 +396,35 @@ public interface LBiObjByteConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LObj0Byte2Obj1Cons<T1, T2> obj0Byte2Obj1Cons(final @Nonnull LObj0Byte2Obj1Cons<T1, T2> lambda) {
+	static <T1, T2> LBiObjByteConsumer.LObj0Byte2Obj1Cons<T1, T2> obj0Byte2Obj1Cons(final @Nonnull LBiObjByteConsumer.LObj0Byte2Obj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Obj0Byte2Cons<T2, T1> obj1Obj0Byte2Cons(final @Nonnull LObj1Obj0Byte2Cons<T2, T1> lambda) {
+	static <T2, T1> LBiObjByteConsumer.LObj1Obj0Byte2Cons<T2, T1> obj1Obj0Byte2Cons(final @Nonnull LBiObjByteConsumer.LObj1Obj0Byte2Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Byte2Obj0Cons<T2, T1> obj1Byte2Obj0Cons(final @Nonnull LObj1Byte2Obj0Cons<T2, T1> lambda) {
+	static <T2, T1> LBiObjByteConsumer.LObj1Byte2Obj0Cons<T2, T1> obj1Byte2Obj0Cons(final @Nonnull LBiObjByteConsumer.LObj1Byte2Obj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LByte2Obj0Obj1Cons<T1, T2> byte2Obj0Obj1Cons(final @Nonnull LByte2Obj0Obj1Cons<T1, T2> lambda) {
+	static <T1, T2> LBiObjByteConsumer.LByte2Obj0Obj1Cons<T1, T2> byte2Obj0Obj1Cons(final @Nonnull LBiObjByteConsumer.LByte2Obj0Obj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LByte2Obj1Obj0Cons<T2, T1> byte2Obj1Obj0Cons(final @Nonnull LByte2Obj1Obj0Cons<T2, T1> lambda) {
+	static <T2, T1> LBiObjByteConsumer.LByte2Obj1Obj0Cons<T2, T1> byte2Obj1Obj0Cons(final @Nonnull LBiObjByteConsumer.LByte2Obj1Obj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -532,60 +532,135 @@ public interface LBiObjByteConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 	@FunctionalInterface
 	interface LObj0Byte2Obj1Cons<T1, T2> extends LBiObjByteConsumer<T1, T2> {
 
-		void acceptObj0Byte2Obj1(T1 a1, byte a3, T2 a2);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T1 a1,T2 a2,byte a3)
+		 */
 		default void acceptX(T1 a1, T2 a2, byte a3) {
 			this.acceptObj0Byte2Obj1(a1, a3, a2);
 		}
+
+		// void acceptObj0Byte2Obj1(T1 a1,byte a3,T2 a2) ;
+		default void acceptObj0Byte2Obj1(T1 a1, byte a3, T2 a2) {
+			// nestingAcceptObj0Byte2Obj1(a1,a3,a2);
+			try {
+				this.acceptObj0Byte2Obj1X(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObj0Byte2Obj1(T1 a1,byte a3,T2 a2)
+		 */
+		void acceptObj0Byte2Obj1X(T1 a1, byte a3, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
 	interface LObj1Obj0Byte2Cons<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void acceptObj1Obj0Byte2(T2 a2, T1 a1, byte a3);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObj0Byte2Obj1(T1 a1,byte a3,T2 a2)
+		 */
 		default void acceptX(T1 a1, T2 a2, byte a3) {
 			this.acceptObj1Obj0Byte2(a2, a1, a3);
 		}
+
+		// void acceptObj1Obj0Byte2(T2 a2,T1 a1,byte a3) ;
+		default void acceptObj1Obj0Byte2(T2 a2, T1 a1, byte a3) {
+			// nestingAcceptObj1Obj0Byte2(a2,a1,a3);
+			try {
+				this.acceptObj1Obj0Byte2X(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObj1Obj0Byte2(T2 a2,T1 a1,byte a3)
+		 */
+		void acceptObj1Obj0Byte2X(T2 a2, T1 a1, byte a3) throws Throwable;
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
 	interface LObj1Byte2Obj0Cons<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void acceptObj1Byte2Obj0(T2 a2, byte a3, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObj1Obj0Byte2(T2 a2,T1 a1,byte a3)
+		 */
 		default void acceptX(T1 a1, T2 a2, byte a3) {
 			this.acceptObj1Byte2Obj0(a2, a3, a1);
 		}
+
+		// void acceptObj1Byte2Obj0(T2 a2,byte a3,T1 a1) ;
+		default void acceptObj1Byte2Obj0(T2 a2, byte a3, T1 a1) {
+			// nestingAcceptObj1Byte2Obj0(a2,a3,a1);
+			try {
+				this.acceptObj1Byte2Obj0X(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObj1Byte2Obj0(T2 a2,byte a3,T1 a1)
+		 */
+		void acceptObj1Byte2Obj0X(T2 a2, byte a3, T1 a1) throws Throwable;
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
 	interface LByte2Obj0Obj1Cons<T1, T2> extends LBiObjByteConsumer<T1, T2> {
 
-		void acceptByte2Obj0Obj1(byte a3, T1 a1, T2 a2);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObj1Byte2Obj0(T2 a2,byte a3,T1 a1)
+		 */
 		default void acceptX(T1 a1, T2 a2, byte a3) {
 			this.acceptByte2Obj0Obj1(a3, a1, a2);
 		}
+
+		// void acceptByte2Obj0Obj1(byte a3,T1 a1,T2 a2) ;
+		default void acceptByte2Obj0Obj1(byte a3, T1 a1, T2 a2) {
+			// nestingAcceptByte2Obj0Obj1(a3,a1,a2);
+			try {
+				this.acceptByte2Obj0Obj1X(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptByte2Obj0Obj1(byte a3,T1 a1,T2 a2)
+		 */
+		void acceptByte2Obj0Obj1X(byte a3, T1 a1, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjByteConsumer for method references. */
 	@FunctionalInterface
 	interface LByte2Obj1Obj0Cons<T2, T1> extends LBiObjByteConsumer<T1, T2> {
 
-		void acceptByte2Obj1Obj0(byte a3, T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptByte2Obj0Obj1(byte a3,T1 a1,T2 a2)
+		 */
 		default void acceptX(T1 a1, T2 a2, byte a3) {
 			this.acceptByte2Obj1Obj0(a3, a2, a1);
 		}
+
+		// void acceptByte2Obj1Obj0(byte a3,T2 a2,T1 a1) ;
+		default void acceptByte2Obj1Obj0(byte a3, T2 a2, T1 a1) {
+			// nestingAcceptByte2Obj1Obj0(a3,a2,a1);
+			try {
+				this.acceptByte2Obj1Obj0X(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptByte2Obj1Obj0(byte a3,T2 a2,T1 a1)
+		 */
+		void acceptByte2Obj1Obj0X(byte a3, T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

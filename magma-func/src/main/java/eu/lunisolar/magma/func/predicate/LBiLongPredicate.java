@@ -536,7 +536,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LLong1Long0Pred long1Long0Pred(final @Nonnull LLong1Long0Pred lambda) {
+	static LBiLongPredicate.LLong1Long0Pred long1Long0Pred(final @Nonnull LBiLongPredicate.LLong1Long0Pred lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -703,12 +703,27 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@FunctionalInterface
 	interface LLong1Long0Pred extends LBiLongPredicate {
 
-		boolean testLong1Long0(long a2, long a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(long a1,long a2)
+		 */
 		default boolean testX(long a1, long a2) {
 			return this.testLong1Long0(a2, a1);
 		}
+
+		// boolean testLong1Long0(long a2,long a1) ;
+		default boolean testLong1Long0(long a2, long a1) {
+			// return nestingTestLong1Long0(a2,a1);
+			try {
+				return this.testLong1Long0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testLong1Long0(long a2,long a1)
+		 */
+		boolean testLong1Long0X(long a2, long a1) throws Throwable;
 	}
 
 	// </editor-fold>

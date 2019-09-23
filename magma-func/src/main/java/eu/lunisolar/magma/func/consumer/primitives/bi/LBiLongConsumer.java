@@ -368,7 +368,7 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LLong1Long0Cons long1Long0Cons(final @Nonnull LLong1Long0Cons lambda) {
+	static LBiLongConsumer.LLong1Long0Cons long1Long0Cons(final @Nonnull LBiLongConsumer.LLong1Long0Cons lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -472,12 +472,27 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@FunctionalInterface
 	interface LLong1Long0Cons extends LBiLongConsumer {
 
-		void acceptLong1Long0(long a2, long a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(long a1,long a2)
+		 */
 		default void acceptX(long a1, long a2) {
 			this.acceptLong1Long0(a2, a1);
 		}
+
+		// void acceptLong1Long0(long a2,long a1) ;
+		default void acceptLong1Long0(long a2, long a1) {
+			// nestingAcceptLong1Long0(a2,a1);
+			try {
+				this.acceptLong1Long0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptLong1Long0(long a2,long a1)
+		 */
+		void acceptLong1Long0X(long a2, long a1) throws Throwable;
 	}
 
 	// </editor-fold>

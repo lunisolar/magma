@@ -536,7 +536,7 @@ public interface LBiDblPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LDbl1Dbl0Pred dbl1Dbl0Pred(final @Nonnull LDbl1Dbl0Pred lambda) {
+	static LBiDblPredicate.LDbl1Dbl0Pred dbl1Dbl0Pred(final @Nonnull LBiDblPredicate.LDbl1Dbl0Pred lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -703,12 +703,27 @@ public interface LBiDblPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@FunctionalInterface
 	interface LDbl1Dbl0Pred extends LBiDblPredicate {
 
-		boolean testDbl1Dbl0(double a2, double a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(double a1,double a2)
+		 */
 		default boolean testX(double a1, double a2) {
 			return this.testDbl1Dbl0(a2, a1);
 		}
+
+		// boolean testDbl1Dbl0(double a2,double a1) ;
+		default boolean testDbl1Dbl0(double a2, double a1) {
+			// return nestingTestDbl1Dbl0(a2,a1);
+			try {
+				return this.testDbl1Dbl0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testDbl1Dbl0(double a2,double a1)
+		 */
+		boolean testDbl1Dbl0X(double a2, double a1) throws Throwable;
 	}
 
 	// </editor-fold>

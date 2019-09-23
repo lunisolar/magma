@@ -392,7 +392,7 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjCons<T> intObjCons(final @Nonnull LIntObjCons<T> lambda) {
+	static <T> LObjIntConsumer.LIntObjCons<T> intObjCons(final @Nonnull LObjIntConsumer.LIntObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -501,12 +501,27 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 	@FunctionalInterface
 	interface LIntObjCons<T> extends LObjIntConsumer<T> {
 
-		void acceptIntObj(int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,int a2)
+		 */
 		default void acceptX(T a1, int a2) {
 			this.acceptIntObj(a2, a1);
 		}
+
+		// void acceptIntObj(int a2,T a1) ;
+		default void acceptIntObj(int a2, T a1) {
+			// nestingAcceptIntObj(a2,a1);
+			try {
+				this.acceptIntObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntObj(int a2,T a1)
+		 */
+		void acceptIntObjX(int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

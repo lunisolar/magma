@@ -396,35 +396,35 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LObj0Flt2Obj1Cons<T1, T2> obj0Flt2Obj1Cons(final @Nonnull LObj0Flt2Obj1Cons<T1, T2> lambda) {
+	static <T1, T2> LBiObjFltConsumer.LObj0Flt2Obj1Cons<T1, T2> obj0Flt2Obj1Cons(final @Nonnull LBiObjFltConsumer.LObj0Flt2Obj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Obj0Flt2Cons<T2, T1> obj1Obj0Flt2Cons(final @Nonnull LObj1Obj0Flt2Cons<T2, T1> lambda) {
+	static <T2, T1> LBiObjFltConsumer.LObj1Obj0Flt2Cons<T2, T1> obj1Obj0Flt2Cons(final @Nonnull LBiObjFltConsumer.LObj1Obj0Flt2Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Flt2Obj0Cons<T2, T1> obj1Flt2Obj0Cons(final @Nonnull LObj1Flt2Obj0Cons<T2, T1> lambda) {
+	static <T2, T1> LBiObjFltConsumer.LObj1Flt2Obj0Cons<T2, T1> obj1Flt2Obj0Cons(final @Nonnull LBiObjFltConsumer.LObj1Flt2Obj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LFlt2Obj0Obj1Cons<T1, T2> flt2Obj0Obj1Cons(final @Nonnull LFlt2Obj0Obj1Cons<T1, T2> lambda) {
+	static <T1, T2> LBiObjFltConsumer.LFlt2Obj0Obj1Cons<T1, T2> flt2Obj0Obj1Cons(final @Nonnull LBiObjFltConsumer.LFlt2Obj0Obj1Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LFlt2Obj1Obj0Cons<T2, T1> flt2Obj1Obj0Cons(final @Nonnull LFlt2Obj1Obj0Cons<T2, T1> lambda) {
+	static <T2, T1> LBiObjFltConsumer.LFlt2Obj1Obj0Cons<T2, T1> flt2Obj1Obj0Cons(final @Nonnull LBiObjFltConsumer.LFlt2Obj1Obj0Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -532,60 +532,135 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	@FunctionalInterface
 	interface LObj0Flt2Obj1Cons<T1, T2> extends LBiObjFltConsumer<T1, T2> {
 
-		void acceptObj0Flt2Obj1(T1 a1, float a3, T2 a2);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T1 a1,T2 a2,float a3)
+		 */
 		default void acceptX(T1 a1, T2 a2, float a3) {
 			this.acceptObj0Flt2Obj1(a1, a3, a2);
 		}
+
+		// void acceptObj0Flt2Obj1(T1 a1,float a3,T2 a2) ;
+		default void acceptObj0Flt2Obj1(T1 a1, float a3, T2 a2) {
+			// nestingAcceptObj0Flt2Obj1(a1,a3,a2);
+			try {
+				this.acceptObj0Flt2Obj1X(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObj0Flt2Obj1(T1 a1,float a3,T2 a2)
+		 */
+		void acceptObj0Flt2Obj1X(T1 a1, float a3, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
 	interface LObj1Obj0Flt2Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
 
-		void acceptObj1Obj0Flt2(T2 a2, T1 a1, float a3);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObj0Flt2Obj1(T1 a1,float a3,T2 a2)
+		 */
 		default void acceptX(T1 a1, T2 a2, float a3) {
 			this.acceptObj1Obj0Flt2(a2, a1, a3);
 		}
+
+		// void acceptObj1Obj0Flt2(T2 a2,T1 a1,float a3) ;
+		default void acceptObj1Obj0Flt2(T2 a2, T1 a1, float a3) {
+			// nestingAcceptObj1Obj0Flt2(a2,a1,a3);
+			try {
+				this.acceptObj1Obj0Flt2X(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObj1Obj0Flt2(T2 a2,T1 a1,float a3)
+		 */
+		void acceptObj1Obj0Flt2X(T2 a2, T1 a1, float a3) throws Throwable;
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
 	interface LObj1Flt2Obj0Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
 
-		void acceptObj1Flt2Obj0(T2 a2, float a3, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObj1Obj0Flt2(T2 a2,T1 a1,float a3)
+		 */
 		default void acceptX(T1 a1, T2 a2, float a3) {
 			this.acceptObj1Flt2Obj0(a2, a3, a1);
 		}
+
+		// void acceptObj1Flt2Obj0(T2 a2,float a3,T1 a1) ;
+		default void acceptObj1Flt2Obj0(T2 a2, float a3, T1 a1) {
+			// nestingAcceptObj1Flt2Obj0(a2,a3,a1);
+			try {
+				this.acceptObj1Flt2Obj0X(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObj1Flt2Obj0(T2 a2,float a3,T1 a1)
+		 */
+		void acceptObj1Flt2Obj0X(T2 a2, float a3, T1 a1) throws Throwable;
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
 	interface LFlt2Obj0Obj1Cons<T1, T2> extends LBiObjFltConsumer<T1, T2> {
 
-		void acceptFlt2Obj0Obj1(float a3, T1 a1, T2 a2);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObj1Flt2Obj0(T2 a2,float a3,T1 a1)
+		 */
 		default void acceptX(T1 a1, T2 a2, float a3) {
 			this.acceptFlt2Obj0Obj1(a3, a1, a2);
 		}
+
+		// void acceptFlt2Obj0Obj1(float a3,T1 a1,T2 a2) ;
+		default void acceptFlt2Obj0Obj1(float a3, T1 a1, T2 a2) {
+			// nestingAcceptFlt2Obj0Obj1(a3,a1,a2);
+			try {
+				this.acceptFlt2Obj0Obj1X(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptFlt2Obj0Obj1(float a3,T1 a1,T2 a2)
+		 */
+		void acceptFlt2Obj0Obj1X(float a3, T1 a1, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjFltConsumer for method references. */
 	@FunctionalInterface
 	interface LFlt2Obj1Obj0Cons<T2, T1> extends LBiObjFltConsumer<T1, T2> {
 
-		void acceptFlt2Obj1Obj0(float a3, T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptFlt2Obj0Obj1(float a3,T1 a1,T2 a2)
+		 */
 		default void acceptX(T1 a1, T2 a2, float a3) {
 			this.acceptFlt2Obj1Obj0(a3, a2, a1);
 		}
+
+		// void acceptFlt2Obj1Obj0(float a3,T2 a2,T1 a1) ;
+		default void acceptFlt2Obj1Obj0(float a3, T2 a2, T1 a1) {
+			// nestingAcceptFlt2Obj1Obj0(a3,a2,a1);
+			try {
+				this.acceptFlt2Obj1Obj0X(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptFlt2Obj1Obj0(float a3,T2 a2,T1 a1)
+		 */
+		void acceptFlt2Obj1Obj0X(float a3, T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

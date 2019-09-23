@@ -211,7 +211,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T1 a1, T2 a2, T3 a3, T4 a4) {
-		return Null.requireNonNull(apply(a1, a2, a3, a4), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3, a4), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */

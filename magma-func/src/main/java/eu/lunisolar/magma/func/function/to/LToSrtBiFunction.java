@@ -427,7 +427,7 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LToSrtObj1Obj0Func<T2, T1> toSrtObj1Obj0Func(final @Nonnull LToSrtObj1Obj0Func<T2, T1> lambda) {
+	static <T2, T1> LToSrtBiFunction.LToSrtObj1Obj0Func<T2, T1> toSrtObj1Obj0Func(final @Nonnull LToSrtBiFunction.LToSrtObj1Obj0Func<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -572,12 +572,27 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	@FunctionalInterface
 	interface LToSrtObj1Obj0Func<T2, T1> extends LToSrtBiFunction<T1, T2> {
 
-		short applyAsSrtObj1Obj0(T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsSrt(T1 a1,T2 a2)
+		 */
 		default short applyAsSrtX(T1 a1, T2 a2) {
 			return this.applyAsSrtObj1Obj0(a2, a1);
 		}
+
+		// short applyAsSrtObj1Obj0(T2 a2,T1 a1) ;
+		default short applyAsSrtObj1Obj0(T2 a2, T1 a1) {
+			// return nestingApplyAsSrtObj1Obj0(a2,a1);
+			try {
+				return this.applyAsSrtObj1Obj0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsSrtObj1Obj0(T2 a2,T1 a1)
+		 */
+		short applyAsSrtObj1Obj0X(T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

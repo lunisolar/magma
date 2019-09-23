@@ -581,7 +581,7 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtObjPred<T> srtObjPred(final @Nonnull LSrtObjPred<T> lambda) {
+	static <T> LObjSrtPredicate.LSrtObjPred<T> srtObjPred(final @Nonnull LObjSrtPredicate.LSrtObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -741,12 +741,27 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	@FunctionalInterface
 	interface LSrtObjPred<T> extends LObjSrtPredicate<T> {
 
-		boolean testSrtObj(short a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,short a2)
+		 */
 		default boolean testX(T a1, short a2) {
 			return this.testSrtObj(a2, a1);
 		}
+
+		// boolean testSrtObj(short a2,T a1) ;
+		default boolean testSrtObj(short a2, T a1) {
+			// return nestingTestSrtObj(a2,a1);
+			try {
+				return this.testSrtObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testSrtObj(short a2,T a1)
+		 */
+		boolean testSrtObjX(short a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -395,35 +395,35 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjCharIntToIntFunc<T> objCharIntToIntFunc(final @Nonnull LObjCharIntToIntFunc<T> lambda) {
+	static <T> LTieCharFunction.LObjCharIntToIntFunc<T> objCharIntToIntFunc(final @Nonnull LTieCharFunction.LObjCharIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjCharToIntFunc<T> intObjCharToIntFunc(final @Nonnull LIntObjCharToIntFunc<T> lambda) {
+	static <T> LTieCharFunction.LIntObjCharToIntFunc<T> intObjCharToIntFunc(final @Nonnull LTieCharFunction.LIntObjCharToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntCharObjToIntFunc<T> intCharObjToIntFunc(final @Nonnull LIntCharObjToIntFunc<T> lambda) {
+	static <T> LTieCharFunction.LIntCharObjToIntFunc<T> intCharObjToIntFunc(final @Nonnull LTieCharFunction.LIntCharObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LCharObjIntToIntFunc<T> charObjIntToIntFunc(final @Nonnull LCharObjIntToIntFunc<T> lambda) {
+	static <T> LTieCharFunction.LCharObjIntToIntFunc<T> charObjIntToIntFunc(final @Nonnull LTieCharFunction.LCharObjIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LCharIntObjToIntFunc<T> charIntObjToIntFunc(final @Nonnull LCharIntObjToIntFunc<T> lambda) {
+	static <T> LTieCharFunction.LCharIntObjToIntFunc<T> charIntObjToIntFunc(final @Nonnull LTieCharFunction.LCharIntObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -541,60 +541,135 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjCharIntToIntFunc<T> extends LTieCharFunction<T> {
 
-		int applyAsIntObjCharInt(T a1, char a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2,char a3)
+		 */
 		default int applyAsIntX(T a1, int a2, char a3) {
 			return this.applyAsIntObjCharInt(a1, a3, a2);
 		}
+
+		// int applyAsIntObjCharInt(T a1,char a3,int a2) ;
+		default int applyAsIntObjCharInt(T a1, char a3, int a2) {
+			// return nestingApplyAsIntObjCharInt(a1,a3,a2);
+			try {
+				return this.applyAsIntObjCharIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntObjCharInt(T a1,char a3,int a2)
+		 */
+		int applyAsIntObjCharIntX(T a1, char a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieCharFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjCharToIntFunc<T> extends LTieCharFunction<T> {
 
-		int applyAsIntIntObjChar(int a2, T a1, char a3);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntObjCharInt(T a1,char a3,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, char a3) {
 			return this.applyAsIntIntObjChar(a2, a1, a3);
 		}
+
+		// int applyAsIntIntObjChar(int a2,T a1,char a3) ;
+		default int applyAsIntIntObjChar(int a2, T a1, char a3) {
+			// return nestingApplyAsIntIntObjChar(a2,a1,a3);
+			try {
+				return this.applyAsIntIntObjCharX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntObjChar(int a2,T a1,char a3)
+		 */
+		int applyAsIntIntObjCharX(int a2, T a1, char a3) throws Throwable;
 	}
 
 	/** Permutation of LTieCharFunction for method references. */
 	@FunctionalInterface
 	interface LIntCharObjToIntFunc<T> extends LTieCharFunction<T> {
 
-		int applyAsIntIntCharObj(int a2, char a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntObjChar(int a2,T a1,char a3)
+		 */
 		default int applyAsIntX(T a1, int a2, char a3) {
 			return this.applyAsIntIntCharObj(a2, a3, a1);
 		}
+
+		// int applyAsIntIntCharObj(int a2,char a3,T a1) ;
+		default int applyAsIntIntCharObj(int a2, char a3, T a1) {
+			// return nestingApplyAsIntIntCharObj(a2,a3,a1);
+			try {
+				return this.applyAsIntIntCharObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntCharObj(int a2,char a3,T a1)
+		 */
+		int applyAsIntIntCharObjX(int a2, char a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieCharFunction for method references. */
 	@FunctionalInterface
 	interface LCharObjIntToIntFunc<T> extends LTieCharFunction<T> {
 
-		int applyAsIntCharObjInt(char a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntCharObj(int a2,char a3,T a1)
+		 */
 		default int applyAsIntX(T a1, int a2, char a3) {
 			return this.applyAsIntCharObjInt(a3, a1, a2);
 		}
+
+		// int applyAsIntCharObjInt(char a3,T a1,int a2) ;
+		default int applyAsIntCharObjInt(char a3, T a1, int a2) {
+			// return nestingApplyAsIntCharObjInt(a3,a1,a2);
+			try {
+				return this.applyAsIntCharObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntCharObjInt(char a3,T a1,int a2)
+		 */
+		int applyAsIntCharObjIntX(char a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieCharFunction for method references. */
 	@FunctionalInterface
 	interface LCharIntObjToIntFunc<T> extends LTieCharFunction<T> {
 
-		int applyAsIntCharIntObj(char a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntCharObjInt(char a3,T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, char a3) {
 			return this.applyAsIntCharIntObj(a3, a2, a1);
 		}
+
+		// int applyAsIntCharIntObj(char a3,int a2,T a1) ;
+		default int applyAsIntCharIntObj(char a3, int a2, T a1) {
+			// return nestingApplyAsIntCharIntObj(a3,a2,a1);
+			try {
+				return this.applyAsIntCharIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntCharIntObj(char a3,int a2,T a1)
+		 */
+		int applyAsIntCharIntObjX(char a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -56,7 +56,11 @@ public class Null {
         return obj;
     }
 
-    public static <T> T requireNonNull(T obj, Supplier<String> messageSupplier) {
+    public static <T> T nonNull(T obj) {
+        return Objects.requireNonNull(obj);
+    }
+
+    public static <T> T nonNull(T obj, Supplier<String> messageSupplier) {
         return Objects.requireNonNull(obj, messageSupplier);
     }
 

@@ -211,7 +211,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(int a) {
-		return Null.requireNonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */

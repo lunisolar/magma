@@ -211,7 +211,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2, boolean a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -397,35 +397,35 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjBoolIntFunc<T, R> objBoolIntFunc(final @Nonnull LObjBoolIntFunc<T, R> lambda) {
+	static <T, R> LObjIntBoolFunction.LObjBoolIntFunc<T, R> objBoolIntFunc(final @Nonnull LObjIntBoolFunction.LObjBoolIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjBoolFunc<T, R> intObjBoolFunc(final @Nonnull LIntObjBoolFunc<T, R> lambda) {
+	static <T, R> LObjIntBoolFunction.LIntObjBoolFunc<T, R> intObjBoolFunc(final @Nonnull LObjIntBoolFunction.LIntObjBoolFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntBoolObjFunc<T, R> intBoolObjFunc(final @Nonnull LIntBoolObjFunc<T, R> lambda) {
+	static <T, R> LObjIntBoolFunction.LIntBoolObjFunc<T, R> intBoolObjFunc(final @Nonnull LObjIntBoolFunction.LIntBoolObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LBoolObjIntFunc<T, R> boolObjIntFunc(final @Nonnull LBoolObjIntFunc<T, R> lambda) {
+	static <T, R> LObjIntBoolFunction.LBoolObjIntFunc<T, R> boolObjIntFunc(final @Nonnull LObjIntBoolFunction.LBoolObjIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LBoolIntObjFunc<T, R> boolIntObjFunc(final @Nonnull LBoolIntObjFunc<T, R> lambda) {
+	static <T, R> LObjIntBoolFunction.LBoolIntObjFunc<T, R> boolIntObjFunc(final @Nonnull LObjIntBoolFunction.LBoolIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -555,61 +555,141 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Permutation of LObjIntBoolFunction for method references. */
 	@FunctionalInterface
 	interface LObjBoolIntFunc<T, R> extends LObjIntBoolFunction<T, R> {
-		@Nullable
-		R applyObjBoolInt(T a1, boolean a3, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2,boolean a3)
+		 */
 		default R applyX(T a1, int a2, boolean a3) {
 			return this.applyObjBoolInt(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObjBoolInt(T a1,boolean a3,int a2) ;
+		default R applyObjBoolInt(T a1, boolean a3, int a2) {
+			// return nestingApplyObjBoolInt(a1,a3,a2);
+			try {
+				return this.applyObjBoolIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObjBoolInt(T a1,boolean a3,int a2)
+		 */
+		R applyObjBoolIntX(T a1, boolean a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjBoolFunc<T, R> extends LObjIntBoolFunction<T, R> {
-		@Nullable
-		R applyIntObjBool(int a2, T a1, boolean a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObjBoolInt(T a1,boolean a3,int a2)
+		 */
 		default R applyX(T a1, int a2, boolean a3) {
 			return this.applyIntObjBool(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyIntObjBool(int a2,T a1,boolean a3) ;
+		default R applyIntObjBool(int a2, T a1, boolean a3) {
+			// return nestingApplyIntObjBool(a2,a1,a3);
+			try {
+				return this.applyIntObjBoolX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObjBool(int a2,T a1,boolean a3)
+		 */
+		R applyIntObjBoolX(int a2, T a1, boolean a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolFunction for method references. */
 	@FunctionalInterface
 	interface LIntBoolObjFunc<T, R> extends LObjIntBoolFunction<T, R> {
-		@Nullable
-		R applyIntBoolObj(int a2, boolean a3, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntObjBool(int a2,T a1,boolean a3)
+		 */
 		default R applyX(T a1, int a2, boolean a3) {
 			return this.applyIntBoolObj(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyIntBoolObj(int a2,boolean a3,T a1) ;
+		default R applyIntBoolObj(int a2, boolean a3, T a1) {
+			// return nestingApplyIntBoolObj(a2,a3,a1);
+			try {
+				return this.applyIntBoolObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntBoolObj(int a2,boolean a3,T a1)
+		 */
+		R applyIntBoolObjX(int a2, boolean a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolFunction for method references. */
 	@FunctionalInterface
 	interface LBoolObjIntFunc<T, R> extends LObjIntBoolFunction<T, R> {
-		@Nullable
-		R applyBoolObjInt(boolean a3, T a1, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntBoolObj(int a2,boolean a3,T a1)
+		 */
 		default R applyX(T a1, int a2, boolean a3) {
 			return this.applyBoolObjInt(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applyBoolObjInt(boolean a3,T a1,int a2) ;
+		default R applyBoolObjInt(boolean a3, T a1, int a2) {
+			// return nestingApplyBoolObjInt(a3,a1,a2);
+			try {
+				return this.applyBoolObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyBoolObjInt(boolean a3,T a1,int a2)
+		 */
+		R applyBoolObjIntX(boolean a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolFunction for method references. */
 	@FunctionalInterface
 	interface LBoolIntObjFunc<T, R> extends LObjIntBoolFunction<T, R> {
-		@Nullable
-		R applyBoolIntObj(boolean a3, int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyBoolObjInt(boolean a3,T a1,int a2)
+		 */
 		default R applyX(T a1, int a2, boolean a3) {
 			return this.applyBoolIntObj(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applyBoolIntObj(boolean a3,int a2,T a1) ;
+		default R applyBoolIntObj(boolean a3, int a2, T a1) {
+			// return nestingApplyBoolIntObj(a3,a2,a1);
+			try {
+				return this.applyBoolIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyBoolIntObj(boolean a3,int a2,T a1)
+		 */
+		R applyBoolIntObjX(boolean a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

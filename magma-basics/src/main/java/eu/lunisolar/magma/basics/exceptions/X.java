@@ -21,6 +21,7 @@ package eu.lunisolar.magma.basics.exceptions;
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
 
 import java.io.*;
+import java.util.*;
 
 import static eu.lunisolar.magma.basics.exceptions.WrapingHandler.handler;
 
@@ -74,21 +75,24 @@ public class X implements FluentSyntax {
 
     public static final WrapingHandler<IOException> io = handler(IOException.class, IOException::new, IOException::new);
 
-    public static IOException io()                                 { return new IOException(); }
-    public static IOException io(String message)                   { return new IOException(message);}
-    public static IOException io(String message, Throwable cause)  { return new IOException(message, cause);}
-    public static IOException io(Throwable cause)                  { return new IOException(cause);}
+    public static IOException io()                                     { return new IOException(); }
+    public static IOException io(String message)                       { return new IOException(message);}
+    public static IOException io(String message, Throwable cause)      { return new IOException(message, cause);}
+    public static IOException io(Throwable cause)                      { return new IOException(cause);}
 
-    public static NullPointerException npe()                       { return new NullPointerException(); }
-    public static NullPointerException npe(String message)         { return new NullPointerException(message);}
+    public static NullPointerException npe()                           { return new NullPointerException(); }
+    public static NullPointerException npe(String message)             { return new NullPointerException(message);}
 
-    public static NumberFormatException number()                   { return new NumberFormatException(); }
-    public static NumberFormatException number(String message)     { return new NumberFormatException(message);}
+    public static NumberFormatException number()                       { return new NumberFormatException(); }
+    public static NumberFormatException number(String message)         { return new NumberFormatException(message);}
 
-    public static InterruptedException interrupted()               { return new InterruptedException(); }
-    public static InterruptedException interrupted(String message) { return new InterruptedException(message);}
+    public static InterruptedException interrupted()                   { return new InterruptedException(); }
+    public static InterruptedException interrupted(String message)     { return new InterruptedException(message);}
 
-    public static ArithmeticException ar()                         { return new ArithmeticException(); }
-    public static ArithmeticException ar(String message)           { return new ArithmeticException(message);}
+    public static ArithmeticException ar()                             { return new ArithmeticException(); }
+    public static ArithmeticException ar(String message)               { return new ArithmeticException(message);}
+
+    public static NoSuchElementException noSuchElement()               { return new NoSuchElementException(); }
+    public static NoSuchElementException noSuchElement(String message) { return new NoSuchElementException(message);}
 
 }

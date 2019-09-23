@@ -591,7 +591,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Obj0Pred<T2, T1> obj1Obj0Pred(final @Nonnull LObj1Obj0Pred<T2, T1> lambda) {
+	static <T2, T1> LBiPredicate.LObj1Obj0Pred<T2, T1> obj1Obj0Pred(final @Nonnull LBiPredicate.LObj1Obj0Pred<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -793,12 +793,27 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	@FunctionalInterface
 	interface LObj1Obj0Pred<T2, T1> extends LBiPredicate<T1, T2> {
 
-		boolean testObj1Obj0(T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(T1 a1,T2 a2)
+		 */
 		default boolean testX(T1 a1, T2 a2) {
 			return this.testObj1Obj0(a2, a1);
 		}
+
+		// boolean testObj1Obj0(T2 a2,T1 a1) ;
+		default boolean testObj1Obj0(T2 a2, T1 a1) {
+			// return nestingTestObj1Obj0(a2,a1);
+			try {
+				return this.testObj1Obj0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObj1Obj0(T2 a2,T1 a1)
+		 */
+		boolean testObj1Obj0X(T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -365,35 +365,35 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjLongIntCons<T> objLongIntCons(final @Nonnull LObjLongIntCons<T> lambda) {
+	static <T> LTieLongConsumer.LObjLongIntCons<T> objLongIntCons(final @Nonnull LTieLongConsumer.LObjLongIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjLongCons<T> intObjLongCons(final @Nonnull LIntObjLongCons<T> lambda) {
+	static <T> LTieLongConsumer.LIntObjLongCons<T> intObjLongCons(final @Nonnull LTieLongConsumer.LIntObjLongCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntLongObjCons<T> intLongObjCons(final @Nonnull LIntLongObjCons<T> lambda) {
+	static <T> LTieLongConsumer.LIntLongObjCons<T> intLongObjCons(final @Nonnull LTieLongConsumer.LIntLongObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LLongObjIntCons<T> longObjIntCons(final @Nonnull LLongObjIntCons<T> lambda) {
+	static <T> LTieLongConsumer.LLongObjIntCons<T> longObjIntCons(final @Nonnull LTieLongConsumer.LLongObjIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LLongIntObjCons<T> longIntObjCons(final @Nonnull LLongIntObjCons<T> lambda) {
+	static <T> LTieLongConsumer.LLongIntObjCons<T> longIntObjCons(final @Nonnull LTieLongConsumer.LLongIntObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -499,60 +499,135 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjLongIntCons<T> extends LTieLongConsumer<T> {
 
-		void acceptObjLongInt(T a1, long a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,int a2,long a3)
+		 */
 		default void acceptX(T a1, int a2, long a3) {
 			this.acceptObjLongInt(a1, a3, a2);
 		}
+
+		// void acceptObjLongInt(T a1,long a3,int a2) ;
+		default void acceptObjLongInt(T a1, long a3, int a2) {
+			// nestingAcceptObjLongInt(a1,a3,a2);
+			try {
+				this.acceptObjLongIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObjLongInt(T a1,long a3,int a2)
+		 */
+		void acceptObjLongIntX(T a1, long a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieLongConsumer for method references. */
 	@FunctionalInterface
 	interface LIntObjLongCons<T> extends LTieLongConsumer<T> {
 
-		void acceptIntObjLong(int a2, T a1, long a3);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObjLongInt(T a1,long a3,int a2)
+		 */
 		default void acceptX(T a1, int a2, long a3) {
 			this.acceptIntObjLong(a2, a1, a3);
 		}
+
+		// void acceptIntObjLong(int a2,T a1,long a3) ;
+		default void acceptIntObjLong(int a2, T a1, long a3) {
+			// nestingAcceptIntObjLong(a2,a1,a3);
+			try {
+				this.acceptIntObjLongX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntObjLong(int a2,T a1,long a3)
+		 */
+		void acceptIntObjLongX(int a2, T a1, long a3) throws Throwable;
 	}
 
 	/** Permutation of LTieLongConsumer for method references. */
 	@FunctionalInterface
 	interface LIntLongObjCons<T> extends LTieLongConsumer<T> {
 
-		void acceptIntLongObj(int a2, long a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntObjLong(int a2,T a1,long a3)
+		 */
 		default void acceptX(T a1, int a2, long a3) {
 			this.acceptIntLongObj(a2, a3, a1);
 		}
+
+		// void acceptIntLongObj(int a2,long a3,T a1) ;
+		default void acceptIntLongObj(int a2, long a3, T a1) {
+			// nestingAcceptIntLongObj(a2,a3,a1);
+			try {
+				this.acceptIntLongObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntLongObj(int a2,long a3,T a1)
+		 */
+		void acceptIntLongObjX(int a2, long a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieLongConsumer for method references. */
 	@FunctionalInterface
 	interface LLongObjIntCons<T> extends LTieLongConsumer<T> {
 
-		void acceptLongObjInt(long a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntLongObj(int a2,long a3,T a1)
+		 */
 		default void acceptX(T a1, int a2, long a3) {
 			this.acceptLongObjInt(a3, a1, a2);
 		}
+
+		// void acceptLongObjInt(long a3,T a1,int a2) ;
+		default void acceptLongObjInt(long a3, T a1, int a2) {
+			// nestingAcceptLongObjInt(a3,a1,a2);
+			try {
+				this.acceptLongObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptLongObjInt(long a3,T a1,int a2)
+		 */
+		void acceptLongObjIntX(long a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieLongConsumer for method references. */
 	@FunctionalInterface
 	interface LLongIntObjCons<T> extends LTieLongConsumer<T> {
 
-		void acceptLongIntObj(long a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptLongObjInt(long a3,T a1,int a2)
+		 */
 		default void acceptX(T a1, int a2, long a3) {
 			this.acceptLongIntObj(a3, a2, a1);
 		}
+
+		// void acceptLongIntObj(long a3,int a2,T a1) ;
+		default void acceptLongIntObj(long a3, int a2, T a1) {
+			// nestingAcceptLongIntObj(a3,a2,a1);
+			try {
+				this.acceptLongIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptLongIntObj(long a3,int a2,T a1)
+		 */
+		void acceptLongIntObjX(long a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

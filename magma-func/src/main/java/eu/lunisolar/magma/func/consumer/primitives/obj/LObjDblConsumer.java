@@ -392,7 +392,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LDblObjCons<T> dblObjCons(final @Nonnull LDblObjCons<T> lambda) {
+	static <T> LObjDblConsumer.LDblObjCons<T> dblObjCons(final @Nonnull LObjDblConsumer.LDblObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -501,12 +501,27 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	@FunctionalInterface
 	interface LDblObjCons<T> extends LObjDblConsumer<T> {
 
-		void acceptDblObj(double a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,double a2)
+		 */
 		default void acceptX(T a1, double a2) {
 			this.acceptDblObj(a2, a1);
 		}
+
+		// void acceptDblObj(double a2,T a1) ;
+		default void acceptDblObj(double a2, T a1) {
+			// nestingAcceptDblObj(a2,a1);
+			try {
+				this.acceptDblObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptDblObj(double a2,T a1)
+		 */
+		void acceptDblObjX(double a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -211,7 +211,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(double a) {
-		return Null.requireNonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */

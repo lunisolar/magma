@@ -395,35 +395,35 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjLongIntToIntFunc<T> objLongIntToIntFunc(final @Nonnull LObjLongIntToIntFunc<T> lambda) {
+	static <T> LTieLongFunction.LObjLongIntToIntFunc<T> objLongIntToIntFunc(final @Nonnull LTieLongFunction.LObjLongIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjLongToIntFunc<T> intObjLongToIntFunc(final @Nonnull LIntObjLongToIntFunc<T> lambda) {
+	static <T> LTieLongFunction.LIntObjLongToIntFunc<T> intObjLongToIntFunc(final @Nonnull LTieLongFunction.LIntObjLongToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntLongObjToIntFunc<T> intLongObjToIntFunc(final @Nonnull LIntLongObjToIntFunc<T> lambda) {
+	static <T> LTieLongFunction.LIntLongObjToIntFunc<T> intLongObjToIntFunc(final @Nonnull LTieLongFunction.LIntLongObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LLongObjIntToIntFunc<T> longObjIntToIntFunc(final @Nonnull LLongObjIntToIntFunc<T> lambda) {
+	static <T> LTieLongFunction.LLongObjIntToIntFunc<T> longObjIntToIntFunc(final @Nonnull LTieLongFunction.LLongObjIntToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LLongIntObjToIntFunc<T> longIntObjToIntFunc(final @Nonnull LLongIntObjToIntFunc<T> lambda) {
+	static <T> LTieLongFunction.LLongIntObjToIntFunc<T> longIntObjToIntFunc(final @Nonnull LTieLongFunction.LLongIntObjToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -541,60 +541,135 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjLongIntToIntFunc<T> extends LTieLongFunction<T> {
 
-		int applyAsIntObjLongInt(T a1, long a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2,long a3)
+		 */
 		default int applyAsIntX(T a1, int a2, long a3) {
 			return this.applyAsIntObjLongInt(a1, a3, a2);
 		}
+
+		// int applyAsIntObjLongInt(T a1,long a3,int a2) ;
+		default int applyAsIntObjLongInt(T a1, long a3, int a2) {
+			// return nestingApplyAsIntObjLongInt(a1,a3,a2);
+			try {
+				return this.applyAsIntObjLongIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntObjLongInt(T a1,long a3,int a2)
+		 */
+		int applyAsIntObjLongIntX(T a1, long a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieLongFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjLongToIntFunc<T> extends LTieLongFunction<T> {
 
-		int applyAsIntIntObjLong(int a2, T a1, long a3);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntObjLongInt(T a1,long a3,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, long a3) {
 			return this.applyAsIntIntObjLong(a2, a1, a3);
 		}
+
+		// int applyAsIntIntObjLong(int a2,T a1,long a3) ;
+		default int applyAsIntIntObjLong(int a2, T a1, long a3) {
+			// return nestingApplyAsIntIntObjLong(a2,a1,a3);
+			try {
+				return this.applyAsIntIntObjLongX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntObjLong(int a2,T a1,long a3)
+		 */
+		int applyAsIntIntObjLongX(int a2, T a1, long a3) throws Throwable;
 	}
 
 	/** Permutation of LTieLongFunction for method references. */
 	@FunctionalInterface
 	interface LIntLongObjToIntFunc<T> extends LTieLongFunction<T> {
 
-		int applyAsIntIntLongObj(int a2, long a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntObjLong(int a2,T a1,long a3)
+		 */
 		default int applyAsIntX(T a1, int a2, long a3) {
 			return this.applyAsIntIntLongObj(a2, a3, a1);
 		}
+
+		// int applyAsIntIntLongObj(int a2,long a3,T a1) ;
+		default int applyAsIntIntLongObj(int a2, long a3, T a1) {
+			// return nestingApplyAsIntIntLongObj(a2,a3,a1);
+			try {
+				return this.applyAsIntIntLongObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntIntLongObj(int a2,long a3,T a1)
+		 */
+		int applyAsIntIntLongObjX(int a2, long a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieLongFunction for method references. */
 	@FunctionalInterface
 	interface LLongObjIntToIntFunc<T> extends LTieLongFunction<T> {
 
-		int applyAsIntLongObjInt(long a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntIntLongObj(int a2,long a3,T a1)
+		 */
 		default int applyAsIntX(T a1, int a2, long a3) {
 			return this.applyAsIntLongObjInt(a3, a1, a2);
 		}
+
+		// int applyAsIntLongObjInt(long a3,T a1,int a2) ;
+		default int applyAsIntLongObjInt(long a3, T a1, int a2) {
+			// return nestingApplyAsIntLongObjInt(a3,a1,a2);
+			try {
+				return this.applyAsIntLongObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntLongObjInt(long a3,T a1,int a2)
+		 */
+		int applyAsIntLongObjIntX(long a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieLongFunction for method references. */
 	@FunctionalInterface
 	interface LLongIntObjToIntFunc<T> extends LTieLongFunction<T> {
 
-		int applyAsIntLongIntObj(long a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntLongObjInt(long a3,T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, long a3) {
 			return this.applyAsIntLongIntObj(a3, a2, a1);
 		}
+
+		// int applyAsIntLongIntObj(long a3,int a2,T a1) ;
+		default int applyAsIntLongIntObj(long a3, int a2, T a1) {
+			// return nestingApplyAsIntLongIntObj(a3,a2,a1);
+			try {
+				return this.applyAsIntLongIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntLongIntObj(long a3,int a2,T a1)
+		 */
+		int applyAsIntLongIntObjX(long a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

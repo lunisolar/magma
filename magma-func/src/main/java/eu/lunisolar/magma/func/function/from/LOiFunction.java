@@ -213,7 +213,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -433,7 +433,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjFunc<T, R> intObjFunc(final @Nonnull LIntObjFunc<T, R> lambda) {
+	static <T, R> LOiFunction.LIntObjFunc<T, R> intObjFunc(final @Nonnull LOiFunction.LIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -602,13 +602,29 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Permutation of LOiFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjFunc<T, R> extends LOiFunction<T, R> {
-		@Nullable
-		R applyIntObj(int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2)
+		 */
 		default R applyX(T a1, int a2) {
 			return this.applyIntObj(a2, a1);
 		}
+
+		@Nullable
+		// R applyIntObj(int a2,T a1) ;
+		default R applyIntObj(int a2, T a1) {
+			// return nestingApplyIntObj(a2,a1);
+			try {
+				return this.applyIntObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObj(int a2,T a1)
+		 */
+		R applyIntObjX(int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

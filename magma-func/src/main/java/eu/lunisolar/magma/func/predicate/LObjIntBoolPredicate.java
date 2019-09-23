@@ -537,35 +537,35 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjBoolIntPred<T> objBoolIntPred(final @Nonnull LObjBoolIntPred<T> lambda) {
+	static <T> LObjIntBoolPredicate.LObjBoolIntPred<T> objBoolIntPred(final @Nonnull LObjIntBoolPredicate.LObjBoolIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjBoolPred<T> intObjBoolPred(final @Nonnull LIntObjBoolPred<T> lambda) {
+	static <T> LObjIntBoolPredicate.LIntObjBoolPred<T> intObjBoolPred(final @Nonnull LObjIntBoolPredicate.LIntObjBoolPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntBoolObjPred<T> intBoolObjPred(final @Nonnull LIntBoolObjPred<T> lambda) {
+	static <T> LObjIntBoolPredicate.LIntBoolObjPred<T> intBoolObjPred(final @Nonnull LObjIntBoolPredicate.LIntBoolObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LBoolObjIntPred<T> boolObjIntPred(final @Nonnull LBoolObjIntPred<T> lambda) {
+	static <T> LObjIntBoolPredicate.LBoolObjIntPred<T> boolObjIntPred(final @Nonnull LObjIntBoolPredicate.LBoolObjIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LBoolIntObjPred<T> boolIntObjPred(final @Nonnull LBoolIntObjPred<T> lambda) {
+	static <T> LObjIntBoolPredicate.LBoolIntObjPred<T> boolIntObjPred(final @Nonnull LObjIntBoolPredicate.LBoolIntObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -734,60 +734,135 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 	@FunctionalInterface
 	interface LObjBoolIntPred<T> extends LObjIntBoolPredicate<T> {
 
-		boolean testObjBoolInt(T a1, boolean a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,int a2,boolean a3)
+		 */
 		default boolean testX(T a1, int a2, boolean a3) {
 			return this.testObjBoolInt(a1, a3, a2);
 		}
+
+		// boolean testObjBoolInt(T a1,boolean a3,int a2) ;
+		default boolean testObjBoolInt(T a1, boolean a3, int a2) {
+			// return nestingTestObjBoolInt(a1,a3,a2);
+			try {
+				return this.testObjBoolIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObjBoolInt(T a1,boolean a3,int a2)
+		 */
+		boolean testObjBoolIntX(T a1, boolean a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolPredicate for method references. */
 	@FunctionalInterface
 	interface LIntObjBoolPred<T> extends LObjIntBoolPredicate<T> {
 
-		boolean testIntObjBool(int a2, T a1, boolean a3);
-
-		@Override
+		/**
+		 * Implement this, but call testObjBoolInt(T a1,boolean a3,int a2)
+		 */
 		default boolean testX(T a1, int a2, boolean a3) {
 			return this.testIntObjBool(a2, a1, a3);
 		}
+
+		// boolean testIntObjBool(int a2,T a1,boolean a3) ;
+		default boolean testIntObjBool(int a2, T a1, boolean a3) {
+			// return nestingTestIntObjBool(a2,a1,a3);
+			try {
+				return this.testIntObjBoolX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntObjBool(int a2,T a1,boolean a3)
+		 */
+		boolean testIntObjBoolX(int a2, T a1, boolean a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolPredicate for method references. */
 	@FunctionalInterface
 	interface LIntBoolObjPred<T> extends LObjIntBoolPredicate<T> {
 
-		boolean testIntBoolObj(int a2, boolean a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testIntObjBool(int a2,T a1,boolean a3)
+		 */
 		default boolean testX(T a1, int a2, boolean a3) {
 			return this.testIntBoolObj(a2, a3, a1);
 		}
+
+		// boolean testIntBoolObj(int a2,boolean a3,T a1) ;
+		default boolean testIntBoolObj(int a2, boolean a3, T a1) {
+			// return nestingTestIntBoolObj(a2,a3,a1);
+			try {
+				return this.testIntBoolObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntBoolObj(int a2,boolean a3,T a1)
+		 */
+		boolean testIntBoolObjX(int a2, boolean a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolPredicate for method references. */
 	@FunctionalInterface
 	interface LBoolObjIntPred<T> extends LObjIntBoolPredicate<T> {
 
-		boolean testBoolObjInt(boolean a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call testIntBoolObj(int a2,boolean a3,T a1)
+		 */
 		default boolean testX(T a1, int a2, boolean a3) {
 			return this.testBoolObjInt(a3, a1, a2);
 		}
+
+		// boolean testBoolObjInt(boolean a3,T a1,int a2) ;
+		default boolean testBoolObjInt(boolean a3, T a1, int a2) {
+			// return nestingTestBoolObjInt(a3,a1,a2);
+			try {
+				return this.testBoolObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testBoolObjInt(boolean a3,T a1,int a2)
+		 */
+		boolean testBoolObjIntX(boolean a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntBoolPredicate for method references. */
 	@FunctionalInterface
 	interface LBoolIntObjPred<T> extends LObjIntBoolPredicate<T> {
 
-		boolean testBoolIntObj(boolean a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testBoolObjInt(boolean a3,T a1,int a2)
+		 */
 		default boolean testX(T a1, int a2, boolean a3) {
 			return this.testBoolIntObj(a3, a2, a1);
 		}
+
+		// boolean testBoolIntObj(boolean a3,int a2,T a1) ;
+		default boolean testBoolIntObj(boolean a3, int a2, T a1) {
+			// return nestingTestBoolIntObj(a3,a2,a1);
+			try {
+				return this.testBoolIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testBoolIntObj(boolean a3,int a2,T a1)
+		 */
+		boolean testBoolIntObjX(boolean a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

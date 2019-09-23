@@ -195,7 +195,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default T nonNullApply(T a1, T a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -466,7 +466,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
-	static <T> LBinaryOperator<T> minBy(@Nonnull Comparator<T> comparator) {
+	static <T> LBinaryOperator<T> minBy(@Nonnull Comparator<? super T> comparator) {
 		Null.nonNullArg(comparator, "comparator");
 		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
 	}
@@ -476,7 +476,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
-	static <T> LBinaryOperator<T> maxBy(@Nonnull Comparator<T> comparator) {
+	static <T> LBinaryOperator<T> maxBy(@Nonnull Comparator<? super T> comparator) {
 		Null.nonNullArg(comparator, "comparator");
 		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
 	}

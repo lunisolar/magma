@@ -211,7 +211,7 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2, double a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -397,35 +397,35 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjDblIntFunc<T, R> objDblIntFunc(final @Nonnull LObjDblIntFunc<T, R> lambda) {
+	static <T, R> LObjIntDblFunction.LObjDblIntFunc<T, R> objDblIntFunc(final @Nonnull LObjIntDblFunction.LObjDblIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjDblFunc<T, R> intObjDblFunc(final @Nonnull LIntObjDblFunc<T, R> lambda) {
+	static <T, R> LObjIntDblFunction.LIntObjDblFunc<T, R> intObjDblFunc(final @Nonnull LObjIntDblFunction.LIntObjDblFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntDblObjFunc<T, R> intDblObjFunc(final @Nonnull LIntDblObjFunc<T, R> lambda) {
+	static <T, R> LObjIntDblFunction.LIntDblObjFunc<T, R> intDblObjFunc(final @Nonnull LObjIntDblFunction.LIntDblObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LDblObjIntFunc<T, R> dblObjIntFunc(final @Nonnull LDblObjIntFunc<T, R> lambda) {
+	static <T, R> LObjIntDblFunction.LDblObjIntFunc<T, R> dblObjIntFunc(final @Nonnull LObjIntDblFunction.LDblObjIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LDblIntObjFunc<T, R> dblIntObjFunc(final @Nonnull LDblIntObjFunc<T, R> lambda) {
+	static <T, R> LObjIntDblFunction.LDblIntObjFunc<T, R> dblIntObjFunc(final @Nonnull LObjIntDblFunction.LDblIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -555,61 +555,141 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 	/** Permutation of LObjIntDblFunction for method references. */
 	@FunctionalInterface
 	interface LObjDblIntFunc<T, R> extends LObjIntDblFunction<T, R> {
-		@Nullable
-		R applyObjDblInt(T a1, double a3, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2,double a3)
+		 */
 		default R applyX(T a1, int a2, double a3) {
 			return this.applyObjDblInt(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObjDblInt(T a1,double a3,int a2) ;
+		default R applyObjDblInt(T a1, double a3, int a2) {
+			// return nestingApplyObjDblInt(a1,a3,a2);
+			try {
+				return this.applyObjDblIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObjDblInt(T a1,double a3,int a2)
+		 */
+		R applyObjDblIntX(T a1, double a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntDblFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjDblFunc<T, R> extends LObjIntDblFunction<T, R> {
-		@Nullable
-		R applyIntObjDbl(int a2, T a1, double a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObjDblInt(T a1,double a3,int a2)
+		 */
 		default R applyX(T a1, int a2, double a3) {
 			return this.applyIntObjDbl(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyIntObjDbl(int a2,T a1,double a3) ;
+		default R applyIntObjDbl(int a2, T a1, double a3) {
+			// return nestingApplyIntObjDbl(a2,a1,a3);
+			try {
+				return this.applyIntObjDblX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObjDbl(int a2,T a1,double a3)
+		 */
+		R applyIntObjDblX(int a2, T a1, double a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntDblFunction for method references. */
 	@FunctionalInterface
 	interface LIntDblObjFunc<T, R> extends LObjIntDblFunction<T, R> {
-		@Nullable
-		R applyIntDblObj(int a2, double a3, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntObjDbl(int a2,T a1,double a3)
+		 */
 		default R applyX(T a1, int a2, double a3) {
 			return this.applyIntDblObj(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyIntDblObj(int a2,double a3,T a1) ;
+		default R applyIntDblObj(int a2, double a3, T a1) {
+			// return nestingApplyIntDblObj(a2,a3,a1);
+			try {
+				return this.applyIntDblObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntDblObj(int a2,double a3,T a1)
+		 */
+		R applyIntDblObjX(int a2, double a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntDblFunction for method references. */
 	@FunctionalInterface
 	interface LDblObjIntFunc<T, R> extends LObjIntDblFunction<T, R> {
-		@Nullable
-		R applyDblObjInt(double a3, T a1, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntDblObj(int a2,double a3,T a1)
+		 */
 		default R applyX(T a1, int a2, double a3) {
 			return this.applyDblObjInt(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applyDblObjInt(double a3,T a1,int a2) ;
+		default R applyDblObjInt(double a3, T a1, int a2) {
+			// return nestingApplyDblObjInt(a3,a1,a2);
+			try {
+				return this.applyDblObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyDblObjInt(double a3,T a1,int a2)
+		 */
+		R applyDblObjIntX(double a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntDblFunction for method references. */
 	@FunctionalInterface
 	interface LDblIntObjFunc<T, R> extends LObjIntDblFunction<T, R> {
-		@Nullable
-		R applyDblIntObj(double a3, int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyDblObjInt(double a3,T a1,int a2)
+		 */
 		default R applyX(T a1, int a2, double a3) {
 			return this.applyDblIntObj(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applyDblIntObj(double a3,int a2,T a1) ;
+		default R applyDblIntObj(double a3, int a2, T a1) {
+			// return nestingApplyDblIntObj(a3,a2,a1);
+			try {
+				return this.applyDblIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyDblIntObj(double a3,int a2,T a1)
+		 */
+		R applyDblIntObjX(double a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -368,7 +368,7 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LByte1Byte0Cons byte1Byte0Cons(final @Nonnull LByte1Byte0Cons lambda) {
+	static LBiByteConsumer.LByte1Byte0Cons byte1Byte0Cons(final @Nonnull LBiByteConsumer.LByte1Byte0Cons lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -472,12 +472,27 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@FunctionalInterface
 	interface LByte1Byte0Cons extends LBiByteConsumer {
 
-		void acceptByte1Byte0(byte a2, byte a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(byte a1,byte a2)
+		 */
 		default void acceptX(byte a1, byte a2) {
 			this.acceptByte1Byte0(a2, a1);
 		}
+
+		// void acceptByte1Byte0(byte a2,byte a1) ;
+		default void acceptByte1Byte0(byte a2, byte a1) {
+			// nestingAcceptByte1Byte0(a2,a1);
+			try {
+				this.acceptByte1Byte0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptByte1Byte0(byte a2,byte a1)
+		 */
+		void acceptByte1Byte0X(byte a2, byte a1) throws Throwable;
 	}
 
 	// </editor-fold>

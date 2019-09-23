@@ -427,7 +427,7 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LToCharObj1Obj0Func<T2, T1> toCharObj1Obj0Func(final @Nonnull LToCharObj1Obj0Func<T2, T1> lambda) {
+	static <T2, T1> LToCharBiFunction.LToCharObj1Obj0Func<T2, T1> toCharObj1Obj0Func(final @Nonnull LToCharBiFunction.LToCharObj1Obj0Func<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -572,12 +572,27 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	@FunctionalInterface
 	interface LToCharObj1Obj0Func<T2, T1> extends LToCharBiFunction<T1, T2> {
 
-		char applyAsCharObj1Obj0(T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsChar(T1 a1,T2 a2)
+		 */
 		default char applyAsCharX(T1 a1, T2 a2) {
 			return this.applyAsCharObj1Obj0(a2, a1);
 		}
+
+		// char applyAsCharObj1Obj0(T2 a2,T1 a1) ;
+		default char applyAsCharObj1Obj0(T2 a2, T1 a1) {
+			// return nestingApplyAsCharObj1Obj0(a2,a1);
+			try {
+				return this.applyAsCharObj1Obj0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsCharObj1Obj0(T2 a2,T1 a1)
+		 */
+		char applyAsCharObj1Obj0X(T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -536,7 +536,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LSrt1Srt0Pred srt1Srt0Pred(final @Nonnull LSrt1Srt0Pred lambda) {
+	static LBiSrtPredicate.LSrt1Srt0Pred srt1Srt0Pred(final @Nonnull LBiSrtPredicate.LSrt1Srt0Pred lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -703,12 +703,27 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	@FunctionalInterface
 	interface LSrt1Srt0Pred extends LBiSrtPredicate {
 
-		boolean testSrt1Srt0(short a2, short a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(short a1,short a2)
+		 */
 		default boolean testX(short a1, short a2) {
 			return this.testSrt1Srt0(a2, a1);
 		}
+
+		// boolean testSrt1Srt0(short a2,short a1) ;
+		default boolean testSrt1Srt0(short a2, short a1) {
+			// return nestingTestSrt1Srt0(a2,a1);
+			try {
+				return this.testSrt1Srt0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testSrt1Srt0(short a2,short a1)
+		 */
+		boolean testSrt1Srt0X(short a2, short a1) throws Throwable;
 	}
 
 	// </editor-fold>

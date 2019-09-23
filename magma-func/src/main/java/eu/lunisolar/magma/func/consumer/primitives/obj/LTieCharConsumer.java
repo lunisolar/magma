@@ -365,35 +365,35 @@ public interface LTieCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjCharIntCons<T> objCharIntCons(final @Nonnull LObjCharIntCons<T> lambda) {
+	static <T> LTieCharConsumer.LObjCharIntCons<T> objCharIntCons(final @Nonnull LTieCharConsumer.LObjCharIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjCharCons<T> intObjCharCons(final @Nonnull LIntObjCharCons<T> lambda) {
+	static <T> LTieCharConsumer.LIntObjCharCons<T> intObjCharCons(final @Nonnull LTieCharConsumer.LIntObjCharCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntCharObjCons<T> intCharObjCons(final @Nonnull LIntCharObjCons<T> lambda) {
+	static <T> LTieCharConsumer.LIntCharObjCons<T> intCharObjCons(final @Nonnull LTieCharConsumer.LIntCharObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LCharObjIntCons<T> charObjIntCons(final @Nonnull LCharObjIntCons<T> lambda) {
+	static <T> LTieCharConsumer.LCharObjIntCons<T> charObjIntCons(final @Nonnull LTieCharConsumer.LCharObjIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LCharIntObjCons<T> charIntObjCons(final @Nonnull LCharIntObjCons<T> lambda) {
+	static <T> LTieCharConsumer.LCharIntObjCons<T> charIntObjCons(final @Nonnull LTieCharConsumer.LCharIntObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -499,60 +499,135 @@ public interface LTieCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LObjCharIntCons<T> extends LTieCharConsumer<T> {
 
-		void acceptObjCharInt(T a1, char a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,int a2,char a3)
+		 */
 		default void acceptX(T a1, int a2, char a3) {
 			this.acceptObjCharInt(a1, a3, a2);
 		}
+
+		// void acceptObjCharInt(T a1,char a3,int a2) ;
+		default void acceptObjCharInt(T a1, char a3, int a2) {
+			// nestingAcceptObjCharInt(a1,a3,a2);
+			try {
+				this.acceptObjCharIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObjCharInt(T a1,char a3,int a2)
+		 */
+		void acceptObjCharIntX(T a1, char a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieCharConsumer for method references. */
 	@FunctionalInterface
 	interface LIntObjCharCons<T> extends LTieCharConsumer<T> {
 
-		void acceptIntObjChar(int a2, T a1, char a3);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObjCharInt(T a1,char a3,int a2)
+		 */
 		default void acceptX(T a1, int a2, char a3) {
 			this.acceptIntObjChar(a2, a1, a3);
 		}
+
+		// void acceptIntObjChar(int a2,T a1,char a3) ;
+		default void acceptIntObjChar(int a2, T a1, char a3) {
+			// nestingAcceptIntObjChar(a2,a1,a3);
+			try {
+				this.acceptIntObjCharX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntObjChar(int a2,T a1,char a3)
+		 */
+		void acceptIntObjCharX(int a2, T a1, char a3) throws Throwable;
 	}
 
 	/** Permutation of LTieCharConsumer for method references. */
 	@FunctionalInterface
 	interface LIntCharObjCons<T> extends LTieCharConsumer<T> {
 
-		void acceptIntCharObj(int a2, char a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntObjChar(int a2,T a1,char a3)
+		 */
 		default void acceptX(T a1, int a2, char a3) {
 			this.acceptIntCharObj(a2, a3, a1);
 		}
+
+		// void acceptIntCharObj(int a2,char a3,T a1) ;
+		default void acceptIntCharObj(int a2, char a3, T a1) {
+			// nestingAcceptIntCharObj(a2,a3,a1);
+			try {
+				this.acceptIntCharObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntCharObj(int a2,char a3,T a1)
+		 */
+		void acceptIntCharObjX(int a2, char a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieCharConsumer for method references. */
 	@FunctionalInterface
 	interface LCharObjIntCons<T> extends LTieCharConsumer<T> {
 
-		void acceptCharObjInt(char a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntCharObj(int a2,char a3,T a1)
+		 */
 		default void acceptX(T a1, int a2, char a3) {
 			this.acceptCharObjInt(a3, a1, a2);
 		}
+
+		// void acceptCharObjInt(char a3,T a1,int a2) ;
+		default void acceptCharObjInt(char a3, T a1, int a2) {
+			// nestingAcceptCharObjInt(a3,a1,a2);
+			try {
+				this.acceptCharObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptCharObjInt(char a3,T a1,int a2)
+		 */
+		void acceptCharObjIntX(char a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieCharConsumer for method references. */
 	@FunctionalInterface
 	interface LCharIntObjCons<T> extends LTieCharConsumer<T> {
 
-		void acceptCharIntObj(char a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptCharObjInt(char a3,T a1,int a2)
+		 */
 		default void acceptX(T a1, int a2, char a3) {
 			this.acceptCharIntObj(a3, a2, a1);
 		}
+
+		// void acceptCharIntObj(char a3,int a2,T a1) ;
+		default void acceptCharIntObj(char a3, int a2, T a1) {
+			// nestingAcceptCharIntObj(a3,a2,a1);
+			try {
+				this.acceptCharIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptCharIntObj(char a3,int a2,T a1)
+		 */
+		void acceptCharIntObjX(char a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

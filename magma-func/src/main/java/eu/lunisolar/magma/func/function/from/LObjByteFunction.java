@@ -211,7 +211,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, byte a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -431,7 +431,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LByteObjFunc<T, R> byteObjFunc(final @Nonnull LByteObjFunc<T, R> lambda) {
+	static <T, R> LObjByteFunction.LByteObjFunc<T, R> byteObjFunc(final @Nonnull LObjByteFunction.LByteObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -551,13 +551,29 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	/** Permutation of LObjByteFunction for method references. */
 	@FunctionalInterface
 	interface LByteObjFunc<T, R> extends LObjByteFunction<T, R> {
-		@Nullable
-		R applyByteObj(byte a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,byte a2)
+		 */
 		default R applyX(T a1, byte a2) {
 			return this.applyByteObj(a2, a1);
 		}
+
+		@Nullable
+		// R applyByteObj(byte a2,T a1) ;
+		default R applyByteObj(byte a2, T a1) {
+			// return nestingApplyByteObj(a2,a1);
+			try {
+				return this.applyByteObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyByteObj(byte a2,T a1)
+		 */
+		R applyByteObjX(byte a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

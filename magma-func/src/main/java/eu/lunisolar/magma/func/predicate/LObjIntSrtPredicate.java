@@ -537,35 +537,35 @@ public interface LObjIntSrtPredicate<T> extends MetaPredicate, MetaInterface.Non
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjSrtIntPred<T> objSrtIntPred(final @Nonnull LObjSrtIntPred<T> lambda) {
+	static <T> LObjIntSrtPredicate.LObjSrtIntPred<T> objSrtIntPred(final @Nonnull LObjIntSrtPredicate.LObjSrtIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjSrtPred<T> intObjSrtPred(final @Nonnull LIntObjSrtPred<T> lambda) {
+	static <T> LObjIntSrtPredicate.LIntObjSrtPred<T> intObjSrtPred(final @Nonnull LObjIntSrtPredicate.LIntObjSrtPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntSrtObjPred<T> intSrtObjPred(final @Nonnull LIntSrtObjPred<T> lambda) {
+	static <T> LObjIntSrtPredicate.LIntSrtObjPred<T> intSrtObjPred(final @Nonnull LObjIntSrtPredicate.LIntSrtObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtObjIntPred<T> srtObjIntPred(final @Nonnull LSrtObjIntPred<T> lambda) {
+	static <T> LObjIntSrtPredicate.LSrtObjIntPred<T> srtObjIntPred(final @Nonnull LObjIntSrtPredicate.LSrtObjIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtIntObjPred<T> srtIntObjPred(final @Nonnull LSrtIntObjPred<T> lambda) {
+	static <T> LObjIntSrtPredicate.LSrtIntObjPred<T> srtIntObjPred(final @Nonnull LObjIntSrtPredicate.LSrtIntObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -735,60 +735,135 @@ public interface LObjIntSrtPredicate<T> extends MetaPredicate, MetaInterface.Non
 	@FunctionalInterface
 	interface LObjSrtIntPred<T> extends LObjIntSrtPredicate<T> {
 
-		boolean testObjSrtInt(T a1, short a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,int a2,short a3)
+		 */
 		default boolean testX(T a1, int a2, short a3) {
 			return this.testObjSrtInt(a1, a3, a2);
 		}
+
+		// boolean testObjSrtInt(T a1,short a3,int a2) ;
+		default boolean testObjSrtInt(T a1, short a3, int a2) {
+			// return nestingTestObjSrtInt(a1,a3,a2);
+			try {
+				return this.testObjSrtIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObjSrtInt(T a1,short a3,int a2)
+		 */
+		boolean testObjSrtIntX(T a1, short a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtPredicate for method references. */
 	@FunctionalInterface
 	interface LIntObjSrtPred<T> extends LObjIntSrtPredicate<T> {
 
-		boolean testIntObjSrt(int a2, T a1, short a3);
-
-		@Override
+		/**
+		 * Implement this, but call testObjSrtInt(T a1,short a3,int a2)
+		 */
 		default boolean testX(T a1, int a2, short a3) {
 			return this.testIntObjSrt(a2, a1, a3);
 		}
+
+		// boolean testIntObjSrt(int a2,T a1,short a3) ;
+		default boolean testIntObjSrt(int a2, T a1, short a3) {
+			// return nestingTestIntObjSrt(a2,a1,a3);
+			try {
+				return this.testIntObjSrtX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntObjSrt(int a2,T a1,short a3)
+		 */
+		boolean testIntObjSrtX(int a2, T a1, short a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtPredicate for method references. */
 	@FunctionalInterface
 	interface LIntSrtObjPred<T> extends LObjIntSrtPredicate<T> {
 
-		boolean testIntSrtObj(int a2, short a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testIntObjSrt(int a2,T a1,short a3)
+		 */
 		default boolean testX(T a1, int a2, short a3) {
 			return this.testIntSrtObj(a2, a3, a1);
 		}
+
+		// boolean testIntSrtObj(int a2,short a3,T a1) ;
+		default boolean testIntSrtObj(int a2, short a3, T a1) {
+			// return nestingTestIntSrtObj(a2,a3,a1);
+			try {
+				return this.testIntSrtObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntSrtObj(int a2,short a3,T a1)
+		 */
+		boolean testIntSrtObjX(int a2, short a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtPredicate for method references. */
 	@FunctionalInterface
 	interface LSrtObjIntPred<T> extends LObjIntSrtPredicate<T> {
 
-		boolean testSrtObjInt(short a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call testIntSrtObj(int a2,short a3,T a1)
+		 */
 		default boolean testX(T a1, int a2, short a3) {
 			return this.testSrtObjInt(a3, a1, a2);
 		}
+
+		// boolean testSrtObjInt(short a3,T a1,int a2) ;
+		default boolean testSrtObjInt(short a3, T a1, int a2) {
+			// return nestingTestSrtObjInt(a3,a1,a2);
+			try {
+				return this.testSrtObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testSrtObjInt(short a3,T a1,int a2)
+		 */
+		boolean testSrtObjIntX(short a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntSrtPredicate for method references. */
 	@FunctionalInterface
 	interface LSrtIntObjPred<T> extends LObjIntSrtPredicate<T> {
 
-		boolean testSrtIntObj(short a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testSrtObjInt(short a3,T a1,int a2)
+		 */
 		default boolean testX(T a1, int a2, short a3) {
 			return this.testSrtIntObj(a3, a2, a1);
 		}
+
+		// boolean testSrtIntObj(short a3,int a2,T a1) ;
+		default boolean testSrtIntObj(short a3, int a2, T a1) {
+			// return nestingTestSrtIntObj(a3,a2,a1);
+			try {
+				return this.testSrtIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testSrtIntObj(short a3,int a2,T a1)
+		 */
+		boolean testSrtIntObjX(short a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

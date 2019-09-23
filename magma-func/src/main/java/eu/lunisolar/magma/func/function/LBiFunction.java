@@ -211,7 +211,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T1 a1, T2 a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -431,7 +431,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> LObj1Obj0Func<T2, T1, R> obj1Obj0Func(final @Nonnull LObj1Obj0Func<T2, T1, R> lambda) {
+	static <T2, T1, R> LBiFunction.LObj1Obj0Func<T2, T1, R> obj1Obj0Func(final @Nonnull LBiFunction.LObj1Obj0Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -593,13 +593,29 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	/** Permutation of LBiFunction for method references. */
 	@FunctionalInterface
 	interface LObj1Obj0Func<T2, T1, R> extends LBiFunction<T1, T2, R> {
-		@Nullable
-		R applyObj1Obj0(T2 a2, T1 a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T1 a1,T2 a2)
+		 */
 		default R applyX(T1 a1, T2 a2) {
 			return this.applyObj1Obj0(a2, a1);
 		}
+
+		@Nullable
+		// R applyObj1Obj0(T2 a2,T1 a1) ;
+		default R applyObj1Obj0(T2 a2, T1 a1) {
+			// return nestingApplyObj1Obj0(a2,a1);
+			try {
+				return this.applyObj1Obj0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObj1Obj0(T2 a2,T1 a1)
+		 */
+		R applyObj1Obj0X(T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

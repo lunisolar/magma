@@ -368,7 +368,7 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LChar1Char0Cons char1Char0Cons(final @Nonnull LChar1Char0Cons lambda) {
+	static LBiCharConsumer.LChar1Char0Cons char1Char0Cons(final @Nonnull LBiCharConsumer.LChar1Char0Cons lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -472,12 +472,27 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	@FunctionalInterface
 	interface LChar1Char0Cons extends LBiCharConsumer {
 
-		void acceptChar1Char0(char a2, char a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(char a1,char a2)
+		 */
 		default void acceptX(char a1, char a2) {
 			this.acceptChar1Char0(a2, a1);
 		}
+
+		// void acceptChar1Char0(char a2,char a1) ;
+		default void acceptChar1Char0(char a2, char a1) {
+			// nestingAcceptChar1Char0(a2,a1);
+			try {
+				this.acceptChar1Char0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptChar1Char0(char a2,char a1)
+		 */
+		void acceptChar1Char0X(char a2, char a1) throws Throwable;
 	}
 
 	// </editor-fold>

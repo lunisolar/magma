@@ -392,7 +392,7 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LByteObjCons<T> byteObjCons(final @Nonnull LByteObjCons<T> lambda) {
+	static <T> LObjByteConsumer.LByteObjCons<T> byteObjCons(final @Nonnull LObjByteConsumer.LByteObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -496,12 +496,27 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LByteObjCons<T> extends LObjByteConsumer<T> {
 
-		void acceptByteObj(byte a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,byte a2)
+		 */
 		default void acceptX(T a1, byte a2) {
 			this.acceptByteObj(a2, a1);
 		}
+
+		// void acceptByteObj(byte a2,T a1) ;
+		default void acceptByteObj(byte a2, T a1) {
+			// nestingAcceptByteObj(a2,a1);
+			try {
+				this.acceptByteObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptByteObj(byte a2,T a1)
+		 */
+		void acceptByteObjX(byte a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -429,7 +429,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjToSrtFunc<T> intObjToSrtFunc(final @Nonnull LIntObjToSrtFunc<T> lambda) {
+	static <T> LOiToSrtFunction.LIntObjToSrtFunc<T> intObjToSrtFunc(final @Nonnull LOiToSrtFunction.LIntObjToSrtFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -586,12 +586,27 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	@FunctionalInterface
 	interface LIntObjToSrtFunc<T> extends LOiToSrtFunction<T> {
 
-		short applyAsSrtIntObj(int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsSrt(T a1,int a2)
+		 */
 		default short applyAsSrtX(T a1, int a2) {
 			return this.applyAsSrtIntObj(a2, a1);
 		}
+
+		// short applyAsSrtIntObj(int a2,T a1) ;
+		default short applyAsSrtIntObj(int a2, T a1) {
+			// return nestingApplyAsSrtIntObj(a2,a1);
+			try {
+				return this.applyAsSrtIntObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsSrtIntObj(int a2,T a1)
+		 */
+		short applyAsSrtIntObjX(int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

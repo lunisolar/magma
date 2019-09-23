@@ -211,7 +211,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(short a1, short a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -418,7 +418,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <R> LSrt1Srt0Func<R> srt1Srt0Func(final @Nonnull LSrt1Srt0Func<R> lambda) {
+	static <R> LBiSrtFunction.LSrt1Srt0Func<R> srt1Srt0Func(final @Nonnull LBiSrtFunction.LSrt1Srt0Func<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -545,13 +545,29 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	/** Permutation of LBiSrtFunction for method references. */
 	@FunctionalInterface
 	interface LSrt1Srt0Func<R> extends LBiSrtFunction<R> {
-		@Nullable
-		R applySrt1Srt0(short a2, short a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(short a1,short a2)
+		 */
 		default R applyX(short a1, short a2) {
 			return this.applySrt1Srt0(a2, a1);
 		}
+
+		@Nullable
+		// R applySrt1Srt0(short a2,short a1) ;
+		default R applySrt1Srt0(short a2, short a1) {
+			// return nestingApplySrt1Srt0(a2,a1);
+			try {
+				return this.applySrt1Srt0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applySrt1Srt0(short a2,short a1)
+		 */
+		R applySrt1Srt0X(short a2, short a1) throws Throwable;
 	}
 
 	// </editor-fold>

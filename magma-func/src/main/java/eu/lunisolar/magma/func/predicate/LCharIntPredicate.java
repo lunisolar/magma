@@ -555,7 +555,7 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntCharPred intCharPred(final @Nonnull LIntCharPred lambda) {
+	static LCharIntPredicate.LIntCharPred intCharPred(final @Nonnull LCharIntPredicate.LIntCharPred lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -708,12 +708,27 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LIntCharPred extends LCharIntPredicate {
 
-		boolean testIntChar(int a2, char a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(char a1,int a2)
+		 */
 		default boolean testX(char a1, int a2) {
 			return this.testIntChar(a2, a1);
 		}
+
+		// boolean testIntChar(int a2,char a1) ;
+		default boolean testIntChar(int a2, char a1) {
+			// return nestingTestIntChar(a2,a1);
+			try {
+				return this.testIntCharX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntChar(int a2,char a1)
+		 */
+		boolean testIntCharX(int a2, char a1) throws Throwable;
 	}
 
 	// </editor-fold>

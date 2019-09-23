@@ -213,7 +213,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a) {
-		return Null.requireNonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */

@@ -368,7 +368,7 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntLongCons intLongCons(final @Nonnull LIntLongCons lambda) {
+	static LLongIntConsumer.LIntLongCons intLongCons(final @Nonnull LLongIntConsumer.LIntLongCons lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -472,12 +472,27 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	@FunctionalInterface
 	interface LIntLongCons extends LLongIntConsumer {
 
-		void acceptIntLong(int a2, long a1);
-
-		@Override
+		/**
+		 * Implement this, but call accept(long a1,int a2)
+		 */
 		default void acceptX(long a1, int a2) {
 			this.acceptIntLong(a2, a1);
 		}
+
+		// void acceptIntLong(int a2,long a1) ;
+		default void acceptIntLong(int a2, long a1) {
+			// nestingAcceptIntLong(a2,a1);
+			try {
+				this.acceptIntLongX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntLong(int a2,long a1)
+		 */
+		void acceptIntLongX(int a2, long a1) throws Throwable;
 	}
 
 	// </editor-fold>

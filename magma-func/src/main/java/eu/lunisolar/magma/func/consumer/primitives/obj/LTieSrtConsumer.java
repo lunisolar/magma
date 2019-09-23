@@ -365,35 +365,35 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjSrtIntCons<T> objSrtIntCons(final @Nonnull LObjSrtIntCons<T> lambda) {
+	static <T> LTieSrtConsumer.LObjSrtIntCons<T> objSrtIntCons(final @Nonnull LTieSrtConsumer.LObjSrtIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjSrtCons<T> intObjSrtCons(final @Nonnull LIntObjSrtCons<T> lambda) {
+	static <T> LTieSrtConsumer.LIntObjSrtCons<T> intObjSrtCons(final @Nonnull LTieSrtConsumer.LIntObjSrtCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntSrtObjCons<T> intSrtObjCons(final @Nonnull LIntSrtObjCons<T> lambda) {
+	static <T> LTieSrtConsumer.LIntSrtObjCons<T> intSrtObjCons(final @Nonnull LTieSrtConsumer.LIntSrtObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtObjIntCons<T> srtObjIntCons(final @Nonnull LSrtObjIntCons<T> lambda) {
+	static <T> LTieSrtConsumer.LSrtObjIntCons<T> srtObjIntCons(final @Nonnull LTieSrtConsumer.LSrtObjIntCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LSrtIntObjCons<T> srtIntObjCons(final @Nonnull LSrtIntObjCons<T> lambda) {
+	static <T> LTieSrtConsumer.LSrtIntObjCons<T> srtIntObjCons(final @Nonnull LTieSrtConsumer.LSrtIntObjCons<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -499,60 +499,135 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LObjSrtIntCons<T> extends LTieSrtConsumer<T> {
 
-		void acceptObjSrtInt(T a1, short a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call accept(T a1,int a2,short a3)
+		 */
 		default void acceptX(T a1, int a2, short a3) {
 			this.acceptObjSrtInt(a1, a3, a2);
 		}
+
+		// void acceptObjSrtInt(T a1,short a3,int a2) ;
+		default void acceptObjSrtInt(T a1, short a3, int a2) {
+			// nestingAcceptObjSrtInt(a1,a3,a2);
+			try {
+				this.acceptObjSrtIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptObjSrtInt(T a1,short a3,int a2)
+		 */
+		void acceptObjSrtIntX(T a1, short a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtConsumer for method references. */
 	@FunctionalInterface
 	interface LIntObjSrtCons<T> extends LTieSrtConsumer<T> {
 
-		void acceptIntObjSrt(int a2, T a1, short a3);
-
-		@Override
+		/**
+		 * Implement this, but call acceptObjSrtInt(T a1,short a3,int a2)
+		 */
 		default void acceptX(T a1, int a2, short a3) {
 			this.acceptIntObjSrt(a2, a1, a3);
 		}
+
+		// void acceptIntObjSrt(int a2,T a1,short a3) ;
+		default void acceptIntObjSrt(int a2, T a1, short a3) {
+			// nestingAcceptIntObjSrt(a2,a1,a3);
+			try {
+				this.acceptIntObjSrtX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntObjSrt(int a2,T a1,short a3)
+		 */
+		void acceptIntObjSrtX(int a2, T a1, short a3) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtConsumer for method references. */
 	@FunctionalInterface
 	interface LIntSrtObjCons<T> extends LTieSrtConsumer<T> {
 
-		void acceptIntSrtObj(int a2, short a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntObjSrt(int a2,T a1,short a3)
+		 */
 		default void acceptX(T a1, int a2, short a3) {
 			this.acceptIntSrtObj(a2, a3, a1);
 		}
+
+		// void acceptIntSrtObj(int a2,short a3,T a1) ;
+		default void acceptIntSrtObj(int a2, short a3, T a1) {
+			// nestingAcceptIntSrtObj(a2,a3,a1);
+			try {
+				this.acceptIntSrtObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptIntSrtObj(int a2,short a3,T a1)
+		 */
+		void acceptIntSrtObjX(int a2, short a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtConsumer for method references. */
 	@FunctionalInterface
 	interface LSrtObjIntCons<T> extends LTieSrtConsumer<T> {
 
-		void acceptSrtObjInt(short a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call acceptIntSrtObj(int a2,short a3,T a1)
+		 */
 		default void acceptX(T a1, int a2, short a3) {
 			this.acceptSrtObjInt(a3, a1, a2);
 		}
+
+		// void acceptSrtObjInt(short a3,T a1,int a2) ;
+		default void acceptSrtObjInt(short a3, T a1, int a2) {
+			// nestingAcceptSrtObjInt(a3,a1,a2);
+			try {
+				this.acceptSrtObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptSrtObjInt(short a3,T a1,int a2)
+		 */
+		void acceptSrtObjIntX(short a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieSrtConsumer for method references. */
 	@FunctionalInterface
 	interface LSrtIntObjCons<T> extends LTieSrtConsumer<T> {
 
-		void acceptSrtIntObj(short a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call acceptSrtObjInt(short a3,T a1,int a2)
+		 */
 		default void acceptX(T a1, int a2, short a3) {
 			this.acceptSrtIntObj(a3, a2, a1);
 		}
+
+		// void acceptSrtIntObj(short a3,int a2,T a1) ;
+		default void acceptSrtIntObj(short a3, int a2, T a1) {
+			// nestingAcceptSrtIntObj(a3,a2,a1);
+			try {
+				this.acceptSrtIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call acceptSrtIntObj(short a3,int a2,T a1)
+		 */
+		void acceptSrtIntObjX(short a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

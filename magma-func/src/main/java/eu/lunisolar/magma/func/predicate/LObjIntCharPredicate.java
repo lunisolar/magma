@@ -537,35 +537,35 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObjCharIntPred<T> objCharIntPred(final @Nonnull LObjCharIntPred<T> lambda) {
+	static <T> LObjIntCharPredicate.LObjCharIntPred<T> objCharIntPred(final @Nonnull LObjIntCharPredicate.LObjCharIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjCharPred<T> intObjCharPred(final @Nonnull LIntObjCharPred<T> lambda) {
+	static <T> LObjIntCharPredicate.LIntObjCharPred<T> intObjCharPred(final @Nonnull LObjIntCharPredicate.LIntObjCharPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntCharObjPred<T> intCharObjPred(final @Nonnull LIntCharObjPred<T> lambda) {
+	static <T> LObjIntCharPredicate.LIntCharObjPred<T> intCharObjPred(final @Nonnull LObjIntCharPredicate.LIntCharObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LCharObjIntPred<T> charObjIntPred(final @Nonnull LCharObjIntPred<T> lambda) {
+	static <T> LObjIntCharPredicate.LCharObjIntPred<T> charObjIntPred(final @Nonnull LObjIntCharPredicate.LCharObjIntPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LCharIntObjPred<T> charIntObjPred(final @Nonnull LCharIntObjPred<T> lambda) {
+	static <T> LObjIntCharPredicate.LCharIntObjPred<T> charIntObjPred(final @Nonnull LObjIntCharPredicate.LCharIntObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -735,60 +735,135 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	@FunctionalInterface
 	interface LObjCharIntPred<T> extends LObjIntCharPredicate<T> {
 
-		boolean testObjCharInt(T a1, char a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,int a2,char a3)
+		 */
 		default boolean testX(T a1, int a2, char a3) {
 			return this.testObjCharInt(a1, a3, a2);
 		}
+
+		// boolean testObjCharInt(T a1,char a3,int a2) ;
+		default boolean testObjCharInt(T a1, char a3, int a2) {
+			// return nestingTestObjCharInt(a1,a3,a2);
+			try {
+				return this.testObjCharIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObjCharInt(T a1,char a3,int a2)
+		 */
+		boolean testObjCharIntX(T a1, char a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharPredicate for method references. */
 	@FunctionalInterface
 	interface LIntObjCharPred<T> extends LObjIntCharPredicate<T> {
 
-		boolean testIntObjChar(int a2, T a1, char a3);
-
-		@Override
+		/**
+		 * Implement this, but call testObjCharInt(T a1,char a3,int a2)
+		 */
 		default boolean testX(T a1, int a2, char a3) {
 			return this.testIntObjChar(a2, a1, a3);
 		}
+
+		// boolean testIntObjChar(int a2,T a1,char a3) ;
+		default boolean testIntObjChar(int a2, T a1, char a3) {
+			// return nestingTestIntObjChar(a2,a1,a3);
+			try {
+				return this.testIntObjCharX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntObjChar(int a2,T a1,char a3)
+		 */
+		boolean testIntObjCharX(int a2, T a1, char a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharPredicate for method references. */
 	@FunctionalInterface
 	interface LIntCharObjPred<T> extends LObjIntCharPredicate<T> {
 
-		boolean testIntCharObj(int a2, char a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testIntObjChar(int a2,T a1,char a3)
+		 */
 		default boolean testX(T a1, int a2, char a3) {
 			return this.testIntCharObj(a2, a3, a1);
 		}
+
+		// boolean testIntCharObj(int a2,char a3,T a1) ;
+		default boolean testIntCharObj(int a2, char a3, T a1) {
+			// return nestingTestIntCharObj(a2,a3,a1);
+			try {
+				return this.testIntCharObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntCharObj(int a2,char a3,T a1)
+		 */
+		boolean testIntCharObjX(int a2, char a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharPredicate for method references. */
 	@FunctionalInterface
 	interface LCharObjIntPred<T> extends LObjIntCharPredicate<T> {
 
-		boolean testCharObjInt(char a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call testIntCharObj(int a2,char a3,T a1)
+		 */
 		default boolean testX(T a1, int a2, char a3) {
 			return this.testCharObjInt(a3, a1, a2);
 		}
+
+		// boolean testCharObjInt(char a3,T a1,int a2) ;
+		default boolean testCharObjInt(char a3, T a1, int a2) {
+			// return nestingTestCharObjInt(a3,a1,a2);
+			try {
+				return this.testCharObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testCharObjInt(char a3,T a1,int a2)
+		 */
+		boolean testCharObjIntX(char a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharPredicate for method references. */
 	@FunctionalInterface
 	interface LCharIntObjPred<T> extends LObjIntCharPredicate<T> {
 
-		boolean testCharIntObj(char a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call testCharObjInt(char a3,T a1,int a2)
+		 */
 		default boolean testX(T a1, int a2, char a3) {
 			return this.testCharIntObj(a3, a2, a1);
 		}
+
+		// boolean testCharIntObj(char a3,int a2,T a1) ;
+		default boolean testCharIntObj(char a3, int a2, T a1) {
+			// return nestingTestCharIntObj(a3,a2,a1);
+			try {
+				return this.testCharIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testCharIntObj(char a3,int a2,T a1)
+		 */
+		boolean testCharIntObjX(char a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

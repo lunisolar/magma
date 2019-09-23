@@ -211,7 +211,7 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2, float a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -397,35 +397,35 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjFltIntFunc<T, R> objFltIntFunc(final @Nonnull LObjFltIntFunc<T, R> lambda) {
+	static <T, R> LObjIntFltFunction.LObjFltIntFunc<T, R> objFltIntFunc(final @Nonnull LObjIntFltFunction.LObjFltIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjFltFunc<T, R> intObjFltFunc(final @Nonnull LIntObjFltFunc<T, R> lambda) {
+	static <T, R> LObjIntFltFunction.LIntObjFltFunc<T, R> intObjFltFunc(final @Nonnull LObjIntFltFunction.LIntObjFltFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntFltObjFunc<T, R> intFltObjFunc(final @Nonnull LIntFltObjFunc<T, R> lambda) {
+	static <T, R> LObjIntFltFunction.LIntFltObjFunc<T, R> intFltObjFunc(final @Nonnull LObjIntFltFunction.LIntFltObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LFltObjIntFunc<T, R> fltObjIntFunc(final @Nonnull LFltObjIntFunc<T, R> lambda) {
+	static <T, R> LObjIntFltFunction.LFltObjIntFunc<T, R> fltObjIntFunc(final @Nonnull LObjIntFltFunction.LFltObjIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LFltIntObjFunc<T, R> fltIntObjFunc(final @Nonnull LFltIntObjFunc<T, R> lambda) {
+	static <T, R> LObjIntFltFunction.LFltIntObjFunc<T, R> fltIntObjFunc(final @Nonnull LObjIntFltFunction.LFltIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -555,61 +555,141 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 	/** Permutation of LObjIntFltFunction for method references. */
 	@FunctionalInterface
 	interface LObjFltIntFunc<T, R> extends LObjIntFltFunction<T, R> {
-		@Nullable
-		R applyObjFltInt(T a1, float a3, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2,float a3)
+		 */
 		default R applyX(T a1, int a2, float a3) {
 			return this.applyObjFltInt(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObjFltInt(T a1,float a3,int a2) ;
+		default R applyObjFltInt(T a1, float a3, int a2) {
+			// return nestingApplyObjFltInt(a1,a3,a2);
+			try {
+				return this.applyObjFltIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObjFltInt(T a1,float a3,int a2)
+		 */
+		R applyObjFltIntX(T a1, float a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjFltFunc<T, R> extends LObjIntFltFunction<T, R> {
-		@Nullable
-		R applyIntObjFlt(int a2, T a1, float a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObjFltInt(T a1,float a3,int a2)
+		 */
 		default R applyX(T a1, int a2, float a3) {
 			return this.applyIntObjFlt(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyIntObjFlt(int a2,T a1,float a3) ;
+		default R applyIntObjFlt(int a2, T a1, float a3) {
+			// return nestingApplyIntObjFlt(a2,a1,a3);
+			try {
+				return this.applyIntObjFltX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObjFlt(int a2,T a1,float a3)
+		 */
+		R applyIntObjFltX(int a2, T a1, float a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltFunction for method references. */
 	@FunctionalInterface
 	interface LIntFltObjFunc<T, R> extends LObjIntFltFunction<T, R> {
-		@Nullable
-		R applyIntFltObj(int a2, float a3, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntObjFlt(int a2,T a1,float a3)
+		 */
 		default R applyX(T a1, int a2, float a3) {
 			return this.applyIntFltObj(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyIntFltObj(int a2,float a3,T a1) ;
+		default R applyIntFltObj(int a2, float a3, T a1) {
+			// return nestingApplyIntFltObj(a2,a3,a1);
+			try {
+				return this.applyIntFltObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntFltObj(int a2,float a3,T a1)
+		 */
+		R applyIntFltObjX(int a2, float a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltFunction for method references. */
 	@FunctionalInterface
 	interface LFltObjIntFunc<T, R> extends LObjIntFltFunction<T, R> {
-		@Nullable
-		R applyFltObjInt(float a3, T a1, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntFltObj(int a2,float a3,T a1)
+		 */
 		default R applyX(T a1, int a2, float a3) {
 			return this.applyFltObjInt(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applyFltObjInt(float a3,T a1,int a2) ;
+		default R applyFltObjInt(float a3, T a1, int a2) {
+			// return nestingApplyFltObjInt(a3,a1,a2);
+			try {
+				return this.applyFltObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyFltObjInt(float a3,T a1,int a2)
+		 */
+		R applyFltObjIntX(float a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntFltFunction for method references. */
 	@FunctionalInterface
 	interface LFltIntObjFunc<T, R> extends LObjIntFltFunction<T, R> {
-		@Nullable
-		R applyFltIntObj(float a3, int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyFltObjInt(float a3,T a1,int a2)
+		 */
 		default R applyX(T a1, int a2, float a3) {
 			return this.applyFltIntObj(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applyFltIntObj(float a3,int a2,T a1) ;
+		default R applyFltIntObj(float a3, int a2, T a1) {
+			// return nestingApplyFltIntObj(a3,a2,a1);
+			try {
+				return this.applyFltIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyFltIntObj(float a3,int a2,T a1)
+		 */
+		R applyFltIntObjX(float a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

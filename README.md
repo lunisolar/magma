@@ -9,9 +9,9 @@ Lunisolar Magma
 -----------------------------------------
 ### What is it?
 
-A library of functional interfaces for Java 8, concentrated on ability to handle 
+A library of functional interfaces for Java 8 (now 11), concentrated on ability to handle 
 checked exceptions (throwing lambda) and/or primitive types, supplemented with 
-assertion classes and builders.
+assertion classes, builders and some additional classes. 
 
 It started with few interfaces that I happened to write and use. Then I found 
 that extending, synchronising, and testing, and most of all making sure it is 
@@ -27,6 +27,10 @@ There are three main goals that this library was started to be build for:
  checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.      
 + **More primitive types supported**. 
 + **More combinations of arguments.**
++ **Reducing number of cases that:** 
+  + you cannot directly reference method 
+  + JVM cannot optimize code better (although nothing is guaranteed)  
+
  
 Most of the above goals adds to the actual number of interfaces so this is not 
 very tinny library as one would think. And behind each of those goals there are
@@ -54,7 +58,9 @@ consisted of pairs:
     + function (that will be evaluated if predicate tests positively)
     + that might seem not so useful for simple lambda expression cases, but trust 
     me I had a use case for that so I did it. 
-+ extended **exception handling**, not just preset propagation and wrapping rules.     
++ **exception handling** 
++ own set of Optional<?> (TODO link to class)
++ set of argument/state [Validations](magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/Validations.java)
 
 ### General advice
 By writing and using those interfaces, even if just in the unit tests that were 

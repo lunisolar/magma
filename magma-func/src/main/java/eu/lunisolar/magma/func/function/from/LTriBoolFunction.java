@@ -211,7 +211,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(boolean a1, boolean a2, boolean a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */

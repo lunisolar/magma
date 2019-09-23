@@ -211,7 +211,7 @@ public interface LBiObjIntFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T1 a1, T2 a2, int a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -437,35 +437,35 @@ public interface LBiObjIntFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2, R> LObj0Int2Obj1Func<T1, T2, R> obj0Int2Obj1Func(final @Nonnull LObj0Int2Obj1Func<T1, T2, R> lambda) {
+	static <T1, T2, R> LBiObjIntFunction.LObj0Int2Obj1Func<T1, T2, R> obj0Int2Obj1Func(final @Nonnull LBiObjIntFunction.LObj0Int2Obj1Func<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> LObj1Obj0Int2Func<T2, T1, R> obj1Obj0Int2Func(final @Nonnull LObj1Obj0Int2Func<T2, T1, R> lambda) {
+	static <T2, T1, R> LBiObjIntFunction.LObj1Obj0Int2Func<T2, T1, R> obj1Obj0Int2Func(final @Nonnull LBiObjIntFunction.LObj1Obj0Int2Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> LObj1Int2Obj0Func<T2, T1, R> obj1Int2Obj0Func(final @Nonnull LObj1Int2Obj0Func<T2, T1, R> lambda) {
+	static <T2, T1, R> LBiObjIntFunction.LObj1Int2Obj0Func<T2, T1, R> obj1Int2Obj0Func(final @Nonnull LBiObjIntFunction.LObj1Int2Obj0Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2, R> LInt2Obj0Obj1Func<T1, T2, R> int2Obj0Obj1Func(final @Nonnull LInt2Obj0Obj1Func<T1, T2, R> lambda) {
+	static <T1, T2, R> LBiObjIntFunction.LInt2Obj0Obj1Func<T1, T2, R> int2Obj0Obj1Func(final @Nonnull LBiObjIntFunction.LInt2Obj0Obj1Func<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1, R> LInt2Obj1Obj0Func<T2, T1, R> int2Obj1Obj0Func(final @Nonnull LInt2Obj1Obj0Func<T2, T1, R> lambda) {
+	static <T2, T1, R> LBiObjIntFunction.LInt2Obj1Obj0Func<T2, T1, R> int2Obj1Obj0Func(final @Nonnull LBiObjIntFunction.LInt2Obj1Obj0Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -589,61 +589,141 @@ public interface LBiObjIntFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	/** Permutation of LBiObjIntFunction for method references. */
 	@FunctionalInterface
 	interface LObj0Int2Obj1Func<T1, T2, R> extends LBiObjIntFunction<T1, T2, R> {
-		@Nullable
-		R applyObj0Int2Obj1(T1 a1, int a3, T2 a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T1 a1,T2 a2,int a3)
+		 */
 		default R applyX(T1 a1, T2 a2, int a3) {
 			return this.applyObj0Int2Obj1(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObj0Int2Obj1(T1 a1,int a3,T2 a2) ;
+		default R applyObj0Int2Obj1(T1 a1, int a3, T2 a2) {
+			// return nestingApplyObj0Int2Obj1(a1,a3,a2);
+			try {
+				return this.applyObj0Int2Obj1X(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObj0Int2Obj1(T1 a1,int a3,T2 a2)
+		 */
+		R applyObj0Int2Obj1X(T1 a1, int a3, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntFunction for method references. */
 	@FunctionalInterface
 	interface LObj1Obj0Int2Func<T2, T1, R> extends LBiObjIntFunction<T1, T2, R> {
-		@Nullable
-		R applyObj1Obj0Int2(T2 a2, T1 a1, int a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObj0Int2Obj1(T1 a1,int a3,T2 a2)
+		 */
 		default R applyX(T1 a1, T2 a2, int a3) {
 			return this.applyObj1Obj0Int2(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyObj1Obj0Int2(T2 a2,T1 a1,int a3) ;
+		default R applyObj1Obj0Int2(T2 a2, T1 a1, int a3) {
+			// return nestingApplyObj1Obj0Int2(a2,a1,a3);
+			try {
+				return this.applyObj1Obj0Int2X(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObj1Obj0Int2(T2 a2,T1 a1,int a3)
+		 */
+		R applyObj1Obj0Int2X(T2 a2, T1 a1, int a3) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntFunction for method references. */
 	@FunctionalInterface
 	interface LObj1Int2Obj0Func<T2, T1, R> extends LBiObjIntFunction<T1, T2, R> {
-		@Nullable
-		R applyObj1Int2Obj0(T2 a2, int a3, T1 a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyObj1Obj0Int2(T2 a2,T1 a1,int a3)
+		 */
 		default R applyX(T1 a1, T2 a2, int a3) {
 			return this.applyObj1Int2Obj0(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyObj1Int2Obj0(T2 a2,int a3,T1 a1) ;
+		default R applyObj1Int2Obj0(T2 a2, int a3, T1 a1) {
+			// return nestingApplyObj1Int2Obj0(a2,a3,a1);
+			try {
+				return this.applyObj1Int2Obj0X(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObj1Int2Obj0(T2 a2,int a3,T1 a1)
+		 */
+		R applyObj1Int2Obj0X(T2 a2, int a3, T1 a1) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntFunction for method references. */
 	@FunctionalInterface
 	interface LInt2Obj0Obj1Func<T1, T2, R> extends LBiObjIntFunction<T1, T2, R> {
-		@Nullable
-		R applyInt2Obj0Obj1(int a3, T1 a1, T2 a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyObj1Int2Obj0(T2 a2,int a3,T1 a1)
+		 */
 		default R applyX(T1 a1, T2 a2, int a3) {
 			return this.applyInt2Obj0Obj1(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applyInt2Obj0Obj1(int a3,T1 a1,T2 a2) ;
+		default R applyInt2Obj0Obj1(int a3, T1 a1, T2 a2) {
+			// return nestingApplyInt2Obj0Obj1(a3,a1,a2);
+			try {
+				return this.applyInt2Obj0Obj1X(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyInt2Obj0Obj1(int a3,T1 a1,T2 a2)
+		 */
+		R applyInt2Obj0Obj1X(int a3, T1 a1, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntFunction for method references. */
 	@FunctionalInterface
 	interface LInt2Obj1Obj0Func<T2, T1, R> extends LBiObjIntFunction<T1, T2, R> {
-		@Nullable
-		R applyInt2Obj1Obj0(int a3, T2 a2, T1 a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyInt2Obj0Obj1(int a3,T1 a1,T2 a2)
+		 */
 		default R applyX(T1 a1, T2 a2, int a3) {
 			return this.applyInt2Obj1Obj0(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applyInt2Obj1Obj0(int a3,T2 a2,T1 a1) ;
+		default R applyInt2Obj1Obj0(int a3, T2 a2, T1 a1) {
+			// return nestingApplyInt2Obj1Obj0(a3,a2,a1);
+			try {
+				return this.applyInt2Obj1Obj0X(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyInt2Obj1Obj0(int a3,T2 a2,T1 a1)
+		 */
+		R applyInt2Obj1Obj0X(int a3, T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

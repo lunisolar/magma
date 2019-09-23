@@ -211,7 +211,7 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2, char a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -397,35 +397,35 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjCharIntFunc<T, R> objCharIntFunc(final @Nonnull LObjCharIntFunc<T, R> lambda) {
+	static <T, R> LObjIntCharFunction.LObjCharIntFunc<T, R> objCharIntFunc(final @Nonnull LObjIntCharFunction.LObjCharIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjCharFunc<T, R> intObjCharFunc(final @Nonnull LIntObjCharFunc<T, R> lambda) {
+	static <T, R> LObjIntCharFunction.LIntObjCharFunc<T, R> intObjCharFunc(final @Nonnull LObjIntCharFunction.LIntObjCharFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntCharObjFunc<T, R> intCharObjFunc(final @Nonnull LIntCharObjFunc<T, R> lambda) {
+	static <T, R> LObjIntCharFunction.LIntCharObjFunc<T, R> intCharObjFunc(final @Nonnull LObjIntCharFunction.LIntCharObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LCharObjIntFunc<T, R> charObjIntFunc(final @Nonnull LCharObjIntFunc<T, R> lambda) {
+	static <T, R> LObjIntCharFunction.LCharObjIntFunc<T, R> charObjIntFunc(final @Nonnull LObjIntCharFunction.LCharObjIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LCharIntObjFunc<T, R> charIntObjFunc(final @Nonnull LCharIntObjFunc<T, R> lambda) {
+	static <T, R> LObjIntCharFunction.LCharIntObjFunc<T, R> charIntObjFunc(final @Nonnull LObjIntCharFunction.LCharIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -555,61 +555,141 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Permutation of LObjIntCharFunction for method references. */
 	@FunctionalInterface
 	interface LObjCharIntFunc<T, R> extends LObjIntCharFunction<T, R> {
-		@Nullable
-		R applyObjCharInt(T a1, char a3, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2,char a3)
+		 */
 		default R applyX(T a1, int a2, char a3) {
 			return this.applyObjCharInt(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObjCharInt(T a1,char a3,int a2) ;
+		default R applyObjCharInt(T a1, char a3, int a2) {
+			// return nestingApplyObjCharInt(a1,a3,a2);
+			try {
+				return this.applyObjCharIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObjCharInt(T a1,char a3,int a2)
+		 */
+		R applyObjCharIntX(T a1, char a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjCharFunc<T, R> extends LObjIntCharFunction<T, R> {
-		@Nullable
-		R applyIntObjChar(int a2, T a1, char a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObjCharInt(T a1,char a3,int a2)
+		 */
 		default R applyX(T a1, int a2, char a3) {
 			return this.applyIntObjChar(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyIntObjChar(int a2,T a1,char a3) ;
+		default R applyIntObjChar(int a2, T a1, char a3) {
+			// return nestingApplyIntObjChar(a2,a1,a3);
+			try {
+				return this.applyIntObjCharX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObjChar(int a2,T a1,char a3)
+		 */
+		R applyIntObjCharX(int a2, T a1, char a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharFunction for method references. */
 	@FunctionalInterface
 	interface LIntCharObjFunc<T, R> extends LObjIntCharFunction<T, R> {
-		@Nullable
-		R applyIntCharObj(int a2, char a3, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntObjChar(int a2,T a1,char a3)
+		 */
 		default R applyX(T a1, int a2, char a3) {
 			return this.applyIntCharObj(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyIntCharObj(int a2,char a3,T a1) ;
+		default R applyIntCharObj(int a2, char a3, T a1) {
+			// return nestingApplyIntCharObj(a2,a3,a1);
+			try {
+				return this.applyIntCharObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntCharObj(int a2,char a3,T a1)
+		 */
+		R applyIntCharObjX(int a2, char a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharFunction for method references. */
 	@FunctionalInterface
 	interface LCharObjIntFunc<T, R> extends LObjIntCharFunction<T, R> {
-		@Nullable
-		R applyCharObjInt(char a3, T a1, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntCharObj(int a2,char a3,T a1)
+		 */
 		default R applyX(T a1, int a2, char a3) {
 			return this.applyCharObjInt(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applyCharObjInt(char a3,T a1,int a2) ;
+		default R applyCharObjInt(char a3, T a1, int a2) {
+			// return nestingApplyCharObjInt(a3,a1,a2);
+			try {
+				return this.applyCharObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyCharObjInt(char a3,T a1,int a2)
+		 */
+		R applyCharObjIntX(char a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntCharFunction for method references. */
 	@FunctionalInterface
 	interface LCharIntObjFunc<T, R> extends LObjIntCharFunction<T, R> {
-		@Nullable
-		R applyCharIntObj(char a3, int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyCharObjInt(char a3,T a1,int a2)
+		 */
 		default R applyX(T a1, int a2, char a3) {
 			return this.applyCharIntObj(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applyCharIntObj(char a3,int a2,T a1) ;
+		default R applyCharIntObj(char a3, int a2, T a1) {
+			// return nestingApplyCharIntObj(a3,a2,a1);
+			try {
+				return this.applyCharIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyCharIntObj(char a3,int a2,T a1)
+		 */
+		R applyCharIntObjX(char a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

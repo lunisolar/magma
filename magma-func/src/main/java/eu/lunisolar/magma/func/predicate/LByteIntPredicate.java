@@ -555,7 +555,7 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static LIntBytePred intBytePred(final @Nonnull LIntBytePred lambda) {
+	static LByteIntPredicate.LIntBytePred intBytePred(final @Nonnull LByteIntPredicate.LIntBytePred lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -708,12 +708,27 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LIntBytePred extends LByteIntPredicate {
 
-		boolean testIntByte(int a2, byte a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(byte a1,int a2)
+		 */
 		default boolean testX(byte a1, int a2) {
 			return this.testIntByte(a2, a1);
 		}
+
+		// boolean testIntByte(int a2,byte a1) ;
+		default boolean testIntByte(int a2, byte a1) {
+			// return nestingTestIntByte(a2,a1);
+			try {
+				return this.testIntByteX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testIntByte(int a2,byte a1)
+		 */
+		boolean testIntByteX(int a2, byte a1) throws Throwable;
 	}
 
 	// </editor-fold>

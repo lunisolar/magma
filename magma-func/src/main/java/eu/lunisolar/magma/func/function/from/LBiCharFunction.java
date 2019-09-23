@@ -211,7 +211,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(char a1, char a2) {
-		return Null.requireNonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -418,7 +418,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <R> LChar1Char0Func<R> char1Char0Func(final @Nonnull LChar1Char0Func<R> lambda) {
+	static <R> LBiCharFunction.LChar1Char0Func<R> char1Char0Func(final @Nonnull LBiCharFunction.LChar1Char0Func<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -545,13 +545,29 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/** Permutation of LBiCharFunction for method references. */
 	@FunctionalInterface
 	interface LChar1Char0Func<R> extends LBiCharFunction<R> {
-		@Nullable
-		R applyChar1Char0(char a2, char a1);
 
-		@Override
+		/**
+		 * Implement this, but call apply(char a1,char a2)
+		 */
 		default R applyX(char a1, char a2) {
 			return this.applyChar1Char0(a2, a1);
 		}
+
+		@Nullable
+		// R applyChar1Char0(char a2,char a1) ;
+		default R applyChar1Char0(char a2, char a1) {
+			// return nestingApplyChar1Char0(a2,a1);
+			try {
+				return this.applyChar1Char0X(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyChar1Char0(char a2,char a1)
+		 */
+		R applyChar1Char0X(char a2, char a1) throws Throwable;
 	}
 
 	// </editor-fold>

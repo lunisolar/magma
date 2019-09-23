@@ -211,7 +211,7 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullApply(T a1, int a2, long a3) {
-		return Null.requireNonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.nonNull(apply(a1, a2, a3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns description of the functional interface. */
@@ -397,35 +397,35 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LObjLongIntFunc<T, R> objLongIntFunc(final @Nonnull LObjLongIntFunc<T, R> lambda) {
+	static <T, R> LObjIntLongFunction.LObjLongIntFunc<T, R> objLongIntFunc(final @Nonnull LObjIntLongFunction.LObjLongIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntObjLongFunc<T, R> intObjLongFunc(final @Nonnull LIntObjLongFunc<T, R> lambda) {
+	static <T, R> LObjIntLongFunction.LIntObjLongFunc<T, R> intObjLongFunc(final @Nonnull LObjIntLongFunction.LIntObjLongFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LIntLongObjFunc<T, R> intLongObjFunc(final @Nonnull LIntLongObjFunc<T, R> lambda) {
+	static <T, R> LObjIntLongFunction.LIntLongObjFunc<T, R> intLongObjFunc(final @Nonnull LObjIntLongFunction.LIntLongObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LLongObjIntFunc<T, R> longObjIntFunc(final @Nonnull LLongObjIntFunc<T, R> lambda) {
+	static <T, R> LObjIntLongFunction.LLongObjIntFunc<T, R> longObjIntFunc(final @Nonnull LObjIntLongFunction.LLongObjIntFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T, R> LLongIntObjFunc<T, R> longIntObjFunc(final @Nonnull LLongIntObjFunc<T, R> lambda) {
+	static <T, R> LObjIntLongFunction.LLongIntObjFunc<T, R> longIntObjFunc(final @Nonnull LObjIntLongFunction.LLongIntObjFunc<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -555,61 +555,141 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 	/** Permutation of LObjIntLongFunction for method references. */
 	@FunctionalInterface
 	interface LObjLongIntFunc<T, R> extends LObjIntLongFunction<T, R> {
-		@Nullable
-		R applyObjLongInt(T a1, long a3, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call apply(T a1,int a2,long a3)
+		 */
 		default R applyX(T a1, int a2, long a3) {
 			return this.applyObjLongInt(a1, a3, a2);
 		}
+
+		@Nullable
+		// R applyObjLongInt(T a1,long a3,int a2) ;
+		default R applyObjLongInt(T a1, long a3, int a2) {
+			// return nestingApplyObjLongInt(a1,a3,a2);
+			try {
+				return this.applyObjLongIntX(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyObjLongInt(T a1,long a3,int a2)
+		 */
+		R applyObjLongIntX(T a1, long a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongFunction for method references. */
 	@FunctionalInterface
 	interface LIntObjLongFunc<T, R> extends LObjIntLongFunction<T, R> {
-		@Nullable
-		R applyIntObjLong(int a2, T a1, long a3);
 
-		@Override
+		/**
+		 * Implement this, but call applyObjLongInt(T a1,long a3,int a2)
+		 */
 		default R applyX(T a1, int a2, long a3) {
 			return this.applyIntObjLong(a2, a1, a3);
 		}
+
+		@Nullable
+		// R applyIntObjLong(int a2,T a1,long a3) ;
+		default R applyIntObjLong(int a2, T a1, long a3) {
+			// return nestingApplyIntObjLong(a2,a1,a3);
+			try {
+				return this.applyIntObjLongX(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntObjLong(int a2,T a1,long a3)
+		 */
+		R applyIntObjLongX(int a2, T a1, long a3) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongFunction for method references. */
 	@FunctionalInterface
 	interface LIntLongObjFunc<T, R> extends LObjIntLongFunction<T, R> {
-		@Nullable
-		R applyIntLongObj(int a2, long a3, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntObjLong(int a2,T a1,long a3)
+		 */
 		default R applyX(T a1, int a2, long a3) {
 			return this.applyIntLongObj(a2, a3, a1);
 		}
+
+		@Nullable
+		// R applyIntLongObj(int a2,long a3,T a1) ;
+		default R applyIntLongObj(int a2, long a3, T a1) {
+			// return nestingApplyIntLongObj(a2,a3,a1);
+			try {
+				return this.applyIntLongObjX(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyIntLongObj(int a2,long a3,T a1)
+		 */
+		R applyIntLongObjX(int a2, long a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongFunction for method references. */
 	@FunctionalInterface
 	interface LLongObjIntFunc<T, R> extends LObjIntLongFunction<T, R> {
-		@Nullable
-		R applyLongObjInt(long a3, T a1, int a2);
 
-		@Override
+		/**
+		 * Implement this, but call applyIntLongObj(int a2,long a3,T a1)
+		 */
 		default R applyX(T a1, int a2, long a3) {
 			return this.applyLongObjInt(a3, a1, a2);
 		}
+
+		@Nullable
+		// R applyLongObjInt(long a3,T a1,int a2) ;
+		default R applyLongObjInt(long a3, T a1, int a2) {
+			// return nestingApplyLongObjInt(a3,a1,a2);
+			try {
+				return this.applyLongObjIntX(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyLongObjInt(long a3,T a1,int a2)
+		 */
+		R applyLongObjIntX(long a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LObjIntLongFunction for method references. */
 	@FunctionalInterface
 	interface LLongIntObjFunc<T, R> extends LObjIntLongFunction<T, R> {
-		@Nullable
-		R applyLongIntObj(long a3, int a2, T a1);
 
-		@Override
+		/**
+		 * Implement this, but call applyLongObjInt(long a3,T a1,int a2)
+		 */
 		default R applyX(T a1, int a2, long a3) {
 			return this.applyLongIntObj(a3, a2, a1);
 		}
+
+		@Nullable
+		// R applyLongIntObj(long a3,int a2,T a1) ;
+		default R applyLongIntObj(long a3, int a2, T a1) {
+			// return nestingApplyLongIntObj(a3,a2,a1);
+			try {
+				return this.applyLongIntObjX(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyLongIntObj(long a3,int a2,T a1)
+		 */
+		R applyLongIntObjX(long a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

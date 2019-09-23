@@ -581,7 +581,7 @@ public interface LObjDblPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LDblObjPred<T> dblObjPred(final @Nonnull LDblObjPred<T> lambda) {
+	static <T> LObjDblPredicate.LDblObjPred<T> dblObjPred(final @Nonnull LObjDblPredicate.LDblObjPred<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -741,12 +741,27 @@ public interface LObjDblPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	@FunctionalInterface
 	interface LDblObjPred<T> extends LObjDblPredicate<T> {
 
-		boolean testDblObj(double a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call test(T a1,double a2)
+		 */
 		default boolean testX(T a1, double a2) {
 			return this.testDblObj(a2, a1);
 		}
+
+		// boolean testDblObj(double a2,T a1) ;
+		default boolean testDblObj(double a2, T a1) {
+			// return nestingTestDblObj(a2,a1);
+			try {
+				return this.testDblObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testDblObj(double a2,T a1)
+		 */
+		boolean testDblObjX(double a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

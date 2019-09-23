@@ -435,35 +435,35 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LObj0Int2Int1ToIntFunc<T> obj0Int2Int1ToIntFunc(final @Nonnull LObj0Int2Int1ToIntFunc<T> lambda) {
+	static <T> LTieIntFunction.LObj0Int2Int1ToIntFunc<T> obj0Int2Int1ToIntFunc(final @Nonnull LTieIntFunction.LObj0Int2Int1ToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LInt1Obj0Int2ToIntFunc<T> int1Obj0Int2ToIntFunc(final @Nonnull LInt1Obj0Int2ToIntFunc<T> lambda) {
+	static <T> LTieIntFunction.LInt1Obj0Int2ToIntFunc<T> int1Obj0Int2ToIntFunc(final @Nonnull LTieIntFunction.LInt1Obj0Int2ToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LInt1Int2Obj0ToIntFunc<T> int1Int2Obj0ToIntFunc(final @Nonnull LInt1Int2Obj0ToIntFunc<T> lambda) {
+	static <T> LTieIntFunction.LInt1Int2Obj0ToIntFunc<T> int1Int2Obj0ToIntFunc(final @Nonnull LTieIntFunction.LInt1Int2Obj0ToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LInt2Obj0Int1ToIntFunc<T> int2Obj0Int1ToIntFunc(final @Nonnull LInt2Obj0Int1ToIntFunc<T> lambda) {
+	static <T> LTieIntFunction.LInt2Obj0Int1ToIntFunc<T> int2Obj0Int1ToIntFunc(final @Nonnull LTieIntFunction.LInt2Obj0Int1ToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LBiInt1Obj0ToIntFunc<T> biInt1Obj0ToIntFunc(final @Nonnull LBiInt1Obj0ToIntFunc<T> lambda) {
+	static <T> LTieIntFunction.LBiInt1Obj0ToIntFunc<T> biInt1Obj0ToIntFunc(final @Nonnull LTieIntFunction.LBiInt1Obj0ToIntFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -581,60 +581,135 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	@FunctionalInterface
 	interface LObj0Int2Int1ToIntFunc<T> extends LTieIntFunction<T> {
 
-		int applyAsIntObj0Int2Int1(T a1, int a3, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsInt(T a1,int a2,int a3)
+		 */
 		default int applyAsIntX(T a1, int a2, int a3) {
 			return this.applyAsIntObj0Int2Int1(a1, a3, a2);
 		}
+
+		// int applyAsIntObj0Int2Int1(T a1,int a3,int a2) ;
+		default int applyAsIntObj0Int2Int1(T a1, int a3, int a2) {
+			// return nestingApplyAsIntObj0Int2Int1(a1,a3,a2);
+			try {
+				return this.applyAsIntObj0Int2Int1X(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntObj0Int2Int1(T a1,int a3,int a2)
+		 */
+		int applyAsIntObj0Int2Int1X(T a1, int a3, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieIntFunction for method references. */
 	@FunctionalInterface
 	interface LInt1Obj0Int2ToIntFunc<T> extends LTieIntFunction<T> {
 
-		int applyAsIntInt1Obj0Int2(int a2, T a1, int a3);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntObj0Int2Int1(T a1,int a3,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, int a3) {
 			return this.applyAsIntInt1Obj0Int2(a2, a1, a3);
 		}
+
+		// int applyAsIntInt1Obj0Int2(int a2,T a1,int a3) ;
+		default int applyAsIntInt1Obj0Int2(int a2, T a1, int a3) {
+			// return nestingApplyAsIntInt1Obj0Int2(a2,a1,a3);
+			try {
+				return this.applyAsIntInt1Obj0Int2X(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntInt1Obj0Int2(int a2,T a1,int a3)
+		 */
+		int applyAsIntInt1Obj0Int2X(int a2, T a1, int a3) throws Throwable;
 	}
 
 	/** Permutation of LTieIntFunction for method references. */
 	@FunctionalInterface
 	interface LInt1Int2Obj0ToIntFunc<T> extends LTieIntFunction<T> {
 
-		int applyAsIntInt1Int2Obj0(int a2, int a3, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntInt1Obj0Int2(int a2,T a1,int a3)
+		 */
 		default int applyAsIntX(T a1, int a2, int a3) {
 			return this.applyAsIntInt1Int2Obj0(a2, a3, a1);
 		}
+
+		// int applyAsIntInt1Int2Obj0(int a2,int a3,T a1) ;
+		default int applyAsIntInt1Int2Obj0(int a2, int a3, T a1) {
+			// return nestingApplyAsIntInt1Int2Obj0(a2,a3,a1);
+			try {
+				return this.applyAsIntInt1Int2Obj0X(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntInt1Int2Obj0(int a2,int a3,T a1)
+		 */
+		int applyAsIntInt1Int2Obj0X(int a2, int a3, T a1) throws Throwable;
 	}
 
 	/** Permutation of LTieIntFunction for method references. */
 	@FunctionalInterface
 	interface LInt2Obj0Int1ToIntFunc<T> extends LTieIntFunction<T> {
 
-		int applyAsIntInt2Obj0Int1(int a3, T a1, int a2);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntInt1Int2Obj0(int a2,int a3,T a1)
+		 */
 		default int applyAsIntX(T a1, int a2, int a3) {
 			return this.applyAsIntInt2Obj0Int1(a3, a1, a2);
 		}
+
+		// int applyAsIntInt2Obj0Int1(int a3,T a1,int a2) ;
+		default int applyAsIntInt2Obj0Int1(int a3, T a1, int a2) {
+			// return nestingApplyAsIntInt2Obj0Int1(a3,a1,a2);
+			try {
+				return this.applyAsIntInt2Obj0Int1X(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntInt2Obj0Int1(int a3,T a1,int a2)
+		 */
+		int applyAsIntInt2Obj0Int1X(int a3, T a1, int a2) throws Throwable;
 	}
 
 	/** Permutation of LTieIntFunction for method references. */
 	@FunctionalInterface
 	interface LBiInt1Obj0ToIntFunc<T> extends LTieIntFunction<T> {
 
-		int applyAsIntBiInt1Obj0(int a3, int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsIntInt2Obj0Int1(int a3,T a1,int a2)
+		 */
 		default int applyAsIntX(T a1, int a2, int a3) {
 			return this.applyAsIntBiInt1Obj0(a3, a2, a1);
 		}
+
+		// int applyAsIntBiInt1Obj0(int a3,int a2,T a1) ;
+		default int applyAsIntBiInt1Obj0(int a3, int a2, T a1) {
+			// return nestingApplyAsIntBiInt1Obj0(a3,a2,a1);
+			try {
+				return this.applyAsIntBiInt1Obj0X(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsIntBiInt1Obj0(int a3,int a2,T a1)
+		 */
+		int applyAsIntBiInt1Obj0X(int a3, int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>

@@ -577,35 +577,35 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LObj0Int2Obj1Pred<T1, T2> obj0Int2Obj1Pred(final @Nonnull LObj0Int2Obj1Pred<T1, T2> lambda) {
+	static <T1, T2> LBiObjIntPredicate.LObj0Int2Obj1Pred<T1, T2> obj0Int2Obj1Pred(final @Nonnull LBiObjIntPredicate.LObj0Int2Obj1Pred<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Obj0Int2Pred<T2, T1> obj1Obj0Int2Pred(final @Nonnull LObj1Obj0Int2Pred<T2, T1> lambda) {
+	static <T2, T1> LBiObjIntPredicate.LObj1Obj0Int2Pred<T2, T1> obj1Obj0Int2Pred(final @Nonnull LBiObjIntPredicate.LObj1Obj0Int2Pred<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LObj1Int2Obj0Pred<T2, T1> obj1Int2Obj0Pred(final @Nonnull LObj1Int2Obj0Pred<T2, T1> lambda) {
+	static <T2, T1> LBiObjIntPredicate.LObj1Int2Obj0Pred<T2, T1> obj1Int2Obj0Pred(final @Nonnull LBiObjIntPredicate.LObj1Int2Obj0Pred<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LInt2Obj0Obj1Pred<T1, T2> int2Obj0Obj1Pred(final @Nonnull LInt2Obj0Obj1Pred<T1, T2> lambda) {
+	static <T1, T2> LBiObjIntPredicate.LInt2Obj0Obj1Pred<T1, T2> int2Obj0Obj1Pred(final @Nonnull LBiObjIntPredicate.LInt2Obj0Obj1Pred<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T2, T1> LInt2Obj1Obj0Pred<T2, T1> int2Obj1Obj0Pred(final @Nonnull LInt2Obj1Obj0Pred<T2, T1> lambda) {
+	static <T2, T1> LBiObjIntPredicate.LInt2Obj1Obj0Pred<T2, T1> int2Obj1Obj0Pred(final @Nonnull LBiObjIntPredicate.LInt2Obj1Obj0Pred<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -769,60 +769,135 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	@FunctionalInterface
 	interface LObj0Int2Obj1Pred<T1, T2> extends LBiObjIntPredicate<T1, T2> {
 
-		boolean testObj0Int2Obj1(T1 a1, int a3, T2 a2);
-
-		@Override
+		/**
+		 * Implement this, but call test(T1 a1,T2 a2,int a3)
+		 */
 		default boolean testX(T1 a1, T2 a2, int a3) {
 			return this.testObj0Int2Obj1(a1, a3, a2);
 		}
+
+		// boolean testObj0Int2Obj1(T1 a1,int a3,T2 a2) ;
+		default boolean testObj0Int2Obj1(T1 a1, int a3, T2 a2) {
+			// return nestingTestObj0Int2Obj1(a1,a3,a2);
+			try {
+				return this.testObj0Int2Obj1X(a1, a3, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObj0Int2Obj1(T1 a1,int a3,T2 a2)
+		 */
+		boolean testObj0Int2Obj1X(T1 a1, int a3, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntPredicate for method references. */
 	@FunctionalInterface
 	interface LObj1Obj0Int2Pred<T2, T1> extends LBiObjIntPredicate<T1, T2> {
 
-		boolean testObj1Obj0Int2(T2 a2, T1 a1, int a3);
-
-		@Override
+		/**
+		 * Implement this, but call testObj0Int2Obj1(T1 a1,int a3,T2 a2)
+		 */
 		default boolean testX(T1 a1, T2 a2, int a3) {
 			return this.testObj1Obj0Int2(a2, a1, a3);
 		}
+
+		// boolean testObj1Obj0Int2(T2 a2,T1 a1,int a3) ;
+		default boolean testObj1Obj0Int2(T2 a2, T1 a1, int a3) {
+			// return nestingTestObj1Obj0Int2(a2,a1,a3);
+			try {
+				return this.testObj1Obj0Int2X(a2, a1, a3);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObj1Obj0Int2(T2 a2,T1 a1,int a3)
+		 */
+		boolean testObj1Obj0Int2X(T2 a2, T1 a1, int a3) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntPredicate for method references. */
 	@FunctionalInterface
 	interface LObj1Int2Obj0Pred<T2, T1> extends LBiObjIntPredicate<T1, T2> {
 
-		boolean testObj1Int2Obj0(T2 a2, int a3, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call testObj1Obj0Int2(T2 a2,T1 a1,int a3)
+		 */
 		default boolean testX(T1 a1, T2 a2, int a3) {
 			return this.testObj1Int2Obj0(a2, a3, a1);
 		}
+
+		// boolean testObj1Int2Obj0(T2 a2,int a3,T1 a1) ;
+		default boolean testObj1Int2Obj0(T2 a2, int a3, T1 a1) {
+			// return nestingTestObj1Int2Obj0(a2,a3,a1);
+			try {
+				return this.testObj1Int2Obj0X(a2, a3, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testObj1Int2Obj0(T2 a2,int a3,T1 a1)
+		 */
+		boolean testObj1Int2Obj0X(T2 a2, int a3, T1 a1) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntPredicate for method references. */
 	@FunctionalInterface
 	interface LInt2Obj0Obj1Pred<T1, T2> extends LBiObjIntPredicate<T1, T2> {
 
-		boolean testInt2Obj0Obj1(int a3, T1 a1, T2 a2);
-
-		@Override
+		/**
+		 * Implement this, but call testObj1Int2Obj0(T2 a2,int a3,T1 a1)
+		 */
 		default boolean testX(T1 a1, T2 a2, int a3) {
 			return this.testInt2Obj0Obj1(a3, a1, a2);
 		}
+
+		// boolean testInt2Obj0Obj1(int a3,T1 a1,T2 a2) ;
+		default boolean testInt2Obj0Obj1(int a3, T1 a1, T2 a2) {
+			// return nestingTestInt2Obj0Obj1(a3,a1,a2);
+			try {
+				return this.testInt2Obj0Obj1X(a3, a1, a2);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testInt2Obj0Obj1(int a3,T1 a1,T2 a2)
+		 */
+		boolean testInt2Obj0Obj1X(int a3, T1 a1, T2 a2) throws Throwable;
 	}
 
 	/** Permutation of LBiObjIntPredicate for method references. */
 	@FunctionalInterface
 	interface LInt2Obj1Obj0Pred<T2, T1> extends LBiObjIntPredicate<T1, T2> {
 
-		boolean testInt2Obj1Obj0(int a3, T2 a2, T1 a1);
-
-		@Override
+		/**
+		 * Implement this, but call testInt2Obj0Obj1(int a3,T1 a1,T2 a2)
+		 */
 		default boolean testX(T1 a1, T2 a2, int a3) {
 			return this.testInt2Obj1Obj0(a3, a2, a1);
 		}
+
+		// boolean testInt2Obj1Obj0(int a3,T2 a2,T1 a1) ;
+		default boolean testInt2Obj1Obj0(int a3, T2 a2, T1 a1) {
+			// return nestingTestInt2Obj1Obj0(a3,a2,a1);
+			try {
+				return this.testInt2Obj1Obj0X(a3, a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call testInt2Obj1Obj0(int a3,T2 a2,T1 a1)
+		 */
+		boolean testInt2Obj1Obj0X(int a3, T2 a2, T1 a1) throws Throwable;
 	}
 
 	// </editor-fold>

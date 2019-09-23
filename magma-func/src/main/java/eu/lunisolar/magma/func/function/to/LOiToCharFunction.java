@@ -429,7 +429,7 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T> LIntObjToCharFunc<T> intObjToCharFunc(final @Nonnull LIntObjToCharFunc<T> lambda) {
+	static <T> LOiToCharFunction.LIntObjToCharFunc<T> intObjToCharFunc(final @Nonnull LOiToCharFunction.LIntObjToCharFunc<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -586,12 +586,27 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 	@FunctionalInterface
 	interface LIntObjToCharFunc<T> extends LOiToCharFunction<T> {
 
-		char applyAsCharIntObj(int a2, T a1);
-
-		@Override
+		/**
+		 * Implement this, but call applyAsChar(T a1,int a2)
+		 */
 		default char applyAsCharX(T a1, int a2) {
 			return this.applyAsCharIntObj(a2, a1);
 		}
+
+		// char applyAsCharIntObj(int a2,T a1) ;
+		default char applyAsCharIntObj(int a2, T a1) {
+			// return nestingApplyAsCharIntObj(a2,a1);
+			try {
+				return this.applyAsCharIntObjX(a2, a1);
+			} catch (Throwable e) { // NOSONAR
+				throw Handling.nestCheckedAndThrow(e);
+			}
+		}
+
+		/**
+		 * Implement this, but call applyAsCharIntObj(int a2,T a1)
+		 */
+		char applyAsCharIntObjX(int a2, T a1) throws Throwable;
 	}
 
 	// </editor-fold>
