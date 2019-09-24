@@ -103,7 +103,7 @@ public class Lazy<T> extends LSupMemento<T> implements LSingle<T> {
 
 	@Nonnull
 	public T nonNull() {
-		return Objects.requireNonNull(value());
+		return Null.nonNull(value());
 	}
 
 }

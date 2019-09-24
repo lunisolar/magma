@@ -50,9 +50,7 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Common predicates
- *
- * @author Jakub Wach
+ * Common predicates (methods to reference)
  */
 public final class P implements FluentSyntax {
 	// <editor-fold desc="no instance">
@@ -66,7 +64,7 @@ public final class P implements FluentSyntax {
 		return n == null;
 	}
 
-	public static boolean nonNull(Object n) {
+	public static boolean notNull(Object n) {
 		return n != null;
 	}
 
@@ -95,24 +93,24 @@ public final class P implements FluentSyntax {
 		return n.contains(a1);
 	}
 
-	/** P::isEmpty is just shorter than String::isEmpty */
-	public static boolean isEmpty(@Nonnull String n) {
+	/** P::empty is just shorter than String::isEmpty */
+	public static boolean empty(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return n.isEmpty();
 	}
 
-	/** P::isBlank is just shorter than String::isBlank */
-	public static boolean isBlank(@Nonnull String n) {
+	/** P::blank is just shorter than String::isBlank */
+	public static boolean blank(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return n.isBlank();
 	}
 
 	public static boolean nullOrEmpty(@Nonnull String n) {
-		return isNull(n) || isEmpty(n);
+		return isNull(n) || empty(n);
 	}
 
 	public static boolean nullOrBlank(@Nonnull String n) {
-		return isNull(n) || isBlank(n);
+		return isNull(n) || blank(n);
 	}
 
 	// </editor-fold>
@@ -135,12 +133,20 @@ public final class P implements FluentSyntax {
 
 	// <editor-fold desc="== <= >= < >">
 
-	public static boolean isEqual(Object n, String a1) {
-		return Objects.equals(n, a1);
+	public static boolean equal(Object o, Object a1) {
+		return Objects.equals(o, a1);
 	}
 
-	public static boolean equal(byte n, byte a1) {
-		return n == a1;
+	public static boolean notEqual(Object o, Object a1) {
+		return !equal(o, a1);
+	}
+
+	public static boolean equal(byte o, byte a1) {
+		return o == a1;
+	}
+
+	public static boolean notEqual(byte o, byte a1) {
+		return o != a1;
 	}
 
 	/** Example use: throwIfNot((byte)0, P::gt, (byte)1, X::arg, "Argument n must be: m > %s", (byte)1); */
@@ -163,8 +169,12 @@ public final class P implements FluentSyntax {
 		return n <= a1;
 	}
 
-	public static boolean equal(short n, short a1) {
-		return n == a1;
+	public static boolean equal(short o, short a1) {
+		return o == a1;
+	}
+
+	public static boolean notEqual(short o, short a1) {
+		return o != a1;
 	}
 
 	/** Example use: throwIfNot((short)0, P::gt, (short)1, X::arg, "Argument n must be: m > %s", (short)1); */
@@ -187,8 +197,12 @@ public final class P implements FluentSyntax {
 		return n <= a1;
 	}
 
-	public static boolean equal(int n, int a1) {
-		return n == a1;
+	public static boolean equal(int o, int a1) {
+		return o == a1;
+	}
+
+	public static boolean notEqual(int o, int a1) {
+		return o != a1;
 	}
 
 	/** Example use: throwIfNot(0, P::gt, 1, X::arg, "Argument n must be: m > %s", 1); */
@@ -211,8 +225,12 @@ public final class P implements FluentSyntax {
 		return n <= a1;
 	}
 
-	public static boolean equal(long n, long a1) {
-		return n == a1;
+	public static boolean equal(long o, long a1) {
+		return o == a1;
+	}
+
+	public static boolean notEqual(long o, long a1) {
+		return o != a1;
 	}
 
 	/** Example use: throwIfNot(0L, P::gt, 1L, X::arg, "Argument n must be: m > %s", 1L); */
@@ -235,8 +253,12 @@ public final class P implements FluentSyntax {
 		return n <= a1;
 	}
 
-	public static boolean equal(float n, float a1) {
-		return n == a1;
+	public static boolean equal(float o, float a1) {
+		return o == a1;
+	}
+
+	public static boolean notEqual(float o, float a1) {
+		return o != a1;
 	}
 
 	/** Example use: throwIfNot(0f, P::gt, 1f, X::arg, "Argument n must be: m > %s", 1f); */
@@ -259,8 +281,12 @@ public final class P implements FluentSyntax {
 		return n <= a1;
 	}
 
-	public static boolean equal(double n, double a1) {
-		return n == a1;
+	public static boolean equal(double o, double a1) {
+		return o == a1;
+	}
+
+	public static boolean notEqual(double o, double a1) {
+		return o != a1;
 	}
 
 	/** Example use: throwIfNot(0d, P::gt, 1d, X::arg, "Argument n must be: m > %s", 1d); */
@@ -283,8 +309,12 @@ public final class P implements FluentSyntax {
 		return n <= a1;
 	}
 
-	public static boolean equal(char n, char a1) {
-		return n == a1;
+	public static boolean equal(char o, char a1) {
+		return o == a1;
+	}
+
+	public static boolean notEqual(char o, char a1) {
+		return o != a1;
 	}
 
 	/** Example use: throwIfNot('\u0000', P::gt, '\u0001', X::arg, "Argument n must be: m > %s", '\u0001'); */
@@ -375,6 +405,14 @@ public final class P implements FluentSyntax {
 	/** Example use: throwIfNot('\u0000', P::inRange, '\u0000', '\u0001', X::arg, "Argument n must be: a1<= n <= a2", '\u0000', '\u0001'); */
 	public static boolean inRange(char n, char a1, char a2) {
 		return a1 <= n && n <= a2;
+	}
+
+	public static boolean isTrue(boolean a1) {
+		return LLogicalOperator.isTrue(a1);
+	}
+
+	public static boolean isFalse(boolean a1) {
+		return LLogicalOperator.isFalse(a1);
 	}
 
 	// </editor-fold>
