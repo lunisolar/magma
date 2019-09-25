@@ -20,7 +20,7 @@ package eu.lunisolar.magma.func.supp;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import java.util.Objects; // NOSONAR
+import java.util.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
@@ -101,6 +101,14 @@ public final class OptFlt implements FluentSyntax, aValue<aFloat> {
 
 	public final boolean isEmpty() {
 		return !isPresent;
+	}
+
+	public OptionalDouble toOpt() {
+		if (isPresent()) {
+			return OptionalDouble.of(value);
+		} else {
+			return OptionalDouble.empty();
+		}
 	}
 
 	// <editor-fold desc="isPresent() dependant boolean terminals">
@@ -294,137 +302,137 @@ public final class OptFlt implements FluentSyntax, aValue<aFloat> {
 
 	public OptBool flatMapToBool(@Nonnull LFltFunction<? extends OptBool> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptBool.empty();
+		return isPresent() ? (OptBool) Null.nonNull(mapping.apply(value)) : OptBool.empty();
 	}
 
 	public <K> OptBool flatMapToBool_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptBool> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptBool.empty();
+		return isPresent() ? (OptBool) Null.nonNull(mapping.applyFltObj(value, a2)) : OptBool.empty();
 	}
 
 	public <K> OptBool flatMapToBoolWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptBool> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptBool.empty();
+		return isPresent() ? (OptBool) Null.nonNull(mapping.apply(a1, value)) : OptBool.empty();
 	}
 
 	public OptByte flatMapToByte(@Nonnull LFltFunction<? extends OptByte> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptByte.empty();
+		return isPresent() ? (OptByte) Null.nonNull(mapping.apply(value)) : OptByte.empty();
 	}
 
 	public <K> OptByte flatMapToByte_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptByte> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptByte.empty();
+		return isPresent() ? (OptByte) Null.nonNull(mapping.applyFltObj(value, a2)) : OptByte.empty();
 	}
 
 	public <K> OptByte flatMapToByteWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptByte> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptByte.empty();
+		return isPresent() ? (OptByte) Null.nonNull(mapping.apply(a1, value)) : OptByte.empty();
 	}
 
 	public OptDbl flatMapToDbl(@Nonnull LFltFunction<? extends OptDbl> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptDbl.empty();
+		return isPresent() ? (OptDbl) Null.nonNull(mapping.apply(value)) : OptDbl.empty();
 	}
 
 	public <K> OptDbl flatMapToDbl_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptDbl> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptDbl.empty();
+		return isPresent() ? (OptDbl) Null.nonNull(mapping.applyFltObj(value, a2)) : OptDbl.empty();
 	}
 
 	public <K> OptDbl flatMapToDblWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptDbl> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptDbl.empty();
+		return isPresent() ? (OptDbl) Null.nonNull(mapping.apply(a1, value)) : OptDbl.empty();
 	}
 
 	public OptChar flatMapToChar(@Nonnull LFltFunction<? extends OptChar> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptChar.empty();
+		return isPresent() ? (OptChar) Null.nonNull(mapping.apply(value)) : OptChar.empty();
 	}
 
 	public <K> OptChar flatMapToChar_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptChar> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptChar.empty();
+		return isPresent() ? (OptChar) Null.nonNull(mapping.applyFltObj(value, a2)) : OptChar.empty();
 	}
 
 	public <K> OptChar flatMapToCharWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptChar> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptChar.empty();
+		return isPresent() ? (OptChar) Null.nonNull(mapping.apply(a1, value)) : OptChar.empty();
 	}
 
 	public OptSrt flatMapToSrt(@Nonnull LFltFunction<? extends OptSrt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptSrt.empty();
+		return isPresent() ? (OptSrt) Null.nonNull(mapping.apply(value)) : OptSrt.empty();
 	}
 
 	public <K> OptSrt flatMapToSrt_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptSrt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptSrt.empty();
+		return isPresent() ? (OptSrt) Null.nonNull(mapping.applyFltObj(value, a2)) : OptSrt.empty();
 	}
 
 	public <K> OptSrt flatMapToSrtWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptSrt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptSrt.empty();
+		return isPresent() ? (OptSrt) Null.nonNull(mapping.apply(a1, value)) : OptSrt.empty();
 	}
 
 	public OptFlt flatMap(@Nonnull LFltFunction<? extends OptFlt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptFlt.empty();
+		return isPresent() ? (OptFlt) Null.nonNull(mapping.apply(value)) : OptFlt.empty();
 	}
 
 	public <K> OptFlt flatMap_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptFlt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptFlt.empty();
+		return isPresent() ? (OptFlt) Null.nonNull(mapping.applyFltObj(value, a2)) : OptFlt.empty();
 	}
 
 	public <K> OptFlt flatMapWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptFlt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptFlt.empty();
+		return isPresent() ? (OptFlt) Null.nonNull(mapping.apply(a1, value)) : OptFlt.empty();
 	}
 
 	public OptInt flatMapToInt(@Nonnull LFltFunction<? extends OptInt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptInt.empty();
+		return isPresent() ? (OptInt) Null.nonNull(mapping.apply(value)) : OptInt.empty();
 	}
 
 	public <K> OptInt flatMapToInt_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptInt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptInt.empty();
+		return isPresent() ? (OptInt) Null.nonNull(mapping.applyFltObj(value, a2)) : OptInt.empty();
 	}
 
 	public <K> OptInt flatMapToIntWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptInt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptInt.empty();
+		return isPresent() ? (OptInt) Null.nonNull(mapping.apply(a1, value)) : OptInt.empty();
 	}
 
 	public OptLong flatMapToLong(@Nonnull LFltFunction<? extends OptLong> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptLong.empty();
+		return isPresent() ? (OptLong) Null.nonNull(mapping.apply(value)) : OptLong.empty();
 	}
 
 	public <K> OptLong flatMapToLong_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptLong> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : OptLong.empty();
+		return isPresent() ? (OptLong) Null.nonNull(mapping.applyFltObj(value, a2)) : OptLong.empty();
 	}
 
 	public <K> OptLong flatMapToLongWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptLong> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptLong.empty();
+		return isPresent() ? (OptLong) Null.nonNull(mapping.apply(a1, value)) : OptLong.empty();
 	}
 
-	public <R> Opt<R> flatMapToObj(@Nonnull LFltFunction<? extends Opt<R>> mapping) {
+	public <R> Opt<R> flatMapToObj(@Nonnull LFltFunction<? extends Opt<? extends R>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : Opt.empty();
+		return isPresent() ? (Opt<R>) Null.nonNull(mapping.apply(value)) : Opt.empty();
 	}
 
-	public <R, K> Opt<R> flatMapToObj_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends Opt<R>> mapping) {
+	public <R, K> Opt<R> flatMapToObj_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends Opt<? extends R>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.applyFltObj(value, a2)) : Opt.empty();
+		return isPresent() ? (Opt<R>) Null.nonNull(mapping.applyFltObj(value, a2)) : Opt.empty();
 	}
 
-	public <R, K> Opt<R> flatMapToObjWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends Opt<R>> mapping) {
+	public <R, K> Opt<R> flatMapToObjWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends Opt<? extends R>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : Opt.empty();
+		return isPresent() ? (Opt<R>) Null.nonNull(mapping.apply(a1, value)) : Opt.empty();
 	}
 
 	// </editor-fold>
@@ -499,12 +507,17 @@ public final class OptFlt implements FluentSyntax, aValue<aFloat> {
 		throw Handling.create(fx, msg);
 	}
 
-	public float orElse(@Nonnull LFltSupplier supplier) {
+	public float orElseGet(@Nonnull LFltSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? value : supplier.getAsFlt();
 	}
 
-	public <K> float orElse(K a1, @Nonnull LToFltFunction<? super K> supplier) {
+	public OptFlt or(@Nonnull LSupplier<? extends OptFlt> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? this : (OptFlt) Null.nonNull(supplier.get());
+	}
+
+	public <K> float orElseGet(K a1, @Nonnull LToFltFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? value : supplier.applyAsFlt(a1);
 	}

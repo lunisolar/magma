@@ -47,8 +47,8 @@ public class OptTest {
 
     static {
         Opt<S> mmm = Opt.of(null);
-        mmm.mapToObj((D) null, S::add);
-        mmm.mapToObjWith((D) null, D::add);
+        mmm.map((D) null, S::add);
+        mmm.mapWith((D) null, D::add);
     }
 
 }

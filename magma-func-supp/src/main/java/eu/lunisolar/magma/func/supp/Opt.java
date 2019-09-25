@@ -20,7 +20,7 @@ package eu.lunisolar.magma.func.supp;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import java.util.Objects; // NOSONAR
+import java.util.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
@@ -78,8 +78,8 @@ public final class Opt<T> implements FluentSyntax, aValue<a<T>> {
 		this.value = value;
 	}
 
-	public static Opt empty() {
-		return EMPTY;
+	public static <T> Opt<T> empty() {
+		return (Opt) EMPTY;
 	}
 
 	public static <T> Opt<T> of(@Nullable T value) {
@@ -123,6 +123,11 @@ public final class Opt<T> implements FluentSyntax, aValue<a<T>> {
 		return OptBool.of(value);
 	}
 
+	public static <T> Opt<T> toOpt(@Nonnull Optional<T> optional) {
+		Null.nonNullArg(optional, "optional");
+		return optional.isPresent() ? Opt.of(optional.get()) : empty();
+	}
+
 	// </editor-fold>
 
 	public T get() {
@@ -136,6 +141,14 @@ public final class Opt<T> implements FluentSyntax, aValue<a<T>> {
 
 	public final boolean isEmpty() {
 		return value == null;
+	}
+
+	public Optional<T> toOpt() {
+		if (isPresent()) {
+			return Optional.of(value);
+		} else {
+			return Optional.empty();
+		}
 	}
 
 	// <editor-fold desc="isPresent() dependant boolean terminals">
@@ -498,17 +511,17 @@ public final class Opt<T> implements FluentSyntax, aValue<a<T>> {
 		return isPresent() ? (OptLong.of(mapping.applyAsLong(a1, value))) : OptLong.empty();
 	}
 
-	public <R> Opt<R> mapToObj(@Nonnull LFunction<? super T, ? extends R> mapping) {
+	public <R> Opt<R> map(@Nonnull LFunction<? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(value))) : Opt.empty();
 	}
 
-	public <R, K> Opt<R> mapToObj(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends R> mapping) {
+	public <R, K> Opt<R> map(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(value, a2))) : Opt.empty();
 	}
 
-	public <R, K> Opt<R> mapToObjWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends R> mapping) {
+	public <R, K> Opt<R> mapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, value))) : Opt.empty();
 	}
@@ -519,137 +532,137 @@ public final class Opt<T> implements FluentSyntax, aValue<a<T>> {
 
 	public OptBool flatMapToBool(@Nonnull LFunction<? super T, ? extends OptBool> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptBool.empty();
+		return isPresent() ? (OptBool) Null.nonNull(mapping.apply(value)) : OptBool.empty();
 	}
 
 	public <K> OptBool flatMapToBool(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptBool> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptBool.empty();
+		return isPresent() ? (OptBool) Null.nonNull(mapping.apply(value, a2)) : OptBool.empty();
 	}
 
 	public <K> OptBool flatMapToBoolWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptBool> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptBool.empty();
+		return isPresent() ? (OptBool) Null.nonNull(mapping.apply(a1, value)) : OptBool.empty();
 	}
 
 	public OptByte flatMapToByte(@Nonnull LFunction<? super T, ? extends OptByte> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptByte.empty();
+		return isPresent() ? (OptByte) Null.nonNull(mapping.apply(value)) : OptByte.empty();
 	}
 
 	public <K> OptByte flatMapToByte(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptByte> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptByte.empty();
+		return isPresent() ? (OptByte) Null.nonNull(mapping.apply(value, a2)) : OptByte.empty();
 	}
 
 	public <K> OptByte flatMapToByteWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptByte> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptByte.empty();
+		return isPresent() ? (OptByte) Null.nonNull(mapping.apply(a1, value)) : OptByte.empty();
 	}
 
 	public OptDbl flatMapToDbl(@Nonnull LFunction<? super T, ? extends OptDbl> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptDbl.empty();
+		return isPresent() ? (OptDbl) Null.nonNull(mapping.apply(value)) : OptDbl.empty();
 	}
 
 	public <K> OptDbl flatMapToDbl(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptDbl> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptDbl.empty();
+		return isPresent() ? (OptDbl) Null.nonNull(mapping.apply(value, a2)) : OptDbl.empty();
 	}
 
 	public <K> OptDbl flatMapToDblWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptDbl> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptDbl.empty();
+		return isPresent() ? (OptDbl) Null.nonNull(mapping.apply(a1, value)) : OptDbl.empty();
 	}
 
 	public OptChar flatMapToChar(@Nonnull LFunction<? super T, ? extends OptChar> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptChar.empty();
+		return isPresent() ? (OptChar) Null.nonNull(mapping.apply(value)) : OptChar.empty();
 	}
 
 	public <K> OptChar flatMapToChar(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptChar> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptChar.empty();
+		return isPresent() ? (OptChar) Null.nonNull(mapping.apply(value, a2)) : OptChar.empty();
 	}
 
 	public <K> OptChar flatMapToCharWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptChar> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptChar.empty();
+		return isPresent() ? (OptChar) Null.nonNull(mapping.apply(a1, value)) : OptChar.empty();
 	}
 
 	public OptSrt flatMapToSrt(@Nonnull LFunction<? super T, ? extends OptSrt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptSrt.empty();
+		return isPresent() ? (OptSrt) Null.nonNull(mapping.apply(value)) : OptSrt.empty();
 	}
 
 	public <K> OptSrt flatMapToSrt(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptSrt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptSrt.empty();
+		return isPresent() ? (OptSrt) Null.nonNull(mapping.apply(value, a2)) : OptSrt.empty();
 	}
 
 	public <K> OptSrt flatMapToSrtWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptSrt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptSrt.empty();
+		return isPresent() ? (OptSrt) Null.nonNull(mapping.apply(a1, value)) : OptSrt.empty();
 	}
 
 	public OptFlt flatMapToFlt(@Nonnull LFunction<? super T, ? extends OptFlt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptFlt.empty();
+		return isPresent() ? (OptFlt) Null.nonNull(mapping.apply(value)) : OptFlt.empty();
 	}
 
 	public <K> OptFlt flatMapToFlt(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptFlt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptFlt.empty();
+		return isPresent() ? (OptFlt) Null.nonNull(mapping.apply(value, a2)) : OptFlt.empty();
 	}
 
 	public <K> OptFlt flatMapToFltWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptFlt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptFlt.empty();
+		return isPresent() ? (OptFlt) Null.nonNull(mapping.apply(a1, value)) : OptFlt.empty();
 	}
 
 	public OptInt flatMapToInt(@Nonnull LFunction<? super T, ? extends OptInt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptInt.empty();
+		return isPresent() ? (OptInt) Null.nonNull(mapping.apply(value)) : OptInt.empty();
 	}
 
 	public <K> OptInt flatMapToInt(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptInt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptInt.empty();
+		return isPresent() ? (OptInt) Null.nonNull(mapping.apply(value, a2)) : OptInt.empty();
 	}
 
 	public <K> OptInt flatMapToIntWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptInt> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptInt.empty();
+		return isPresent() ? (OptInt) Null.nonNull(mapping.apply(a1, value)) : OptInt.empty();
 	}
 
 	public OptLong flatMapToLong(@Nonnull LFunction<? super T, ? extends OptLong> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : OptLong.empty();
+		return isPresent() ? (OptLong) Null.nonNull(mapping.apply(value)) : OptLong.empty();
 	}
 
 	public <K> OptLong flatMapToLong(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptLong> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : OptLong.empty();
+		return isPresent() ? (OptLong) Null.nonNull(mapping.apply(value, a2)) : OptLong.empty();
 	}
 
 	public <K> OptLong flatMapToLongWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptLong> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : OptLong.empty();
+		return isPresent() ? (OptLong) Null.nonNull(mapping.apply(a1, value)) : OptLong.empty();
 	}
 
-	public <R> Opt<R> flatMapToObj(@Nonnull LFunction<? super T, ? extends Opt<R>> mapping) {
+	public <R> Opt<R> flatMap(@Nonnull LFunction<? super T, ? extends Opt<? extends R>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value)) : Opt.empty();
+		return isPresent() ? (Opt<R>) Null.nonNull(mapping.apply(value)) : Opt.empty();
 	}
 
-	public <R, K> Opt<R> flatMapToObj(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends Opt<R>> mapping) {
+	public <R, K> Opt<R> flatMap(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends Opt<? extends R>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(value, a2)) : Opt.empty();
+		return isPresent() ? (Opt<R>) Null.nonNull(mapping.apply(value, a2)) : Opt.empty();
 	}
 
-	public <R, K> Opt<R> flatMapToObjWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends Opt<R>> mapping) {
+	public <R, K> Opt<R> flatMapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends Opt<? extends R>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? Null.nonNull(mapping.apply(a1, value)) : Opt.empty();
+		return isPresent() ? (Opt<R>) Null.nonNull(mapping.apply(a1, value)) : Opt.empty();
 	}
 
 	// </editor-fold>
@@ -724,12 +737,17 @@ public final class Opt<T> implements FluentSyntax, aValue<a<T>> {
 		throw Handling.create(fx, msg);
 	}
 
-	public T orElse(@Nonnull LSupplier<? extends T> supplier) {
+	public T orElseGet(@Nonnull LSupplier<? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? value : supplier.get();
 	}
 
-	public <K> T orElse(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
+	public Opt<T> or(@Nonnull LSupplier<? extends Opt<? extends T>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? this : (Opt<T>) Null.nonNull(supplier.get());
+	}
+
+	public <K> T orElseGet(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? value : supplier.apply(a1);
 	}
