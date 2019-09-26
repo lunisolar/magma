@@ -78,44 +78,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final boolean isNot(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+		public final boolean mustNot(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalOperator.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final boolean isNot$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+		public final boolean mustNot$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalOperator.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final boolean isNot(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
+		public final boolean mustNot(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalBinaryOperator.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final boolean isNot$(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
+		public final boolean mustNot$(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalBinaryOperator.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final boolean is(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+		public final boolean mustNot(@Nonnull LLogicalOperator pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LLogicalOperator.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final boolean must(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalOperator.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final boolean is$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+		public final boolean must$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalOperator.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final boolean is(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
+		public final boolean must(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalBinaryOperator.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final boolean is$(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
+		public final boolean must$(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalBinaryOperator.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final boolean must(@Nonnull LLogicalOperator pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LLogicalOperator.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -159,44 +169,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final T isNot(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
+		public final T mustNot(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final T isNot$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
+		public final T mustNot$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final T isNot(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
+		public final T mustNot(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final T isNot$(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
+		public final T mustNot$(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final T is(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
+		public final T mustNot(@Nonnull LPredicate<T> pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LPredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final T must(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final T is$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
+		public final T must$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final T is(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
+		public final T must(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final T is$(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
+		public final T must$(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final T must(@Nonnull LPredicate<T> pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -240,44 +260,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final byte isNot(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
+		public final byte mustNot(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBytePredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final byte isNot$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
+		public final byte mustNot$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBytePredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final byte isNot(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
+		public final byte mustNot(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiBytePredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final byte isNot$(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
+		public final byte mustNot$(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiBytePredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final byte is(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
+		public final byte mustNot(@Nonnull LBytePredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LBytePredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final byte must(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBytePredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final byte is$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
+		public final byte must$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBytePredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final byte is(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
+		public final byte must(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiBytePredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final byte is$(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
+		public final byte must$(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiBytePredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final byte must(@Nonnull LBytePredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LBytePredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -321,44 +351,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final double isNot(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
+		public final double mustNot(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LDblPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final double isNot$(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
+		public final double mustNot$(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LDblPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final double isNot(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
+		public final double mustNot(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiDblPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final double isNot$(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
+		public final double mustNot$(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiDblPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final double is(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
+		public final double mustNot(@Nonnull LDblPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LDblPredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final double must(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LDblPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final double is$(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
+		public final double must$(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LDblPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final double is(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
+		public final double must(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiDblPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final double is$(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
+		public final double must$(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiDblPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final double must(@Nonnull LDblPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LDblPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -402,44 +442,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final char isNot(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
+		public final char mustNot(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LCharPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final char isNot$(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
+		public final char mustNot$(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LCharPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final char isNot(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
+		public final char mustNot(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiCharPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final char isNot$(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
+		public final char mustNot$(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiCharPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final char is(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
+		public final char mustNot(@Nonnull LCharPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LCharPredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final char must(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LCharPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final char is$(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
+		public final char must$(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LCharPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final char is(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
+		public final char must(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiCharPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final char is$(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
+		public final char must$(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiCharPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final char must(@Nonnull LCharPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LCharPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -483,44 +533,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final short isNot(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
+		public final short mustNot(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LSrtPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final short isNot$(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
+		public final short mustNot$(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LSrtPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final short isNot(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
+		public final short mustNot(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiSrtPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final short isNot$(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
+		public final short mustNot$(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiSrtPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final short is(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
+		public final short mustNot(@Nonnull LSrtPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LSrtPredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final short must(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LSrtPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final short is$(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
+		public final short must$(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LSrtPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final short is(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
+		public final short must(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiSrtPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final short is$(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
+		public final short must$(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiSrtPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final short must(@Nonnull LSrtPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LSrtPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -564,44 +624,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final float isNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+		public final float mustNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LFltPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final float isNot$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+		public final float mustNot$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LFltPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final float isNot(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
+		public final float mustNot(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiFltPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final float isNot$(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
+		public final float mustNot$(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiFltPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final float is(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+		public final float mustNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LFltPredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final float must(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LFltPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final float is$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+		public final float must$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LFltPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final float is(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
+		public final float must(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiFltPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final float is$(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
+		public final float must$(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiFltPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final float must(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LFltPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -645,44 +715,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final int isNot(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
+		public final int mustNot(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LIntPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final int isNot$(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
+		public final int mustNot$(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LIntPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final int isNot(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
+		public final int mustNot(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiIntPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final int isNot$(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
+		public final int mustNot$(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiIntPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final int is(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
+		public final int mustNot(@Nonnull LIntPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LIntPredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final int must(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LIntPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final int is$(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
+		public final int must$(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LIntPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final int is(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
+		public final int must(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiIntPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final int is$(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
+		public final int must$(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiIntPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final int must(@Nonnull LIntPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LIntPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}
@@ -726,44 +806,54 @@ public final class Validations implements FluentSyntax {
 			this.type = type;
 		}
 
-		public final long isNot(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
+		public final long mustNot(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLongPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final long isNot$(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
+		public final long mustNot$(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLongPredicate.throwIf(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final long isNot(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
+		public final long mustNot(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiLongPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final long isNot$(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
+		public final long mustNot$(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiLongPredicate.throwIf(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final long is(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
+		public final long mustNot(@Nonnull LLongPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LLongPredicate.throwIf(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final long must(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLongPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final long is$(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
+		public final long must$(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLongPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 		}
 
-		public final long is(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
+		public final long must(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiLongPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
-		public final long is$(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
+		public final long must$(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBiLongPredicate.throwIfNot(value, pred, t2, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final long must(@Nonnull LLongPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+			Null.nonNullArg(pred, "pred");
+			return LLongPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
 		}
 
 	}

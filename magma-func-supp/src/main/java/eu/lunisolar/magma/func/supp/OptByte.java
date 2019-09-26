@@ -91,7 +91,7 @@ public final class OptByte implements FluentSyntax, aValue<aByte> {
 	// </editor-fold>
 
 	public byte get() {
-		LLogicalOperator.throwIfNot(isPresent, P::isTrue, X::noSuchElement, "No value present.");
+		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 

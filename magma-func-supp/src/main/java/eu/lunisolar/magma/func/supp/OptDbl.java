@@ -96,7 +96,7 @@ public final class OptDbl implements FluentSyntax, aValue<aDouble> {
 	// </editor-fold>
 
 	public double get() {
-		LLogicalOperator.throwIfNot(isPresent, P::isTrue, X::noSuchElement, "No value present.");
+		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 

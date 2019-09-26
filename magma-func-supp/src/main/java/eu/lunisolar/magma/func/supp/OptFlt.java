@@ -91,7 +91,7 @@ public final class OptFlt implements FluentSyntax, aValue<aFloat> {
 	// </editor-fold>
 
 	public float get() {
-		LLogicalOperator.throwIfNot(isPresent, P::isTrue, X::noSuchElement, "No value present.");
+		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 

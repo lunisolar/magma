@@ -91,7 +91,7 @@ public final class OptBool implements FluentSyntax, aValue<aBool> {
 	// </editor-fold>
 
 	public boolean get() {
-		LLogicalOperator.throwIfNot(isPresent, P::isTrue, X::noSuchElement, "No value present.");
+		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 

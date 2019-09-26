@@ -91,7 +91,7 @@ public final class OptSrt implements FluentSyntax, aValue<aShort> {
 	// </editor-fold>
 
 	public short get() {
-		LLogicalOperator.throwIfNot(isPresent, P::isTrue, X::noSuchElement, "No value present.");
+		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 

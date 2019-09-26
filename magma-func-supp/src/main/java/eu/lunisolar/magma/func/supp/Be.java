@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}
  */
-public final class P implements FluentSyntax {
+public final class Be implements FluentSyntax {
 	// <editor-fold desc="no instance">
-	private P() {
+	private Be() {
 	}
 	// </editor-fold>
 
@@ -80,24 +80,6 @@ public final class P implements FluentSyntax {
 	// </editor-fold>
 
 	// <editor-fold desc="String">
-
-	public static boolean startWith(@Nonnull String n, @Nonnull String a1) {
-		Null.nonNullArg(n, "n");
-		Null.nonNullArg(a1, "a1");
-		return n.startsWith(a1);
-	}
-
-	public static boolean endWith(@Nonnull String n, @Nonnull String a1) {
-		Null.nonNullArg(n, "n");
-		Null.nonNullArg(a1, "a1");
-		return n.endsWith(a1);
-	}
-
-	public static boolean contain(@Nonnull String n, @Nonnull String a1) {
-		Null.nonNullArg(n, "n");
-		Null.nonNullArg(a1, "a1");
-		return n.contains(a1);
-	}
 
 	public static boolean empty(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
@@ -120,18 +102,6 @@ public final class P implements FluentSyntax {
 	// </editor-fold>
 
 	// <editor-fold desc="and/or/xor">
-
-	public static boolean and(boolean operand1, boolean operand2) {
-		return operand1 && operand2;
-	}
-
-	public static boolean or(boolean operand1, boolean operand2) {
-		return operand1 || operand2;
-	}
-
-	public static boolean xor(boolean operand1, boolean operand2) {
-		return operand1 ^ operand2;
-	}
 
 	// </editor-fold>
 
