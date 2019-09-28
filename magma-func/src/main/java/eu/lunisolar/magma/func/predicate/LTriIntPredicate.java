@@ -594,6 +594,12 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (a1, a2, a3) -> !test(a1, a2, a3);
 	}
 
+	@Nonnull
+	static LTriIntPredicate not(@Nonnull LTriIntPredicate pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

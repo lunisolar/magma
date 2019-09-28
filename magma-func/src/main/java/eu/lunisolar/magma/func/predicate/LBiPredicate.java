@@ -659,6 +659,12 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return (a1, a2) -> !test(a1, a2);
 	}
 
+	@Nonnull
+	static <T1, T2> LBiPredicate<T1, T2> not(@Nonnull LBiPredicate<T1, T2> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

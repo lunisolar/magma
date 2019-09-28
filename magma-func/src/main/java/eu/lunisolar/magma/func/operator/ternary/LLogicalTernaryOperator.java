@@ -593,6 +593,12 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return (a1, a2, a3) -> !apply(a1, a2, a3);
 	}
 
+	@Nonnull
+	static LLogicalTernaryOperator not(@Nonnull LLogicalTernaryOperator pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

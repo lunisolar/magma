@@ -504,6 +504,12 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return a -> !apply(a);
 	}
 
+	@Nonnull
+	static LLogicalOperator not(@Nonnull LLogicalOperator pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

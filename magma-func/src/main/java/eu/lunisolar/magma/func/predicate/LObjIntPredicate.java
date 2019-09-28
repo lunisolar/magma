@@ -665,6 +665,12 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return (a1, a2) -> !test(a1, a2);
 	}
 
+	@Nonnull
+	static <T> LObjIntPredicate<T> not(@Nonnull LObjIntPredicate<T> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

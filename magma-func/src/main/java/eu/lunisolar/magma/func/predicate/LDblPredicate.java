@@ -510,6 +510,12 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return a -> !test(a);
 	}
 
+	@Nonnull
+	static LDblPredicate not(@Nonnull LDblPredicate pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

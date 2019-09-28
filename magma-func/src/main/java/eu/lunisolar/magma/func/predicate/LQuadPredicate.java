@@ -645,6 +645,12 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return (a1, a2, a3, a4) -> !test(a1, a2, a3, a4);
 	}
 
+	@Nonnull
+	static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> not(@Nonnull LQuadPredicate<T1, T2, T3, T4> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

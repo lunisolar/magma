@@ -628,6 +628,12 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 		return (a1, a2, a3) -> !test(a1, a2, a3);
 	}
 
+	@Nonnull
+	static <T> LObjIntLongPredicate<T> not(@Nonnull LObjIntLongPredicate<T> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

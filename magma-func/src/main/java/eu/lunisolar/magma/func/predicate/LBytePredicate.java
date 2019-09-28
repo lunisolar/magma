@@ -505,6 +505,12 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return a -> !test(a);
 	}
 
+	@Nonnull
+	static LBytePredicate not(@Nonnull LBytePredicate pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

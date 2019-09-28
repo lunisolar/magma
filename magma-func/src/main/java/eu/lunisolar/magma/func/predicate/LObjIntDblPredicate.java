@@ -628,6 +628,12 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return (a1, a2, a3) -> !test(a1, a2, a3);
 	}
 
+	@Nonnull
+	static <T> LObjIntDblPredicate<T> not(@Nonnull LObjIntDblPredicate<T> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

@@ -567,6 +567,12 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return a -> !test(a);
 	}
 
+	@Nonnull
+	static <T> LPredicate<T> not(@Nonnull LPredicate<T> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

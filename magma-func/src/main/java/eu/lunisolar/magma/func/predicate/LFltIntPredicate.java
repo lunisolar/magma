@@ -618,6 +618,12 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (a1, a2) -> !test(a1, a2);
 	}
 
+	@Nonnull
+	static LFltIntPredicate not(@Nonnull LFltIntPredicate pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

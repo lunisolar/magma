@@ -39,16 +39,21 @@ public class OptTest {
 
     public static interface S {
         S add(D all);
+        Opt<S> addO(D all);
     }
 
     public static interface D {
         D add(S all);
+        Opt<D> addO(S all);
     }
 
     static {
         Opt<S> mmm = Opt.of(null);
         mmm.map((D) null, S::add);
         mmm.mapWith((D) null, D::add);
+
+        mmm.flatMap((D) null, S::addO);
+        mmm.flatMapWith((D) null, D::addO);
     }
 
 }

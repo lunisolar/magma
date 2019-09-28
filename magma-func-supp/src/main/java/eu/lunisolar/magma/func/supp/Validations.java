@@ -108,9 +108,17 @@ public final class Validations implements FluentSyntax {
 			return LLogicalOperator.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final boolean fails(@Nonnull String newMessage) {
+			return must(LLogicalOperator::alwaysFalse, newMessage);
+		}
+
 		public final boolean must$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalOperator.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final boolean fails$(@Nonnull String newMessage) {
+			return must$(LLogicalOperator::alwaysFalse, newMessage);
 		}
 
 		public final boolean must(@Nonnull LLogicalBinaryOperator pred, boolean t2, @Nonnull String newMessage) {
@@ -126,6 +134,10 @@ public final class Validations implements FluentSyntax {
 		public final boolean must(@Nonnull LLogicalOperator pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LLogicalOperator.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final boolean fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LLogicalOperator::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -199,9 +211,17 @@ public final class Validations implements FluentSyntax {
 			return LPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final T fails(@Nonnull String newMessage) {
+			return must(LPredicate::alwaysFalse, newMessage);
+		}
+
 		public final T must$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final T fails$(@Nonnull String newMessage) {
+			return must$(LPredicate::alwaysFalse, newMessage);
 		}
 
 		public final T must(@Nonnull LBiPredicate<T, T> pred, T t2, @Nonnull String newMessage) {
@@ -217,6 +237,10 @@ public final class Validations implements FluentSyntax {
 		public final T must(@Nonnull LPredicate<T> pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final T fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LPredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -290,9 +314,17 @@ public final class Validations implements FluentSyntax {
 			return LBytePredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final byte fails(@Nonnull String newMessage) {
+			return must(LBytePredicate::alwaysFalse, newMessage);
+		}
+
 		public final byte must$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LBytePredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final byte fails$(@Nonnull String newMessage) {
+			return must$(LBytePredicate::alwaysFalse, newMessage);
 		}
 
 		public final byte must(@Nonnull LBiBytePredicate pred, byte t2, @Nonnull String newMessage) {
@@ -308,6 +340,10 @@ public final class Validations implements FluentSyntax {
 		public final byte must(@Nonnull LBytePredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LBytePredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final byte fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LBytePredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -381,9 +417,17 @@ public final class Validations implements FluentSyntax {
 			return LDblPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final double fails(@Nonnull String newMessage) {
+			return must(LDblPredicate::alwaysFalse, newMessage);
+		}
+
 		public final double must$(@Nonnull LDblPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LDblPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final double fails$(@Nonnull String newMessage) {
+			return must$(LDblPredicate::alwaysFalse, newMessage);
 		}
 
 		public final double must(@Nonnull LBiDblPredicate pred, double t2, @Nonnull String newMessage) {
@@ -399,6 +443,10 @@ public final class Validations implements FluentSyntax {
 		public final double must(@Nonnull LDblPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LDblPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final double fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LDblPredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -472,9 +520,17 @@ public final class Validations implements FluentSyntax {
 			return LCharPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final char fails(@Nonnull String newMessage) {
+			return must(LCharPredicate::alwaysFalse, newMessage);
+		}
+
 		public final char must$(@Nonnull LCharPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LCharPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final char fails$(@Nonnull String newMessage) {
+			return must$(LCharPredicate::alwaysFalse, newMessage);
 		}
 
 		public final char must(@Nonnull LBiCharPredicate pred, char t2, @Nonnull String newMessage) {
@@ -490,6 +546,10 @@ public final class Validations implements FluentSyntax {
 		public final char must(@Nonnull LCharPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LCharPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final char fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LCharPredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -563,9 +623,17 @@ public final class Validations implements FluentSyntax {
 			return LSrtPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final short fails(@Nonnull String newMessage) {
+			return must(LSrtPredicate::alwaysFalse, newMessage);
+		}
+
 		public final short must$(@Nonnull LSrtPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LSrtPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final short fails$(@Nonnull String newMessage) {
+			return must$(LSrtPredicate::alwaysFalse, newMessage);
 		}
 
 		public final short must(@Nonnull LBiSrtPredicate pred, short t2, @Nonnull String newMessage) {
@@ -581,6 +649,10 @@ public final class Validations implements FluentSyntax {
 		public final short must(@Nonnull LSrtPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LSrtPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final short fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LSrtPredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -654,9 +726,17 @@ public final class Validations implements FluentSyntax {
 			return LFltPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final float fails(@Nonnull String newMessage) {
+			return must(LFltPredicate::alwaysFalse, newMessage);
+		}
+
 		public final float must$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LFltPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final float fails$(@Nonnull String newMessage) {
+			return must$(LFltPredicate::alwaysFalse, newMessage);
 		}
 
 		public final float must(@Nonnull LBiFltPredicate pred, float t2, @Nonnull String newMessage) {
@@ -672,6 +752,10 @@ public final class Validations implements FluentSyntax {
 		public final float must(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LFltPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final float fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LFltPredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -745,9 +829,17 @@ public final class Validations implements FluentSyntax {
 			return LIntPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final int fails(@Nonnull String newMessage) {
+			return must(LIntPredicate::alwaysFalse, newMessage);
+		}
+
 		public final int must$(@Nonnull LIntPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LIntPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final int fails$(@Nonnull String newMessage) {
+			return must$(LIntPredicate::alwaysFalse, newMessage);
 		}
 
 		public final int must(@Nonnull LBiIntPredicate pred, int t2, @Nonnull String newMessage) {
@@ -763,6 +855,10 @@ public final class Validations implements FluentSyntax {
 		public final int must(@Nonnull LIntPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LIntPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final int fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LIntPredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}
@@ -836,9 +932,17 @@ public final class Validations implements FluentSyntax {
 			return LLongPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 		}
 
+		public final long fails(@Nonnull String newMessage) {
+			return must(LLongPredicate::alwaysFalse, newMessage);
+		}
+
 		public final long must$(@Nonnull LLongPredicate pred, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			return LLongPredicate.throwIfNot(value, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
+		}
+
+		public final long fails$(@Nonnull String newMessage) {
+			return must$(LLongPredicate::alwaysFalse, newMessage);
 		}
 
 		public final long must(@Nonnull LBiLongPredicate pred, long t2, @Nonnull String newMessage) {
@@ -854,6 +958,10 @@ public final class Validations implements FluentSyntax {
 		public final long must(@Nonnull LLongPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			return LLongPredicate.throwIfNot(value, pred, factory, newMessage, messageParams);
+		}
+
+		public final long fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+			return must(LLongPredicate::alwaysFalse, newMessage, messageParams);
 		}
 
 	}

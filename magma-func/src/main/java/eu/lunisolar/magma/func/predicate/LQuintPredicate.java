@@ -641,6 +641,12 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (a1, a2, a3, a4, a5) -> !test(a1, a2, a3, a4, a5);
 	}
 
+	@Nonnull
+	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> not(@Nonnull LQuintPredicate<T1, T2, T3, T4, T5> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}

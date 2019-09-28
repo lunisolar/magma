@@ -678,6 +678,12 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return (a1, a2, a3) -> !test(a1, a2, a3);
 	}
 
+	@Nonnull
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> not(@Nonnull LTriPredicate<T1, T2, T3> pred) {
+		Null.nonNullArg(pred, "pred");
+		return pred.negate();
+	}
+
 	/**
 	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#and()}
