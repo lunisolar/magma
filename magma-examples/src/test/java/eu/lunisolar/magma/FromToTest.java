@@ -28,9 +28,6 @@ import java.util.*;
 import static java.util.Arrays.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author Jakub Wach
- */
 public class FromToTest {
 
     @DataProvider(name = "fromToData")

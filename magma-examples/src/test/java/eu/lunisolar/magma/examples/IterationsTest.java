@@ -35,9 +35,6 @@ import static eu.lunisolar.magma.func.consumer.LBiConsumer.targetedForEach;
 import static eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer.tieCons;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author Jakub Wach
- */
 @SuppressWarnings("RedundantArrayCreation")
 public class IterationsTest {
 
