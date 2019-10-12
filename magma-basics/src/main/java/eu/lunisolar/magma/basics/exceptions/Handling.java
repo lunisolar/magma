@@ -18,6 +18,8 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
+import eu.lunisolar.magma.basics.Null;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
@@ -296,10 +298,7 @@ public final class Handling implements Serializable {
 
     /** Throws exception (convenience method for lambda expressions). Pretends that there might be a product - but it will never be returned. */
     public static <T, X extends Throwable> T throwThe(X e) throws X {
-        if (e == null) {
-            throw new ExceptionNotHandled("Cannot throw null exception.");
-        }
-
+        Null.nonNullArg(e, "e");
         throw e;
     }
 
@@ -313,6 +312,8 @@ public final class Handling implements Serializable {
     private interface Thrower<X extends Throwable> {
         void throwThe(Throwable e) throws X;
     }
+
+    //</editor-fold>
 
     public static RuntimeException nestCheckedAndThrow(Throwable throwable) {
         handleErrors(throwable);
@@ -333,7 +334,6 @@ public final class Handling implements Serializable {
 
     // <editor-fold desc="deprecated?">
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
             boolean conditionMeet, @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... messageParams
     ) throws Y {
@@ -342,14 +342,12 @@ public final class Handling implements Serializable {
         }
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(boolean conditionMeet, @Nonnull X e, @Nonnull ExWF<Y> fx) throws Y {
         if (conditionMeet) {
             throw Handling.wrap(e, fx);
         }
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             boolean conditionMeet, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
     ) throws Y {
@@ -358,39 +356,33 @@ public final class Handling implements Serializable {
         }
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> void throwReplacementIf(
             @Nonnull Predicate<X> condition, @Nonnull X e, @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... args
     ) throws Y {
         throwReplacementIf(condition.test(e), fx, format, args);
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             @Nonnull Predicate<X> condition, @Nonnull X e, @Nonnull ExWF<Y> fx
     ) throws Y {
         throwWrapperIf(condition.test(e), e, fx);
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             @Nonnull Predicate<X> condition, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
     ) throws Y {
         throwWrapperIf(condition.test(e), e, fx, format, args);
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> Y throwReplacement(
             @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... args) throws Y {
         throw Handling.create(fx, format, args);
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> Y throwWrapper(@Nonnull X throwable, @Nonnull ExWF<Y> fx) throws Y {
         throw Handling.wrap(throwable, fx);
     }
 
-    @Deprecated
     protected static <Y extends Throwable, X extends Throwable> Y throwWrapper(
             @Nonnull X throwable, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
     ) throws Y {

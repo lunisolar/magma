@@ -182,8 +182,8 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         throw new ExceptionNotHandled("Exception has not been handled.", throwable);
     }
 
-    default void throwAsIs() throws X {
-        throw nonNullTarget();
+    default void throwAsIs() {
+        throw Handling.shoveIt(nonNullTarget());
     }
 
     default void handleRest() {

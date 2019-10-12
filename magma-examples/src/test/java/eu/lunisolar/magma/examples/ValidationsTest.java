@@ -20,12 +20,31 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Validations;
+import org.assertj.core.api.Assertions;
+import org.testng.annotations.Test;
 
 public class ValidationsTest {
 
     static {
-        Object str = null;
+        Object str = "expectecStr";
         Validations.value(str, "someValue").must(Be::equal, "expectecStr", "Must be equal 'aaa'");
+    }
+
+    @Test void must$() {
+        Object str = null;
+
+        Assertions.assertThatThrownBy(() -> {
+            Validations.value(str, "some-value-name").must(Be::notNull, "Must be not null");
+        })
+                  .isInstanceOf(IllegalArgumentException.class)
+                  .hasMessage("Value [some-value-name]: Must be not null.");
+
+        Assertions.assertThatThrownBy(() -> {
+            Validations.value(str, "some-value-name").must$(Be::notNull, "Must be not null");
+        })
+                  .isInstanceOf(IllegalArgumentException.class)
+                  .hasMessage("Value [some-value-name]: Must be not null. Value: null");
+
     }
 
 }
