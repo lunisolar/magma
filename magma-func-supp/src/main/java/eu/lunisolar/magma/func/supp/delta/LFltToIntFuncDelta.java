@@ -76,8 +76,20 @@ public class LFltToIntFuncDelta extends LFltToIntFuncMemento {
 		return new LFltToIntFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltToIntFuncDelta initializedDeltaOf(float a, LFltToIntFunction function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a);
+		return delta;
+	}
+
 	public static LFltToIntFuncDelta deltaOf(LFltToIntFunction function) {
 		return deltaOf(function, LFltToIntFuncDelta::mathDelta);
+	}
+
+	public static LFltToIntFuncDelta initializedDeltaOf(float a, LFltToIntFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a);
+		return delta;
 	}
 
 	public static LFltToIntFuncDelta deltaOf(int initialValue, LFltToIntFunction function) {

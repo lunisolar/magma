@@ -76,8 +76,20 @@ public class LDblUnaryOpDelta extends LDblUnaryOpMemento {
 		return new LDblUnaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LDblUnaryOpDelta initializedDeltaOf(double a, LDblUnaryOperator function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static LDblUnaryOpDelta deltaOf(LDblUnaryOperator function) {
 		return deltaOf(function, LDblUnaryOpDelta::mathDelta);
+	}
+
+	public static LDblUnaryOpDelta initializedDeltaOf(double a, LDblUnaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static LDblUnaryOpDelta deltaOf(double initialValue, LDblUnaryOperator function) {

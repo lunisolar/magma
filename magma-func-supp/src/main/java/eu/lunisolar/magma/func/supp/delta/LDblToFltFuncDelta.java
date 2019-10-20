@@ -76,8 +76,20 @@ public class LDblToFltFuncDelta extends LDblToFltFuncMemento {
 		return new LDblToFltFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LDblToFltFuncDelta initializedDeltaOf(double a, LDblToFltFunction function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a);
+		return delta;
+	}
+
 	public static LDblToFltFuncDelta deltaOf(LDblToFltFunction function) {
 		return deltaOf(function, LDblToFltFuncDelta::mathDelta);
+	}
+
+	public static LDblToFltFuncDelta initializedDeltaOf(double a, LDblToFltFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a);
+		return delta;
 	}
 
 	public static LDblToFltFuncDelta deltaOf(float initialValue, LDblToFltFunction function) {

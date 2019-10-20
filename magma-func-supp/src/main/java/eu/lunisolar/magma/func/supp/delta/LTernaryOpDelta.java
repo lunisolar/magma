@@ -76,6 +76,12 @@ public class LTernaryOpDelta<T> extends LTernaryOpMemento<T> {
 		return new LTernaryOpDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LTernaryOpDelta<T> initializedDeltaOf(T a1, T a2, T a3, LTernaryOperator<T> function, LBinaryOperator<T> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2, a3);
+		return delta;
+	}
+
 	@Override
 	public T apply(T a1, T a2, T a3) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));

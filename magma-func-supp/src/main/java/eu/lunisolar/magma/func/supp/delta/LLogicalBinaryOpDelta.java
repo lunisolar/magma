@@ -76,8 +76,20 @@ public class LLogicalBinaryOpDelta extends LLogicalBinaryOpMemento {
 		return new LLogicalBinaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLogicalBinaryOpDelta initializedDeltaOf(boolean a1, boolean a2, LLogicalBinaryOperator function, LLogicalBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2);
+		return delta;
+	}
+
 	public static LLogicalBinaryOpDelta deltaOf(LLogicalBinaryOperator function) {
 		return deltaOf(function, (last, current) -> current != last);
+	}
+
+	public static LLogicalBinaryOpDelta initializedDeltaOf(boolean a1, boolean a2, LLogicalBinaryOperator function) {
+		var delta = deltaOf(function);
+		delta.apply(a1, a2);
+		return delta;
 	}
 
 	public static LLogicalBinaryOpDelta deltaOf(boolean initialValue, LLogicalBinaryOperator function) {

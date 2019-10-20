@@ -76,8 +76,20 @@ public class LIntSupDelta extends LIntSupMemento {
 		return new LIntSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LIntSupDelta initializedDeltaOf(LIntSupplier function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsInt();
+		return delta;
+	}
+
 	public static LIntSupDelta deltaOf(LIntSupplier function) {
 		return deltaOf(function, LIntSupDelta::mathDelta);
+	}
+
+	public static LIntSupDelta initializedDeltaOf(LIntSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsInt();
+		return delta;
 	}
 
 	public static LIntSupDelta deltaOf(int initialValue, LIntSupplier function) {

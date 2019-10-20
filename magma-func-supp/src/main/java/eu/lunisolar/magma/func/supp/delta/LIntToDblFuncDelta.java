@@ -76,8 +76,20 @@ public class LIntToDblFuncDelta extends LIntToDblFuncMemento {
 		return new LIntToDblFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LIntToDblFuncDelta initializedDeltaOf(int a, LIntToDblFunction function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static LIntToDblFuncDelta deltaOf(LIntToDblFunction function) {
 		return deltaOf(function, LIntToDblFuncDelta::mathDelta);
+	}
+
+	public static LIntToDblFuncDelta initializedDeltaOf(int a, LIntToDblFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static LIntToDblFuncDelta deltaOf(double initialValue, LIntToDblFunction function) {

@@ -76,8 +76,20 @@ public class LCharSupDelta extends LCharSupMemento {
 		return new LCharSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LCharSupDelta initializedDeltaOf(LCharSupplier function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsChar();
+		return delta;
+	}
+
 	public static LCharSupDelta deltaOf(LCharSupplier function) {
 		return deltaOf(function, LCharSupDelta::mathDelta);
+	}
+
+	public static LCharSupDelta initializedDeltaOf(LCharSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsChar();
+		return delta;
 	}
 
 	public static LCharSupDelta deltaOf(char initialValue, LCharSupplier function) {

@@ -76,6 +76,12 @@ public class LFltFuncDelta<R> extends LFltFuncMemento<R> {
 		return new LFltFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LFltFuncDelta<R> initializedDeltaOf(float a, LFltFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public R apply(float a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

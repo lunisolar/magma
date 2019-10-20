@@ -76,8 +76,20 @@ public class LToDblFuncDelta<T> extends LToDblFuncMemento<T> {
 		return new LToDblFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LToDblFuncDelta<T> initializedDeltaOf(T a, LToDblFunction<T> function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static <T> LToDblFuncDelta<T> deltaOf(LToDblFunction<T> function) {
 		return deltaOf(function, LToDblFuncDelta::mathDelta);
+	}
+
+	public static <T> LToDblFuncDelta<T> initializedDeltaOf(T a, LToDblFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static <T> LToDblFuncDelta<T> deltaOf(double initialValue, LToDblFunction<T> function) {

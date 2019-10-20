@@ -76,8 +76,20 @@ public class LBoolToLongFuncDelta extends LBoolToLongFuncMemento {
 		return new LBoolToLongFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolToLongFuncDelta initializedDeltaOf(boolean a, LBoolToLongFunction function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsLong(a);
+		return delta;
+	}
+
 	public static LBoolToLongFuncDelta deltaOf(LBoolToLongFunction function) {
 		return deltaOf(function, LBoolToLongFuncDelta::mathDelta);
+	}
+
+	public static LBoolToLongFuncDelta initializedDeltaOf(boolean a, LBoolToLongFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsLong(a);
+		return delta;
 	}
 
 	public static LBoolToLongFuncDelta deltaOf(long initialValue, LBoolToLongFunction function) {

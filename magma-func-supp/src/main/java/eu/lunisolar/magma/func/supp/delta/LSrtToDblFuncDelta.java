@@ -76,8 +76,20 @@ public class LSrtToDblFuncDelta extends LSrtToDblFuncMemento {
 		return new LSrtToDblFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LSrtToDblFuncDelta initializedDeltaOf(short a, LSrtToDblFunction function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static LSrtToDblFuncDelta deltaOf(LSrtToDblFunction function) {
 		return deltaOf(function, LSrtToDblFuncDelta::mathDelta);
+	}
+
+	public static LSrtToDblFuncDelta initializedDeltaOf(short a, LSrtToDblFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static LSrtToDblFuncDelta deltaOf(double initialValue, LSrtToDblFunction function) {

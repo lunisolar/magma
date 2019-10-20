@@ -76,8 +76,20 @@ public class LToFltBiFuncDelta<T1, T2> extends LToFltBiFuncMemento<T1, T2> {
 		return new LToFltBiFuncDelta<T1, T2>(initialValue, function, deltaFunction);
 	}
 
+	public static <T1, T2> LToFltBiFuncDelta<T1, T2> initializedDeltaOf(T1 a1, T2 a2, LToFltBiFunction<T1, T2> function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a1, a2);
+		return delta;
+	}
+
 	public static <T1, T2> LToFltBiFuncDelta<T1, T2> deltaOf(LToFltBiFunction<T1, T2> function) {
 		return deltaOf(function, LToFltBiFuncDelta::mathDelta);
+	}
+
+	public static <T1, T2> LToFltBiFuncDelta<T1, T2> initializedDeltaOf(T1 a1, T2 a2, LToFltBiFunction<T1, T2> function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a1, a2);
+		return delta;
 	}
 
 	public static <T1, T2> LToFltBiFuncDelta<T1, T2> deltaOf(float initialValue, LToFltBiFunction<T1, T2> function) {

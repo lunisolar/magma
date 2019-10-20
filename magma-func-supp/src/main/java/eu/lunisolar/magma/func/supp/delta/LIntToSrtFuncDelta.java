@@ -76,8 +76,20 @@ public class LIntToSrtFuncDelta extends LIntToSrtFuncMemento {
 		return new LIntToSrtFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LIntToSrtFuncDelta initializedDeltaOf(int a, LIntToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static LIntToSrtFuncDelta deltaOf(LIntToSrtFunction function) {
 		return deltaOf(function, LIntToSrtFuncDelta::mathDelta);
+	}
+
+	public static LIntToSrtFuncDelta initializedDeltaOf(int a, LIntToSrtFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static LIntToSrtFuncDelta deltaOf(short initialValue, LIntToSrtFunction function) {

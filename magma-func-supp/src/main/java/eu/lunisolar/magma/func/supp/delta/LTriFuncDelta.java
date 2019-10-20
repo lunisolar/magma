@@ -76,6 +76,12 @@ public class LTriFuncDelta<T1, T2, T3, R> extends LTriFuncMemento<T1, T2, T3, R>
 		return new LTriFuncDelta<T1, T2, T3, R>(initialValue, function, deltaFunction);
 	}
 
+	public static <T1, T2, T3, R> LTriFuncDelta<T1, T2, T3, R> initializedDeltaOf(T1 a1, T2 a2, T3 a3, LTriFunction<T1, T2, T3, R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2, a3);
+		return delta;
+	}
+
 	@Override
 	public R apply(T1 a1, T2 a2, T3 a3) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));

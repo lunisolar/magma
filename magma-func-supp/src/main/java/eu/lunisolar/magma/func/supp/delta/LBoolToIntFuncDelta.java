@@ -76,8 +76,20 @@ public class LBoolToIntFuncDelta extends LBoolToIntFuncMemento {
 		return new LBoolToIntFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolToIntFuncDelta initializedDeltaOf(boolean a, LBoolToIntFunction function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a);
+		return delta;
+	}
+
 	public static LBoolToIntFuncDelta deltaOf(LBoolToIntFunction function) {
 		return deltaOf(function, LBoolToIntFuncDelta::mathDelta);
+	}
+
+	public static LBoolToIntFuncDelta initializedDeltaOf(boolean a, LBoolToIntFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a);
+		return delta;
 	}
 
 	public static LBoolToIntFuncDelta deltaOf(int initialValue, LBoolToIntFunction function) {

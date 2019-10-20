@@ -76,8 +76,20 @@ public class LLongToFltFuncDelta extends LLongToFltFuncMemento {
 		return new LLongToFltFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLongToFltFuncDelta initializedDeltaOf(long a, LLongToFltFunction function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a);
+		return delta;
+	}
+
 	public static LLongToFltFuncDelta deltaOf(LLongToFltFunction function) {
 		return deltaOf(function, LLongToFltFuncDelta::mathDelta);
+	}
+
+	public static LLongToFltFuncDelta initializedDeltaOf(long a, LLongToFltFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a);
+		return delta;
 	}
 
 	public static LLongToFltFuncDelta deltaOf(float initialValue, LLongToFltFunction function) {

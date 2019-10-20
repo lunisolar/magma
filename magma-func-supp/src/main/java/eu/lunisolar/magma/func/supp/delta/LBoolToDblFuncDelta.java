@@ -76,8 +76,20 @@ public class LBoolToDblFuncDelta extends LBoolToDblFuncMemento {
 		return new LBoolToDblFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolToDblFuncDelta initializedDeltaOf(boolean a, LBoolToDblFunction function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static LBoolToDblFuncDelta deltaOf(LBoolToDblFunction function) {
 		return deltaOf(function, LBoolToDblFuncDelta::mathDelta);
+	}
+
+	public static LBoolToDblFuncDelta initializedDeltaOf(boolean a, LBoolToDblFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static LBoolToDblFuncDelta deltaOf(double initialValue, LBoolToDblFunction function) {

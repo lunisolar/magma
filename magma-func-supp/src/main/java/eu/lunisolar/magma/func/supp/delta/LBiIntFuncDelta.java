@@ -76,6 +76,12 @@ public class LBiIntFuncDelta<R> extends LBiIntFuncMemento<R> {
 		return new LBiIntFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LBiIntFuncDelta<R> initializedDeltaOf(int a1, int a2, LBiIntFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2);
+		return delta;
+	}
+
 	@Override
 	public R apply(int a1, int a2) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2));

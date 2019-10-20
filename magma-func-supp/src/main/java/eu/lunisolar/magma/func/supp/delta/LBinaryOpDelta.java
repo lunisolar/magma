@@ -76,6 +76,12 @@ public class LBinaryOpDelta<T> extends LBinaryOpMemento<T> {
 		return new LBinaryOpDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LBinaryOpDelta<T> initializedDeltaOf(T a1, T a2, LBinaryOperator<T> function, LBinaryOperator<T> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2);
+		return delta;
+	}
+
 	@Override
 	public T apply(T a1, T a2) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2));

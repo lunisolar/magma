@@ -76,8 +76,20 @@ public class LSrtUnaryOpDelta extends LSrtUnaryOpMemento {
 		return new LSrtUnaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LSrtUnaryOpDelta initializedDeltaOf(short a, LSrtUnaryOperator function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static LSrtUnaryOpDelta deltaOf(LSrtUnaryOperator function) {
 		return deltaOf(function, LSrtUnaryOpDelta::mathDelta);
+	}
+
+	public static LSrtUnaryOpDelta initializedDeltaOf(short a, LSrtUnaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static LSrtUnaryOpDelta deltaOf(short initialValue, LSrtUnaryOperator function) {

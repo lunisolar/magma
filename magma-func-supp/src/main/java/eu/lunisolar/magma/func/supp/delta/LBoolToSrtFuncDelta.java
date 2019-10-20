@@ -76,8 +76,20 @@ public class LBoolToSrtFuncDelta extends LBoolToSrtFuncMemento {
 		return new LBoolToSrtFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolToSrtFuncDelta initializedDeltaOf(boolean a, LBoolToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static LBoolToSrtFuncDelta deltaOf(LBoolToSrtFunction function) {
 		return deltaOf(function, LBoolToSrtFuncDelta::mathDelta);
+	}
+
+	public static LBoolToSrtFuncDelta initializedDeltaOf(boolean a, LBoolToSrtFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static LBoolToSrtFuncDelta deltaOf(short initialValue, LBoolToSrtFunction function) {

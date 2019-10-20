@@ -76,8 +76,20 @@ public class LToIntFuncDelta<T> extends LToIntFuncMemento<T> {
 		return new LToIntFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LToIntFuncDelta<T> initializedDeltaOf(T a, LToIntFunction<T> function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a);
+		return delta;
+	}
+
 	public static <T> LToIntFuncDelta<T> deltaOf(LToIntFunction<T> function) {
 		return deltaOf(function, LToIntFuncDelta::mathDelta);
+	}
+
+	public static <T> LToIntFuncDelta<T> initializedDeltaOf(T a, LToIntFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a);
+		return delta;
 	}
 
 	public static <T> LToIntFuncDelta<T> deltaOf(int initialValue, LToIntFunction<T> function) {

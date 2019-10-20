@@ -76,8 +76,20 @@ public class LFltToSrtFuncDelta extends LFltToSrtFuncMemento {
 		return new LFltToSrtFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltToSrtFuncDelta initializedDeltaOf(float a, LFltToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static LFltToSrtFuncDelta deltaOf(LFltToSrtFunction function) {
 		return deltaOf(function, LFltToSrtFuncDelta::mathDelta);
+	}
+
+	public static LFltToSrtFuncDelta initializedDeltaOf(float a, LFltToSrtFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static LFltToSrtFuncDelta deltaOf(short initialValue, LFltToSrtFunction function) {

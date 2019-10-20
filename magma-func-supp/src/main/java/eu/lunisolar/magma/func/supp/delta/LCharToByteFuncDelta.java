@@ -76,8 +76,20 @@ public class LCharToByteFuncDelta extends LCharToByteFuncMemento {
 		return new LCharToByteFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LCharToByteFuncDelta initializedDeltaOf(char a, LCharToByteFunction function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsByte(a);
+		return delta;
+	}
+
 	public static LCharToByteFuncDelta deltaOf(LCharToByteFunction function) {
 		return deltaOf(function, LCharToByteFuncDelta::mathDelta);
+	}
+
+	public static LCharToByteFuncDelta initializedDeltaOf(char a, LCharToByteFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsByte(a);
+		return delta;
 	}
 
 	public static LCharToByteFuncDelta deltaOf(byte initialValue, LCharToByteFunction function) {

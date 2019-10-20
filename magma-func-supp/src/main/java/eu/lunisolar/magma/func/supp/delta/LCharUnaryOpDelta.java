@@ -76,8 +76,20 @@ public class LCharUnaryOpDelta extends LCharUnaryOpMemento {
 		return new LCharUnaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LCharUnaryOpDelta initializedDeltaOf(char a, LCharUnaryOperator function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsChar(a);
+		return delta;
+	}
+
 	public static LCharUnaryOpDelta deltaOf(LCharUnaryOperator function) {
 		return deltaOf(function, LCharUnaryOpDelta::mathDelta);
+	}
+
+	public static LCharUnaryOpDelta initializedDeltaOf(char a, LCharUnaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsChar(a);
+		return delta;
 	}
 
 	public static LCharUnaryOpDelta deltaOf(char initialValue, LCharUnaryOperator function) {

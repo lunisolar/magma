@@ -76,8 +76,20 @@ public class LFltSupDelta extends LFltSupMemento {
 		return new LFltSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltSupDelta initializedDeltaOf(LFltSupplier function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsFlt();
+		return delta;
+	}
+
 	public static LFltSupDelta deltaOf(LFltSupplier function) {
 		return deltaOf(function, LFltSupDelta::mathDelta);
+	}
+
+	public static LFltSupDelta initializedDeltaOf(LFltSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsFlt();
+		return delta;
 	}
 
 	public static LFltSupDelta deltaOf(float initialValue, LFltSupplier function) {

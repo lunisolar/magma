@@ -76,8 +76,20 @@ public class LLongBinaryOpDelta extends LLongBinaryOpMemento {
 		return new LLongBinaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLongBinaryOpDelta initializedDeltaOf(long a1, long a2, LLongBinaryOperator function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsLong(a1, a2);
+		return delta;
+	}
+
 	public static LLongBinaryOpDelta deltaOf(LLongBinaryOperator function) {
 		return deltaOf(function, LLongBinaryOpDelta::mathDelta);
+	}
+
+	public static LLongBinaryOpDelta initializedDeltaOf(long a1, long a2, LLongBinaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsLong(a1, a2);
+		return delta;
 	}
 
 	public static LLongBinaryOpDelta deltaOf(long initialValue, LLongBinaryOperator function) {

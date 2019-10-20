@@ -76,6 +76,12 @@ public class LSupDelta<T> extends LSupMemento<T> {
 		return new LSupDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LSupDelta<T> initializedDeltaOf(LSupplier<T> function, LBinaryOperator<T> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.get();
+		return delta;
+	}
+
 	@Override
 	public T get() {
 		return deltaFunction.apply(lastValue(), super.get());

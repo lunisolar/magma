@@ -76,8 +76,20 @@ public class LSrtToByteFuncDelta extends LSrtToByteFuncMemento {
 		return new LSrtToByteFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LSrtToByteFuncDelta initializedDeltaOf(short a, LSrtToByteFunction function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsByte(a);
+		return delta;
+	}
+
 	public static LSrtToByteFuncDelta deltaOf(LSrtToByteFunction function) {
 		return deltaOf(function, LSrtToByteFuncDelta::mathDelta);
+	}
+
+	public static LSrtToByteFuncDelta initializedDeltaOf(short a, LSrtToByteFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsByte(a);
+		return delta;
 	}
 
 	public static LSrtToByteFuncDelta deltaOf(byte initialValue, LSrtToByteFunction function) {

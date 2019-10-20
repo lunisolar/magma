@@ -76,8 +76,20 @@ public class LLogicalTernaryOpDelta extends LLogicalTernaryOpMemento {
 		return new LLogicalTernaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLogicalTernaryOpDelta initializedDeltaOf(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator function, LLogicalBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2, a3);
+		return delta;
+	}
+
 	public static LLogicalTernaryOpDelta deltaOf(LLogicalTernaryOperator function) {
 		return deltaOf(function, (last, current) -> current != last);
+	}
+
+	public static LLogicalTernaryOpDelta initializedDeltaOf(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator function) {
+		var delta = deltaOf(function);
+		delta.apply(a1, a2, a3);
+		return delta;
 	}
 
 	public static LLogicalTernaryOpDelta deltaOf(boolean initialValue, LLogicalTernaryOperator function) {

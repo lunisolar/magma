@@ -76,8 +76,20 @@ public class LLongUnaryOpDelta extends LLongUnaryOpMemento {
 		return new LLongUnaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLongUnaryOpDelta initializedDeltaOf(long a, LLongUnaryOperator function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsLong(a);
+		return delta;
+	}
+
 	public static LLongUnaryOpDelta deltaOf(LLongUnaryOperator function) {
 		return deltaOf(function, LLongUnaryOpDelta::mathDelta);
+	}
+
+	public static LLongUnaryOpDelta initializedDeltaOf(long a, LLongUnaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsLong(a);
+		return delta;
 	}
 
 	public static LLongUnaryOpDelta deltaOf(long initialValue, LLongUnaryOperator function) {

@@ -76,8 +76,20 @@ public class LOiToDblFuncDelta<T> extends LOiToDblFuncMemento<T> {
 		return new LOiToDblFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LOiToDblFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToDblFunction<T> function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a1, a2);
+		return delta;
+	}
+
 	public static <T> LOiToDblFuncDelta<T> deltaOf(LOiToDblFunction<T> function) {
 		return deltaOf(function, LOiToDblFuncDelta::mathDelta);
+	}
+
+	public static <T> LOiToDblFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToDblFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a1, a2);
+		return delta;
 	}
 
 	public static <T> LOiToDblFuncDelta<T> deltaOf(double initialValue, LOiToDblFunction<T> function) {

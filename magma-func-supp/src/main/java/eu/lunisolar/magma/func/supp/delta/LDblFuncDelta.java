@@ -76,6 +76,12 @@ public class LDblFuncDelta<R> extends LDblFuncMemento<R> {
 		return new LDblFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LDblFuncDelta<R> initializedDeltaOf(double a, LDblFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public R apply(double a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

@@ -76,8 +76,20 @@ public class LTieCharFuncDelta<T> extends LTieCharFuncMemento<T> {
 		return new LTieCharFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LTieCharFuncDelta<T> initializedDeltaOf(T a1, int a2, char a3, LTieCharFunction<T> function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
+	}
+
 	public static <T> LTieCharFuncDelta<T> deltaOf(LTieCharFunction<T> function) {
 		return deltaOf(function, LTieCharFuncDelta::mathDelta);
+	}
+
+	public static <T> LTieCharFuncDelta<T> initializedDeltaOf(T a1, int a2, char a3, LTieCharFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
 	}
 
 	public static <T> LTieCharFuncDelta<T> deltaOf(int initialValue, LTieCharFunction<T> function) {

@@ -76,8 +76,20 @@ public class LToSrtFuncDelta<T> extends LToSrtFuncMemento<T> {
 		return new LToSrtFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LToSrtFuncDelta<T> initializedDeltaOf(T a, LToSrtFunction<T> function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static <T> LToSrtFuncDelta<T> deltaOf(LToSrtFunction<T> function) {
 		return deltaOf(function, LToSrtFuncDelta::mathDelta);
+	}
+
+	public static <T> LToSrtFuncDelta<T> initializedDeltaOf(T a, LToSrtFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static <T> LToSrtFuncDelta<T> deltaOf(short initialValue, LToSrtFunction<T> function) {

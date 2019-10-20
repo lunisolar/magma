@@ -76,8 +76,20 @@ public class LOiToLongFuncDelta<T> extends LOiToLongFuncMemento<T> {
 		return new LOiToLongFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LOiToLongFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToLongFunction<T> function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsLong(a1, a2);
+		return delta;
+	}
+
 	public static <T> LOiToLongFuncDelta<T> deltaOf(LOiToLongFunction<T> function) {
 		return deltaOf(function, LOiToLongFuncDelta::mathDelta);
+	}
+
+	public static <T> LOiToLongFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToLongFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsLong(a1, a2);
+		return delta;
 	}
 
 	public static <T> LOiToLongFuncDelta<T> deltaOf(long initialValue, LOiToLongFunction<T> function) {

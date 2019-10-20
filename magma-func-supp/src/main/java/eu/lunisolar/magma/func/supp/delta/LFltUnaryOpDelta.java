@@ -76,8 +76,20 @@ public class LFltUnaryOpDelta extends LFltUnaryOpMemento {
 		return new LFltUnaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltUnaryOpDelta initializedDeltaOf(float a, LFltUnaryOperator function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a);
+		return delta;
+	}
+
 	public static LFltUnaryOpDelta deltaOf(LFltUnaryOperator function) {
 		return deltaOf(function, LFltUnaryOpDelta::mathDelta);
+	}
+
+	public static LFltUnaryOpDelta initializedDeltaOf(float a, LFltUnaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a);
+		return delta;
 	}
 
 	public static LFltUnaryOpDelta deltaOf(float initialValue, LFltUnaryOperator function) {

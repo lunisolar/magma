@@ -76,8 +76,20 @@ public class LByteBinaryOpDelta extends LByteBinaryOpMemento {
 		return new LByteBinaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LByteBinaryOpDelta initializedDeltaOf(byte a1, byte a2, LByteBinaryOperator function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsByte(a1, a2);
+		return delta;
+	}
+
 	public static LByteBinaryOpDelta deltaOf(LByteBinaryOperator function) {
 		return deltaOf(function, LByteBinaryOpDelta::mathDelta);
+	}
+
+	public static LByteBinaryOpDelta initializedDeltaOf(byte a1, byte a2, LByteBinaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsByte(a1, a2);
+		return delta;
 	}
 
 	public static LByteBinaryOpDelta deltaOf(byte initialValue, LByteBinaryOperator function) {

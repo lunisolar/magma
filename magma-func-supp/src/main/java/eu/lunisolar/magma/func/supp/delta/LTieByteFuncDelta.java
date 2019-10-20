@@ -76,8 +76,20 @@ public class LTieByteFuncDelta<T> extends LTieByteFuncMemento<T> {
 		return new LTieByteFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LTieByteFuncDelta<T> initializedDeltaOf(T a1, int a2, byte a3, LTieByteFunction<T> function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
+	}
+
 	public static <T> LTieByteFuncDelta<T> deltaOf(LTieByteFunction<T> function) {
 		return deltaOf(function, LTieByteFuncDelta::mathDelta);
+	}
+
+	public static <T> LTieByteFuncDelta<T> initializedDeltaOf(T a1, int a2, byte a3, LTieByteFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
 	}
 
 	public static <T> LTieByteFuncDelta<T> deltaOf(int initialValue, LTieByteFunction<T> function) {

@@ -76,8 +76,20 @@ public class LOiToFltFuncDelta<T> extends LOiToFltFuncMemento<T> {
 		return new LOiToFltFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LOiToFltFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToFltFunction<T> function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a1, a2);
+		return delta;
+	}
+
 	public static <T> LOiToFltFuncDelta<T> deltaOf(LOiToFltFunction<T> function) {
 		return deltaOf(function, LOiToFltFuncDelta::mathDelta);
+	}
+
+	public static <T> LOiToFltFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToFltFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a1, a2);
+		return delta;
 	}
 
 	public static <T> LOiToFltFuncDelta<T> deltaOf(float initialValue, LOiToFltFunction<T> function) {

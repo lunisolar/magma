@@ -76,6 +76,12 @@ public class LQuintFuncDelta<T1, T2, T3, T4, T5, R> extends LQuintFuncMemento<T1
 		return new LQuintFuncDelta<T1, T2, T3, T4, T5, R>(initialValue, function, deltaFunction);
 	}
 
+	public static <T1, T2, T3, T4, T5, R> LQuintFuncDelta<T1, T2, T3, T4, T5, R> initializedDeltaOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2, a3, a4, a5);
+		return delta;
+	}
+
 	@Override
 	public R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3, a4, a5));

@@ -76,6 +76,12 @@ public class LTriBoolFuncDelta<R> extends LTriBoolFuncMemento<R> {
 		return new LTriBoolFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LTriBoolFuncDelta<R> initializedDeltaOf(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2, a3);
+		return delta;
+	}
+
 	@Override
 	public R apply(boolean a1, boolean a2, boolean a3) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));

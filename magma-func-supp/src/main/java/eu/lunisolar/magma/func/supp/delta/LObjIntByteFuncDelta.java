@@ -76,6 +76,12 @@ public class LObjIntByteFuncDelta<T, R> extends LObjIntByteFuncMemento<T, R> {
 		return new LObjIntByteFuncDelta<T, R>(initialValue, function, deltaFunction);
 	}
 
+	public static <T, R> LObjIntByteFuncDelta<T, R> initializedDeltaOf(T a1, int a2, byte a3, LObjIntByteFunction<T, R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2, a3);
+		return delta;
+	}
+
 	@Override
 	public R apply(T a1, int a2, byte a3) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3));

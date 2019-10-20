@@ -76,8 +76,20 @@ public class LCharToDblFuncDelta extends LCharToDblFuncMemento {
 		return new LCharToDblFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LCharToDblFuncDelta initializedDeltaOf(char a, LCharToDblFunction function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static LCharToDblFuncDelta deltaOf(LCharToDblFunction function) {
 		return deltaOf(function, LCharToDblFuncDelta::mathDelta);
+	}
+
+	public static LCharToDblFuncDelta initializedDeltaOf(char a, LCharToDblFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static LCharToDblFuncDelta deltaOf(double initialValue, LCharToDblFunction function) {

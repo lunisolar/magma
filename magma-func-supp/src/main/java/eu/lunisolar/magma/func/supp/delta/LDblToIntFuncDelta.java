@@ -76,8 +76,20 @@ public class LDblToIntFuncDelta extends LDblToIntFuncMemento {
 		return new LDblToIntFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LDblToIntFuncDelta initializedDeltaOf(double a, LDblToIntFunction function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a);
+		return delta;
+	}
+
 	public static LDblToIntFuncDelta deltaOf(LDblToIntFunction function) {
 		return deltaOf(function, LDblToIntFuncDelta::mathDelta);
+	}
+
+	public static LDblToIntFuncDelta initializedDeltaOf(double a, LDblToIntFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a);
+		return delta;
 	}
 
 	public static LDblToIntFuncDelta deltaOf(int initialValue, LDblToIntFunction function) {

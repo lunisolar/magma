@@ -76,8 +76,20 @@ public class LBoolToByteFuncDelta extends LBoolToByteFuncMemento {
 		return new LBoolToByteFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolToByteFuncDelta initializedDeltaOf(boolean a, LBoolToByteFunction function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsByte(a);
+		return delta;
+	}
+
 	public static LBoolToByteFuncDelta deltaOf(LBoolToByteFunction function) {
 		return deltaOf(function, LBoolToByteFuncDelta::mathDelta);
+	}
+
+	public static LBoolToByteFuncDelta initializedDeltaOf(boolean a, LBoolToByteFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsByte(a);
+		return delta;
 	}
 
 	public static LBoolToByteFuncDelta deltaOf(byte initialValue, LBoolToByteFunction function) {

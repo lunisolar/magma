@@ -76,8 +76,20 @@ public class LToByteFuncDelta<T> extends LToByteFuncMemento<T> {
 		return new LToByteFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LToByteFuncDelta<T> initializedDeltaOf(T a, LToByteFunction<T> function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsByte(a);
+		return delta;
+	}
+
 	public static <T> LToByteFuncDelta<T> deltaOf(LToByteFunction<T> function) {
 		return deltaOf(function, LToByteFuncDelta::mathDelta);
+	}
+
+	public static <T> LToByteFuncDelta<T> initializedDeltaOf(T a, LToByteFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsByte(a);
+		return delta;
 	}
 
 	public static <T> LToByteFuncDelta<T> deltaOf(byte initialValue, LToByteFunction<T> function) {

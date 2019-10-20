@@ -76,8 +76,20 @@ public class LFltToByteFuncDelta extends LFltToByteFuncMemento {
 		return new LFltToByteFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltToByteFuncDelta initializedDeltaOf(float a, LFltToByteFunction function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsByte(a);
+		return delta;
+	}
+
 	public static LFltToByteFuncDelta deltaOf(LFltToByteFunction function) {
 		return deltaOf(function, LFltToByteFuncDelta::mathDelta);
+	}
+
+	public static LFltToByteFuncDelta initializedDeltaOf(float a, LFltToByteFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsByte(a);
+		return delta;
 	}
 
 	public static LFltToByteFuncDelta deltaOf(byte initialValue, LFltToByteFunction function) {

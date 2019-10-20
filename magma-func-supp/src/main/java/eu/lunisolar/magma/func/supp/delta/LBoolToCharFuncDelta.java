@@ -76,8 +76,20 @@ public class LBoolToCharFuncDelta extends LBoolToCharFuncMemento {
 		return new LBoolToCharFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolToCharFuncDelta initializedDeltaOf(boolean a, LBoolToCharFunction function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsChar(a);
+		return delta;
+	}
+
 	public static LBoolToCharFuncDelta deltaOf(LBoolToCharFunction function) {
 		return deltaOf(function, LBoolToCharFuncDelta::mathDelta);
+	}
+
+	public static LBoolToCharFuncDelta initializedDeltaOf(boolean a, LBoolToCharFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsChar(a);
+		return delta;
 	}
 
 	public static LBoolToCharFuncDelta deltaOf(char initialValue, LBoolToCharFunction function) {

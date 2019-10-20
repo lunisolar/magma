@@ -76,6 +76,12 @@ public class LUnaryOpDelta<T> extends LUnaryOpMemento<T> {
 		return new LUnaryOpDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LUnaryOpDelta<T> initializedDeltaOf(T a, LUnaryOperator<T> function, LBinaryOperator<T> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public T apply(T a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

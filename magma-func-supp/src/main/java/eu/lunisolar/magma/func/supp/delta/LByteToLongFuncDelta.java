@@ -76,8 +76,20 @@ public class LByteToLongFuncDelta extends LByteToLongFuncMemento {
 		return new LByteToLongFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LByteToLongFuncDelta initializedDeltaOf(byte a, LByteToLongFunction function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsLong(a);
+		return delta;
+	}
+
 	public static LByteToLongFuncDelta deltaOf(LByteToLongFunction function) {
 		return deltaOf(function, LByteToLongFuncDelta::mathDelta);
+	}
+
+	public static LByteToLongFuncDelta initializedDeltaOf(byte a, LByteToLongFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsLong(a);
+		return delta;
 	}
 
 	public static LByteToLongFuncDelta deltaOf(long initialValue, LByteToLongFunction function) {

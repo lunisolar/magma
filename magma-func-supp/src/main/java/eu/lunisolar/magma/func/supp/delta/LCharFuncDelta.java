@@ -76,6 +76,12 @@ public class LCharFuncDelta<R> extends LCharFuncMemento<R> {
 		return new LCharFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LCharFuncDelta<R> initializedDeltaOf(char a, LCharFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public R apply(char a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

@@ -76,8 +76,20 @@ public class LDblToLongFuncDelta extends LDblToLongFuncMemento {
 		return new LDblToLongFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LDblToLongFuncDelta initializedDeltaOf(double a, LDblToLongFunction function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsLong(a);
+		return delta;
+	}
+
 	public static LDblToLongFuncDelta deltaOf(LDblToLongFunction function) {
 		return deltaOf(function, LDblToLongFuncDelta::mathDelta);
+	}
+
+	public static LDblToLongFuncDelta initializedDeltaOf(double a, LDblToLongFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsLong(a);
+		return delta;
 	}
 
 	public static LDblToLongFuncDelta deltaOf(long initialValue, LDblToLongFunction function) {

@@ -76,8 +76,20 @@ public class LBoolSupDelta extends LBoolSupMemento {
 		return new LBoolSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolSupDelta initializedDeltaOf(LBoolSupplier function, LLogicalBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsBool();
+		return delta;
+	}
+
 	public static LBoolSupDelta deltaOf(LBoolSupplier function) {
 		return deltaOf(function, (last, current) -> current != last);
+	}
+
+	public static LBoolSupDelta initializedDeltaOf(LBoolSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsBool();
+		return delta;
 	}
 
 	public static LBoolSupDelta deltaOf(boolean initialValue, LBoolSupplier function) {

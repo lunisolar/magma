@@ -76,8 +76,20 @@ public class LByteSupDelta extends LByteSupMemento {
 		return new LByteSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LByteSupDelta initializedDeltaOf(LByteSupplier function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsByte();
+		return delta;
+	}
+
 	public static LByteSupDelta deltaOf(LByteSupplier function) {
 		return deltaOf(function, LByteSupDelta::mathDelta);
+	}
+
+	public static LByteSupDelta initializedDeltaOf(LByteSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsByte();
+		return delta;
 	}
 
 	public static LByteSupDelta deltaOf(byte initialValue, LByteSupplier function) {

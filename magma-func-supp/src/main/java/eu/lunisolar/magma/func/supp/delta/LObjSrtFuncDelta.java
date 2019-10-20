@@ -76,6 +76,12 @@ public class LObjSrtFuncDelta<T, R> extends LObjSrtFuncMemento<T, R> {
 		return new LObjSrtFuncDelta<T, R>(initialValue, function, deltaFunction);
 	}
 
+	public static <T, R> LObjSrtFuncDelta<T, R> initializedDeltaOf(T a1, short a2, LObjSrtFunction<T, R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2);
+		return delta;
+	}
+
 	@Override
 	public R apply(T a1, short a2) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2));

@@ -76,8 +76,20 @@ public class LCharToSrtFuncDelta extends LCharToSrtFuncMemento {
 		return new LCharToSrtFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LCharToSrtFuncDelta initializedDeltaOf(char a, LCharToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static LCharToSrtFuncDelta deltaOf(LCharToSrtFunction function) {
 		return deltaOf(function, LCharToSrtFuncDelta::mathDelta);
+	}
+
+	public static LCharToSrtFuncDelta initializedDeltaOf(char a, LCharToSrtFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static LCharToSrtFuncDelta deltaOf(short initialValue, LCharToSrtFunction function) {

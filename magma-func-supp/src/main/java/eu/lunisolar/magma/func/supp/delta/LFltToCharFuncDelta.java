@@ -76,8 +76,20 @@ public class LFltToCharFuncDelta extends LFltToCharFuncMemento {
 		return new LFltToCharFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltToCharFuncDelta initializedDeltaOf(float a, LFltToCharFunction function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsChar(a);
+		return delta;
+	}
+
 	public static LFltToCharFuncDelta deltaOf(LFltToCharFunction function) {
 		return deltaOf(function, LFltToCharFuncDelta::mathDelta);
+	}
+
+	public static LFltToCharFuncDelta initializedDeltaOf(float a, LFltToCharFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsChar(a);
+		return delta;
 	}
 
 	public static LFltToCharFuncDelta deltaOf(char initialValue, LFltToCharFunction function) {

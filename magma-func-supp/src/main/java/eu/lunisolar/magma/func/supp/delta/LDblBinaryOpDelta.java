@@ -76,8 +76,20 @@ public class LDblBinaryOpDelta extends LDblBinaryOpMemento {
 		return new LDblBinaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LDblBinaryOpDelta initializedDeltaOf(double a1, double a2, LDblBinaryOperator function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a1, a2);
+		return delta;
+	}
+
 	public static LDblBinaryOpDelta deltaOf(LDblBinaryOperator function) {
 		return deltaOf(function, LDblBinaryOpDelta::mathDelta);
+	}
+
+	public static LDblBinaryOpDelta initializedDeltaOf(double a1, double a2, LDblBinaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a1, a2);
+		return delta;
 	}
 
 	public static LDblBinaryOpDelta deltaOf(double initialValue, LDblBinaryOperator function) {

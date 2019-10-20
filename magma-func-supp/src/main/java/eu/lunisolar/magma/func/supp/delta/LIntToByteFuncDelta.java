@@ -76,8 +76,20 @@ public class LIntToByteFuncDelta extends LIntToByteFuncMemento {
 		return new LIntToByteFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LIntToByteFuncDelta initializedDeltaOf(int a, LIntToByteFunction function, LByteBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsByte(a);
+		return delta;
+	}
+
 	public static LIntToByteFuncDelta deltaOf(LIntToByteFunction function) {
 		return deltaOf(function, LIntToByteFuncDelta::mathDelta);
+	}
+
+	public static LIntToByteFuncDelta initializedDeltaOf(int a, LIntToByteFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsByte(a);
+		return delta;
 	}
 
 	public static LIntToByteFuncDelta deltaOf(byte initialValue, LIntToByteFunction function) {

@@ -76,8 +76,20 @@ public class LByteToSrtFuncDelta extends LByteToSrtFuncMemento {
 		return new LByteToSrtFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LByteToSrtFuncDelta initializedDeltaOf(byte a, LByteToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static LByteToSrtFuncDelta deltaOf(LByteToSrtFunction function) {
 		return deltaOf(function, LByteToSrtFuncDelta::mathDelta);
+	}
+
+	public static LByteToSrtFuncDelta initializedDeltaOf(byte a, LByteToSrtFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static LByteToSrtFuncDelta deltaOf(short initialValue, LByteToSrtFunction function) {

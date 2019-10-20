@@ -76,6 +76,12 @@ public class LBoolFuncDelta<R> extends LBoolFuncMemento<R> {
 		return new LBoolFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LBoolFuncDelta<R> initializedDeltaOf(boolean a, LBoolFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public R apply(boolean a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

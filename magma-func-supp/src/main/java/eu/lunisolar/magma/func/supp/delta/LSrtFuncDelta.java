@@ -76,6 +76,12 @@ public class LSrtFuncDelta<R> extends LSrtFuncMemento<R> {
 		return new LSrtFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LSrtFuncDelta<R> initializedDeltaOf(short a, LSrtFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public R apply(short a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

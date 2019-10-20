@@ -76,8 +76,20 @@ public class LDblToCharFuncDelta extends LDblToCharFuncMemento {
 		return new LDblToCharFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LDblToCharFuncDelta initializedDeltaOf(double a, LDblToCharFunction function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsChar(a);
+		return delta;
+	}
+
 	public static LDblToCharFuncDelta deltaOf(LDblToCharFunction function) {
 		return deltaOf(function, LDblToCharFuncDelta::mathDelta);
+	}
+
+	public static LDblToCharFuncDelta initializedDeltaOf(double a, LDblToCharFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsChar(a);
+		return delta;
 	}
 
 	public static LDblToCharFuncDelta deltaOf(char initialValue, LDblToCharFunction function) {

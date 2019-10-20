@@ -76,8 +76,20 @@ public class LIntBinaryOpDelta extends LIntBinaryOpMemento {
 		return new LIntBinaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LIntBinaryOpDelta initializedDeltaOf(int a1, int a2, LIntBinaryOperator function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a1, a2);
+		return delta;
+	}
+
 	public static LIntBinaryOpDelta deltaOf(LIntBinaryOperator function) {
 		return deltaOf(function, LIntBinaryOpDelta::mathDelta);
+	}
+
+	public static LIntBinaryOpDelta initializedDeltaOf(int a1, int a2, LIntBinaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a1, a2);
+		return delta;
 	}
 
 	public static LIntBinaryOpDelta deltaOf(int initialValue, LIntBinaryOperator function) {

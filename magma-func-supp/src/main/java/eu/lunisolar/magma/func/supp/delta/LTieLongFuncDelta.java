@@ -76,8 +76,20 @@ public class LTieLongFuncDelta<T> extends LTieLongFuncMemento<T> {
 		return new LTieLongFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LTieLongFuncDelta<T> initializedDeltaOf(T a1, int a2, long a3, LTieLongFunction<T> function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
+	}
+
 	public static <T> LTieLongFuncDelta<T> deltaOf(LTieLongFunction<T> function) {
 		return deltaOf(function, LTieLongFuncDelta::mathDelta);
+	}
+
+	public static <T> LTieLongFuncDelta<T> initializedDeltaOf(T a1, int a2, long a3, LTieLongFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
 	}
 
 	public static <T> LTieLongFuncDelta<T> deltaOf(int initialValue, LTieLongFunction<T> function) {

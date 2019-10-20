@@ -76,6 +76,12 @@ public class LFuncDelta<T, R> extends LFuncMemento<T, R> {
 		return new LFuncDelta<T, R>(initialValue, function, deltaFunction);
 	}
 
+	public static <T, R> LFuncDelta<T, R> initializedDeltaOf(T a, LFunction<T, R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public R apply(T a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

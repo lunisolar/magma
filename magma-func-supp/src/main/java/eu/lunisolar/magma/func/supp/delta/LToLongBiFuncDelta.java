@@ -76,8 +76,20 @@ public class LToLongBiFuncDelta<T1, T2> extends LToLongBiFuncMemento<T1, T2> {
 		return new LToLongBiFuncDelta<T1, T2>(initialValue, function, deltaFunction);
 	}
 
+	public static <T1, T2> LToLongBiFuncDelta<T1, T2> initializedDeltaOf(T1 a1, T2 a2, LToLongBiFunction<T1, T2> function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsLong(a1, a2);
+		return delta;
+	}
+
 	public static <T1, T2> LToLongBiFuncDelta<T1, T2> deltaOf(LToLongBiFunction<T1, T2> function) {
 		return deltaOf(function, LToLongBiFuncDelta::mathDelta);
+	}
+
+	public static <T1, T2> LToLongBiFuncDelta<T1, T2> initializedDeltaOf(T1 a1, T2 a2, LToLongBiFunction<T1, T2> function) {
+		var delta = deltaOf(function);
+		delta.applyAsLong(a1, a2);
+		return delta;
 	}
 
 	public static <T1, T2> LToLongBiFuncDelta<T1, T2> deltaOf(long initialValue, LToLongBiFunction<T1, T2> function) {

@@ -76,8 +76,20 @@ public class LLongToSrtFuncDelta extends LLongToSrtFuncMemento {
 		return new LLongToSrtFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLongToSrtFuncDelta initializedDeltaOf(long a, LLongToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a);
+		return delta;
+	}
+
 	public static LLongToSrtFuncDelta deltaOf(LLongToSrtFunction function) {
 		return deltaOf(function, LLongToSrtFuncDelta::mathDelta);
+	}
+
+	public static LLongToSrtFuncDelta initializedDeltaOf(long a, LLongToSrtFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a);
+		return delta;
 	}
 
 	public static LLongToSrtFuncDelta deltaOf(short initialValue, LLongToSrtFunction function) {

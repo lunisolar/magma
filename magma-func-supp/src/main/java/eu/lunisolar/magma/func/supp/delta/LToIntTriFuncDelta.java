@@ -76,8 +76,20 @@ public class LToIntTriFuncDelta<T1, T2, T3> extends LToIntTriFuncMemento<T1, T2,
 		return new LToIntTriFuncDelta<T1, T2, T3>(initialValue, function, deltaFunction);
 	}
 
+	public static <T1, T2, T3> LToIntTriFuncDelta<T1, T2, T3> initializedDeltaOf(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
+	}
+
 	public static <T1, T2, T3> LToIntTriFuncDelta<T1, T2, T3> deltaOf(LToIntTriFunction<T1, T2, T3> function) {
 		return deltaOf(function, LToIntTriFuncDelta::mathDelta);
+	}
+
+	public static <T1, T2, T3> LToIntTriFuncDelta<T1, T2, T3> initializedDeltaOf(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a1, a2, a3);
+		return delta;
 	}
 
 	public static <T1, T2, T3> LToIntTriFuncDelta<T1, T2, T3> deltaOf(int initialValue, LToIntTriFunction<T1, T2, T3> function) {

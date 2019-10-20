@@ -76,8 +76,20 @@ public class LSrtBinaryOpDelta extends LSrtBinaryOpMemento {
 		return new LSrtBinaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LSrtBinaryOpDelta initializedDeltaOf(short a1, short a2, LSrtBinaryOperator function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsSrt(a1, a2);
+		return delta;
+	}
+
 	public static LSrtBinaryOpDelta deltaOf(LSrtBinaryOperator function) {
 		return deltaOf(function, LSrtBinaryOpDelta::mathDelta);
+	}
+
+	public static LSrtBinaryOpDelta initializedDeltaOf(short a1, short a2, LSrtBinaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsSrt(a1, a2);
+		return delta;
 	}
 
 	public static LSrtBinaryOpDelta deltaOf(short initialValue, LSrtBinaryOperator function) {

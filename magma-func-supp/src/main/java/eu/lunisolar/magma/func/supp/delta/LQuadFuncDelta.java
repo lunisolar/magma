@@ -76,6 +76,12 @@ public class LQuadFuncDelta<T1, T2, T3, T4, R> extends LQuadFuncMemento<T1, T2, 
 		return new LQuadFuncDelta<T1, T2, T3, T4, R>(initialValue, function, deltaFunction);
 	}
 
+	public static <T1, T2, T3, T4, R> LQuadFuncDelta<T1, T2, T3, T4, R> initializedDeltaOf(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a1, a2, a3, a4);
+		return delta;
+	}
+
 	@Override
 	public R apply(T1 a1, T2 a2, T3 a3, T4 a4) {
 		return deltaFunction.apply(lastValue(), super.apply(a1, a2, a3, a4));

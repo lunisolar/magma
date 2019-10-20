@@ -76,8 +76,20 @@ public class LByteToDblFuncDelta extends LByteToDblFuncMemento {
 		return new LByteToDblFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LByteToDblFuncDelta initializedDeltaOf(byte a, LByteToDblFunction function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static LByteToDblFuncDelta deltaOf(LByteToDblFunction function) {
 		return deltaOf(function, LByteToDblFuncDelta::mathDelta);
+	}
+
+	public static LByteToDblFuncDelta initializedDeltaOf(byte a, LByteToDblFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static LByteToDblFuncDelta deltaOf(double initialValue, LByteToDblFunction function) {

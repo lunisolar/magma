@@ -76,8 +76,20 @@ public class LLongToCharFuncDelta extends LLongToCharFuncMemento {
 		return new LLongToCharFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLongToCharFuncDelta initializedDeltaOf(long a, LLongToCharFunction function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsChar(a);
+		return delta;
+	}
+
 	public static LLongToCharFuncDelta deltaOf(LLongToCharFunction function) {
 		return deltaOf(function, LLongToCharFuncDelta::mathDelta);
+	}
+
+	public static LLongToCharFuncDelta initializedDeltaOf(long a, LLongToCharFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsChar(a);
+		return delta;
 	}
 
 	public static LLongToCharFuncDelta deltaOf(char initialValue, LLongToCharFunction function) {

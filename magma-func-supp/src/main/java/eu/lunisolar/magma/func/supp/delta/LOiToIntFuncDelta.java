@@ -76,8 +76,20 @@ public class LOiToIntFuncDelta<T> extends LOiToIntFuncMemento<T> {
 		return new LOiToIntFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LOiToIntFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToIntFunction<T> function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a1, a2);
+		return delta;
+	}
+
 	public static <T> LOiToIntFuncDelta<T> deltaOf(LOiToIntFunction<T> function) {
 		return deltaOf(function, LOiToIntFuncDelta::mathDelta);
+	}
+
+	public static <T> LOiToIntFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToIntFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a1, a2);
+		return delta;
 	}
 
 	public static <T> LOiToIntFuncDelta<T> deltaOf(int initialValue, LOiToIntFunction<T> function) {

@@ -76,8 +76,20 @@ public class LCharToIntFuncDelta extends LCharToIntFuncMemento {
 		return new LCharToIntFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LCharToIntFuncDelta initializedDeltaOf(char a, LCharToIntFunction function, LIntBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsInt(a);
+		return delta;
+	}
+
 	public static LCharToIntFuncDelta deltaOf(LCharToIntFunction function) {
 		return deltaOf(function, LCharToIntFuncDelta::mathDelta);
+	}
+
+	public static LCharToIntFuncDelta initializedDeltaOf(char a, LCharToIntFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsInt(a);
+		return delta;
 	}
 
 	public static LCharToIntFuncDelta deltaOf(int initialValue, LCharToIntFunction function) {

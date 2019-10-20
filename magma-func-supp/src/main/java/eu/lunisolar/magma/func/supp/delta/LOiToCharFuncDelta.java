@@ -76,8 +76,20 @@ public class LOiToCharFuncDelta<T> extends LOiToCharFuncMemento<T> {
 		return new LOiToCharFuncDelta<T>(initialValue, function, deltaFunction);
 	}
 
+	public static <T> LOiToCharFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToCharFunction<T> function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsChar(a1, a2);
+		return delta;
+	}
+
 	public static <T> LOiToCharFuncDelta<T> deltaOf(LOiToCharFunction<T> function) {
 		return deltaOf(function, LOiToCharFuncDelta::mathDelta);
+	}
+
+	public static <T> LOiToCharFuncDelta<T> initializedDeltaOf(T a1, int a2, LOiToCharFunction<T> function) {
+		var delta = deltaOf(function);
+		delta.applyAsChar(a1, a2);
+		return delta;
 	}
 
 	public static <T> LOiToCharFuncDelta<T> deltaOf(char initialValue, LOiToCharFunction<T> function) {

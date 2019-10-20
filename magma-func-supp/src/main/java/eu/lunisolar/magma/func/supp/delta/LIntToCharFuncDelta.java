@@ -76,8 +76,20 @@ public class LIntToCharFuncDelta extends LIntToCharFuncMemento {
 		return new LIntToCharFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LIntToCharFuncDelta initializedDeltaOf(int a, LIntToCharFunction function, LCharBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsChar(a);
+		return delta;
+	}
+
 	public static LIntToCharFuncDelta deltaOf(LIntToCharFunction function) {
 		return deltaOf(function, LIntToCharFuncDelta::mathDelta);
+	}
+
+	public static LIntToCharFuncDelta initializedDeltaOf(int a, LIntToCharFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsChar(a);
+		return delta;
 	}
 
 	public static LIntToCharFuncDelta deltaOf(char initialValue, LIntToCharFunction function) {

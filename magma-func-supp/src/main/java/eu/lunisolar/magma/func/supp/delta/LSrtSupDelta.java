@@ -76,8 +76,20 @@ public class LSrtSupDelta extends LSrtSupMemento {
 		return new LSrtSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LSrtSupDelta initializedDeltaOf(LSrtSupplier function, LSrtBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsSrt();
+		return delta;
+	}
+
 	public static LSrtSupDelta deltaOf(LSrtSupplier function) {
 		return deltaOf(function, LSrtSupDelta::mathDelta);
+	}
+
+	public static LSrtSupDelta initializedDeltaOf(LSrtSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsSrt();
+		return delta;
 	}
 
 	public static LSrtSupDelta deltaOf(short initialValue, LSrtSupplier function) {

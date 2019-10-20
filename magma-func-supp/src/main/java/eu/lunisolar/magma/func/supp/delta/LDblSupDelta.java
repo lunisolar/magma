@@ -76,8 +76,20 @@ public class LDblSupDelta extends LDblSupMemento {
 		return new LDblSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LDblSupDelta initializedDeltaOf(LDblSupplier function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsDbl();
+		return delta;
+	}
+
 	public static LDblSupDelta deltaOf(LDblSupplier function) {
 		return deltaOf(function, LDblSupDelta::mathDelta);
+	}
+
+	public static LDblSupDelta initializedDeltaOf(LDblSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsDbl();
+		return delta;
 	}
 
 	public static LDblSupDelta deltaOf(double initialValue, LDblSupplier function) {

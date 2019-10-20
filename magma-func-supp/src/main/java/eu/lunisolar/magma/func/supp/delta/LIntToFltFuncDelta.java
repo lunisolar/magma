@@ -76,8 +76,20 @@ public class LIntToFltFuncDelta extends LIntToFltFuncMemento {
 		return new LIntToFltFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LIntToFltFuncDelta initializedDeltaOf(int a, LIntToFltFunction function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a);
+		return delta;
+	}
+
 	public static LIntToFltFuncDelta deltaOf(LIntToFltFunction function) {
 		return deltaOf(function, LIntToFltFuncDelta::mathDelta);
+	}
+
+	public static LIntToFltFuncDelta initializedDeltaOf(int a, LIntToFltFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a);
+		return delta;
 	}
 
 	public static LIntToFltFuncDelta deltaOf(float initialValue, LIntToFltFunction function) {

@@ -76,8 +76,20 @@ public class LByteToFltFuncDelta extends LByteToFltFuncMemento {
 		return new LByteToFltFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LByteToFltFuncDelta initializedDeltaOf(byte a, LByteToFltFunction function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a);
+		return delta;
+	}
+
 	public static LByteToFltFuncDelta deltaOf(LByteToFltFunction function) {
 		return deltaOf(function, LByteToFltFuncDelta::mathDelta);
+	}
+
+	public static LByteToFltFuncDelta initializedDeltaOf(byte a, LByteToFltFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a);
+		return delta;
 	}
 
 	public static LByteToFltFuncDelta deltaOf(float initialValue, LByteToFltFunction function) {

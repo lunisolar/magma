@@ -76,8 +76,20 @@ public class LLongSupDelta extends LLongSupMemento {
 		return new LLongSupDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LLongSupDelta initializedDeltaOf(LLongSupplier function, LLongBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.getAsLong();
+		return delta;
+	}
+
 	public static LLongSupDelta deltaOf(LLongSupplier function) {
 		return deltaOf(function, LLongSupDelta::mathDelta);
+	}
+
+	public static LLongSupDelta initializedDeltaOf(LLongSupplier function) {
+		var delta = deltaOf(function);
+		delta.getAsLong();
+		return delta;
 	}
 
 	public static LLongSupDelta deltaOf(long initialValue, LLongSupplier function) {

@@ -76,6 +76,12 @@ public class LLongFuncDelta<R> extends LLongFuncMemento<R> {
 		return new LLongFuncDelta<R>(initialValue, function, deltaFunction);
 	}
 
+	public static <R> LLongFuncDelta<R> initializedDeltaOf(long a, LLongFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.apply(a);
+		return delta;
+	}
+
 	@Override
 	public R apply(long a) {
 		return deltaFunction.apply(lastValue(), super.apply(a));

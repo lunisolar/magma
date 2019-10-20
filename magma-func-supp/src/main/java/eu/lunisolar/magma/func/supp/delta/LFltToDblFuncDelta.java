@@ -76,8 +76,20 @@ public class LFltToDblFuncDelta extends LFltToDblFuncMemento {
 		return new LFltToDblFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltToDblFuncDelta initializedDeltaOf(float a, LFltToDblFunction function, LDblBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsDbl(a);
+		return delta;
+	}
+
 	public static LFltToDblFuncDelta deltaOf(LFltToDblFunction function) {
 		return deltaOf(function, LFltToDblFuncDelta::mathDelta);
+	}
+
+	public static LFltToDblFuncDelta initializedDeltaOf(float a, LFltToDblFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsDbl(a);
+		return delta;
 	}
 
 	public static LFltToDblFuncDelta deltaOf(double initialValue, LFltToDblFunction function) {

@@ -76,8 +76,20 @@ public class LBoolToFltFuncDelta extends LBoolToFltFuncMemento {
 		return new LBoolToFltFuncDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LBoolToFltFuncDelta initializedDeltaOf(boolean a, LBoolToFltFunction function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a);
+		return delta;
+	}
+
 	public static LBoolToFltFuncDelta deltaOf(LBoolToFltFunction function) {
 		return deltaOf(function, LBoolToFltFuncDelta::mathDelta);
+	}
+
+	public static LBoolToFltFuncDelta initializedDeltaOf(boolean a, LBoolToFltFunction function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a);
+		return delta;
 	}
 
 	public static LBoolToFltFuncDelta deltaOf(float initialValue, LBoolToFltFunction function) {

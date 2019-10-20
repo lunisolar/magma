@@ -76,8 +76,20 @@ public class LFltBinaryOpDelta extends LFltBinaryOpMemento {
 		return new LFltBinaryOpDelta(initialValue, function, deltaFunction);
 	}
 
+	public static LFltBinaryOpDelta initializedDeltaOf(float a1, float a2, LFltBinaryOperator function, LFltBinaryOperator deltaFunction) {
+		var delta = deltaOf(function, deltaFunction);
+		delta.applyAsFlt(a1, a2);
+		return delta;
+	}
+
 	public static LFltBinaryOpDelta deltaOf(LFltBinaryOperator function) {
 		return deltaOf(function, LFltBinaryOpDelta::mathDelta);
+	}
+
+	public static LFltBinaryOpDelta initializedDeltaOf(float a1, float a2, LFltBinaryOperator function) {
+		var delta = deltaOf(function);
+		delta.applyAsFlt(a1, a2);
+		return delta;
 	}
 
 	public static LFltBinaryOpDelta deltaOf(float initialValue, LFltBinaryOperator function) {
