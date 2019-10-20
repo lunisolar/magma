@@ -445,10 +445,6 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="orElse">
 
-	default double orElse(double other) {
-		return isPresent() ? get() : other;
-	}
-
 	default double orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -475,14 +471,27 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	public default double orElse(@Nullable double value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default double orElseGet(@Nonnull LDblSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsDbl();
 	}
 
-	public default OptDbl or(@Nonnull LSupplier<? extends OptDblTrait<?>> supplier) {
+	public default OptDbl orGet(@Nonnull LSupplier<? extends OptDblTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.toOpt(supplier.get());
+	}
+
+	public default OptDbl or(@Nullable double value) {
+		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.of(value);
+	}
+
+	public default OptDbl orOpt(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.toOpt(opt);
 	}
 
 	public default <K> double orElseGet(K a1, @Nonnull LToDblFunction<? super K> supplier) {

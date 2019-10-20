@@ -437,10 +437,6 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="orElse">
 
-	default boolean orElse(boolean other) {
-		return isPresent() ? get() : other;
-	}
-
 	default boolean orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -467,14 +463,27 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	public default boolean orElse(@Nullable boolean value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default boolean orElseGet(@Nonnull LBoolSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsBool();
 	}
 
-	public default OptBool or(@Nonnull LSupplier<? extends OptBoolTrait<?>> supplier) {
+	public default OptBool orGet(@Nonnull LSupplier<? extends OptBoolTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? OptBool.toOpt(self()) : OptBool.toOpt(supplier.get());
+	}
+
+	public default OptBool or(@Nullable boolean value) {
+		return isPresent() ? OptBool.toOpt(self()) : OptBool.of(value);
+	}
+
+	public default OptBool orOpt(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? OptBool.toOpt(self()) : OptBool.toOpt(opt);
 	}
 
 	public default <K> boolean orElseGet(K a1, @Nonnull LPredicate<? super K> supplier) {

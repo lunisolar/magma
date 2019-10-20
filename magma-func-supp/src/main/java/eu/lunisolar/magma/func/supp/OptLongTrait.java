@@ -445,10 +445,6 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="orElse">
 
-	default long orElse(long other) {
-		return isPresent() ? get() : other;
-	}
-
 	default long orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -475,14 +471,27 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	public default long orElse(@Nullable long value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default long orElseGet(@Nonnull LLongSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsLong();
 	}
 
-	public default OptLong or(@Nonnull LSupplier<? extends OptLongTrait<?>> supplier) {
+	public default OptLong orGet(@Nonnull LSupplier<? extends OptLongTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? OptLong.toOpt(self()) : OptLong.toOpt(supplier.get());
+	}
+
+	public default OptLong or(@Nullable long value) {
+		return isPresent() ? OptLong.toOpt(self()) : OptLong.of(value);
+	}
+
+	public default OptLong orOpt(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? OptLong.toOpt(self()) : OptLong.toOpt(opt);
 	}
 
 	public default <K> long orElseGet(K a1, @Nonnull LToLongFunction<? super K> supplier) {

@@ -445,10 +445,6 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="orElse">
 
-	default byte orElse(byte other) {
-		return isPresent() ? get() : other;
-	}
-
 	default byte orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -475,14 +471,27 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	public default byte orElse(@Nullable byte value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default byte orElseGet(@Nonnull LByteSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsByte();
 	}
 
-	public default OptByte or(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
+	public default OptByte orGet(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? OptByte.toOpt(self()) : OptByte.toOpt(supplier.get());
+	}
+
+	public default OptByte or(@Nullable byte value) {
+		return isPresent() ? OptByte.toOpt(self()) : OptByte.of(value);
+	}
+
+	public default OptByte orOpt(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? OptByte.toOpt(self()) : OptByte.toOpt(opt);
 	}
 
 	public default <K> byte orElseGet(K a1, @Nonnull LToByteFunction<? super K> supplier) {

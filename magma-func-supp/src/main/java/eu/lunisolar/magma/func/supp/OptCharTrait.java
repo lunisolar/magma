@@ -445,10 +445,6 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="orElse">
 
-	default char orElse(char other) {
-		return isPresent() ? get() : other;
-	}
-
 	default char orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -475,14 +471,27 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	public default char orElse(@Nullable char value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default char orElseGet(@Nonnull LCharSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsChar();
 	}
 
-	public default OptChar or(@Nonnull LSupplier<? extends OptCharTrait<?>> supplier) {
+	public default OptChar orGet(@Nonnull LSupplier<? extends OptCharTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? OptChar.toOpt(self()) : OptChar.toOpt(supplier.get());
+	}
+
+	public default OptChar or(@Nullable char value) {
+		return isPresent() ? OptChar.toOpt(self()) : OptChar.of(value);
+	}
+
+	public default OptChar orOpt(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? OptChar.toOpt(self()) : OptChar.toOpt(opt);
 	}
 
 	public default <K> char orElseGet(K a1, @Nonnull LToCharFunction<? super K> supplier) {

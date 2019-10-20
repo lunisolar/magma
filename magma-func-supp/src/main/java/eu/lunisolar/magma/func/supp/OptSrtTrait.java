@@ -445,10 +445,6 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="orElse">
 
-	default short orElse(short other) {
-		return isPresent() ? get() : other;
-	}
-
 	default short orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -475,14 +471,27 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	public default short orElse(@Nullable short value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default short orElseGet(@Nonnull LSrtSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsSrt();
 	}
 
-	public default OptSrt or(@Nonnull LSupplier<? extends OptSrtTrait<?>> supplier) {
+	public default OptSrt orGet(@Nonnull LSupplier<? extends OptSrtTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.toOpt(supplier.get());
+	}
+
+	public default OptSrt or(@Nullable short value) {
+		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.of(value);
+	}
+
+	public default OptSrt orOpt(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.toOpt(opt);
 	}
 
 	public default <K> short orElseGet(K a1, @Nonnull LToSrtFunction<? super K> supplier) {

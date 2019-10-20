@@ -636,10 +636,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="orElse">
 
-	default T orElse(T other) {
-		return isPresent() ? get() : other;
-	}
-
 	default T orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -666,14 +662,27 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	public default T orElse(@Nullable T value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default T orElseGet(@Nonnull LSupplier<? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.get();
 	}
 
-	public default Opt<T> or(@Nonnull LSupplier<? extends OptTrait<? extends T, ?>> supplier) {
+	public default Opt<T> orGet(@Nonnull LSupplier<? extends OptTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? Opt.toOpt(self()) : Opt.toOpt(supplier.get());
+	}
+
+	public default Opt<T> or(@Nullable T value) {
+		return isPresent() ? Opt.toOpt(self()) : Opt.of(value);
+	}
+
+	public default Opt<T> orOpt(@Nonnull OptTrait<? extends T, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? Opt.toOpt(self()) : Opt.toOpt(opt);
 	}
 
 	public default <K> T orElseGet(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {

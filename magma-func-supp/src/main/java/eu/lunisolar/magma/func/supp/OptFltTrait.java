@@ -445,10 +445,6 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="orElse">
 
-	default float orElse(float other) {
-		return isPresent() ? get() : other;
-	}
-
 	default float orElseThrow() {
 		if (isPresent()) {
 			return get();
@@ -475,14 +471,27 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	public default float orElse(@Nullable float value) {
+		return isPresent() ? get() : value;
+	}
+
 	public default float orElseGet(@Nonnull LFltSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsFlt();
 	}
 
-	public default OptFlt or(@Nonnull LSupplier<? extends OptFltTrait<?>> supplier) {
+	public default OptFlt orGet(@Nonnull LSupplier<? extends OptFltTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? OptFlt.toOpt(self()) : OptFlt.toOpt(supplier.get());
+	}
+
+	public default OptFlt or(@Nullable float value) {
+		return isPresent() ? OptFlt.toOpt(self()) : OptFlt.of(value);
+	}
+
+	public default OptFlt orOpt(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return isPresent() ? OptFlt.toOpt(self()) : OptFlt.toOpt(opt);
 	}
 
 	public default <K> float orElseGet(K a1, @Nonnull LToFltFunction<? super K> supplier) {
