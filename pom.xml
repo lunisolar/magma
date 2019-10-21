@@ -69,7 +69,7 @@
 
         <module>magma-func-supp</module>
 
-<!--        <module>magma-examples</module>-->
+        <module>magma-examples</module>
     </modules>
 
     <build>

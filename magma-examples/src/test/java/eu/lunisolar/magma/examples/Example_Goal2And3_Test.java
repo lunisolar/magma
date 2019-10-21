@@ -23,15 +23,18 @@ import org.assertj.core.util.Lists;
 import org.testng.annotations.Test;
 
 import java.util.*;
+import java.util.function.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 /**
- * Basic introduction (by example) to how second and third of main goals where implemented -
+ * Basic introduction (by example) to implementation details of second and third of main goals:
  * **More primitive types supported**. **More combinations of arguments**.
  */
 //>inject<:readmore
+
+//>inject<:generated
 
 /**
  * More primitive types and combinations
@@ -39,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ###  Abstract
  *
- * Basic introduction (by example) to how second and third of main goals where implemented -
+ * Basic introduction (by example) to implementation details of second and third of main goals:
  * **More primitive types supported**. **More combinations of arguments**.
  */
 public class Example_Goal2And3_Test {
@@ -51,13 +54,13 @@ public class Example_Goal2And3_Test {
      *
      * The issue is simple. Functional interface library from JRE contains functional interfaces required by JRE itself. As a result it do not cover all
      * primitive types. There might be places that you would like to use those primitive types. So for example you would need to write your own FloatFunction
-     * interface. And that would not be a problem, unless in next you would not need FloatPredicate, then FloatConsumer. It is still no
+     * interface. And that would not be a problem, unless in next place you would not need FloatPredicate, then FloatConsumer. It is still no
      * problem but then you realise that, The original Function or Predicate has some default functions that others are missing.
      *
-     * Then second dimension to the problem arises when you need something like this: FloatToIntFunction, IntToFloatFunction, ObjFloatFunction,
+     * Then second dimension to the issue arises when you need something like this: FloatToIntFunction, IntToFloatFunction, ObjFloatFunction,
      * BiFloatPredicate.
      *
-     * If you consider all default and static methods that you eventually might want to have in each of them, then to put it simple it is separate project from
+     * If you consider all default and static methods that you eventually might want to have in each of them, then to put it simple, it is separate project from
      * the one you want use those interfaces in.
      *
      * The list of the all interfaces is split into the separate articles.
@@ -72,7 +75,7 @@ public class Example_Goal2And3_Test {
     }
 
     @Test
-    public void problemToSolve() {
+    public void someExample() {
         LIntToFltFunction toFloat = i -> (float) i;
 
         assertThat(typeToString(toFloat.applyAsFlt(10)))

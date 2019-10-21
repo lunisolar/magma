@@ -21,23 +21,23 @@ package eu.lunisolar.magma.examples.support;
 /**
  *
  */
-public class DifferentSpecializedCheckedException extends DifferentCheckedException {
-    public DifferentSpecializedCheckedException() {
+public class DifferentSpecializedRuntimeException extends DifferentRuntimeException {
+    public DifferentSpecializedRuntimeException() {
     }
 
-    public DifferentSpecializedCheckedException(String message) {
+    public DifferentSpecializedRuntimeException(String message) {
         super(message);
     }
 
-    public DifferentSpecializedCheckedException(String message, Throwable cause) {
+    public DifferentSpecializedRuntimeException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public DifferentSpecializedCheckedException(Throwable cause) {
+    public DifferentSpecializedRuntimeException(Throwable cause) {
         super(cause);
     }
 
-    public DifferentSpecializedCheckedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public DifferentSpecializedRuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

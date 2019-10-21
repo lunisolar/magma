@@ -18,14 +18,10 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.basics.exceptions.HandlingInstructions;
 import eu.lunisolar.magma.basics.exceptions.NestedException;
-import eu.lunisolar.magma.basics.probing.ThrowableProbe;
 import eu.lunisolar.magma.examples.support.CheckedException;
-import eu.lunisolar.magma.func.consumer.LConsumerX;
-import eu.lunisolar.magma.func.function.LFunction;
-import eu.lunisolar.magma.func.function.LFunctionX;
-import eu.lunisolar.magma.func.predicate.LPredicateX;
+import eu.lunisolar.magma.func.consumer.LConsumer;
+import eu.lunisolar.magma.func.predicate.LPredicate;
 import org.assertj.core.util.Lists;
 import org.testng.annotations.Test;
 
@@ -33,17 +29,18 @@ import java.io.*;
 import java.util.*;
 import java.util.function.*;
 
-import static eu.lunisolar.magma.func.consumer.LConsumerX.handling;
-import static eu.lunisolar.magma.func.consumer.LConsumerX.nesting;
-import static eu.lunisolar.magma.func.consumer.LConsumerX.shoving;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 //>transform-to-MD<
 /**
- * Basic introduction (by example) to how first of main goals was implemented -
- * **Throwing lambda expressions and functional interfaces that declare and throw checked exceptions**.
+ * Basic introduction (by example) to implemented details of first of main goals -
+ * **Throwing lambda expressions and functional interfaces that declare and throw
+ * checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.
  */
 //>inject<:readmore
+
+//>inject<:generated
 
 /**
  * Throwing lambda expressions and interfaces
@@ -51,13 +48,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ### Abstract
  *
- * Basic introduction (by example) to how first of main goals was implemented -
- * **Throwing lambda expressions and functional interfaces that declare and throw checked exceptions**.
+ * Basic introduction (by example) to implemented details of first of main goals -
+ * **Throwing lambda expressions and functional interfaces that declare and throw
+ * checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.
  */
 public class Example_Goal1_Test {
 
-
-    private static final List<Integer>                                     integerList  = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private static final List<Integer> integerList = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     /**
      * ### Introduction to the issue
@@ -115,92 +112,88 @@ public class Example_Goal1_Test {
     //>example<
 
     /**
-     * But doing that in every place sometimes, if not always, asks for an better solution. The immediate effect of having less boilerplate code by replacing
+     * But doing that in every place, sometimes if not always, asks for an better solution. The immediate effect of having less boilerplate code by replacing
      * anonymous classes by lambda expressions is drastically limited when checked expressions comes into the equation.
      * Of course you can always go with only using unchecked exceptions, but in most cases it is not up to you (e.g. Java JRE, or 3rd party libraries have
      * them anyway).
      *
      * ### Solution
      *
-     * What this library introduces is actual functional interfaces that do declare and propagate checked exceptions. Each such interface have additional
-     * generic parameter that actually allows to define the exception that can be either checked or unchecked one. This generic parameter is consistently named
-     * **X** and defined as **X extends Throwable**. So for example for the
-     * LFunctionX interface main method is:
-     *
-     * ```Java
-     * boolean doTest(T t) throws X;
-     * ```
+     * What this library introduces is actual functional interfaces that intercepts checked exception and wrap them to NestedException.
      *
      * So now you can have something like this:
      */
     //>example<
-    @Test(expectedExceptions = CheckedException.class)
+    @Test
     public void checkedExceptionPropagated() throws CheckedException {
-        LPredicateX<Integer, CheckedException> predicateX = i -> throwingAlways(i) != null;
-        predicateX.doTest(10);
+        assertThatThrownBy(() -> {
+
+            LPredicate<Integer> predicateX = i -> throwingAlways(i) != null;
+            predicateX.test(10);
+
+        })
+                .isInstanceOf(NestedException.class)
+                .hasCauseInstanceOf(CheckedException.class);
     }
     //>example<
 
     /**
-     * Each such interface has some default and static methods that can help to use them. Here an example what you can do then you need JRE
-     * Predicate that handles the exceptions.
+     * Each such interface has some default and static methods that can help to use those interfaces. Here an example what you can do when you need JRE
+     * Predicate that handles (wraps) the exceptions.
      */
     //>example<
     @Test
     public void standardPredicateWithExceptionWrapping_short() {
 
-        long result = integerList.stream().filter(LPredicateX.predX(i -> potentiallyThrowing(i) != null)).count();
+        long result = integerList.stream().filter(LPredicate.pred(i -> potentiallyThrowing(i) != null)).count();
 
         assertThat(result).isEqualTo(10);
     }
     //>example<
 
     /**
-     * What happens is very simple. The **LPredicateX.lX** method is actually only forcing compiler to use more specialized functional interface than the
+     * What happens is very simple. The **LPredicate.pred** method is actually only forcing compiler to use more specialized functional interface than the
      * JRE one. Each JRE functional interface (from _java.util.function_ package) is extended by appropriate functional interface from this library.
-     * The latter provides default implementation for the method of the former and that method handles the checked exception.
+     * The library provides default implementation for the methods of the JRE interfaces with methods that handles the checked exception.
      *
      * If an checked exception will rise in place where this expression is used as normal Predicate then this wil happen:
      */
     @Test(expectedExceptions = NestedException.class, expectedExceptionsMessageRegExp = "\\QSomething went wrong\\E")
     public void standardPredicateWithExceptionWrapping2() {
-        long result = integerList.stream().filter(LPredicateX.predX(i -> throwingAlways(i) != null)).count();
+        long result = integerList.stream().filter(LPredicate.pred(i -> throwingAlways(i) != null)).count();
     }
 
-///> Please note that the **LPredicateX** was here presented in to example tests that actually show different behaviour. In first case we call method **doTest()** and in second it is actually **test()** method called since _filter()_ implementation know only about Predicate from JRE.
-
     /**
-     * In case you need, could also wrap existing JRE Predicate. But mind that this actually is done by instance-capturing lambda unlike the **lX** method.
+     * In case you need, you could also wrap existing JRE Predicate.
      */
     //>example<
-    public static LPredicateX<Integer, CheckedException> example(Predicate<Integer> predicateStd) {
-        return LPredicateX.wrap(predicateStd);
+    public static LPredicate<Integer> example(Predicate<Integer> predicateStd) {
+        return LPredicate.wrap(predicateStd);
     }
     //>example<
 
     /**
      * ### Addition effects
      *
-     * By having an set of functions that have various input and output argument and can handle exceptions we can utilise them for quick exception handling.
-     * We could use one single MyCustomConsumer that would do similar job, but the difference is in capturing vs non-capturing lambdas. To overcome
-     * disadvantages of a capturing lambda (provided that we got the case that it matters) we again would need to define more functional interfaces than just
-     * one - or simply have different approach all together. But with interfaces from this library following quick solution are possible for potential
-     * exceptions:
+     * Here are additional examples of what you can do with additional methods:
      */
 
     //>example<
     @Test
-    public void quickRethrowAsRuntimeException() {
+    public void rethrowLikeRuntimeException() {
         byte[] input = new byte[0];
 
-        shoving(input, in -> new ByteArrayInputStream(in).close());
+        LConsumer.cons((byte[] in) -> new ByteArrayInputStream(in).close()).shovingAccept(input);
     }
 
     @Test
     public void quickNestException() {
         byte[] input = new byte[0];
 
-        nesting(input, in -> new ByteArrayInputStream(in).close());
+        LConsumer.cons((byte[] in) -> new ByteArrayInputStream(in).close()).nestingAccept(input);
+
+        // or simply: 
+        LConsumer.tryAccept(input, in -> new ByteArrayInputStream(in).close());
     }
     //>example<
 
@@ -208,15 +201,13 @@ public class Example_Goal1_Test {
      * When you write some utility that constantly do for example IO operations and is already defined by contract that it cannot declare checked exceptions.
      */
     //>example<
-    public static final HandlingInstructions<Throwable, RuntimeException> INSTRUCTIONS = e -> e
-            .wrapIf(IOException.class::isInstance, RuntimeException::new)
-            .handleRest();
-
     @Test
     public void quickHandlingException() {
         byte[] input = new byte[0];
 
-        handling(input, INSTRUCTIONS, in -> new ByteArrayInputStream(in).close());
+        LConsumer.handlingAccept(input, in -> new ByteArrayInputStream(in).close(), e -> e
+                .wrapIf(IOException.class::isInstance, RuntimeException::new)
+                .handleRest());
     }
     //>example<
 

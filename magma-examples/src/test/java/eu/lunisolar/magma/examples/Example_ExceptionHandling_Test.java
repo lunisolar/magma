@@ -21,13 +21,11 @@ package eu.lunisolar.magma.examples;
 import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.basics.probing.ThrowableProbe;
 import eu.lunisolar.magma.examples.support.CheckedException;
-import eu.lunisolar.magma.examples.support.DifferentCheckedException;
-import eu.lunisolar.magma.examples.support.DifferentSpecializedCheckedException;
+import eu.lunisolar.magma.examples.support.DifferentRuntimeException;
+import eu.lunisolar.magma.examples.support.DifferentSpecializedRuntimeException;
 import eu.lunisolar.magma.examples.support.SmeRuntimeExcepton;
-import eu.lunisolar.magma.func.Function4U;
 import eu.lunisolar.magma.func.function.LFunction;
-import eu.lunisolar.magma.func.function.LFunctionX;
-import eu.lunisolar.magma.func.predicate.LPredicateX;
+import eu.lunisolar.magma.func.predicate.LPredicate;
 import org.testng.annotations.Test;
 
 import java.text.*;
@@ -42,6 +40,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 //>inject<:readmore
 
+
+//>inject<:generated
+
+/// <br/>
+/// <br/>
+/// <span style="color:red"> THIS ARTICLE IS OUTDATED AND IS AWAITING FOR REFRESH. </span>
+
 /**
  * Exception Handling
  * ==============================
@@ -52,19 +57,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class Example_ExceptionHandling_Test {
 
-    public static final LFunctionX<Integer, Integer, CheckedException> throwingAlways = LFunctionX.funcX(
-            (LFunctionX<Integer, Integer, CheckedException>) Example_ExceptionHandling_Test::throwingAlways);
+    public static final LFunction<Integer, Integer> throwingAlways = LFunction.func(Example_ExceptionHandling_Test::throwingAlways);
 
     public static Integer throwingAlways(Integer i) throws CheckedException {
         throw new CheckedException("Something went wrong");
     }
+
 
     /**
      * ### Handling
      *
      * Each functional interface has the ability to customise exception handling. There are two methods that do exactly that:
      *
-     * - *handleX* - the result function is of a _throwing_ type.
+     * - *handling* - the result function is of a _throwing_ type.
      * - *handle* - the result function is of a _non-throwing_ type.
      *
      * Both of them have only one argument (*HandlingInstructions*) that provides instructions how to handle the exception. Mind that exception is already
@@ -86,8 +91,8 @@ public class Example_ExceptionHandling_Test {
     @Test(expectedExceptions = SmeRuntimeExcepton.class)
     public void exampleHandling() {
 
-        LFunctionX<Integer, Integer, RuntimeException> function1 = throwingAlways.handleFuncX(h -> h
-                        .wrapWhen(LPredicateX::alwaysTrue, (message, e) -> {
+        LFunction<Integer, Integer> function1 = throwingAlways.handling(h -> h
+                        .wrapWhen(LPredicate::alwaysTrue, (message, e) -> {
                             e.printStackTrace();
                             throw new SmeRuntimeExcepton(message);
                         }, "message")
@@ -95,15 +100,15 @@ public class Example_ExceptionHandling_Test {
                         .wrapWhen(ThrowableProbe::isRuntime, SmeRuntimeExcepton::new, "message")
         );
 
-        LFunction<Integer, Integer> function2 = throwingAlways.handleFunc(h -> h
+        LFunction<Integer, Integer> function2 = throwingAlways.handling(h -> h
                         .wrapWhen(ThrowableProbe::isRuntime, SmeRuntimeExcepton::new)
         );
 
-        Function<Integer, Integer> function3 = throwingAlways.handleFunc(h -> h
+        Function<Integer, Integer> function3 = throwingAlways.handling(h -> h
                         .wrapWhen(ThrowableProbe::isRuntime, SmeRuntimeExcepton::new)
         );
 
-        function1.doApply(0);
+        function1.apply(0);
     }
     //>example<
 
@@ -114,10 +119,10 @@ public class Example_ExceptionHandling_Test {
     @Test(expectedExceptions = NestedException.class)
     public void exampleNoHandlingAtAll() {
 
-        LFunctionX<Integer, Integer, RuntimeException> function = throwingAlways.handleFuncX(h -> {
+        LFunction<Integer, Integer> function = throwingAlways.handling(h -> {
         });
 
-        function.doApply(0);
+        function.apply(0);
     }
     //>Example<
 
@@ -127,18 +132,18 @@ public class Example_ExceptionHandling_Test {
      * the handling block.
      */
     //>example<
-    @Test(expectedExceptions = DifferentCheckedException.class)
-    public void exampleWrapToDifferentChecked() throws DifferentCheckedException {
+    @Test(expectedExceptions = DifferentRuntimeException.class)
+    public void exampleWrapToDifferentChecked() throws DifferentRuntimeException {
 
-        LFunctionX<Integer, Integer, DifferentCheckedException> function = throwingAlways.handleFuncX(h -> h
-                        .throwWrapper(DifferentCheckedException::new)
+        LFunction<Integer, Integer> function = throwingAlways.handling(h -> h
+                        .throwWrapper(DifferentRuntimeException::new)
         );
 
-        function.doApply(0);
+        function.apply(0);
 
-        throwingAlways.<DifferentCheckedException>handleFuncX(h -> h
-                        .throwWrapper(DifferentCheckedException::new)
-        ).doApply(0);
+        throwingAlways.handling(h -> h
+                        .throwWrapper(DifferentRuntimeException::new)
+        ).apply(0);
     }
     //>example<
 
@@ -146,12 +151,12 @@ public class Example_ExceptionHandling_Test {
      * You can do handling on the fly this also on the fly.
      */
     //>example<
-    @Test(expectedExceptions = DifferentCheckedException.class)
-    public void exampleWrapToDifferentCheckedOnTheFly() throws DifferentCheckedException {
+    @Test(expectedExceptions = DifferentRuntimeException.class)
+    public void exampleWrapToDifferentCheckedOnTheFly() throws DifferentRuntimeException {
 
-        throwingAlways.<DifferentCheckedException>handleFuncX(h -> h
-                        .throwWrapper(DifferentCheckedException::new)
-        ).doApply(0);
+        throwingAlways.<DifferentRuntimeException>handling(h -> h
+                        .throwWrapper(DifferentRuntimeException::new)
+        ).apply(0);
     }
     //>example<
 
@@ -165,14 +170,14 @@ public class Example_ExceptionHandling_Test {
      * - the other is using predicated on the ThrowableProbe instance that has little more convenient methods - Predicate<ThrowableProbe<X>>
      */
     //>example<
-    @Test(expectedExceptions = DifferentCheckedException.class)
-    public void exampleWrapToDifferentCheckedDifferent() throws DifferentCheckedException {
+    @Test(expectedExceptions = DifferentRuntimeException.class)
+    public void exampleWrapToDifferentCheckedDifferent() throws DifferentRuntimeException {
 
-        throwingAlways.<DifferentCheckedException>handleFuncX(h -> h
+        throwingAlways.<DifferentRuntimeException>handling(h -> h
                         .wrapIf(e -> e instanceof RuntimeException, RuntimeException::new)
-                        .wrapWhen(p -> p.hasCause() && p.isNotRuntime(), DifferentSpecializedCheckedException::new)
-                        .throwWrapper(DifferentCheckedException::new)
-        ).doApply(0);
+                        .wrapWhen(p -> p.hasCause() && p.isNotRuntime(), DifferentSpecializedRuntimeException::new)
+                        .throwWrapper(DifferentRuntimeException::new)
+        ).apply(0);
     }
     //>example<
 
@@ -188,58 +193,45 @@ public class Example_ExceptionHandling_Test {
 
     @Test(expectedExceptions = NestedException.class)
     public LFunction<Integer, Integer> example_nest() {
-        throwingAlways.nestingFunc().apply(0);
+        throwingAlways.nestingApply(0);   // TODO this seems not needed since it is default behaviour!
 
-        return throwingAlways.nestingFunc();
-    }
-
-    @Test(expectedExceptions = NestedException.class)
-    public LFunction<Integer, Integer> example_nestX() {
-        throwingAlways.nestingFunc().apply(0);
-
-        return throwingAlways.nestingFunc();
+        return throwingAlways;    // TODO better documentation description
     }
 
     @Test(expectedExceptions = CheckedException.class)
     public LFunction<Integer, Integer> example_shove() {
-        throwingAlways.shovingFunc().doApply(0);
+        throwingAlways.shovingApply(0);
 
-        return throwingAlways.shovingFunc();
-    }
-
-    @Test(expectedExceptions = CheckedException.class)
-    public LFunctionX<Integer, Integer, RuntimeException> example_shoveX() {
-        throwingAlways.shovingFuncX().apply(0);
-
-        return throwingAlways.shovingFuncX();
+        //return throwingAlways.shovingFunc();  // TODO no longer exists
+        return null;
     }
 
     @Test(expectedExceptions = SmeRuntimeExcepton.class)
     public void example4() throws Throwable {
         throwingAlways
-                .handleFuncX(h -> h.throwWrapper(SmeRuntimeExcepton::new))
-                .doApply(0);  // <- exception type was generalized to Exception
+                .handling(h -> h.throwWrapper(SmeRuntimeExcepton::new))
+                .apply(0);  // <- exception type was generalized to Exception
     }
 
     @Test(expectedExceptions = SmeRuntimeExcepton.class)
     public void example5() {
         throwingAlways
-                .handleFunc(h -> h.throwWrapper(SmeRuntimeExcepton::new))
-                .doApply(0);
+                .handling(h -> h.throwWrapper(SmeRuntimeExcepton::new))
+                .apply(0);
     }
 
     @Test(expectedExceptions = NestedException.class)
     public void example6() throws ParseException {
-        LFunctionX<Integer, Integer, ParseException> functionX = throwingAlways.handleFuncX((h) -> h
+        LFunction<Integer, Integer> functionX = throwingAlways.handling((h) -> h
                         .wrapIf(RuntimeException.class::isInstance, SmeRuntimeExcepton::new)
         );
 
-        functionX.doApply(0);
+        functionX.apply(0);
     }
 
     @Test(expectedExceptions = NestedException.class)
     public void example7_1() {
-        throwingAlways.handlingDoApply(0, h -> h
+        throwingAlways.handlingApply(0, h -> h
                         .wrapIf(RuntimeException.class::isInstance, SmeRuntimeExcepton::new)
 
         );
@@ -247,13 +239,13 @@ public class Example_ExceptionHandling_Test {
 
     @Test(expectedExceptions = SmeRuntimeExcepton.class)
     public void example7_2() {
-        throwingAlways.handlingDoApply(0, h -> h
+        throwingAlways.handlingApply(0, h -> h
                         .wrapWhen(p -> !p.isRuntime(), SmeRuntimeExcepton::new)
         );
     }
 
     // </editor-fold>
 
-//>inject<:buildId
+    //>inject<:generated
 
 }

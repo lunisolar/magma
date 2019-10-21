@@ -38,7 +38,7 @@ reasons that do not apply for every day to day use cases that programmer can run
 into. Apart from that, I can easily state programming paradigms that are in 
 opposition to the goals of ths library, e.g.:
  
-+ ~~Checked exceptions are evil~~ (since 2.0 all checked exception are wrapped by default). 
++ <strike>Checked exceptions are evil</strike> (since 2.0 all checked exception are wrapped by default). 
 + Fully object oriented programming should avoid usage of primitive types.
 + Any multiple arguments can be replaced with instance of single object wrapping them. 
 
@@ -80,3 +80,7 @@ that plugin I would simply use doxygen.
 #### Code repository
 
 Code is hosted at github: <a href="https://github.com/lunisolar/magma/" target="_blank">repository</a>
+
+#### Documentation
+
+[Documentation](http://lunisolar.eu/magma)

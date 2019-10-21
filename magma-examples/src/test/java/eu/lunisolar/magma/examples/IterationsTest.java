@@ -74,7 +74,7 @@ public class IterationsTest {
         assertThat(targetArray).containsExactly(new Integer[]{0, 1, 2, 105, 106, 107, 108, 109, 110, 111, 112, 113, 12, 13, 14, 15, 16, 17, 18, 19});
     }
 
-    @Test(expectedExceptions = IndexOutOfBoundsException.class, expectedExceptionsMessageRegExp = "100")
+    @Test(expectedExceptions = IndexOutOfBoundsException.class, expectedExceptionsMessageRegExp = ".*100.*")
     void functionForEach_throwing0() {
         int targetIncrement = LTieFunction.tieForEach(0, 10, 0, targetArray(), sourceArray(), (o, i) -> o[i], (t, i, e) -> t[i] = e);
         // (t, i, e) -> t[i] = e

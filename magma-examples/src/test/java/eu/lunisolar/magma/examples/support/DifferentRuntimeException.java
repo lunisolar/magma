@@ -18,24 +18,24 @@
 
 package eu.lunisolar.magma.examples.support;
 
-public class DifferentCheckedException extends Exception {
+public class DifferentRuntimeException extends RuntimeException {
 
-    public DifferentCheckedException() {
+    public DifferentRuntimeException() {
     }
 
-    public DifferentCheckedException(String message) {
+    public DifferentRuntimeException(String message) {
         super(message);
     }
 
-    public DifferentCheckedException(String message, Throwable cause) {
+    public DifferentRuntimeException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public DifferentCheckedException(Throwable cause) {
+    public DifferentRuntimeException(Throwable cause) {
         super(cause);
     }
 
-    public DifferentCheckedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public DifferentRuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
